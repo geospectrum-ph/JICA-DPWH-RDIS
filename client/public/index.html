@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>SEEDs</title>
+
+<style>
+  html,
+  body,
+  #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+</style>
+
+<link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.27/"></script>
+
+<script>
+  require(["esri/config", "esri/Map", "esri/views/SceneView", "esri/layers/SceneLayer"], function(esriConfig, Map, SceneView, SceneLayer) {
+
+    esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
+
+    // const map = new Map({
+    //   basemap: "arcgis-topographic" // Basemap layer service
+    // });
+
+    // const view = new MapView({
+    //   map: map,
+    //   center: [-118.805, 34.027], // Longitude, latitude
+    //   zoom: 13, // Zoom level
+    //   container: "viewDiv" // Div element
+    // });
+
+    const map = new Map({
+      // basemap: "arcgis-topographic", //Basemap layer service
+      basemap: "arcgis-imagery-standard",
+      ground: "world-elevation", //Elevation service
+    });
+
+    const view = new SceneView({
+      container: "viewDiv",
+      map: map,
+      camera: {
+        position: {
+          x: 121.060, //Longitude
+          y: 14.584, //Latitude
+          z: 2000 //Meters
+        },
+        tilt: 30
+      }
+      });
+
+    const osm3dLayer = new SceneLayer({
+      url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer"
+    });
+      
+    map.add(osm3dLayer, 0);
+
+        //    // Create SceneLayer and add to the map
+        //    const sceneLayer = new SceneLayer({
+        //   portalItem: {
+        //     id: "2e0761b9a4274b8db52c4bf34356911e"
+        //   },
+        //   popupEnabled: false
+        // });
+        // map.add(sceneLayer);
+
+        // Create MeshSymbol3D for symbolizing SceneLayer
+        // const symbol = {
+        //   type: "mesh-3d", // autocasts as new MeshSymbol3D()
+        //   symbolLayers: [
+        //     {
+        //       type: "fill", // autocasts as new FillSymbol3DLayer()
+        //       // If the value of material is not assigned, the default color will be grey
+        //       material: {
+        //         color: [244, 247, 134]
+        //       }
+        //     }
+        //   ]
+        // };
+        // Add the renderer to sceneLayer
+        // osm3dLayer.renderer = {
+        //   // type: "simple", // autocasts as new SimpleRenderer()
+        //   symbol: [
+        //     {
+        //       // type: "fill", // autocasts as new FillSymbol3DLayer()
+        //       // If the value of material is not assigned, the default color will be grey
+        //       material: {
+        //         color: [244, 247, 134]
+        //       }
+        //     }
+        //   ]
+        // };
+  });
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
