@@ -6,8 +6,6 @@ import "./App.css";
 import logo from "./assets/logo.png";
 import background from "./assets/background.png";
 
-
-
 function LandingPage() {
   const navigate = useNavigate();
 
@@ -16,13 +14,13 @@ function LandingPage() {
       <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
       <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "0", zIndex: "100", backgroundColor: "#0C343D", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <div style = {{ width: "auto", height: "auto", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
-          <img src = { logo } style = {{ width: "50px", height: "50px", padding: "20px 10px 20px 20px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
-          <div style = {{ width: "auto", height: "auto", padding: "20px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+          <img src = { logo } style = {{ width: "48px", height: "48px", padding: "36px 18px 36px 36px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
+          <div style = {{ minWidth: "auto", height: "auto", padding: "18px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
             <span style = {{ font: "bold 36px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Welcome to SEEDs!</span>
             <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Geospectrum Analytics Services, Inc. © 2023</span>
           </div>
         </div> 
-        <div style = {{ minWidth: "240px", height: "auto", margin: "20px", padding: "10px", outline: "solid 2px #49676E", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+        <div style = {{ minWidth: "240px", height: "auto", margin: "36px", padding: "18px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
           <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Sign In</span>
         </div>
       </div>
@@ -45,7 +43,7 @@ function LoginPage() {
           <div style = {{ minWidth: "50%", height: "auto", margin: "10px 0 40px", padding: "10px", outline: "solid 2px #49676E", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Password</span>
           </div>
-          <div style = {{ minWidth: "240px", height: "auto", margin: "20px", padding: "10px", outline: "solid 2px #49676E", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/main") }>
+          <div style = {{ minWidth: "240px", height: "auto", margin: "20px", padding: "10px", outline: "solid 2px #49676E", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/access") }>
             <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Sign In</span>
           </div>
           <div style = {{ height: "auto", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>
@@ -67,12 +65,75 @@ function LoginPage() {
   )
 }
 
-function MainPage() {
+function AccessPage() {
+  const navigate = useNavigate();
+
   return(
-    <header className = "App-header">
-      <img src = { logo } className = "App-logo" alt = "Logo"/>
-      <div id = "viewDiv" style = {{ outline: "solid 2px #000000", width: "75%", height: "500px" }}></div>
-    </header>
+    <div style = {{ width: "100%", height: "100%" }} onLoad = { () => setTimeout(function() { navigate("/main") }, 5000) }>
+      <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
+      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <div style = {{ width: "50%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <span style = {{ margin: "10px 0", font: "bold 36px 'League Spartan', sans-serif", color: "#7ED957" }}>SEEDs</span>
+          <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Authorizing User...</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function MainPage() {
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    var mainTime = document.getElementById("Main-Time");
+    function setTime() { if (mainTime) mainTime.textContent = new Date().toLocaleString(); }
+  
+    setInterval(setTime, 1000);
+  }, [])
+
+  return(
+    // <header className = "App-header">
+    //   <img src = { logo } className = "App-logo" alt = "Logo"/>
+    //   <div id = "viewDiv" style = {{ outline: "solid 2px #000000", width: "75%", height: "500px" }}></div> 
+    // </header>
+    <div style = {{ width: "100%", height: "100%" }}>
+      <div style = {{ width: "100%", height: "auto", position: "absolute", top: "0", zIndex: "100", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
+        <div style = {{ width: "100%", height: "auto", backgroundColor: "#0C343D", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <div style = {{ width: "auto", height: "auto", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
+            <img src = { logo } style = {{ width: "36px", height: "36px", padding: "18px 9px 18px 18px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
+            <div style = {{ minWidth: "auto", height: "auto", padding: "9px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            </div>
+          </div>
+          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span id = "Main-Time" style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}></span>
+            </div>
+          </div>
+        </div>
+        <div style = {{ width: "100%", height: "auto", backgroundColor: "#1B798E", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Executive Summary</span>
+            </div>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Data</span>
+            </div>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Analytics</span>
+            </div>
+          </div>
+          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Account</span>
+            </div>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -82,6 +143,7 @@ function App() {
       <Routes>
         <Route path = "/" element = { <LandingPage/> }/>
         <Route path = "/login" element = { <LoginPage/> } />
+        <Route path = "/access" element = { <AccessPage/> } />
         <Route path = "/main" element = { <MainPage/> } />
       </Routes>
     </div>
