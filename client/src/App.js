@@ -5,6 +5,7 @@ import "./App.css";
 
 import logo from "./assets/logo.png";
 import background from "./assets/background.png";
+import seal from "./assets/seal.png";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ function MainPage() {
             </div>
           </div>
           <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
               <span id = "Main-Time" style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}></span>
             </div>
           </div>
@@ -129,6 +130,22 @@ function MainPage() {
             </div>
             <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Support</span>
+            </div>
+          </div>
+        </div>
+        <div style = {{ width: "100%", top: "auto", zIndex: "0"}}>
+          <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "start" }}>
+              <img src = { seal } style = {{ width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" }} alt = "Seal"/>
+            </div>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "start" }}>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>City of Mandaluyong, National Capital Region</span>
+            </div>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "start" }}>
+              <span style = {{ font: "bold 72px 'League Spartan', sans-serif", color: "#000000" }}>Executive Summary</span>
+            </div>
+            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "start" }}>
+              <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>An empowered community, competent government sector human resource, and benevolent private sector working in an atmosphere of mutual assistance shaping Mandaluyong into a sustainable and globally competitive city and an effective partner in nation-building.</span>
             </div>
           </div>
         </div>
