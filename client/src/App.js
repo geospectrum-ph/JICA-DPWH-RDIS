@@ -83,7 +83,7 @@ function AccessPage() {
 }
 
 function MainPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   React.useEffect(() => {
     var mainTime = document.getElementById("Main-Time");
@@ -114,26 +114,86 @@ function MainPage() {
         </div>
         <div style = {{ width: "100%", height: "auto", backgroundColor: "#1B798E", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
           <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Executive Summary</span>
             </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Data</span>
             </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Analytics</span>
             </div>
           </div>
           <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Account</span>
             </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/login") }>
+            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#FFFFFF" }}>Support</span>
             </div>
           </div>
         </div>
-        <div style = {{ width: "100%", top: "auto", zIndex: "0"}}>
+        <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
+          <div style = {{ minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+            <span style = {{ font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>Executive Summary</span>
+            <ul style = {{ font: "12px 'League Spartan', sans-serif", color: "#000000", lineHeight: "150%" }}>
+              <li>Introduction
+                <ul>
+                  <li>Messages</li>
+                  <li>Vision & Mission</li>
+                </ul>
+              </li>
+              <li>
+                Profile
+                <ul>
+                  <li>General Map</li>
+                  <li>Demographic Profile</li>
+                  <li>Environmental Profile
+                    <ul>
+                      <li>Topography</li>
+                      <li>Climate</li>
+                      <li>Hazards</li>
+                      <li>DRRMP</li>
+                      <li>Protected Areas</li>
+                      <li>Green Spaces</li>
+                    </ul>
+                  </li>
+                  <li>Economic Profile
+                    <ul>
+                      <li>Schedule</li>
+                      <li>Budget Report</li>
+                      <li>CLUP</li>
+                      <li>Tax Map</li>
+                      <li>General Statistics</li>
+                    </ul>
+                  </li>
+                  <li>Social Services
+                    <ul>
+                      <li>Emergency Hotlines</li>
+                      <li>Healthcare Services</li>
+                      <li>Education Services</li>
+                      <li>Labor and Employment Services</li>
+                      <li>Legal Services</li>
+                    </ul>
+                  </li>
+                  <li>Plans & Projects
+                    <ul>
+                      <li>General Description</li>
+                      <li>Schedule & Budget</li>
+                      <li>Project Details</li>
+                    </ul>
+                  </li>
+                  <li>People
+                    <ul>
+                      <li>Organizational Structure</li>
+                      <li>Administrative Profile</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>Index</li>
+            </ul>
+          </div>
           <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
             <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "start" }}>
               <img src = { seal } style = {{ width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" }} alt = "Seal"/>
