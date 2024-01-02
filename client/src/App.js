@@ -238,9 +238,6 @@ function Summary01() {
         <span style = {{ font: "bold 48px 'League Spartan', sans-serif", color: "#000000" }}>Introduction</span>
       </div>
       <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 48px 'League Spartan', sans-serif", color: "#000000" }}>Messages</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
@@ -255,15 +252,15 @@ function Summary02() {
   return  (
     <div>
       <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 36px 'League Spartan', sans-serif", color: "#000000" }}>Introduction</span>
+        <span style = {{ font: "bold 48px 'League Spartan', sans-serif", color: "#000000" }}>Messages</span>
       </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+      {/* <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
         <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -271,7 +268,16 @@ function Summary02() {
 function Summary03() {
   return  (
     <div>
-
+      {/* <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+        <span style = {{ font: "bold 48px 'League Spartan', sans-serif", color: "#000000" }}>Messages</span>
+      </div>
+      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
+        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
+        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
+        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
+        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'League Spartan', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
+      </div> */}
     </div>
   )
 }
