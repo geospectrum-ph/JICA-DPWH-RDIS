@@ -94,7 +94,7 @@ function AccessPage() {
 }
 
 function MainPage() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     var mainTime = document.getElementById("Main-Time");
@@ -108,53 +108,77 @@ function MainPage() {
     //   <img src = { logo } className = "App-logo" alt = "Logo"/>
     //   <div id = "viewDiv" style = {{ outline: "solid 2px #000000", width: "75%", height: "500px" }}></div> 
     // </header>
+    // <div style = {{ width: "100%", height: "100%" }}>
+    //   <div style = {{ width: "100%", height: "auto", position: "absolute", top: "0", zIndex: "100", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
+    //     <div style = {{ width: "100%", height: "auto", backgroundColor: "#0C343D", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+    //       <div style = {{ width: "auto", height: "auto", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
+    //         <img src = { logo } style = {{ width: "36px", height: "36px", padding: "18px 9px 18px 18px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
+    //         <div style = {{ minWidth: "auto", height: "auto", padding: "9px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs</span>
+    //         </div>
+    //       </div>
+    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+    //         <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
+    //           <span id = "Main-Time" style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}></span>
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div style = {{ width: "100%", height: "auto", backgroundColor: "#1B798E", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Home</span>
+    //         </div>
+    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Data</span>
+    //         </div>
+    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Analytics</span>
+    //         </div>
+    //       </div>
+    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Account</span>
+    //         </div>
+    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Support</span>
+    //         </div>
+    //       </div>
+    //     </div>
+    //     <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
+    //       <Backbone/>
+    //       <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+    //         <Summary00/>
+    //         <Summary01/>
+    //         <Summary02/>
+    //         <Summary03/>
+    //         <Summary04/>
+    //         <Summary05/>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
     <div style = {{ width: "100%", height: "100%" }}>
-      <div style = {{ width: "100%", height: "auto", position: "absolute", top: "0", zIndex: "100", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
-        <div style = {{ width: "100%", height: "auto", backgroundColor: "#0C343D", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div style = {{ width: "auto", height: "auto", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
-            <img src = { logo } style = {{ width: "36px", height: "36px", padding: "18px 9px 18px 18px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
-            <div style = {{ minWidth: "auto", height: "auto", padding: "9px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
-            </div>
-          </div>
-          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-              <span id = "Main-Time" style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}></span>
-            </div>
-          </div>
+      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "rgb(255,255,255)", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
         </div>
-        <div style = {{ width: "100%", height: "auto", backgroundColor: "#1B798E", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Home</span>
-            </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Data</span>
-            </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Analytics</span>
-            </div>
+        <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Home</span>
           </div>
-          <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Account</span>
-            </div>
-            <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Support</span>
-            </div>
+          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Data</span>
           </div>
-        </div>
-        <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
-          <Backbone/>
-          <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
-            <Summary00/>
-            <Summary01/>
-            <Summary02/>
-            <Summary03/>
-            <Summary04/>
-            <Summary05/>
+          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Analytics</span>
           </div>
-        </div>
+          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Account</span>
+          </div>
+          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
+          </div>
+        </div>  
       </div>
     </div>
   )
