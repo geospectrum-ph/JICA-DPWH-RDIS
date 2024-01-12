@@ -9,11 +9,17 @@ import overlay from "./assets/background-overlay.png";
 import brand from "./assets/brand.png";
 import seal from "./assets/seal.png";
 
+
+
 function LandingPage() {
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    document.getElementById("Landing-Page").style.display = "block";
+  }, []);
+
   return (
-    <div style = {{ width: "100%", height: "100%" }}>
+    <div id = "Landing-Page" style = {{ width: "100%", height: "100%", display: "none" }}>
       <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
       <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn", overflow: "hidden" }}>
         <div>
