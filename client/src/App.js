@@ -15,20 +15,20 @@ function LandingPage() {
   return (
     <div style = {{ width: "100%", height: "100%" }}>
       <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn", overflow: "hidden" }}>
         <div>
           <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
         </div>
         <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Learn More</span>
+          <div class = "button" style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Learn More</span>
           </div>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/login") }>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Sign In</span>
+          <div class = "button" style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/login") }>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
           </div>
         </div>  
       </div>
-      <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "35%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+      <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "35%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "2.5s ease-in-out slideInUp" }}>
         <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>S</span>
         <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>E</span>
         <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>E</span>
@@ -108,77 +108,41 @@ function MainPage() {
     //   <img src = { logo } className = "App-logo" alt = "Logo"/>
     //   <div id = "viewDiv" style = {{ outline: "solid 2px #000000", width: "75%", height: "500px" }}></div> 
     // </header>
-    // <div style = {{ width: "100%", height: "100%" }}>
-    //   <div style = {{ width: "100%", height: "auto", position: "absolute", top: "0", zIndex: "100", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "center" }}>
-    //     <div style = {{ width: "100%", height: "auto", backgroundColor: "#0C343D", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-    //       <div style = {{ width: "auto", height: "auto", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
-    //         <img src = { logo } style = {{ width: "36px", height: "36px", padding: "18px 9px 18px 18px", objectFit: "contain", objectPosition: "center center" }} alt = "Logo"/>
-    //         <div style = {{ minWidth: "auto", height: "auto", padding: "9px 0px", display: "flex", flexDirection: "column", justifyContent: "flex-start" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs</span>
-    //         </div>
-    //       </div>
-    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-    //         <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center" }}>
-    //           <span id = "Main-Time" style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}></span>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div style = {{ width: "100%", height: "auto", backgroundColor: "#1B798E", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Home</span>
-    //         </div>
-    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Data</span>
-    //         </div>
-    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Analytics</span>
-    //         </div>
-    //       </div>
-    //       <div style = {{ width: "auto", height: "auto", padding: "9px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
-    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Account</span>
-    //         </div>
-    //         <div style = {{ minWidth: "180px", height: "auto", margin: "9px", padding: "9px", outline: "solid 2px #49676E", borderRadius: "12px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-    //           <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#FFFFFF" }}>Support</span>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
-    //       <Backbone/>
-    //       <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
-    //         <Summary00/>
-    //         <Summary01/>
-    //         <Summary02/>
-    //         <Summary03/>
-    //         <Summary04/>
-    //         <Summary05/>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div style = {{ width: "100%", height: "100%" }}>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "rgb(255,255,255)", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div>
-          <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
+      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "rgb(255,255,255)", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" }}>
+        <div style = {{ width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
+          </div>
+          <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Home</span>
+            </div>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Data</span>
+            </div>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Analytics</span>
+            </div>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Account</span>
+            </div>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
+            </div>
+          </div>  
         </div>
-        <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Home</span>
+        <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
+          <Backbone/>
+          <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+            <Summary00/>
+            <Summary01/>
+            <Summary02/>
+            <Summary03/>
+            <Summary04/>
+            <Summary05/>
           </div>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Data</span>
-          </div>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Analytics</span>
-          </div>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Account</span>
-          </div>
-          <div style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
-          </div>
-        </div>  
+        </div>
       </div>
     </div>
   )
@@ -186,7 +150,7 @@ function MainPage() {
 
 function Backbone() {
   return (
-    <div style = {{ minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+    <div style = {{ backgroundColor: "#FFFFFF", minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
       <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Executive Summary</span>
       <ul style = {{ font: "12px 'Outfit', sans-serif", color: "#000000", lineHeight: "150%" }}>
         <li>Introduction

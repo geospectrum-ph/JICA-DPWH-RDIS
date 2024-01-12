@@ -38,3 +38,44 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes slideInUp {
+  from {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  62.5% {
+    opacity: 0;
+  }
+
+  70% {
+    opacity: 0.5;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+.button {
+  color: #FFFFFF;
+  transition: all 0.25s ease-in-out;
+}
+
+.button:hover {
+  background-color: #FFFFFF;
+  color: #000000;
+}
