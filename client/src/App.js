@@ -26,10 +26,10 @@ function LandingPage() {
           <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
         </div>
         <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div class = "button" style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Learn More</span>
+          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
           </div>
-          <div class = "button" style = {{ minWidth: "180px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/login") }>
+          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/login") }>
             <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
           </div>
         </div>  
@@ -110,10 +110,6 @@ function MainPage() {
   }, [])
 
   return(
-    // <header className = "App-header">
-    //   <img src = { logo } className = "App-logo" alt = "Logo"/>
-    //   <div id = "viewDiv" style = {{ outline: "solid 2px #000000", width: "75%", height: "500px" }}></div> 
-    // </header>
     <div style = {{ width: "100%", height: "100%" }}>
       <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "rgb(255,255,255)", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" }}>
         <div style = {{ width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -136,6 +132,9 @@ function MainPage() {
             <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
               <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
             </div>
+            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/") }>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Exit</span>
+            </div>
           </div>  
         </div>
         <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
@@ -147,6 +146,10 @@ function MainPage() {
             <Summary03/>
             <Summary04/>
             <Summary05/>
+            <header className = "App-header">
+              <img src = { logo } className = "App-logo" alt = "Logo"/>
+              <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px" }}></div> 
+            </header>
           </div>
         </div>
       </div>
