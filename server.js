@@ -16,7 +16,7 @@ app.use(cors());
 app.use(methodOverride("_method"));
 
 const mongoose = require("mongoose"); /* For Object Document Modelling. Initializing connection with MongoDB. */
-const uri = "mongodb+srv://seeds:seeds@seeds.fcrkgun.mongodb.net/?retryWrites=true&w=majority"; /* MongoDB connection string. */
+const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/?retryWrites=true&w=majority"; /* MongoDB connection string. */
 
 mongoose.set("strictQuery", false);
 mongoose.connect(process.env.MONGODB_URI || uri, {useNewUrlParser: true, useUnifiedTopology: true}).catch(error => console.log(error));

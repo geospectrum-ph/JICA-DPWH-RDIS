@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
 import "./App.css";
 
 import logo from "./assets/logo.png";
@@ -49,6 +51,30 @@ function LandingPage() {
 function LoginPage() {
   const navigate = useNavigate();
 
+  function handleLogin() {
+    // if (sessionStorage.getItem("token") === null ) navigate("/");
+    // else setDetails(details.length > 0 ? details : JSON.parse(sessionStorage.getItem("details")));
+
+    // const fetchAllUsers = async() => {
+    //   await axios
+    //     .get("https://portal.geospectrum.com.ph/api/users/all")
+    //     .then((response) => {
+    //       setUsers(response.data);
+    //     });
+    //   await axios
+    //     .post('https://portal.geospectrum.com.ph/api/order/count', {
+    //       name: JSON.parse(sessionStorage.getItem("details")).username
+    //     })
+    //     .then((response) => {
+    //       setCount(response.data.length > 0 ? response.data[0].itemCount : 0);
+    //     })
+    // }
+
+    // if (JSON.parse(sessionStorage.getItem("details")).accountType === "admin") fetchAllUsers();
+
+    navigate("/access");
+  }
+
   return(
     <div style = {{ width: "100%", height: "100%" }}>
       <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
@@ -61,7 +87,7 @@ function LoginPage() {
           <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
           </div>
-          <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => navigate("/access") }>
+          <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
             <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
           </div>
         </div>
