@@ -15,41 +15,17 @@ import seal from "./assets/seal.png";
 
 function LandingPage() {
   const navigate = useNavigate();
-
+  
   React.useEffect(() => {
-    document.getElementById("Landing-Page").style.display = "block";
+    document.getElementById("Login-Page").style.display = "none";
   }, []);
 
-  return (
-    <div id = "Landing-Page" style = {{ width: "100%", height: "100%", display: "none" }}>
-      <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn", overflow: "hidden" }}>
-        <div>
-          <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
-        </div>
-        <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
-          </div>
-          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/login") }>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
-          </div>
-        </div>  
-      </div>
-      <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "35%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "2.5s ease-in-out slideInUp" }}>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>S</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>D</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "100%" }}>s</span>
-      </div>
-      <img src = { overlay } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "50", objectFit: "cover", objectPosition: "center center" }} alt = "Overlay"/>
-    </div>
-  )
-}
+  function handleOverlay() {
+    const handler = document.getElementById("Login-Page");
+    handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
 
-function LoginPage() {
-  const navigate = useNavigate();
+    console.log(handler.style.display);
+  }
 
   function handleLogin() {
     // if (sessionStorage.getItem("token") === null ) navigate("/");
@@ -75,35 +51,60 @@ function LoginPage() {
     navigate("/access");
   }
 
-  return(
-    <div style = {{ width: "100%", height: "100%" }}>
-      <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        <div style = {{ width: "25%", height: "auto", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
-          <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <input type = "text" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
-          </div>
-          <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
-          </div>
-          <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
-            <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
-          </div>
+  return (
+    <div id = "Landing-Page" style = {{ width: "100vw", height: "100vh" }}>
+      <img src = { background } style = {{ width: "100vw", height: "100vh", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
+      <img src = { overlay } style = {{ width: "100vw", height: "100vh", position: "absolute", top: "0", left: "0", zIndex: "100", objectFit: "cover", objectPosition: "center center" }} alt = "Overlay"/>
+      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" }}>
+        <div>
+          <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
         </div>
-        <div style = {{ height: "auto", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" }}>
-            <span style = {{ fontSize: "16px", margin: "0 20px" }}>Terms</span>
-            <span style = {{ fontSize: "18px" }}>•</span>
-            <span style = {{ fontSize: "16px", margin: "0 20px" }}>Privacy</span>
-            <span style = {{ fontSize: "18px" }}>•</span>
-            <span style = {{ fontSize: "16px", margin: "0 20px" }}>Documentation</span>
-            <span style = {{ fontSize: "18px" }}>•</span>
-            <span style = {{ fontSize: "16px", margin: "0 20px" }}>Support</span>
+        <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
           </div>
-          <div style = {{ height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-            <img src = { logo } style = {{ width: "24px", margin: "0 10px 0 0" }} alt = "Logo"/>
-            <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => handleOverlay() }>
+            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
           </div>
+        </div>  
+      </div>
+      {/* <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "2.5s ease-in-out slideInUp", backgroundColor: "red" }}>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>S</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>E</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>E</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>D</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>s</span>
+      </div> */}
+      <div id = "Login-Page" style = {{ width: "100%", height: "100%", zIndex: "500" }}>
+        <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
+        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <div style = {{ position: "absolute", width: "100%", height: "100%", zIndex: "0" }}  onClick = { () => handleOverlay() }></div> 
+          <div style = {{ width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
+            <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <input type = "text" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+            </div>
+            <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+            </div>
+            <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
+              <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
+            </div>
+          </div>
+          <div style = {{ height: "auto", zIndex: "100", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" }}>
+              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Terms</span>
+              <span style = {{ fontSize: "18px" }}>•</span>
+              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Privacy</span>
+              <span style = {{ fontSize: "18px" }}>•</span>
+              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Documentation</span>
+              <span style = {{ fontSize: "18px" }}>•</span>
+              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Support</span>
+            </div>
+            <div style = {{ height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+              <img src = { logo } style = {{ width: "24px", margin: "0 10px 0 0" }} alt = "Logo"/>
+              <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            </div>
+        </div>
       </div>
     </div>
   )
@@ -345,7 +346,6 @@ function App() {
     <div>
       <Routes>
         <Route path = "/" element = { <LandingPage/> }/>
-        <Route path = "/login" element = { <LoginPage/> } />
         <Route path = "/access" element = { <AccessPage/> } />
         <Route path = "/main" element = { <MainPage/> } />
       </Routes>
