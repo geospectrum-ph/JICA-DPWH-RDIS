@@ -15,10 +15,6 @@ import seal from "./assets/seal.png";
 
 function LandingPage() {
   const navigate = useNavigate();
-  
-  React.useEffect(() => {
-    document.getElementById("Login-Page").style.display = "none";
-  }, []);
 
   function handleOverlay() {
     const handler = document.getElementById("Login-Page");
@@ -51,10 +47,26 @@ function LandingPage() {
     navigate("/access");
   }
 
+  React.useEffect(() => {
+    setTimeout(() => {
+      document.getElementById("Landing-Page-Background").style.display = "block";
+    }, "500");
+  }, [])
+
+  // addEventListener("resize", (event) => {
+  //   if (window.innerWidth < window.innerHeight) {
+  //     const handler = document.getElementById("Landing-Page-Logo");
+  //     handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
+  //   }
+  // });
+
   return (
-    <div id = "Landing-Page" style = {{ width: "100vw", height: "100vh" }}>
-      <img src = { background } style = {{ width: "100vw", height: "100vh", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "Background"/>
-      <img src = { overlay } style = {{ width: "100vw", height: "100vh", position: "absolute", top: "0", left: "0", zIndex: "100", objectFit: "cover", objectPosition: "center center" }} alt = "Overlay"/>
+    <div id = "Landing-Page" style = {{ width: "100%", height: "100%", overflow: "clip" }}>
+      <div id = "Landing-Page-Background" style = {{ width: "100%", height: "100%", display: "none" }}>
+        <img id = "Landing-Page-Logo" src = { logo } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", bottom: "50%", zIndex: "100", display: "none" }} alt = "Overlay"/>
+        <img src = { overlay } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "100" }} alt = "Overlay"/>
+        <img src = { background } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "0" }} alt = "Background"/>
+      </div>
       <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" }}>
         <div>
           <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
@@ -68,14 +80,14 @@ function LandingPage() {
           </div>
         </div>  
       </div>
-      {/* <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "2.5s ease-in-out slideInUp", backgroundColor: "red" }}>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>S</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>D</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "480px", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", outline: "solid 8px blue", margin: "none", padding: "none" }}>s</span>
-      </div> */}
-      <div id = "Login-Page" style = {{ width: "100%", height: "100%", zIndex: "500" }}>
+      <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" }}>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>S</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>D</span>
+        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>s</span>
+      </div>
+      <div id = "Login-Page" style = {{ width: "100%", height: "100%", zIndex: "500", display: "none" }}>
         <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
         <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           <div style = {{ position: "absolute", width: "100%", height: "100%", zIndex: "0" }}  onClick = { () => handleOverlay() }></div> 
