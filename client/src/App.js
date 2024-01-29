@@ -5,13 +5,13 @@ import axios from "axios";
 
 import "./App.css";
 
-import logo from "./assets/logo.png";
-import background from "./assets/background.png";
-import overlay from "./assets/background-overlay.png";
 import brand from "./assets/brand.png";
+import logo from "./assets/logo.png";
+
+import background from "./assets/background.png";
+import overlay from "./assets/overlay.png";
+
 import seal from "./assets/seal.png";
-
-
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -187,7 +187,7 @@ function MainPage() {
             <Summary05/>
             <header className = "App-header">
               <img src = { logo } className = "App-logo" alt = "Logo"/>
-              <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px" }}></div> 
+              <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }}></div> 
             </header>
           </div>
         </div>
