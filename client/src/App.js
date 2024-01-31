@@ -5,355 +5,355 @@ import axios from "axios";
 
 import "./App.css";
 
-import brand from "./assets/brand.png";
-import logo from "./assets/logo.png";
+import brand from "./assets/images/brand.png";
+import logo from "./assets/images/logo.png";
 
-import background from "./assets/background.png";
-import overlay from "./assets/overlay.png";
+import background from "./assets/images/background.png";
+import overlay from "./assets/images/overlay.png";
 
-import seal from "./assets/seal.png";
+import seal from "./assets/images/seal.png";
 
-function LandingPage() {
-  const navigate = useNavigate();
+function App() {
+  const [users, setUsers] = React.useState(null);
 
-  function handleOverlay() {
-    const handler = document.getElementById("Login-Page");
-    handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
-
-    console.log(handler.style.display);
-  }
-
-  function handleLogin() {
-    // if (sessionStorage.getItem("token") === null ) navigate("/");
-    // else setDetails(details.length > 0 ? details : JSON.parse(sessionStorage.getItem("details")));
-
-    // const fetchAllUsers = async() => {
-    //   await axios
-    //     .get("https://portal.geospectrum.com.ph/api/users/all")
-    //     .then((response) => {
-    //       setUsers(response.data);
-    //     });
-    //   await axios
-    //     .post('https://portal.geospectrum.com.ph/api/order/count', {
-    //       name: JSON.parse(sessionStorage.getItem("details")).username
-    //     })
-    //     .then((response) => {
-    //       setCount(response.data.length > 0 ? response.data[0].itemCount : 0);
-    //     })
-    // }
-
-    // if (JSON.parse(sessionStorage.getItem("details")).accountType === "admin") fetchAllUsers();
-
-    navigate("/access");
-  }
-
-  React.useEffect(() => {
-    setTimeout(() => {
-      document.getElementById("Landing-Page-Background").style.display = "block";
-    }, "500");
-  }, [])
-
-  // addEventListener("resize", (event) => {
-  //   if (window.innerWidth < window.innerHeight) {
-  //     const handler = document.getElementById("Landing-Page-Logo");
-  //     handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
-  //   }
-  // });
-
-  return (
-    <div id = "Landing-Page" style = {{ width: "100%", height: "100%", overflow: "clip" }}>
-      <div id = "Landing-Page-Background" style = {{ width: "100%", height: "100%", display: "none" }}>
-        <img id = "Landing-Page-Logo" src = { logo } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", bottom: "50%", zIndex: "100", display: "none" }} alt = "Overlay"/>
-        <img src = { overlay } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "100" }} alt = "Overlay"/>
-        <img src = { background } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "0" }} alt = "Background"/>
-      </div>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" }}>
-        <div>
-          <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
-        </div>
-        <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
-          </div>
-          <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => handleOverlay() }>
-            <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
-          </div>
-        </div>  
-      </div>
-      <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" }}>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>S</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>D</span>
-        <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>s</span>
-      </div>
-      <div id = "Login-Page" style = {{ width: "100%", height: "100%", zIndex: "500", display: "none" }}>
-        <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
-        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <div style = {{ position: "absolute", width: "100%", height: "100%", zIndex: "0" }}  onClick = { () => handleOverlay() }></div> 
-          <div style = {{ width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
-            <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-              <input type = "text" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
-            </div>
-            <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-              <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
-            </div>
-            <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
-              <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
-            </div>
-          </div>
-          <div style = {{ height: "auto", zIndex: "100", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" }}>
-              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Terms</span>
-              <span style = {{ fontSize: "18px" }}>•</span>
-              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Privacy</span>
-              <span style = {{ fontSize: "18px" }}>•</span>
-              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Documentation</span>
-              <span style = {{ fontSize: "18px" }}>•</span>
-              <span style = {{ fontSize: "16px", margin: "0 20px" }}>Support</span>
-            </div>
-            <div style = {{ height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-              <img src = { logo } style = {{ width: "24px", margin: "0 10px 0 0" }} alt = "Logo"/>
-              <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
-            </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function AccessPage() {
-  const navigate = useNavigate();
-
-  return(
-    <div style = {{ width: "100%", height: "100%" }} onLoad = { () => setTimeout(function() { navigate("/main") }, 5000) }>
-      <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-        <div style = {{ width: "50%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <span style = {{ margin: "10px 0", font: "240px 'Outfit', sans-serif", fontWeight: "6y00", color: "#7ED957" }}>SEEDs</span>
-          <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Authorizing User...</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function MainPage() {
-  const navigate = useNavigate();
-
-  React.useEffect(() => {
-    var mainTime = document.getElementById("Main-Time");
-    function setTime() { if (mainTime) mainTime.textContent = new Date().toLocaleString(); }
+  function LandingPage() {
+    const navigate = useNavigate();
   
-    setInterval(setTime, 1000);
-  }, [])
-
-  return(
-    <div style = {{ width: "100%", height: "100%" }}>
-      <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "rgb(255,255,255)", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" }}>
-        <div style = {{ width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+    function handleOverlay() {
+      const handler = document.getElementById("Login-Page");
+      handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
+  
+      console.log(handler.style.display);
+    }
+  
+    function handleLogin() {
+      const fetchData = async() => {
+        await axios
+          .get("http://localhost:5000/")
+          .then((response) => {
+            setUsers(response.data);
+          });
+        // await axios
+        //   .post('https://portal.geospectrum.com.ph/api/order/count', {
+        //     name: JSON.parse(sessionStorage.getItem("details")).username
+        //   })
+        //   .then((response) => {
+        //     setCount(response.data.length > 0 ? response.data[0].itemCount : 0);
+        //   })
+      }
+  
+      fetchData();
+      navigate("/access");
+    }
+  
+    React.useEffect(() => {
+      setTimeout(() => {
+        document.getElementById("Landing-Page-Background").style.display = "block";
+      }, "500");
+    }, [])
+  
+    // addEventListener("resize", (event) => {
+    //   if (window.innerWidth < window.innerHeight) {
+    //     const handler = document.getElementById("Landing-Page-Logo");
+    //     handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
+    //   }
+    // });
+  
+    return (
+      <div id = "Landing-Page" style = {{ width: "100%", height: "100%", overflow: "clip" }}>
+        <div id = "Landing-Page-Background" style = {{ width: "100%", height: "100%", display: "none" }}>
+          <img id = "Landing-Page-Logo" src = { logo } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", bottom: "50%", zIndex: "100", display: "none" }} alt = "Overlay"/>
+          <img src = { overlay } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "100" }} alt = "Overlay"/>
+          <img src = { background } style = {{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "0" }} alt = "Background"/>
+        </div>
+        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" }}>
           <div>
-            <img src = { brand } style = {{ height: "18px", margin: "36px" }}/>
+            <img src = { brand } style = {{ height: "18px", margin: "36px" }} alt = "Brand"/>
           </div>
           <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Home</span>
+            <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
             </div>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Data</span>
-            </div>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Analytics</span>
-            </div>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Account</span>
-            </div>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
-            </div>
-            <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/") }>
-              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Exit</span>
+            <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => handleOverlay() }>
+              <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
             </div>
           </div>  
         </div>
-        <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
-          <Backbone/>
-          <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
-            <Summary00/>
-            <Summary01/>
-            <Summary02/>
-            <Summary03/>
-            <Summary04/>
-            <Summary05/>
-            <header className = "App-header">
-              <img src = { logo } className = "App-logo" alt = "Logo"/>
-              <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }}></div> 
-            </header>
+        <div style = {{ width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" }}>
+          <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>S</span>
+          <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
+          <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>E</span>
+          <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>D</span>
+          <span style = {{ fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" }}>s</span>
+        </div>
+        <div id = "Login-Page" style = {{ width: "100%", height: "100%", zIndex: "500", display: "none" }}>
+          <img src = { background } style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
+          <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <div style = {{ position: "absolute", width: "100%", height: "100%", zIndex: "0" }}  onClick = { () => handleOverlay() }></div> 
+            <div style = {{ width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+              <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
+              <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <input type = "text" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+              </div>
+              <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+              </div>
+              <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
+                <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
+              </div>
+            </div>
+            <div style = {{ height: "auto", zIndex: "100", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" }}>
+                <span style = {{ fontSize: "16px", margin: "0 20px" }}>Terms</span>
+                <span style = {{ fontSize: "18px" }}>•</span>
+                <span style = {{ fontSize: "16px", margin: "0 20px" }}>Privacy</span>
+                <span style = {{ fontSize: "18px" }}>•</span>
+                <span style = {{ fontSize: "16px", margin: "0 20px" }}>Documentation</span>
+                <span style = {{ fontSize: "18px" }}>•</span>
+                <span style = {{ fontSize: "16px", margin: "0 20px" }}>Support</span>
+              </div>
+              <div style = {{ height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                <img src = { logo } style = {{ width: "24px", margin: "0 10px 0 0" }} alt = "Logo"/>
+                <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+              </div>
           </div>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
+  
+  function AccessPage() {
+    const navigate = useNavigate();
+  
+    return(
+      <div style = {{ width: "100%", height: "100%" }} onLoad = { () => setTimeout(function() { navigate("/main") }, 5000) }>
+        <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
+        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+          <div style = {{ width: "50%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+            <span style = {{ margin: "10px 0", font: "240px 'Outfit', sans-serif", fontWeight: "6y00", color: "#7ED957" }}>SEEDs</span>
+            <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Authorizing User...</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
+  function MainPage() {
+    const navigate = useNavigate();
+  
+    React.useEffect(() => {
+      var mainTime = document.getElementById("Main-Time");
+      function setTime() { if (mainTime) mainTime.textContent = new Date().toLocaleString(); }
+    
+      setInterval(setTime, 1000);
+    }, [])
 
-function Backbone() {
-  return (
-    <div style = {{ backgroundColor: "#FFFFFF", minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
-      <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Executive Summary</span>
-      <ul style = {{ font: "12px 'Outfit', sans-serif", color: "#000000", lineHeight: "150%" }}>
-        <li>Introduction
-          <ul>
-            <li>Messages</li>
-            <li>Vision & Mission</li>
-          </ul>
-        </li>
-        <li>
-          Profile
-          <ul>
-            <li>General Map</li>
-            <li>Demographic Profile</li>
-            <li>Environmental Profile
-              <ul>
-                <li>Topography</li>
-                <li>Climate</li>
-                <li>Hazards</li>
-                <li>DRRMP</li>
-                <li>Protected Areas</li>
-                <li>Green Spaces</li>
-              </ul>
-            </li>
-            <li>Economic Profile
-              <ul>
-                <li>Schedule</li>
-                <li>Budget Report</li>
-                <li>CLUP</li>
-                <li>Tax Map</li>
-                <li>General Statistics</li>
-              </ul>
-            </li>
-            <li>Social Services
-              <ul>
-                <li>Emergency Hotlines</li>
-                <li>Healthcare Services</li>
-                <li>Education Services</li>
-                <li>Labor and Employment Services</li>
-                <li>Legal Services</li>
-              </ul>
-            </li>
-            <li>Plans & Projects
-              <ul>
-                <li>General Description</li>
-                <li>Schedule & Budget</li>
-                <li>Project Details</li>
-              </ul>
-            </li>
-            <li>People
-              <ul>
-                <li>Organizational Structure</li>
-                <li>Administrative Profile</li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-        <li>Index</li>
-      </ul>
-    </div>
-  )
-}
+    console.log(users);
+  
+    return(
+      <div style = {{ width: "100%", height: "100%" }}>
+        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" }}>
+          <div style = {{ width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div>
+              <img src = { brand } style = {{ height: "18px", margin: "36px" }} alt = "Brand"/>
+            </div>
+            <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Home</span>
+              </div>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Data</span>
+              </div>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Analytics</span>
+              </div>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Account</span>
+              </div>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Support</span>
+              </div>
+              <div style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => navigate("/") }>
+                <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" }}>Exit</span>
+              </div>
+            </div>  
+          </div>
+          <div style = {{ width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" }}>
+            <Backbone/>
+            <div style = {{ width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+              <Summary00/>
+              <Summary01/>
+              <Summary02/>
+              <Summary03/>
+              <Summary04/>
+              <Summary05/>
+              <header className = "App-header">
+                <img src = { logo } className = "App-logo" alt = "Logo"/>
+                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }}></div> 
+              </header>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  
+  function Backbone() {
+    return (
+      <div style = {{ backgroundColor: "#FFFFFF", minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"}}>
+        <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Executive Summary</span>
+        <ul style = {{ font: "12px 'Outfit', sans-serif", color: "#000000", lineHeight: "150%" }}>
+          <li>Introduction
+            <ul>
+              <li>Messages</li>
+              <li>Vision & Mission</li>
+            </ul>
+          </li>
+          <li>
+            Profile
+            <ul>
+              <li>General Map</li>
+              <li>Demographic Profile</li>
+              <li>Environmental Profile
+                <ul>
+                  <li>Topography</li>
+                  <li>Climate</li>
+                  <li>Hazards</li>
+                  <li>DRRMP</li>
+                  <li>Protected Areas</li>
+                  <li>Green Spaces</li>
+                </ul>
+              </li>
+              <li>Economic Profile
+                <ul>
+                  <li>Schedule</li>
+                  <li>Budget Report</li>
+                  <li>CLUP</li>
+                  <li>Tax Map</li>
+                  <li>General Statistics</li>
+                </ul>
+              </li>
+              <li>Social Services
+                <ul>
+                  <li>Emergency Hotlines</li>
+                  <li>Healthcare Services</li>
+                  <li>Education Services</li>
+                  <li>Labor and Employment Services</li>
+                  <li>Legal Services</li>
+                </ul>
+              </li>
+              <li>Plans & Projects
+                <ul>
+                  <li>General Description</li>
+                  <li>Schedule & Budget</li>
+                  <li>Project Details</li>
+                </ul>
+              </li>
+              <li>People
+                <ul>
+                  <li>Organizational Structure</li>
+                  <li>Administrative Profile</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>Index</li>
+        </ul>
+      </div>
+    )
+  }
+  
+  function Summary00() {
+    return (
+      <div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <img src = { seal } style = {{ width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" }} alt = "Seal"/>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>City of Mandaluyong, National Capital Region</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 72px 'Outfit', sans-serif", color: "#000000" }}>Executive Summary</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>An empowered community, competent government sector human resource, and benevolent private sector working in an atmosphere of mutual assistance shaping Mandaluyong into a sustainable and globally competitive city and an effective partner in nation-building.</span>
+        </div>
+      </div>
+    )
+  }
+  
+  function Summary01() {
+    return  (
+      <div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 48px 'Outfit', sans-serif", color: "#000000" }}>Introduction</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
+        </div>
+      </div>
+    )
+  }
+  
+  function Summary02() {
+    return  (
+      <div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Messages</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
+        </div>
+      </div>
+    )
+  }
+  
+  function Summary03() {
+    return  (
+      <div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Vision</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
+        </div>
+      </div>
+    )
+  }
+  
+  function Summary04() {
+    return  (
+      <div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Mission</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
+        </div>
+      </div>
+    )
+  }
+  
+  function Summary05() {
+    return  (
+      <div>
+        {/* <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ font: "bold 48px 'Outfit', sans-serif", color: "#000000" }}>Messages</span>
+        </div>
+        <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
+          <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
+        </div> */}
+      </div>
+    )
+  }
 
-function Summary00() {
-  return (
-    <div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <img src = { seal } style = {{ width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" }} alt = "Seal"/>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>City of Mandaluyong, National Capital Region</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 72px 'Outfit', sans-serif", color: "#000000" }}>Executive Summary</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>An empowered community, competent government sector human resource, and benevolent private sector working in an atmosphere of mutual assistance shaping Mandaluyong into a sustainable and globally competitive city and an effective partner in nation-building.</span>
-      </div>
-    </div>
-  )
-}
-
-function Summary01() {
-  return  (
-    <div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 48px 'Outfit', sans-serif", color: "#000000" }}>Introduction</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
-      </div>
-    </div>
-  )
-}
-
-function Summary02() {
-  return  (
-    <div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Messages</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-      </div>
-    </div>
-  )
-}
-
-function Summary03() {
-  return  (
-    <div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Vision</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-      </div>
-    </div>
-  )
-}
-
-function Summary04() {
-  return  (
-    <div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 36px 'Outfit', sans-serif", color: "#000000" }}>Mission</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-      </div>
-    </div>
-  )
-}
-
-function Summary05() {
-  return  (
-    <div>
-      {/* <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ font: "bold 48px 'Outfit', sans-serif", color: "#000000" }}>Messages</span>
-      </div>
-      <div style = {{ minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" }}>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
-        <span style = {{ margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" }}>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
-      </div> */}
-    </div>
-  )
-}
-
-function App() {
   return (
     <div>
       <Routes>
