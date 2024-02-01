@@ -3,6 +3,8 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
+import esriConfig from "@arcgis/core/config";
+
 import "./App.css";
 
 import brand from "./assets/images/brand.png";
@@ -13,8 +15,25 @@ import overlay from "./assets/images/overlay.png";
 
 import seal from "./assets/images/seal.png";
 
+
 function App() {
-  const [users, setUsers] = React.useState(null);
+  axios.get('http://localhost:5000/')
+  .then(function (response) {
+    // handle success
+    console.log(response.data.length);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+  .finally(function () {
+    // always executed
+  });
+
+  function MapLoad(){
+    esriConfig.assetsPath = "./assets";
+    esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
+  }
 
   function LandingPage() {
     const navigate = useNavigate();
@@ -22,27 +41,9 @@ function App() {
     function handleOverlay() {
       const handler = document.getElementById("Login-Page");
       handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
-  
-      console.log(handler.style.display);
     }
   
     function handleLogin() {
-      const fetchData = async() => {
-        await axios
-          .get("http://localhost:5000/")
-          .then((response) => {
-            setUsers(response.data);
-          });
-        // await axios
-        //   .post('https://portal.geospectrum.com.ph/api/order/count', {
-        //     name: JSON.parse(sessionStorage.getItem("details")).username
-        //   })
-        //   .then((response) => {
-        //     setCount(response.data.length > 0 ? response.data[0].itemCount : 0);
-        //   })
-      }
-  
-      fetchData();
       navigate("/access");
     }
   
@@ -51,14 +52,7 @@ function App() {
         document.getElementById("Landing-Page-Background").style.display = "block";
       }, "500");
     }, [])
-  
-    // addEventListener("resize", (event) => {
-    //   if (window.innerWidth < window.innerHeight) {
-    //     const handler = document.getElementById("Landing-Page-Logo");
-    //     handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
-    //   }
-    // });
-  
+
     return (
       <div id = "Landing-Page" style = {{ width: "100%", height: "100%", overflow: "clip" }}>
         <div id = "Landing-Page-Background" style = {{ width: "100%", height: "100%", display: "none" }}>
@@ -71,10 +65,10 @@ function App() {
             <img src = { brand } style = {{ height: "18px", margin: "36px" }} alt = "Brand"/>
           </div>
           <div  style = {{ margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-            <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
+            <div className = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }}>
               <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>About</span>
             </div>
-            <div class = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => handleOverlay() }>
+            <div className = "button" style = {{ minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" }} onClick = { () => handleOverlay() }>
               <span style = {{ margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" }}>Sign In</span>
             </div>
           </div>  
@@ -93,10 +87,10 @@ function App() {
             <div style = {{ width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
               <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <input type = "text" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+                <input type = "text" minLength = "8" maxLength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
               </div>
               <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <input type = "password" minlength = "8" maxlength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+                <input type = "password" minLength = "8" maxLength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
               </div>
               <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
                 <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
@@ -146,8 +140,6 @@ function App() {
     
       setInterval(setTime, 1000);
     }, [])
-
-    console.log(users);
   
     return(
       <div style = {{ width: "100%", height: "100%" }}>
@@ -188,7 +180,7 @@ function App() {
               <Summary05/>
               <header className = "App-header">
                 <img src = { logo } className = "App-logo" alt = "Logo"/>
-                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }}></div> 
+                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }} onLoad = {() => MapLoad()}></div> 
               </header>
             </div>
           </div>

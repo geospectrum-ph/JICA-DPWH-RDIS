@@ -14,40 +14,6 @@
 
     <link rel = "preconnect" href = "https://fonts.googleapis.com">
     <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
-    <link rel = "stylesheet" href = "https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap">
-
-    <link rel = "stylesheet" href = "https://js.arcgis.com/4.27/esri/themes/light/main.css">
-    <script src = "https://js.arcgis.com/4.27/"></script>
-
-    <script>
-      require(["esri/config", "esri/Map", "esri/views/SceneView", "esri/layers/SceneLayer"], function(esriConfig, Map, SceneView, SceneLayer) {
-        esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
-
-        const map = new Map({
-          basemap: "arcgis-imagery-standard",
-          ground: "world-elevation"
-        });
-
-        const view = new SceneView({
-          container: "viewDiv",
-          map: map,
-          camera: {
-            position: {
-              x: 121.060,
-              y: 14.584,
-              z: 2000
-            },
-            tilt: 30
-          }
-        });
-
-        const osm3dLayer = new SceneLayer({
-          url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer"
-        });
-          
-        map.add(osm3dLayer, 0);
-      });
-    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
