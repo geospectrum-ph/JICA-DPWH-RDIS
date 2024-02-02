@@ -1,26 +1,23 @@
-
+/* This file serves as the router file for the SEEDs Rebuild application. */
+/* It routes requests for database information from the MongoDB server database. */
 
 const mongoose = require("mongoose");
 var router = require("express").Router();
 
-const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
+/* The users collection of the seeds-rebuild database. */
 
-const archiveSchema = new Schema({
-    "username": {type: String},
-    "password": {type: String}
-});
+const usersData = mongoose.model("users",
+    new mongoose.Schema({
+        "username": {type: String},
+        "password": {type: String}
+    })
+);
 
-const Test = mongoose.model("users", archiveSchema);
-
-router.route("/").get((req, res) => {
-    var query = {
-        "username": "seeds.admin"
-      };
-  Test
-    .find(query)
-    .then(items => {res.json(items); console.log(items)})
-    .catch(err => res.status(400).json("Error: " + err));
+router.route("/hidden/users").get((req, res) => {
+    usersData
+        .find({ "username": "seeds.admin" })
+        .then((items) => { res.json(items); })
+        .catch((err) => { res.status(400).json("Error: " + err); });
 });
 
 module.exports = router;

@@ -1,9 +1,14 @@
-@import "https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap";
-@import "https://js.arcgis.com/4.27/esri/themes/light/main.css";
+@import "https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"; /* Style sheet for the open-source Outfit font used by the application. */
+@import "https://js.arcgis.com/4.27/esri/themes/light/main.css"; /* Style sheet for the light-themed ArcGIS API. */
 
 html {
   width: 100%;
   height: 100%;
 
-  /* overflow: hidden; */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+html::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
 }

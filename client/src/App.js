@@ -15,32 +15,44 @@ import overlay from "./assets/images/overlay.png";
 
 import seal from "./assets/images/seal.png";
 
-
 function App() {
-  axios.get('http://localhost:5000/')
-  .then(function (response) {
-    // handle success
-    console.log(response.data.length);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
+  const navigate = useNavigate(); // For the navigation of routes.
 
-  function MapLoad(){
+  /* Storage and function for the retrieval of data from the users collection in the seeds-rebuild database through routes. */
+
+  const [usersData, setUsersData] = React.useState(null);
+
+  function getUsersData() {
+    axios
+      .get("http://localhost:5000/hidden/users/")
+      .then((response) => {
+        setUsersData(response.data.length);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {});
+  }
+
+  /* Initialization of the retrieval of database files during startup. */
+
+  React.useEffect(() => {
+    getUsersData();
+  }, []);
+
+  /* Initialization of ArcGis functionalities. */
+
+  function mapLoad() {
     esriConfig.assetsPath = "./assets";
     esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
   }
 
   function LandingPage() {
-    const navigate = useNavigate();
-  
     function handleOverlay() {
       const handler = document.getElementById("Login-Page");
       handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
+
+      console.log(usersData);
     }
   
     function handleLogin() {
@@ -115,9 +127,7 @@ function App() {
     )
   }
   
-  function AccessPage() {
-    const navigate = useNavigate();
-  
+  function AccessPage() {  
     return(
       <div style = {{ width: "100%", height: "100%" }} onLoad = { () => setTimeout(function() { navigate("/main") }, 5000) }>
         <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
@@ -131,9 +141,7 @@ function App() {
     )
   }
   
-  function MainPage() {
-    const navigate = useNavigate();
-  
+  function MainPage() {  
     React.useEffect(() => {
       var mainTime = document.getElementById("Main-Time");
       function setTime() { if (mainTime) mainTime.textContent = new Date().toLocaleString(); }
@@ -180,7 +188,7 @@ function App() {
               <Summary05/>
               <header className = "App-header">
                 <img src = { logo } className = "App-logo" alt = "Logo"/>
-                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }} onLoad = {() => MapLoad()}></div> 
+                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }} onLoad = {() => mapLoad()}></div> 
               </header>
             </div>
           </div>
