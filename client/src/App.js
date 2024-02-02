@@ -4,6 +4,9 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import esriConfig from "@arcgis/core/config";
+import Map from "@arcgis/core/Map.js";
+import SceneLayer from "@arcgis/core/layers/SceneLayer.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 
 import "./App.css";
 
@@ -33,19 +36,59 @@ function App() {
       })
       .finally(() => {});
   }
-
+  
   /* Initialization of the retrieval of database files during startup. */
 
   React.useEffect(() => {
     getUsersData();
-  }, []);
+  });
 
-  /* Initialization of ArcGis functionalities. */
+  /* Initialization of the ArcGIS map during startup. */
+  
+  esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
 
-  function mapLoad() {
-    esriConfig.assetsPath = "./assets";
-    esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
-  }
+  const map = new Map({
+    basemap: "dark-gray-vector",
+    ground: "world-elevation"
+  });
+
+  const renderer = {
+    type: "simple", 
+    symbol: {
+      type: "mesh-3d",
+      symbolLayers: [
+        {
+          type: "fill",
+          material: {
+            color: "#ffffff",
+            colorMixMode: "replace"
+          },
+          edges: {
+            type: "solid",
+            color: [0, 0, 0, 0.6],
+            size: 1.5
+          }
+        }
+      ]
+    }
+  };
+
+  const osm3dLayer = new SceneLayer({
+    url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
+    renderer: renderer
+  });
+    
+  map.add(osm3dLayer, 0);
+
+  const view = new SceneView({
+    container: "viewDiv",
+    map: map,
+    camera: {
+      position: [121.06, 14.58, 2500],
+      tilt: 60,
+      heading: 50
+    }
+  });
 
   /* Main modules. */
 
@@ -345,12 +388,12 @@ function App() {
               <Summary03/>
               <Summary04/>
               <Summary05/>
-              <header className = "App-header">
-                <img src = { logo } className = "App-logo" alt = "Logo"/>
-                <div id = "viewDiv" style = {{ outline: "solid 2px #000000", height: "500px", width: "100%" }} onLoad = {() => mapLoad()}></div> 
-              </header>
             </div>
           </div>
+          <header className = "App-header" style = {{ overflow: "visible" }}>
+            <img src = { logo } className = "App-logo" alt = "Logo"/>
+            <div id = "viewDiv"></div> 
+          </header>
         </div>
       </div>
     )

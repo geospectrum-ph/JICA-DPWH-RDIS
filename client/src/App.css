@@ -86,3 +86,10 @@
   background-color: #FFFFFF;
   color: #000000;
 }
+
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: 150%;
+  width: 100%;
+}
