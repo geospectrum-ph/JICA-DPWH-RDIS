@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "arcgis": "^0.0.2",
     "axios": "^1.6.5",
+    "jquery": "^3.7.1",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
     "react": "^18.2.0",

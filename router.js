@@ -9,13 +9,14 @@ var router = require("express").Router();
 const usersData = mongoose.model("users",
     new mongoose.Schema({
         "username": {type: String},
+        "name": {type: String},
         "password": {type: String}
     })
 );
 
 router.route("/hidden/users").get((req, res) => {
     usersData
-        .find({ "username": "seeds.admin" })
+        .find({})
         .then((items) => { res.json(items); })
         .catch((err) => { res.status(400).json("Error: " + err); });
 });

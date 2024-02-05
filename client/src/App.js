@@ -25,83 +25,87 @@ function App() {
 
   const [usersData, setUsersData] = React.useState(null);
 
-  function getUsersData() {
+  React.useEffect(() => {
     axios
       .get("http://localhost:5000/hidden/users/")
       .then((response) => {
-        setUsersData(response.data.length);
+        setUsersData(response.data);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {});
-  }
+  }, []);
   
-  /* Initialization of the retrieval of database files during startup. */
-
-  React.useEffect(() => {
-    getUsersData();
-  });
-
   /* Initialization of the ArcGIS map during startup. */
   
-  esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
+  function mapLoad() {
+    esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
 
-  const map = new Map({
-    basemap: "dark-gray-vector",
-    ground: "world-elevation"
-  });
-
-  const renderer = {
-    type: "simple", 
-    symbol: {
-      type: "mesh-3d",
-      symbolLayers: [
-        {
-          type: "fill",
-          material: {
-            color: "#ffffff",
-            colorMixMode: "replace"
-          },
-          edges: {
-            type: "solid",
-            color: [0, 0, 0, 0.6],
-            size: 1.5
+    const map = new Map({
+      basemap: "dark-gray-vector",
+      ground: "world-elevation"
+    });
+  
+    const renderer = {
+      type: "simple", 
+      symbol: {
+        type: "mesh-3d",
+        symbolLayers: [
+          {
+            type: "fill",
+            material: {
+              color: "#ffffff",
+              colorMixMode: "replace"
+            },
+            edges: {
+              type: "solid",
+              color: [0, 0, 0, 0.6],
+              size: 1.5
+            }
           }
-        }
-      ]
-    }
-  };
-
-  const osm3dLayer = new SceneLayer({
-    url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
-    renderer: renderer
-  });
-    
-  map.add(osm3dLayer, 0);
-
-  const view = new SceneView({
-    container: "viewDiv",
-    map: map,
-    camera: {
-      position: [121.06, 14.58, 2500],
-      tilt: 60,
-      heading: 50
-    }
-  });
+        ]
+      }
+    };
+  
+    const osm3dLayer = new SceneLayer({
+      url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
+      renderer: renderer
+    });
+      
+    map.add(osm3dLayer, 0);
+  
+    new SceneView({
+      container: "viewDiv",
+      map: map,
+      camera: {
+        position: [121.06, 14.58, 2500],
+        tilt: 60,
+        heading: 50
+      }
+    });
+  }
 
   /* Main modules. */
 
   function LandingPage() {
     function handleOverlay() {
-      const handler = document.getElementById("Login-Page");
+      let handler = document.getElementById("Login-Page");
       handler.style.display === "block" ? handler.style.display = "none" : handler.style.display = "block";
-
-      console.log(usersData);
     }
-  
+
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    
     function handleLogin() {
-      navigate("/access");
+      let found = usersData.find((element) => element.username === username);
+
+      if (found === (null || undefined)) { console.log("Incorrect Username!"); }
+      else if (found.password === password) {
+        console.log("Success!");
+        navigate("/main");
+      }
+      else console.log("Incorrect Password!");
     }
   
     React.useEffect(() => {
@@ -144,10 +148,10 @@ function App() {
             <div style = {{ width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
               <span style = {{ margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In to <b>SEEDs</b></span>
               <div style = {{ width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <input type = "text" minLength = "8" maxLength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+                <input type = "text" minLength = "8" maxLength = "24" value = { username } onChange = { (event) => { setUsername(event.target.value); }} style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
               </div>
               <div style = {{ width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <input type = "password" minLength = "8" maxLength = "24" style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
+                <input type = "password" minLength = "8" maxLength = "24" value = { password } onChange = { (event) => { setPassword(event.target.value); }} style = {{ width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" }}/>
               </div>
               <div style = {{ minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }} onClick = { () => handleLogin() }>
                 <span style = {{ padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Sign In</span>
@@ -166,20 +170,6 @@ function App() {
                 <img src = { logo } style = {{ width: "24px", margin: "0 10px 0 0" }} alt = "Logo"/>
                 <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
               </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-  
-  function AccessPage() {  
-    return(
-      <div style = {{ width: "100%", height: "100%" }} onLoad = { () => setTimeout(function() { navigate("/main") }, 5000) }>
-        <img src = { background }  style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" }} alt = "background"/>
-        <div style = {{ width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-          <div style = {{ width: "50%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <span style = {{ margin: "10px 0", font: "240px 'Outfit', sans-serif", fontWeight: "6y00", color: "#7ED957" }}>SEEDs</span>
-            <span style = {{ font: "16px 'Outfit', sans-serif", color: "#FFFFFF" }}>Authorizing User...</span>
           </div>
         </div>
       </div>
@@ -392,7 +382,7 @@ function App() {
           </div>
           <header className = "App-header" style = {{ overflow: "visible" }}>
             <img src = { logo } className = "App-logo" alt = "Logo"/>
-            <div id = "viewDiv"></div> 
+            <div id = "viewDiv" onLoad = { () => { mapLoad(); }}></div> 
           </header>
         </div>
       </div>
@@ -403,7 +393,6 @@ function App() {
     <div>
       <Routes>
         <Route path = "/" element = { <LandingPage/> }/>
-        <Route path = "/access" element = { <AccessPage/> } />
         <Route path = "/main" element = { <MainPage/> } />
       </Routes>
     </div>
