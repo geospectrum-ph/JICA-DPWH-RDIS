@@ -19,7 +19,7 @@ const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
-const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/seeds-rebuild?retryWrites=true&w=majority"; // MongoDB API connection string.
+const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/seeds-rebuild?retryWrites=true&w=majority"; /* MongoDB API connection string. */
 
 mongoose.connect(process.env.MONGODB_URI || uri).catch((error) => { console.log(error) });
 

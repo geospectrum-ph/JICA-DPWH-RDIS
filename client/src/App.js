@@ -18,48 +18,47 @@ import overlay from "./assets/images/overlay.png";
 
 import seal from "./assets/images/seal.png";
 
+import error from "./assets/images/error.png";
+
 function App() {
-  const navigate = useNavigate(); // For the navigation of routes.
+  /* For the navigation of routes. */
+
+  const navigate = useNavigate(); 
   
+  /* Function for rendering the ArcGIS map and adjacent functionalities. */
+
   function mapLoad() {
     esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
-
-    const map = new Map({
-      basemap: "dark-gray-vector",
-      ground: "world-elevation"
-    });
-  
-    const renderer = {
-      type: "simple", 
-      symbol: {
-        type: "mesh-3d",
-        symbolLayers: [
-          {
-            type: "fill",
-            material: {
-              color: "#ffffff",
-              colorMixMode: "replace"
-            },
-            edges: {
-              type: "solid",
-              color: [0, 0, 0, 0.6],
-              size: 1.5
-            }
-          }
-        ]
-      }
-    };
-  
-    const osm3dLayer = new SceneLayer({
-      url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
-      renderer: renderer
-    });
-      
-    map.add(osm3dLayer, 0);
   
     new SceneView({
       container: "viewDiv",
-      map: map,
+      map: new Map({
+        basemap: "dark-gray-vector",
+        ground: "world-elevation"
+      })
+        .add(new SceneLayer({
+          url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
+          renderer: {
+            type: "simple", 
+            symbol: {
+              type: "mesh-3d",
+              symbolLayers: [
+                {
+                  type: "fill",
+                  material: {
+                    color: "#ffffff",
+                    colorMixMode: "replace"
+                  },
+                  edges: {
+                    type: "solid",
+                    color: [0, 0, 0, 0.6],
+                    size: 1.5
+                  }
+                }
+              ]
+            }
+          }
+        }), 0),
       camera: {
         position: [121.06, 14.58, 2500],
         tilt: 60,
@@ -72,6 +71,8 @@ function App() {
 
   function LandingPage() {
     /* Login handler. */
+
+    const [loginNote, setLoginNote] = React.useState("Please enter your username and password.");
     
     function handleLogin() {
       axios
@@ -82,14 +83,14 @@ function App() {
         .then((response) => {
           switch (response.data) {
             case "username_error":
-              console.log("Incorrect Username!");
+              setLoginNote("Invalid username. Please try again.");
               break;
             case "password_error":
-              console.log("Incorrect Password!");
+              setLoginNote("Invalid password. Please try again.");
               break;
             case "request_success":
-              console.log("Success!");
-              navigate("/main");
+              setLoginNote("Successful user authentication!");
+              navigate("/home");
               break;
             default: return null;
           }
@@ -113,12 +114,12 @@ function App() {
     return (
       <div id = "Landing-Page" style = { { width: "100%", height: "100%", overflow: "clip", display: "none" } }>
         <div style = { { width: "100%", height: "100%" } }>
-          <img src = { overlay } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "100" } } alt = "Overlay"/>
-          <img src = { background } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: "0" } } alt = "Background"/>
+          <img src = { overlay } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100",  } } alt = "Overlay"/>
+          <img src = { background } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "0" } } alt = "Background"/>
         </div>
-        <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" } }>
+        <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" } }>
           <div>
-            <img src = { brand } style = { { height: "18px", margin: "36px" } } alt = "Brand"/>
+            <img src = { brand } style = { { height: "18px", margin: "36px", zIndex: "1000" } } alt = "Brand"/>
           </div>
           <div  style = { { margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
             <div className = "button" style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
@@ -129,7 +130,7 @@ function App() {
             </div>
           </div>  
         </div>
-        <div style = { { width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" } }>
+        <div style = { { width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: loginPageDisplay ? "-100" : "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" } }>
           <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>S</span>
           <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>E</span>
           <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>E</span>
@@ -143,10 +144,13 @@ function App() {
             <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
               <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
               <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <input type = "text" minLength = "8" maxLength = "24" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+                <input type = "text" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
               </div>
               <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+                <input type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              </div>
+              <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
+                <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ loginNote }</span>
               </div>
               <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleLogin(); } }>
                 <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In</span>
@@ -176,7 +180,7 @@ function App() {
 
   function SecurityPage() {
     function handleChangePassword() {
-      navigate("/main");
+      navigate("/home");
     }
 
     return (
@@ -219,7 +223,7 @@ function App() {
     )
   }
   
-  function MainPage() {
+  function HomePage() {
     // setInterval((event) => { event.target.textContent = new Date().toLocaleString(); }, 1000); 
 
     function Backbone() {
@@ -387,19 +391,19 @@ function App() {
               <img src = { brand } style = { { height: "18px", margin: "36px" } } alt = "Brand"/>
             </div>
             <div  style = { { margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/home"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Home</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/data"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Data</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/analytics"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Analytics</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/account"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Account</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/support"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Support</span>
               </div>
               <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/"); } }>
@@ -427,12 +431,119 @@ function App() {
     )
   }
 
+  function DataPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <div style = { { width: "100%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
+          <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/social") } }>Social</span>
+          <span style = { { margin: "0 20px 20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
+          <span style = { { margin: "0 20px 20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
+          <span style = { { margin: "0 20px 120px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
+        </div>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function SocialPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Social Database</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Social" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function EconomicPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Economic Database</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Economic" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function EnvironmentalPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Environmental Database</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Environmental" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function DemographicPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Demographic Database</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Demographic" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function AnalyticsPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Analytics Page</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Analytics" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function AccountPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Account Page</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Account" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function SupportPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Support Page</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Support" }</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      </div>
+    )
+  }
+
+  function ErrorPage() {
+    return (
+      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
+        <img src = { error } style = { { width: "200px", height: "200px", margin: "-5% 0 0 0" } } alt = "Error"/>
+        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>ERROR 404</span>
+        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page not found.</span>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Routes>
-        <Route path = "/" element = { <LandingPage/> }/>
-        <Route path = "/security" element = { <SecurityPage/> }/>
-        <Route path = "/main" element = { <MainPage/> } />
+        <Route path = "/">
+          <Route index = { true } element = { <LandingPage/> }></Route>
+          <Route path = "/security" element = { <SecurityPage/> }></Route>
+          <Route path = "/home" element = { <HomePage/> }></Route>
+          <Route path = "/data">
+            <Route index = { true } element = { <DataPage/> }></Route>
+            <Route path = "/data/social" element = { <SocialPage/> }></Route>
+            <Route path = "/data/economic" element = { <EconomicPage/> }></Route>
+            <Route path = "/data/environmental" element = { <EnvironmentalPage/> }></Route>
+            <Route path = "/data/demographic" element = { <DemographicPage/> }></Route>
+          </Route>
+          <Route path = "/analytics" element = { <AnalyticsPage/> }></Route>
+          <Route path = "/account" element = { <AccountPage/> }></Route>
+          <Route path = "/support" element = { <SupportPage/> }></Route>
+        </Route>
+        <Route path = "*" element = { <ErrorPage/> }></Route>
       </Routes>
     </div>
   );
