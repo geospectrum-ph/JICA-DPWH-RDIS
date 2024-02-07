@@ -150,7 +150,7 @@ function App() {
                 <input type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
               </div>
               <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ loginNote }</span>
+                <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", textAlign: "center", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ loginNote }</span>
               </div>
               <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleLogin(); } }>
                 <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In</span>
@@ -434,11 +434,11 @@ function App() {
   function DataPage() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <div style = { { width: "100%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-          <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/social") } }>Social</span>
-          <span style = { { margin: "0 20px 20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
-          <span style = { { margin: "0 20px 20px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
-          <span style = { { margin: "0 20px 120px", font: "72px 'Outfit', sans-serif", color: "#000000" } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
+        <div style = { { width: "100%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "72px" } }>
+          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/social") } }>Social</span>
+          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
+          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
+          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
         </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
@@ -449,7 +449,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Social Database</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Social" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Social" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -459,7 +461,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Economic Database</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Economic" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Economic" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -469,7 +473,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Environmental Database</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Environmental" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Environmental" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -479,7 +485,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Demographic Database</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Demographic" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Demographic" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -489,7 +497,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Analytics Page</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Analytics" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Analytics" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -499,7 +509,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Account Page</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Account" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Account" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -509,7 +521,9 @@ function App() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
         <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Support Page</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Support" }</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Support" }</span>
+        </div>
         <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
       </div>
     )
@@ -518,9 +532,11 @@ function App() {
   function ErrorPage() {
     return (
       <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <img src = { error } style = { { width: "200px", height: "200px", margin: "-5% 0 0 0" } } alt = "Error"/>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>ERROR 404</span>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page not found.</span>
+        <img src = { error } style = { { width: "240px", height: "240px" } } alt = "Error"/>
+        <span style = { { font: "72px 'Outfit', sans-serif", color: "#000000" } }>ERROR 404</span>
+        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
+          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page not found.</span>
+        </div>
       </div>
     );
   }
