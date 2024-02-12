@@ -23,7 +23,15 @@ import error from "./assets/images/error.png";
 function App() {
   /* For the navigation of routes. */
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  /* For the handling of errors. */
+
+  const [errorMessage, setErrorMessage] = React.useState(null);
+
+  React.useEffect(() => {
+    console.log(errorMessage);
+  }, [errorMessage]);
   
   /* Function for rendering the ArcGIS map and adjacent functionalities. */
 
@@ -60,7 +68,7 @@ function App() {
           }
         }), 0),
       camera: {
-        position: [121.06, 14.58, 2500],
+        position: [121.06, 14.58, 2500], /* Ortigas. */
         tilt: 60,
         heading: 50
       }
@@ -83,10 +91,8 @@ function App() {
         .then((response) => {
           switch (response.data) {
             case "username_error":
-              setLoginNote("Invalid username. Please try again.");
-              break;
             case "password_error":
-              setLoginNote("Invalid password. Please try again.");
+              setLoginNote("Please enter a valid username and password.");
               break;
             case "request_success":
               setLoginNote("Successful user authentication!");
@@ -96,7 +102,7 @@ function App() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error);
         })
         .finally(() => {});
     }
@@ -107,7 +113,7 @@ function App() {
       setTimeout(() => {
         document.getElementById("Landing-Page").style.display = "block";
       }, "500");
-    }, []);
+    }, []); /* Temporary fix. */
 
     const [loginPageDisplay, setLoginPageDisplay] = React.useState(false);
     
@@ -179,6 +185,11 @@ function App() {
   }
 
   function SecurityPage() {
+    const [usernameBuffer, setUsernameBuffer] = React.useState(null);
+    const [passwordBuffer, setPasswordBuffer] = React.useState(null);
+    const [newPasswordBuffer, setNewPasswordBuffer] = React.useState(null);
+    const [clonePasswordBuffer, setClonePasswordBuffer] = React.useState(null);
+
     function handleChangePassword() {
       navigate("/home");
     }
@@ -190,16 +201,16 @@ function App() {
           <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
             <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
             <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "text" minLength = "8" maxLength = "24" onChange = { (event) => { console.log(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input type = "text" minLength = "8" maxLength = "24" onChange = { (event) => { setUsernameBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { console.log(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { console.log(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setNewPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { console.log(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setClonePasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleChangePassword(); } }>
               <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Submit</span>
