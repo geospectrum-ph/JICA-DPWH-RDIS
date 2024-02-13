@@ -30,7 +30,7 @@ function App() {
   const [errorMessage, setErrorMessage] = React.useState(null);
 
   React.useEffect(() => {
-    console.log(errorMessage);
+    if (errorMessage) console.log(errorMessage);
   }, [errorMessage]);
   
   /* Function for rendering the ArcGIS map and adjacent functionalities. */
@@ -190,8 +190,37 @@ function App() {
     const [newPasswordBuffer, setNewPasswordBuffer] = React.useState(null);
     const [clonePasswordBuffer, setClonePasswordBuffer] = React.useState(null);
 
+    const [changePasswordNote, setChangePasswordNote] = React.useState("Please enter your username and password.");
+
     function handleChangePassword() {
-      navigate("/home");
+      axios
+        .post("http://localhost:5000/security/", {
+          username: usernameBuffer,
+          password: passwordBuffer,
+          newPassword: newPasswordBuffer,
+          clonePassword: clonePasswordBuffer
+        })
+        .then((response) => {
+          switch (response.data) {
+            case "username_error":
+            case "password_error":
+            case "case_error":
+              setChangePasswordNote("Please enter a valid username and password.");
+              break;
+            case "password_mismatch":
+              setChangePasswordNote("The entered passwords do not match.");
+              break;
+            case "request_success":
+              setChangePasswordNote("Successful password update!");
+              navigate("/home");
+              break;
+            default: return null;
+          }
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
     }
 
     return (
@@ -211,6 +240,9 @@ function App() {
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
               <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setClonePasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+            </div>
+            <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
+              <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", textAlign: "center", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ changePasswordNote }</span>
             </div>
             <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleChangePassword(); } }>
               <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Submit</span>
