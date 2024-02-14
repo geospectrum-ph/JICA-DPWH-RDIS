@@ -9,19 +9,31 @@ const usersData = mongoose.model("users",
     new mongoose.Schema({
         "username": { type: String },
         "name": { type: String },
-        "password": { type: String }
+        "password": { type: Object }
     })
 );
 
-// const crypto = require("crypto");
+const crypto = require("crypto");
 
-// let algorithm = "aes-256-cbc";
-// let password = "dicotyledon";
+let algorithm = "aes-256-cbc";
+let key = crypto.scryptSync("password", "SEEDs Rebuild", 32);
 
-// function encrypt(text) {
-//     let vector = crypto.randomBytes(32);
-//     let cipher = crypto.createCipheriv(algorithm, key, vector);
-// }
+function encrypt(string) {
+    let vector = crypto.randomBytes(16);
+    let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), vector);
+    let output = cipher.update(string);
+    output = Buffer.concat([output, cipher.final()]);
+
+    return ({data: output.toString("hex"), vector: vector.toString("hex")});
+}
+
+function decrypt(object) {
+    let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), Buffer.from(object.vector, "hex"));
+    let output = decipher.update(Buffer.from(object.data, "hex"));
+    output = Buffer.concat([output, decipher.final()]);
+
+    return (output.toString());
+}
 
 router.route("/login").post((request, response) => {
     usersData
@@ -30,7 +42,7 @@ router.route("/login").post((request, response) => {
             let found = data.find((object) => object.username === request.body.username);
 
             if (found === (null || undefined)) { response.json("username_error"); }
-            else if (found.password === request.body.password) { response.json("request_success"); }
+            else if (decrypt(found.password) === request.body.password) { response.json("request_success"); }
             else { response.json("password_error"); }
         })
         .catch((error) => { response.status(400).json("Error: " + error); });
@@ -43,14 +55,14 @@ router.route("/security").post((request, response) => {
             let found = data.find((object) => object.username === request.body.username);
 
             if (found === (null || undefined)) { response.json("username_error"); }
-            else if (found.password === request.body.password) {
+            else if (decrypt(found.password) === request.body.password) {
                 if (request.body.newPassword === request.body.clonePassword) { 
                     usersData
                         .findOneAndUpdate({
-                            username: request.body.username,
-                            password: request.body.password
+                            username: found.username,
+                            password: found.password
                         }, {
-                            password: request.body.newPassword
+                            password: encrypt(request.body.newPassword)
                         })
                         .then(() => { response.json("request_success"); })
                         .catch((error) => { response.status(400).json("Error: " + error); });
