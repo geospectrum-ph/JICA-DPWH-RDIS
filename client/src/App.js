@@ -118,12 +118,12 @@ function App() {
     const [loginPageDisplay, setLoginPageDisplay] = React.useState(false);
     
     return (
-      <div id = "Landing-Page" style = { { width: "100%", height: "100%", overflow: "clip", display: "none" } }>
-        <div style = { { width: "100%", height: "100%" } }>
-          <img src = { overlay } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100",  } } alt = "Overlay"/>
-          <img src = { background } style = { { width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "0" } } alt = "Background"/>
+      <div id = "Landing-Page" class = "container" style = { { overflow: "clip", display: "none" } }>
+        <div class = "container">
+          <img class = "container" src = { overlay } style = { { objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100",  } } alt = "Overlay"/>
+          <img class = "container" src = { background } style = { { objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "0" } } alt = "Background"/>
         </div>
-        <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" } }>
+        <div class = "container fixed" style = { { zIndex: loginPageDisplay ? "-100" : "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" } }>
           <div>
             <img src = { brand } style = { { height: "18px", margin: "36px", zIndex: "1000" } } alt = "Brand"/>
           </div>
@@ -136,17 +136,17 @@ function App() {
             </div>
           </div>  
         </div>
-        <div style = { { width: "100%", height: "auto", position: "absolute", bottom: "50%", left: "0", zIndex: loginPageDisplay ? "-100" : "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", animation: "4s ease-in-out slideInUp" } }>
-          <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>S</span>
-          <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>E</span>
-          <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>E</span>
-          <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>D</span>
-          <span style = { { fontStyle: "'Outfit', sans-serif", fontSize: "calc(100vw / 25 * 6)", fontWeight: "900", color: "#FFFFFF", lineHeight: "50%", margin: "none", padding: "none" } }>s</span>
+        <div class = "container fixed" style = { { zIndex: loginPageDisplay ? "-100" : "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "flex-end", animation: "4s ease-in-out slideInUp" } }>
+          <span class = "type-p0-00">S</span>
+          <span class = "type-p0-00">E</span>
+          <span class = "type-p0-00">E</span>
+          <span class = "type-p0-00">D</span>
+          <span class = "type-p0-00">s</span>
         </div>
-        <div style = { { width: "100%", height: "100%", zIndex: "500", display: loginPageDisplay ? "block" : "none" } }>
-          <img src = { background } style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" } } alt = "background"/>
-          <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-            <div style = { { position: "absolute", width: "100%", height: "100%", zIndex: "0" } }  onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
+        <div class = "container" style = { { zIndex: "500", display: loginPageDisplay ? "block" : "none" } }>
+          <img class = "container fixed" src = { background } style = { { zIndex: "0", objectFit: "cover", objectPosition: "center center" } } alt = "background"/>
+          <div class = "container fixed" style = { { zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
+            <div class = "container" style = { { position: "absolute", Index: "0" } }  onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
             <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
               <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
               <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
