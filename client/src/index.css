@@ -1,3 +1,5 @@
+/* This file serves as the library for global styles and styling at the root level. */
+
 @import "https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"; /* Style sheet for the open-source Outfit font used by the application. */
 @import "https://js.arcgis.com/4.27/esri/themes/light/main.css"; /* Style sheet for the light-themed ArcGIS API. */
 

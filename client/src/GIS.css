@@ -1,0 +1,9 @@
+/* This file serves as the library for the styling of GIS components. */
+
+#sample-map {
+    width: 1000px;
+    height: 1000px;
+  
+    margin: 0;
+    padding: 0;
+  }

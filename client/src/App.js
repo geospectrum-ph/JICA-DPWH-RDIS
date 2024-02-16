@@ -3,10 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import esriConfig from "@arcgis/core/config";
-import Map from "@arcgis/core/Map.js";
-import SceneLayer from "@arcgis/core/layers/SceneLayer.js";
-import SceneView from "@arcgis/core/views/SceneView.js";
+import { AnalyticsMap } from "./GIS.js"
 
 import "./App.css";
 
@@ -33,48 +30,6 @@ function App() {
     if (errorMessage) console.log(errorMessage);
   }, [errorMessage]);
   
-  /* Function for rendering the ArcGIS map and adjacent functionalities. */
-
-  function mapLoad() {
-    esriConfig.apiKey = "AAPK122f88af0a6f4036b72d37b8c0df9d097eGqHL_YM-GllJbCGGUxjcjZfBFE75b0C8mYwKTv40eMyH7DtxeKk4TBfzZEwFBx";
-  
-    new SceneView({
-      container: "viewDiv",
-      map: new Map({
-        basemap: "dark-gray-vector",
-        ground: "world-elevation"
-      })
-        .add(new SceneLayer({
-          url: "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer",
-          renderer: {
-            type: "simple", 
-            symbol: {
-              type: "mesh-3d",
-              symbolLayers: [
-                {
-                  type: "fill",
-                  material: {
-                    color: "#ffffff",
-                    colorMixMode: "replace"
-                  },
-                  edges: {
-                    type: "solid",
-                    color: [0, 0, 0, 0.6],
-                    size: 1.5
-                  }
-                }
-              ]
-            }
-          }
-        }), 0),
-      camera: {
-        position: [121.06, 14.58, 2500], /* Ortigas. */
-        tilt: 60,
-        heading: 50
-      }
-    });
-  }
-
   /* Main modules. */
 
   function LandingPage() {
@@ -109,74 +64,66 @@ function App() {
 
     /* Landing page UI/UX functions. */
 
-    React.useEffect(() => {
-      setTimeout(() => {
-        document.getElementById("Landing-Page").style.display = "block";
-      }, "500");
-    }, []); /* Temporary fix. */
-
     const [loginPageDisplay, setLoginPageDisplay] = React.useState(false);
     
     return (
-      <div id = "Landing-Page" class = "container" style = { { overflow: "clip", display: "none" } }>
-        <div class = "container">
-          <img class = "container" src = { overlay } style = { { objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "100",  } } alt = "Overlay"/>
-          <img class = "container" src = { background } style = { { objectFit: "cover", objectPosition: "center center", position: "absolute", top: "0", left: "0", zIndex: loginPageDisplay ? "-100" : "0" } } alt = "Background"/>
-        </div>
-        <div class = "container fixed" style = { { zIndex: loginPageDisplay ? "-100" : "100", backgroundColor: "#00000000", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", animation: "4s ease-in-out fadeIn" } }>
-          <div>
-            <img src = { brand } style = { { height: "18px", margin: "36px", zIndex: "1000" } } alt = "Brand"/>
+      <div className = "container appear">
+        <div className = "container fixed center-row layer-00">
+          <img className = { loginPageDisplay ? "fixed layer-xx" : "fixed layer-02" } src = { overlay } alt = "Overlay" width = "100%" height = "100%"/>
+          <div className = { loginPageDisplay ? "box center-row layer-xx slide-in-up" : "box center-row layer-01 slide-in-up" }>
+            <span className = "type-p0-00">S</span>
+            <span className = "type-p0-00">E</span>
+            <span className = "type-p0-00">E</span>
+            <span className = "type-p0-00">D</span>
+            <span className = "type-p0-00">s</span>
           </div>
-          <div  style = { { margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-            <div className = "button" style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } }>
-              <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" } }>About</span>
+          <img className = "fixed layer-00" src = { background } alt = "Background" width = "100%" height = "100%"/>
+        </div>
+        <div className = { loginPageDisplay ? "container fixed top-spaced layer-xx fade-in" : "container fixed top-spaced layer-03 fade-in" }>
+          <div className = "regular-margin center-row">
+            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer"><img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand" width = "auto" height = "18px"/></a>
+          </div>
+          <div className = "regular-margin center-row">
+            <div className = "button">
+              <a className = "type-p0-01" href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">About</a>
             </div>
-            <div className = "button" style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }>
-              <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400" } }>Sign In</span>
+            <div className = "button" onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }>
+              <span className = "type-p0-01">Sign In</span>
             </div>
           </div>  
         </div>
-        <div class = "container fixed" style = { { zIndex: loginPageDisplay ? "-100" : "25", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "flex-end", animation: "4s ease-in-out slideInUp" } }>
-          <span class = "type-p0-00">S</span>
-          <span class = "type-p0-00">E</span>
-          <span class = "type-p0-00">E</span>
-          <span class = "type-p0-00">D</span>
-          <span class = "type-p0-00">s</span>
-        </div>
-        <div class = "container" style = { { zIndex: "500", display: loginPageDisplay ? "block" : "none" } }>
-          <img class = "container fixed" src = { background } style = { { zIndex: "0", objectFit: "cover", objectPosition: "center center" } } alt = "background"/>
-          <div class = "container fixed" style = { { zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-            <div class = "container" style = { { position: "absolute", Index: "0" } }  onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
-            <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
-              <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <input type = "text" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
-              </div>
-              <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <input type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
-              </div>
-              <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-                <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", textAlign: "center", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ loginNote }</span>
-              </div>
-              <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleLogin(); } }>
-                <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In</span>
-              </div>
-              <div style = { { minWidth: "240px", height: "auto", margin: "0 20px 20px 20px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { navigate("/security"); } }>
-                <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Forgot password?</span>
-              </div>
+        <div className = { loginPageDisplay ? "container fixed center-column layer-01 backdrop fade-in" : "container fixed center-row layer-xx backdrop fade-in" }>
+          <div className = "container fixed layer-00" onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
+          <div className = "box outlined regular-padding center-column layer-01">
+            <span className = "type-p0-02">Sign In to <b>SEEDs</b></span>
+            <div className = "box center-column field">
+              <input name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } }/>
             </div>
-            <div style = { { height: "auto", zIndex: "100", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" } }>
-              <span style = { { fontSize: "16px", margin: "0 20px" } }>Terms</span>
-              <span style = { { fontSize: "18px" } }>•</span>
-              <span style = { { fontSize: "16px", margin: "0 20px" } }>Privacy</span>
-              <span style = { { fontSize: "18px" } }>•</span>
-              <span style = { { fontSize: "16px", margin: "0 20px" } }>Documentation</span>
-              <span style = { { fontSize: "18px" } }>•</span>
-              <span style = { { fontSize: "16px", margin: "0 20px" } }>Support</span>
+            <div className = "box center-column field">
+              <input name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } }/>
             </div>
-            <div style = { { height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
-              <img src = { logo } style = { { width: "24px", margin: "0 10px 0 0" } } alt = "Logo"/>
-              <span style = { { font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            <div className = "box center-column field-note">
+              <span>{ loginNote }</span>
+            </div>
+            <div className = "button" onClick = { () => { handleLogin(); } }>
+              <span className = "type-p0-03">Sign In</span>
+            </div>
+            <div className = "box center-column field-note" onClick = { () => { navigate("/security"); } }>
+              <span>Forgot password?</span>
+            </div>
+          </div>
+          <div className = "box regular-margin center-column layer-01">
+            <div className = "box center-row">
+              <span className = "type-p0-03">Terms</span>
+              <span className = "type-p0-02">•</span>
+              <span className = "type-p0-03">Privacy</span>
+              <span className = "type-p0-02">•</span>
+              <span className = "type-p0-03">Documentation</span>
+              <span className = "type-p0-02">•</span>
+              <span className = "type-p0-03">Support</span>
+            </div>
+            <div className = "box center-row">
+              <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
             </div>
           </div>
         </div>
@@ -230,16 +177,16 @@ function App() {
           <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
             <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
             <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "text" minLength = "8" maxLength = "24" onChange = { (event) => { setUsernameBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input name = "username-buffer" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" onChange = { (event) => { setUsernameBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input name = "password-buffer" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setNewPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input name = "new-password" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setNewPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setClonePasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+              <input name = "clone-password" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setClonePasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
             </div>
             <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
               <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", textAlign: "center", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ changePasswordNote }</span>
@@ -465,10 +412,6 @@ function App() {
               <Summary05/>
             </div>
           </div>
-          <header className = "App-header" style = { { overflow: "visible" } }>
-            <img src = { logo } className = "App-logo" alt = "Logo"/>
-            <div id = "viewDiv" onLoad = { () => { mapLoad(); } }></div> 
-          </header>
         </div>
       </div>
     )
@@ -476,109 +419,105 @@ function App() {
 
   function DataPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <div style = { { width: "100%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "72px" } }>
-          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/social") } }>Social</span>
-          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
-          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
-          <span style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", font: "72px 'Outfit', sans-serif", color: "#000000", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
+      <div className = "container fixed center-column layer-01">
+        <div className = "box regular-margin center-column">
+          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/social") } }>Social</span>
+          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
+          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
+          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function SocialPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Social Database</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Social" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Social Database</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Data > Social" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function EconomicPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Economic Database</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Economic" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Economic Database</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Data > Economic" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function EnvironmentalPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Environmental Database</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Environmental" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Environmental Database</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Data > Environmental" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function DemographicPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Demographic Database</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Data > Demographic" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Demographic Database</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Data > Demographic" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function AnalyticsPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Analytics Page</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Analytics" }</span>
-        </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+      <div className = "container">
+        <AnalyticsMap/> 
       </div>
     )
   }
 
   function AccountPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Account Page</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Account" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Account Page</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Account" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function SupportPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <span style = { { margin: "20px", font: "72px 'Outfit', sans-serif", color: "#000000" } }>Support Page</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>{ "Home > Support" }</span>
+      <div className = "container fixed center-column layer-01">
+        <span className = "type-xx-00" style = { { margin: "20px" } }>Support Page</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">{ "Home > Support" }</span>
         </div>
-        <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page development in progress.</span>
+        <span className = "type-xx-01">Page development in progress.</span>
       </div>
     )
   }
 
   function ErrorPage() {
     return (
-      <div style = { { width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", top: "0", left: "0", zIndex: "100" } }>
-        <img src = { error } style = { { width: "240px", height: "240px" } } alt = "Error"/>
-        <span style = { { font: "72px 'Outfit', sans-serif", color: "#000000" } }>ERROR 404</span>
-        <div style = { { display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", margin: "12px" } }>
-          <span style = { { font: "18px 'Outfit', sans-serif", color: "#000000" } }>Page not found.</span>
+      <div className = "container fixed center-column layer-01">
+        <img src = { error } title = "Error" alt = "Error" width = "240px" height = "240px"/>
+        <span className = "type-xx-00">ERROR 404</span>
+        <div className = "center-row" style = { { margin: "12px" } }>
+          <span className = "type-xx-01">Page not found.</span>
         </div>
       </div>
     );
