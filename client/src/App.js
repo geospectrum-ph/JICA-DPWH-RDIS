@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import { AnalyticsMap } from "./GIS.js"
+import DataMap from "./GIS.js"
 
 import "./App.css";
 
@@ -21,6 +21,34 @@ function App() {
   /* For the navigation of routes. */
 
   const navigate = useNavigate();
+
+  function handleNavigation(module) {
+    switch (module) {
+      case "Root":
+        navigate("/");
+        break;
+      case "Home":
+        navigate("/home");
+        break;
+      case "Data":
+        navigate("/data");
+        break;
+      case "Analytics":
+        navigate("/analytics");
+        break;
+      case "Account":
+        navigate("/account");
+        break;
+      case "Security":
+        navigate("/security");
+        break;
+      case "Support":
+        navigate("/support");
+        break;
+      default:
+        return null;
+    }
+  }
 
   /* For the handling of errors. */
 
@@ -51,7 +79,7 @@ function App() {
               break;
             case "request_success":
               setLoginNote("Successful user authentication!");
-              navigate("/home");
+              handleNavigation("Home");
               break;
             default: return null;
           }
@@ -108,7 +136,7 @@ function App() {
             <div className = "button" onClick = { () => { handleLogin(); } }>
               <span className = "type-p0-03">Sign In</span>
             </div>
-            <div className = "box center-column field-note" onClick = { () => { navigate("/security"); } }>
+            <div className = "box center-column field-note" onClick = { () => { handleNavigation("Security") } }>
               <span>Forgot password?</span>
             </div>
           </div>
@@ -159,7 +187,7 @@ function App() {
               break;
             case "request_success":
               setChangePasswordNote("Successful password update!");
-              navigate("/home");
+              handleNavigation("Home");
               break;
             default: return null;
           }
@@ -374,29 +402,29 @@ function App() {
     }
   
     return (
-      <div style = { { width: "100%", height: "100%" } }>
+      <div className = "container">
         <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" } }>
           <div style = { { width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" } }>
             <div>
               <img src = { brand } style = { { height: "18px", margin: "36px" } } alt = "Brand"/>
             </div>
             <div  style = { { margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/home"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Home"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Home</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/data"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Data"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Data</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/analytics"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Analytics"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Analytics</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/account"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Account"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Account</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/support"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Support"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Support</span>
               </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { navigate("/"); } }>
+              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Root"); } }>
                 <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Exit</span>
               </div>
             </div>  
@@ -418,127 +446,119 @@ function App() {
   }
 
   function DataPage() {
+    const [active, setActive] = React.useState(null);
+
     return (
-      <div className = "container fixed center-column layer-01">
-        <div className = "box regular-margin center-column">
-          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/social") } }>Social</span>
-          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/economic") } }>Economic</span>
-          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/environmental") } }>Environmental</span>
-          <span className = "type-xx-00" style = { { minWidth: "50%", borderRadius: "24px", margin: "12px", padding: "12px", outline: "solid 2px #000000", textAlign: "center", animation: "4s ease-in-out" } } onMouseOver = { (event) => { event.target.style.backgroundColor = "#000000"; event.target.style.color = "#FFFFFF"; } } onMouseOut = { (event) => { event.target.style.backgroundColor = "#FFFFFF"; event.target.style.color = "#000000"; } } onClick = { () => { navigate("/data/demographic") } }>Demographic</span>
+      <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
+        <div className = "map-container">
+          <DataMap/> 
         </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+        <div className = "center-column">
+          <div className = "center-row" style = { { width: "50vw", height: "5vh" } }>
+            <span className = "button" onClick = { () => { setActive(null); } }>All</span>
+            <span className = "button" onClick = { () => { setActive("Social"); } }>Social</span>
+            <span className = "button" onClick = { () => { setActive("Economic"); } }>Economic</span>
+            <span className = "button" onClick = { () => { setActive("Environmental"); } }>Environmental</span>
+            <span className = "button" onClick = { () => { setActive("Demographic"); } }>Demographic</span>
+          </div>
+          <div style = { { width: "50vw", height: "95vh" } }>
+            {
+              active === "Social" ? <SocialPage/> :
+              active === "Economic" ? <EconomicPage/> :
+              active === "Environmental" ? <EnvironmentalPage/> :
+              active === "Demographic" ? <DemographicPage/> :
+              <SummaryPage/>
+            }
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  function SummaryPage() {
+    return (
+      <div className = "container center-column" style = { { backgroundColor: "gray" } }>
+        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
 
   function SocialPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Social Database</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Data > Social" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column" style = { { backgroundColor: "red" } }>
+        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
 
   function EconomicPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Economic Database</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Data > Economic" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column" style = { { backgroundColor: "yellow" } }>
+        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
 
   function EnvironmentalPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Environmental Database</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Data > Environmental" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column" style = { { backgroundColor: "green" } }>
+        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
 
   function DemographicPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Demographic Database</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Data > Demographic" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column" style = { { backgroundColor: "blue" } }>
+        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
 
   function AnalyticsPage() {
     return (
-      <div className = "container">
-        <AnalyticsMap/> 
+      <div className = "container center-column">
+        <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
   }
 
   function AccountPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Account Page</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Account" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column">
+        <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
   }
 
   function SupportPage() {
     return (
-      <div className = "container fixed center-column layer-01">
-        <span className = "type-xx-00" style = { { margin: "20px" } }>Support Page</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">{ "Home > Support" }</span>
-        </div>
-        <span className = "type-xx-01">Page development in progress.</span>
+      <div className = "container center-column">
+        <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
   }
 
   function ErrorPage() {
     return (
-      <div className = "container fixed center-column layer-01">
+      <div className = "container center-column">
         <img src = { error } title = "Error" alt = "Error" width = "240px" height = "240px"/>
-        <span className = "type-xx-00">ERROR 404</span>
-        <div className = "center-row" style = { { margin: "12px" } }>
-          <span className = "type-xx-01">Page not found.</span>
-        </div>
+        <span className = "type-xx-72">{ "ERROR 404" }</span>
+        <span className = "type-xx-18">{ "Page not found." }</span>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className = "container">
       <Routes>
         <Route path = "/">
           <Route index = { true } element = { <LandingPage/> }></Route>
-          <Route path = "/security" element = { <SecurityPage/> }></Route>
           <Route path = "/home" element = { <HomePage/> }></Route>
-          <Route path = "/data">
-            <Route index = { true } element = { <DataPage/> }></Route>
-            <Route path = "/data/social" element = { <SocialPage/> }></Route>
-            <Route path = "/data/economic" element = { <EconomicPage/> }></Route>
-            <Route path = "/data/environmental" element = { <EnvironmentalPage/> }></Route>
-            <Route path = "/data/demographic" element = { <DemographicPage/> }></Route>
-          </Route>
+          <Route path = "/data" element = { <DataPage/> }></Route>
           <Route path = "/analytics" element = { <AnalyticsPage/> }></Route>
           <Route path = "/account" element = { <AccountPage/> }></Route>
+          <Route path = "/security" element = { <SecurityPage/> }></Route>
           <Route path = "/support" element = { <SupportPage/> }></Route>
         </Route>
         <Route path = "*" element = { <ErrorPage/> }></Route>

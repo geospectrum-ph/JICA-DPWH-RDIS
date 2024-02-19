@@ -104,16 +104,16 @@
 
 .center-row {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-flow: row wrap;
   align-items: center;
+  justify-content: center;
 }
 
 .center-column {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-flow: column wrap;
   align-items: center;
+  justify-content: center;
 }
 
 .top-spaced {
@@ -168,12 +168,12 @@
   color: #FFFFFF;
 }
 
-.type-xx-00 {
+.type-xx-72 {
   font: normal normal 72px/100% "Outfit", sans-serif;
   color: #000000;
 }
 
-.type-xx-01 {
+.type-xx-18 {
   font: normal normal 18px/100% "Outfit", sans-serif;
   color: #000000;
 }
@@ -257,12 +257,9 @@ img {
 
 /* Styling for GIS components. */
 
-#sample-map {
-  width: 100%;
-  height: 100%;
-
-  margin: 0;
-  padding: 0;
+.map-container {
+  width: 50vw;
+  height: 100vh;
 }
 
 /* Animations. */
