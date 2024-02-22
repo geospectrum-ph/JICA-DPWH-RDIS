@@ -96,54 +96,45 @@ function App() {
     
     return (
       <div className = "container appear">
-        <div className = "container fixed center-row layer-00">
-          <img className = { loginPageDisplay ? "fixed layer-xx" : "fixed layer-02" } src = { overlay } alt = "Overlay" width = "100%" height = "100%"/>
-          <div className = { loginPageDisplay ? "box center-row layer-xx slide-in-up" : "box center-row layer-01 slide-in-up" }>
-            <span className = "type-p0-00">S</span>
-            <span className = "type-p0-00">E</span>
-            <span className = "type-p0-00">E</span>
-            <span className = "type-p0-00">D</span>
-            <span className = "type-p0-00">s</span>
+        <div className = { loginPageDisplay ? "container fixed layer-hidden row-spread-top fade-in" : "container fixed layer-interactive row-spread-top fade-in" }>
+          <div className = "row-center-center root-header">
+            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
+              <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
+            </a>
           </div>
-          <img className = "fixed layer-00" src = { background } alt = "Background" width = "100%" height = "100%"/>
-        </div>
-        <div className = { loginPageDisplay ? "container fixed top-spaced layer-xx fade-in" : "container fixed top-spaced layer-03 fade-in" }>
-          <div className = "regular-margin center-row">
-            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer"><img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand" width = "auto" height = "18px"/></a>
-          </div>
-          <div className = "regular-margin center-row">
+          <div className = "row-spread-center root-header">
             <div className = "button">
-              <a className = "type-p0-01" href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">About</a>
+              <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">About</a>
             </div>
             <div className = "button" onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }>
-              <span className = "type-p0-01">Sign In</span>
+              <span>Sign In</span>
             </div>
           </div>  
         </div>
-        <div className = { loginPageDisplay ? "container fixed center-column layer-01 backdrop fade-in" : "container fixed center-row layer-xx backdrop fade-in" }>
-          <div className = "container fixed layer-00" onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
-          <div className = "box outlined regular-padding center-column layer-01">
-            <span className = "type-p0-02">Sign In to <b>SEEDs</b></span>
-            <div className = "box center-column field">
+        <div className = { loginPageDisplay ? "container fixed layer-interactive column-center-center backdrop fade-in" : "container fixed layer-hidden column-center-center backdrop fade-in" }>
+          <div onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
+          <div>
+            <span>Sign In to <b>SEEDs</b></span>
+            <div>
               <input name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } }/>
             </div>
-            <div className = "box center-column field">
+            <div>
               <input name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } }/>
             </div>
-            <div className = "box center-column field-note">
+            <div>
               <span>{ loginNote }</span>
             </div>
-            <div className = "button" onClick = { () => { handleLogin(); } }>
-              <span className = "type-p0-03">Sign In</span>
+            <div onClick = { () => { handleLogin(); } }>
+              <span>Sign In</span>
             </div>
-            <div className = "box center-column field-note" onClick = { () => { handleNavigation("Security") } }>
+            <div onClick = { () => { handleNavigation("Security") } }>
               <span>Forgot password?</span>
             </div>
           </div>
-          <div className = "box regular-margin center-column layer-01">
-            <div className = "box center-row">
-              <span className = "type-p0-03">Terms</span>
-              <span className = "type-p0-02">•</span>
+          <div>
+            <div>
+              <span>Terms</span>
+              <span>•</span>
               <span className = "type-p0-03">Privacy</span>
               <span className = "type-p0-02">•</span>
               <span className = "type-p0-03">Documentation</span>
@@ -154,6 +145,19 @@ function App() {
               <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
             </div>
           </div>
+        </div>
+        <div className = { loginPageDisplay ? "container fixed layer-hidden" : "container fixed layer-overlay" }>
+          <img  src = { overlay } alt = "Overlay"/>
+        </div>
+        <div className = { loginPageDisplay ? "container fixed layer-hidden row-center-center slide-in-up" : "container fixed layer-foreground row-center-center slide-in-up" }>
+          <span className = "type-title">S</span>
+          <span className = "type-title">E</span>
+          <span className = "type-title">E</span>
+          <span className = "type-title">D</span>
+          <span className = "type-title">s</span>
+        </div>
+        <div className = "container fixed layer-background">
+          <img src = { background } alt = "Background"/>
         </div>
       </div>
     )
