@@ -1,5 +1,7 @@
 /* This file serves as the library for local styles and styling at the application level. */
 
+
+
 /* Declaration of generic styling values. */
 
 /*
@@ -12,7 +14,7 @@
 }
 */
 
-.root {
+#root {
   --default-red: #FF3131;
   --default-blue: #004AAD;
 
@@ -20,9 +22,13 @@
   --seeds-blue: #0097B2;
   --seeds-yellow: #FFDE59;
   --seeds-green: #00BF63;
+
+  --default-margin: 36px;
 }
 
-/* Generic class declarations for dimensions. */
+
+
+/* Generic class declarations for container dimensions and element wrapping. */
 
 .container {
   width: 100%;
@@ -33,6 +39,54 @@
   width: auto;
   height: auto;
 }
+
+.box > * {
+  padding: calc(var(--default-margin)/4);
+}
+
+.row-center {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.column-center {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-left, .header-right {
+  margin: var(--default-margin);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left > *, .header-right > * {
+  height: var(--default-margin);
+}
+
+.backdrop {
+  background-color: var(--default-blue);
+  opacity: 0.85;
+}
+
+
 
 /* Generic class declarations for positioning and stacking. */
 
@@ -63,64 +117,30 @@
   z-index: 1000;
 }
 
-/* Generic class declarations for element wrapping. */
 
-.row-center-center {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.column-center-center {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.row-spread-top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.row-spread-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
 
 /* Generic class declarations for typography. */
 
 .type-title {
-  font: normal 900 calc(100vw / 4)/100% "Outfit", sans-serif;
+  font: normal 800 calc(100vw / 4)/100% "Outfit", sans-serif;
   color: #FFFFFF;
 
   margin: 0 0 25vh 0;
-  padding: none;
 }
 
-.type-24-heavy {
-  font: normal 400 24px/100% "Outfit", sans-serif;
-  color: #FFFFFF;
-
-  margin: 24px;
-}
-
-.type-72-regular {
+.type-header {
   font: normal normal 72px/100% "Outfit", sans-serif;
   color: #000000;
 }
 
-.type-18-regular {
+.type-body {
   font: normal normal 18px/100% "Outfit", sans-serif;
   color: #000000;
 }
 
-/* Styling for functional elements. */
+
+
+/* Generic styling for functional elements. */
 
 img {
   width: 100%;
@@ -130,22 +150,18 @@ img {
   object-position: center center;
 }
 
-.root-header {
-  margin: 36px;
-}
-
-.root-header > a {
-  width: auto;
-  height: 36px;
-}
-
 .button {
   min-width: 120px;
-  height: auto;
+  height: 36px;
   
   margin: 0 12px;
   border-radius: 24px;
   outline: solid 2px #FFFFFF;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
 
   background-color: #00000000;
   
@@ -156,7 +172,7 @@ img {
   transition: all 0.25s ease-in-out;
 }
 
-.button > span, .button > a {
+.button > * {
   font: normal 400 16px/100% "Outfit", sans-serif;  
   text-decoration: none;
   color: #FFFFFF;
@@ -170,8 +186,12 @@ img {
   color: #000000;
 }
 
-.backdrop {
-  background-color: var(--default-blue);
+.button-about > a > span::after {
+  content: "About"
+}
+
+.button-sign-in > span::after {
+  content: "Sign In"
 }
 
 .field {
@@ -216,6 +236,8 @@ img {
   width: 50vw;
   height: 100vh;
 }
+
+
 
 /* Animations. */
 
@@ -287,26 +309,50 @@ img {
 
 /* Styling for responsive UI/UX design. */
 
-/* Styling for resized desktop screens. */
+/* Styling for resized screens and mobile devices. */
 
-/* @media only screen and (max-width: 50%) {
-  .type-title-heavy {
-    font: normal 900 50vw/100% "Outfit", sans-serif;
-    color: #FFFFFF;
-  
-    margin: 0 0 25vh 0;
-    padding: none;
+@media only screen and (max-width: 720px) {
+  .type-title {
+    font: normal 800 180px/100% "Outfit", sans-serif;
   }
-} */
 
-/* Styling for mobile devices. */
+  .button {
+    min-width: 36px;
+    height: 36px;
 
-/* @media only screen and (max-width: 600px) {
-  .type-title-heavy {
-    font: normal 900 calc(100vw / 4)/100% "Outfit", sans-serif;
-    color: #FFFFFF;
-  
-    margin: 0 0 25vh 0;
-    padding: none;
+    outline: none;
   }
-} */
+  
+  .button:hover {
+    background-color: #FFFFFF00;
+  }
+  
+  .button:hover > span, .button:hover > a {
+    color: #000000;
+  }
+  
+  .button-about > a > span::after {
+    font: normal normal 36px/100% "Material Symbols Outlined";
+    content: "\e88e";
+  }
+
+  .button-sign-in > span::after {
+    font: normal normal 36px/100% "Material Symbols Outlined";
+    content: "\e853";
+  }
+
+  #root-header-right {
+    width: auto;
+    height: 36px;
+  }
+
+  #root-header-right > div {
+    width: 36px;
+    height: 36px;
+
+    margin: 9px;
+    border: 0;
+    outline: 0;
+    padding: 0;
+  }
+}

@@ -27,6 +27,9 @@ function App() {
       case "Root":
         navigate("/");
         break;
+      case "Sign In":
+        navigate("/sign-in");
+        break;
       case "Home":
         navigate("/home");
         break;
@@ -60,11 +63,40 @@ function App() {
   
   /* Main modules. */
 
-  function LandingPage() {
-    /* Login handler. */
+  function RootPage() {
+    return (
+      <div className = "container appear">
+        <div className = "container header fixed layer-interactive fade-in">
+          <div className = "header-left">
+            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
+              <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
+            </a>
+          </div>
+          <div className = "header-right">
+            <div className = "button button-about">
+              <a href = "https://github.com/geospectrum-ph/seeds-rebuild/blob/main/README.md/" target = "_blank" rel = "noreferrer"><span></span></a>
+            </div>
+            <div className = "button button-sign-in" onClick = { () => { handleNavigation("Sign In") } }>
+              <span></span>
+            </div>
+          </div>  
+        </div>
+        <div className = "container fixed layer-overlay">
+          <img src = { overlay } alt = "Overlay"/>
+        </div>
+        <div className = "container row-center fixed layer-foreground slide-in-up">
+          <span className = "type-title">SEEDs</span>
+        </div>
+        <div className = "container fixed layer-background">
+          <img src = { background } alt = "Background"/>
+        </div>
+      </div>
+    )
+  }
 
+  function SignInPage() {
     const [loginNote, setLoginNote] = React.useState("Please enter your username and password.");
-    
+
     function handleLogin() {
       axios
         .post("http://localhost:5000/login/", {
@@ -90,76 +122,49 @@ function App() {
         .finally(() => {});
     }
 
-    /* Landing page UI/UX functions. */
-
-    const [loginPageDisplay, setLoginPageDisplay] = React.useState(false);
-    
     return (
-      <div className = "container appear">
-        <div className = { loginPageDisplay ? "container fixed layer-hidden row-spread-top fade-in" : "container fixed layer-interactive row-spread-top fade-in" }>
-          <div className = "row-center-center root-header">
-            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
-              <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
-            </a>
-          </div>
-          <div className = "row-spread-center root-header">
-            <div className = "button">
-              <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">About</a>
+      <div className = "container column-center">
+        <div className = "box column-center layer-overlay">
+          <div className = "container column-center">
+            <div className = "container row-center">
+              <span className = "type-header">Sign In to <b>SEEDs</b></span>
             </div>
-            <div className = "button" onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }>
-              <span>Sign In</span>
-            </div>
-          </div>  
-        </div>
-        <div className = { loginPageDisplay ? "container fixed layer-interactive column-center-center backdrop fade-in" : "container fixed layer-hidden column-center-center backdrop fade-in" }>
-          <div onClick = { () => { setLoginPageDisplay(!loginPageDisplay); } }></div> 
-          <div>
-            <span>Sign In to <b>SEEDs</b></span>
-            <div>
+            <div className = "container field row-center">
               <input name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } }/>
             </div>
-            <div>
+            <div className = "container field row-center">
               <input name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } }/>
             </div>
-            <div>
-              <span>{ loginNote }</span>
+            <div className = "container row-center">
+              <span className = "type-body">{ loginNote }</span>
             </div>
-            <div onClick = { () => { handleLogin(); } }>
+            <div className = "button" onClick = { () => { handleLogin(); } }>
               <span>Sign In</span>
             </div>
-            <div onClick = { () => { handleNavigation("Security") } }>
+            <div className = "button" onClick = { () => { handleNavigation("Security") } }>
               <span>Forgot password?</span>
             </div>
           </div>
           <div>
-            <div>
-              <span>Terms</span>
-              <span>•</span>
-              <span className = "type-p0-03">Privacy</span>
-              <span className = "type-p0-02">•</span>
-              <span className = "type-p0-03">Documentation</span>
-              <span className = "type-p0-02">•</span>
-              <span className = "type-p0-03">Support</span>
-            </div>
-            <div className = "box center-row">
-              <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
-            </div>
+          <div className = "box row-center">
+            <span className = "type-body">Terms</span>
+            <span className = "type-body">•</span>
+            <span className = "type-body">Privacy</span>
+            <span className = "type-body">•</span>
+            <span className = "type-body">Documentation</span>
+            <span className = "type-body">•</span>
+            <span className = "type-body">Support</span>
+          </div>
+          <div className = "container">
+            <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
           </div>
         </div>
-        <div className = { loginPageDisplay ? "container fixed layer-hidden" : "container fixed layer-overlay" }>
-          <img  src = { overlay } alt = "Overlay"/>
         </div>
-        <div className = { loginPageDisplay ? "container fixed layer-hidden row-center-center slide-in-up" : "container fixed layer-foreground row-center-center slide-in-up" }>
-          <span className = "type-title">S</span>
-          <span className = "type-title">E</span>
-          <span className = "type-title">E</span>
-          <span className = "type-title">D</span>
-          <span className = "type-title">s</span>
-        </div>
+        <div className = "container backdrop fixed layer-foreground" onClick = { () => { handleNavigation("Root") } }></div> 
         <div className = "container fixed layer-background">
           <img src = { background } alt = "Background"/>
         </div>
-      </div>
+    </div>
     )
   }
 
@@ -557,7 +562,8 @@ function App() {
     <div className = "container">
       <Routes>
         <Route path = "/">
-          <Route index = { true } element = { <LandingPage/> }></Route>
+          <Route index = { true } element = { <RootPage/> }></Route>
+          <Route path = "/sign-in" element = { <SignInPage/> }></Route>
           <Route path = "/home" element = { <HomePage/> }></Route>
           <Route path = "/data" element = { <DataPage/> }></Route>
           <Route path = "/analytics" element = { <AnalyticsPage/> }></Route>
