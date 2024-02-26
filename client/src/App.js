@@ -65,8 +65,8 @@ function App() {
 
   function RootPage() {
     return (
-      <div className = "container appear">
-        <div className = "container header fixed layer-interactive fade-in">
+      <div className = "container column-center">
+        <div className = "container header fixed layer-interactive">
           <div className = "header-left">
             <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
               <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
@@ -81,13 +81,13 @@ function App() {
             </div>
           </div>  
         </div>
-        <div className = "container fixed layer-overlay">
+        <div className = "container row-center fixed layer-overlay">
           <img src = { overlay } alt = "Overlay"/>
         </div>
-        <div className = "container row-center fixed layer-foreground slide-in-up">
-          <span className = "type-title">SEEDs</span>
+        <div className = "container row-center fixed layer-foreground">
+          <span className = "type-title ">SEEDs</span>
         </div>
-        <div className = "container fixed layer-background">
+        <div className = "container row-center fixed layer-background">
           <img src = { background } alt = "Background"/>
         </div>
       </div>
@@ -124,19 +124,21 @@ function App() {
 
     return (
       <div className = "container column-center">
-        <div className = "box column-center layer-overlay">
-          <div className = "container column-center">
-            <div className = "container row-center">
-              <span className = "type-header">Sign In to <b>SEEDs</b></span>
+        <div className = "wrapper column-center">
+          <div className = "box form static layer-interactive">
+            <div className = "form-header">
+              <span>Sign In to <b>SEEDs</b></span>
             </div>
-            <div className = "container field row-center">
-              <input name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } }/>
+            <div className = "form-field">
+              <label for = "sign-in-username"><span>Username</span></label>
+              <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
             </div>
-            <div className = "container field row-center">
-              <input name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } }/>
+            <div className = "form-field">
+              <label for = "sign-in-password"><span>Password</span></label>
+              <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
             </div>
-            <div className = "container row-center">
-              <span className = "type-body">{ loginNote }</span>
+            <div className = "form-note">
+              <span>{ loginNote }</span>
             </div>
             <div className = "button" onClick = { () => { handleLogin(); } }>
               <span>Sign In</span>
@@ -144,27 +146,24 @@ function App() {
             <div className = "button" onClick = { () => { handleNavigation("Security") } }>
               <span>Forgot password?</span>
             </div>
+            <div>
+              <div className = "row-center">
+                <span className = "type-body">Terms</span>
+                <span className = "type-body">•</span>
+                <span className = "type-body">Privacy</span>
+                <span className = "type-body">•</span>
+                <span className = "type-body">Documentation</span>
+                <span className = "type-body">•</span>
+                <span className = "type-body">Support</span>
+              </div>
+              <div>
+                <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+              </div>
+            </div>
           </div>
-          <div>
-          <div className = "box row-center">
-            <span className = "type-body">Terms</span>
-            <span className = "type-body">•</span>
-            <span className = "type-body">Privacy</span>
-            <span className = "type-body">•</span>
-            <span className = "type-body">Documentation</span>
-            <span className = "type-body">•</span>
-            <span className = "type-body">Support</span>
-          </div>
-          <div className = "container">
-            <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
-          </div>
+          <div className = "container fixed layer-background" onClick = { () => { handleNavigation("Root") } }></div> 
         </div>
-        </div>
-        <div className = "container backdrop fixed layer-foreground" onClick = { () => { handleNavigation("Root") } }></div> 
-        <div className = "container fixed layer-background">
-          <img src = { background } alt = "Background"/>
-        </div>
-    </div>
+      </div>
     )
   }
 

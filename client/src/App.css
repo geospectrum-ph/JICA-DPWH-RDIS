@@ -15,15 +15,15 @@
 */
 
 #root {
-  --default-red: #FF3131;
-  --default-blue: #004AAD;
+  --default-red: rgba(255, 49, 49, 1);
+  --default-blue: rgba(0, 74, 173, 1);
 
-  --seeds-red: #FF914D;
-  --seeds-blue: #0097B2;
-  --seeds-yellow: #FFDE59;
-  --seeds-green: #00BF63;
+  --seeds-red: rgba(255, 145, 77, 1);
+  --seeds-blue: rgba(0, 151, 178, 1);
+  --seeds-yellow: rgba(255, 222, 89, 1);
+  --seeds-green: rgba(0, 191, 99, 1);
 
-  --default-margin: 36px;
+  --default-size: 36px;
 }
 
 
@@ -33,6 +33,13 @@
 .container {
   width: 100%;
   height: 100%;
+
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
 }
 
 .box {
@@ -40,50 +47,18 @@
   height: auto;
 }
 
-.box > * {
-  padding: calc(var(--default-margin)/4);
-}
-
 .row-center {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
 }
 
 .column-center {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-}
-
-.header {
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.header-left, .header-right {
-  margin: var(--default-margin);
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header-left > *, .header-right > * {
-  height: var(--default-margin);
-}
-
-.backdrop {
-  background-color: var(--default-blue);
-  opacity: 0.85;
 }
 
 
@@ -91,10 +66,14 @@
 /* Generic class declarations for positioning and stacking. */
 
 .fixed {
-  position: absolute;
+  position: fixed;
 
   left: 0;
   top: 0;
+}
+
+.static {
+  position: static;
 }
 
 .layer-hidden {
@@ -122,25 +101,35 @@
 /* Generic class declarations for typography. */
 
 .type-title {
-  font: normal 800 calc(100vw / 4)/100% "Outfit", sans-serif;
-  color: #FFFFFF;
+  margin: 0 0 20% 0;
 
-  margin: 0 0 25vh 0;
+  font: normal 800 calc(100vw / 4)/100% "Outfit", sans-serif;
+  color: white;
 }
 
 .type-header {
-  font: normal normal 72px/100% "Outfit", sans-serif;
-  color: #000000;
+  font: normal normal calc(var(--default-size)*2)/100% "Outfit", sans-serif;
+  color: black;
+}
+
+.type-subheader {
+  font: normal normal var(--default-size)/100% "Outfit", sans-serif;
+  color: black
 }
 
 .type-body {
-  font: normal normal 18px/100% "Outfit", sans-serif;
-  color: #000000;
+  font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black;
+}
+
+.type-note {
+  font: normal normal calc(var(--default-size)/3)/100% "Outfit", sans-serif;
+  color: black;
 }
 
 
 
-/* Generic styling for functional elements. */
+/* Style declarations for special classes. */
 
 img {
   width: 100%;
@@ -150,21 +139,49 @@ img {
   object-position: center center;
 }
 
+.header {
+  width: 100%;
+  height: auto;
+
+  box-sizing: border-box;
+
+  padding: var(--default-size);
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-left, .header-right {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left > *, .header-right > * {
+  height: var(--default-size);
+}
+
+.header-right > * {
+  margin: 0 0 0 calc(var(--default-size)/3);
+}
+
 .button {
-  min-width: 120px;
-  height: 36px;
+  min-width: calc(var(--default-size)*3);
+  height: var(--default-size);
   
-  margin: 0 12px;
-  border-radius: 24px;
-  outline: solid 2px #FFFFFF;
+  border-radius: calc(var(--default-size)/4);
 
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
 
-  background-color: #00000000;
-  
+  background-color: white;
+  filter: brightness(90%);
+ 
   text-align: center;
 
   cursor: pointer;
@@ -173,62 +190,99 @@ img {
 }
 
 .button > * {
-  font: normal 400 16px/100% "Outfit", sans-serif;  
+  font: normal 600 calc(var(--default-size)/3)/100% "Outfit", sans-serif;  
   text-decoration: none;
-  color: #FFFFFF;
+  color: black;
 }
 
 .button:hover {
-  background-color: #FFFFFF;
+  filter: brightness(100%);
 }
 
-.button:hover > span, .button:hover > a {
-  color: #000000;
-}
+/* .button:hover > * {
+  color: var(--default-blue);
+} */
 
 .button-about > a > span::after {
-  content: "About"
+  content: "ABOUT"
 }
 
 .button-sign-in > span::after {
-  content: "Sign In"
+  content: "SIGN IN"
 }
 
-.field {
-  width: 100%;
-  height: auto;
+.form {
+  border-radius: calc(var(--default-size)/4);
+  outline: solid 0.5px black;
+  padding: var(--default-size);
+
+  background-color: white;
+
+  color: black;
 }
 
-.field > input {
-  width: 85%;
-  
-  margin: 24px 0 0;
-  border: none;
-  border-radius: 10px;
-  outline: unset;
-  padding: 12px;
-  
-  font: 16px 'Outfit', sans-serif;
-  color: #000000;
+.form > *  {
+  margin: calc(var(--default-size)/2) 0;
 }
 
-.field-note {
-  width: 100%;
-  height: auto;
-}
-
-.field-note > span {
-  width: 85%;
-
-  margin: 24px 0;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  
-  font: 16px 'Outfit', sans-serif;
+.form-header {
+  font: 36px 'Outfit', sans-serif;
   text-align: center;
-  color: #FFFFFF;
 }
+
+.form-header > span {
+  margin: calc(var(--default-size)/2) 0;
+}
+
+.form-field {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-field > label {
+  width: 25%;
+  height: auto;
+
+  margin: 0 calc(var(--default-size)/3) 0 0;
+
+  font: 18px 'Outfit', sans-serif;
+  text-align: left;
+  color: black;
+}
+
+.form-field > input {
+  width: 100%;
+  height: auto;
+  
+  border: none;
+  border-radius: calc(var(--default-size)/4);
+  outline: unset;
+  padding: calc(var(--default-size)/3);
+  
+  font: 18px 'Outfit', sans-serif;
+  color: black;
+}
+
+.form-note {
+  width: 100%;
+  height: auto;
+
+  text-align: center;
+}
+
+.form-note > span {
+  width: 100%;
+  
+  font: 18px 'Outfit', sans-serif;
+  color: black;
+}
+
+
 
 /* Styling for GIS components. */
 
@@ -320,11 +374,14 @@ img {
     min-width: 36px;
     height: 36px;
 
-    outline: none;
+    border-radius: 50%;
+
+    background-color: white;
+    filter: brightness(90%);
   }
   
   .button:hover {
-    background-color: #FFFFFF00;
+    filter: brightness(100%);
   }
   
   .button:hover > span, .button:hover > a {
@@ -332,27 +389,16 @@ img {
   }
   
   .button-about > a > span::after {
-    font: normal normal 36px/100% "Material Symbols Outlined";
     content: "\e88e";
+
+    font: normal normal 36px/100% "Material Symbols Outlined";
+    color: black;
   }
 
   .button-sign-in > span::after {
-    font: normal normal 36px/100% "Material Symbols Outlined";
     content: "\e853";
-  }
 
-  #root-header-right {
-    width: auto;
-    height: 36px;
-  }
-
-  #root-header-right > div {
-    width: 36px;
-    height: 36px;
-
-    margin: 9px;
-    border: 0;
-    outline: 0;
-    padding: 0;
+    font: normal normal 36px/100% "Material Symbols Outlined";
+    color: black;
   }
 }
