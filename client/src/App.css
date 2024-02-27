@@ -100,13 +100,6 @@
 
 /* Generic class declarations for typography. */
 
-.type-title {
-  margin: 0 0 20% 0;
-
-  font: normal 800 calc(100vw / 4)/100% "Outfit", sans-serif;
-  color: white;
-}
-
 .type-header {
   font: normal normal calc(var(--default-size)*2)/100% "Outfit", sans-serif;
   color: black;
@@ -141,6 +134,7 @@ img {
 
 .header {
   width: 100%;
+  min-width: calc(var(--default-size)*10);
   height: auto;
 
   box-sizing: border-box;
@@ -153,23 +147,41 @@ img {
   align-items: flex-start;
 }
 
-.header-left, .header-right {
+.header > * {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
 }
 
-.header-left > *, .header-right > * {
-  height: var(--default-size);
+.header-logo > * {
+  height: calc(var(--default-size)*3/4);
 }
 
 .header-right > * {
+  height: var(--default-size);
+
   margin: 0 0 0 calc(var(--default-size)/3);
 }
 
+.title-container {
+  height: calc(var(--default-size)*10);
+
+  margin: 0 0 25vh 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.title-container > * {
+  font: normal 800 calc(var(--default-size)*10)/100% "Outfit", sans-serif;
+  color: white;
+}
+
 .button {
-  min-width: calc(var(--default-size)*3);
+  width: calc(var(--default-size)*3);
   height: var(--default-size);
   
   border-radius: calc(var(--default-size)/4);
@@ -180,13 +192,10 @@ img {
   align-items: center;
 
   background-color: white;
-  filter: brightness(90%);
- 
+
   text-align: center;
 
   cursor: pointer;
-
-  transition: all 0.25s ease-in-out;
 }
 
 .button > * {
@@ -196,19 +205,11 @@ img {
 }
 
 .button:hover {
-  filter: brightness(100%);
+  background-color: var(--default-blue);
 }
 
-/* .button:hover > * {
-  color: var(--default-blue);
-} */
-
-.button-about > a > span::after {
-  content: "ABOUT"
-}
-
-.button-sign-in > span::after {
-  content: "SIGN IN"
+.button:hover > * {
+  color: white;
 }
 
 .form {
@@ -361,44 +362,33 @@ img {
 
 
 
-/* Styling for responsive UI/UX design. */
+/* Modified styling for resized screens and mobile devices. */
 
-/* Styling for resized screens and mobile devices. */
+@media only screen and (max-width: 1200px) {
+  .title-container > * {
+    font: normal 800 calc(24vw - 72px)/100% "Outfit", sans-serif;
+  }
+} 
 
-@media only screen and (max-width: 720px) {
-  .type-title {
-    font: normal 800 180px/100% "Outfit", sans-serif;
+@media only screen and (max-width: 600px) {
+  .header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
   }
 
-  .button {
-    min-width: 36px;
-    height: 36px;
+  .header-buttons {
+    position: fixed;
+    top: 50%;
 
-    border-radius: 50%;
-
-    background-color: white;
-    filter: brightness(90%);
-  }
-  
-  .button:hover {
-    filter: brightness(100%);
-  }
-  
-  .button:hover > span, .button:hover > a {
-    color: #000000;
-  }
-  
-  .button-about > a > span::after {
-    content: "\e88e";
-
-    font: normal normal 36px/100% "Material Symbols Outlined";
-    color: black;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
   }
 
-  .button-sign-in > span::after {
-    content: "\e853";
-
-    font: normal normal 36px/100% "Material Symbols Outlined";
-    color: black;
+  .title-container > * {
+    font: normal 800 calc(var(--default-size)*4)/100% "Outfit", sans-serif;
   }
 }

@@ -67,17 +67,17 @@ function App() {
     return (
       <div className = "container column-center">
         <div className = "container header fixed layer-interactive">
-          <div className = "header-left">
+          <div className = "header-logo">
             <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
               <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
             </a>
           </div>
-          <div className = "header-right">
+          <div className = "header-buttons">
             <div className = "button button-about">
-              <a href = "https://github.com/geospectrum-ph/seeds-rebuild/blob/main/README.md/" target = "_blank" rel = "noreferrer"><span></span></a>
+              <a href = "https://github.com/geospectrum-ph/seeds-rebuild/blob/main/README.md/" target = "_blank" rel = "noreferrer"><span>ABOUT</span></a>
             </div>
             <div className = "button button-sign-in" onClick = { () => { handleNavigation("Sign In") } }>
-              <span></span>
+              <span>SIGN IN</span>
             </div>
           </div>  
         </div>
@@ -85,7 +85,9 @@ function App() {
           <img src = { overlay } alt = "Overlay"/>
         </div>
         <div className = "container row-center fixed layer-foreground">
-          <span className = "type-title ">SEEDs</span>
+          <div className = "title-container">
+            <span>SEEDs</span>
+          </div>
         </div>
         <div className = "container row-center fixed layer-background">
           <img src = { background } alt = "Background"/>
