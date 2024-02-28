@@ -154,11 +154,11 @@ img {
   align-items: center;
 }
 
-.header-logo > * {
+.header-logo > img {
   height: calc(var(--default-size)*3/4);
 }
 
-.header-right > * {
+.header-buttons > * {
   height: var(--default-size);
 
   margin: 0 0 0 calc(var(--default-size)/3);
@@ -288,8 +288,16 @@ img {
 /* Styling for GIS components. */
 
 .map-container {
-  width: 50vw;
-  height: 100vh;
+  width: 100%;
+  height: calc(100% - 108px);
+
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  position: relative;
+  top: -54px;
+  left: 0;
 }
 
 

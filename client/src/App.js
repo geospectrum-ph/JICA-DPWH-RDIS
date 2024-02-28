@@ -250,6 +250,37 @@ function App() {
       </div>
     )
   }
+
+  function Menu() {
+    return (
+      <div className = "header">
+        <div className = "header-logo">
+          <img src = { logo } title = "Geospectrum Marketing Services" alt = "Brand"/>
+          <span>SEEDs</span>
+        </div>
+        <div className = "header-buttons">
+          <div className = "button" onClick = { () => { handleNavigation("Home"); } }>
+            <span>Home</span>
+          </div>
+          <div className = "button" onClick = { () => { handleNavigation("Data"); } }>
+            <span>Data</span>
+          </div>
+          <div className = "button" onClick = { () => { handleNavigation("Analytics"); } }>
+            <span>Analytics</span>
+          </div>
+          <div className = "button" onClick = { () => { handleNavigation("Account"); } }>
+            <span>Account</span>
+          </div>
+          <div className = "button" onClick = { () => { handleNavigation("Support"); } }>
+            <span>Support</span>
+          </div>
+          <div className = "button" onClick = { () => { handleNavigation("Root"); } }>
+            <span>Exit</span>
+          </div>
+        </div>  
+      </div>
+    );
+  }
   
   function HomePage() {
     // setInterval((event) => { event.target.textContent = new Date().toLocaleString(); }, 1000); 
@@ -414,31 +445,7 @@ function App() {
     return (
       <div className = "container">
         <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" } }>
-          <div style = { { width: "100%", outline: "solid 2px #FFFFFF", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" } }>
-            <div>
-              <img src = { brand } style = { { height: "18px", margin: "36px" } } alt = "Brand"/>
-            </div>
-            <div  style = { { margin: "36px", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" } }>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Home"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Home</span>
-              </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Data"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Data</span>
-              </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Analytics"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Analytics</span>
-              </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Account"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Account</span>
-              </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Support"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Support</span>
-              </div>
-              <div style = { { minWidth: "120px", height: "auto", borderRadius: "24px", outline: "solid 2px #FFFFFF", margin: "0 12px", textAlign: "center" } } onClick = { () => { handleNavigation("Root"); } }>
-                <span style = { { margin: "16px", fontStyle: "'Outfit', sans-serif", fontSize: "16px", fontWeight: "400", color: "#FFFFFF" } }>Exit</span>
-              </div>
-            </div>  
-          </div>
+          <Menu/>
           <div style = { { width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" } }>
             <Backbone/>
             <div style = { { width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"} }>
@@ -460,25 +467,38 @@ function App() {
 
     return (
       <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
-        <div className = "map-container">
-          <DataMap/> 
-        </div>
-        <div className = "center-column">
-          <div className = "center-row" style = { { width: "50vw", height: "5vh" } }>
-            <span className = "button" onClick = { () => { setActive(null); } }>All</span>
-            <span className = "button" onClick = { () => { setActive("Social"); } }>Social</span>
-            <span className = "button" onClick = { () => { setActive("Economic"); } }>Economic</span>
-            <span className = "button" onClick = { () => { setActive("Environmental"); } }>Environmental</span>
-            <span className = "button" onClick = { () => { setActive("Demographic"); } }>Demographic</span>
+        <Menu/>
+        <div className = "container row-center">
+          <div className = "map-container">
+            {/* <DataMap/>  */}
           </div>
-          <div style = { { width: "50vw", height: "95vh" } }>
-            {
-              active === "Social" ? <SocialPage/> :
-              active === "Economic" ? <EconomicPage/> :
-              active === "Environmental" ? <EnvironmentalPage/> :
-              active === "Demographic" ? <DemographicPage/> :
-              <SummaryPage/>
-            }
+          <div className = "container center-column">
+            <div className = "header row-center">
+              <div className = "button" onClick = { () => { setActive(null); } }>
+                <span>All</span>
+              </div>
+              <div className = "button" onClick = { () => { setActive("Social"); } }>
+                <span>Social</span>
+              </div>
+              <div className = "button" onClick = { () => { setActive("Economic"); } }>
+                <span>Economic</span>
+              </div>
+              <div className = "button" onClick = { () => { setActive("Environmental"); } }>
+                <span>Environmental</span>
+              </div>
+              <div className = "button" onClick = { () => { setActive("Demographic"); } }>
+                <span>Demographic</span>
+              </div>
+            </div>
+            <div className = "container">
+              {
+                active === "Social" ? <SocialPage/> :
+                active === "Economic" ? <EconomicPage/> :
+                active === "Environmental" ? <EnvironmentalPage/> :
+                active === "Demographic" ? <DemographicPage/> :
+                <SummaryPage/>
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -486,16 +506,32 @@ function App() {
   }
 
   function SummaryPage() {
+    function handleUpload(content) {
+      axios
+        .postForm("http://localhost:5000/upload/", {
+          "files[]": content
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+
     return (
-      <div className = "container center-column" style = { { backgroundColor: "gray" } }>
-        <span className = "type-xx-18">{ "Module development in progress." }</span>
+      <div className = "box column-center" style = { { backgroundColor: "gray" } }>
+        <div>
+            <input type = "file" id = "files" name = "files" multiple onChange = { (event) => { handleUpload(event.target); } }/>
+        </div>
       </div>
     )
   }
 
   function SocialPage() {
     return (
-      <div className = "container center-column" style = { { backgroundColor: "red" } }>
+      <div className = "box column-center" style = { { backgroundColor: "red" } }>
         <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
@@ -503,7 +539,7 @@ function App() {
 
   function EconomicPage() {
     return (
-      <div className = "container center-column" style = { { backgroundColor: "yellow" } }>
+      <div className = "box column-center" style = { { backgroundColor: "yellow" } }>
         <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
@@ -511,7 +547,7 @@ function App() {
 
   function EnvironmentalPage() {
     return (
-      <div className = "container center-column" style = { { backgroundColor: "green" } }>
+      <div className = "box column-center" style = { { backgroundColor: "green" } }>
         <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
@@ -519,7 +555,7 @@ function App() {
 
   function DemographicPage() {
     return (
-      <div className = "container center-column" style = { { backgroundColor: "blue" } }>
+      <div className = "box column-center" style = { { backgroundColor: "blue" } }>
         <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
@@ -527,7 +563,7 @@ function App() {
 
   function AnalyticsPage() {
     return (
-      <div className = "container center-column">
+      <div className = "box column-center">
         <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
@@ -535,7 +571,7 @@ function App() {
 
   function AccountPage() {
     return (
-      <div className = "container center-column">
+      <div className = "box column-center">
         <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
@@ -543,7 +579,7 @@ function App() {
 
   function SupportPage() {
     return (
-      <div className = "container center-column">
+      <div className = "box column-center">
         <span className = "type-xx-18">{ "Page development in progress." }</span>
       </div>
     )
@@ -551,7 +587,7 @@ function App() {
 
   function ErrorPage() {
     return (
-      <div className = "container center-column">
+      <div className = "box column-center">
         <img src = { error } title = "Error" alt = "Error" width = "240px" height = "240px"/>
         <span className = "type-xx-72">{ "ERROR 404" }</span>
         <span className = "type-xx-18">{ "Page not found." }</span>
