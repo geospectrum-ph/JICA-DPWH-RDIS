@@ -132,11 +132,11 @@ function App() {
               <span>Sign In to <b>SEEDs</b></span>
             </div>
             <div className = "form-field">
-              <label for = "sign-in-username"><span>Username</span></label>
+              <label htmlFor = "sign-in-username"><span>Username</span></label>
               <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
             </div>
             <div className = "form-field">
-              <label for = "sign-in-password"><span>Password</span></label>
+              <label htmlFor = "sign-in-password"><span>Password</span></label>
               <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
             </div>
             <div className = "form-note">
@@ -507,12 +507,15 @@ function App() {
 
   function SummaryPage() {
     function handleUpload(content) {
+      const data = content.target.files;
+      // console.log(data);
+
       axios
-        .postForm("http://localhost:5000/upload/", {
-          "files[]": content
+        .post("http://localhost:5000/upload/", {
+          "files": data
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
         })
         .catch((error) => {
           setErrorMessage(error);
@@ -520,10 +523,35 @@ function App() {
         .finally(() => {});
     }
 
+    // function handleUpload(content) {
+    //   const data = new FormData();
+
+    //   for (let counter = 0; counter < content.files.length; counter++) {
+    //     data.append(
+    //       "files",
+    //       {
+    //         name: content.files[counter].name,
+    //         file: content.files[counter]
+    //       }
+    //     )
+    //   }
+
+    //   axios
+    //     .postForm("http://localhost:5000/upload/", data)
+    //     .then((response) => {
+    //       console.log(data);
+    //       console.log(response);
+    //     })
+    //     .catch((error) => {
+    //       setErrorMessage(error);
+    //     })
+    //     .finally(() => {});
+    // }
+
     return (
       <div className = "box column-center" style = { { backgroundColor: "gray" } }>
         <div>
-            <input type = "file" id = "files" name = "files" multiple onChange = { (event) => { handleUpload(event.target); } }/>
+          <input type = "file" name = "generic-upload" multiple onChange = { (event) => { handleUpload(event); } }/>
         </div>
       </div>
     )

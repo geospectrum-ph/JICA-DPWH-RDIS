@@ -92,23 +92,18 @@ router.route("/security").post((request, response) => {
         .catch((error) => { response.status(400).json("Error: " + error); });
 }); */
 
+
+
 const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "client/public");
-    }, filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    }
-});
+// router.route("/upload").post(upload.array(), function (request, response, next) {
+//     console.log(request.body);
+//     response.json(request.body);
+// });
 
-const upload = multer({
-    storage: storage
-});
-
-router.route("/upload").post(upload.array("files"), (request, response) => {
-    console.log(request.body.files);
-    response.json(request.body.files);
+router.route("/upload").post((request, response) => {
+    // console.log(request.body);
 });
 
 module.exports = router;
