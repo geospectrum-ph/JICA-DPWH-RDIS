@@ -507,51 +507,33 @@ function App() {
 
   function SummaryPage() {
     function handleUpload(content) {
-      const data = content.target.files;
-      // console.log(data);
+      const data = new FormData();
+      data.append("file", content.target.files[0]);
 
-      axios
-        .post("http://localhost:5000/upload/", {
-          "files": data
+      const upload = async() => {
+        await fetch("http://localhost:5000/upload/", {
+          mode: "no-cors",
+          method: "POST",
+          body: data
         })
         .then((response) => {
-          // console.log(response);
+          console.log(data);
+          console.log(response);
         })
         .catch((error) => {
           setErrorMessage(error);
         })
         .finally(() => {});
+      }
+
+      upload();
     }
 
-    // function handleUpload(content) {
-    //   const data = new FormData();
-
-    //   for (let counter = 0; counter < content.files.length; counter++) {
-    //     data.append(
-    //       "files",
-    //       {
-    //         name: content.files[counter].name,
-    //         file: content.files[counter]
-    //       }
-    //     )
-    //   }
-
-    //   axios
-    //     .postForm("http://localhost:5000/upload/", data)
-    //     .then((response) => {
-    //       console.log(data);
-    //       console.log(response);
-    //     })
-    //     .catch((error) => {
-    //       setErrorMessage(error);
-    //     })
-    //     .finally(() => {});
-    // }
 
     return (
       <div className = "box column-center" style = { { backgroundColor: "gray" } }>
         <div>
-          <input type = "file" name = "generic-upload" multiple onChange = { (event) => { handleUpload(event); } }/>
+          <input type = "file" name = "generic-name" onChange = { (event) => { handleUpload(event); } }/>
         </div>
       </div>
     )
