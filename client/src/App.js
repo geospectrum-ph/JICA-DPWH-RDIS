@@ -4,6 +4,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import DataMap from "./GIS.js"
+import LeafletMap from "./Leaflet.js"
 
 import "./App.css";
 
@@ -573,8 +574,11 @@ function App() {
 
   function AnalyticsPage() {
     return (
-      <div className = "box column-center">
-        <span className = "type-xx-18">{ "Page development in progress." }</span>
+      // <div className = "box column-center">
+      //   <span className = "type-xx-18">{ "Page development in progress." }</span>
+      // </div>
+      <div className = "container">
+        <LeafletMap/>
       </div>
     )
   }
