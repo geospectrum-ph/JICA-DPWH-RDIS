@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import DataMap from "./GIS.js"
+import { ArcGISMapContext } from "./ArcGIS.js";
 import LeafletMap from "./Leaflet.js"
 
 import "./App.css";
@@ -19,6 +19,8 @@ import seal from "./assets/images/seal.png";
 import error from "./assets/images/error.png";
 
 function App() {
+  const { addNewLayer, ArcGISMap } = React.useContext(ArcGISMapContext);
+
   /* For the navigation of routes. */
 
   const navigate = useNavigate();
@@ -471,7 +473,7 @@ function App() {
         <Menu/>
         <div className = "container row-center">
           <div className = "map-container">
-            {/* <DataMap/>  */}
+            <ArcGISMap/> 
           </div>
           <div className = "container center-column">
             <div className = "header row-center">
@@ -509,17 +511,21 @@ function App() {
   function SummaryPage() {
     function handleUpload(content) {
       const data = new FormData();
-      data.append("file", content.target.files[0]);
+      for (let index = 0; index < content.length; index++) { data.append("file", content[index]); }
 
       const upload = async() => {
         await fetch("http://localhost:5000/upload/", {
-          mode: "no-cors",
           method: "POST",
           body: data
         })
         .then((response) => {
-          console.log(data);
-          console.log(response);
+          return(response.json());
+        })
+        .then((response) => {
+          if (response) {
+            console.log("File(s) successfully uploaded!");
+            addNewLayer(response.file);
+          }
         })
         .catch((error) => {
           setErrorMessage(error);
@@ -534,7 +540,7 @@ function App() {
     return (
       <div className = "box column-center" style = { { backgroundColor: "gray" } }>
         <div>
-          <input type = "file" name = "generic-name" onChange = { (event) => { handleUpload(event); } }/>
+          <input type = "file" name = "generic-name" multiple onChange = { (event) => { handleUpload(event.target.files); } }/>
         </div>
       </div>
     )
