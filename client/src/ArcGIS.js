@@ -23,7 +23,7 @@ var map = null;
 
 const ArcGISMapContextProvider = (props) => {
   const [mapLayers, setMapLayers] = React.useState([]);
-  let counter = 0;
+  const [counter, setCounter] = React.useState(0);
 
   React.useEffect(() => {
     console.log(mapLayers);
@@ -31,12 +31,12 @@ const ArcGISMapContextProvider = (props) => {
       console.log("Map initialized!");
       console.log(map.layers.length);
 
-      const layer_container = new KMLLayer({
+      const layer_container2 = new KMLLayer({
         url: "https://earthquake.usgs.gov/fdsnws/event/1/query?format=kml&minmagnitude=5.8" // Sample layer.
       });
 
-      if (counter < 2) counter++;
-      else map.layers.addLayer(layer_container);
+      if (counter < 2) { console.log(counter); setCounter(counter + 1); }
+      else map.layers.add(layer_container2);
     }
   }, [mapLayers]);
 
