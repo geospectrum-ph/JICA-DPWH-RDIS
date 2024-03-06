@@ -472,10 +472,10 @@ function App() {
       <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
         <Menu/>
         <div className = "container row-center">
-          <div className = "map-container">
+          {/* <div className = "map-container"> */}
             <ArcGISMap/> 
-          </div>
-          <div className = "container center-column">
+          {/* </div> */}
+          {/* <div className = "container center-column">
             <div className = "header row-center">
               <div className = "button" onClick = { () => { setActive(null); } }>
                 <span>All</span>
@@ -502,7 +502,7 @@ function App() {
                 <SummaryPage/>
               }
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )
