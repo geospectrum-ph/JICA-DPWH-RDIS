@@ -19,7 +19,7 @@ import seal from "./assets/images/seal.png";
 import error from "./assets/images/error.png";
 
 function App() {
-  const { addNewLayer, ArcGISMap } = React.useContext(ArcGISMapContext);
+  const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
 
   /* For the navigation of routes. */
 
@@ -475,7 +475,7 @@ function App() {
           {/* <div className = "map-container"> */}
             <ArcGISMap/> 
           {/* </div> */}
-          {/* <div className = "container center-column">
+          <div className = "container center-column">
             <div className = "header row-center">
               <div className = "button" onClick = { () => { setActive(null); } }>
                 <span>All</span>
@@ -502,7 +502,7 @@ function App() {
                 <SummaryPage/>
               }
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     )
@@ -524,8 +524,9 @@ function App() {
         .then((response) => {
           if (response) {
             console.log("File(s) successfully uploaded!");
-            addNewLayer(response.file);
           }
+
+          add_layer();
         })
         .catch((error) => {
           setErrorMessage(error);

@@ -45,7 +45,9 @@ router.route("/login").post((request, response) => {
       else if (decrypt(found.password) === request.body.password) { response.json("request_success"); }
       else { response.json("password_error"); }
     })
-    .catch((error) => { response.status(400).json("Error: " + error); });
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
 });
 
 router.route("/security").post((request, response) => {
@@ -71,26 +73,10 @@ router.route("/security").post((request, response) => {
       }
       else { response.json("password_error"); }
     })
-    .catch((error) => { response.status(400).json("Error: " + error); });
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
 });
-
-/* The *** collection of the seeds-rebuild database. */
-
-/* const ***Data = mongoose.model("***",
-  new mongoose.Schema({
-    "***" : { type: *** }
-  })
-); */
-
-/* router.route("/***").post((request, response) => {
-  ***Data
-    .find({ })
-    .then((data) => {
-      console.log(request.body);
-      response.json(data);
-    })
-    .catch((error) => { response.status(400).json("Error: " + error); });
-}); */
 
 const multer = require("multer");
 
@@ -106,6 +92,16 @@ var upload = multer({ storage: storage }).fields([
   { name: "file" }
 ]);
 
+const filesData = mongoose.model("files",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object }
+  })
+);
+
+const fs = require("fs");
+const path = require("path");
+
 router.route("/upload").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
@@ -115,74 +111,18 @@ router.route("/upload").post((request, response) => {
       return (response.status(500).json(error));
     }
 
-    response.json(request.files);
+    for (let index = 0; index < request.files.file.length; index++) {
+      let object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+
+      filesData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object
+        });
+    }
+
+    response.send(request.files);
   });
-});
-
-router.route("/files").post((request, response) => {
-  // response.json(
-  //   { "type": "FeatureCollection",
-  //   "features": [
-  //     { "type": "Feature",
-  //       "geometry": {"type": "Point", "coordinates": [102.0, 0.5]},
-  //       "properties": {"prop0": "value0"}
-  //       },
-  //     { "type": "Feature",
-  //       "geometry": {
-  //         "type": "LineString",
-  //         "coordinates": [
-  //           [102.0, 0.0], [103.0, 1.0], [104.0, 0.0], [105.0, 1.0]
-  //           ]
-  //         },
-  //       "properties": {
-  //         "prop0": "value0",
-  //         "prop1": 0.0
-  //         }
-  //       },
-  //     { "type": "Feature",
-  //        "geometry": {
-  //          "type": "Polygon",
-  //          "coordinates": [
-  //            [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
-  //              [100.0, 1.0], [100.0, 0.0] ]
-  //            ]
-  
-  //        },
-  //        "properties": {
-  //          "prop0": "value0",
-  //          "prop1": {"this": "that"}
-  //          }
-  //        }
-  //     ]
-  //   }
-  // );
-
-  const geojson = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "Polygon",
-          coordinates: [
-            [
-              [100.0, 0.0],
-              [101.0, 0.0],
-              [101.0, 1.0],
-              [100.0, 1.0],
-              [100.0, 0.0]
-            ]
-          ]
-        },
-        properties: {
-          prop0: "value0",
-          prop1: { this: "that" }
-        }
-      }
-    ]
-  };
-
-  response.json(geojson);
 });
 
 module.exports = router;
