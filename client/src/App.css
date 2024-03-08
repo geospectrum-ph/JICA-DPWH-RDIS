@@ -141,6 +141,9 @@ img {
 
   padding: var(--default-size);
 
+  background-color: rgba(255, 255, 255, 1);
+
+
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -154,8 +157,15 @@ img {
   align-items: center;
 }
 
-.header-logo > img {
+.header-logo > img, .header-logo > * > img {
   height: calc(var(--default-size)*3/4);
+}
+
+.header-logo > span {
+  padding: 0 calc(var(--default-size)/2);
+
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: rgb(0, 0, 0);
 }
 
 .header-buttons > * {
@@ -167,7 +177,7 @@ img {
 .title-container {
   height: calc(var(--default-size)*10);
 
-  margin: 0 0 25vh 0;
+  margin: 0 0 35vh 0;
 
   display: flex;
   flex-flow: column nowrap;
@@ -176,7 +186,7 @@ img {
 }
 
 .title-container > * {
-  font: normal 800 calc(var(--default-size)*10)/100% "Outfit", sans-serif;
+  font: normal 800 calc(var(--default-size)*12)/100% "Outfit", sans-serif;
   color: white;
 }
 
