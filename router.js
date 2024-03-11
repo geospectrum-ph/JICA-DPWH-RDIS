@@ -99,8 +99,21 @@ const filesData = mongoose.model("files",
   })
 );
 
+router.route("/fetch").post((request, response) => {
+  filesData
+    .find({})
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
+
+const DOMParser = require("xmldom").DOMParser;
 const fs = require("fs");
 const path = require("path");
+const convert = require("@tmcw/togeojson");
 
 router.route("/upload").post((request, response) => {
   upload (request, response, function (error) {
@@ -112,17 +125,45 @@ router.route("/upload").post((request, response) => {
     }
 
     for (let index = 0; index < request.files.file.length; index++) {
-      let object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      let type = request.files.file[index].filename.split(".").pop();
+      let object;
 
-      filesData
+      if (type === "geojson") {
+        object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      }
+      else if (type === "kml" || type === "gpx" || type == "tcx") {
+        let location = path.join("./", request.files.file[index].path);
+        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+
+        switch (type) {
+          case "kml":
+            object = convert.kml(file);
+            break;
+          case "gpx":
+            object = convert.gpx(file);
+            break;
+          case "tcx":
+            object = convert.tcx(file);
+            break;
+          default:
+            return null;
+        }
+      }
+      else {
+        object = null;
+      }
+
+      if (object) {
+        filesData
         .create({
           name: request.files.file[index].originalname,
           file: object
         });
+      }
     }
-
-    response.send(request.files);
   });
+
+  response.json("upload_successful");
 });
 
 module.exports = router;

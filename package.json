@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tmcw/togeojson": "^5.8.1",
     "body-parser": "^1.20.2",
     "cjs": "^0.0.11",
     "cors": "^2.8.5",
@@ -15,6 +16,7 @@
     "path": "^0.12.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.19.0"
+    "react-router-dom": "^6.19.0",
+    "xmldom": "^0.6.0"
   }
 }

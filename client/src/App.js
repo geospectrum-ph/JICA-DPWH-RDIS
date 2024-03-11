@@ -509,6 +509,8 @@ function App() {
   }
 
   function SummaryPage() {
+    const [fileArray, setFileArray] = React.useState([]);
+
     function handleUpload(content) {
       const data = new FormData();
       for (let index = 0; index < content.length; index++) { data.append("file", content[index]); }
@@ -519,14 +521,6 @@ function App() {
           body: data
         })
         .then((response) => {
-          return(response.json());
-        })
-        .then((response) => {
-          if (response) {
-            console.log("File(s) successfully uploaded!");
-          }
-
-          add_layer();
         })
         .catch((error) => {
           setErrorMessage(error);
@@ -537,11 +531,41 @@ function App() {
       upload();
     }
 
+    function handleFetch() {
+      axios
+        .post("http://localhost:5000/fetch/", {
+        })
+        .then((response) => {
+          setFileArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+
+    React.useEffect(() => {
+      handleFetch();
+    }, [fileArray]);
 
     return (
       <div className = "box column-center" style = { { backgroundColor: "gray" } }>
-        <div>
+        <div className = "container column-center">
           <input type = "file" name = "generic-name" multiple onChange = { (event) => { handleUpload(event.target.files); } }/>
+        </div>
+        <div className = "container column-center">
+          {
+            fileArray.length < 1 ?
+            <div className = "container column-center">
+              <span className = "type-body">No items to show.</span>
+            </div>
+            :
+            fileArray.map((item) => (
+              <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                <span className = "type-body">{ item.name }</span>
+              </div>
+            ))
+          }
         </div>
       </div>
     )
