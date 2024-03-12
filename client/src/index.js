@@ -8,11 +8,11 @@ import ArcGISMapContextProvider from "./ArcGIS.js";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <BrowserRouter>
       <ArcGISMapContextProvider>
         <App/>
       </ArcGISMapContextProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

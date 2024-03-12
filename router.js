@@ -78,24 +78,11 @@ router.route("/security").post((request, response) => {
     });
 });
 
-const multer = require("multer");
-
-var storage = multer.diskStorage({
-  destination: function (request, file, callback) {
-    callback(null, "client/src/assets/files");
-  }, filename: function (request, file, callback) {
-    callback(null, file.originalname);
-  }
-});
-
-var upload = multer({ storage: storage }).fields([
-  { name: "file" }
-]);
-
-const filesData = mongoose.model("files",
+const filesData = mongoose.model("general-files",
   new mongoose.Schema({
     "name": { type: String },
-    "file": { type: Object }
+    "file": { type: Object },
+    "tags": { type: Object }
   })
 );
 
@@ -110,10 +97,100 @@ router.route("/fetch").post((request, response) => {
     });
 });
 
+const socialData = mongoose.model("module-social-databases",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "tags": { type: Object }
+  })
+);
+
+router.route("/fetch/social").post((request, response) => {
+  socialData
+    .find({})
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
+
+const economicData = mongoose.model("module-economic-databases",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "tags": { type: Object }
+  })
+);
+
+router.route("/fetch/economic").post((request, response) => {
+  economicData
+    .find({})
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
+
+const environmentalData = mongoose.model("module-environmental-databases",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "tags": { type: Object }
+  })
+);
+
+router.route("/fetch/environmental").post((request, response) => {
+  environmentalData
+    .find({})
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
+
+const demographicData = mongoose.model("module-demographic-databases",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "tags": { type: Object }
+  })
+);
+
+router.route("/fetch/demographic").post((request, response) => {
+  demographicData
+    .find({})
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
+
 const DOMParser = require("xmldom").DOMParser;
 const fs = require("fs");
 const path = require("path");
 const convert = require("@tmcw/togeojson");
+
+const multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: function (request, file, callback) {
+    callback(null, "client/src/assets/files");
+  }, filename: function (request, file, callback) {
+    callback(null, file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage }).fields([
+  { name: "file" }
+]);
 
 router.route("/upload").post((request, response) => {
   upload (request, response, function (error) {
@@ -155,15 +232,219 @@ router.route("/upload").post((request, response) => {
 
       if (object) {
         filesData
-        .create({
-          name: request.files.file[index].originalname,
-          file: object
-        });
+          .create({
+            name: request.files.file[index].originalname,
+            file: object
+          });
       }
     }
-  });
 
-  response.json("upload_successful");
+    response.json("upload_successful");
+  });
+});
+
+router.route("/upload/social").post((request, response) => {
+  upload (request, response, function (error) {
+    if (error instanceof multer.MulterError) {
+      return (response.status(500).json(error));
+    }
+    else if (error) {
+      return (response.status(500).json(error));
+    }
+
+    for (let index = 0; index < request.files.file.length; index++) {
+      let type = request.files.file[index].filename.split(".").pop();
+      let object;
+
+      if (type === "geojson") {
+        object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      }
+      else if (type === "kml" || type === "gpx" || type == "tcx") {
+        let location = path.join("./", request.files.file[index].path);
+        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+
+        switch (type) {
+          case "kml":
+            object = convert.kml(file);
+            break;
+          case "gpx":
+            object = convert.gpx(file);
+            break;
+          case "tcx":
+            object = convert.tcx(file);
+            break;
+          default:
+            return null;
+        }
+      }
+      else {
+        object = null;
+      }
+
+      if (object) {
+        socialData
+          .create({
+            name: request.files.file[index].originalname,
+            file: object
+          });
+      }
+    }
+
+    response.json("upload_successful");
+  });
+});
+
+router.route("/upload/economic").post((request, response) => {
+  upload (request, response, function (error) {
+    if (error instanceof multer.MulterError) {
+      return (response.status(500).json(error));
+    }
+    else if (error) {
+      return (response.status(500).json(error));
+    }
+
+    for (let index = 0; index < request.files.file.length; index++) {
+      let type = request.files.file[index].filename.split(".").pop();
+      let object;
+
+      if (type === "geojson") {
+        object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      }
+      else if (type === "kml" || type === "gpx" || type == "tcx") {
+        let location = path.join("./", request.files.file[index].path);
+        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+
+        switch (type) {
+          case "kml":
+            object = convert.kml(file);
+            break;
+          case "gpx":
+            object = convert.gpx(file);
+            break;
+          case "tcx":
+            object = convert.tcx(file);
+            break;
+          default:
+            return null;
+        }
+      }
+      else {
+        object = null;
+      }
+
+      if (object) {
+        economicData
+          .create({
+            name: request.files.file[index].originalname,
+            file: object
+          });
+      }
+    }
+
+    response.json("upload_successful");
+  });
+});
+
+router.route("/upload/environmental").post((request, response) => {
+  upload (request, response, function (error) {
+    if (error instanceof multer.MulterError) {
+      return (response.status(500).json(error));
+    }
+    else if (error) {
+      return (response.status(500).json(error));
+    }
+
+    for (let index = 0; index < request.files.file.length; index++) {
+      let type = request.files.file[index].filename.split(".").pop();
+      let object;
+
+      if (type === "geojson") {
+        object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      }
+      else if (type === "kml" || type === "gpx" || type == "tcx") {
+        let location = path.join("./", request.files.file[index].path);
+        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+
+        switch (type) {
+          case "kml":
+            object = convert.kml(file);
+            break;
+          case "gpx":
+            object = convert.gpx(file);
+            break;
+          case "tcx":
+            object = convert.tcx(file);
+            break;
+          default:
+            return null;
+        }
+      }
+      else {
+        object = null;
+      }
+
+      if (object) {
+        environmentalData
+          .create({
+            name: request.files.file[index].originalname,
+            file: object
+          });
+      }
+    }
+
+    response.json("upload_successful");
+  });
+});
+
+router.route("/upload/demographic").post((request, response) => {
+  upload (request, response, function (error) {
+    if (error instanceof multer.MulterError) {
+      return (response.status(500).json(error));
+    }
+    else if (error) {
+      return (response.status(500).json(error));
+    }
+
+    for (let index = 0; index < request.files.file.length; index++) {
+      let type = request.files.file[index].filename.split(".").pop();
+      let object;
+
+      if (type === "geojson") {
+        object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path)));
+      }
+      else if (type === "kml" || type === "gpx" || type == "tcx") {
+        let location = path.join("./", request.files.file[index].path);
+        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+
+        switch (type) {
+          case "kml":
+            object = convert.kml(file);
+            break;
+          case "gpx":
+            object = convert.gpx(file);
+            break;
+          case "tcx":
+            object = convert.tcx(file);
+            break;
+          default:
+            return null;
+        }
+      }
+      else {
+        object = null;
+      }
+
+      if (object) {
+        demographicData
+          .create({
+            name: request.files.file[index].originalname,
+            file: object
+          });
+      }
+    }
+
+    response.json("upload_successful");
+  });
 });
 
 module.exports = router;

@@ -466,18 +466,280 @@ function App() {
   }
 
   function DataPage() {
+    const [fileArray, setFileArray] = React.useState([]);
+
+    const [socialArray, setSocialArray] = React.useState([]);
+    const [socialArrayBoolean, setSocialArrayBoolean] = React.useState(false);
+  
+    const [economicArray, setEconomicArray] = React.useState([]);
+    const [economicArrayBoolean, setEconomicArrayBoolean] = React.useState(false);
+  
+    const [environmentalArray, setEnvironmentalArray] = React.useState([]);
+    const [environmentalArrayBoolean, setEnvironmentalArrayBoolean] = React.useState(false);
+  
+    const [demographicArray, setDemographicArray] = React.useState([]);
+    const [demographicArrayBoolean, setDemographicArrayBoolean] = React.useState(false);
+  
+    function handleFetchSocial() {
+      axios
+        .post("http://localhost:5000/fetch/social", {
+        })
+        .then((response) => {
+          setSocialArray(response.data);
+          setSocialArrayBoolean(true);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+  
+    function handleFetchEconomic() {
+      axios
+        .post("http://localhost:5000/fetch/economic", {
+        })
+        .then((response) => {
+          setEconomicArray(response.data);
+          setEconomicArrayBoolean(true);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+  
+    function handleFetchEnvironmental() {
+      axios
+        .post("http://localhost:5000/fetch/environmental", {
+        })
+        .then((response) => {
+          setEnvironmentalArray(response.data);
+          setEnvironmentalArrayBoolean(true);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+  
+    function handleFetchDemographic() {
+      axios
+        .post("http://localhost:5000/fetch/demographic", {
+        })
+        .then((response) => {
+          setDemographicArray(response.data);
+          setDemographicArrayBoolean(true);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+  
+    function populateFileArray() {
+      if (!socialArrayBoolean && !economicArrayBoolean && !environmentalArrayBoolean && !demographicArrayBoolean) {
+        handleFetchSocial();
+        handleFetchEconomic();
+        handleFetchEnvironmental();
+        handleFetchDemographic();
+      }
+    }
+  
+    React.useEffect(() => {
+      populateFileArray();
+    }, []);
+  
+    React.useEffect(() => {
+      if (socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
+        setSocialArrayBoolean(false);
+        setEconomicArrayBoolean(false);
+        setEnvironmentalArrayBoolean(false);
+        setDemographicArrayBoolean(false);
+  
+        setFileArray(() => [...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
+      }
+    }, [socialArray, economicArray, environmentalArray, demographicArray]);
+
+    function UploadPage() {
+      const [fileContainer, setFileContainer] = React.useState(null);
+      const [fileCategory, setFileCategory] = React.useState(null);
+
+      function handleUpload(content, category) {
+        const data = new FormData();
+        
+        for (let index = 0; index < content.length; index++) { data.append("file", content[index]); }
+    
+        let path = "http://localhost:5000/upload/" + (category === null ? "" : category);
+    
+        const upload = async() => {
+          await fetch(path, {
+            method: "POST",
+            body: data
+          })
+          .then((response) => {
+            if (response) {
+              console.log("Upload successful!");
+            }
+    
+            populateFileArray();
+          })
+          .catch((error) => {
+            setErrorMessage(error);
+          })
+          .finally(() => {});
+        }
+    
+        upload();
+      }
+
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "gray" } }>
+          <div className = "container column-center">
+            <input type = "file" id = "file-container" name = "file-container" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
+            <label htmlFor = "file-container"></label>
+            <fieldset onChange = { (event) => { setFileCategory(event.target.value); } }>
+              <legend>Select one file category:</legend>
+              <div>
+                <input type = "radio" id = "social" name = "file-category" value = "social"/>
+                <label htmlFor = "social">Social</label>
+              </div>
+              <div>
+                <input type = "radio" id = "economic" name = "file-category" value = "economic"/>
+                <label htmlFor = "economic">Economic</label>
+              </div>
+              <div>
+                <input type = "radio" id = "environmental" name = "file-category" value = "environmental"/>
+                <label htmlFor = "Environmental">Environmental</label>
+              </div>
+              <div>
+                <input type = "radio" id = "demographic" name = "file-category" value = "demographic"/>
+                <label htmlFor = "Demographic">Demographic</label>
+              </div>
+            </fieldset>
+            <div className = "button" onClick = { () => { handleUpload(fileContainer, fileCategory); } }><span className = "type-body">Submit</span></div>
+          </div>
+        </div>
+      )
+    }
+
+    function SummaryPage() {
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "gray" } }>
+          <div className = "container column-center">
+            {
+              fileArray.length < 1 ?
+              <div className = "container column-center">
+                <span className = "type-body">No items to show.</span>
+              </div>
+              :
+              fileArray.map((item) => (
+                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <span className = "type-body">{ item.name }</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+  
+    function SocialPage() {
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "red" } }>
+          <div className = "container column-center">
+            {
+              socialArray.length < 1 ?
+              <div className = "container column-center">
+                <span className = "type-body">No items to show.</span>
+              </div>
+              :
+              socialArray.map((item) => (
+                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <span className = "type-body">{ item.name }</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+  
+    function EconomicPage() {
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "yellow" } }>
+          <div className = "container column-center">
+            {
+              economicArray.length < 1 ?
+              <div className = "container column-center">
+                <span className = "type-body">No items to show.</span>
+              </div>
+              :
+              economicArray.map((item) => (
+                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <span className = "type-body">{ item.name }</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+  
+    function EnvironmentalPage() {
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "green" } }>
+          <div className = "container column-center">
+            {
+              environmentalArray.length < 1 ?
+              <div className = "container column-center">
+                <span className = "type-body">No items to show.</span>
+              </div>
+              :
+              environmentalArray.map((item) => (
+                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <span className = "type-body">{ item.name }</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+  
+    function DemographicPage() {
+      return (
+        <div className = "box column-center" style = { { backgroundColor: "blue" } }>
+          <div className = "container column-center">
+            {
+              demographicArray.length < 1 ?
+              <div className = "container column-center">
+                <span className = "type-body">No items to show.</span>
+              </div>
+              :
+              demographicArray.map((item) => (
+                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <span className = "type-body">{ item.name }</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      )
+    }
+
     const [active, setActive] = React.useState(null);
 
     return (
       <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
         <Menu/>
         <div className = "container row-center">
-          {/* <div className = "map-container"> */}
-            <ArcGISMap/> 
-          {/* </div> */}
+          <ArcGISMap/> 
           <div className = "container center-column">
             <div className = "header row-center">
               <div className = "button" onClick = { () => { setActive(null); } }>
+                <span>Upload</span>
+              </div>
+              <div className = "button" onClick = { () => { setActive("All"); } }>
                 <span>All</span>
               </div>
               <div className = "button" onClick = { () => { setActive("Social"); } }>
@@ -495,110 +757,16 @@ function App() {
             </div>
             <div className = "container">
               {
+                active === "All" ? <SummaryPage/> :
                 active === "Social" ? <SocialPage/> :
                 active === "Economic" ? <EconomicPage/> :
                 active === "Environmental" ? <EnvironmentalPage/> :
                 active === "Demographic" ? <DemographicPage/> :
-                <SummaryPage/>
+                <UploadPage/>
               }
             </div>
           </div>
         </div>
-      </div>
-    )
-  }
-
-  function SummaryPage() {
-    const [fileArray, setFileArray] = React.useState([]);
-
-    function handleUpload(content) {
-      const data = new FormData();
-      for (let index = 0; index < content.length; index++) { data.append("file", content[index]); }
-
-      const upload = async() => {
-        await fetch("http://localhost:5000/upload/", {
-          method: "POST",
-          body: data
-        })
-        .then((response) => {
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-      }
-
-      upload();
-    }
-
-    function handleFetch() {
-      axios
-        .post("http://localhost:5000/fetch/", {
-        })
-        .then((response) => {
-          setFileArray(response.data);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-
-    React.useEffect(() => {
-      handleFetch();
-    }, [fileArray]);
-
-    return (
-      <div className = "box column-center" style = { { backgroundColor: "gray" } }>
-        <div className = "container column-center">
-          <input type = "file" name = "generic-name" multiple onChange = { (event) => { handleUpload(event.target.files); } }/>
-        </div>
-        <div className = "container column-center">
-          {
-            fileArray.length < 1 ?
-            <div className = "container column-center">
-              <span className = "type-body">No items to show.</span>
-            </div>
-            :
-            fileArray.map((item) => (
-              <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                <span className = "type-body">{ item.name }</span>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    )
-  }
-
-  function SocialPage() {
-    return (
-      <div className = "box column-center" style = { { backgroundColor: "red" } }>
-        <span className = "type-xx-18">{ "Module development in progress." }</span>
-      </div>
-    )
-  }
-
-  function EconomicPage() {
-    return (
-      <div className = "box column-center" style = { { backgroundColor: "yellow" } }>
-        <span className = "type-xx-18">{ "Module development in progress." }</span>
-      </div>
-    )
-  }
-
-  function EnvironmentalPage() {
-    return (
-      <div className = "box column-center" style = { { backgroundColor: "green" } }>
-        <span className = "type-xx-18">{ "Module development in progress." }</span>
-      </div>
-    )
-  }
-
-  function DemographicPage() {
-    return (
-      <div className = "box column-center" style = { { backgroundColor: "blue" } }>
-        <span className = "type-xx-18">{ "Module development in progress." }</span>
       </div>
     )
   }
