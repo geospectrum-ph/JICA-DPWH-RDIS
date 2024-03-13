@@ -27,7 +27,7 @@ function App() {
 
   function handleNavigation(module) {
     switch (module) {
-      case "Root":
+      case "Exit":
         navigate("/");
         break;
       case "Sign In":
@@ -254,33 +254,47 @@ function App() {
     )
   }
 
-  function Menu() {
+  function Dashboard() {
+    const [modules, setModules] = React.useState(["Home", "Data", "Analytics", "Account", "Support", "Exit"]);
+    const [headerListActive, setHeaderListActive] = React.useState(false);
+
+    window.addEventListener("resize", () => {
+      setHeaderListActive(false);
+    });
+
     return (
       <div className = "header">
-        <div className = "header-logo">
-          <img src = { logo } title = "Geospectrum Marketing Services" alt = "Brand"/>
-          <span>SEEDs</span>
+        <div className = "header-left">
+          <div className = "header-brand">
+            <div className = "header-logo">
+              <img src = { logo } title = "Geospectrum Marketing Services" alt = "Brand"/>
+            </div>
+            <div className = "header-title">
+              <span className = "type-body">SEEDs</span>
+            </div>
+          </div>
         </div>
-        <div className = "header-buttons">
-          <div className = "button" onClick = { () => { handleNavigation("Home"); } }>
-            <span>Home</span>
+        <div className = "header-right">
+          <div className = "header-menu">
+            { modules.map((item) => (
+              <div className = "button" onClick = { () => { handleNavigation(item); } }>
+                <span>{item}</span>
+              </div>
+            )) }
           </div>
-          <div className = "button" onClick = { () => { handleNavigation("Data"); } }>
-            <span>Data</span>
+          <div className = "header-dropdown">
+            <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
+              <span className = "material-symbols-outlined">Menu</span>
+            </div>
+            <div className = { headerListActive ? "header-list" : "header-list-hidden" }>
+              { modules.map((item) => (
+                <div onClick = { () => { handleNavigation(item); } }>
+                  <span>{item}</span>
+                </div>
+              )) }
+            </div>
           </div>
-          <div className = "button" onClick = { () => { handleNavigation("Analytics"); } }>
-            <span>Analytics</span>
-          </div>
-          <div className = "button" onClick = { () => { handleNavigation("Account"); } }>
-            <span>Account</span>
-          </div>
-          <div className = "button" onClick = { () => { handleNavigation("Support"); } }>
-            <span>Support</span>
-          </div>
-          <div className = "button" onClick = { () => { handleNavigation("Root"); } }>
-            <span>Exit</span>
-          </div>
-        </div>  
+        </div>
       </div>
     );
   }
@@ -448,7 +462,7 @@ function App() {
     return (
       <div className = "container">
         <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" } }>
-          <Menu/>
+          <Dashboard/>
           <div style = { { width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" } }>
             <Backbone/>
             <div style = { { width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"} }>
@@ -731,10 +745,12 @@ function App() {
 
     return (
       <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
-        <Menu/>
-        <div className = "container row-center">
-          <ArcGISMap/> 
-          <div className = "container center-column">
+        <Dashboard/>
+        <div className = "data-page-outer-container">
+          <div className = "map-container">
+            <ArcGISMap/> 
+          </div>
+          <div className = "data-page-inner-container">
             <div className = "header row-center">
               <div className = "button" onClick = { () => { setActive(null); } }>
                 <span>Upload</span>

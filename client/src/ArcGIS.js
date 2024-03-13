@@ -15,9 +15,9 @@ import ElevationLayer from "@arcgis/core/layers/ElevationLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 
-import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
-import Sketch from "@arcgis/core/widgets/Sketch.js";
+import Compass from "@arcgis/core/widgets/Compass.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
+import Sketch from "@arcgis/core/widgets/Sketch.js";
 
 export const ArcGISMapContext = React.createContext();
 
@@ -70,15 +70,6 @@ const ArcGISMapContextProvider = (props) => {
         zoom: 4
       });
 
-      const basemap_gallery = new BasemapGallery({
-        view: view,
-        container: document.createElement("div")
-      });
-
-      view.ui.add(basemap_gallery, {
-        position: "bottom-left"
-      });
-
       const scale_bar = new ScaleBar({
         view: view
       });
@@ -89,9 +80,7 @@ const ArcGISMapContextProvider = (props) => {
     }, []);
 
     return (
-      <div className = "map-container">
-        <div id = "sample-map" style = { { width: "100%", height: "100%" } }></div>
-      </div>
+      <div id = "sample-map" style = { { width: "100%", height: "100%" } }></div>
     );
   }
 
