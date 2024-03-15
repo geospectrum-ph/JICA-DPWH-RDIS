@@ -18,6 +18,9 @@ import seal from "./assets/images/seal.png";
 
 import error from "./assets/images/error.png";
 
+import contours_light from "./assets/images/contours-light.png";
+import contours_dark from "./assets/images/contours-dark.png";
+
 function App() {
   const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
 
@@ -277,21 +280,24 @@ function App() {
         <div className = "header-right">
           <div className = "header-menu">
             { modules.map((item) => (
-              <div className = "button" onClick = { () => { handleNavigation(item); } }>
+              <div key = { "header-menu-" + item } className = "button" onClick = { () => { handleNavigation(item); } }>
                 <span>{item}</span>
               </div>
             )) }
           </div>
           <div className = "header-dropdown">
             <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
-              <span className = "material-symbols-outlined">Menu</span>
+              { headerListActive ? <span class="material-symbols-outlined">Close</span> : <span className = "material-symbols-outlined">Menu</span> }
             </div>
             <div className = { headerListActive ? "header-list" : "header-list-hidden" }>
               { modules.map((item) => (
-                <div onClick = { () => { handleNavigation(item); } }>
+                <div key = { "header-list-" + item } className = "button" onClick = { () => { handleNavigation(item); } }>
                   <span>{item}</span>
                 </div>
               )) }
+              <div className = "header-overlay">
+                <img src = { contours_light } alt = "Contour"/>
+              </div>
             </div>
           </div>
         </div>
