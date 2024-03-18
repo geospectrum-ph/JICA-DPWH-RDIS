@@ -1,10 +1,11 @@
 # JICA-DPWH-RDIS
+A repository of all the source code for the JICA-DPWH-RDIS project.
 
 ## Client
 ## API
-This contains all the API settings
-
 ## Mobile
 ### RSM
 ### Hazard Map
+## Infrastructure
+## Utils
 
