@@ -148,7 +148,9 @@ img {
   justify-content: space-between;
   align-items: flex-start;
 
-  background-color: rgba(255, 255, 255, 0);
+  /* background-color: rgba(255, 255, 255, 0); */
+
+  background-color: rgba(53, 144, 255, 0.883);
 }
 
 .header-left {
@@ -333,6 +335,10 @@ img {
   right: 0;
   bottom: 0;
   z-index: 0;
+}
+
+.header-overlay > img {
+  width: 50%;
 }
 
 /* .header-logo > span {
