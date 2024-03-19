@@ -24,6 +24,14 @@ import contours_dark from "./assets/images/contours-dark.png";
 function App() {
   const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
 
+  /* For the handling of errors. */
+
+  const [errorMessage, setErrorMessage] = React.useState(null);
+
+  React.useEffect(() => {
+    if (errorMessage) console.log(errorMessage);
+  }, [errorMessage]);
+
   /* For the navigation of routes. */
 
   const navigate = useNavigate();
@@ -58,14 +66,58 @@ function App() {
         return null;
     }
   }
+  
+  function Dashboard() {
+    const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
+    const [headerListActive, setHeaderListActive] = React.useState(false);
 
-  /* For the handling of errors. */
+    window.addEventListener("resize", () => {
+      setHeaderListActive(false);
+    });
 
-  const [errorMessage, setErrorMessage] = React.useState(null);
+    return (
+      <div className = "header">
+        <div className = "header-left">
+          <div className = "header-logo">
+            <span>🌱</span>
+          </div>
+          <div className = "header-title">
+            <span>SEEDs</span>
+          </div>
+        </div>
+        <div className = "header-right">
+          <div className = "header-menu">
+            {
+              modules.map((item) => (
+                <div key = { "header-menu-" + item[0] } className = "header-menu-item" onClick = { () => { handleNavigation(item[0]); } }>
+                  <span>{ item[1] }</span>
+                </div>
+              ))
+            }
+          </div>
+          {/* <div className = "header-dropdown">
+            <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
+              { headerListActive ? <span class="material-symbols-outlined">Close</span> : <span className = "material-symbols-outlined">Menu</span> }
+            </div>
+            <div className = { headerListActive ? "header-list" : "header-list-hidden" }>
+              { modules.map((item) => (
+                <div key = { "header-list-" + item } className = "header-menu-item" onClick = { () => { handleNavigation(item); } }>
+                  <div className = "header-buffer">
+                    <span>{item}</span>
+                  </div>
+                </div>
+              )) }
+              <div className = "header-overlay">
+                <img src = { contours_light } alt = "Contour"/>
+              </div>
+            </div>
+          </div> */}
+        </div>
+      </div>
+    );
+  }
 
-  React.useEffect(() => {
-    if (errorMessage) console.log(errorMessage);
-  }, [errorMessage]);
+
   
   /* Main modules. */
 
@@ -257,54 +309,6 @@ function App() {
     )
   }
 
-  function Dashboard() {
-    const [modules, setModules] = React.useState(["Home", "Data", "Analytics", "Account", "Support", "Exit"]);
-    const [headerListActive, setHeaderListActive] = React.useState(false);
-
-    window.addEventListener("resize", () => {
-      setHeaderListActive(false);
-    });
-
-    return (
-      <div className = "header">
-        <div className = "header-left">
-          <div className = "header-brand">
-            <div className = "header-logo">
-              <img src = { logo } title = "Geospectrum Marketing Services" alt = "Brand"/>
-            </div>
-            <div className = "header-title">
-              <span className = "type-body">SEEDs</span>
-            </div>
-          </div>
-        </div>
-        <div className = "header-right">
-          <div className = "header-menu">
-            { modules.map((item) => (
-              <div key = { "header-menu-" + item } className = "button" onClick = { () => { handleNavigation(item); } }>
-                <span>{item}</span>
-              </div>
-            )) }
-          </div>
-          <div className = "header-dropdown">
-            <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
-              { headerListActive ? <span class="material-symbols-outlined">Close</span> : <span className = "material-symbols-outlined">Menu</span> }
-            </div>
-            <div className = { headerListActive ? "header-list" : "header-list-hidden" }>
-              { modules.map((item) => (
-                <div key = { "header-list-" + item } className = "button" onClick = { () => { handleNavigation(item); } }>
-                  <span>{item}</span>
-                </div>
-              )) }
-              <div className = "header-overlay">
-                <img src = { contours_light } alt = "Contour"/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  
   function HomePage() {
     // setInterval((event) => { event.target.textContent = new Date().toLocaleString(); }, 1000); 
 
@@ -747,7 +751,8 @@ function App() {
       )
     }
 
-    const [active, setActive] = React.useState(null);
+    const [active, setActive] = React.useState("Upload");
+    const [actions, setActions] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]])
 
     return (
       <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
@@ -758,24 +763,13 @@ function App() {
           </div>
           <div className = "data-page-inner-container">
             <div className = "header row-center">
-              <div className = "button" onClick = { () => { setActive(null); } }>
-                <span>Upload</span>
-              </div>
-              <div className = "button" onClick = { () => { setActive("All"); } }>
-                <span>All</span>
-              </div>
-              <div className = "button" onClick = { () => { setActive("Social"); } }>
-                <span>Social</span>
-              </div>
-              <div className = "button" onClick = { () => { setActive("Economic"); } }>
-                <span>Economic</span>
-              </div>
-              <div className = "button" onClick = { () => { setActive("Environmental"); } }>
-                <span>Environmental</span>
-              </div>
-              <div className = "button" onClick = { () => { setActive("Demographic"); } }>
-                <span>Demographic</span>
-              </div>
+              {
+                actions.map((item) => (
+                  <div key = { "data-page-actions-" + item[0] } className = "header-menu-item" onClick = { () => { setActive(item[0]); } }>
+                    <span>{ item[1] }</span>
+                  </div>
+                ))
+              }
             </div>
             <div className = "container">
               {
