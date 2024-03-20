@@ -136,15 +136,165 @@ span {
   display: inline-block;
 }
 
+.hidden {
+  display: none;
+}
+
+.root {
+  width: 100%;
+  height: 100%;
+}
+
+.root-interactive {
+  width: 100%;
+  height: 50%;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 400;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.root-interactive > * {
+  width: calc(var(--default-size)*4);
+  height: calc(var(--default-size)*2);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  box-shadow:
+    0 0 1px rgba(255, 255, 255, 0.25),
+    0 0 2px rgba(255, 255, 255, 0.25),
+    0 0 4px rgba(255, 255, 255, 0.25),
+    0 0 8px rgba(255, 255, 255, 0.25),
+    0 0 16px rgba(255, 255, 255, 0.25),
+    0 0 32px rgba(255, 255, 255, 0.25),
+    0 0 64px rgba(255, 255, 255, 0.25),
+    0 0 128px rgba(255, 255, 255, 0.25);
+
+  text-align: center;
+
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.root-interactive > * > span {
+  font: normal 800 calc(var(--default-size)*2/3)/100% "Outfit", sans-serif;  
+  text-decoration: none;
+  color: black;
+}
+
+.root-interactive > *:hover {
+  background-color: var(--default-blue);
+
+  box-shadow:
+    0 0 1px rgba(0, 120, 255, 0.25),
+    0 0 2px rgba(0, 120, 255, 0.25),
+    0 0 4px rgba(0, 120, 255, 0.25),
+    0 0 8px rgba(0, 120, 255, 0.25),
+    0 0 16px rgba(0, 120, 255, 0.25),
+    0 0 32px rgba(0, 120, 255, 0.25),
+    0 0 64px rgba(0, 120, 255, 0.25),
+    0 0 128px rgba(0, 120, 255, 0.25);
+}
+
+.root-interactive > *:hover > span {
+  color: white;
+}
+
+
+
+/* .root-interactive > * > {
+  
+} */
+
+/* .button > * {
+
+}
+
+.button:hover {
+  background-color: var(--default-blue);
+}
+
+.button:hover > * {
+  color: white;
+} */
+
+.root-overlay {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 300;
+
+  pointer-events: none;
+}
+
+.root-dynamic {
+  width: 100%;
+  height: calc(100% - (var(--default-size)*8));
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 200;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+}
+
+.root-dynamic > span {
+  font: normal 800 calc(100vh/2)/100% "Outfit", sans-serif;
+  color: white;
+
+  text-shadow:
+    /* -1px -1px 4px rgba(0, 120, 120, 0.5),
+    1px -1px 4px rgba(0, 120, 120, 0.25),
+    -1px 1px 4px rgba(120, 60, 0, 0.25),
+    1px 1px 4px rgba(120, 60, 0, 0.5), */
+    0 0 12px rgba(0, 120, 120, 0.5);
+}
+
+.root-dynamic > span:hover {
+  /* color: linear-gradient(rgba(0, 191, 255, 0.5), rgba(255, 0, 0, 0.5)); */
+  mix-blend-mode: overlay;
+
+}
+
+.root-background {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
 .header {
   width: 100%;
   height: calc(var(--default-size)*2);
 
   box-sizing: border-box;
-  border-collapse: collapse;
-  border-width: 0 0 2px 0;
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 1);
 
   display: flex;
   flex-flow: row nowrap;
@@ -224,10 +374,6 @@ span {
   
   margin: 0;
   box-sizing: border-box;
-  border-collapse: collapse;
-  border-width: 0 0 0 2px;
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 1);
   outline: none;
   padding: 0;
 
@@ -250,31 +396,28 @@ span {
   color: white;
 }
 
-/*
-.header-left > * {
-  width: auto;
-  height: calc(var(--default-size)*2);
-
-  margin: 0;
-  border: none;
-  outline: none;
-  padding: calc(var(--default-size)/2);
-
-  box-sizing: border-box;
-
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-}
-
-
-
-
-
-
 .header-dropdown {
   display: none;
+}
+
+@media only screen and (max-width: 900px) {
+  .header-right {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .header-menu {
+    display: none;
+  }
+
+  .header-dropdown {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .header-icon {
@@ -288,17 +431,13 @@ span {
 }
 
 .header-icon > span {
-  font-weight: 800;
-  color: black
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black;
 }
 
 .header-list {
   width: 100%;
   height: calc(100% - var(--default-size)*2);
-
-  padding: var(--default-size);
-
-  box-sizing: border-box;
 
   position: absolute;
   left: 0;
@@ -307,27 +446,26 @@ span {
 
   display: flex;
   flex-flow: column nowrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 
   background-color: rgba(0, 0, 0, 1);
 }
 
-.header-list-hidden {
-  display: none;
+.header-list-items {
+  flex-grow: 1;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.header-list > * {
+.header-list-item {
   width: 100%;
-  height: 100%;
+  height: calc(var(--default-size)*2);
 
-  margin: 0;
-  border-style: solid;
-  border-width: 0.5px 0;
-  border-color: gray;
-  border-collapse: collapse;
-  outline: none;
-  padding: calc(var(--default-size)/4);
+  padding: calc(var(--default-size)/2);
 
   box-sizing: border-box;
 
@@ -337,49 +475,36 @@ span {
   align-items: center;
 }
 
-.header-list > * > span {
-  font: normal 600 calc(var(--default-size)/3)/100% "Outfit", sans-serif;  
+.header-list-item > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: white;
+}
+
+.header-list-footer {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  padding: calc(var(--default-size)/2);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+}
+
+.header-list-footer > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
   color: black;
 }
 
-@media only screen and (max-width: 900px) {
-  .header-menu {
-    display: none;
-  }
 
-  .header-dropdown {
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-  }
-}
 
-.header-overlay {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-}
 
-.header-overlay > img {
-  width: 50%;
-}
 
-*/
-
-/* .header-logo > span {
-  padding: 0 calc(var(--default-size)/2);
-
-  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
-  color: rgb(0, 0, 0);
-}
-
-.header-buttons > * {
-  height: var(--default-size);
-
-  margin: 0 0 0 calc(var(--default-size)/3);
-} */
 
 .title-container {
   height: calc(var(--default-size)*10);

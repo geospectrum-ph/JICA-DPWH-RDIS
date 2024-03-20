@@ -8,22 +8,10 @@ import LeafletMap from "./Leaflet.js"
 
 import "./App.css";
 
-import brand from "./assets/images/brand.png";
-import logo from "./assets/images/logo.png";
-
 import background from "./assets/images/background.png";
 import overlay from "./assets/images/overlay.png";
 
-import seal from "./assets/images/seal.png";
-
-import error from "./assets/images/error.png";
-
-import contours_light from "./assets/images/contours-light.png";
-import contours_dark from "./assets/images/contours-dark.png";
-
 function App() {
-  const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
-
   /* For the handling of errors. */
 
   const [errorMessage, setErrorMessage] = React.useState(null);
@@ -69,6 +57,7 @@ function App() {
   
   function Dashboard() {
     const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
+    
     const [headerListActive, setHeaderListActive] = React.useState(false);
 
     window.addEventListener("resize", () => {
@@ -95,59 +84,50 @@ function App() {
               ))
             }
           </div>
-          {/* <div className = "header-dropdown">
+          <div className = "header-dropdown">
             <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
-              { headerListActive ? <span class="material-symbols-outlined">Close</span> : <span className = "material-symbols-outlined">Menu</span> }
+              { headerListActive ? <span>❌</span> : <span>🍔</span> }
             </div>
-            <div className = { headerListActive ? "header-list" : "header-list-hidden" }>
-              { modules.map((item) => (
-                <div key = { "header-list-" + item } className = "header-menu-item" onClick = { () => { handleNavigation(item); } }>
-                  <div className = "header-buffer">
-                    <span>{item}</span>
-                  </div>
-                </div>
-              )) }
-              <div className = "header-overlay">
-                <img src = { contours_light } alt = "Contour"/>
+            <div className = { headerListActive ? "header-list" : "hidden" }>
+              <div className = "header-list-items">
+                {
+                  modules.map((item) => (
+                    <div key = { "header-list-" + item[0] } className = "header-list-item" onClick = { () => { handleNavigation(item[0]); } }>
+                      <span>{ item[0] }</span>
+                    </div>
+                  ))
+                }
+              </div>
+              <div className = "header-list-footer">
+                <span>Powered by 🌈 GEOSPECTRUM</span>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
     );
   }
 
-
-  
   /* Main modules. */
 
   function RootPage() {
     return (
-      <div className = "container column-center">
-        <div className = "container header fixed layer-interactive">
-          <div className = "header-logo">
-            <a href = "https://geospectrum.com.ph/" target = "_blank" rel = "noreferrer">
-              <img src = { brand } title = "Geospectrum Marketing Services" alt = "Brand"/>
-            </a>
+      <div className = "root">
+        <div className = "root-interactive">
+          <div onClick = { () => { handleNavigation("Sign In") } }>
+            <span>Enter</span>
           </div>
-          <div className = "header-buttons">
-            <div className = "button button-about">
-              <a href = "https://github.com/geospectrum-ph/seeds-rebuild/blob/main/README.md/" target = "_blank" rel = "noreferrer"><span>ABOUT</span></a>
-            </div>
-            <div className = "button button-sign-in" onClick = { () => { handleNavigation("Sign In") } }>
-              <span>SIGN IN</span>
-            </div>
-          </div>  
+          <div>
+            <span>Powered by 🌈 GEOSPECTRUM</span>
+          </div>
         </div>
-        <div className = "container row-center fixed layer-overlay">
+        <div className = "root-overlay">
           <img src = { overlay } alt = "Overlay"/>
         </div>
-        <div className = "container row-center fixed layer-foreground">
-          <div className = "title-container">
-            <span>SEEDs</span>
-          </div>
+        <div className = "root-dynamic">
+          <span>SEEDs</span>
         </div>
-        <div className = "container row-center fixed layer-background">
+        <div className = "root-background">
           <img src = { background } alt = "Background"/>
         </div>
       </div>
@@ -187,7 +167,7 @@ function App() {
         <div className = "wrapper column-center">
           <div className = "box form static layer-interactive">
             <div className = "form-header">
-              <span>Sign In to <b>SEEDs</b></span>
+              <span>Sign In to 🌱 <b>SEEDs</b></span>
             </div>
             <div className = "form-field">
               <label htmlFor = "sign-in-username"><span>Username</span></label>
@@ -381,7 +361,7 @@ function App() {
       return (
         <div>
           <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <img src = { seal } style = { { width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" } } alt = "Seal"/>
+            {/* <img src = { seal } style = { { width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" } } alt = "Seal"/> */}
           </div>
           <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
             <span style = { { font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>City of Mandaluyong, National Capital Region</span>
@@ -488,6 +468,8 @@ function App() {
       </div>
     )
   }
+
+  const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
 
   function DataPage() {
     const [fileArray, setFileArray] = React.useState([]);
@@ -773,11 +755,11 @@ function App() {
             </div>
             <div className = "container">
               {
-                active === "All" ? <SummaryPage/> :
-                active === "Social" ? <SocialPage/> :
-                active === "Economic" ? <EconomicPage/> :
-                active === "Environmental" ? <EnvironmentalPage/> :
-                active === "Demographic" ? <DemographicPage/> :
+                active === actions[1][0] ? <SummaryPage/> :
+                active === actions[2][0] ? <SocialPage/> :
+                active === actions[3][0] ? <EconomicPage/> :
+                active === actions[4][0] ? <EnvironmentalPage/> :
+                active === actions[5][0] ? <DemographicPage/> :
                 <UploadPage/>
               }
             </div>
@@ -793,6 +775,7 @@ function App() {
       //   <span className = "type-xx-18">{ "Page development in progress." }</span>
       // </div>
       <div className = "container">
+        <Dashboard/>
         <LeafletMap/>
       </div>
     )
@@ -800,16 +783,22 @@ function App() {
 
   function AccountPage() {
     return (
-      <div className = "box column-center">
-        <span className = "type-xx-18">{ "Page development in progress." }</span>
+      <div className = "container column-center">
+        <Dashboard/>
+        <div className = "container column-center">
+          <span className = "type-xx-18">{ "Page development in progress." }</span>
+        </div>
       </div>
     )
   }
 
   function SupportPage() {
     return (
-      <div className = "box column-center">
-        <span className = "type-xx-18">{ "Page development in progress." }</span>
+      <div className = "container column-center">
+        <Dashboard/>
+        <div className = "container column-center">
+          <span className = "type-xx-18">{ "Page development in progress." }</span>
+        </div>
       </div>
     )
   }
@@ -817,7 +806,6 @@ function App() {
   function ErrorPage() {
     return (
       <div className = "box column-center">
-        <img src = { error } title = "Error" alt = "Error" width = "240px" height = "240px"/>
         <span className = "type-xx-72">{ "ERROR 404" }</span>
         <span className = "type-xx-18">{ "Page not found." }</span>
       </div>
