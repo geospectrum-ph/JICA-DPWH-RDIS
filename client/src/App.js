@@ -599,52 +599,52 @@ function App() {
       }
 
       return (
-        <div className = "box column-center" style = { { backgroundColor: "gray" } }>
-          <div className = "container column-center">
-            <input type = "file" id = "file-container" name = "file-container" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
-            <label htmlFor = "file-container"></label>
-            <fieldset onChange = { (event) => { setFileCategory(event.target.value); } }>
-              <legend>Select one file category:</legend>
-              <div>
-                <input type = "radio" id = "social" name = "file-category" value = "social"/>
-                <label htmlFor = "social">Social</label>
-              </div>
-              <div>
-                <input type = "radio" id = "economic" name = "file-category" value = "economic"/>
-                <label htmlFor = "economic">Economic</label>
-              </div>
-              <div>
-                <input type = "radio" id = "environmental" name = "file-category" value = "environmental"/>
-                <label htmlFor = "Environmental">Environmental</label>
-              </div>
-              <div>
-                <input type = "radio" id = "demographic" name = "file-category" value = "demographic"/>
-                <label htmlFor = "Demographic">Demographic</label>
-              </div>
-            </fieldset>
-            <div className = "button" onClick = { () => { handleUpload(fileContainer, fileCategory); } }><span className = "type-body">Submit</span></div>
-          </div>
+        <div className = "container column-center">
+          <input type = "file" id = "file-container" name = "file-container" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
+          <label htmlFor = "file-container"></label>
+          <fieldset onChange = { (event) => { setFileCategory(event.target.value); } }>
+            <legend>Select one file category:</legend>
+            <div>
+              <input type = "radio" id = "social" name = "file-category" value = "social"/>
+              <label htmlFor = "social">Social</label>
+            </div>
+            <div>
+              <input type = "radio" id = "economic" name = "file-category" value = "economic"/>
+              <label htmlFor = "economic">Economic</label>
+            </div>
+            <div>
+              <input type = "radio" id = "environmental" name = "file-category" value = "environmental"/>
+              <label htmlFor = "Environmental">Environmental</label>
+            </div>
+            <div>
+              <input type = "radio" id = "demographic" name = "file-category" value = "demographic"/>
+              <label htmlFor = "Demographic">Demographic</label>
+            </div>
+          </fieldset>
+          <div className = "button" onClick = { () => { handleUpload(fileContainer, fileCategory); } }><span className = "type-body">Submit</span></div>
         </div>
       )
     }
 
     function SummaryPage() {
       return (
-        <div className = "box column-center" style = { { backgroundColor: "gray" } }>
-          <div className = "container column-center">
-            {
-              fileArray.length < 1 ?
-              <div className = "container column-center">
-                <span className = "type-body">No items to show.</span>
-              </div>
-              :
-              fileArray.map((item) => (
-                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                  <span className = "type-body">{ item.name }</span>
-                </div>
-              ))
-            }
-          </div>
+        <div className = "container column-center">
+          {
+            fileArray.length < 1 ?
+            <div className = "container column-center">
+              <span className = "type-body">No items to show.</span>
+            </div>
+            :
+            <div className = "container column-center">
+              {
+                fileArray.map((item) => (
+                  <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                    <span className = "type-body">{ item.name }</span>
+                  </div>
+                ))
+              }
+            </div>
+          }
         </div>
       )
     }
@@ -752,6 +752,9 @@ function App() {
                   </div>
                 ))
               }
+            </div>
+            <div className = "header row-center">
+              <span>{ actions[actions.findIndex((item) => { if (item[0] === active) return true; else return false; })][1] + " " + active + " Data"}</span>
             </div>
             <div className = "container">
               {
