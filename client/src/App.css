@@ -35,23 +35,18 @@
   height: 100%;
 
   box-sizing: border-box;
-}
 
-.wrapper {
-  width: 100vw;
-  height: 100vh;
-}
-
-.box {
-  width: auto;
-  height: auto;
+  margin: 0;
+  border: none;
+  outline: none;
+  padding: 0;
 }
 
 .row-center {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .column-center {
@@ -63,66 +58,7 @@
 
 
 
-/* Generic class declarations for positioning and stacking. */
-
-.fixed {
-  position: fixed;
-
-  left: 0;
-  top: 0;
-}
-
-.static {
-  position: static;
-}
-
-.layer-hidden {
-  z-index: -100;
-}
-
-.layer-background {
-  z-index: 0;
-}
-
-.layer-foreground {
-  z-index: 100;
-}                                                                                   
-
-.layer-overlay {
-  z-index: 500;
-}
-
-.layer-interactive {
-  z-index: 1000;
-}
-
-
-
-/* Generic class declarations for typography. */
-
-.type-header {
-  font: normal normal calc(var(--default-size)*2)/100% "Outfit", sans-serif;
-  color: black;
-}
-
-.type-subheader {
-  font: normal normal var(--default-size)/100% "Outfit", sans-serif;
-  color: black
-}
-
-.type-body {
-  font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;
-  color: black;
-}
-
-.type-note {
-  font: normal normal calc(var(--default-size)/3)/100% "Outfit", sans-serif;
-  color: black;
-}
-
-
-
-/* Style declarations for special classes. */
+/* Style declarations for special classes and components. */
 
 img {
   width: 100%;
@@ -140,12 +76,32 @@ span {
   display: none;
 }
 
-.root {
+
+
+
+
+
+
+
+#landing-page {
   width: 100%;
   height: 100%;
 }
 
-.root-interactive {
+#landing-page > div:has(> img) {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+
+
+
+
+
+#root-interactive {
   width: 100%;
   height: 50%;
 
@@ -162,7 +118,7 @@ span {
   pointer-events: none;
 }
 
-.root-interactive > * {
+#root-button {
   width: calc(var(--default-size)*4);
   height: calc(var(--default-size)*2);
 
@@ -191,13 +147,13 @@ span {
   cursor: pointer;
 }
 
-.root-interactive > * > span {
+#root-interactive > * > span {
   font: normal 800 calc(var(--default-size)*2/3)/100% "Outfit", sans-serif;  
   text-decoration: none;
   color: black;
 }
 
-.root-interactive > *:hover {
+#root-interactive > *:hover {
   background-color: var(--default-blue);
 
   box-shadow:
@@ -211,41 +167,22 @@ span {
     0 0 128px rgba(0, 120, 255, 0.25);
 }
 
-.root-interactive > *:hover > span {
+#root-interactive > *:hover > span {
   color: white;
 }
 
 
-
-/* .root-interactive > * > {
-  
-} */
-
-/* .button > * {
-
-}
-
-.button:hover {
-  background-color: var(--default-blue);
-}
-
-.button:hover > * {
-  color: white;
-} */
-
-.root-overlay {
+#root-background {
   width: 100%;
   height: 100%;
 
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 300;
-
-  pointer-events: none;
+  z-index: 100;
 }
 
-.root-dynamic {
+#root-dynamic {
   width: 100%;
   height: calc(100% - (var(--default-size)*8));
 
@@ -262,33 +199,43 @@ span {
   background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
 }
 
-.root-dynamic > span {
+#root-title {
+  width: auto;
+  height: auto;
+}
+
+#root-title > span {
   font: normal 800 calc(100vh/2)/100% "Outfit", sans-serif;
   color: white;
 
   text-shadow:
-    /* -1px -1px 4px rgba(0, 120, 120, 0.5),
-    1px -1px 4px rgba(0, 120, 120, 0.25),
-    -1px 1px 4px rgba(120, 60, 0, 0.25),
-    1px 1px 4px rgba(120, 60, 0, 0.5), */
     0 0 12px rgba(0, 120, 120, 0.5);
 }
 
-.root-dynamic > span:hover {
-  /* color: linear-gradient(rgba(0, 191, 255, 0.5), rgba(255, 0, 0, 0.5)); */
+#root-title > span:hover {
   mix-blend-mode: overlay;
-
 }
 
-.root-background {
+#root-overlay {
   width: 100%;
   height: 100%;
 
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 300;
+
+  pointer-events: none;
 }
+
+
+
+
+
+
+
+
+
 
 .header {
   width: 100%;
@@ -296,20 +243,28 @@ span {
 
   box-sizing: border-box;
 
+  margin: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 
   background-color: rgba(255, 255, 255, 0);
+
+  & span {
+    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  }
 }
 
 .header-left {
-  width: 50%;
-  height: 100%;
+  box-sizing: border-box;
 
   margin: 0;
-  box-sizing: border-box;
+  border: none;
   outline: none;
   padding: calc(var(--default-size)/2);
 
@@ -317,10 +272,12 @@ span {
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+
+  flex-grow: 1;
 }
 
 .header-right {
-  width: 50%;
+  width: auto;
   height: 100%;
 
   display: flex;
@@ -339,10 +296,10 @@ span {
   align-items: center;
 }
 
-.header-logo > span {
+/* .header-logo > span {
   font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
   color: black
-}
+} */
 
 .header-title {
   margin: 0 calc(var(--default-size)/4);
@@ -353,10 +310,10 @@ span {
   align-items: center;
 }
 
-.header-title > span {
+/* .header-title > span {
   font: normal 800 var(--default-size)/100% "Outfit", sans-serif;
   color: black
-}
+} */
 
 .header-menu {
   width: 100%;
@@ -383,18 +340,18 @@ span {
   align-items: center;
 }
 
-.header-menu-item > span {
+/* .header-menu-item > span {
   font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
   color: black
-}
+} */
 
-.header-menu-item:hover {
+/* .header-menu-item:hover {
   background-color: black;
-}
+} */
 
-.header-menu-item:hover > span {
+/* .header-menu-item:hover > span {
   color: white;
-}
+} */
 
 .header-dropdown {
   display: none;
@@ -430,10 +387,10 @@ span {
   align-items: center;
 }
 
-.header-icon > span {
+/* .header-icon > span {
   font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
   color: black;
-}
+} */
 
 .header-list {
   width: 100%;

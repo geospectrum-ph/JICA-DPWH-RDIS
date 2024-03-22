@@ -65,40 +65,40 @@ function App() {
     });
 
     return (
-      <div className = "header">
-        <div className = "header-left">
-          <div className = "header-logo">
+      <div>
+        <div>
+          <div>
             <span>🌱</span>
           </div>
-          <div className = "header-title">
+          <div>
             <span>SEEDs</span>
           </div>
         </div>
-        <div className = "header-right">
-          <div className = "header-menu">
+        <div>
+          <div>
             {
               modules.map((item) => (
-                <div key = { "header-menu-" + item[0] } className = "header-menu-item" onClick = { () => { handleNavigation(item[0]); } }>
+                <div key = { "header-menu-" + item[0] } onClick = { () => { handleNavigation(item[0]); } }>
                   <span>{ item[1] }</span>
                 </div>
               ))
             }
           </div>
-          <div className = "header-dropdown">
-            <div className = "header-icon" onClick = { () => { setHeaderListActive(!headerListActive); } }>
+          <div>
+            <div onClick = { () => { setHeaderListActive(!headerListActive); } }>
               { headerListActive ? <span>❌</span> : <span>🍔</span> }
             </div>
-            <div className = { headerListActive ? "header-list" : "hidden" }>
-              <div className = "header-list-items">
+            <div className = { headerListActive ? null : "hidden" }>
+              <div>
                 {
                   modules.map((item) => (
-                    <div key = { "header-list-" + item[0] } className = "header-list-item" onClick = { () => { handleNavigation(item[0]); } }>
+                    <div key = { "header-list-" + item[0] } onClick = { () => { handleNavigation(item[0]); } }>
                       <span>{ item[0] }</span>
                     </div>
                   ))
                 }
               </div>
-              <div className = "header-list-footer">
+              <div>
                 <span>Powered by 🌈 GEOSPECTRUM</span>
               </div>
             </div>
@@ -110,25 +110,25 @@ function App() {
 
   /* Main modules. */
 
-  function RootPage() {
+  function LandingPage() {
     return (
-      <div className = "root">
-        <div className = "root-interactive">
-          <div onClick = { () => { handleNavigation("Sign In") } }>
-            <span>Enter</span>
-          </div>
+      <div id = "landing-page" className = "container column-center">
+        <div>
+          <img src = { background } alt = "Background"/>
+        </div>
+        <div>
           <div>
             <span>Powered by 🌈 GEOSPECTRUM</span>
           </div>
+          <div onClick = { () => { handleNavigation("Sign In") } }>
+            <span>Enter</span>
+          </div>
         </div>
-        <div className = "root-overlay">
-          <img src = { overlay } alt = "Overlay"/>
-        </div>
-        <div className = "root-dynamic">
+        <div>
           <span>SEEDs</span>
         </div>
-        <div className = "root-background">
-          <img src = { background } alt = "Background"/>
+        <div>
+          <img src = { overlay } alt = "Overlay"/>
         </div>
       </div>
     )
@@ -635,11 +635,18 @@ function App() {
               <span className = "type-body">No items to show.</span>
             </div>
             :
-            <div className = "container column-center">
+            <div className = "container">
               {
                 fileArray.map((item) => (
-                  <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                    <span className = "type-body">{ item.name }</span>
+                  <div className = "container row-center">
+                    <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                      <span className = "type-body">{ item.name }</span>
+                    </div>
+                    <div className = "container row-center">
+                      <span>👀</span>
+                      <span>✏️</span>
+                      <span>🗑️</span>
+                    </div>
                   </div>
                 ))
               }
@@ -819,7 +826,7 @@ function App() {
     <div className = "container">
       <Routes>
         <Route path = "/">
-          <Route index = { true } element = { <RootPage/> }></Route>
+          <Route index = { true } element = { <LandingPage/> }></Route>
           <Route path = "/sign-in" element = { <SignInPage/> }></Route>
           <Route path = "/home" element = { <HomePage/> }></Route>
           <Route path = "/data" element = { <DataPage/> }></Route>
