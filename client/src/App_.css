@@ -1,0 +1,797 @@
+/* This file serves as the library for local styles and styling at the application level. */
+
+/***/
+
+/* Declaration of generic styling values. */
+
+/*
+.section {
+  --var-name: value;
+}
+
+.use-case {
+  attribute: var(--var-name);
+}
+*/
+
+#root {
+  --default-size: 36px;
+}
+
+/***/
+
+/* Generic class declarations for container dimensions, element wrapping, and positioning. */
+
+.container-full {
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+
+  padding: 0;
+}
+
+.container-fill {
+  flex-grow: 1;
+
+  margin: 0;
+
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+
+  padding: 0;
+}
+
+.container-wrap {
+  width: auto;
+  height: auto;
+
+  margin: 0;
+
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+
+  padding: 0;
+}
+
+.row-center {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.column-center {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.interactive {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+/***/
+
+/* Style declarations for special classes and components. */
+
+.hidden {
+  display: none;
+}
+
+.transparent {
+  pointer-events: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center center;
+}
+
+span {
+  display: inline-block;
+}
+
+/***/
+
+#landing-page {
+  width: 100%;
+  height: 100%;
+}
+
+#landing-page .header {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+/* #landing-page span {
+  font: normal 800 calc(100vh/2)/100% "Outfit", sans-serif;
+  color: white;
+} */
+
+
+
+
+
+
+
+
+
+
+
+#root-interactive {
+  width: 100%;
+  height: 50%;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 400;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+#root-button {
+  width: calc(var(--default-size)*4);
+  height: calc(var(--default-size)*2);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  box-shadow:
+    0 0 1px rgba(255, 255, 255, 0.25),
+    0 0 2px rgba(255, 255, 255, 0.25),
+    0 0 4px rgba(255, 255, 255, 0.25),
+    0 0 8px rgba(255, 255, 255, 0.25),
+    0 0 16px rgba(255, 255, 255, 0.25),
+    0 0 32px rgba(255, 255, 255, 0.25),
+    0 0 64px rgba(255, 255, 255, 0.25),
+    0 0 128px rgba(255, 255, 255, 0.25);
+
+  text-align: center;
+
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+#root-interactive > * > span {
+  font: normal 800 calc(var(--default-size)*2/3)/100% "Outfit", sans-serif;  
+  text-decoration: none;
+  color: black;
+}
+
+#root-interactive > *:hover {
+  background-color: var(--default-blue);
+
+  box-shadow:
+    0 0 1px rgba(0, 120, 255, 0.25),
+    0 0 2px rgba(0, 120, 255, 0.25),
+    0 0 4px rgba(0, 120, 255, 0.25),
+    0 0 8px rgba(0, 120, 255, 0.25),
+    0 0 16px rgba(0, 120, 255, 0.25),
+    0 0 32px rgba(0, 120, 255, 0.25),
+    0 0 64px rgba(0, 120, 255, 0.25),
+    0 0 128px rgba(0, 120, 255, 0.25);
+}
+
+#root-interactive > *:hover > span {
+  color: white;
+}
+
+
+#root-background {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+}
+
+#root-dynamic {
+  width: 100%;
+  height: calc(100% - (var(--default-size)*8));
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 200;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+}
+
+#root-title {
+  width: auto;
+  height: auto;
+}
+
+#root-title > span {
+  font: normal 800 calc(100vh/2)/100% "Outfit", sans-serif;
+  color: white;
+
+  text-shadow:
+    0 0 12px rgba(0, 120, 120, 0.5);
+}
+
+#root-title > span:hover {
+  mix-blend-mode: overlay;
+}
+
+#root-overlay {
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 300;
+
+}
+
+
+
+
+
+
+
+
+
+
+.header {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  box-sizing: border-box;
+
+  margin: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(255, 255, 255, 0);
+
+  & span {
+    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  }
+}
+
+.header-left {
+  box-sizing: border-box;
+
+  margin: 0;
+  border: none;
+  outline: none;
+  padding: calc(var(--default-size)/2);
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  flex-grow: 1;
+}
+
+.header-right {
+  width: auto;
+  height: 100%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-logo {
+  width: var(--default-size);
+  height: var(--default-size);
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .header-logo > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black
+} */
+
+.header-title {
+  margin: 0 calc(var(--default-size)/4);
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .header-title > span {
+  font: normal 800 var(--default-size)/100% "Outfit", sans-serif;
+  color: black
+} */
+
+.header-menu {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-menu-item {
+  width: 100%;
+  height: 100%;
+  
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  padding: 0;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .header-menu-item > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black
+} */
+
+/* .header-menu-item:hover {
+  background-color: black;
+} */
+
+/* .header-menu-item:hover > span {
+  color: white;
+} */
+
+.header-dropdown {
+  display: none;
+}
+
+@media only screen and (max-width: 900px) {
+  .header-right {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .header-menu {
+    display: none;
+  }
+
+  .header-dropdown {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.header-icon {
+  width: calc(var(--default-size)*2);
+  height: calc(var(--default-size)*2);
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .header-icon > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black;
+} */
+
+.header-list {
+  width: 100%;
+  height: calc(100% - var(--default-size)*2);
+
+  position: absolute;
+  left: 0;
+  top: calc(var(--default-size)*2);
+  z-index: 1000;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 1);
+}
+
+.header-list-items {
+  flex-grow: 1;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-list-item {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  padding: calc(var(--default-size)/2);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-list-item > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: white;
+}
+
+.header-list-footer {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  padding: calc(var(--default-size)/2);
+
+  box-sizing: border-box;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+}
+
+.header-list-footer > span {
+  font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  color: black;
+}
+
+
+
+
+
+
+.title-container {
+  height: calc(var(--default-size)*10);
+
+  margin: 0 0 35vh 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.title-container > * {
+  font: normal 800 calc(var(--default-size)*12)/100% "Outfit", sans-serif;
+  color: white;
+}
+
+.button {
+  width: calc(var(--default-size)*3);
+  height: var(--default-size);
+  
+  box-sizing: border-box;
+  border-radius: calc(var(--default-size)/4);
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.button > * {
+  font: normal 600 calc(var(--default-size)/3)/100% "Outfit", sans-serif;  
+  text-decoration: none;
+  color: black;
+}
+
+.button:hover {
+  background-color: var(--default-blue);
+}
+
+.button:hover > * {
+  color: white;
+}
+
+.form {
+  box-sizing: border-box;
+  border-radius: calc(var(--default-size)/4);
+  outline: solid 0.5px black;
+  padding: var(--default-size);
+
+  background-color: white;
+
+  color: black;
+}
+
+.form > *  {
+  margin: calc(var(--default-size)/2) 0;
+}
+
+.form-header {
+  font: 36px 'Outfit', sans-serif;
+  text-align: center;
+}
+
+.form-header > span {
+  margin: calc(var(--default-size)/2) 0;
+}
+
+.form-field {
+  width: 100%;
+  height: auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-field > label {
+  width: 25%;
+  height: auto;
+
+  margin: 0 calc(var(--default-size)/3) 0 0;
+
+  font: 18px 'Outfit', sans-serif;
+  text-align: left;
+  color: black;
+}
+
+.form-field > input {
+  width: 100%;
+  height: auto;
+  
+  box-sizing: border-box;
+  border-radius: calc(var(--default-size)/4);
+  outline: unset;
+  padding: calc(var(--default-size)/3);
+  
+  font: 18px 'Outfit', sans-serif;
+  color: black;
+}
+
+.form-note {
+  width: 100%;
+  height: auto;
+
+  text-align: center;
+}
+
+.form-note > span {
+  width: 100%;
+  
+  font: 18px 'Outfit', sans-serif;
+  color: black;
+}
+
+/* Styling for GIS components. */
+
+.data-page-outer-container {
+  width: 100%;
+  height: calc(100% - 72px);
+
+  flex-grow: 1;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-container {
+  width: 50%;
+  height: 100%;
+
+
+  /* position: relative;
+  top: -54px;
+  left: 0; */
+}
+
+.data-page-inner-container {
+  width: 50%;
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@media only screen and (max-width: 900px) {
+  .data-page-outer-container {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .map-container {
+    width: 100%;
+    height: 50%;
+  
+    /* position: relative;
+    top: -54px;
+    left: 0; */
+  }
+  
+  .data-page-inner-container {
+    width: 100%;
+    height: 50%;
+  
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+
+/* Animations. */
+
+.appear {
+  overflow: clip;
+
+  animation: 1s ease-in-out appear;
+}
+
+@keyframes appear {
+  0% {
+    display: none;
+  }
+  50% {
+    display: none;
+  }
+  100% {
+    display: block;
+  }
+}
+
+.slide-in-up {
+  animation: 4s ease-in-out slide-in-up;
+}
+
+@keyframes slide-in-up {
+  0% {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    opacity: 0
+  }
+
+  25% {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+    opacity: 0
+  }
+
+  75% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: 4s ease-in-out fade-in;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  70% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 0.5;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
+/* Modified styling for resized screens and mobile devices. */
+
+/* @media only screen and (max-width: 1200px) {
+  .title-container > * {
+    font: normal 800 calc(24vw - 72px)/100% "Outfit", sans-serif;
+  }
+}  */
+
+/* @media only screen and (max-width: 600px) {
+  .header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-buttons {
+    position: fixed;
+    top: 50%;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .title-container > * {
+    font: normal 800 calc(var(--default-size)*4)/100% "Outfit", sans-serif;
+  }
+} */

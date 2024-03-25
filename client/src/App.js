@@ -112,24 +112,33 @@ function App() {
 
   function LandingPage() {
     return (
-      <div id = "landing-page" className = "container column-center">
-        <div>
-          <img src = { background } alt = "Background"/>
-        </div>
-        <div>
-          <div>
+      <div id = "landing-page">
+        <div className = "container column-center interactive">
+          <div className = "row row-center">
+          </div>
+          <div className = "flex-item column-bottom">
+            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
+              <span>ENTER</span>
+            </div>
+          </div>
+          <div className = "row row-center">
             <span>Powered by 🌈 GEOSPECTRUM</span>
           </div>
-          <div onClick = { () => { handleNavigation("Sign In") } }>
-            <span>Enter</span>
+        </div>
+        {/* <div className = "container overlay transparent">
+          <img src = { overlay } alt = "Overlay"/>
+        </div> */}
+        <div className = "container column-top foreground">
+          <div className = "title row-center">
+            <span>SEEDs</span>
+          </div>
+          <div className = "subtitle row-center">
+            <span>a new way of looking at things</span>
           </div>
         </div>
-        <div>
-          <span>SEEDs</span>
-        </div>
-        <div>
-          <img src = { overlay } alt = "Overlay"/>
-        </div>
+        {/* <div className = "container background">
+          <img src = { background } alt = "Background"/>
+        </div> */}
       </div>
     )
   }
