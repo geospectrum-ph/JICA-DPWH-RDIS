@@ -35,7 +35,7 @@ function decrypt(object) {
   return (output.toString());
 }
 
-router.route("/login").post((request, response) => {
+router.route("/sign-in/post/").post((request, response) => {
   usersData
     .find({})
     .then((data) => {
@@ -50,7 +50,7 @@ router.route("/login").post((request, response) => {
     });
 });
 
-router.route("/security").post((request, response) => {
+router.route("/change-password/post/").post((request, response) => {
   usersData
     .find({})
     .then((data) => {
@@ -86,7 +86,7 @@ const filesData = mongoose.model("general-files",
   })
 );
 
-router.route("/fetch").post((request, response) => {
+router.route("/fetch/").post((request, response) => {
   filesData
     .find({})
     .then((data) => {
@@ -105,7 +105,7 @@ const socialData = mongoose.model("module-social-databases",
   })
 );
 
-router.route("/fetch/social").post((request, response) => {
+router.route("/fetch/social/").post((request, response) => {
   socialData
     .find({})
     .then((data) => {
@@ -124,7 +124,7 @@ const economicData = mongoose.model("module-economic-databases",
   })
 );
 
-router.route("/fetch/economic").post((request, response) => {
+router.route("/fetch/economic/").post((request, response) => {
   economicData
     .find({})
     .then((data) => {
@@ -143,7 +143,7 @@ const environmentalData = mongoose.model("module-environmental-databases",
   })
 );
 
-router.route("/fetch/environmental").post((request, response) => {
+router.route("/fetch/environmental/").post((request, response) => {
   environmentalData
     .find({})
     .then((data) => {
@@ -162,7 +162,7 @@ const demographicData = mongoose.model("module-demographic-databases",
   })
 );
 
-router.route("/fetch/demographic").post((request, response) => {
+router.route("/fetch/demographic/").post((request, response) => {
   demographicData
     .find({})
     .then((data) => {
@@ -192,7 +192,7 @@ var upload = multer({ storage: storage }).fields([
   { name: "file" }
 ]);
 
-router.route("/upload").post((request, response) => {
+router.route("/upload/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
       return (response.status(500).json(error));
@@ -243,7 +243,7 @@ router.route("/upload").post((request, response) => {
   });
 });
 
-router.route("/upload/social").post((request, response) => {
+router.route("/upload/social/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
       return (response.status(500).json(error));
@@ -294,7 +294,7 @@ router.route("/upload/social").post((request, response) => {
   });
 });
 
-router.route("/upload/economic").post((request, response) => {
+router.route("/upload/economic/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
       return (response.status(500).json(error));
@@ -345,7 +345,7 @@ router.route("/upload/economic").post((request, response) => {
   });
 });
 
-router.route("/upload/environmental").post((request, response) => {
+router.route("/upload/environmental/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
       return (response.status(500).json(error));
@@ -396,7 +396,7 @@ router.route("/upload/environmental").post((request, response) => {
   });
 });
 
-router.route("/upload/demographic").post((request, response) => {
+router.route("/upload/demographic/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) {
       return (response.status(500).json(error));

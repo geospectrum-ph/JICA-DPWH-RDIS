@@ -44,8 +44,8 @@ function App() {
       case "Account":
         navigate("/account");
         break;
-      case "Security":
-        navigate("/security");
+      case "Change Password":
+        navigate("/change-password");
         break;
       case "Support":
         navigate("/support");
@@ -113,22 +113,33 @@ function App() {
   function LandingPage() {
     return (
       <div id = "landing-page">
-        <div className = "container column-center interactive">
-          <div className = "row row-center">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
           </div>
-          <div className = "flex-item column-bottom">
+          <div className = "body column-center">
             <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
-              <span>ENTER</span>
+              <span>Enter</span>
             </div>
           </div>
-          <div className = "row row-center">
-            <span>Powered by 🌈 GEOSPECTRUM</span>
+          <div className = "footer column-center">
+            <div className = "wrapper row-center">
+              <span>Terms</span>
+              <span>•</span>
+              <span>Privacy</span>
+              <span>•</span>
+              <span>Documentation</span>
+              <span>•</span>
+              <span>Support</span>
+            </div>
+            <div className = "wrapper row-center">
+              <span>Powered by 🌈 GEOSPECTRUM</span>
+            </div>
           </div>
         </div>
-        {/* <div className = "container overlay transparent">
-          <img src = { overlay } alt = "Overlay"/>
-        </div> */}
-        <div className = "container column-top foreground">
+        <div className = "overlay container transparent">
+          {/* <img src = { overlay } alt = "Overlay"/> */}
+        </div>
+        <div className = "foreground container column-top">
           <div className = "title row-center">
             <span>SEEDs</span>
           </div>
@@ -136,9 +147,9 @@ function App() {
             <span>a new way of looking at things</span>
           </div>
         </div>
-        {/* <div className = "container background">
-          <img src = { background } alt = "Background"/>
-        </div> */}
+        <div className = "background container">
+          {/* <img src = { background } alt = "Background"/> */}
+        </div>
       </div>
     )
   }
@@ -148,7 +159,7 @@ function App() {
 
     function handleLogin() {
       axios
-        .post("http://localhost:5000/login/", {
+        .post("http://localhost:5000/sign-in/post/", {
           username: localStorage.getItem("username"),
           password: localStorage.getItem("password")
         })
@@ -172,65 +183,77 @@ function App() {
     }
 
     return (
-      <div className = "container column-center">
-        <div className = "wrapper column-center">
-          <div className = "box form static layer-interactive">
-            <div className = "form-header">
-              <span>Sign In to 🌱 <b>SEEDs</b></span>
-            </div>
-            <div className = "form-field">
-              <label htmlFor = "sign-in-username"><span>Username</span></label>
-              <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
-            </div>
-            <div className = "form-field">
-              <label htmlFor = "sign-in-password"><span>Password</span></label>
-              <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
-            </div>
-            <div className = "form-note">
-              <span>{ loginNote }</span>
-            </div>
-            <div className = "button" onClick = { () => { handleLogin(); } }>
-              <span>Sign In</span>
-            </div>
-            <div className = "button" onClick = { () => { handleNavigation("Security") } }>
-              <span>Forgot password?</span>
-            </div>
-            <div>
-              <div className = "row-center">
-                <span className = "type-body">Terms</span>
-                <span className = "type-body">•</span>
-                <span className = "type-body">Privacy</span>
-                <span className = "type-body">•</span>
-                <span className = "type-body">Documentation</span>
-                <span className = "type-body">•</span>
-                <span className = "type-body">Support</span>
+      <div id = "sign-in-page">
+        <div className = "interactive container column-center">
+          <div className = "wrapper column-center">
+            <div className = "form column-top">
+              <div className = "form-header row-center">
+                <span>Sign In to 🌱 SEEDs</span>
               </div>
-              <div>
-                <span className = "type-p0-03">SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+              <div className = "form-note row-center">
+                <span>{ loginNote }</span>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "sign-in-username">
+                  <span>Username</span>
+                </label>
+                <input id = "sign-in-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "sign-in-password">
+                  <span>Password</span>
+                </label>
+                <input id = "sign-in-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+              </div>
+              <div className = "form-buttons row-center">
+                <div className = "button row-center" onClick = { () => { handleLogin(); } }>
+                  <span>Sign In</span>
+                </div>
+                <div className = "button row-center" onClick = { () => { handleNavigation("Change Password") } }>
+                  <span>Change Password</span>
+                </div>
               </div>
             </div>
-          </div>
-          <div className = "container fixed layer-background" onClick = { () => { handleNavigation("Root") } }></div> 
+            <div className = "footer row-center">
+              <span>Terms</span>
+              <span>•</span>
+              <span>Privacy</span>
+              <span>•</span>
+              <span>Documentation</span>
+              <span>•</span>
+              <span>Support</span>
+            </div>
+            <div className = "footer row-center">
+              <span>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            </div>
+          </div>          
         </div>
+        <div className = "background container">
+          <div className = "button row-center" onClick = { () => { handleNavigation("Exit") } }>
+            <span>❌</span>
+          </div>
+        </div> 
       </div>
     )
   }
 
-  function SecurityPage() {
-    const [usernameBuffer, setUsernameBuffer] = React.useState(null);
-    const [passwordBuffer, setPasswordBuffer] = React.useState(null);
-    const [newPasswordBuffer, setNewPasswordBuffer] = React.useState(null);
-    const [clonePasswordBuffer, setClonePasswordBuffer] = React.useState(null);
+  function ChangePasswordPage() {
+    const [username, setUsername] = React.useState(null);
+    const [oldPassword, setOldPassword] = React.useState(null);
+    const [newPassword, setNewPassword] = React.useState(null);
+    const [newPasswordClone, setNewPasswordClone] = React.useState(null);
 
     const [changePasswordNote, setChangePasswordNote] = React.useState("Please enter your username and password.");
 
     function handleChangePassword() {
       axios
-        .post("http://localhost:5000/security/", {
-          username: usernameBuffer,
-          password: passwordBuffer,
-          newPassword: newPasswordBuffer,
-          clonePassword: clonePasswordBuffer
+        .post("http://localhost:5000/change-password/post/", {
+          username: username,
+          password: oldPassword,
+          newPassword: newPassword,
+          clonePassword: newPasswordClone
         })
         .then((response) => {
           switch (response.data) {
@@ -244,7 +267,7 @@ function App() {
               break;
             case "request_success":
               setChangePasswordNote("Successful password update!");
-              handleNavigation("Home");
+              handleNavigation("Sign In");
               break;
             default: return null;
           }
@@ -256,44 +279,67 @@ function App() {
     }
 
     return (
-      <div style = { { width: "100%", height: "100%", zIndex: "500" } }>
-        <img src = { background } style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "0", objectFit: "cover", objectPosition: "center center" } } alt = "background"/>
-        <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", backgroundColor: "#1C424AF3", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-          <div style = { { width: "25%", height: "auto", zIndex: "50", outline: "solid 2px #FFFFFF44", borderRadius: "25px", padding: "24px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-            <span style = { { margin: "20px 0 0 0", font: "24px 'Outfit', sans-serif", color: "#FFFFFF" } }>Sign In to <b>SEEDs</b></span>
-            <div style = { { width: "100%", height: "auto", margin: "40px 0 10px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input name = "username-buffer" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" onChange = { (event) => { setUsernameBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+      <div id = "change-password-page">
+        <div className = "interactive container column-center">
+          <div className = "wrapper column-center">
+            <div className = "form column-top">
+              <div className = "form-header row-center">
+                <span>Change Password</span>
+              </div>
+              <div className = "form-note row-center">
+                <span>{ changePasswordNote }</span>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "change-password-username">
+                  <span>Username</span>
+                </label>
+                <input id = "change-password-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { setUsername(event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "change-password-old-password">
+                  <span>Old Password</span>
+                </label>
+                <input id = "change-password-old-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Old Password" onChange = { (event) => { setOldPassword(event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "change-password-new-password">
+                  <span>New Password</span>
+                </label>
+                <input id = "change-password-new-password" type = "password" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPassword(event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+                <label htmlFor = "change-password-new-password-clone">
+                  <span>New Password</span>
+                </label>
+                <input id = "change-password-new-password-clone" type = "password" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPasswordClone(event.target.value); } } required/>
+              </div>
+              <div className = "form-field row-center">
+              </div>
+              <div className = "form-buttons row-center">
+                <div className = "button row-center" onClick = { () => { handleChangePassword(); } }>
+                  <span>Submit</span>
+                </div>
+              </div>
             </div>
-            <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input name = "password-buffer" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+            <div className = "footer row-center">
+              <span>Terms</span>
+              <span>•</span>
+              <span>Privacy</span>
+              <span>•</span>
+              <span>Documentation</span>
+              <span>•</span>
+              <span>Support</span>
             </div>
-            <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input name = "new-password" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setNewPasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
+            <div className = "footer row-center">
+              <span>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
             </div>
-            <div style = { { width: "100%", height: "auto", margin: "10px 0 20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <input name = "clone-password" type = "password" minLength = "8" maxLength = "24" onChange = { (event) => { setClonePasswordBuffer(event.target.value); } } style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", font: "16px 'Outfit', sans-serif", color: "#000000" } }/>
-            </div>
-            <div style = { { width: "100%", height: "auto", margin: "10px 0 0px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" } }>
-              <span style = { { width: "85%", border: "none", borderRadius: "10px", padding: "12px", textAlign: "center", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>{ changePasswordNote }</span>
-            </div>
-            <div style = { { minWidth: "240px", height: "auto", margin: "20px", outline: "solid 2px #FFFFFF44", borderRadius: "10px", backgroundColor: "#1C424A", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } } onClick = { () => { handleChangePassword(); } }>
-              <span style = { { padding: "10px", font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>Submit</span>
-            </div>
-          </div>
-          <div style = { { height: "auto", zIndex: "100", margin: "80px 0 0 0", padding: "10px 80px", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", font: "18px 'Outfit', sans-serif", color: "#FFFFFF" } }>
-            <span style = { { fontSize: "16px", margin: "0 20px" } }>Terms</span>
-            <span style = { { fontSize: "18px" } }>•</span>
-            <span style = { { fontSize: "16px", margin: "0 20px" } }>Privacy</span>
-            <span style = { { fontSize: "18px" } }>•</span>
-            <span style = { { fontSize: "16px", margin: "0 20px" } }>Documentation</span>
-            <span style = { { fontSize: "18px" } }>•</span>
-            <span style = { { fontSize: "16px", margin: "0 20px" } }>Support</span>
-          </div>
-          <div style = { { height: "auto", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" } }>
-            <img src = { logo } style = { { width: "24px", margin: "0 10px 0 0" } } alt = "Logo"/>
-            <span style = { { font: "16px 'Outfit', sans-serif", color: "#FFFFFF" } }>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
-          </div>
+          </div>          
         </div>
+        <div className = "background container">
+          <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
+            <span>❌</span>
+          </div>
+        </div> 
       </div>
     )
   }
@@ -841,7 +887,7 @@ function App() {
           <Route path = "/data" element = { <DataPage/> }></Route>
           <Route path = "/analytics" element = { <AnalyticsPage/> }></Route>
           <Route path = "/account" element = { <AccountPage/> }></Route>
-          <Route path = "/security" element = { <SecurityPage/> }></Route>
+          <Route path = "/change-password" element = { <ChangePasswordPage/> }></Route>
           <Route path = "/support" element = { <SupportPage/> }></Route>
         </Route>
         <Route path = "*" element = { <ErrorPage/> }></Route>

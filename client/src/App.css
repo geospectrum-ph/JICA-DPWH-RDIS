@@ -20,32 +20,46 @@
 
 /***/
 
-/* Generic class declarations. */
-
 .hidden {
   display: none;
-}
-
-.transparent {
-  pointer-events: none;
 }
 
 .container {
   width: 100%;
   height: 100%;
 
-  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  &.interactive {
+    z-index: 1000;
+  }
+
+  &.overlay {
+    z-index: 100;
+  }
+
+  &.foreground {
+    z-index: 10;
+  }
+
+  &.background {
+    z-index: 1;
+  }
 
   box-sizing: border-box;
-  border: none;
-  outline: none;
-
-  padding: 0;
 }
 
-.row {
-  width: 100%;
-  height: calc(var(--default-size)*2);
+div:has(> wrapper) {
+  pointer-events: none;
+}
+
+.wrapper {
+  width: auto;
+  height: auto;
+
+  pointer-events: all;
 }
 
 .row-left {
@@ -76,11 +90,6 @@
   align-items: center;
 }
 
-.column {
-  width: calc(var(--default-size)*2);
-  height: 100%;
-}
-
 .column-top {
   display: flex;
   flex-flow: column nowrap;
@@ -109,41 +118,99 @@
   align-items: center;
 }
 
-.flex-item {
+.header {
+  width: 100%;
+  height: calc(var(--default-size)*2);
+
+  & span {
+    font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+    color: rgba(0, 0, 0, 1);
+  }
+}
+
+.body {
   flex-grow: 1;
 }
 
-.interactive {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1000;
+.footer {
+  width: 100%;
+  height: calc(var(--default-size)*4);
+
+  & div {
+    width: 100%;
+    height: calc(var(--default-size));
+
+    & :nth-child(odd) {
+      font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+      color: rgba(0, 0, 0, 1);
+    }
+
+    & :nth-child(even) {
+      margin: 0 calc(var(--default-size)/2);
+
+      font: normal 800 calc(var(--default-size)*3/4)/100% "Outfit", sans-serif;  
+      color: rgba(0, 0, 0, 1);
+    }
+
+    @media (max-width: 900px) {
+      &:nth-child(odd) {
+        display: none;
+      }
+    }
+  }
 }
 
-.overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 100;
+span {
+  display: inline-block;
+
+  text-align: center;
 }
 
-.foreground {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 10;
+.title span {
+  font: normal 800 calc(var(--default-size)*8)/100% "Outfit", sans-serif;
+  color: rgba(0, 0, 0, 1);
 }
 
-.background {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
+@media (max-width: 900px) {
+  .title span {
+    font: normal 800 calc(var(--default-size)*3)/100% "Outfit", sans-serif;
+  }
 }
 
-/***/
+.subtitle span {
+  font: normal 800 calc(var(--default-size))/100% "Outfit", sans-serif;
+  color: rgba(0, 0, 0, 1);
+}
 
-/* Style declarations for special classes and components. */
+@media (max-width: 900px) {
+  .subtitle {
+    display: none;
+  }
+}
+
+& .button {
+  width: calc(var(--default-size)*4);
+  height: calc(var(--default-size)*2);
+    
+  background-color: rgba(255, 255, 255, 1);
+
+  cursor: pointer;
+
+  & span {
+    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+    color: rgba(0, 0, 0, 1);
+
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 1);
+
+    & span {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}
 
 img {
   width: 100%;
@@ -153,57 +220,133 @@ img {
   object-position: center center;
 }
 
-span {
-  display: inline-block;
+.transparent {
+  pointer-events: none;
 }
 
 /***/
 
 #landing-page {
-  & div:has(> .title) {
-    padding: 10%;
-  }
+  & .container {
+    &.interactive {
+      & .body {
+        padding: calc(var(--default-size)*8) 0 0 0;
 
-  & .title {
-    & > span {
-      font: normal 800 calc(var(--default-size)*8)/100% "Outfit", sans-serif;
-      color: rgb(0, 0, 0);
-    
-      text-shadow: 0 0 12px rgba(0, 120, 120, 0.5);
-    }
-  }
+        & .button {
+          background-color: rgba(60, 120, 240, 1);
 
-  & .subtitle {
-    & > span {
-      font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
-      color: rgb(0, 0, 0);
-    
-      text-shadow: 0 0 12px rgba(0, 120, 120, 0.5);
-    }
-  }
+          & span {
+            color: rgba(255, 255, 255, 1);
+          }
 
-  & .button {
-    width: calc(var(--default-size)*4);
-    height: calc(var(--default-size)*2);
+          &:hover {
+            background-color: rgba(0, 0, 0, 1);
 
-    margin: 0 0 calc(var(--default-size)*2) 0;
-    outline: solid 2px black;
-
-    background-color: white;
-
-    & > span {
-      font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
-      color: black;
-    }
-
-    &:hover {
-      background-color: black;
-
-      & > span {
-        color: white;
+            & span {
+              color: rgba(255, 255, 255, 1);
+            }
+          }
+        }
       }
     }
 
-    cursor: pointer;
+    &.foreground {
+      padding: calc(var(--default-size)*4) 0 0 0;
+    }
+  }
+}
+
+#sign-in-page, #change-password-page {
+  & .container {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    &.interactive {
+      z-index: 1000;
+
+      pointer-events: none;
+
+      & .wrapper {
+
+
+        & .form {
+          width: calc(var(--default-size)*16);
+          height: calc(var(--default-size)*16);
+
+          & .form-header {
+            width: 100%;
+            height: calc(var(--default-size)*2);
+          }
+
+          & .form-note {
+            width: 100%;
+            height: calc(var(--default-size)*2);
+            
+            & span {
+              font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+              color: rgba(0, 0, 0, 1);
+            }
+
+            &:has[onClick] {
+              cursor: pointer;
+            }
+          }
+
+          & .form-field {
+            width: 100%;
+            height: calc(var(--default-size));
+
+            margin: calc(var(--default-size)/8);
+
+            & label {
+              width: calc(var(--default-size)*4);
+
+              & span {
+                font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+                color: rgba(0, 0, 0, 1);
+              }
+            }
+
+            & input {
+              width: calc(var(--default-size)*8);
+              
+              padding: calc(var(--default-size)/8) calc(var(--default-size)/4);
+
+              font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+              color: rgba(0, 0, 0, 1);
+            }
+          }
+
+          & .form-buttons {
+            & .button {
+              margin: 0 calc(var(--default-size)/2);
+            }
+          }
+        }
+
+        & .footer {
+          width: calc(var(--default-size)*16);
+          height: calc(var(--default-size));
+
+          
+        }
+      }
+    }
+
+    &.background {
+      z-index: 1;
+
+      & .button {
+        width: calc(var(--default-size));
+        height: calc(var(--default-size));
+
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        margin: calc(var(--default-size));
+      }
+    }
   }
 }
