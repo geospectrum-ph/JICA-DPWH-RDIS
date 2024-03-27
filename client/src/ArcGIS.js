@@ -3,21 +3,9 @@ import * as React from "react";
 import esriConfig from "@arcgis/core/config.js";
 
 import Map from "@arcgis/core/Map.js";
-import Basemap from "@arcgis/core/Basemap.js";
-
 import MapView from "@arcgis/core/views/MapView.js";
-import SceneView from "@arcgis/core/views/SceneView.js";
-
-import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer.js";
-import BaseDynamicLayer from "@arcgis/core/layers/BaseDynamicLayer.js";
-import BaseElevationLayer from "@arcgis/core/layers/BaseElevationLayer.js";
-import ElevationLayer from "@arcgis/core/layers/ElevationLayer.js";
-import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
-
-import Compass from "@arcgis/core/widgets/Compass.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
-import Sketch from "@arcgis/core/widgets/Sketch.js";
 
 export const ArcGISMapContext = React.createContext();
 
@@ -64,7 +52,7 @@ const ArcGISMapContextProvider = (props) => {
       });
 
       view = new MapView({
-        container: "sample-map",
+        container: "arcgis-map",
         map: map,
         center: [121.5, 20.5],
         zoom: 4
@@ -80,7 +68,9 @@ const ArcGISMapContextProvider = (props) => {
     }, []);
 
     return (
-      <div id = "sample-map" style = { { width: "100%", height: "100%" } }></div>
+      <div>
+        <div id = "arcgis-map"></div>
+      </div>
     );
   }
 

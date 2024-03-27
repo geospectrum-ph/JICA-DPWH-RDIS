@@ -65,40 +65,40 @@ function App() {
     });
 
     return (
-      <div>
-        <div>
-          <div>
+      <div id = "dashboard" className = "container row-center">
+        <div className = "header row-left">
+          <div className = "row-center">
             <span>🌱</span>
           </div>
-          <div>
+          <div className = "row-center">
             <span>SEEDs</span>
           </div>
         </div>
-        <div>
-          <div>
+        <div className = "header row-right">
+          <div className = "header-menu row-fill">
             {
               modules.map((item) => (
-                <div key = { "header-menu-" + item[0] } onClick = { () => { handleNavigation(item[0]); } }>
+                <div key = { "header-menu-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
                   <span>{ item[1] }</span>
                 </div>
               ))
             }
           </div>
-          <div>
-            <div onClick = { () => { setHeaderListActive(!headerListActive); } }>
+          <div className = "header-dropdown column-center">
+            <div className = "button row-center" onClick = { () => { setHeaderListActive(!headerListActive); } }>
               { headerListActive ? <span>❌</span> : <span>🍔</span> }
             </div>
-            <div className = { headerListActive ? null : "hidden" }>
-              <div>
+            <div className = { headerListActive ? "header-list column-center" : "hidden" }>
+              <div className = "container column-center">
                 {
                   modules.map((item) => (
-                    <div key = { "header-list-" + item[0] } onClick = { () => { handleNavigation(item[0]); } }>
+                    <div key = { "header-list-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
                       <span>{ item[0] }</span>
                     </div>
                   ))
                 }
               </div>
-              <div>
+              <div className = "container row-center">
                 <span>Powered by 🌈 GEOSPECTRUM</span>
               </div>
             </div>
@@ -122,7 +122,7 @@ function App() {
             </div>
           </div>
           <div className = "footer column-center">
-            <div className = "wrapper row-center">
+            <div className = "container row-center">
               <span>Terms</span>
               <span>•</span>
               <span>Privacy</span>
@@ -131,7 +131,7 @@ function App() {
               <span>•</span>
               <span>Support</span>
             </div>
-            <div className = "wrapper row-center">
+            <div className = "container row-center">
               <span>Powered by 🌈 GEOSPECTRUM</span>
             </div>
           </div>
@@ -185,8 +185,13 @@ function App() {
     return (
       <div id = "sign-in-page">
         <div className = "interactive container column-center">
-          <div className = "wrapper column-center">
-            <div className = "form column-top">
+          <div className = "header row-right">
+            <div className = "button row-center" onClick = { () => { handleNavigation("Exit") } }>
+              <span>❌</span>
+            </div>
+          </div>
+          <div className = "body column-center">
+            <div className = "form column-center">
               <div className = "form-header row-center">
                 <span>Sign In to 🌱 SEEDs</span>
               </div>
@@ -216,7 +221,9 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className = "footer row-center">
+          </div>
+          <div className = "footer column-center">
+            <div className = "container row-center">
               <span>Terms</span>
               <span>•</span>
               <span>Privacy</span>
@@ -225,18 +232,13 @@ function App() {
               <span>•</span>
               <span>Support</span>
             </div>
-            <div className = "footer row-center">
-              <span>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            <div className = "container row-center">
+              <span>Powered by 🌈 GEOSPECTRUM</span>
             </div>
-          </div>          
-        </div>
-        <div className = "background container">
-          <div className = "button row-center" onClick = { () => { handleNavigation("Exit") } }>
-            <span>❌</span>
           </div>
-        </div> 
+        </div>
       </div>
-    )
+    );
   }
 
   function ChangePasswordPage() {
@@ -281,8 +283,13 @@ function App() {
     return (
       <div id = "change-password-page">
         <div className = "interactive container column-center">
-          <div className = "wrapper column-center">
-            <div className = "form column-top">
+          <div className = "header row-right">
+            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
+              <span>❌</span>
+            </div>
+          </div>
+          <div className = "body column-center">
+            <div className = "form column-center">
               <div className = "form-header row-center">
                 <span>Change Password</span>
               </div>
@@ -321,7 +328,9 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className = "footer row-center">
+          </div>
+          <div className = "footer column-center">
+            <div className = "container row-center">
               <span>Terms</span>
               <span>•</span>
               <span>Privacy</span>
@@ -330,84 +339,19 @@ function App() {
               <span>•</span>
               <span>Support</span>
             </div>
-            <div className = "footer row-center">
-              <span>SEEDs © 2023 by Geospectrum Analytics Services, Inc.</span>
+            <div className = "container row-center">
+              <span>Powered by 🌈 GEOSPECTRUM</span>
             </div>
-          </div>          
-        </div>
-        <div className = "background container">
-          <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
-            <span>❌</span>
           </div>
-        </div> 
+        </div>
       </div>
-    )
+    );
   }
 
   function HomePage() {
-    // setInterval((event) => { event.target.textContent = new Date().toLocaleString(); }, 1000); 
-
     function Backbone() {
       return (
-        <div style = { { backgroundColor: "#FFFFFF", minWidth: "15%", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"} }>
-          <span style = { { font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Executive Summary</span>
-          <ul style = { { font: "12px 'Outfit', sans-serif", color: "#000000", lineHeight: "150%" } }>
-            <li>Introduction
-              <ul>
-                <li>Messages</li>
-                <li>Vision & Mission</li>
-              </ul>
-            </li>
-            <li>
-              Profile
-              <ul>
-                <li>General Map</li>
-                <li>Demographic Profile</li>
-                <li>Environmental Profile
-                  <ul>
-                    <li>Topography</li>
-                    <li>Climate</li>
-                    <li>Hazards</li>
-                    <li>DRRMP</li>
-                    <li>Protected Areas</li>
-                    <li>Green Spaces</li>
-                  </ul>
-                </li>
-                <li>Economic Profile
-                  <ul>
-                    <li>Schedule</li>
-                    <li>Budget Report</li>
-                    <li>CLUP</li>
-                    <li>Tax Map</li>
-                    <li>General Statistics</li>
-                  </ul>
-                </li>
-                <li>Social Services
-                  <ul>
-                    <li>Emergency Hotlines</li>
-                    <li>Healthcare Services</li>
-                    <li>Education Services</li>
-                    <li>Labor and Employment Services</li>
-                    <li>Legal Services</li>
-                  </ul>
-                </li>
-                <li>Plans & Projects
-                  <ul>
-                    <li>General Description</li>
-                    <li>Schedule & Budget</li>
-                    <li>Project Details</li>
-                  </ul>
-                </li>
-                <li>People
-                  <ul>
-                    <li>Organizational Structure</li>
-                    <li>Administrative Profile</li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>Index</li>
-          </ul>
+        <div>
         </div>
       )
     }
@@ -415,18 +359,6 @@ function App() {
     function Summary00() {
       return (
         <div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            {/* <img src = { seal } style = { { width: "120px", height: "120px", objectFit: "contain", objectPosition: "center center" } } alt = "Seal"/> */}
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>City of Mandaluyong, National Capital Region</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 72px 'Outfit', sans-serif", color: "#000000" } }>Executive Summary</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>An empowered community, competent government sector human resource, and benevolent private sector working in an atmosphere of mutual assistance shaping Mandaluyong into a sustainable and globally competitive city and an effective partner in nation-building.</span>
-          </div>
         </div>
       )
     }
@@ -434,16 +366,6 @@ function App() {
     function Summary01() {
       return  (
         <div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 48px 'Outfit', sans-serif", color: "#000000" } }>Introduction</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
-          </div>
         </div>
       )
     }
@@ -451,12 +373,6 @@ function App() {
     function Summary02() {
       return  (
         <div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 36px 'Outfit', sans-serif", color: "#000000" } }>Messages</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-          </div>
         </div>
       )
     }
@@ -464,12 +380,6 @@ function App() {
     function Summary03() {
       return  (
         <div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 36px 'Outfit', sans-serif", color: "#000000" } }>Vision</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-          </div>
         </div>
       )
     }
@@ -477,12 +387,6 @@ function App() {
     function Summary04() {
       return  (
         <div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 36px 'Outfit', sans-serif", color: "#000000" } }>Mission</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean venenatis luctus eleifend. Maecenas ac massa feugiat, venenatis quam sit amet, mollis ex. Integer sodales odio non sem euismod varius. Sed vel consectetur justo. Pellentesque gravida aliquet nisl, a cursus purus mollis ut. Curabitur sit amet sem diam. Sed vel sodales neque, a faucibus lectus. Pellentesque viverra fermentum lacinia. Duis finibus eu nulla ut laoreet. Quisque in feugiat quam.</span>
-          </div>
         </div>
       )
     }
@@ -490,35 +394,31 @@ function App() {
     function Summary05() {
       return (
         <div>
-          {/* <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { font: "bold 48px 'Outfit', sans-serif", color: "#000000" } }>Messages</span>
-          </div>
-          <div style = { { minWidth: "calc(180px + 20px)", height: "auto", margin: "9px", padding: "9px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start" } }>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>MANDALUYONG is a city that lies at the heart of Metropolitan Manila in the Republic of the Philippines.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>Mandaluyong City skyline Mandaluyong’s remarkable rate of development since the early 80’s established the city as one of the most progressive economic centers in the country.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>In the past, Mandaluyong would hardly be thought of as the alternative place in which to be. Business tended to concentrate in neighboring areas and for some time, this quiet residential suburb just seemed to passively drift that way.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>But events that unfolded in the aftermath of the EDSA Revolution in 1986 saw the dawn of a new beginning for Mandaluyong.</span>
-            <span style = { { margin: "0 0 12px 0", font: "bold 18px 'Outfit', sans-serif", color: "#000000" } }>With the sense of stability brought about by a dynamic leadership then under Carmelita “Menchie” Aguilar Abalos., the expansion and relocation of major capital investments gradually shifted towards the city, and soon after, this once sleepy town’s landscape dramatically transformed into one of the most promising business and financial centers in Metro Manila.</span>
-          </div> */}
         </div>
       )
     }
   
     return (
-      <div className = "container">
-        <div style = { { width: "100%", height: "100%", position: "absolute", top: "0", left: "0", zIndex: "100", background: "linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(118,194,224,1) 100%)" } }>
-          <Dashboard/>
-          <div style = { { width: "100%", top: "auto", zIndex: "0", display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "start" } }>
-            <Backbone/>
-            <div style = { { width: "auto", height: "auto", padding: "36px", display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "start"} }>
-              <Summary00/>
-              <Summary01/>
-              <Summary02/>
-              <Summary03/>
-              <Summary04/>
-              <Summary05/>
+      <div id = "home-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+            <Dashboard/>
+          </div>
+          <div className = "body column-center">
+            <div>
+              <Backbone/>
+              <div>
+                <Summary00/>
+                <Summary01/>
+                <Summary02/>
+                <Summary03/>
+                <Summary04/>
+                <Summary05/>
+              </div>
             </div>
           </div>
+          {/* <div className = "footer row-center">
+          </div> */}
         </div>
       </div>
     )
@@ -799,82 +699,113 @@ function App() {
     const [actions, setActions] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]])
 
     return (
-      <div className = "container fixed center-row layer-01" onLoad = { () => { setActive(null); } }>
-        <Dashboard/>
-        <div className = "data-page-outer-container">
-          <div className = "map-container">
-            <ArcGISMap/> 
+      <div id = "data-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+            <Dashboard/>
           </div>
-          <div className = "data-page-inner-container">
-            <div className = "header row-center">
-              {
-                actions.map((item) => (
-                  <div key = { "data-page-actions-" + item[0] } className = "header-menu-item" onClick = { () => { setActive(item[0]); } }>
-                    <span>{ item[1] }</span>
-                  </div>
-                ))
-              }
+          <div className = "body row-center">
+            <div className = "container row-center">
+              <ArcGISMap/>
             </div>
-            <div className = "header row-center">
-              <span>{ actions[actions.findIndex((item) => { if (item[0] === active) return true; else return false; })][1] + " " + active + " Data"}</span>
-            </div>
-            <div className = "container">
-              {
-                active === actions[1][0] ? <SummaryPage/> :
-                active === actions[2][0] ? <SocialPage/> :
-                active === actions[3][0] ? <EconomicPage/> :
-                active === actions[4][0] ? <EnvironmentalPage/> :
-                active === actions[5][0] ? <DemographicPage/> :
-                <UploadPage/>
-              }
+            <div className = "container column-center">
+              <div className = "data-sectors">
+                {
+                  actions.map((item) => (
+                    <div key = { "data-sector-item-" + item[0] } className = "button data-sector-item row-center" onClick = { () => { setActive(item[0]); } }>
+                      <span>{ item[1] }</span>
+                    </div>
+                  ))
+                }
+              </div>
+              <div>
+                <span>{ actions[actions.findIndex((item) => { if (item[0] === active) return true; else return false; })][1] + " " + active + " Data"}</span>
+              </div>
+              <div>
+                {
+                  active === actions[1][0] ? <SummaryPage/> :
+                  active === actions[2][0] ? <SocialPage/> :
+                  active === actions[3][0] ? <EconomicPage/> :
+                  active === actions[4][0] ? <EnvironmentalPage/> :
+                  active === actions[5][0] ? <DemographicPage/> :
+                  <UploadPage/>
+                }
+              </div>
             </div>
           </div>
+          {/* <div className = "footer row-center">
+          </div> */}
         </div>
       </div>
-    )
+    );
   }
 
   function AnalyticsPage() {
     return (
-      // <div className = "box column-center">
-      //   <span className = "type-xx-18">{ "Page development in progress." }</span>
-      // </div>
-      <div className = "container">
-        <Dashboard/>
-        <LeafletMap/>
+      <div id = "analytics-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+            <Dashboard/>
+          </div>
+          <div className = "body column-center">
+            <div className = "container row-center">
+              <LeafletMap/>
+            </div>
+          </div>
+          {/* <div className = "footer row-center">
+          </div> */}
+        </div>
       </div>
-    )
+    );
   }
 
   function AccountPage() {
     return (
-      <div className = "container column-center">
-        <Dashboard/>
-        <div className = "container column-center">
-          <span className = "type-xx-18">{ "Page development in progress." }</span>
+      <div id = "account-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+            <Dashboard/>
+          </div>
+          <div className = "body column-center">
+            <span>{ "Page development in progress." }</span>
+          </div>
+          {/* <div className = "footer row-center">
+          </div> */}
         </div>
       </div>
-    )
+    );
   }
 
   function SupportPage() {
     return (
-      <div className = "container column-center">
-        <Dashboard/>
-        <div className = "container column-center">
-          <span className = "type-xx-18">{ "Page development in progress." }</span>
+      <div id = "support-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+            <Dashboard/>
+          </div>
+          <div className = "body column-center">
+            <span>{ "Page development in progress." }</span>
+          </div>
+          {/* <div className = "footer row-center">
+          </div> */}
         </div>
       </div>
-    )
+    );
   }
 
   function ErrorPage() {
     return (
-      <div className = "box column-center">
-        <span className = "type-xx-72">{ "ERROR 404" }</span>
-        <span className = "type-xx-18">{ "Page not found." }</span>
+      <div id = "error-page">
+        <div className = "interactive container column-center">
+          <div className = "header row-center">
+          </div>
+          <div className = "body column-center">
+          </div>
+          <div className = "footer row-center">
+          </div>
+        </div>
       </div>
-    );
+    )
   }
 
   return (
