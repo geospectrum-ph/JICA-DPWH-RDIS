@@ -554,9 +554,11 @@ function App() {
       }
 
       return (
-        <div className = "container column-center">
-          <input type = "file" id = "file-container" name = "file-container" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
-          <label htmlFor = "file-container"></label>
+        <div id = "upload-module">
+          <div className = "header row-center">
+            <input type = "file" id = "upload-module-input-file" name = "upload-module-input-file" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
+          </div>
+          <label htmlFor = "upload-module-input-file"></label>
           <fieldset onChange = { (event) => { setFileCategory(event.target.value); } }>
             <legend>Select one file category:</legend>
             <div>
@@ -708,8 +710,8 @@ function App() {
             <div className = "container row-center">
               <ArcGISMap/>
             </div>
-            <div className = "container column-center">
-              <div className = "data-sectors">
+            <div className = "container column-top">
+              <div className = "header row-center">
                 {
                   actions.map((item) => (
                     <div key = { "data-sector-item-" + item[0] } className = "button data-sector-item row-center" onClick = { () => { setActive(item[0]); } }>
@@ -718,10 +720,10 @@ function App() {
                   ))
                 }
               </div>
-              <div>
+              <div className = "header row-center">
                 <span>{ actions[actions.findIndex((item) => { if (item[0] === active) return true; else return false; })][1] + " " + active + " Data"}</span>
               </div>
-              <div>
+              <div className = "container">
                 {
                   active === actions[1][0] ? <SummaryPage/> :
                   active === actions[2][0] ? <SocialPage/> :
