@@ -24,13 +24,18 @@ function App() {
 
   const navigate = useNavigate();
 
+  const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
+  const [activeModule, setActiveModule] = React.useState(null); /* The value of this variable needs to be stored into local storage to be conserved when page refreshes. */
+
   function handleNavigation(module) {
+    setActiveModule(module);
+
     switch (module) {
-      case "Exit":
-        navigate("/");
-        break;
       case "Sign In":
         navigate("/sign-in");
+        break;
+      case "Change Password":
+        navigate("/change-password");
         break;
       case "Home":
         navigate("/home");
@@ -44,51 +49,53 @@ function App() {
       case "Account":
         navigate("/account");
         break;
-      case "Change Password":
-        navigate("/change-password");
-        break;
       case "Support":
         navigate("/support");
+        break;
+      case "Exit":
+        navigate("/");
         break;
       default:
         return null;
     }
   }
+
+  /* The Dashboard component. */
   
   function Dashboard() {
-    const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
-    
-    const [headerListActive, setHeaderListActive] = React.useState(false);
+    const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
 
     window.addEventListener("resize", () => {
-      setHeaderListActive(false);
+      setDashboardDropdownActive(false);
     });
 
     return (
       <div id = "dashboard" className = "container row-center">
         <div className = "header row-left">
           <div className = "row-center">
-            <span>🌱</span>
+            <span>{ "🌱" }</span>
           </div>
           <div className = "row-center">
-            <span>SEEDs</span>
+            <span>{ "SEEDs" }</span>
           </div>
         </div>
         <div className = "header row-right">
           <div className = "header-menu row-fill">
             {
               modules.map((item) => (
-                <div key = { "header-menu-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
+                <div key = { "header-menu-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
                   <span>{ item[1] }</span>
+                  <div></div>
+                  <span>{ item[0] }</span>
                 </div>
               ))
             }
           </div>
           <div className = "header-dropdown column-center">
-            <div className = "button row-center" onClick = { () => { setHeaderListActive(!headerListActive); } }>
-              { headerListActive ? <span>❌</span> : <span>🍔</span> }
+            <div className = "button row-center" onClick = { () => { setDashboardDropdownActive(!dashboardDropdownActive); } }>
+              { dashboardDropdownActive ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
             </div>
-            <div className = { headerListActive ? "header-list column-center" : "hidden" }>
+            <div className = { dashboardDropdownActive ? "header-list column-center" : "hidden" }>
               <div className = "container column-center">
                 {
                   modules.map((item) => (
@@ -99,7 +106,7 @@ function App() {
                 }
               </div>
               <div className = "container row-center">
-                <span>Powered by 🌈 GEOSPECTRUM</span>
+                <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
               </div>
             </div>
           </div>
@@ -107,6 +114,10 @@ function App() {
       </div>
     );
   }
+
+  /* The ArcGIS map component and its corresponding functions. */
+
+  const { ArcGISMap, add_layer } = React.useContext(ArcGISMapContext);
 
   /* Main modules. */
 
@@ -118,21 +129,21 @@ function App() {
           </div>
           <div className = "body column-center">
             <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
-              <span>Enter</span>
+              <span>{ "Enter" }</span>
             </div>
           </div>
           <div className = "footer column-center">
             <div className = "container row-center">
-              <span>Terms</span>
-              <span>•</span>
-              <span>Privacy</span>
-              <span>•</span>
-              <span>Documentation</span>
-              <span>•</span>
-              <span>Support</span>
+              <span>{ "Terms" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Privacy" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Documentation" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Support" }</span>
             </div>
             <div className = "container row-center">
-              <span>Powered by 🌈 GEOSPECTRUM</span>
+              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
             </div>
           </div>
         </div>
@@ -141,17 +152,17 @@ function App() {
         </div>
         <div className = "foreground container column-top">
           <div className = "title row-center">
-            <span>SEEDs</span>
+            <span>{ "SEEDs" }</span>
           </div>
           <div className = "subtitle row-center">
-            <span>a new way of looking at things</span>
+            <span>{ "a new way of looking at things" }</span>
           </div>
         </div>
         <div className = "background container">
           {/* <img src = { background } alt = "Background"/> */}
         </div>
       </div>
-    )
+    );
   }
 
   function SignInPage() {
@@ -187,26 +198,26 @@ function App() {
         <div className = "interactive container column-center">
           <div className = "header row-right">
             <div className = "button row-center" onClick = { () => { handleNavigation("Exit") } }>
-              <span>❌</span>
+              <span>{ "❌" }</span>
             </div>
           </div>
           <div className = "body column-center">
             <div className = "form column-center">
               <div className = "form-header row-center">
-                <span>Sign In to 🌱 SEEDs</span>
+                <span>{ "Sign In to 🌱 SEEDs" }</span>
               </div>
               <div className = "form-note row-center">
                 <span>{ loginNote }</span>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "sign-in-username">
-                  <span>Username</span>
+                  <span>{ "Username" }</span>
                 </label>
                 <input id = "sign-in-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "sign-in-password">
-                  <span>Password</span>
+                  <span>{ "Password" }</span>
                 </label>
                 <input id = "sign-in-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
               </div>
@@ -214,26 +225,26 @@ function App() {
               </div>
               <div className = "form-buttons row-center">
                 <div className = "button row-center" onClick = { () => { handleLogin(); } }>
-                  <span>Sign In</span>
+                  <span>{ "Sign In" }</span>
                 </div>
                 <div className = "button row-center" onClick = { () => { handleNavigation("Change Password") } }>
-                  <span>Change Password</span>
+                  <span>{ "Change Password" }</span>
                 </div>
               </div>
             </div>
           </div>
           <div className = "footer column-center">
             <div className = "container row-center">
-              <span>Terms</span>
-              <span>•</span>
-              <span>Privacy</span>
-              <span>•</span>
-              <span>Documentation</span>
-              <span>•</span>
-              <span>Support</span>
+              <span>{ "Terms" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Privacy" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Documentation" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Support" }</span>
             </div>
             <div className = "container row-center">
-              <span>Powered by 🌈 GEOSPECTRUM</span>
+              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
             </div>
           </div>
         </div>
@@ -285,38 +296,38 @@ function App() {
         <div className = "interactive container column-center">
           <div className = "header row-right">
             <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
-              <span>❌</span>
+              <span>{ "❌" }</span>
             </div>
           </div>
           <div className = "body column-center">
             <div className = "form column-center">
               <div className = "form-header row-center">
-                <span>Change Password</span>
+                <span>{ "Change Password" }</span>
               </div>
               <div className = "form-note row-center">
                 <span>{ changePasswordNote }</span>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-username">
-                  <span>Username</span>
+                  <span>{ "Username" }</span>
                 </label>
                 <input id = "change-password-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { setUsername(event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-old-password">
-                  <span>Old Password</span>
+                  <span>{ "Old Password" }</span>
                 </label>
                 <input id = "change-password-old-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Old Password" onChange = { (event) => { setOldPassword(event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-new-password">
-                  <span>New Password</span>
+                  <span>{ "New Password" }</span>
                 </label>
                 <input id = "change-password-new-password" type = "password" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPassword(event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-new-password-clone">
-                  <span>New Password</span>
+                  <span>{ "New Password" }</span>
                 </label>
                 <input id = "change-password-new-password-clone" type = "password" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPasswordClone(event.target.value); } } required/>
               </div>
@@ -324,23 +335,23 @@ function App() {
               </div>
               <div className = "form-buttons row-center">
                 <div className = "button row-center" onClick = { () => { handleChangePassword(); } }>
-                  <span>Submit</span>
+                  <span>{ "Submit" }</span>
                 </div>
               </div>
             </div>
           </div>
           <div className = "footer column-center">
             <div className = "container row-center">
-              <span>Terms</span>
-              <span>•</span>
-              <span>Privacy</span>
-              <span>•</span>
-              <span>Documentation</span>
-              <span>•</span>
-              <span>Support</span>
+              <span>{ "Terms" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Privacy" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Documentation" }</span>
+              <span>{ "•" }</span>
+              <span>{ "Support" }</span>
             </div>
             <div className = "container row-center">
-              <span>Powered by 🌈 GEOSPECTRUM</span>
+              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
             </div>
           </div>
         </div>
@@ -349,55 +360,6 @@ function App() {
   }
 
   function HomePage() {
-    function Backbone() {
-      return (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary00() {
-      return (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary01() {
-      return  (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary02() {
-      return  (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary03() {
-      return  (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary04() {
-      return  (
-        <div>
-        </div>
-      )
-    }
-    
-    function Summary05() {
-      return (
-        <div>
-        </div>
-      )
-    }
-  
     return (
       <div id = "home-page">
         <div className = "interactive container column-center">
@@ -405,26 +367,13 @@ function App() {
             <Dashboard/>
           </div>
           <div className = "body column-center">
-            <div>
-              <Backbone/>
-              <div>
-                <Summary00/>
-                <Summary01/>
-                <Summary02/>
-                <Summary03/>
-                <Summary04/>
-                <Summary05/>
-              </div>
-            </div>
           </div>
           {/* <div className = "footer row-center">
           </div> */}
         </div>
       </div>
-    )
+    );
   }
-
-  const { add_layer, ArcGISMap } = React.useContext(ArcGISMapContext);
 
   function DataPage() {
     const [fileArray, setFileArray] = React.useState([]);
@@ -441,7 +390,7 @@ function App() {
     const [demographicArray, setDemographicArray] = React.useState([]);
     const [demographicArrayBoolean, setDemographicArrayBoolean] = React.useState(false);
   
-    function handleFetchSocial() {
+    function handleFetchSocialArray() {
       axios
         .post("http://localhost:5000/fetch/social", {
         })
@@ -455,7 +404,7 @@ function App() {
         .finally(() => {});
     }
   
-    function handleFetchEconomic() {
+    function handleFetchEconomicArray() {
       axios
         .post("http://localhost:5000/fetch/economic", {
         })
@@ -469,7 +418,7 @@ function App() {
         .finally(() => {});
     }
   
-    function handleFetchEnvironmental() {
+    function handleFetchEnvironmentalArray() {
       axios
         .post("http://localhost:5000/fetch/environmental", {
         })
@@ -483,7 +432,7 @@ function App() {
         .finally(() => {});
     }
   
-    function handleFetchDemographic() {
+    function handleFetchDemographicArray() {
       axios
         .post("http://localhost:5000/fetch/demographic", {
         })
@@ -499,10 +448,10 @@ function App() {
   
     function populateFileArray() {
       if (!socialArrayBoolean && !economicArrayBoolean && !environmentalArrayBoolean && !demographicArrayBoolean) {
-        handleFetchSocial();
-        handleFetchEconomic();
-        handleFetchEnvironmental();
-        handleFetchDemographic();
+        handleFetchSocialArray();
+        handleFetchEconomicArray();
+        handleFetchEnvironmentalArray();
+        handleFetchDemographicArray();
       }
     }
   
@@ -521,9 +470,10 @@ function App() {
       }
     }, [socialArray, economicArray, environmentalArray, demographicArray]);
 
-    function UploadPage() {
+    function UploadContext() {
       const [fileContainer, setFileContainer] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
+      const [fileOptions, setFileOptions] = React.useState([["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
 
       function handleUpload(content, category) {
         const data = new FormData();
@@ -554,55 +504,51 @@ function App() {
       }
 
       return (
-        <div id = "upload-module">
+        <div id = "upload-context">
           <div className = "header row-center">
             <input type = "file" id = "upload-module-input-file" name = "upload-module-input-file" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
           </div>
-          <label htmlFor = "upload-module-input-file"></label>
-          <fieldset onChange = { (event) => { setFileCategory(event.target.value); } }>
-            <legend>Select one file category:</legend>
-            <div>
-              <input type = "radio" id = "social" name = "file-category" value = "social"/>
-              <label htmlFor = "social">Social</label>
+          <div className = "column-center">
+            <div className = "header row-center">
+              <span>{ "Choose File Category:" }</span>
             </div>
-            <div>
-              <input type = "radio" id = "economic" name = "file-category" value = "economic"/>
-              <label htmlFor = "economic">Economic</label>
+            <div className = "header row-center">
+              {
+                fileOptions.map((item) => (
+                  <div key = { "data-sector-item-" + item[0] } className = { fileCategory === item[0] ? "button data-sector-item row-center active" : "button data-sector-item row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
+                    <span>{ item[1] }</span>
+                  </div>
+                ))
+              }
             </div>
-            <div>
-              <input type = "radio" id = "environmental" name = "file-category" value = "environmental"/>
-              <label htmlFor = "Environmental">Environmental</label>
+            <div className = "button row-center" onClick = { () => { handleUpload(fileContainer, fileCategory); } }>
+              <span className = "type-body">Submit</span>
             </div>
-            <div>
-              <input type = "radio" id = "demographic" name = "file-category" value = "demographic"/>
-              <label htmlFor = "Demographic">Demographic</label>
-            </div>
-          </fieldset>
-          <div className = "button" onClick = { () => { handleUpload(fileContainer, fileCategory); } }><span className = "type-body">Submit</span></div>
+          </div>
         </div>
       )
     }
 
-    function SummaryPage() {
+    function SummaryContext() {
       return (
-        <div className = "container column-center">
+        <div id = "summary-context">
           {
             fileArray.length < 1 ?
-            <div className = "container column-center">
+            <div className = "column-top">
               <span className = "type-body">No items to show.</span>
             </div>
             :
-            <div className = "container">
+            <div className = "column-top">
               {
                 fileArray.map((item) => (
-                  <div className = "container row-center">
+                  <div className = "header row-fill">
                     <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
                       <span className = "type-body">{ item.name }</span>
                     </div>
-                    <div className = "container row-center">
-                      <span>👀</span>
-                      <span>✏️</span>
-                      <span>🗑️</span>
+                    <div className = "row-center">
+                      <span>{ "👀" }</span>
+                      <span>{ "✏️" }</span>
+                      <span>{ "🗑️" }</span>
                     </div>
                   </div>
                 ))
@@ -613,7 +559,7 @@ function App() {
       )
     }
   
-    function SocialPage() {
+    function SocialContext() {
       return (
         <div className = "box column-center" style = { { backgroundColor: "red" } }>
           <div className = "container column-center">
@@ -634,7 +580,7 @@ function App() {
       )
     }
   
-    function EconomicPage() {
+    function EconomicContext() {
       return (
         <div className = "box column-center" style = { { backgroundColor: "yellow" } }>
           <div className = "container column-center">
@@ -655,7 +601,7 @@ function App() {
       )
     }
   
-    function EnvironmentalPage() {
+    function EnvironmentalContext() {
       return (
         <div className = "box column-center" style = { { backgroundColor: "green" } }>
           <div className = "container column-center">
@@ -676,7 +622,7 @@ function App() {
       )
     }
   
-    function DemographicPage() {
+    function DemographicContext() {
       return (
         <div className = "box column-center" style = { { backgroundColor: "blue" } }>
           <div className = "container column-center">
@@ -696,9 +642,9 @@ function App() {
         </div>
       )
     }
-
-    const [active, setActive] = React.useState("Upload");
-    const [actions, setActions] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]])
+    
+    const [contexts, setContexts] = React.useState([["Upload", "🔼", <UploadContext/>], ["All", "🌐", <SummaryContext/>], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽", <SocialContext/>], ["Economic", "💸", <EconomicContext/>], ["Environmental", "🐤", <EnvironmentalContext/>], ["Demographic", "📈", <DemographicContext/>]]);
+    const [activeContext, setActiveContext] = React.useState(null);
 
     return (
       <div id = "data-page">
@@ -713,25 +659,18 @@ function App() {
             <div className = "container column-top">
               <div className = "header row-center">
                 {
-                  actions.map((item) => (
-                    <div key = { "data-sector-item-" + item[0] } className = "button data-sector-item row-center" onClick = { () => { setActive(item[0]); } }>
+                  contexts.map((item) => (
+                    <div key = { "data-sector-item-" + item[0] } className = { activeContext === item[0] ? "button data-sector-item row-center active" : "button data-sector-item row-center" } onClick = { () => { setActiveContext(item[0]); } }>
                       <span>{ item[1] }</span>
                     </div>
                   ))
                 }
               </div>
               <div className = "header row-center">
-                <span>{ actions[actions.findIndex((item) => { if (item[0] === active) return true; else return false; })][1] + " " + active + " Data"}</span>
+                { activeContext ? <span>{ contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" }</span> : <span>{ contexts[0][1] + " " + "Data" }</span> }
               </div>
               <div className = "container">
-                {
-                  active === actions[1][0] ? <SummaryPage/> :
-                  active === actions[2][0] ? <SocialPage/> :
-                  active === actions[3][0] ? <EconomicPage/> :
-                  active === actions[4][0] ? <EnvironmentalPage/> :
-                  active === actions[5][0] ? <DemographicPage/> :
-                  <UploadPage/>
-                }
+                { activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][2] : contexts[0][2] }
               </div>
             </div>
           </div>
@@ -743,6 +682,8 @@ function App() {
   }
 
   function AnalyticsPage() {
+    setActiveModule("Analytics"); 
+
     return (
       <div id = "analytics-page">
         <div className = "interactive container column-center">
@@ -762,6 +703,8 @@ function App() {
   }
 
   function AccountPage() {
+    setActiveModule("Account"); 
+
     return (
       <div id = "account-page">
         <div className = "interactive container column-center">
@@ -779,6 +722,8 @@ function App() {
   }
 
   function SupportPage() {
+    setActiveModule("Support"); 
+
     return (
       <div id = "support-page">
         <div className = "interactive container column-center">
