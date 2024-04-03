@@ -20,13 +20,136 @@
 
 /***/
 
-.hidden {
-  display: none;
+img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center center;
+}
+
+span {
+  display: inline-block;
+
+  text-align: center;
+
+  user-select: none;
+}
+
+.button {
+  width: calc(var(--default-size)*4);
+  height: calc(var(--default-size)*2);
+    
+  background-color: rgba(255, 255, 255, 1);
+
+  cursor: pointer;
+
+  & span {
+    color: rgba(0, 0, 0, 1);
+
+    text-transform: uppercase;
+  }
+
+  & > :nth-child(1) {
+    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  }
+
+  & > :nth-child(2) {
+    width: 100%;
+    height: calc(var(--default-size)/4);
+  }
+
+  & > :nth-child(3) {
+    font: normal 800 calc(var(--default-size)/4)/100% "Outfit", sans-serif;
+  }
+
+  &.active {
+    background-color: rgba(60, 120, 240, 1);
+
+    & span {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 1);
+
+    & span {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}
+
+label {
+  & span {
+    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+    color: rgba(0, 0, 0, 1);
+  }
+}
+
+input {
+  box-sizing: border-box;
+  padding: calc(var(--default-size)/2);
+
+  font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+  color: rgba(0, 0, 0, 1);
+
+  &[placeholder] {
+    font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+  }
+
+  &[type = "text"], &[type = "password"] {
+    width: 100%;
+    height: calc(var(--default-size));
+
+    border: solid 2px rgba(120, 120, 120, 1);
+  }
+
+  &[type = "text"]:hover,
+  &[type = "password"]:hover,
+  &[type = "text"]:focus,
+  &[type = "password"]:focus {
+    border: solid 2px rgba(0, 0, 0, 1);
+  }
+
+  &[type = "file"] {
+    width: 100%;
+    height: calc(var(--default-size)*2);
+
+    background-color: rgba(120, 120, 120, 1);
+
+    color: rgba(255, 255, 255, 1);
+
+    text-transform: capitalize;
+  }
+
+  &[type = "file"]::file-selector-button {
+    width: calc(var(--default-size)*4);
+    height: calc(var(--default-size));
+
+    margin: 0 calc(var(--default-size)) 0 0;
+    border: solid 2px rgba(0, 0, 0, 1);
+
+    background-color: rgba(255, 255, 255, 1);
+
+    font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
+    color: rgba(0, 0, 0, 1);
+
+    text-transform: capitalize;
+  }
+
+  &[type = "file"]::file-selector-button:hover {
+    background-color: rgba(0, 0, 0, 1);
+    
+    color: rgba(255, 255, 255, 1);
+  }
 }
 
 .container {
   width: 100%;
   height: 100%;
+
+  box-sizing: border-box;
 
   &.interactive {
     position: absolute;
@@ -55,8 +178,6 @@
     top: 0;
     z-index: 1;
   }
-
-  box-sizing: border-box;
 }
 
 .row-left {
@@ -119,19 +240,33 @@
   width: 100%;
   height: calc(var(--default-size)*2);
 
-  & div {
-    height: calc(var(--default-size)*2);
-  }
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  padding: 0;
 
   & span {
     font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
     color: rgba(0, 0, 0, 1);
+  }
+
+  & div {
+    width: 100%;
+    height: calc(var(--default-size)*2);
+
+    & .button {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
 div:has(> .body) {
   width: 100%;
   height: 100%;
+
+  box-sizing: border-box;
 
   display: flex;
   flex-flow: column nowrap;
@@ -146,6 +281,8 @@ div:has(> .body) {
 .footer {
   width: 100%;
   height: calc(var(--default-size)*4);
+
+  box-sizing: border-box;
 
   & div {
     width: 100%;
@@ -171,124 +308,8 @@ div:has(> .body) {
   }
 }
 
-span {
-  display: inline-block;
-
-  text-align: center;
-
-  user-select: none;
-}
-
-.title span {
-  font: normal 800 calc(var(--default-size)*8)/100% "Outfit", sans-serif;
-  color: rgba(0, 0, 0, 1);
-}
-
-@media (max-width: 900px) {
-  .title span {
-    font: normal 800 calc(var(--default-size)*3)/100% "Outfit", sans-serif;
-  }
-}
-
-.subtitle span {
-  font: normal 800 calc(var(--default-size))/100% "Outfit", sans-serif;
-  color: rgba(0, 0, 0, 1);
-}
-
-@media (max-width: 900px) {
-  .subtitle {
-    display: none;
-  }
-}
-
-& .button {
-  width: calc(var(--default-size)*4);
-  height: calc(var(--default-size)*2);
-    
-  background-color: rgba(255, 255, 255, 1);
-
-  cursor: pointer;
-
-  & span {
-    color: rgba(0, 0, 0, 1);
-
-    text-transform: uppercase;
-  }
-
-  & > :nth-child(1) {
-    font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;
-  }
-
-  & > :nth-child(2) {
-    height: calc(var(--default-size)/4);
-  }
-
-  & > :nth-child(3) {
-    font: normal 800 calc(var(--default-size)/4)/100% "Outfit", sans-serif;
-  }
-
-  &.active {
-    background-color: rgba(60, 120, 240, 1);
-
-    & span {
-      color: rgba(255, 255, 255, 1);
-    }
-  }
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 1);
-
-    & span {
-      color: rgba(255, 255, 255, 1);
-    }
-  }
-}
-
-img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-  object-position: center center;
-}
-
-input {
-  box-sizing: border-box;
-  padding: calc(var(--default-size)/8) calc(var(--default-size)/2);
-
-  font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
-  color: rgba(0, 0, 0, 1);
-
-  pointer-events: all;
-
-  & ::placeholder {
-    font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;
-  }
-
-  &[type = "file"] {
-    width: 100%;
-
-    font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
-    color: rgba(0, 0, 0, 1);
-
-    &::file-selector-button {
-      margin: 0 calc(var(--default-size)/2) 0 0;
-      box-sizing: border-box;
-      border: solid 2px rgba(0, 0, 0, 1);
-      padding: calc(var(--default-size)/2);
-  
-      background-color: rgba(255, 255, 255, 1);
-  
-      font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
-      color: rgba(0, 0, 0, 1);
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 1);
-        
-        color: rgba(255, 255, 255, 1);
-      }
-    }
-  }
+.hidden {
+  display: none;
 }
 
 .transparent {
@@ -299,47 +320,36 @@ input {
 
 #dashboard {
   width: 100%;
+  height: calc(var(--default-size)*2);
   
   & > :nth-child(1) {
     width: 100%;
 
-    & > :nth-child(1) {
+    & > div {
+      width: auto;
+      height: 100%;
+    }
+
+    & > :nth-child(1) {      
       box-sizing: border-box;
       padding: calc(var(--default-size)/2);
 
       & span {
-        display: inline-block;
-
         font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
         color: rgba(0, 0, 0, 1);
-      
-        text-align: center;
       }
     }
 
     & > :nth-child(2) {
       & span {
-        display: inline-block;
-
         font: normal 800 calc(var(--default-size))/100% "Outfit", sans-serif;  
         color: rgba(0, 0, 0, 1);
-      
-        text-align: center;
       }
     }
   }
 
   & > :nth-child(2) {
     width: 100%;
-    
-    & .header-menu {
-      width: 100%;
-
-      & .button {
-        width: 100%;
-        height: 100%;
-      }
-    }
 
     & .header-dropdown {
       display: none;
@@ -364,10 +374,12 @@ input {
 
           & .button {
             width: 100%;
+            height: calc(var(--default-size)*2);
           }
         }
 
         & > :nth-child(2) {
+          width: 100%;
           height: calc(var(--default-size)*4);
         }
       }
@@ -379,6 +391,9 @@ input {
       }
 
       & .header-dropdown {
+        width: auto;
+        height: 100%;
+
         display: flex;
       }
     }
@@ -411,6 +426,28 @@ input {
 
     &.foreground {
       padding: calc(var(--default-size)*4) 0 0 0;
+
+      & .title span {
+        font: normal 800 calc(var(--default-size)*8)/100% "Outfit", sans-serif;
+        color: rgba(0, 0, 0, 1);
+      }
+      
+      @media (max-width: 900px) {
+        & .title span {
+          font: normal 800 calc(var(--default-size)*3)/100% "Outfit", sans-serif;
+        }
+      }
+      
+      & .subtitle span {
+        font: normal 800 calc(var(--default-size))/100% "Outfit", sans-serif;
+        color: rgba(0, 0, 0, 1);
+      }
+      
+      @media (max-width: 900px) {
+        & .subtitle {
+          display: none;
+        }
+      }
     }
   }
 }
@@ -457,11 +494,6 @@ input {
     
           & label {
             width: calc(var(--default-size)*4);
-    
-            & span {
-              font: normal 800 calc(var(--default-size)/2)/100% "Outfit", sans-serif;  
-              color: rgba(0, 0, 0, 1);
-            }
           }
     
           & input {
@@ -478,63 +510,87 @@ input {
             }
           }
         }
-    
-        & .form-buttons {
-          & .button {
-            margin: 0 calc(var(--default-size)/2);
-          }
-        }
       }
     }
   }
 }
 
-#data-page {
+#home-page {
   & .body {
-    & > .container {
-      width: 50vw;
-    }
-  }
-
-  & div:has(> #arcgis-map) {
-    width: 100%;
-    height: calc(100vh - (var(--default-size)*2));
-  }
-
-  & #arcgis-map {
     width: 100%;
     height: 100%;
+
+    background-color: rgba(120, 120, 120, 1);
   }
+}
 
-  @media (max-width: 900px) {
-    & .body {
-
+#data-page {
+  & .interactive {
+    & > .body {
+      width: 100%;
+      height: 100%;
+  
       display: flex;
-      flex-flow: column nowrap;
+      flex-flow: row nowrap;
       justify-content: center;
       align-items: center;
+    
+      & > :nth-child(1) {
+        & .map-container {
+          width: 50vw;
+          height: calc(100vh - (var(--default-size)*2));
 
-      & > .container {
-        width: 100vw;
-        height: calc((100vh - (var(--default-size)*2))/2);
+          & > :nth-child(1) {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+  
+      & > :nth-child(2) {
+        & .body {
+          width: 100%;
+
+          & > :nth-child(1) {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        & > :nth-child(2) {
+          & > div {
+            height: calc(var(--default-size)*2);
+          }
+        }
       }
     }
   
-    & div:has(> #arcgis-map) {
-      width: 100%;
-      height: calc((100vh - (var(--default-size)*2))/2);
-    }
+    @media (max-width: 900px) {
+      & > .body {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
   
-    & #arcgis-map {
-      width: 100%;
-      height: 100%;
-    }
-  }
+        & > :nth-child(1) {
+          & .map-container {
+            width: 100vw;
+            height: calc((100vh - (var(--default-size)*2))/2);
+  
+            & > :nth-child(1) {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
 
-  #upload-context,
-  #summary-context {
-    width: 100%;
-    height: 100%;
+        & > :nth-child(2) {
+          & .body {
+            height: 100%;
+          }
+        }
+      }
+    }
   }
 }
 

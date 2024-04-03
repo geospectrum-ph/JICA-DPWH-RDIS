@@ -68,7 +68,7 @@ const ArcGISMapContextProvider = (props) => {
     }, []);
 
     return (
-      <div>
+      <div className = "map-container">
         <div id = "arcgis-map"></div>
       </div>
     );

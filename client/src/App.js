@@ -25,9 +25,10 @@ function App() {
   const navigate = useNavigate();
 
   const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
-  const [activeModule, setActiveModule] = React.useState(null); /* The value of this variable needs to be stored into local storage to be conserved when page refreshes. */
+  const [activeModule, setActiveModule] = React.useState(null);
 
   function handleNavigation(module) {
+    localStorage.setItem("active_module", module);
     setActiveModule(module);
 
     switch (module) {
@@ -64,10 +65,14 @@ function App() {
   
   function Dashboard() {
     const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
-
+    
     window.addEventListener("resize", () => {
       setDashboardDropdownActive(false);
     });
+
+    React.useEffect(() => {
+      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
+    }, []);
 
     return (
       <div id = "dashboard" className = "container row-center">
@@ -128,7 +133,7 @@ function App() {
           <div className = "header row-center">
           </div>
           <div className = "body column-center">
-            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
+            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In"); } }>
               <span>{ "Enter" }</span>
             </div>
           </div>
@@ -197,7 +202,7 @@ function App() {
       <div id = "sign-in-page">
         <div className = "interactive container column-center">
           <div className = "header row-right">
-            <div className = "button row-center" onClick = { () => { handleNavigation("Exit") } }>
+            <div className = "button row-center" onClick = { () => { handleNavigation("Exit"); } }>
               <span>{ "❌" }</span>
             </div>
           </div>
@@ -295,7 +300,7 @@ function App() {
       <div id = "change-password-page">
         <div className = "interactive container column-center">
           <div className = "header row-right">
-            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In") } }>
+            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In"); } }>
               <span>{ "❌" }</span>
             </div>
           </div>
@@ -373,6 +378,14 @@ function App() {
         </div>
       </div>
     );
+  }
+
+  const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+  const [activeContext, setActiveContext] = React.useState(null);
+
+  function handleContextNavigation(context) {
+    localStorage.setItem("active_context", context);
+    setActiveContext(context);
   }
 
   function DataPage() {
@@ -455,26 +468,11 @@ function App() {
       }
     }
   
-    React.useEffect(() => {
-      populateFileArray();
-    }, []);
-  
-    React.useEffect(() => {
-      if (socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
-        setSocialArrayBoolean(false);
-        setEconomicArrayBoolean(false);
-        setEnvironmentalArrayBoolean(false);
-        setDemographicArrayBoolean(false);
-  
-        setFileArray(() => [...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
-      }
-    }, [socialArray, economicArray, environmentalArray, demographicArray]);
-
     function UploadContext() {
       const [fileContainer, setFileContainer] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
       const [fileOptions, setFileOptions] = React.useState([["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-
+  
       function handleUpload(content, category) {
         const data = new FormData();
         
@@ -502,11 +500,11 @@ function App() {
     
         upload();
       }
-
+  
       return (
         <div id = "upload-context">
           <div className = "header row-center">
-            <input type = "file" id = "upload-module-input-file" name = "upload-module-input-file" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
+            <input type = "file" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
           </div>
           <div className = "column-center">
             <div className = "header row-center">
@@ -515,34 +513,34 @@ function App() {
             <div className = "header row-center">
               {
                 fileOptions.map((item) => (
-                  <div key = { "data-sector-item-" + item[0] } className = { fileCategory === item[0] ? "button data-sector-item row-center active" : "button data-sector-item row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
+                  <div key = { "data-sector-item-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
                     <span>{ item[1] }</span>
                   </div>
                 ))
               }
             </div>
             <div className = "button row-center" onClick = { () => { handleUpload(fileContainer, fileCategory); } }>
-              <span className = "type-body">Submit</span>
+              <span>Submit</span>
             </div>
           </div>
         </div>
       )
     }
-
+  
     function SummaryContext() {
       return (
         <div id = "summary-context">
           {
             fileArray.length < 1 ?
             <div className = "column-top">
-              <span className = "type-body">No items to show.</span>
+              <span>No items to show.</span>
             </div>
             :
             <div className = "column-top">
               {
                 fileArray.map((item) => (
-                  <div className = "header row-fill">
-                    <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                  <div key = { item._id } className = "header row-fill">
+                    <div className = "button" onClick = { () => { add_layer(item.file) } }>
                       <span className = "type-body">{ item.name }</span>
                     </div>
                     <div className = "row-center">
@@ -642,9 +640,25 @@ function App() {
         </div>
       )
     }
-    
-    const [contexts, setContexts] = React.useState([["Upload", "🔼", <UploadContext/>], ["All", "🌐", <SummaryContext/>], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽", <SocialContext/>], ["Economic", "💸", <EconomicContext/>], ["Environmental", "🐤", <EnvironmentalContext/>], ["Demographic", "📈", <DemographicContext/>]]);
-    const [activeContext, setActiveContext] = React.useState(null);
+
+    React.useEffect(() => {
+      populateFileArray();
+    }, []);
+  
+    React.useEffect(() => {
+      if (socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
+        setSocialArrayBoolean(false);
+        setEconomicArrayBoolean(false);
+        setEnvironmentalArrayBoolean(false);
+        setDemographicArrayBoolean(false);
+  
+        setFileArray(() => [...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
+      }
+    }, [socialArray, economicArray, environmentalArray, demographicArray]);
+
+    React.useEffect(() => {
+      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
+    }, []);
 
     return (
       <div id = "data-page">
@@ -653,24 +667,40 @@ function App() {
             <Dashboard/>
           </div>
           <div className = "body row-center">
-            <div className = "container row-center">
+            <div className = "column-center">
               <ArcGISMap/>
             </div>
-            <div className = "container column-top">
+            <div className = "column-top">
               <div className = "header row-center">
                 {
                   contexts.map((item) => (
-                    <div key = { "data-sector-item-" + item[0] } className = { activeContext === item[0] ? "button data-sector-item row-center active" : "button data-sector-item row-center" } onClick = { () => { setActiveContext(item[0]); } }>
+                    <div key = { "data-sector-item-" + item[0] } className = { activeContext === item[0] ? "button column-center active" : "button column-center" } onClick = { () => { handleContextNavigation(item[0]); } }>
                       <span>{ item[1] }</span>
                     </div>
                   ))
                 }
               </div>
               <div className = "header row-center">
-                { activeContext ? <span>{ contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" }</span> : <span>{ contexts[0][1] + " " + "Data" }</span> }
+                { activeContext ?
+                    <div className = "row-center">
+                      <span>{ contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" }</span>
+                    </div>
+                    :
+                    <div className = "row-center">
+                      <span>{ contexts[0][1] + " Upload Data" }</span>
+                    </div>
+                }
               </div>
-              <div className = "container">
-                { activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][2] : contexts[0][2] }
+              <div className = "body column-center">
+                {
+                  activeContext === contexts[0][0] ? <UploadContext/> :
+                  activeContext === contexts[1][0] ? <SummaryContext/> :
+                  activeContext === contexts[2][0] ? <SocialContext/> :
+                  activeContext === contexts[3][0] ? <EconomicContext/> :
+                  activeContext === contexts[4][0] ? <EnvironmentalContext/> :
+                  activeContext === contexts[5][0] ? <DemographicContext/> :
+                  null
+                }
               </div>
             </div>
           </div>
@@ -682,8 +712,6 @@ function App() {
   }
 
   function AnalyticsPage() {
-    setActiveModule("Analytics"); 
-
     return (
       <div id = "analytics-page">
         <div className = "interactive container column-center">
@@ -703,8 +731,6 @@ function App() {
   }
 
   function AccountPage() {
-    setActiveModule("Account"); 
-
     return (
       <div id = "account-page">
         <div className = "interactive container column-center">
@@ -722,8 +748,6 @@ function App() {
   }
 
   function SupportPage() {
-    setActiveModule("Support"); 
-
     return (
       <div id = "support-page">
         <div className = "interactive container column-center">
