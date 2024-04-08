@@ -88,7 +88,7 @@ function App() {
           <div className = "header-menu row-fill">
             {
               modules.map((item) => (
-                <div key = { "header-menu-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
+                <div key = { "modules-map-row-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
                   <span>{ item[1] }</span>
                   <div></div>
                   <span>{ item[0] }</span>
@@ -104,7 +104,7 @@ function App() {
               <div className = "container column-center">
                 {
                   modules.map((item) => (
-                    <div key = { "header-list-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
+                    <div key = { "modules-map-column-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
                       <span>{ item[0] }</span>
                     </div>
                   ))
@@ -472,7 +472,7 @@ function App() {
       const [fileContainer, setFileContainer] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
       const [fileOptions, setFileOptions] = React.useState([["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-  
+      
       function handleUpload(content, category) {
         const data = new FormData();
         
@@ -513,7 +513,7 @@ function App() {
             <div className = "header row-center">
               {
                 fileOptions.map((item) => (
-                  <div key = { "data-sector-item-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
+                  <div key = { "file-options-map-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
                     <span>{ item[1] }</span>
                   </div>
                 ))
@@ -526,27 +526,62 @@ function App() {
         </div>
       )
     }
+
+    const [fileDetails, setFileDetails] = React.useState(null);
+    const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
+
+    React.useEffect(() => {
+      setFileDetails(null);
+      setFileDetailsActive(false);
+    }, [activeContext]);
   
     function SummaryContext() {
       return (
         <div id = "summary-context">
           {
             fileArray.length < 1 ?
-            <div className = "column-top">
-              <span>No items to show.</span>
+            <div className = "container row-center">
+              <span>{ "No items to show." }</span>
             </div>
             :
-            <div className = "column-top">
+            fileDetailsActive ? 
+            <div className = "container column-center">
+              <div className = "header row-right">
+                <div className = "button row-center" onClick = { () => { setFileDetails(null); setFileDetailsActive(false); } }>
+                  <span>{ "❌" }</span>
+                </div>
+              </div>
+              <div className = "container row-center">
+                <span>{ JSON.stringify(fileDetails, null, 8) }</span>
+              </div>
+            </div>
+            :
+            <div className = "container column-top">
               {
                 fileArray.map((item) => (
-                  <div key = { item._id } className = "header row-fill">
-                    <div className = "button" onClick = { () => { add_layer(item.file) } }>
-                      <span className = "type-body">{ item.name }</span>
+                  <div key = { "file-array-map-" + item._id } className = "container column-top">
+                    <div className = "header row-fill">
+                      <div className = "row-center">
+                        <div className = "container row-left">
+                          <span>{ item.name }</span>
+                        </div>
+                      </div>
+                      <div className = "row-center">
+                        <div className = "button row-center" onClick = { () => { add_layer(item.file) } }>
+                          <span>{ "👀" }</span>
+                        </div>
+                        <div className = "button row-center" onClick = { () => { setFileDetails(item); setFileDetailsActive(true); } }>
+                          <span>{ "📋" }</span>
+                        </div>
+                        <div className = "button row-center">
+                          <span>{ "✏️" }</span>
+                        </div>
+                        <div className = "button row-center">
+                          <span>{ "🗑️" }</span>
+                        </div>
+                      </div>
                     </div>
-                    <div className = "row-center">
-                      <span>{ "👀" }</span>
-                      <span>{ "✏️" }</span>
-                      <span>{ "🗑️" }</span>
+                    <div className = "hidden">
                     </div>
                   </div>
                 ))
@@ -568,7 +603,7 @@ function App() {
               </div>
               :
               socialArray.map((item) => (
-                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                <div key = { "social-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
                   <span className = "type-body">{ item.name }</span>
                 </div>
               ))
@@ -589,7 +624,7 @@ function App() {
               </div>
               :
               economicArray.map((item) => (
-                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                <div key = { "economic-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
                   <span className = "type-body">{ item.name }</span>
                 </div>
               ))
@@ -610,7 +645,7 @@ function App() {
               </div>
               :
               environmentalArray.map((item) => (
-                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                <div key = { "environmental-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
                   <span className = "type-body">{ item.name }</span>
                 </div>
               ))
@@ -631,7 +666,7 @@ function App() {
               </div>
               :
               demographicArray.map((item) => (
-                <div key = { item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
+                <div key = { " demographic-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
                   <span className = "type-body">{ item.name }</span>
                 </div>
               ))
@@ -674,7 +709,7 @@ function App() {
               <div className = "header row-center">
                 {
                   contexts.map((item) => (
-                    <div key = { "data-sector-item-" + item[0] } className = { activeContext === item[0] ? "button column-center active" : "button column-center" } onClick = { () => { handleContextNavigation(item[0]); } }>
+                    <div key = { "contexts-map-" + item[0] } className = { activeContext === item[0] ? "button column-center active" : "button column-center" } onClick = { () => { handleContextNavigation(item[0]); } }>
                       <span>{ item[1] }</span>
                     </div>
                   ))

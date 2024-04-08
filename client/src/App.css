@@ -551,15 +551,9 @@ div:has(> .body) {
         & .body {
           width: 100%;
 
-          & > :nth-child(1) {
+          & > div {
             width: 100%;
             height: 100%;
-          }
-        }
-
-        & > :nth-child(2) {
-          & > div {
-            height: calc(var(--default-size)*2);
           }
         }
       }
@@ -587,6 +581,44 @@ div:has(> .body) {
         & > :nth-child(2) {
           & .body {
             height: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  #summary-context,
+  #social-context,
+  #economic-context,
+  #environmental-context,
+  #demographic-context {
+    background-color: rgba(120, 120, 120, 1);
+
+    & > div {
+      & > div {
+        & > :nth-child(1) {
+          & > :nth-child(1) {
+            background-color: rgba(255, 255, 255, 1);
+
+            & > div {
+              box-sizing: border-box;
+              padding: calc(var(--default-size)/2);
+
+              & span {
+                font: normal normal calc(var(--default-size)/2)/100% "Outfit", sans-serif;
+                
+                text-align: left;
+              }
+            }
+          }
+
+          & > :nth-child(2) {
+            width: auto;
+
+            & .button {
+              width: calc(var(--default-size)*2);
+              height: calc(var(--default-size)*2);
+            }
           }
         }
       }
