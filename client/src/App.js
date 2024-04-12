@@ -20,6 +20,10 @@ function App() {
     if (errorMessage) console.log(errorMessage);
   }, [errorMessage]);
 
+  /* The ArcGIS map component and its corresponding functions. */
+
+  const { ArcGISMap, add_layer, remove_all_layers } = React.useContext(ArcGISMapContext);
+
   /* For the navigation of routes. */
 
   const navigate = useNavigate();
@@ -61,70 +65,7 @@ function App() {
     }
   }
 
-  /* The Dashboard component. */
-  
-  function Dashboard() {
-    const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
-    
-    window.addEventListener("resize", () => {
-      setDashboardDropdownActive(false);
-    });
-
-    React.useEffect(() => {
-      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
-    }, []);
-
-    return (
-      <div id = "dashboard" className = "container row-center">
-        <div className = "header row-left">
-          <div className = "row-center">
-            <span>{ "🌱" }</span>
-          </div>
-          <div className = "row-center">
-            <span>{ "SEEDs" }</span>
-          </div>
-        </div>
-        <div className = "header row-right">
-          <div className = "header-menu row-fill">
-            {
-              modules.map((item) => (
-                <div key = { "modules-map-row-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
-                  <span>{ item[1] }</span>
-                  <div></div>
-                  <span>{ item[0] }</span>
-                </div>
-              ))
-            }
-          </div>
-          <div className = "header-dropdown column-center">
-            <div className = "button row-center" onClick = { () => { setDashboardDropdownActive(!dashboardDropdownActive); } }>
-              { dashboardDropdownActive ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
-            </div>
-            <div className = { dashboardDropdownActive ? "header-list column-center" : "hidden" }>
-              <div className = "container column-center">
-                {
-                  modules.map((item) => (
-                    <div key = { "modules-map-column-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
-                      <span>{ item[0] }</span>
-                    </div>
-                  ))
-                }
-              </div>
-              <div className = "container row-center">
-                <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  /* The ArcGIS map component and its corresponding functions. */
-
-  const { ArcGISMap, add_layer } = React.useContext(ArcGISMapContext);
-
-  /* Main modules. */
+  /* The Landing page. */
 
   function LandingPage() {
     return (
@@ -169,6 +110,8 @@ function App() {
       </div>
     );
   }
+
+  /* The Sign In page. */
 
   function SignInPage() {
     const [loginNote, setLoginNote] = React.useState("Please enter your username and password.");
@@ -257,21 +200,23 @@ function App() {
     );
   }
 
+  /* The Password Change page. */
+
   function ChangePasswordPage() {
-    const [username, setUsername] = React.useState(null);
-    const [oldPassword, setOldPassword] = React.useState(null);
-    const [newPassword, setNewPassword] = React.useState(null);
-    const [newPasswordClone, setNewPasswordClone] = React.useState(null);
+    localStorage.setItem("temporary_username", null);
+    localStorage.setItem("temporary_old_password", null);
+    localStorage.setItem("temporary_new_password", null);
+    localStorage.setItem("temporary_new_password_clone", null);
 
     const [changePasswordNote, setChangePasswordNote] = React.useState("Please enter your username and password.");
 
     function handleChangePassword() {
       axios
         .post("http://localhost:5000/change-password/post/", {
-          username: username,
-          password: oldPassword,
-          newPassword: newPassword,
-          clonePassword: newPasswordClone
+          username: localStorage.getItem("temporary_username"),
+          password: localStorage.getItem("temporary_old_password"),
+          newPassword: localStorage.getItem("temporary_new_password"),
+          clonePassword: localStorage.getItem("temporary_new_password_clone")
         })
         .then((response) => {
           switch (response.data) {
@@ -316,25 +261,25 @@ function App() {
                 <label htmlFor = "change-password-username">
                   <span>{ "Username" }</span>
                 </label>
-                <input id = "change-password-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { setUsername(event.target.value); } } required/>
+                <input id = "change-password-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("temporary_username", event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-old-password">
                   <span>{ "Old Password" }</span>
                 </label>
-                <input id = "change-password-old-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Old Password" onChange = { (event) => { setOldPassword(event.target.value); } } required/>
+                <input id = "change-password-old-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Old Password" onChange = { (event) => { localStorage.setItem("temporary_old_password", event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-new-password">
                   <span>{ "New Password" }</span>
                 </label>
-                <input id = "change-password-new-password" type = "password" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPassword(event.target.value); } } required/>
+                <input id = "change-password-new-password" type = "password" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { localStorage.setItem("temporary_new_password", event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-new-password-clone">
                   <span>{ "New Password" }</span>
                 </label>
-                <input id = "change-password-new-password-clone" type = "password" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { setNewPasswordClone(event.target.value); } } required/>
+                <input id = "change-password-new-password-clone" type = "password" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { localStorage.setItem("temporary_new_password_clone", event.target.value); } } required/>
               </div>
               <div className = "form-field row-center">
               </div>
@@ -364,6 +309,67 @@ function App() {
     );
   }
 
+  /* The Dashboard component. */
+  
+  function Dashboard() {
+    const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
+    
+    window.addEventListener("resize", () => {
+      setDashboardDropdownActive(false);
+    });
+
+    React.useEffect(() => {
+      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
+    }, []);
+
+    return (
+      <div id = "dashboard" className = "container row-center">
+        <div className = "header row-left">
+          <div className = "row-center">
+            <span>{ "🌱" }</span>
+          </div>
+          <div className = "row-center">
+            <span>{ "SEEDs" }</span>
+          </div>
+        </div>
+        <div className = "header row-right">
+          <div className = "header-menu row-fill">
+            {
+              modules.map((item) => (
+                <div key = { "modules-map-row-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
+                  <span>{ item[1] }</span>
+                  <div></div>
+                  <span>{ item[0] }</span>
+                </div>
+              ))
+            }
+          </div>
+          <div className = "header-dropdown column-center">
+            <div className = "button row-center" onClick = { () => { setDashboardDropdownActive(!dashboardDropdownActive); } }>
+              { dashboardDropdownActive ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
+            </div>
+            <div className = { dashboardDropdownActive ? "header-list column-center" : "hidden" }>
+              <div className = "container column-center">
+                {
+                  modules.map((item) => (
+                    <div key = { "modules-map-column-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
+                      <span>{ item[0] }</span>
+                    </div>
+                  ))
+                }
+              </div>
+              <div className = "container row-center">
+                <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* The Home page. */
+
   function HomePage() {
     return (
       <div id = "home-page">
@@ -380,15 +386,41 @@ function App() {
     );
   }
 
-  const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-  const [activeContext, setActiveContext] = React.useState(null);
-
-  function handleContextNavigation(context) {
-    localStorage.setItem("active_context", context);
-    setActiveContext(context);
-  }
+  /* The Data page. */
 
   function DataPage() {
+    const [fileShapefile, setFileShapefile] = React.useState(null);
+
+    function handleViewShapefile(object) {
+      let shapefile = object.file;
+      let name = object._id;
+
+      remove_all_layers();
+
+      if (fileShapefile !== name) {
+        add_layer(shapefile);
+        setFileShapefile(name);
+      }
+      else {
+        setFileShapefile(null);
+      }
+    }
+
+    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+    const [activeContext, setActiveContext] = React.useState(null);
+
+    React.useEffect(() => {
+      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
+    }, []);
+
+    function handleContextNavigation(context) {
+      remove_all_layers();
+      setFileShapefile(null);
+
+      localStorage.setItem("active_context", context);
+      setActiveContext(context);
+    }
+
     const [fileArray, setFileArray] = React.useState([]);
 
     const [socialArray, setSocialArray] = React.useState([]);
@@ -403,71 +435,73 @@ function App() {
     const [demographicArray, setDemographicArray] = React.useState([]);
     const [demographicArrayBoolean, setDemographicArrayBoolean] = React.useState(false);
   
-    function handleFetchSocialArray() {
-      axios
-        .post("http://localhost:5000/fetch/social", {
-        })
-        .then((response) => {
-          setSocialArray(response.data);
-          setSocialArrayBoolean(true);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-  
-    function handleFetchEconomicArray() {
-      axios
-        .post("http://localhost:5000/fetch/economic", {
-        })
-        .then((response) => {
-          setEconomicArray(response.data);
-          setEconomicArrayBoolean(true);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-  
-    function handleFetchEnvironmentalArray() {
-      axios
-        .post("http://localhost:5000/fetch/environmental", {
-        })
-        .then((response) => {
-          setEnvironmentalArray(response.data);
-          setEnvironmentalArrayBoolean(true);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-  
-    function handleFetchDemographicArray() {
-      axios
-        .post("http://localhost:5000/fetch/demographic", {
-        })
-        .then((response) => {
-          setDemographicArray(response.data);
-          setDemographicArrayBoolean(true);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-  
     function populateFileArray() {
       if (!socialArrayBoolean && !economicArrayBoolean && !environmentalArrayBoolean && !demographicArrayBoolean) {
-        handleFetchSocialArray();
-        handleFetchEconomicArray();
-        handleFetchEnvironmentalArray();
-        handleFetchDemographicArray();
+        axios
+          .post("http://localhost:5000/fetch/social", {
+          })
+          .then((response) => {
+            setSocialArray(response.data);
+            setSocialArrayBoolean(true);
+          })
+          .catch((error) => {
+            setErrorMessage(error);
+          })
+          .finally(() => {});
+  
+        axios
+          .post("http://localhost:5000/fetch/economic", {
+          })
+          .then((response) => {
+            setEconomicArray(response.data);
+            setEconomicArrayBoolean(true);
+          })
+          .catch((error) => {
+            setErrorMessage(error);
+          })
+          .finally(() => {});
+  
+        axios
+          .post("http://localhost:5000/fetch/environmental", {
+          })
+          .then((response) => {
+            setEnvironmentalArray(response.data);
+            setEnvironmentalArrayBoolean(true);
+          })
+          .catch((error) => {
+            setErrorMessage(error);
+          })
+          .finally(() => {});
+        
+        axios
+          .post("http://localhost:5000/fetch/demographic", {
+          })
+          .then((response) => {
+            setDemographicArray(response.data);
+            setDemographicArrayBoolean(true);
+          })
+          .catch((error) => {
+            setErrorMessage(error);
+          })
+          .finally(() => {});
       }
     }
+
+    React.useEffect(() => {
+      if (fileArray.length === 0) populateFileArray();
+    }, []);
+
+    React.useEffect(() => {
+      if (socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
+        setSocialArrayBoolean(false);
+        setEconomicArrayBoolean(false);
+        setEnvironmentalArrayBoolean(false);
+        setDemographicArrayBoolean(false);
   
+        setFileArray(() => [...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
+      }
+    }, [socialArray, economicArray, environmentalArray, demographicArray]);
+    
     function UploadContext() {
       const [fileContainer, setFileContainer] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
@@ -527,38 +561,43 @@ function App() {
       )
     }
 
-    const [fileDetails, setFileDetails] = React.useState(null);
-    const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
+    function handleArraySwitch(aspect) {
+      switch (aspect) {
+        case "All":
+          return(fileArray);
+        case "Social":
+          return(socialArray);
+        case "Economic":
+          return(economicArray);
+        case "Environmental":
+          return(environmentalArray);
+        case "Demographic":
+          return(demographicArray);
+        default:
+          return null;
+      }
+    }
 
-    React.useEffect(() => {
-      setFileDetails(null);
-      setFileDetailsActive(false);
-    }, [activeContext]);
+    function SummaryContext({ array }) {
+      const [fileDetails, setFileDetails] = React.useState(null);
+      const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
   
-    function SummaryContext() {
+      React.useEffect(() => {
+        setFileDetails(null);
+        setFileDetailsActive(false);
+      }, [activeContext]);
+
+      function handleViewDetails(details) {
+        setFileDetails(details);
+        setFileDetailsActive(!fileDetailsActive);
+      }
+
       return (
         <div id = "summary-context">
           {
-            fileArray.length < 1 ?
-            <div className = "container row-center">
-              <span>{ "No items to show." }</span>
-            </div>
-            :
-            fileDetailsActive ? 
-            <div className = "container column-center">
-              <div className = "header row-right">
-                <div className = "button row-center" onClick = { () => { setFileDetails(null); setFileDetailsActive(false); } }>
-                  <span>{ "❌" }</span>
-                </div>
-              </div>
-              <div className = "container row-center">
-                <span>{ JSON.stringify(fileDetails, null, 8) }</span>
-              </div>
-            </div>
-            :
-            <div className = "container column-top">
-              {
-                fileArray.map((item) => (
+            array ?
+              array.length > 0 ?
+                array.map((item) => (
                   <div key = { "file-array-map-" + item._id } className = "container column-top">
                     <div className = "header row-fill">
                       <div className = "row-center">
@@ -567,11 +606,11 @@ function App() {
                         </div>
                       </div>
                       <div className = "row-center">
-                        <div className = "button row-center" onClick = { () => { add_layer(item.file) } }>
-                          <span>{ "👀" }</span>
+                        <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
+                          <span>{ fileShapefile === item._id ? "❌" : "👀" }</span>
                         </div>
-                        <div className = "button row-center" onClick = { () => { setFileDetails(item); setFileDetailsActive(true); } }>
-                          <span>{ "📋" }</span>
+                        <div className = "button row-center" onClick = { () => { handleViewDetails(item); } }>
+                          <span>{ fileDetailsActive ? "❌" : "📋" }</span>
                         </div>
                         <div className = "button row-center">
                           <span>{ "✏️" }</span>
@@ -581,119 +620,23 @@ function App() {
                         </div>
                       </div>
                     </div>
-                    <div className = "hidden">
+                    <div className = { fileDetailsActive ? "container row-center" : "hidden" }>
+                      <div className = "container row-center">
+                        <span>{ JSON.stringify(fileDetails, null, 8) }</span>
+                      </div>
                     </div>
                   </div>
                 ))
-              }
-            </div>
+              :
+                <div className = "empty-content container row-center">
+                  <span>{ "No items to show." }</span>
+                </div>
+            :
+              null
           }
         </div>
-      )
+      );
     }
-  
-    function SocialContext() {
-      return (
-        <div className = "box column-center" style = { { backgroundColor: "red" } }>
-          <div className = "container column-center">
-            {
-              socialArray.length < 1 ?
-              <div className = "container column-center">
-                <span className = "type-body">No items to show.</span>
-              </div>
-              :
-              socialArray.map((item) => (
-                <div key = { "social-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                  <span className = "type-body">{ item.name }</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      )
-    }
-  
-    function EconomicContext() {
-      return (
-        <div className = "box column-center" style = { { backgroundColor: "yellow" } }>
-          <div className = "container column-center">
-            {
-              economicArray.length < 1 ?
-              <div className = "container column-center">
-                <span className = "type-body">No items to show.</span>
-              </div>
-              :
-              economicArray.map((item) => (
-                <div key = { "economic-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                  <span className = "type-body">{ item.name }</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      )
-    }
-  
-    function EnvironmentalContext() {
-      return (
-        <div className = "box column-center" style = { { backgroundColor: "green" } }>
-          <div className = "container column-center">
-            {
-              environmentalArray.length < 1 ?
-              <div className = "container column-center">
-                <span className = "type-body">No items to show.</span>
-              </div>
-              :
-              environmentalArray.map((item) => (
-                <div key = { "environmental-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                  <span className = "type-body">{ item.name }</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      )
-    }
-  
-    function DemographicContext() {
-      return (
-        <div className = "box column-center" style = { { backgroundColor: "blue" } }>
-          <div className = "container column-center">
-            {
-              demographicArray.length < 1 ?
-              <div className = "container column-center">
-                <span className = "type-body">No items to show.</span>
-              </div>
-              :
-              demographicArray.map((item) => (
-                <div key = { " demographic-array-map-" + item._id } className = "button" onClick = { () => { add_layer(item.file) } }>
-                  <span className = "type-body">{ item.name }</span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      )
-    }
-
-    React.useEffect(() => {
-      populateFileArray();
-    }, []);
-  
-    React.useEffect(() => {
-      if (socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
-        setSocialArrayBoolean(false);
-        setEconomicArrayBoolean(false);
-        setEnvironmentalArrayBoolean(false);
-        setDemographicArrayBoolean(false);
-  
-        setFileArray(() => [...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
-      }
-    }, [socialArray, economicArray, environmentalArray, demographicArray]);
-
-    React.useEffect(() => {
-      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
-    }, []);
 
     return (
       <div id = "data-page">
@@ -716,26 +659,10 @@ function App() {
                 }
               </div>
               <div className = "header row-center">
-                { activeContext ?
-                    <div className = "row-center">
-                      <span>{ contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" }</span>
-                    </div>
-                    :
-                    <div className = "row-center">
-                      <span>{ contexts[0][1] + " Upload Data" }</span>
-                    </div>
-                }
+                <span>{ activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" : contexts[0][1] + " Upload Data" }</span>
               </div>
               <div className = "body column-center">
-                {
-                  activeContext === contexts[0][0] ? <UploadContext/> :
-                  activeContext === contexts[1][0] ? <SummaryContext/> :
-                  activeContext === contexts[2][0] ? <SocialContext/> :
-                  activeContext === contexts[3][0] ? <EconomicContext/> :
-                  activeContext === contexts[4][0] ? <EnvironmentalContext/> :
-                  activeContext === contexts[5][0] ? <DemographicContext/> :
-                  null
-                }
+                { activeContext === contexts[0][0] ? <UploadContext/> : <SummaryContext array = { handleArraySwitch(activeContext) }/> }
               </div>
             </div>
           </div>

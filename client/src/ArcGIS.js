@@ -13,8 +13,6 @@ var view;
 
 const ArcGISMapContextProvider = (props) => {  
   function add_layer(file) {    
-    view.map.removeAll();
-
     const blob = new Blob([JSON.stringify(file)], {
       type: "application/json"
     });
@@ -41,6 +39,10 @@ const ArcGISMapContextProvider = (props) => {
       center: calculated_center,
       zoom: 10
     });
+  }
+
+  function remove_all_layers() {
+    view.map.removeAll();
   }
 
   function ArcGISMap() {
@@ -75,7 +77,7 @@ const ArcGISMapContextProvider = (props) => {
   }
 
   return (
-    <ArcGISMapContext.Provider value = { { add_layer, ArcGISMap } }>{ props.children }</ArcGISMapContext.Provider>
+    <ArcGISMapContext.Provider value = { { add_layer, remove_all_layers, ArcGISMap } }>{ props.children }</ArcGISMapContext.Provider>
   )
 }
 
