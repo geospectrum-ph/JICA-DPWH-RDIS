@@ -1,8 +1,10 @@
 # JICA-DPWH-RDIS
 A repository of all the source code for the JICA-DPWH-RDIS project.
 
-## Client
+## Web
+- The Web service is running at port `3000`.
 ## API
+- The API service is running at port `3001`.
 ## Mobile
 ### RSM
 ### Hazard Map
