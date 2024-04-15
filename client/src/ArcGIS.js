@@ -35,14 +35,27 @@ const ArcGISMapContextProvider = (props) => {
 
     let calculated_center = [(longitude/file.features[0].geometry.coordinates[0].length), (latitude/file.features[0].geometry.coordinates[0].length)];
 
-    view.goTo({
-      center: calculated_center,
-      zoom: 10
-    });
+    view
+      .goTo({
+        center: calculated_center,
+        zoom: 10
+      })
+      .catch(function(error) {
+        if (error.name != "AbortError") { return null; }
+      });
   }
 
   function remove_all_layers() {
     view.map.removeAll();
+
+    view
+      .goTo({
+        center: [121.5, 12.5],
+        zoom: 4
+      })
+      .catch(function(error) {
+        if (error.name != "AbortError") { return null; }
+      });
   }
 
   function ArcGISMap() {
@@ -56,7 +69,7 @@ const ArcGISMapContextProvider = (props) => {
       view = new MapView({
         container: "arcgis-map",
         map: map,
-        center: [121.5, 20.5],
+        center: [121.5, 12.5],
         zoom: 4
       });
 

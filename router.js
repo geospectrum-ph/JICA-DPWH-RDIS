@@ -82,6 +82,7 @@ const filesData = mongoose.model("general-files",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
+    "aspect": { type: Object },
     "tags": { type: Object }
   })
 );
@@ -101,6 +102,7 @@ const socialData = mongoose.model("module-social-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
+    "aspect": { type: Object },
     "tags": { type: Object }
   })
 );
@@ -120,6 +122,7 @@ const economicData = mongoose.model("module-economic-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
+    "aspect": { type: Object },
     "tags": { type: Object }
   })
 );
@@ -139,6 +142,7 @@ const environmentalData = mongoose.model("module-environmental-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
+    "aspect": { type: Object },
     "tags": { type: Object }
   })
 );
@@ -158,6 +162,7 @@ const demographicData = mongoose.model("module-demographic-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
+    "aspect": { type: Object },
     "tags": { type: Object }
   })
 );
@@ -234,12 +239,14 @@ router.route("/upload/").post((request, response) => {
         filesData
           .create({
             name: request.files.file[index].originalname,
-            file: object
+            file: object,
+            aspect: null
+          })
+          .then((data) => {
+            response.json(data);
           });
       }
     }
-
-    response.json("upload_successful");
   });
 });
 
@@ -285,7 +292,8 @@ router.route("/upload/social/").post((request, response) => {
         socialData
           .create({
             name: request.files.file[index].originalname,
-            file: object
+            file: object,
+            aspect: "social"
           });
       }
     }
@@ -336,7 +344,8 @@ router.route("/upload/economic/").post((request, response) => {
         economicData
           .create({
             name: request.files.file[index].originalname,
-            file: object
+            file: object,
+            aspect: "economic"
           });
       }
     }
@@ -387,7 +396,8 @@ router.route("/upload/environmental/").post((request, response) => {
         environmentalData
           .create({
             name: request.files.file[index].originalname,
-            file: object
+            file: object,
+            aspect: "environmental"
           });
       }
     }
@@ -438,13 +448,81 @@ router.route("/upload/demographic/").post((request, response) => {
         demographicData
           .create({
             name: request.files.file[index].originalname,
-            file: object
+            file: object,
+            aspect: "demographic"
           });
       }
     }
 
     response.json("upload_successful");
   });
+});
+
+router.route("/delete/").post((request, response) => {
+  switch (request.body.file.aspect) {
+    case null: 
+      filesData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "social":
+      socialData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "economic":
+      economicData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "environmental":
+      environmentalData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "demographic":
+      demographicData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    default:
+      return null;
+  }
 });
 
 module.exports = router;
