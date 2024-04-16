@@ -556,11 +556,11 @@ div:has(> .body) {
             height: 100%;
           }
 
-          & #all-context,
           & #social-context,
           & #economic-context,
           & #environmental-context,
-          & #demographic-context {
+          & #demographic-context,
+          & #summary-context {
             background-color: rgba(120, 120, 120, 1);
         
             & div:has(> .header) {

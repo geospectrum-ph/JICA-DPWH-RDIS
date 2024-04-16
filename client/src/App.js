@@ -389,109 +389,82 @@ function App() {
   /* The Data page. */
 
   function DataPage() {
-    const [fileArray, setFileArray] = React.useState([]);
+    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+    const [activeContext, setActiveContext] = React.useState(null);
 
-    const [unclassifiedArray, setUnclassifiedArray] = React.useState([]);
-    const [unclassifiedArrayBoolean, setUnclassifiedArrayBoolean] = React.useState(false);
-
-    const [socialArray, setSocialArray] = React.useState([]);
-    const [socialArrayBoolean, setSocialArrayBoolean] = React.useState(false);
-  
-    const [economicArray, setEconomicArray] = React.useState([]);
-    const [economicArrayBoolean, setEconomicArrayBoolean] = React.useState(false);
-  
-    const [environmentalArray, setEnvironmentalArray] = React.useState([]);
-    const [environmentalArrayBoolean, setEnvironmentalArrayBoolean] = React.useState(false);
-  
-    const [demographicArray, setDemographicArray] = React.useState([]);
-    const [demographicArrayBoolean, setDemographicArrayBoolean] = React.useState(false);
+    const [fileArray, setFileArray] = React.useState(null);
+    const [unclassifiedArray, setUnclassifiedArray] = React.useState(null);
+    const [socialArray, setSocialArray] = React.useState(null);
+    const [economicArray, setEconomicArray] = React.useState(null);  
+    const [environmentalArray, setEnvironmentalArray] = React.useState(null);
+    const [demographicArray, setDemographicArray] = React.useState(null);
 
     React.useEffect(() => {
-      if (unclassifiedArrayBoolean && socialArrayBoolean && economicArrayBoolean && environmentalArrayBoolean && demographicArrayBoolean) {
-        setUnclassifiedArray(false);
-        setSocialArrayBoolean(false);
-        setEconomicArrayBoolean(false);
-        setEnvironmentalArrayBoolean(false);
-        setDemographicArrayBoolean(false);
-  
+      if (unclassifiedArray && socialArray && economicArray && environmentalArray && demographicArray) {
         setFileArray(() => [...unclassifiedArray, ...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
       }
     }, [unclassifiedArray, socialArray, economicArray, environmentalArray, demographicArray]);
   
-    function populateFileArray() {
-      if (!unclassifiedArrayBoolean && !socialArrayBoolean && !economicArrayBoolean && !environmentalArrayBoolean && !demographicArrayBoolean) {
-        axios
-          .post("http://localhost:5000/fetch", {
-          })
-          .then((response) => {
-            setUnclassifiedArray(response.data);
-            setUnclassifiedArrayBoolean(true);
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-
-        axios
-          .post("http://localhost:5000/fetch/social", {
-          })
-          .then((response) => {
-            setSocialArray(response.data);
-            setSocialArrayBoolean(true);
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-
-        axios
-          .post("http://localhost:5000/fetch/economic", {
-          })
-          .then((response) => {
-            setEconomicArray(response.data);
-            setEconomicArrayBoolean(true);
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-
-        axios
-          .post("http://localhost:5000/fetch/environmental", {
-          })
-          .then((response) => {
-            setEnvironmentalArray(response.data);
-            setEnvironmentalArrayBoolean(true);
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-        
-        axios
-          .post("http://localhost:5000/fetch/demographic", {
-          })
-          .then((response) => {
-            setDemographicArray(response.data);
-            setDemographicArrayBoolean(true);
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-      }
-    }
-
     React.useEffect(() => {
-      if (fileArray.length === 0) {
-        populateFileArray();
-      }
+      axios
+        .post("http://localhost:5000/fetch", {
+        })
+        .then((response) => {
+          setUnclassifiedArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+
+      axios
+        .post("http://localhost:5000/fetch/social", {
+        })
+        .then((response) => {
+          setSocialArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+
+      axios
+        .post("http://localhost:5000/fetch/economic", {
+        })
+        .then((response) => {
+          setEconomicArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+
+      axios
+        .post("http://localhost:5000/fetch/environmental", {
+        })
+        .then((response) => {
+          setEnvironmentalArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+      
+      axios
+        .post("http://localhost:5000/fetch/demographic", {
+        })
+        .then((response) => {
+          setDemographicArray(response.data);
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
     }, []);
 
-    function UploadContext() {      
+    function UploadContext() {
       const [fileContainer, setFileContainer] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
-      const [fileOptions, setFileOptions] = React.useState([["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
 
       function handleUpload(content, category) {
         const data = new FormData();
@@ -506,36 +479,27 @@ function App() {
             body: data
           })
           .then((promise) => {
-            let handler = promise.json().then(function(result) {
-              let buffer = null;
-
-              switch (category) {
-                case null:
-                  buffer = [unclassifiedArray];
-                  setUnclassifiedArray(buffer.push(result));
-                  break;
-                case "social":
-                  buffer = [socialArray];
-                  setSocialArray(buffer.push(result));
-                  break;
-                case null:
-                  buffer = [economicArray];
-                  setEconomicArray(buffer.push(result));
-                  break;
-                case null:
-                  buffer = [environmentalArray];
-                  setEnvironmentalArray(buffer.push(result));
-                  break;
-                case null:
-                  buffer = [demographicArray];
-                  setDemographicArray(buffer.push(result));
-                  break;
-                default:
-                  buffer = [fileArray];
-                  setFileArray(buffer.push(result));
-                  return null;
-              }
-            });
+            promise
+              .json()
+              .then((result) => {
+                switch (category) {
+                  case "Social":
+                    setSocialArray(() => [...socialArray, result]);
+                    break;
+                  case "Economic":
+                    setEconomicArray(() => [...economicArray, result]);
+                    break;
+                  case "Environmental":
+                    setEnvironmentalArray(() => [...environmentalArray, result]);
+                    break;
+                  case "Demographic":
+                    setDemographicArray(() => [...demographicArray, result]);
+                    break;
+                  default:
+                    setFileArray(() => [...fileArray, result]);
+                    return null;
+                }
+              });
           })
           .catch((error) => {
             setErrorMessage(error);
@@ -557,7 +521,7 @@ function App() {
             </div>
             <div className = "header row-center">
               {
-                fileOptions.map((item) => (
+                contexts.slice(2).map((item) => (
                   <div key = { "file-options-map-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
                     <span>{ item[1] }</span>
                   </div>
@@ -570,52 +534,6 @@ function App() {
           </div>
         </div>
       )
-    }
-
-    function handleDeleteItem(object) {
-      remove_all_layers();
-      setFileShapefile(null);
-
-      axios
-        .post("http://localhost:5000/delete", {
-          file: object
-        })
-        .then((response) => {
-          if (response) {
-            let buffer = null;
-
-            switch (object.aspect) {
-              case null:
-                buffer = [unclassifiedArray];
-                setUnclassifiedArray(buffer.filter((item) => item._id !== object._id));
-                break;
-              case "social":
-                buffer = [socialArray];
-                setSocialArray(buffer.filter((item) => item._id !== object._id));
-                break;
-              case null:
-                buffer = [economicArray];
-                setEconomicArray(buffer.filter((item) => item._id !== object._id));
-                break;
-              case null:
-                buffer = [environmentalArray];
-                setEnvironmentalArray(buffer.filter((item) => item._id !== object._id));
-                break;
-              case null:
-                buffer = [demographicArray];
-                setDemographicArray(buffer.filter((item) => item._id !== object._id));
-                break;
-              default:
-                buffer = [fileArray];
-                setFileArray(buffer.filter((item) => item._id !== object._id));
-                return null;
-            }
-          }
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
     }
 
     const [fileShapefile, setFileShapefile] = React.useState(null);
@@ -635,8 +553,43 @@ function App() {
       }
     }
 
-    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-    const [activeContext, setActiveContext] = React.useState(null);
+    function handleDeleteItem(object) {
+      remove_all_layers();
+      setFileShapefile(null);
+
+      axios
+        .post("http://localhost:5000/delete", {
+          file: object
+        })
+        .then((response) => {
+          if (response) {
+            switch (object.aspect) {
+              case null:
+                setUnclassifiedArray(() => unclassifiedArray.filter((item) => (item._id !== object._id)));
+                break;
+              case "social":
+                setSocialArray(() => socialArray.filter((item) => (item._id !== object._id)));
+                break;
+              case "economic":
+                setEconomicArray(() => economicArray.filter((item) => (item._id !== object._id)));
+                break;
+              case "environmental":
+                setEnvironmentalArray(() => environmentalArray.filter((item) => (item._id !== object._id)));
+                break;
+              case "demographic":
+                setDemographicArray(() => demographicArray.filter((item) => (item._id !== object._id)));
+                break;
+              default:
+                setFileArray(() => fileArray.filter((item) => (item._id !== object._id)));
+                return null;
+            }
+          }
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
 
     React.useEffect(() => {
       if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
@@ -663,52 +616,40 @@ function App() {
       setFileDetailsActive(!fileDetailsActive);
     }
 
-    function AllContext() {
+    function Summary({ array }) {
       return (
-        <div id = "all-context">
+        <div className = "container column-top">
           {
-            fileArray ?
-              fileArray.length > 0 ?
-                <div className = "container column-top">
-                  {
-                    fileArray.map((item) => (
-                      <div key = { "file-array-map-" + item._id } className = "column-top">
-                        <div className = "header row-fill">
-                          <div className = "row-center">
-                            <div className = "container row-left">
-                              <span>{ item.name }</span>
-                            </div>
-                          </div>
-                          <div className = "row-center">
-                            <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
-                              <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                              <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                              <span>{ "✏️" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
-                              <span>{ "🗑️" }</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                          <div className = "row-center">
-                            <span>{ item.details ? item.details : "No information available." }</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
+            array.map((item) => (
+              <div key = { "file-array-map-" + item._id } className = "column-top">
+                <div className = "header row-fill">
+                  <div className = "row-center">
+                    <div className = "container row-left">
+                      <span>{ item.name }</span>
+                    </div>
+                  </div>
+                  <div className = "row-center">
+                    <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
+                      <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
+                    </div>
+                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
+                      <span>{ fileDetailsActive ? "❌" : "📋" }</span>
+                    </div>
+                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
+                      <span>{ "✏️" }</span>
+                    </div>
+                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
+                      <span>{ "🗑️" }</span>
+                    </div>
+                  </div>
                 </div>
-              :
-                <div className = "empty-content container row-center">
-                  <span>{ "No items to show." }</span>
+                <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
+                  <div className = "row-center">
+                    <span>{ item.aspect ? item.aspect : "No information available." }</span>
+                  </div>
                 </div>
-            :
-              null
+              </div>
+            ))
           }
         </div>
       );
@@ -720,40 +661,7 @@ function App() {
           {
             socialArray ?
               socialArray.length > 0 ?
-                <div className = "container column-top">
-                  {
-                    socialArray.map((item) => (
-                      <div key = { "file-array-map-" + item._id } className = "column-top">
-                        <div className = "header row-fill">
-                          <div className = "row-center">
-                            <div className = "container row-left">
-                              <span>{ item.name }</span>
-                            </div>
-                          </div>
-                          <div className = "row-center">
-                            <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
-                              <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                              <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                              <span>{ "✏️" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
-                              <span>{ "🗑️" }</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                          <div className = "row-center">
-                            <span>{ item.details ? item.details : "No information available." }</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
+                <Summary array = { socialArray }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -771,40 +679,7 @@ function App() {
           {
             economicArray ?
               economicArray.length > 0 ?
-                <div className = "container column-top">
-                  {
-                    economicArray.map((item) => (
-                      <div key = { "file-array-map-" + item._id } className = "column-top">
-                        <div className = "header row-fill">
-                          <div className = "row-center">
-                            <div className = "container row-left">
-                              <span>{ item.name }</span>
-                            </div>
-                          </div>
-                          <div className = "row-center">
-                            <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
-                              <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                              <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                              <span>{ "✏️" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
-                              <span>{ "🗑️" }</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                          <div className = "row-center">
-                            <span>{ item.details ? item.details : "No information available." }</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
+                <Summary array = { economicArray }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -822,40 +697,7 @@ function App() {
           {
             environmentalArray ?
               environmentalArray.length > 0 ?
-                <div className = "container column-top">
-                  {
-                    environmentalArray.map((item) => (
-                      <div key = { "file-array-map-" + item._id } className = "column-top">
-                        <div className = "header row-fill">
-                          <div className = "row-center">
-                            <div className = "container row-left">
-                              <span>{ item.name }</span>
-                            </div>
-                          </div>
-                          <div className = "row-center">
-                            <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
-                              <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                              <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                              <span>{ "✏️" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
-                              <span>{ "🗑️" }</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                          <div className = "row-center">
-                            <span>{ item.details ? item.details : "No information available." }</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
+                <Summary array = { environmentalArray }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -869,44 +711,29 @@ function App() {
 
     function DemographicContext() {
       return (
-        <div id = "all-context">
+        <div id = "demographic-context">
           {
             demographicArray ?
               demographicArray.length > 0 ?
-                <div className = "container column-top">
-                  {
-                    demographicArray.map((item) => (
-                      <div key = { "file-array-map-" + item._id } className = "column-top">
-                        <div className = "header row-fill">
-                          <div className = "row-center">
-                            <div className = "container row-left">
-                              <span>{ item.name }</span>
-                            </div>
-                          </div>
-                          <div className = "row-center">
-                            <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
-                              <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                              <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                              <span>{ "✏️" }</span>
-                            </div>
-                            <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
-                              <span>{ "🗑️" }</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                          <div className = "row-center">
-                            <span>{ item.details ? item.details : "No information available." }</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
+                <Summary array = { demographicArray }/>
+              :
+                <div className = "empty-content container row-center">
+                  <span>{ "No items to show." }</span>
                 </div>
+            :
+              null
+          }
+        </div>
+      );
+    }
+
+    function SummaryContext() {
+      return (
+        <div id = "summary-context">
+          {
+            fileArray ?
+              fileArray.length > 0 ?
+                <Summary array = { fileArray }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -943,7 +770,7 @@ function App() {
               </div>
               <div className = "body column-center">
                 {
-                  activeContext === contexts[1][0] ? <AllContext/> :
+                  activeContext === contexts[1][0] ? <SummaryContext/> :
                   activeContext === contexts[2][0] ? <SocialContext/> :
                   activeContext === contexts[3][0] ? <EconomicContext/> :
                   activeContext === contexts[4][0] ? <EnvironmentalContext/> :

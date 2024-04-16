@@ -82,8 +82,7 @@ const filesData = mongoose.model("general-files",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: Object },
-    "tags": { type: Object }
+    "aspect": { type: String }
   })
 );
 
@@ -102,8 +101,7 @@ const socialData = mongoose.model("module-social-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: Object },
-    "tags": { type: Object }
+    "aspect": { type: String }
   })
 );
 
@@ -122,8 +120,7 @@ const economicData = mongoose.model("module-economic-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: Object },
-    "tags": { type: Object }
+    "aspect": { type: String }
   })
 );
 
@@ -142,8 +139,7 @@ const environmentalData = mongoose.model("module-environmental-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: Object },
-    "tags": { type: Object }
+    "aspect": { type: String }
   })
 );
 
@@ -162,8 +158,7 @@ const demographicData = mongoose.model("module-demographic-databases",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: Object },
-    "tags": { type: Object }
+    "aspect": { type: String }
   })
 );
 
@@ -294,11 +289,12 @@ router.route("/upload/social/").post((request, response) => {
             name: request.files.file[index].originalname,
             file: object,
             aspect: "social"
+          })
+          .then((data) => {
+            response.json(data);
           });
       }
     }
-
-    response.json("upload_successful");
   });
 });
 
@@ -346,11 +342,12 @@ router.route("/upload/economic/").post((request, response) => {
             name: request.files.file[index].originalname,
             file: object,
             aspect: "economic"
+          })
+          .then((data) => {
+            response.json(data);
           });
       }
     }
-
-    response.json("upload_successful");
   });
 });
 
@@ -398,11 +395,12 @@ router.route("/upload/environmental/").post((request, response) => {
             name: request.files.file[index].originalname,
             file: object,
             aspect: "environmental"
+          })
+          .then((data) => {
+            response.json(data);
           });
       }
     }
-
-    response.json("upload_successful");
   });
 });
 
@@ -450,11 +448,12 @@ router.route("/upload/demographic/").post((request, response) => {
             name: request.files.file[index].originalname,
             file: object,
             aspect: "demographic"
+          })
+          .then((data) => {
+            response.json(data);
           });
       }
     }
-
-    response.json("upload_successful");
   });
 });
 
