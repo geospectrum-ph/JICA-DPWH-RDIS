@@ -16,9 +16,7 @@ function App() {
 
   const [errorMessage, setErrorMessage] = React.useState(null);
 
-  React.useEffect(() => {
-    if (errorMessage) console.log(errorMessage);
-  }, [errorMessage]);
+  React.useEffect(() => { if (errorMessage) console.log(errorMessage); }, [errorMessage]);
 
   /* The ArcGIS map component and its corresponding functions. */
 
@@ -30,6 +28,18 @@ function App() {
 
   const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
   const [activeModule, setActiveModule] = React.useState(null);
+
+  function handleExit() {
+    localStorage.removeItem("active_module");
+    localStorage.removeItem("username");
+    localStorage.removeItem("password");
+    localStorage.removeItem("temporary_username");
+    localStorage.removeItem("temporary_old_password");
+    localStorage.removeItem("temporary_new_password");
+    localStorage.removeItem("temporary_new_password_clone");
+    localStorage.removeItem("active_context");
+    localStorage.removeItem("token");
+  }
 
   function handleNavigation(module) {
     localStorage.setItem("active_module", module);
@@ -58,6 +68,7 @@ function App() {
         navigate("/support");
         break;
       case "Exit":
+        handleExit();
         navigate("/");
         break;
       default:
@@ -114,7 +125,7 @@ function App() {
   /* The Sign In page. */
 
   function SignInPage() {
-    const [loginNote, setLoginNote] = React.useState("Please enter your username and password.");
+    const [note, setNote] = React.useState("Please enter your username and password.");
 
     function handleLogin() {
       axios
@@ -123,21 +134,13 @@ function App() {
           password: localStorage.getItem("password")
         })
         .then((response) => {
-          switch (response.data) {
-            case "username_error":
-            case "password_error":
-              setLoginNote("Please enter a valid username and password.");
-              break;
-            case "request_success":
-              setLoginNote("Successful user authentication!");
-              handleNavigation("Home");
-              break;
-            default: return null;
+          setNote(response.data.note);
+          if (response.data.code === 200) {
+            localStorage.setItem("token", true);
+            handleNavigation("Home");
           }
         })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
+        .catch((error) => { setErrorMessage(error); })
         .finally(() => {});
     }
 
@@ -155,7 +158,7 @@ function App() {
                 <span>{ "Sign In to 🌱 SEEDs" }</span>
               </div>
               <div className = "form-note row-center">
-                <span>{ loginNote }</span>
+                <span>{ note }</span>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "sign-in-username">
@@ -208,7 +211,7 @@ function App() {
     localStorage.setItem("temporary_new_password", null);
     localStorage.setItem("temporary_new_password_clone", null);
 
-    const [changePasswordNote, setChangePasswordNote] = React.useState("Please enter your username and password.");
+    const [note, setNote] = React.useState("Please enter your username and password.");
 
     function handleChangePassword() {
       axios
@@ -219,25 +222,10 @@ function App() {
           clonePassword: localStorage.getItem("temporary_new_password_clone")
         })
         .then((response) => {
-          switch (response.data) {
-            case "username_error":
-            case "password_error":
-            case "case_error":
-              setChangePasswordNote("Please enter a valid username and password.");
-              break;
-            case "password_mismatch":
-              setChangePasswordNote("The entered passwords do not match.");
-              break;
-            case "request_success":
-              setChangePasswordNote("Successful password update!");
-              handleNavigation("Sign In");
-              break;
-            default: return null;
-          }
+          setLoginNote(response.data.note);
+          if (response.data.code === 200) handleNavigation("Sign In");
         })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
+        .catch((error) => { setErrorMessage(error); })
         .finally(() => {});
     }
 
@@ -255,7 +243,7 @@ function App() {
                 <span>{ "Change Password" }</span>
               </div>
               <div className = "form-note row-center">
-                <span>{ changePasswordNote }</span>
+                <span>{ note }</span>
               </div>
               <div className = "form-field row-center">
                 <label htmlFor = "change-password-username">
@@ -314,13 +302,9 @@ function App() {
   function Dashboard() {
     const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
     
-    window.addEventListener("resize", () => {
-      setDashboardDropdownActive(false);
-    });
+    window.addEventListener("resize", () => { setDashboardDropdownActive(false); });
 
-    React.useEffect(() => {
-      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
-    }, []);
+    React.useEffect(() => { if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module")); }, []);
 
     return (
       <div id = "dashboard" className = "container row-center">
@@ -389,156 +373,54 @@ function App() {
   /* The Data page. */
 
   function DataPage() {
-    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-    const [activeContext, setActiveContext] = React.useState(null);
-
+    const [fileObject, setFileObject] = React.useState(null);
     const [fileArray, setFileArray] = React.useState(null);
-    const [unclassifiedArray, setUnclassifiedArray] = React.useState(null);
-    const [socialArray, setSocialArray] = React.useState(null);
-    const [economicArray, setEconomicArray] = React.useState(null);  
-    const [environmentalArray, setEnvironmentalArray] = React.useState(null);
-    const [demographicArray, setDemographicArray] = React.useState(null);
 
-    React.useEffect(() => {
-      if (unclassifiedArray && socialArray && economicArray && environmentalArray && demographicArray) {
-        setFileArray(() => [...unclassifiedArray, ...socialArray, ...economicArray, ...environmentalArray, ...demographicArray]);
-      }
-    }, [unclassifiedArray, socialArray, economicArray, environmentalArray, demographicArray]);
-  
-    React.useEffect(() => {
+    function handleFetchData() {
       axios
-        .post("http://localhost:5000/fetch", {
-        })
+        .post("http://localhost:5000/fetch/", {})
         .then((response) => {
-          setUnclassifiedArray(response.data);
+          setFileObject(response.data);
+          setFileArray(Object.values(response.data).flat());
         })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
+        .catch((error) => { setErrorMessage(error); })
         .finally(() => {});
+    }
 
-      axios
-        .post("http://localhost:5000/fetch/social", {
-        })
-        .then((response) => {
-          setSocialArray(response.data);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
+    React.useEffect(() => { handleFetchData(); }, []);
 
-      axios
-        .post("http://localhost:5000/fetch/economic", {
-        })
-        .then((response) => {
-          setEconomicArray(response.data);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-
-      axios
-        .post("http://localhost:5000/fetch/environmental", {
-        })
-        .then((response) => {
-          setEnvironmentalArray(response.data);
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
+    function handleUploadData(object, aspect) {
+      const data = new FormData();
       
-      axios
-        .post("http://localhost:5000/fetch/demographic", {
+      for (let index = 0; index < object.length; index++) { data.append("file", object[index]); }
+      data.append("category", aspect ? aspect.toLowerCase() : "unclassified");
+      
+      const upload = async() => {
+        await fetch("http://localhost:5000/upload/", {
+          method: "POST",
+          body: data
         })
-        .then((response) => {
-          setDemographicArray(response.data);
+        .then((promise) => {
+          promise
+            .json()
+            .then((response) => {
+              if (response) {
+                Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
+                setFileArray(() => [...fileArray, response]);
+              }
+            })
+            .catch((error) => { setErrorMessage(error); });
         })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
+        .catch((error) => { setErrorMessage(error); })
         .finally(() => {});
-    }, []);
-
-    function UploadContext() {
-      const [fileContainer, setFileContainer] = React.useState(null);
-      const [fileCategory, setFileCategory] = React.useState(null);
-
-      function handleUpload(content, category) {
-        const data = new FormData();
-        
-        for (let index = 0; index < content.length; index++) { data.append("file", content[index]); }
-    
-        let path = "http://localhost:5000/upload/" + (category === null ? "" : category);
-    
-        const upload = async() => {
-          await fetch(path, {
-            method: "POST",
-            body: data
-          })
-          .then((promise) => {
-            promise
-              .json()
-              .then((result) => {
-                switch (category) {
-                  case "Social":
-                    setSocialArray(() => [...socialArray, result]);
-                    break;
-                  case "Economic":
-                    setEconomicArray(() => [...economicArray, result]);
-                    break;
-                  case "Environmental":
-                    setEnvironmentalArray(() => [...environmentalArray, result]);
-                    break;
-                  case "Demographic":
-                    setDemographicArray(() => [...demographicArray, result]);
-                    break;
-                  default:
-                    setFileArray(() => [...fileArray, result]);
-                    return null;
-                }
-              });
-          })
-          .catch((error) => {
-            setErrorMessage(error);
-          })
-          .finally(() => {});
-        }
-    
-        upload();
       }
   
-      return (
-        <div id = "upload-context">
-          <div className = "header row-center">
-            <input type = "file" multiple onChange = { (event) => { setFileContainer(event.target.files); } }/>
-          </div>
-          <div className = "column-center">
-            <div className = "header row-center">
-              <span>{ "Choose File Category:" }</span>
-            </div>
-            <div className = "header row-center">
-              {
-                contexts.slice(2).map((item) => (
-                  <div key = { "file-options-map-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
-                    <span>{ item[1] }</span>
-                  </div>
-                ))
-              }
-            </div>
-            <div className = "button row-center" onClick = { () => { handleUpload(fileContainer, fileCategory); setFileCategory(null);} }>
-              <span>Submit</span>
-            </div>
-          </div>
-        </div>
-      )
+      upload();
     }
 
     const [fileShapefile, setFileShapefile] = React.useState(null);
 
-    function handleViewShapefile(object) {
+    function handleViewData(object) {
       let shapefile = object.file;
       let name = object._id;
 
@@ -553,36 +435,18 @@ function App() {
       }
     }
 
-    function handleDeleteItem(object) {
+    function handleDeleteData(object) {
       remove_all_layers();
       setFileShapefile(null);
 
       axios
-        .post("http://localhost:5000/delete", {
+        .post("http://localhost:5000/delete/", {
           file: object
         })
         .then((response) => {
           if (response) {
-            switch (object.aspect) {
-              case null:
-                setUnclassifiedArray(() => unclassifiedArray.filter((item) => (item._id !== object._id)));
-                break;
-              case "social":
-                setSocialArray(() => socialArray.filter((item) => (item._id !== object._id)));
-                break;
-              case "economic":
-                setEconomicArray(() => economicArray.filter((item) => (item._id !== object._id)));
-                break;
-              case "environmental":
-                setEnvironmentalArray(() => environmentalArray.filter((item) => (item._id !== object._id)));
-                break;
-              case "demographic":
-                setDemographicArray(() => demographicArray.filter((item) => (item._id !== object._id)));
-                break;
-              default:
-                setFileArray(() => fileArray.filter((item) => (item._id !== object._id)));
-                return null;
-            }
+            Object.assign(fileObject, { [object.aspect]: fileObject[object.aspect].filter((item) => (item._id !== object._id)) });
+            setFileArray(() =>fileArray.filter((item) => (item._id !== object._id)));
           }
         })
         .catch((error) => {
@@ -590,6 +454,9 @@ function App() {
         })
         .finally(() => {});
     }
+
+    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+    const [activeContext, setActiveContext] = React.useState(null);
 
     React.useEffect(() => {
       if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
@@ -616,7 +483,37 @@ function App() {
       setFileDetailsActive(!fileDetailsActive);
     }
 
-    function Summary({ array }) {
+    function UploadContext() {
+      const [fileContainer, setFileContainer] = React.useState(null);
+      const [fileCategory, setFileCategory] = React.useState(null);
+
+      return (
+        <div id = "upload-context">
+          <div className = "header row-center">
+            <input type = "file" onChange = { (event) => { setFileContainer(event.target.files); } }/>
+          </div>
+          <div className = "column-center">
+            <div className = "header row-center">
+              <span>{ "Choose File Category:" }</span>
+            </div>
+            <div className = "header row-center">
+              {
+                contexts.slice(2).map((item) => (
+                  <div key = { "file-options-map-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
+                    <span>{ item[1] }</span>
+                  </div>
+                ))
+              }
+            </div>
+            <div className = "button row-center" onClick = { () => { handleUploadData(fileContainer, fileCategory); } }>
+              <span>Submit</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    function DataComponent({ array }) {
       return (
         <div className = "container column-top">
           {
@@ -629,7 +526,7 @@ function App() {
                     </div>
                   </div>
                   <div className = "row-center">
-                    <div className = "button row-center" onClick = { () => { handleViewShapefile(item); } }>
+                    <div className = "button row-center" onClick = { () => { handleViewData(item); } }>
                       <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
                     </div>
                     <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
@@ -638,7 +535,7 @@ function App() {
                     <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
                       <span>{ "✏️" }</span>
                     </div>
-                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteItem(item); } }>
+                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteData(item); } }>
                       <span>{ "🗑️" }</span>
                     </div>
                   </div>
@@ -659,9 +556,9 @@ function App() {
       return (
         <div id = "social-context">
           {
-            socialArray ?
-              socialArray.length > 0 ?
-                <Summary array = { socialArray }/>
+            fileObject.social ?
+              fileObject.social.length > 0 ?
+                <DataComponent array = { fileObject.social }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -677,9 +574,9 @@ function App() {
       return (
         <div id = "economic-context">
           {
-            economicArray ?
-              economicArray.length > 0 ?
-                <Summary array = { economicArray }/>
+            fileObject.economic ?
+              fileObject.economic.length > 0 ?
+                <DataComponent array = { fileObject.economic }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -695,9 +592,9 @@ function App() {
       return (
         <div id = "environmental-context">
           {
-            environmentalArray ?
-              environmentalArray.length > 0 ?
-                <Summary array = { environmentalArray }/>
+            fileObject.environmental ?
+              fileObject.environmental.length > 0 ?
+                <DataComponent array = { fileObject.environmental }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -713,9 +610,9 @@ function App() {
       return (
         <div id = "demographic-context">
           {
-            demographicArray ?
-              demographicArray.length > 0 ?
-                <Summary array = { demographicArray }/>
+            fileObject.demographic ?
+              fileObject.demographic.length > 0 ?
+                <DataComponent array = { fileObject.demographic }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -733,7 +630,7 @@ function App() {
           {
             fileArray ?
               fileArray.length > 0 ?
-                <Summary array = { fileArray }/>
+                <DataComponent array = { fileArray }/>
               :
                 <div className = "empty-content container row-center">
                   <span>{ "No items to show." }</span>
@@ -770,12 +667,15 @@ function App() {
               </div>
               <div className = "body column-center">
                 {
-                  activeContext === contexts[1][0] ? <SummaryContext/> :
-                  activeContext === contexts[2][0] ? <SocialContext/> :
-                  activeContext === contexts[3][0] ? <EconomicContext/> :
-                  activeContext === contexts[4][0] ? <EnvironmentalContext/> :
-                  activeContext === contexts[5][0] ? <DemographicContext/> :
-                  <UploadContext/>
+                  fileArray ?
+                    activeContext === contexts[1][0] ? <SummaryContext/> :
+                    activeContext === contexts[2][0] ? <SocialContext/> :
+                    activeContext === contexts[3][0] ? <EconomicContext/> :
+                    activeContext === contexts[4][0] ? <EnvironmentalContext/> :
+                    activeContext === contexts[5][0] ? <DemographicContext/> :
+                    <UploadContext/>
+                  :
+                    null
                 }
               </div>
             </div>
@@ -861,12 +761,12 @@ function App() {
         <Route path = "/">
           <Route index = { true } element = { <LandingPage/> }></Route>
           <Route path = "/sign-in" element = { <SignInPage/> }></Route>
-          <Route path = "/home" element = { <HomePage/> }></Route>
-          <Route path = "/data" element = { <DataPage/> }></Route>
-          <Route path = "/analytics" element = { <AnalyticsPage/> }></Route>
-          <Route path = "/account" element = { <AccountPage/> }></Route>
-          <Route path = "/change-password" element = { <ChangePasswordPage/> }></Route>
-          <Route path = "/support" element = { <SupportPage/> }></Route>
+          <Route path = "/home" element = { localStorage.token ? <HomePage/> : <SignInPage/> }></Route>
+          <Route path = "/data" element = { localStorage.token ? <DataPage/> : <SignInPage/> }></Route>
+          <Route path = "/analytics" element = { localStorage.token ? <AnalyticsPage/> : <SignInPage/> }></Route>
+          <Route path = "/account" element = { localStorage.token ? <AccountPage/> : <SignInPage/> }></Route>
+          <Route path = "/change-password" element = { localStorage.token ? <ChangePasswordPage/> : <SignInPage/> }></Route>
+          <Route path = "/support" element = { localStorage.token ? <SupportPage/> : <SignInPage/> }></Route>
         </Route>
         <Route path = "*" element = { <ErrorPage/> }></Route>
       </Routes>
