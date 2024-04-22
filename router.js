@@ -37,7 +37,7 @@ const usersData = mongoose.model("users",
   })
 );
 
-router.route("/sign-in/post/").post((request, response) => {
+router.route("/user/sign-in/").post((request, response) => {
   usersData
     .find({})
     .then((data) => {
@@ -50,7 +50,7 @@ router.route("/sign-in/post/").post((request, response) => {
     .catch((error) => { response.status(400).json("Error: " + error); });
 });
 
-router.route("/change-password/post/").post((request, response) => {
+router.route("/user/change-password/").post((request, response) => {
   usersData
     .find({})
     .then((data) => {
@@ -116,7 +116,7 @@ const demographicData = mongoose.model("module-demographic-databases",
   })
 );
 
-router.route("/fetch/").post((request, response) => {
+router.route("/data/fetch/").post((request, response) => {
   let object = { unclassified: null, social: null, economic: null, environmental: null, demographic: null }
 
   Promise
@@ -166,7 +166,7 @@ const fs = require("fs");
 const path = require("path");
 const convert = require("@tmcw/togeojson");
 
-router.route("/upload/").post((request, response) => {
+router.route("/data/upload/").post((request, response) => {
   upload (request, response, function (error) {
     if (error instanceof multer.MulterError) { return (response.status(500).json(error)); }
     else if (error) { return (response.status(500).json(error)); }
@@ -197,6 +197,8 @@ router.route("/upload/").post((request, response) => {
       else {
         object = null;
       }
+
+      fs.unlink(path.join(request.files.file[index].path), (error) => { if (error) { throw (error); } });
 
       if (object) {
         switch (request.body.category) {
@@ -258,7 +260,11 @@ router.route("/upload/").post((request, response) => {
   });
 });
 
-router.route("/delete/").post((request, response) => {
+router.route("/data/edit/").post((request, response) => {
+
+});
+
+router.route("/data/delete/").post((request, response) => {
   switch (request.body.file.aspect) {
     case "unclassified": 
       unclassifiedData

@@ -85,6 +85,12 @@ function App() {
           <div className = "header row-center">
           </div>
           <div className = "body column-center">
+            <div className = "title row-center">
+              <span>{ "SEEDs" }</span>
+            </div>
+            <div className = "subtitle row-center">
+              <span>{ "a new way of looking at things" }</span>
+            </div>
             <div className = "button row-center" onClick = { () => { handleNavigation("Sign In"); } }>
               <span>{ "Enter" }</span>
             </div>
@@ -104,20 +110,6 @@ function App() {
             </div>
           </div>
         </div>
-        <div className = "overlay container transparent">
-          {/* <img src = { overlay } alt = "Overlay"/> */}
-        </div>
-        <div className = "foreground container column-top">
-          <div className = "title row-center">
-            <span>{ "SEEDs" }</span>
-          </div>
-          <div className = "subtitle row-center">
-            <span>{ "a new way of looking at things" }</span>
-          </div>
-        </div>
-        <div className = "background container">
-          {/* <img src = { background } alt = "Background"/> */}
-        </div>
       </div>
     );
   }
@@ -129,7 +121,7 @@ function App() {
 
     function handleLogin() {
       axios
-        .post("http://localhost:5000/sign-in/post/", {
+        .post("http://localhost:5000/user/sign-in/", {
           username: localStorage.getItem("username"),
           password: localStorage.getItem("password")
         })
@@ -215,14 +207,14 @@ function App() {
 
     function handleChangePassword() {
       axios
-        .post("http://localhost:5000/change-password/post/", {
+        .post("http://localhost:5000/user/change-password/", {
           username: localStorage.getItem("temporary_username"),
           password: localStorage.getItem("temporary_old_password"),
           newPassword: localStorage.getItem("temporary_new_password"),
           clonePassword: localStorage.getItem("temporary_new_password_clone")
         })
         .then((response) => {
-          setLoginNote(response.data.note);
+          setNote(response.data.note);
           if (response.data.code === 200) handleNavigation("Sign In");
         })
         .catch((error) => { setErrorMessage(error); })
@@ -296,8 +288,6 @@ function App() {
       </div>
     );
   }
-
-  /* The Dashboard component. */
   
   function Dashboard() {
     const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
@@ -352,8 +342,6 @@ function App() {
     );
   }
 
-  /* The Home page. */
-
   function HomePage() {
     return (
       <div id = "home-page">
@@ -362,23 +350,34 @@ function App() {
             <Dashboard/>
           </div>
           <div className = "body column-center">
+            <span>{ "Page development in progress." }</span>
           </div>
-          {/* <div className = "footer row-center">
-          </div> */}
+          <div className = "footer row-center">
+          </div>
         </div>
       </div>
     );
   }
 
-  /* The Data page. */
-
   function DataPage() {
+    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+    const [activeContext, setActiveContext] = React.useState(null);
+
+    React.useEffect(() => {
+      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
+    }, []);
+
+    function handleContextNavigation(context) {
+      localStorage.setItem("active_context", context);
+      setActiveContext(context);
+    }
+
     const [fileObject, setFileObject] = React.useState(null);
     const [fileArray, setFileArray] = React.useState(null);
 
     function handleFetchData() {
       axios
-        .post("http://localhost:5000/fetch/", {})
+        .post("http://localhost:5000/data/fetch/", {})
         .then((response) => {
           setFileObject(response.data);
           setFileArray(Object.values(response.data).flat());
@@ -396,7 +395,7 @@ function App() {
       data.append("category", aspect ? aspect.toLowerCase() : "unclassified");
       
       const upload = async() => {
-        await fetch("http://localhost:5000/upload/", {
+        await fetch("http://localhost:5000/data/upload/", {
           method: "POST",
           body: data
         })
@@ -416,71 +415,6 @@ function App() {
       }
   
       upload();
-    }
-
-    const [fileShapefile, setFileShapefile] = React.useState(null);
-
-    function handleViewData(object) {
-      let shapefile = object.file;
-      let name = object._id;
-
-      remove_all_layers();
-
-      if (fileShapefile !== name) {
-        add_layer(shapefile);
-        setFileShapefile(name);
-      }
-      else {
-        setFileShapefile(null);
-      }
-    }
-
-    function handleDeleteData(object) {
-      remove_all_layers();
-      setFileShapefile(null);
-
-      axios
-        .post("http://localhost:5000/delete/", {
-          file: object
-        })
-        .then((response) => {
-          if (response) {
-            Object.assign(fileObject, { [object.aspect]: fileObject[object.aspect].filter((item) => (item._id !== object._id)) });
-            setFileArray(() =>fileArray.filter((item) => (item._id !== object._id)));
-          }
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-
-    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
-    const [activeContext, setActiveContext] = React.useState(null);
-
-    React.useEffect(() => {
-      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
-    }, []);
-
-    function handleContextNavigation(context) {
-      remove_all_layers();
-      setFileShapefile(null);
-
-      localStorage.setItem("active_context", context);
-      setActiveContext(context);
-    }
-
-    const [fileDetails, setFileDetails] = React.useState(null);
-    const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
-
-    React.useEffect(() => {
-      setFileDetails(null);
-      setFileDetailsActive(false);
-    }, [activeContext]);
-
-    function handleViewDetails(details) {
-      setFileDetails(details);
-      setFileDetailsActive(!fileDetailsActive);
     }
 
     function UploadContext() {
@@ -513,6 +447,153 @@ function App() {
       )
     }
 
+    const [fileShapefile, setFileShapefile] = React.useState(null);
+
+    class ViewData extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+      }
+
+      handleClick() {
+        remove_all_layers();
+  
+        if (fileShapefile !== this.props.item._id) {
+          add_layer(this.props.item.file);
+          setFileShapefile(this.props.item._id);
+        }
+        else { setFileShapefile(null); }
+      }
+    
+      render() {
+        return (
+          <div className = "button row-center" onClick = { this.handleClick }>
+            <span>{ fileShapefile === this.props.item._id ? "🙈" : "👀" }</span>
+          </div>
+        );
+      }
+    }
+
+    const [fileDetails, setFileDetails] = React.useState(null);
+    const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
+    const [fileEdits, setFileEdits] = React.useState(null);
+    const [fileEditsActive, setFileEditsActive] = React.useState(false);
+
+    React.useEffect(() => {
+      setFileDetails(null);
+      setFileDetailsActive(false);
+      setFileEdits(null);
+      setFileEditsActive(false);
+
+      remove_all_layers();
+      setFileShapefile(null);
+    }, [activeContext]);
+
+    class InspectData extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.handleClick = this.handleClick.bind(this);
+      }
+
+      handleClick() {
+        setFileDetails(this.props.item);
+        setFileDetailsActive(!fileDetailsActive);
+      }
+    
+      render() {
+        return (
+          <div className = { fileShapefile === this.props.item._id ? "button row-center" : "hidden" } onClick = { this.handleClick }>
+            <span>{ fileDetailsActive ? "❌" : "📋" }</span>
+          </div>
+        );
+      }
+    }
+
+    function handleEditData(edits) {
+      setFileEdits(edits);
+      setFileEditsActive(!fileEditsActive);
+    }
+
+    let parsedTokens = [];
+
+    class TagsForm extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { value: "" };
+    
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange(event) {
+        let words = event.target.value.split(" ");
+        let word = "";
+
+        if (event.target.value.endsWith(" ")) { words.pop(); }
+        else { word = words.pop(); }
+
+        if (words[0]) { parsedTokens.push(words[0]); }
+        this.setState({ value: word });
+      }
+    
+      handleSubmit(event) {
+        parsedTokens.push(this.state.value);
+        console.log(parsedTokens);
+        parsedTokens = [];
+        event.preventDefault();
+      }
+    
+      render() {
+        return (
+          <form className = "header row-center" onSubmit = { this.handleSubmit }>
+            <label>
+              Tags:
+              <input type = "text" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <input type = "submit" value = "Submit"/>
+          </form>
+        );
+      }
+    }
+
+    function EditContext({ object }) {
+      return (
+        <div className = "column-top">
+          <div className = "header row-center">
+            <input id = "edit-data-name" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = { object.name ? object.name : "" } onChange = { (event) => { Object.assign(editObject, { "name": event.target.value }); } } required/>
+          </div>
+          <div className = "header row-center">
+            <input id = "edit-data-aspect" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = { object.aspect ? object.aspect : "" } onChange = { (event) => { Object.assign(editObject, { "aspect": event.target.value }); } } required/>
+          </div>
+          <div className = "header row-center">
+            <TagsForm/>
+          </div>
+        </div>
+      )
+    }
+
+    function handleDeleteData(object) {
+      remove_all_layers();
+      setFileShapefile(null);
+
+      axios
+        .post("http://localhost:5000/data/delete/", {
+          file: object
+        })
+        .then((response) => {
+          if (response) {
+            Object.assign(fileObject, { [object.aspect]: fileObject[object.aspect].filter((item) => (item._id !== object._id)) });
+            setFileArray(() =>fileArray.filter((item) => (item._id !== object._id)));
+          }
+        })
+        .catch((error) => {
+          setErrorMessage(error);
+        })
+        .finally(() => {});
+    }
+
     function DataComponent({ array }) {
       return (
         <div className = "container column-top">
@@ -526,14 +607,14 @@ function App() {
                     </div>
                   </div>
                   <div className = "row-center">
-                    <div className = "button row-center" onClick = { () => { handleViewData(item); } }>
-                      <span>{ fileShapefile === item._id ? "🙈" : "👀" }</span>
-                    </div>
-                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleViewDetails(item); } }>
-                      <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-                    </div>
-                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" }>
-                      <span>{ "✏️" }</span>
+                    <ViewData item = { item }/>
+                    <InspectData item = { item }/>
+                    {/* 
+                    <EditData/>
+                    <DeleteData/> */}
+
+                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleEditData(item); } }>
+                      <span>{ fileEditsActive ? "❌" : "✏️" }</span>
                     </div>
                     <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteData(item); } }>
                       <span>{ "🗑️" }</span>
@@ -543,6 +624,16 @@ function App() {
                 <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
                   <div className = "row-center">
                     <span>{ item.aspect ? item.aspect : "No information available." }</span>
+                  </div>
+                </div>
+                <div className = { fileEditsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
+                  <div className = "row-center">
+                      {
+                        item ?
+                          <EditContext object = { item }/>
+                        :
+                          <span>{ "No information available." }</span>
+                      }
                   </div>
                 </div>
               </div>
@@ -695,12 +786,10 @@ function App() {
             <Dashboard/>
           </div>
           <div className = "body column-center">
-            <div className = "container row-center">
-              <LeafletMap/>
-            </div>
+            <span>{ "Page development in progress." }</span>
           </div>
-          {/* <div className = "footer row-center">
-          </div> */}
+          <div className = "footer row-center">
+          </div>
         </div>
       </div>
     );
@@ -716,8 +805,8 @@ function App() {
           <div className = "body column-center">
             <span>{ "Page development in progress." }</span>
           </div>
-          {/* <div className = "footer row-center">
-          </div> */}
+          <div className = "footer row-center">
+          </div>
         </div>
       </div>
     );
@@ -733,8 +822,8 @@ function App() {
           <div className = "body column-center">
             <span>{ "Page development in progress." }</span>
           </div>
-          {/* <div className = "footer row-center">
-          </div> */}
+          <div className = "footer row-center">
+          </div>
         </div>
       </div>
     );
@@ -743,14 +832,6 @@ function App() {
   function ErrorPage() {
     return (
       <div id = "error-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-          </div>
-          <div className = "body column-center">
-          </div>
-          <div className = "footer row-center">
-          </div>
-        </div>
       </div>
     )
   }
