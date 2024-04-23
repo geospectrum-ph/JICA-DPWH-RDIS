@@ -8,15 +8,12 @@ import LeafletMap from "./Leaflet.js"
 
 import "./App.css";
 
-import background from "./assets/images/background.png";
-import overlay from "./assets/images/overlay.png";
-
 function App() {
   /* For the handling of errors. */
 
   const [errorMessage, setErrorMessage] = React.useState(null);
 
-  React.useEffect(() => { if (errorMessage) console.log(errorMessage); }, [errorMessage]);
+  React.useEffect(() => { if (errorMessage) { console.log(errorMessage); } }, [errorMessage]);
 
   /* The ArcGIS map component and its corresponding functions. */
 
@@ -24,28 +21,17 @@ function App() {
 
   /* For the navigation of routes. */
 
-  const navigate = useNavigate();
+  const modules = [["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]];
 
-  const [modules, setModules] = React.useState([["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]]);
   const [activeModule, setActiveModule] = React.useState(null);
 
-  function handleExit() {
-    localStorage.removeItem("active_module");
-    localStorage.removeItem("username");
-    localStorage.removeItem("password");
-    localStorage.removeItem("temporary_username");
-    localStorage.removeItem("temporary_old_password");
-    localStorage.removeItem("temporary_new_password");
-    localStorage.removeItem("temporary_new_password_clone");
-    localStorage.removeItem("active_context");
-    localStorage.removeItem("token");
-  }
+  const navigate = useNavigate();
 
   function handleNavigation(module) {
-    localStorage.setItem("active_module", module);
-    setActiveModule(module);
-
     switch (module) {
+      default:
+        localStorage.setItem("active_module", module);
+        setActiveModule(module);
       case "Sign In":
         navigate("/sign-in");
         break;
@@ -68,46 +54,58 @@ function App() {
         navigate("/support");
         break;
       case "Exit":
-        handleExit();
+        localStorage.clear();
         navigate("/");
         break;
-      default:
-        return null;
     }
+    
+    return null;
   }
 
   /* The Landing page. */
 
   function LandingPage() {
     return (
-      <div id = "landing-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
+      <div id = "landing-page" className = "container column-center">
+        <div className = "header row-center">
+        </div>
+        <div className = "body column-center">
+          <div className = "row-center">
+            <span>{ "SEEDs" }</span>
           </div>
-          <div className = "body column-center">
-            <div className = "title row-center">
-              <span>{ "SEEDs" }</span>
+          <div className = "row-center">
+            <span>{ "a new way of looking at things" }</span>
+          </div>
+          <div className = "row-center" >
+            <button type = "button" onClick = { () => { handleNavigation("Sign In"); } }>{ "Enter" }</button>
+          </div>
+        </div>
+        <div className = "footer column-center">
+          <div className = "row-center">
+            <div className = "row-center">
+              <a href = "#">{ "Terms" }</a>
             </div>
-            <div className = "subtitle row-center">
-              <span>{ "a new way of looking at things" }</span>
+            <div className = "row-center">
+              <span>{ "•" }</span>
             </div>
-            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In"); } }>
-              <span>{ "Enter" }</span>
+            <div className = "row-center">
+              <a href = "#">{ "Privacy" }</a>
+            </div>
+            <div className = "row-center">
+              <span>{ "•" }</span>
+            </div>
+            <div className = "row-center">
+              <a href = "#">{ "Documentation" }</a>
+            </div>
+            <div className = "row-center">
+              <span>{ "•" }</span>
+            </div>
+            <div className = "row-center">
+              <a href = "#">{ "Support" }</a>
             </div>
           </div>
-          <div className = "footer column-center">
-            <div className = "container row-center">
-              <span>{ "Terms" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Privacy" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Documentation" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Support" }</span>
-            </div>
-            <div className = "container row-center">
-              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-            </div>
+          <div className = "row-center">
+            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
         </div>
       </div>
@@ -117,213 +115,245 @@ function App() {
   /* The Sign In page. */
 
   function SignInPage() {
-    const [note, setNote] = React.useState("Please enter your username and password.");
+    class SignInForm extends React.Component {
+      constructor(props) {
+        super(props);
 
-    function handleLogin() {
-      axios
-        .post("http://localhost:5000/user/sign-in/", {
-          username: localStorage.getItem("username"),
-          password: localStorage.getItem("password")
-        })
-        .then((response) => {
-          setNote(response.data.note);
-          if (response.data.code === 200) {
-            localStorage.setItem("token", true);
-            handleNavigation("Home");
-          }
-        })
-        .catch((error) => { setErrorMessage(error); })
-        .finally(() => {});
+        this.state = { note: "Please enter your username and password." };
+    
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange(event) { localStorage.setItem(event.target.name, event.target.value); }
+
+      handleSubmit(event) {
+        axios
+          .post("http://localhost:5000/user/sign-in/", {
+            username: localStorage.getItem("username"),
+            password: localStorage.getItem("password")
+          })
+          .then((response) => {
+            this.setState({ note: response.data.note });
+
+            if (response.data.code === 200) {
+              localStorage.setItem("token", true);
+              handleNavigation("Home");
+            }
+          })
+          .catch((error) => { setErrorMessage(error); })
+          .finally(() => {});
+
+        event.preventDefault();
+      }
+    
+      render() {
+        return (
+          <form className = "column-center" onSubmit = { this.handleSubmit }>
+            <div className = "row-center">
+              <span>{ "Sign In to 🌱 SEEDs" }</span>
+            </div>
+            <div className = "row-center">
+              <span>{ this.state.note }</span>
+            </div>
+            <label>
+              <span>{ "Username" }</span>
+              <input type = "text" name = "username" autoComplete = "true" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <label>
+              <span>{ "Password" }</span>
+              <input type = "password" name = "password" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <input className = "button" type = "submit" value = "Submit"/>
+            <div className = "row-center" >
+              <button type = "button" onClick = { () => { handleNavigation("Change Password"); } }>{ "Change Password" }</button>
+            </div>
+          </form>
+        );
+      }
     }
 
     return (
-      <div id = "sign-in-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-right">
-            <div className = "button row-center" onClick = { () => { handleNavigation("Exit"); } }>
-              <span>{ "❌" }</span>
-            </div>
+      <div id = "sign-in-page" className = "container column-center">
+        <div className = "header row-right">
+          <div className = "row-center" >
+            <button type = "button" onClick = { () => { handleNavigation("Exit"); } }>{ "❌" }</button>
           </div>
-          <div className = "body column-center">
-            <div className = "form column-center">
-              <div className = "form-header row-center">
-                <span>{ "Sign In to 🌱 SEEDs" }</span>
-              </div>
-              <div className = "form-note row-center">
-                <span>{ note }</span>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "sign-in-username">
-                  <span>{ "Username" }</span>
-                </label>
-                <input id = "sign-in-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("username", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "sign-in-password">
-                  <span>{ "Password" }</span>
-                </label>
-                <input id = "sign-in-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-              </div>
-              <div className = "form-buttons row-center">
-                <div className = "button row-center" onClick = { () => { handleLogin(); } }>
-                  <span>{ "Sign In" }</span>
-                </div>
-                <div className = "button row-center" onClick = { () => { handleNavigation("Change Password"); } }>
-                  <span>{ "Change Password" }</span>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className = "body column-center">
+          <SignInForm/>
+        </div>
+        <div className = "footer column-center">
+          <div className = "row-center">
+            <span>{ "Terms" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Privacy" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Documentation" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Support" }</span>
           </div>
-          <div className = "footer column-center">
-            <div className = "container row-center">
-              <span>{ "Terms" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Privacy" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Documentation" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Support" }</span>
-            </div>
-            <div className = "container row-center">
-              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-            </div>
+          <div className = "row-center">
+            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
         </div>
       </div>
     );
   }
 
-  /* The Password Change page. */
+  /* The Change Password page. */
 
   function ChangePasswordPage() {
-    localStorage.setItem("temporary_username", null);
-    localStorage.setItem("temporary_old_password", null);
-    localStorage.setItem("temporary_new_password", null);
-    localStorage.setItem("temporary_new_password_clone", null);
+    class ChangePasswordForm extends React.Component {
+      constructor(props) {
+        super(props);
 
-    const [note, setNote] = React.useState("Please enter your username and password.");
+        this.state = { note: "Please enter your username and password." };
+    
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange(event) { localStorage.setItem(event.target.name, event.target.value); }
 
-    function handleChangePassword() {
-      axios
-        .post("http://localhost:5000/user/change-password/", {
-          username: localStorage.getItem("temporary_username"),
-          password: localStorage.getItem("temporary_old_password"),
-          newPassword: localStorage.getItem("temporary_new_password"),
-          clonePassword: localStorage.getItem("temporary_new_password_clone")
-        })
-        .then((response) => {
-          setNote(response.data.note);
-          if (response.data.code === 200) handleNavigation("Sign In");
-        })
-        .catch((error) => { setErrorMessage(error); })
-        .finally(() => {});
+      handleSubmit(event) {
+        axios
+          .post("http://localhost:5000/user/change-password/", {
+            username: localStorage.getItem("temporary_username"),
+            password: localStorage.getItem("temporary_old_password"),
+            newPassword: localStorage.getItem("temporary_new_password"),
+            clonePassword: localStorage.getItem("temporary_new_password_clone")
+          })
+          .then((response) => {
+            this.setState({ note: response.data.note });
+
+            if (response.data.code === 200) { handleNavigation("Sign In"); }
+          })
+          .catch((error) => { setErrorMessage(error); })
+          .finally(() => {});
+
+        event.preventDefault();
+      }
+    
+      render() {
+        return (
+          <form className = "column-center" onSubmit = { this.handleSubmit }>
+            <div className = "row-center">
+              <span>{ "Change Password" }</span>
+            </div>
+            <div className = "row-center">
+              <span>{ this.state.note }</span>
+            </div>
+            <label>
+              <span>{ "Username" }</span>
+              <input type = "text" name = "temporary_username" autoComplete = "true" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <label>
+              <span>{ "Old Password" }</span>
+              <input type = "password" name = "temporary_old_password" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <label>
+              <span>{ "New Password" }</span>
+              <input type = "password" name = "temporary_new_password" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <label>
+              <span>{ "New Password" }</span>
+              <input type = "password" name = "temporary_new_password_clone" value = { this.state.value } onChange = { this.handleChange } required/>
+            </label>
+            <input className = "button" type = "submit" value = "Submit"/>
+          </form>
+        );
+      }
     }
 
     return (
-      <div id = "change-password-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-right">
-            <div className = "button row-center" onClick = { () => { handleNavigation("Sign In"); } }>
-              <span>{ "❌" }</span>
-            </div>
+      <div id = "change-password-page" className = "container column-center">
+        <div className = "header row-right">
+          <div className = "row-center" >
+            <button type = "button" onClick = { () => { handleNavigation("Sign In"); } }>{ "❌" }</button>
           </div>
-          <div className = "body column-center">
-            <div className = "form column-center">
-              <div className = "form-header row-center">
-                <span>{ "Change Password" }</span>
-              </div>
-              <div className = "form-note row-center">
-                <span>{ note }</span>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "change-password-username">
-                  <span>{ "Username" }</span>
-                </label>
-                <input id = "change-password-username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { (event) => { localStorage.setItem("temporary_username", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "change-password-old-password">
-                  <span>{ "Old Password" }</span>
-                </label>
-                <input id = "change-password-old-password" type = "password" minLength = "8" maxLength = "24" placeholder = "Old Password" onChange = { (event) => { localStorage.setItem("temporary_old_password", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "change-password-new-password">
-                  <span>{ "New Password" }</span>
-                </label>
-                <input id = "change-password-new-password" type = "password" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { localStorage.setItem("temporary_new_password", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-                <label htmlFor = "change-password-new-password-clone">
-                  <span>{ "New Password" }</span>
-                </label>
-                <input id = "change-password-new-password-clone" type = "password" minLength = "8" maxLength = "24" placeholder = "New Password" onChange = { (event) => { localStorage.setItem("temporary_new_password_clone", event.target.value); } } required/>
-              </div>
-              <div className = "form-field row-center">
-              </div>
-              <div className = "form-buttons row-center">
-                <div className = "button row-center" onClick = { () => { handleChangePassword(); } }>
-                  <span>{ "Submit" }</span>
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className = "body column-center">
+          <ChangePasswordForm/>
+        </div>
+        <div className = "footer column-center">
+          <div className = "row-center">
+            <span>{ "Terms" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Privacy" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Documentation" }</span>
+            <span>{ "•" }</span>
+            <span>{ "Support" }</span>
           </div>
-          <div className = "footer column-center">
-            <div className = "container row-center">
-              <span>{ "Terms" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Privacy" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Documentation" }</span>
-              <span>{ "•" }</span>
-              <span>{ "Support" }</span>
-            </div>
-            <div className = "container row-center">
-              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-            </div>
+          <div className = "row-center">
+            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
         </div>
       </div>
     );
   }
+
+  /* The Dashboard component. */
+
+  class Dashboard extends React.Component {
+    constructor(props) {
+      super(props);
+
+      // this.state = { switch: false };
   
-  function Dashboard() {
-    const [dashboardDropdownActive, setDashboardDropdownActive] = React.useState(false);
-    
-    window.addEventListener("resize", () => { setDashboardDropdownActive(false); });
+      // this.handleChange = this.handleChange.bind(this);
+      // this.handleSubmit = this.handleSubmit.bind(this);
 
-    React.useEffect(() => { if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module")); }, []);
+      // this.handleDashboardSwitch = this.handleDashboardSwitch.bind(this);
+    }
 
-    return (
-      <div id = "dashboard" className = "container row-center">
-        <div className = "header row-left">
-          <div className = "row-center">
-            <span>{ "🌱" }</span>
-          </div>
-          <div className = "row-center">
-            <span>{ "SEEDs" }</span>
-          </div>
-        </div>
-        <div className = "header row-right">
-          <div className = "header-menu row-fill">
-            {
-              modules.map((item) => (
-                <div key = { "modules-map-row-" + item[0] } className = { activeModule === item[0] ? "button active column-center" : "button column-center" } onClick = { () => { handleNavigation(item[0]); } }>
-                  <span>{ item[1] }</span>
-                  <div></div>
-                  <span>{ item[0] }</span>
-                </div>
-              ))
-            }
-          </div>
-          <div className = "header-dropdown column-center">
-            <div className = "button row-center" onClick = { () => { setDashboardDropdownActive(!dashboardDropdownActive); } }>
-              { dashboardDropdownActive ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
+    // handleDashboardSwitch() {
+    //   this.setState({ switch: false });
+    // };
+
+    componentDidMount() {
+      // window.addEventListener("resize", this.handleDashboardSwitch);
+
+      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
+    }
+
+    // componentWillUnmount() {
+    //   window.removeEventListener("resize", this.handleDashboardSwitch);
+    // }
+
+    render() {
+      return (
+        <div id = "dashboard" className = "row-center">
+          <div className = "row-left">
+            <div className = "row-center">
+              <span>{ "🌱" }</span>
             </div>
-            <div className = { dashboardDropdownActive ? "header-list column-center" : "hidden" }>
-              <div className = "container column-center">
+            <div className = "row-center">
+              <span>{ "SEEDs" }</span>
+            </div>
+          </div>
+          <div className = "row-right">
+            <div className = "row-fill">
+              {
+                modules.map((item) => (
+                  <button key = { "modules-map-row-" + item[0] } className = "column-center" onClick = { () => { handleNavigation(item[0]); } }>
+                    <div className = "row-center">
+                      <span>{ item[1] }</span>
+                    </div>
+                    <div className = "row-center">
+                      <span>{ item[0] }</span>
+                    </div>
+                  </button>
+                ))
+              }
+            </div>
+          {/* <div className = "column-center">
+            <div className = "button row-center" onClick = { this.setState.switch(!this.state.switch) }>
+              { this.state.switch ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
+            </div>
+            <div className = { this.state.switch ? "header-list column-center" : "hidden" }>
+              <div className = " column-center">
                 {
                   modules.map((item) => (
                     <div key = { "modules-map-column-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
@@ -332,35 +362,39 @@ function App() {
                   ))
                 }
               </div>
-              <div className = "container row-center">
+              <div className = " row-center">
                 <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
-    );
+      );
+    }
   }
+
+  /* The Home page. */
 
   function HomePage() {
     return (
-      <div id = "home-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-            <Dashboard/>
-          </div>
-          <div className = "body column-center">
-            <span>{ "Page development in progress." }</span>
-          </div>
-          <div className = "footer row-center">
-          </div>
+      <div id = "home-page" className = "container column-center">
+        <div className = "header row-center">
+          <Dashboard/>
+        </div>
+        <div className = "body column-center">
+          <span>{ "Page development in progress." }</span>
+        </div>
+        <div className = "footer row-center">
         </div>
       </div>
     );
   }
 
+  /* The Data page. */
+
   function DataPage() {
-    const [contexts, setContexts] = React.useState([["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]]);
+    const contexts = [["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]];
+    
     const [activeContext, setActiveContext] = React.useState(null);
 
     React.useEffect(() => {
@@ -418,13 +452,13 @@ function App() {
     }
 
     function UploadContext() {
-      const [fileContainer, setFileContainer] = React.useState(null);
+      const [file, setFile] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
 
       return (
         <div id = "upload-context">
           <div className = "header row-center">
-            <input type = "file" onChange = { (event) => { setFileContainer(event.target.files); } }/>
+            <input type = "file" onChange = { (event) => { setFile(event.target.files); } }/>
           </div>
           <div className = "column-center">
             <div className = "header row-center">
@@ -439,7 +473,7 @@ function App() {
                 ))
               }
             </div>
-            <div className = "button row-center" onClick = { () => { handleUploadData(fileContainer, fileCategory); } }>
+            <div className = "button row-center" onClick = { () => { handleUploadData(file, fileCategory); } }>
               <span>Submit</span>
             </div>
           </div>
@@ -596,13 +630,13 @@ function App() {
 
     function DataComponent({ array }) {
       return (
-        <div className = "container column-top">
+        <div className = " column-top">
           {
             array.map((item) => (
               <div key = { "file-array-map-" + item._id } className = "column-top">
                 <div className = "header row-fill">
                   <div className = "row-center">
-                    <div className = "container row-left">
+                    <div className = " row-left">
                       <span>{ item.name }</span>
                     </div>
                   </div>
@@ -651,7 +685,7 @@ function App() {
               fileObject.social.length > 0 ?
                 <DataComponent array = { fileObject.social }/>
               :
-                <div className = "empty-content container row-center">
+                <div className = "empty-content  row-center">
                   <span>{ "No items to show." }</span>
                 </div>
             :
@@ -669,7 +703,7 @@ function App() {
               fileObject.economic.length > 0 ?
                 <DataComponent array = { fileObject.economic }/>
               :
-                <div className = "empty-content container row-center">
+                <div className = "empty-content  row-center">
                   <span>{ "No items to show." }</span>
                 </div>
             :
@@ -687,7 +721,7 @@ function App() {
               fileObject.environmental.length > 0 ?
                 <DataComponent array = { fileObject.environmental }/>
               :
-                <div className = "empty-content container row-center">
+                <div className = "empty-content  row-center">
                   <span>{ "No items to show." }</span>
                 </div>
             :
@@ -705,7 +739,7 @@ function App() {
               fileObject.demographic.length > 0 ?
                 <DataComponent array = { fileObject.demographic }/>
               :
-                <div className = "empty-content container row-center">
+                <div className = "empty-content  row-center">
                   <span>{ "No items to show." }</span>
                 </div>
             :
@@ -723,7 +757,7 @@ function App() {
               fileArray.length > 0 ?
                 <DataComponent array = { fileArray }/>
               :
-                <div className = "empty-content container row-center">
+                <div className = "empty-content  row-center">
                   <span>{ "No items to show." }</span>
                 </div>
             :
@@ -734,100 +768,102 @@ function App() {
     }
 
     return (
-      <div id = "data-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-            <Dashboard/>
+      <div id = "data-page" className = "container column-center">
+        <div className = "header row-center">
+          <Dashboard/>
+        </div>
+        <div className = "body row-center">
+          <div className = "column-center">
+            <ArcGISMap/>
           </div>
-          <div className = "body row-center">
-            <div className = "column-center">
-              <ArcGISMap/>
-            </div>
-            <div className = "column-top">
-              <div className = "header row-center">
+          <div className = "column-top">
+            <div className = "header column-center">
+              <div className = "row-center">
                 {
                   contexts.map((item) => (
-                    <div key = { "contexts-map-" + item[0] } className = { activeContext === item[0] ? "button column-center active" : "button column-center" } onClick = { () => { handleContextNavigation(item[0]); } }>
+                    <button key = { "contexts-map-" + item[0] } className = "column-center" onClick = { () => { handleContextNavigation(item[0]); } }>
                       <span>{ item[1] }</span>
-                    </div>
+                    </button>
                   ))
                 }
               </div>
-              <div className = "header row-center">
+              <div className = "row-center">
                 <span>{ activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" : contexts[0][1] + " Upload Data" }</span>
               </div>
-              <div className = "body column-center">
-                {
-                  fileArray ?
-                    activeContext === contexts[1][0] ? <SummaryContext/> :
-                    activeContext === contexts[2][0] ? <SocialContext/> :
-                    activeContext === contexts[3][0] ? <EconomicContext/> :
-                    activeContext === contexts[4][0] ? <EnvironmentalContext/> :
-                    activeContext === contexts[5][0] ? <DemographicContext/> :
-                    <UploadContext/>
-                  :
-                    null
-                }
-              </div>
+            </div>     
+            <div className = "body column-center">
+              {
+                fileArray ?
+                  activeContext === contexts[1][0] ? <SummaryContext/> :
+                  activeContext === contexts[2][0] ? <SocialContext/> :
+                  activeContext === contexts[3][0] ? <EconomicContext/> :
+                  activeContext === contexts[4][0] ? <EnvironmentalContext/> :
+                  activeContext === contexts[5][0] ? <DemographicContext/> :
+                  <UploadContext/>
+                :
+                  null
+              }
             </div>
           </div>
-          {/* <div className = "footer row-center">
-          </div> */}
+        </div>
+        <div className = "footer row-center">
         </div>
       </div>
     );
   }
+
+  /* The Analytics page. */
 
   function AnalyticsPage() {
     return (
-      <div id = "analytics-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-            <Dashboard/>
-          </div>
-          <div className = "body column-center">
-            <span>{ "Page development in progress." }</span>
-          </div>
-          <div className = "footer row-center">
-          </div>
+      <div id = "analytics-page" className = "container column-center">
+        <div className = "header row-center">
+          <Dashboard/>
+        </div>
+        <div className = "body column-center">
+          <span>{ "Page development in progress." }</span>
+        </div>
+        <div className = "footer row-center">
         </div>
       </div>
     );
   }
 
+  /* The Account page. */
+  
   function AccountPage() {
     return (
-      <div id = "account-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-            <Dashboard/>
-          </div>
-          <div className = "body column-center">
-            <span>{ "Page development in progress." }</span>
-          </div>
-          <div className = "footer row-center">
-          </div>
+      <div id = "account-page" className = "container column-center">
+        <div className = "header row-center">
+          <Dashboard/>
+        </div>
+        <div className = "body column-center">
+          <span>{ "Page development in progress." }</span>
+        </div>
+        <div className = "footer row-center">
         </div>
       </div>
     );
   }
 
+  /* The Support page. */
+  
   function SupportPage() {
     return (
-      <div id = "support-page">
-        <div className = "interactive container column-center">
-          <div className = "header row-center">
-            <Dashboard/>
-          </div>
-          <div className = "body column-center">
-            <span>{ "Page development in progress." }</span>
-          </div>
-          <div className = "footer row-center">
-          </div>
+      <div id = "support-page" className = "container column-center">
+        <div className = "header row-center">
+          <Dashboard/>
+        </div>
+        <div className = "body column-center">
+          <span>{ "Page development in progress." }</span>
+        </div>
+        <div className = "footer row-center">
         </div>
       </div>
     );
   }
+
+  /* The Error page. */
 
   function ErrorPage() {
     return (
@@ -842,11 +878,11 @@ function App() {
         <Route path = "/">
           <Route index = { true } element = { <LandingPage/> }></Route>
           <Route path = "/sign-in" element = { <SignInPage/> }></Route>
+          <Route path = "/change-password" element = { <ChangePasswordPage/> }></Route>
           <Route path = "/home" element = { localStorage.token ? <HomePage/> : <SignInPage/> }></Route>
           <Route path = "/data" element = { localStorage.token ? <DataPage/> : <SignInPage/> }></Route>
           <Route path = "/analytics" element = { localStorage.token ? <AnalyticsPage/> : <SignInPage/> }></Route>
           <Route path = "/account" element = { localStorage.token ? <AccountPage/> : <SignInPage/> }></Route>
-          <Route path = "/change-password" element = { localStorage.token ? <ChangePasswordPage/> : <SignInPage/> }></Route>
           <Route path = "/support" element = { localStorage.token ? <SupportPage/> : <SignInPage/> }></Route>
         </Route>
         <Route path = "*" element = { <ErrorPage/> }></Route>

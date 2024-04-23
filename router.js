@@ -29,7 +29,7 @@ const mongoose = require("mongoose");
 
 var router = require("express").Router();
 
-const usersData = mongoose.model("users",
+const usersData = mongoose.model("database/users",
   new mongoose.Schema({
     "username": { type: String },
     "name": { type: String },
@@ -76,43 +76,48 @@ router.route("/user/change-password/").post((request, response) => {
     .catch((error) => { response.status(400).json("Error: " + error); });
 });
 
-const unclassifiedData = mongoose.model("general-files",
+const unclassifiedData = mongoose.model("database/files/unclassified",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: String }
+    "aspect": { type: String },
+    "tags": { type: Array }
   })
 );
 
-const socialData = mongoose.model("module-social-databases",
+const socialData = mongoose.model("database/files/social",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: String }
+    "aspect": { type: String },
+    "tags": { type: Array }
   })
 );
 
-const economicData = mongoose.model("module-economic-databases",
+const economicData = mongoose.model("database/files/economic",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: String }
+    "aspect": { type: String },
+    "tags": { type: Array }
   })
 );
 
-const environmentalData = mongoose.model("module-environmental-databases",
+const environmentalData = mongoose.model("database/files/environmental",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: String }
+    "aspect": { type: String },
+    "tags": { type: Array }
   })
 );
 
-const demographicData = mongoose.model("module-demographic-databases",
+const demographicData = mongoose.model("database/files/demographic",
   new mongoose.Schema({
     "name": { type: String },
     "file": { type: Object },
-    "aspect": { type: String }
+    "aspect": { type: String },
+    "tags": { type: Array }
   })
 );
 
@@ -207,7 +212,8 @@ router.route("/data/upload/").post((request, response) => {
               .create({
                 name: request.files.file[index].originalname,
                 file: object,
-                aspect: request.body.category
+                aspect: request.body.category,
+                tags: request.body.tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -217,7 +223,8 @@ router.route("/data/upload/").post((request, response) => {
               .create({
                 name: request.files.file[index].originalname,
                 file: object,
-                aspect: request.body.category
+                aspect: request.body.category,
+                tags: request.body.tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -227,7 +234,8 @@ router.route("/data/upload/").post((request, response) => {
               .create({
                 name: request.files.file[index].originalname,
                 file: object,
-                aspect: request.body.category
+                aspect: request.body.category,
+                tags: request.body.tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -237,7 +245,8 @@ router.route("/data/upload/").post((request, response) => {
               .create({
                 name: request.files.file[index].originalname,
                 file: object,
-                aspect: request.body.category
+                aspect: request.body.category,
+                tags: request.body.tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -247,7 +256,8 @@ router.route("/data/upload/").post((request, response) => {
               .create({
                 name: request.files.file[index].originalname,
                 file: object,
-                aspect: request.body.category
+                aspect: request.body.category,
+                tags: request.body.tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
