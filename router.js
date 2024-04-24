@@ -205,6 +205,8 @@ router.route("/data/upload/").post((request, response) => {
 
       fs.unlink(path.join(request.files.file[index].path), (error) => { if (error) { throw (error); } });
 
+      let tags = request.body.tags.split(" ").filter((word) => word.length > 0).splice(0, 5);
+
       if (object) {
         switch (request.body.category) {
           case "unclassified": 
@@ -213,7 +215,7 @@ router.route("/data/upload/").post((request, response) => {
                 name: request.files.file[index].originalname,
                 file: object,
                 aspect: request.body.category,
-                tags: request.body.tags
+                tags: tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -224,7 +226,7 @@ router.route("/data/upload/").post((request, response) => {
                 name: request.files.file[index].originalname,
                 file: object,
                 aspect: request.body.category,
-                tags: request.body.tags
+                tags: tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -235,7 +237,7 @@ router.route("/data/upload/").post((request, response) => {
                 name: request.files.file[index].originalname,
                 file: object,
                 aspect: request.body.category,
-                tags: request.body.tags
+                tags: tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -246,7 +248,7 @@ router.route("/data/upload/").post((request, response) => {
                 name: request.files.file[index].originalname,
                 file: object,
                 aspect: request.body.category,
-                tags: request.body.tags
+                tags: tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });
@@ -257,7 +259,7 @@ router.route("/data/upload/").post((request, response) => {
                 name: request.files.file[index].originalname,
                 file: object,
                 aspect: request.body.category,
-                tags: request.body.tags
+                tags: tags
               })
               .then((data) => { response.json(data); })
               .catch((error) => { response.status(400).json("Error: " + error); });

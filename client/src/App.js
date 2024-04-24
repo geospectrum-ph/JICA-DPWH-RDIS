@@ -21,17 +21,21 @@ function App() {
 
   /* For the navigation of routes. */
 
-  const modules = [["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]];
-
   const [activeModule, setActiveModule] = React.useState(null);
+
+  React.useEffect(() => {
+    let value = localStorage.getItem("active_module");
+
+    if (value) { setActiveModule(value); }
+  }, []);
 
   const navigate = useNavigate();
 
   function handleNavigation(module) {
+    localStorage.setItem("active_module", module);
+    setActiveModule(module);
+
     switch (module) {
-      default:
-        localStorage.setItem("active_module", module);
-        setActiveModule(module);
       case "Sign In":
         navigate("/sign-in");
         break;
@@ -57,9 +61,89 @@ function App() {
         localStorage.clear();
         navigate("/");
         break;
+      default:
+        return null;
+    }    
+  }
+
+  function Dashboard() {
+    function Brand() {
+      return (
+        <div id = "dashboard-brand" className = "row-center">
+          <div className = "row-center">
+            <span>{ "🌱" }</span>
+          </div>
+          <div className = "row-center">
+            <span>{ "SEEDs" }</span>
+          </div>
+        </div>
+      );
     }
-    
-    return null;
+
+    const modules = [["Home", "🏡"], ["Data", "📁"], ["Analytics", "⭐"], ["Account", "🧑"], ["Support", "⚙️"], ["Exit", "🔚"]];
+
+    function FullMenu() {
+      return (
+        <div id = "dashboard-full-menu" className = "row-center">
+          {
+            modules.map((item) => (
+              <button key = { "key-dfm-" + item[0] } className = "column-center" type = "button" onClick = { () => { handleNavigation(item[0]); } }>
+                <div className = "row-center">
+                  <span>{ item[1] }</span>
+                </div>
+                <div className = "row-center">
+                  <span>{ item[0] }</span>
+                </div>
+              </button>
+            ))
+          }
+        </div>
+      );
+    }
+
+    function HiddenMenu() {
+      const [view, setView] = React.useState(false);
+
+      React.useEffect(() => {
+        window.addEventListener("resize", setView(false));
+      }, []);
+
+      return (
+        <div id = "dashboard-hidden-menu" className = "row-center">
+          <div className = "row-center">
+            <button className = "row-center" type = "button" onClick = { () => { setView(!view); } }>
+              { view ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
+            </button>
+          </div>
+          <div className = { view ? "column-center" : "hidden" }>
+            <div className = "row-center">
+              {
+                modules.map((item) => (
+                  <button key = { "key-dhm-" + item[0] } className = "row-center" type = "button" onClick = { () => { handleNavigation(item[0]); } }>
+                    <span>{ item[0] }</span>
+                  </button>
+                ))
+              }
+            </div>
+            <div className = "row-center">
+              <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div id = "dashboard" className = "row-center">
+        <div className = "row-left">
+          <Brand/>
+        </div>
+        <div className = "row-right">
+          <FullMenu/>
+          <HiddenMenu/>
+      </div>
+    </div>
+    );
   }
 
   /* The Landing page. */
@@ -149,7 +233,7 @@ function App() {
     
       render() {
         return (
-          <form className = "column-center" onSubmit = { this.handleSubmit }>
+          <form id = "sign-in-form" className = "column-center" onSubmit = { this.handleSubmit }>
             <div className = "row-center">
               <span>{ "Sign In to 🌱 SEEDs" }</span>
             </div>
@@ -237,7 +321,7 @@ function App() {
     
       render() {
         return (
-          <form className = "column-center" onSubmit = { this.handleSubmit }>
+          <form id = "change-password-form" className = "column-center" onSubmit = { this.handleSubmit }>
             <div className = "row-center">
               <span>{ "Change Password" }</span>
             </div>
@@ -294,85 +378,6 @@ function App() {
     );
   }
 
-  /* The Dashboard component. */
-
-  class Dashboard extends React.Component {
-    constructor(props) {
-      super(props);
-
-      // this.state = { switch: false };
-  
-      // this.handleChange = this.handleChange.bind(this);
-      // this.handleSubmit = this.handleSubmit.bind(this);
-
-      // this.handleDashboardSwitch = this.handleDashboardSwitch.bind(this);
-    }
-
-    // handleDashboardSwitch() {
-    //   this.setState({ switch: false });
-    // };
-
-    componentDidMount() {
-      // window.addEventListener("resize", this.handleDashboardSwitch);
-
-      if (localStorage.getItem("active_module") !== null) setActiveModule(localStorage.getItem("active_module"));
-    }
-
-    // componentWillUnmount() {
-    //   window.removeEventListener("resize", this.handleDashboardSwitch);
-    // }
-
-    render() {
-      return (
-        <div id = "dashboard" className = "row-center">
-          <div className = "row-left">
-            <div className = "row-center">
-              <span>{ "🌱" }</span>
-            </div>
-            <div className = "row-center">
-              <span>{ "SEEDs" }</span>
-            </div>
-          </div>
-          <div className = "row-right">
-            <div className = "row-fill">
-              {
-                modules.map((item) => (
-                  <button key = { "modules-map-row-" + item[0] } className = "column-center" onClick = { () => { handleNavigation(item[0]); } }>
-                    <div className = "row-center">
-                      <span>{ item[1] }</span>
-                    </div>
-                    <div className = "row-center">
-                      <span>{ item[0] }</span>
-                    </div>
-                  </button>
-                ))
-              }
-            </div>
-          {/* <div className = "column-center">
-            <div className = "button row-center" onClick = { this.setState.switch(!this.state.switch) }>
-              { this.state.switch ? <span>{ "❌" }</span> : <span>{ "🍔" }</span> }
-            </div>
-            <div className = { this.state.switch ? "header-list column-center" : "hidden" }>
-              <div className = " column-center">
-                {
-                  modules.map((item) => (
-                    <div key = { "modules-map-column-" + item[0] } className = "button row-center" onClick = { () => { handleNavigation(item[0]); } }>
-                      <span>{ item[0] }</span>
-                    </div>
-                  ))
-                }
-              </div>
-              <div className = " row-center">
-                <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-              </div>
-            </div>
-          </div> */}
-        </div>
-      </div>
-      );
-    }
-  }
-
   /* The Home page. */
 
   function HomePage() {
@@ -393,21 +398,10 @@ function App() {
   /* The Data page. */
 
   function DataPage() {
-    const contexts = [["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]];
-    
-    const [activeContext, setActiveContext] = React.useState(null);
-
-    React.useEffect(() => {
-      if (localStorage.getItem("active_context") !== null) setActiveContext(localStorage.getItem("active_context"));
-    }, []);
-
-    function handleContextNavigation(context) {
-      localStorage.setItem("active_context", context);
-      setActiveContext(context);
-    }
-
     const [fileObject, setFileObject] = React.useState(null);
     const [fileArray, setFileArray] = React.useState(null);
+
+    const [activeArray, setActiveArray] = React.useState([]);
 
     function handleFetchData() {
       axios
@@ -415,203 +409,156 @@ function App() {
         .then((response) => {
           setFileObject(response.data);
           setFileArray(Object.values(response.data).flat());
+          setActiveArray(Object.values(response.data).flat());
         })
         .catch((error) => { setErrorMessage(error); })
         .finally(() => {});
     }
 
-    React.useEffect(() => { handleFetchData(); }, []);
+    const contexts = [["Upload", "🔼"], ["All", "🌐"], ["Social", "👨🏽‍👩🏽‍👧🏽‍👦🏽"], ["Economic", "💸"], ["Environmental", "🐤"], ["Demographic", "📈"]];
 
-    function handleUploadData(object, aspect) {
-      const data = new FormData();
-      
-      for (let index = 0; index < object.length; index++) { data.append("file", object[index]); }
-      data.append("category", aspect ? aspect.toLowerCase() : "unclassified");
-      
-      const upload = async() => {
-        await fetch("http://localhost:5000/data/upload/", {
-          method: "POST",
-          body: data
-        })
-        .then((promise) => {
-          promise
-            .json()
-            .then((response) => {
-              if (response) {
-                Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
-                setFileArray(() => [...fileArray, response]);
-              }
-            })
-            .catch((error) => { setErrorMessage(error); });
-        })
-        .catch((error) => { setErrorMessage(error); })
-        .finally(() => {});
-      }
+    const [activeContext, setActiveContext] = React.useState(null);
+
+    React.useEffect(() => {
+      handleFetchData();
+
+      let value = localStorage.getItem("active_context");
   
-      upload();
+      if (value) { setActiveContext(value); }
+      else { setActiveContext("Upload"); }
+    }, []);
+
+    function handleContextNavigation(context) {
+      localStorage.setItem("active_context", context);
+      setActiveContext(context);
+
+      switch (context) {
+        case "Upload":
+        case "All":
+          setActiveArray(fileArray);
+          break;
+        case "Social":
+          setActiveArray(fileObject.social);
+          break;
+        case "Economic":
+          setActiveArray(fileObject.economic);
+          break;
+        case "Environmental":
+          setActiveArray(fileObject.environmental);
+          break;
+        case "Demographic":
+          setActiveArray(fileObject.demographic);
+          break;
+        default:
+          return (null);
+      }
+    }
+
+    function ContextSwitch() {
+      return (
+        <div id = "data-page-context-switch" className = "column-center">
+          <div className = "row-center">
+          {
+              contexts.map((item) => (
+                <button key = { "key-dpcs-" + item[0] } className = "column-center" type = "button" onClick = { () => { handleContextNavigation(item[0]); } }>
+                  <span>{ item[1] }</span>
+                </button>
+              ))
+            }
+          </div>
+          <div className = "row-center">
+            <span>{ activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) { return true; } else { return false; } })][1] + " " + activeContext + " Data" : null }</span>
+          </div>
+        </div>
+      );
     }
 
     function UploadContext() {
-      const [file, setFile] = React.useState(null);
+      const [fileContent, setFileContent] = React.useState(null);
       const [fileCategory, setFileCategory] = React.useState(null);
+      const [fileTags, setFileTags] = React.useState("");
+
+      function handleUploadData(object, aspect, tags) {
+        const data = new FormData();
+        
+        for (let index = 0; index < object.length; index++) { data.append("file", object[index]); }
+        data.append("category", aspect ? aspect.toLowerCase() : "unclassified");
+        data.append("tags", tags);
+        
+        const upload = async() => {
+          await fetch("http://localhost:5000/data/upload/", {
+            method: "POST",
+            body: data
+          })
+          .then((promise) => {
+            promise
+              .json()
+              .then((response) => {
+                if (response) {
+                  Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
+                  setFileArray(() => [...fileArray, response]);
+                }
+              })
+              .catch((error) => { setErrorMessage(error); });
+          })
+          .catch((error) => { setErrorMessage(error); })
+          .finally(() => {});
+        }
+    
+        upload();
+      }
 
       return (
-        <div id = "upload-context">
-          <div className = "header row-center">
-            <input type = "file" onChange = { (event) => { setFile(event.target.files); } }/>
+        <div id = "upload-context" className = "column-center">
+          <div className = "row-center">
+            <input type = "file" onChange = { (event) => { setFileContent(event.target.files); } }/>
+          </div>
+          <div className = "row-center">
+            <span>{ "Choose File Category:" }</span>
+          </div>
+          <div className = "row-center">
+            {
+              contexts.slice(2).map((item) => (
+                <button key = { "key-dpucc-" + item[0] } className = "row-center" type = "button" onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
+                  <span>{ item[1] }</span>
+                </button>
+              ))
+            }
+          </div>
+          <div className = "row-center">
+            <span>{ "Input Tags:" }</span>
           </div>
           <div className = "column-center">
-            <div className = "header row-center">
-              <span>{ "Choose File Category:" }</span>
-            </div>
-            <div className = "header row-center">
+            <div className = "row-center">
               {
-                contexts.slice(2).map((item) => (
-                  <div key = { "file-options-map-" + item[0] } className = { fileCategory === item[0] ? "button row-center active" : "button row-center" } onClick = { () => { fileCategory === item[0] ? setFileCategory(null) : setFileCategory(item[0]) } }>
-                    <span>{ item[1] }</span>
-                  </div>
-                ))
+                fileTags ?
+                  fileTags.split(" ").filter((word) => word.length > 0).splice(0, 5).map((item, index) => (
+                    item ?
+                      <div key = { "keu-dpuct-" + index } className = "row-center">
+                        <span>{ item }</span>
+                        <button type = "button">{ "❌" }</button>
+                      </div>
+                    :
+                      null
+                  ))
+                :
+                  null 
               }
             </div>
-            <div className = "button row-center" onClick = { () => { handleUploadData(file, fileCategory); } }>
-              <span>Submit</span>
+            <div className = "row-center">
+              <input type = "text" onChange = { (event) => { setFileTags(event.target.value) } }/>
             </div>
           </div>
-        </div>
-      )
-    }
-
-    const [fileShapefile, setFileShapefile] = React.useState(null);
-
-    class ViewData extends React.Component {
-      constructor(props) {
-        super(props);
-
-        this.handleClick = this.handleClick.bind(this);
-      }
-
-      handleClick() {
-        remove_all_layers();
-  
-        if (fileShapefile !== this.props.item._id) {
-          add_layer(this.props.item.file);
-          setFileShapefile(this.props.item._id);
-        }
-        else { setFileShapefile(null); }
-      }
-    
-      render() {
-        return (
-          <div className = "button row-center" onClick = { this.handleClick }>
-            <span>{ fileShapefile === this.props.item._id ? "🙈" : "👀" }</span>
-          </div>
-        );
-      }
-    }
-
-    const [fileDetails, setFileDetails] = React.useState(null);
-    const [fileDetailsActive, setFileDetailsActive] = React.useState(false);
-    const [fileEdits, setFileEdits] = React.useState(null);
-    const [fileEditsActive, setFileEditsActive] = React.useState(false);
-
-    React.useEffect(() => {
-      setFileDetails(null);
-      setFileDetailsActive(false);
-      setFileEdits(null);
-      setFileEditsActive(false);
-
-      remove_all_layers();
-      setFileShapefile(null);
-    }, [activeContext]);
-
-    class InspectData extends React.Component {
-      constructor(props) {
-        super(props);
-
-        this.handleClick = this.handleClick.bind(this);
-      }
-
-      handleClick() {
-        setFileDetails(this.props.item);
-        setFileDetailsActive(!fileDetailsActive);
-      }
-    
-      render() {
-        return (
-          <div className = { fileShapefile === this.props.item._id ? "button row-center" : "hidden" } onClick = { this.handleClick }>
-            <span>{ fileDetailsActive ? "❌" : "📋" }</span>
-          </div>
-        );
-      }
-    }
-
-    function handleEditData(edits) {
-      setFileEdits(edits);
-      setFileEditsActive(!fileEditsActive);
-    }
-
-    let parsedTokens = [];
-
-    class TagsForm extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { value: "" };
-    
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-      handleChange(event) {
-        let words = event.target.value.split(" ");
-        let word = "";
-
-        if (event.target.value.endsWith(" ")) { words.pop(); }
-        else { word = words.pop(); }
-
-        if (words[0]) { parsedTokens.push(words[0]); }
-        this.setState({ value: word });
-      }
-    
-      handleSubmit(event) {
-        parsedTokens.push(this.state.value);
-        console.log(parsedTokens);
-        parsedTokens = [];
-        event.preventDefault();
-      }
-    
-      render() {
-        return (
-          <form className = "header row-center" onSubmit = { this.handleSubmit }>
-            <label>
-              Tags:
-              <input type = "text" value = { this.state.value } onChange = { this.handleChange } required/>
-            </label>
-            <input type = "submit" value = "Submit"/>
-          </form>
-        );
-      }
-    }
-
-    function EditContext({ object }) {
-      return (
-        <div className = "column-top">
-          <div className = "header row-center">
-            <input id = "edit-data-name" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = { object.name ? object.name : "" } onChange = { (event) => { Object.assign(editObject, { "name": event.target.value }); } } required/>
-          </div>
-          <div className = "header row-center">
-            <input id = "edit-data-aspect" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = { object.aspect ? object.aspect : "" } onChange = { (event) => { Object.assign(editObject, { "aspect": event.target.value }); } } required/>
-          </div>
-          <div className = "header row-center">
-            <TagsForm/>
+          <div className = "row-center">
+            <button className = "row-center" type = "button" onClick = { () => { handleUploadData(fileContent, fileCategory, fileTags); } }>
+              <span>Submit</span>
+            </button>
           </div>
         </div>
       )
     }
 
     function handleDeleteData(object) {
-      remove_all_layers();
-      setFileShapefile(null);
-
       axios
         .post("http://localhost:5000/data/delete/", {
           file: object
@@ -619,7 +566,7 @@ function App() {
         .then((response) => {
           if (response) {
             Object.assign(fileObject, { [object.aspect]: fileObject[object.aspect].filter((item) => (item._id !== object._id)) });
-            setFileArray(() =>fileArray.filter((item) => (item._id !== object._id)));
+            setFileArray(() => fileArray.filter((item) => (item._id !== object._id)));
           }
         })
         .catch((error) => {
@@ -628,142 +575,45 @@ function App() {
         .finally(() => {});
     }
 
-    function DataComponent({ array }) {
-      return (
-        <div className = " column-top">
-          {
-            array.map((item) => (
-              <div key = { "file-array-map-" + item._id } className = "column-top">
-                <div className = "header row-fill">
-                  <div className = "row-center">
-                    <div className = " row-left">
-                      <span>{ item.name }</span>
-                    </div>
-                  </div>
-                  <div className = "row-center">
-                    <ViewData item = { item }/>
-                    <InspectData item = { item }/>
-                    {/* 
-                    <EditData/>
-                    <DeleteData/> */}
-
-                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleEditData(item); } }>
-                      <span>{ fileEditsActive ? "❌" : "✏️" }</span>
-                    </div>
-                    <div className = { fileShapefile === item._id ? "button row-center" : "hidden" } onClick = { () => { handleDeleteData(item); } }>
-                      <span>{ "🗑️" }</span>
-                    </div>
-                  </div>
-                </div>
-                <div className = { fileDetailsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                  <div className = "row-center">
-                    <span>{ item.aspect ? item.aspect : "No information available." }</span>
-                  </div>
-                </div>
-                <div className = { fileEditsActive && fileShapefile === item._id ? "row-center" : "hidden" }>
-                  <div className = "row-center">
-                      {
-                        item ?
-                          <EditContext object = { item }/>
-                        :
-                          <span>{ "No information available." }</span>
-                      }
-                  </div>
-                </div>
-              </div>
-            ))
-          }
-        </div>
-      );
-    }
-
-    function SocialContext() {
-      return (
-        <div id = "social-context">
-          {
-            fileObject.social ?
-              fileObject.social.length > 0 ?
-                <DataComponent array = { fileObject.social }/>
-              :
-                <div className = "empty-content  row-center">
-                  <span>{ "No items to show." }</span>
-                </div>
-            :
-              null
-          }
-        </div>
-      );
-    }
-
-    function EconomicContext() {
-      return (
-        <div id = "economic-context">
-          {
-            fileObject.economic ?
-              fileObject.economic.length > 0 ?
-                <DataComponent array = { fileObject.economic }/>
-              :
-                <div className = "empty-content  row-center">
-                  <span>{ "No items to show." }</span>
-                </div>
-            :
-              null
-          }
-        </div>
-      );
-    }
-
-    function EnvironmentalContext() {
-      return (
-        <div id = "environmental-context">
-          {
-            fileObject.environmental ?
-              fileObject.environmental.length > 0 ?
-                <DataComponent array = { fileObject.environmental }/>
-              :
-                <div className = "empty-content  row-center">
-                  <span>{ "No items to show." }</span>
-                </div>
-            :
-              null
-          }
-        </div>
-      );
-    }
-
-    function DemographicContext() {
-      return (
-        <div id = "demographic-context">
-          {
-            fileObject.demographic ?
-              fileObject.demographic.length > 0 ?
-                <DataComponent array = { fileObject.demographic }/>
-              :
-                <div className = "empty-content  row-center">
-                  <span>{ "No items to show." }</span>
-                </div>
-            :
-              null
-          }
-        </div>
-      );
-    }
-
     function SummaryContext() {
-      return (
-        <div id = "summary-context">
-          {
-            fileArray ?
-              fileArray.length > 0 ?
-                <DataComponent array = { fileArray }/>
-              :
-                <div className = "empty-content  row-center">
-                  <span>{ "No items to show." }</span>
+      function ArrayList() {
+        return (
+          <div className = "column-top">
+            {
+              activeArray.map((item) => (
+                <div key = { "key-dpsc-" + item._id } className = "row-center">
+                  <div className = "row-center">
+                    <span>{ item.name }</span>
+                  </div>
+                  <div className = "row-center">
+                    <button type = "button" onClick = { () => { console.log(item); } }>
+                      <span>{ "XP" }</span>
+                    </button>
+                    <button type = "button" onClick = { () => { handleDeleteData(item); } }>
+                      <span>{ ":'(" }</span>
+                    </button>
+                    {/* <ViewData item = { item }/>
+                    <InspectData item = { item }/>
+                    <EditData item = { item }/>
+                    <DeleteData item = { item }/> */}
+                  </div>
                 </div>
-            :
-              null
-          }
-        </div>
+              ))
+            }
+          </div>
+        );
+      }
+
+      function NoList() {
+        return (
+          <div className = "row-center">
+            <span>{ "No items to show." }</span>
+          </div>
+        );
+      }
+
+      return (
+        <div id = "data-page-summary-context" className = "column-top">{ activeArray ? activeArray.length > 0 ? <ArrayList/> : <NoList/> : null } </div>
       );
     }
 
@@ -773,36 +623,15 @@ function App() {
           <Dashboard/>
         </div>
         <div className = "body row-center">
-          <div className = "column-center">
+          <div className = "row-center">
             <ArcGISMap/>
           </div>
           <div className = "column-top">
-            <div className = "header column-center">
-              <div className = "row-center">
-                {
-                  contexts.map((item) => (
-                    <button key = { "contexts-map-" + item[0] } className = "column-center" onClick = { () => { handleContextNavigation(item[0]); } }>
-                      <span>{ item[1] }</span>
-                    </button>
-                  ))
-                }
-              </div>
-              <div className = "row-center">
-                <span>{ activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) return true; else return false; })][1] + " " + activeContext + " Data" : contexts[0][1] + " Upload Data" }</span>
-              </div>
+            <div className = "header row-center">
+              <ContextSwitch/>
             </div>     
             <div className = "body column-center">
-              {
-                fileArray ?
-                  activeContext === contexts[1][0] ? <SummaryContext/> :
-                  activeContext === contexts[2][0] ? <SocialContext/> :
-                  activeContext === contexts[3][0] ? <EconomicContext/> :
-                  activeContext === contexts[4][0] ? <EnvironmentalContext/> :
-                  activeContext === contexts[5][0] ? <DemographicContext/> :
-                  <UploadContext/>
-                :
-                  null
-              }
+              { activeContext ? activeContext === contexts[0][0] ? <UploadContext/> : <SummaryContext/> : null }
             </div>
           </div>
         </div>
