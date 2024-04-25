@@ -459,15 +459,15 @@ function App() {
         <div id = "data-page-context-switch" className = "column-center">
           <div className = "row-center">
           {
-              contexts.map((item) => (
-                <button key = { "key-dpcs-" + item[0] } className = "column-center" type = "button" onClick = { () => { handleContextNavigation(item[0]); } }>
-                  <span>{ item[1] }</span>
-                </button>
-              ))
-            }
+            contexts.map((item) => (
+              <button key = { "key-dpcs-" + item[0] } className = "column-center" type = "button" onClick = { () => { handleContextNavigation(item[0]); } }>
+                <span>{ item[1] }</span>
+              </button>
+            ))
+          }
           </div>
           <div className = "row-center">
-            <span>{ activeContext ? contexts[contexts.findIndex((item) => { if (item[0] === activeContext) { return true; } else { return false; } })][1] + " " + activeContext + " Data" : null }</span>
+            <span>{ activeContext ? activeContext + " Data" :  null }</span>
           </div>
         </div>
       );
@@ -479,6 +479,11 @@ function App() {
       const [fileTags, setFileTags] = React.useState("");
 
       function handleUploadData(object, aspect, tags) {
+        if (object === null) {
+          setErrorMessage("No file uploaded!");
+          return null;
+        }
+
         const data = new FormData();
         
         for (let index = 0; index < object.length; index++) { data.append("file", object[index]); }
@@ -558,44 +563,146 @@ function App() {
       )
     }
 
-    function handleDeleteData(object) {
-      axios
-        .post("http://localhost:5000/data/delete/", {
-          file: object
-        })
-        .then((response) => {
-          if (response) {
-            Object.assign(fileObject, { [object.aspect]: fileObject[object.aspect].filter((item) => (item._id !== object._id)) });
-            setFileArray(() => fileArray.filter((item) => (item._id !== object._id)));
-          }
-        })
-        .catch((error) => {
-          setErrorMessage(error);
-        })
-        .finally(() => {});
-    }
-
     function SummaryContext() {
+      const [shapefile, setShapefile] = React.useState(null);
+      const [showShapefile, setShowShapefile] = React.useState(false);
+
+      function ViewData({ object }) {
+        function handleViewData() {
+          remove_all_layers();
+          
+          if (shapefile === object._id) {
+            setShapefile(null);
+            setShowShapefile(false);
+          }
+          else {
+            setShapefile(object._id);
+            setShowShapefile(true);
+            add_layer(object.file);
+          }
+        }
+
+        return (
+          <div className = "row-center">
+            <button type = "button" onClick = { () => { handleViewData(); } }>
+              <span>{ "XP" }</span>
+            </button>
+          </div>
+        );
+      }
+
+      const [details, setDetails] = React.useState(null);
+      const [showDetails, setShowDetails] = React.useState(false);
+
+      function InspectData({ object }) {
+        function handleInspectData() {
+          setDetails(
+            <div className = "column-center">
+              <div className = "row-center">
+                <span>{ "Aspect: " }</span>
+                <span>{ object.aspect }</span>
+              </div>
+              <div className = "row-center">
+                <span>{ "Tags: " }</span>
+                { object.tags.map((item, index) => (<span key = { "key-dpid-" + index }>{ item }</span>)) }
+              </div>
+            </div>
+          );
+
+          setShowDetails(!showDetails);
+        }
+
+        return (
+          <div className = "row-center">
+            <button type = "button" onClick = { () => { handleInspectData(); } }>
+              <span>{ ":)" }</span>
+            </button>
+          </div>
+        );
+      }
+
+      const [editDetails, setEditDetails] = React.useState(false);
+
+      function EditData({ object }) {
+        function handleEditData() {
+          if (showDetails) {
+            if (editDetails) {
+              setShowDetails(false);
+              setEditDetails(false);
+            }
+            else {
+              setDetails(
+                <span>{ "Function is under development." }</span>
+              );
+
+              setEditDetails(true);
+            }
+          }
+        }
+
+        return (
+          <div className = "row-center">
+            <button type = "button" onClick = { () => { handleEditData(); } }>
+              <span>{ "T^T" }</span>
+            </button>
+          </div>
+        );
+      }
+  
+      function DeleteData({ object }) {
+        function handleDeleteData() {
+          axios
+            .post("http://localhost:5000/data/delete/", {
+              file: object
+            })
+            .then((response) => {
+              if (response) {
+                let new_object = fileObject[object.aspect].filter((item) => (item._id !== object._id));
+  
+                Object.assign(fileObject, { [object.aspect]: new_object });
+                
+                let new_array = Object.values(Object.assign(fileObject, { [object.aspect]: new_object })).flat();
+  
+                setFileArray(new_array);
+  
+                if (activeContext === "All") { setActiveArray(new_array); }
+                else { setActiveArray(new_object); }
+              }
+            })
+            .catch((error) => {
+              setErrorMessage(error);
+            })
+            .finally(() => {});
+        }
+  
+        return (
+          <div className = "row-center">
+            <button type = "button" onClick = { () => { handleDeleteData(); } }>
+              <span>{ ":'(" }</span>
+            </button>
+          </div>
+        );
+      }
+      
       function ArrayList() {
         return (
           <div className = "column-top">
             {
               activeArray.map((item) => (
-                <div key = { "key-dpsc-" + item._id } className = "row-center">
+                <div key = { "key-dpsc-" + item._id } className = "column-center">
                   <div className = "row-center">
-                    <span>{ item.name }</span>
+                    <div className = "row-center">
+                      <span>{ item.name }</span>
+                    </div>
+                    <div className = "row-center">
+                      <ViewData object = { item }/>
+                      <InspectData object = { item }/>
+                      <EditData object = { item }/>
+                      <DeleteData object = { item }/>
+                    </div>
                   </div>
                   <div className = "row-center">
-                    <button type = "button" onClick = { () => { console.log(item); } }>
-                      <span>{ "XP" }</span>
-                    </button>
-                    <button type = "button" onClick = { () => { handleDeleteData(item); } }>
-                      <span>{ ":'(" }</span>
-                    </button>
-                    {/* <ViewData item = { item }/>
-                    <InspectData item = { item }/>
-                    <EditData item = { item }/>
-                    <DeleteData item = { item }/> */}
+                    { showDetails ? details : null }
                   </div>
                 </div>
               ))
