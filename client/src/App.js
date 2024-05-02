@@ -146,6 +146,34 @@ function App() {
     );
   }
 
+  function LinkBar() {
+    return (
+      <div className = "row-center">
+        <div className = "row-center">
+          <a href = "#">{ "Terms" }</a>
+        </div>
+        <div className = "row-center">
+          <span>{ "•" }</span>
+        </div>
+        <div className = "row-center">
+          <a href = "#">{ "Privacy" }</a>
+        </div>
+        <div className = "row-center">
+          <span>{ "•" }</span>
+        </div>
+        <div className = "row-center">
+          <a href = "about" target = "_self">{ "Documentation" }</a>
+        </div>
+        <div className = "row-center">
+          <span>{ "•" }</span>
+        </div>
+        <div className = "row-center">
+          <a href = "#">{ "Support" }</a>
+        </div>
+      </div>
+    );
+  }
+
   /* The Landing page. */
 
   function LandingPage() {
@@ -165,29 +193,29 @@ function App() {
           </div>
         </div>
         <div className = "footer column-center">
+          <LinkBar/>
           <div className = "row-center">
-            <div className = "row-center">
-              <a href = "#">{ "Terms" }</a>
-            </div>
-            <div className = "row-center">
-              <span>{ "•" }</span>
-            </div>
-            <div className = "row-center">
-              <a href = "#">{ "Privacy" }</a>
-            </div>
-            <div className = "row-center">
-              <span>{ "•" }</span>
-            </div>
-            <div className = "row-center">
-              <a href = "#">{ "Documentation" }</a>
-            </div>
-            <div className = "row-center">
-              <span>{ "•" }</span>
-            </div>
-            <div className = "row-center">
-              <a href = "#">{ "Support" }</a>
-            </div>
+            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* The About page. */
+
+  function AboutPage() {
+    return (
+      <div id = "sign-in-page" className = "container column-center">
+        <div className = "header row-right">
+          <div className = "row-center" >
+            <button type = "button" onClick = { () => { handleNavigation("Exit"); } }>{ "❌" }</button>
+          </div>
+        </div>
+        <div className = "body column-center">
+          <span>{ "Page development in progress." }</span>
+        </div>
+        <div className = "footer column-center">
           <div className = "row-center">
             <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
@@ -268,15 +296,7 @@ function App() {
           <SignInForm/>
         </div>
         <div className = "footer column-center">
-          <div className = "row-center">
-            <span>{ "Terms" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Privacy" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Documentation" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Support" }</span>
-          </div>
+          <LinkBar/>
           <div className = "row-center">
             <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
@@ -361,15 +381,7 @@ function App() {
           <ChangePasswordForm/>
         </div>
         <div className = "footer column-center">
-          <div className = "row-center">
-            <span>{ "Terms" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Privacy" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Documentation" }</span>
-            <span>{ "•" }</span>
-            <span>{ "Support" }</span>
-          </div>
+          <LinkBar/>
           <div className = "row-center">
             <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
           </div>
@@ -813,6 +825,7 @@ function App() {
       <Routes>
         <Route path = "/">
           <Route index = { true } element = { <LandingPage/> }></Route>
+          <Route path = "/about" element = { <AboutPage/> }></Route>
           <Route path = "/sign-in" element = { <SignInPage/> }></Route>
           <Route path = "/change-password" element = { <ChangePasswordPage/> }></Route>
           <Route path = "/home" element = { localStorage.token ? <HomePage/> : <SignInPage/> }></Route>
