@@ -148,27 +148,32 @@ function App() {
 
   function LinkBar() {
     return (
-      <div className = "row-center">
+      <div className = "column-center">
         <div className = "row-center">
-          <a href = "#">{ "Terms" }</a>
+          <div className = "row-center">
+            <a href = "#">{ "Terms" }</a>
+          </div>
+          <div className = "row-center">
+            <span>{ "•" }</span>
+          </div>
+          <div className = "row-center">
+            <a href = "#">{ "Privacy" }</a>
+          </div>
+          <div className = "row-center">
+            <span>{ "•" }</span>
+          </div>
+          <div className = "row-center">
+            <a href = "about" target = "_self">{ "Documentation" }</a>
+          </div>
+          <div className = "row-center">
+            <span>{ "•" }</span>
+          </div>
+          <div className = "row-center">
+            <a href = "#">{ "Support" }</a>
+          </div>
         </div>
         <div className = "row-center">
-          <span>{ "•" }</span>
-        </div>
-        <div className = "row-center">
-          <a href = "#">{ "Privacy" }</a>
-        </div>
-        <div className = "row-center">
-          <span>{ "•" }</span>
-        </div>
-        <div className = "row-center">
-          <a href = "about" target = "_self">{ "Documentation" }</a>
-        </div>
-        <div className = "row-center">
-          <span>{ "•" }</span>
-        </div>
-        <div className = "row-center">
-          <a href = "#">{ "Support" }</a>
+          <span>{ "Powered by " }<a href = "https://geospectrum.com.ph" target = "_blank">{ "🌈 GEOSPECTRUM" }</a></span>
         </div>
       </div>
     );
@@ -194,9 +199,6 @@ function App() {
         </div>
         <div className = "footer column-center">
           <LinkBar/>
-          <div className = "row-center">
-            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-          </div>
         </div>
       </div>
     );
@@ -216,9 +218,7 @@ function App() {
           <span>{ "Page development in progress." }</span>
         </div>
         <div className = "footer column-center">
-          <div className = "row-center">
-            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-          </div>
+          <LinkBar/>
         </div>
       </div>
     );
@@ -297,9 +297,6 @@ function App() {
         </div>
         <div className = "footer column-center">
           <LinkBar/>
-          <div className = "row-center">
-            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-          </div>
         </div>
       </div>
     );
@@ -382,9 +379,6 @@ function App() {
         </div>
         <div className = "footer column-center">
           <LinkBar/>
-          <div className = "row-center">
-            <span>{ "Powered by 🌈 GEOSPECTRUM" }</span>
-          </div>
         </div>
       </div>
     );
@@ -402,6 +396,7 @@ function App() {
           <span>{ "Page development in progress." }</span>
         </div>
         <div className = "footer row-center">
+          <LinkBar/>
         </div>
       </div>
     );
@@ -755,6 +750,7 @@ function App() {
           </div>
         </div>
         <div className = "footer row-center">
+          <LinkBar/>
         </div>
       </div>
     );
@@ -772,6 +768,7 @@ function App() {
           <span>{ "Page development in progress." }</span>
         </div>
         <div className = "footer row-center">
+          <LinkBar/>
         </div>
       </div>
     );
@@ -789,6 +786,7 @@ function App() {
           <span>{ "Page development in progress." }</span>
         </div>
         <div className = "footer row-center">
+          <LinkBar/>
         </div>
       </div>
     );
@@ -806,6 +804,7 @@ function App() {
           <span>{ "Page development in progress." }</span>
         </div>
         <div className = "footer row-center">
+          <LinkBar/>
         </div>
       </div>
     );
@@ -815,7 +814,16 @@ function App() {
 
   function ErrorPage() {
     return (
-      <div id = "error-page">
+      <div id = "error-page" className = "container column-center">
+        <div className = "row-center">
+          <a href = "https://geospectrum.com.ph" target = "_self">{ "Geospectrum" }</a>
+        </div>
+        <div className = "row-center">
+          <span>{ "Page not found." }</span>
+        </div>
+        <div className = "row-center">
+        <button type = "button" onClick = { () => { handleNavigation("Exit"); } }>{ "Return home." }</button>
+        </div>
       </div>
     )
   }
