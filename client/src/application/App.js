@@ -3,8 +3,10 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import { ArcGISMapContext } from "./ArcGIS.js";
-import LeafletMap from "./Leaflet.js"
+import { ArcGISMapContext } from "../components/ArcGIS.js";
+import LeafletMap from "../components/Leaflet.js"
+
+// import handleNavigation from "../functions/handleNavigation.js";
 
 import "./App.css";
 
@@ -29,7 +31,7 @@ function App() {
     if (value) { setActiveModule(value); }
   }, []);
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
   function handleNavigation(module) {
     localStorage.setItem("active_module", module);

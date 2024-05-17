@@ -1,5 +1,5 @@
 /* This file serves as the back-end file for the SEEDs Rebuild application. */
-/* It retrieves database information from the MongoDB server database. */
+/* It connects to the MongoDB server database. */
 
 const express = require("express");
 
@@ -21,7 +21,7 @@ mongoose.set("strictQuery", false);
 
 const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/seeds-rebuild?retryWrites=true&w=majority"; /* MongoDB API connection string. */
 
-mongoose.connect(process.env.MONGODB_URI || uri).catch((error) => { console.log(error) });
+mongoose.connect(process.env.MONGODB_URI || uri).catch((error) => { console.log(error); });
 
 const connection = mongoose.connection;
 
@@ -34,8 +34,8 @@ connection.once("open", () => {
 
   const path = require("path");
 
-  app.use(express.static(path.join(__dirname, "client/build")));
-  app.get("*", (req, res) => { res.sendFile(path.join(__dirname, "/client/build/index.html")); });
+  app.use(express.static(path.join(__dirname, "..", "/server/src/assets/files")));
+  app.get("*", (req, res) => { res.sendFile(path.join(__dirname, "..", "/server/src/assets/files/index.html")); });
 
   const port = process.env.PORT || 5000;
 

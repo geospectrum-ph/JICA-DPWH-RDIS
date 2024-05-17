@@ -4,8 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 
 import "./index.css";
 
-import ArcGISMapContextProvider from "./ArcGIS.js";
-import App from "./App";
+import ArcGISMapContextProvider from "./components/ArcGIS.js";
+import App from "./application/App.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>

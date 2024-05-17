@@ -1,30 +1,6 @@
 /* This file serves as the router file for the SEEDs Rebuild application. */
 /* It routes requests for database information from the MongoDB server database. */
 
-const crypto = require("crypto");
-
-let algorithm = "aes-256-cbc";
-let key = crypto.scryptSync("password", "SEEDs Rebuild", 32);
-
-function encrypt(string) {
-  let vector = crypto.randomBytes(16);
-  let cipher = crypto.createCipheriv(algorithm, Buffer.from(key), vector);
-  let output = cipher.update(string);
-
-  output = Buffer.concat([output, cipher.final()]);
-
-  return ({ data: output.toString("hex"), vector: vector.toString("hex") });
-}
-
-function decrypt(object) {
-  let decipher = crypto.createDecipheriv(algorithm, Buffer.from(key), Buffer.from(object.vector, "hex"));
-  let output = decipher.update(Buffer.from(object.data, "hex"));
-
-  output = Buffer.concat([output, decipher.final()]);
-
-  return (output.toString());
-}
-
 const mongoose = require("mongoose");
 
 var router = require("express").Router();
@@ -36,6 +12,8 @@ const usersData = mongoose.model("database/users",
     "password": { type: Object }
   })
 );
+
+const { encrypt, decrypt } = require("./src/functions/handleEncryption");
 
 router.route("/user/sign-in/").post((request, response) => {
   usersData
@@ -156,7 +134,7 @@ const multer = require("multer");
 var storage = multer.diskStorage({
   destination:
     function (request, file, callback) {
-      callback(null, "client/src/assets/files");
+      callback(null, "./src/assets/files");
     },
   filename:
     function (request, file, callback) {
@@ -166,10 +144,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage }).fields([{ name: "file" }]);
 
-const DOMParser = require("xmldom").DOMParser;
-const fs = require("fs");
-const path = require("path");
-const convert = require("@tmcw/togeojson");
+const { generate } = require("./src/functions/handleConversion");
 
 router.route("/data/upload/").post((request, response) => {
   upload (request, response, function (error) {
@@ -177,34 +152,7 @@ router.route("/data/upload/").post((request, response) => {
     else if (error) { return (response.status(500).json(error)); }
 
     for (let index = 0; index < request.files.file.length; index++) {
-      let type = request.files.file[index].filename.split(".").pop();
-      let object;
-
-      if (type === "geojson") { object = JSON.parse(fs.readFileSync(path.join(request.files.file[index].path))); }
-      else if (type === "kml" || type === "gpx" || type == "tcx") {
-        let location = path.join("./", request.files.file[index].path);
-        let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
-
-        switch (type) {
-          case "kml":
-            object = convert.kml(file);
-            break;
-          case "gpx":
-            object = convert.gpx(file);
-            break;
-          case "tcx":
-            object = convert.tcx(file);
-            break;
-          default:
-            return null;
-        }
-      }
-      else {
-        object = null;
-      }
-
-      fs.unlink(path.join(request.files.file[index].path), (error) => { if (error) { throw (error); } });
-
+      let object = generate(request.files.file[index].path, request.files.file[index].filename.split(".").pop());
       let tags = request.body.tags.split(" ").filter((word) => word.length > 0).splice(0, 5);
 
       if (object) {
