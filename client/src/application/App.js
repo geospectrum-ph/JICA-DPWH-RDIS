@@ -4,9 +4,10 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { ArcGISMapContext } from "../components/ArcGIS.js";
-import LeafletMap from "../components/Leaflet.js"
+import LeafletMap from "../components/Leaflet.js";
 
 // import handleNavigation from "../functions/handleNavigation.js";
+// import handleUploadData from "../functions/handleConversion.js";
 
 import "./App.css";
 
@@ -521,6 +522,58 @@ function App() {
     
         upload();
       }
+
+      // function handleUploadData(object, aspect, tags) {
+      //   if (object === null) {
+      //     setErrorMessage("No file uploaded!");
+      //     return null;
+      //   }
+      
+      //   const data = new FormData();
+
+      //   console.log(object);
+        
+      //   for (let index = 0; index < object.length; index++) {
+      //     let type = object[index].name.split(".").pop()
+      //     console.log(type);
+          
+      //     let geojson_file;
+
+      //     if (type === "kml") {
+      //       const kmlToGeojson = new KmlToGeojson();
+      //       const kmlContent = fs.readFileSync('./my-file.kml', 'utf-8');
+      //       const { folders, geojson } = kmlToGeojson.parse(kmlContent);
+      //       console.log(folders);
+      //       console.log(geojson);
+      //     }
+
+      //     data.append("file", geojson_file);
+      //   }
+      //   data.append("category", aspect ? aspect.toLowerCase() : "unclassified");
+      //   data.append("tags", tags);
+        
+      //   const upload = async() => {
+      //     await fetch("http://localhost:5000/data/upload/", {
+      //       method: "POST",
+      //       body: data
+      //     })
+      //     .then((promise) => {
+      //       promise
+      //         .json()
+      //         .then((response) => {
+      //           if (response) {
+      //             Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
+      //             setFileArray(() => [...fileArray, response]);
+      //           }
+      //         })
+      //         .catch((error) => { setErrorMessage(error); });
+      //     })
+      //     .catch((error) => { setErrorMessage(error); })
+      //     .finally(() => {});
+      //   }
+      
+      //   upload();
+      // }
 
       return (
         <div id = "upload-context" className = "column-center">

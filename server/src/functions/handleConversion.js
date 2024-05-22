@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const DOMParser = require("xmldom").DOMParser;
 const convert = require("@tmcw/togeojson");
-const shapefile = require("shapefile");
+// const shapefile = require("shapefile");
 
 function generate(location, type) {
   let output;
@@ -33,10 +33,11 @@ function generate(location, type) {
 
   fs.unlink(path.join(location), (error) => { if (error) { throw (error); } });
 
-  console.log(location, type);
-  console.log(output);
+  // console.log(location, type);
+  // console.log(output);
 
   return output;
 }
 
 module.exports = { generate };
+ 
