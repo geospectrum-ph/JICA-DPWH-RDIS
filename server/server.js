@@ -7,14 +7,6 @@ const app = express();
 
 app.use(express.json());
 
-const cors = require("cors");
-
-app.use(cors());
-
-const methodOverride = require("method-override");
-
-app.use(methodOverride("_method"));
-
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
