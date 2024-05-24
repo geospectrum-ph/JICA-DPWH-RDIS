@@ -5,36 +5,48 @@ const mongoose = require("mongoose");
 
 var router = require("express").Router();
 
-async function initialize() {
-  const initGdalJs = require("gdal3.js/node");
+// async function initialize() {
+//   const initGdalJs = require("gdal3.js/node");
 
-  initGdalJs().then((gdal) => {});
+//   initGdalJs().then((gdal) => {});
 
-  const gdal = await initGdalJs().then().catch((error) => console.log(error));
+//   const gdal = await initGdalJs().then().catch((error) => console.log(error));
 
-  const filename = "sample.kml";
+//   const filename = "sample.kml";
 
-  const fs = require("fs");
-  const path = require("path");
+//   const fs = require("fs");
+//   const path = require("path");
 
-  const file = fs.readFileSync(path.join(__dirname, "./assets/files", filename), "utf8");
+//   const file = fs.readFileSync(path.join(__dirname, "./assets/files", filename), "utf8");
   
-  const getResult = async () => {
-    try {
-      const result = await gdal.open(file);
-    }
-    catch (error) {
-      throw (error);
-    }
-  }
+//   const getResult = async () => {
+//     try {
+//       const result = await gdal.open(file);
+//     }
+//     catch (error) {
+//       throw (error);
+//     }
+//   }
 
-  console.log(getResult());
-}
+//   console.log(getResult());
+// }
 
-initialize();
+// initialize();
 
-const { transform } = require("./functions/handleConversion");
+const { convert } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
+
+// const fs = require("fs");
+// const path = require("path");
+
+// let file = fs.readFileSync(path.join(__dirname, "assets/files/sample.kml"), "utf8");
+
+// if (file) {
+//   console.log(file);
+//   transform(file);
+// }
+
+convert();
 
 // console.log(transform("./assets/files/sample.zip"));
 

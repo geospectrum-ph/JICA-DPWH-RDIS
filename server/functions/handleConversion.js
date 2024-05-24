@@ -1,44 +1,57 @@
-// const fs = require("fs");
+// const initGdalJs = require("gdal3.js");
 // const path = require("path");
-// const DOMParser = require("xmldom").DOMParser;
-// const convert = require("@tmcw/togeojson");
-// const shapefile = require("shapefile");
 
-function transform(location) {
-  const files = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
-  // let output;
+// initGdalJs().then((Gdal) => {});
 
-  // if (type === "geojson") {
-  //   output = JSON.parse(fs.readFileSync(path.join(location)));
-  // }
-  // else if (type === "kml" || type === "gpx" || type == "tcx") {
-  //   let file = new DOMParser().parseFromString(fs.readFileSync(location, "utf8"));
+// async function convert() {
+//   const Gdal = await initGdalJs();
+//   const dataset = await Gdal.open(path.join(__dirname, "..", "assets/files/sample.geojson"));
 
-  //   switch (type) {
-  //     case "kml":
-  //       output = convert.kml(file);
-  //       break;
-  //     case "gpx":
-  //       output = convert.gpx(file);
-  //       break;
-  //     case "tcx":
-  //       output = convert.tcx(file);
-  //       break;
-  //     default:
-  //       return null;
-  //   }
-  // }
-  // else {
-  //   output = null;
-  // }
+//   console.log(dataset);
 
-  // fs.unlink(path.join(location), (error) => { if (error) { throw (error); } });
+//   // const file_container = file_array.datasets[0];
 
-  // // console.log(location, type);
-  // // console.log(output);
+//   // console.log(file_container);
 
-  // return output;
+//   // const options = [
+//   //   "-f", "GeoJSON",
+//   //   "-t_srs", "EPSG:4326"
+//   // ];
+
+//   // console.log(options);
+
+//   // console.log(file_container.path);
+
+//   // const file_converted = await Gdal.ogr2ogr(file_container, options);
+
+//   // const output = await Gdal.ogr2ogr(result.datasets[0], options);
+//   // const bytes = await Gdal.getFileBytes(output)
+  
+//   // console.log(bytes);
+
+//   Gdal.close(dataset);
+// }
+
+const initGdalJs = require("gdal3.js/node");
+
+const path = require("path");
+
+async function convert() {
+  await Promise.all([
+    (async() => {
+      const Gdal = await initGdalJs();
+      const dataset = await Gdal.open(path.join(__dirname, "..", "assets/files/sample.kml"));
+      const options = [
+        "-f", "GeoJSON",
+        "-t_srs", "EPSG:4326"
+      ];
+
+      const filePath = await Gdal.ogr2ogr(dataset, options);
+
+      // Gdal.close(dataset);
+    })()
+  ]);
 }
 
-module.exports = { transform };
+module.exports = { convert };
  
