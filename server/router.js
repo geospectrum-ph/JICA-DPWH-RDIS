@@ -1,52 +1,20 @@
 /* This file serves as the router file for the SEEDs Rebuild application. */
 /* It routes requests for database information from the MongoDB server database. */
 
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
 var router = require("express").Router();
 
-// async function initialize() {
-//   const initGdalJs = require("gdal3.js/node");
-
-//   initGdalJs().then((gdal) => {});
-
-//   const gdal = await initGdalJs().then().catch((error) => console.log(error));
-
-//   const filename = "sample.kml";
-
-//   const fs = require("fs");
-//   const path = require("path");
-
-//   const file = fs.readFileSync(path.join(__dirname, "./assets/files", filename), "utf8");
-  
-//   const getResult = async () => {
-//     try {
-//       const result = await gdal.open(file);
-//     }
-//     catch (error) {
-//       throw (error);
-//     }
-//   }
-
-//   console.log(getResult());
-// }
-
-// initialize();
+const path = require("path");
 
 const { convert } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
-// const fs = require("fs");
-// const path = require("path");
+let source = path.join(__dirname, "assets/files/sample.kmz");
 
-// let file = fs.readFileSync(path.join(__dirname, "assets/files/sample.kml"), "utf8");
+let output = convert(source);
 
-// if (file) {
-//   console.log(file);
-//   transform(file);
-// }
-
-convert();
+console.log(output);
 
 // console.log(transform("./assets/files/sample.zip"));
 

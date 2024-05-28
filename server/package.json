@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "crypto": "^1.0.1",
+    "@tmcw/togeojson": "^5.8.1",
+    "@xmldom/xmldom": "^0.8.10",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
-    "gdal3.js": "^2.8.1",
     "mongoose": "^8.4.0",
+    "node-stream-zip": "^1.15.0",
     "nodemon": "^3.0.3",
     "path": "^0.12.7"
   }

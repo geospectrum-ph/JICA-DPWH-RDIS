@@ -1,38 +1,61 @@
-const initGdalJs = require("gdal3.js/node");
 
 const fs = require("fs");
+const { DOMParser, XMLSerializer } = require("@xmldom/xmldom");
+const StreamZip = require("node-stream-zip");
+const tj = require("@tmcw/togeojson");
 
-const path = require("path");
+function kmz_to_geojson(path) {
+  const zip = new StreamZip.async({ file: path });
 
-async function convert() {
-  const gdal = await initGdalJs();
-  
-  const options = [
-    "-f", "GeoJSON",
-    "-t_srs", "EPSG:4326"
-  ];
+  zip.on("entry", () => {
+    zip.extract(null, "./assets/files", (error, count) => {
+      zip.close();
+    });
+  });
 
-  // const options = [ "format", "KML" ];
+  zip.on("extract", (entry, path) => {
+    let file = new DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
 
-  let source = path.join(__dirname, "..", "assets/files/sample.kml");
+    console.log(tj.kml(file));
+  });
 
-  console.log(source);
+  return null;
+}
 
-  let file = await gdal.open(source).then((response) => { return (response); }).catch((error) => { console.log(error); return (null); }); // returns Promise.<TypeDefs.DatasetList>
 
-  console.log(file);
+function kml_to_geojson(path) {
+  let file = new DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
 
-  let info = await gdal.ogr2ogr(file.datasets[0], options, "sample").then((response) => { return (response); }).catch((error) => { console.log(error); return (null); });
+  return (tj.kml(file));
+}
 
-  console.log(info);
+function gpx_to_geojson(path) {
+  let file = new DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
 
-  let somewhere = path.join(__dirname, "..", "assets/files", info.all[0].local);
+  return (tj.gpx(file));
+}
 
-  console.log(somewhere);
+function tcx_to_geojson(path) {
+  let file = new DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
 
-  // let output = await gdal.open(somewhere).then((response) => { return (response); }).catch((error) => { console.log(error); return (null); }); // returns Promise.<TypeDefs.DatasetList>
+  return (tj.tcx(file));
+}
 
-  // console.log(output);
+function convert(source) {
+  let type = source.split(".").pop();
+
+  switch (type) {
+    case "kmz":
+      return (kmz_to_geojson(source));
+    case "kml":
+      return (kml_to_geojson(source));
+    case "gpx":
+      return (gpx_to_geojson(source));
+    case "tcx":
+      return (tcx_to_geojson(source));
+    default:
+      return (null);
+  }
 }
 
 module.exports = { convert };
