@@ -5,11 +5,13 @@
   "dependencies": {
     "@tmcw/togeojson": "^5.8.1",
     "@xmldom/xmldom": "^0.8.10",
+    "adm-zip": "^0.5.12",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
+    "geojson": "^0.5.0",
     "mongoose": "^8.4.0",
-    "node-stream-zip": "^1.15.0",
     "nodemon": "^3.0.3",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "shapefile": "^0.6.6"
   }
 }

@@ -10,7 +10,7 @@ const path = require("path");
 const { convert } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
-let source = path.join(__dirname, "assets/files/sample.kmz");
+let source = path.join(__dirname, "assets/files/sample.shp");
 
 let output = convert(source);
 
