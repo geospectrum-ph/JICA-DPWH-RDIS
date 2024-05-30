@@ -80,6 +80,10 @@ async function convert(source) {
       return (tcx_to_geojson(source));
     case "shp":
       return (shp_to_geojson(source));
+    case "dbf":
+    case "csv":
+    case "gpkg":
+    case "zip":
     default:
       return (null);
   }

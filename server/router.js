@@ -7,6 +7,8 @@ var router = require("express").Router();
 
 const path = require("path");
 
+const multer = require("multer");
+
 const { convert } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
@@ -98,224 +100,311 @@ router.route("/user/change-password/").post((request, response) => {
     });
 });
 
-// const unclassifiedData = mongoose.model("database/files/unclassified",
-//   new mongoose.Schema({
-//     "name": { type: String },
-//     "file": { type: Object },
-//     "aspect": { type: String },
-//     "tags": { type: Array }
-//   })
-// );
+const unclassifiedData = mongoose.model("database/files/unclassified",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "aspect": { type: String },
+    "tags": { type: Array }
+  })
+);
 
-// const socialData = mongoose.model("database/files/social",
-//   new mongoose.Schema({
-//     "name": { type: String },
-//     "file": { type: Object },
-//     "aspect": { type: String },
-//     "tags": { type: Array }
-//   })
-// );
+const socialData = mongoose.model("database/files/social",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "aspect": { type: String },
+    "tags": { type: Array }
+  })
+);
 
-// const economicData = mongoose.model("database/files/economic",
-//   new mongoose.Schema({
-//     "name": { type: String },
-//     "file": { type: Object },
-//     "aspect": { type: String },
-//     "tags": { type: Array }
-//   })
-// );
+const economicData = mongoose.model("database/files/economic",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "aspect": { type: String },
+    "tags": { type: Array }
+  })
+);
 
-// const environmentalData = mongoose.model("database/files/environmental",
-//   new mongoose.Schema({
-//     "name": { type: String },
-//     "file": { type: Object },
-//     "aspect": { type: String },
-//     "tags": { type: Array }
-//   })
-// );
+const environmentalData = mongoose.model("database/files/environmental",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "aspect": { type: String },
+    "tags": { type: Array }
+  })
+);
 
-// const demographicData = mongoose.model("database/files/demographic",
-//   new mongoose.Schema({
-//     "name": { type: String },
-//     "file": { type: Object },
-//     "aspect": { type: String },
-//     "tags": { type: Array }
-//   })
-// );
+const demographicData = mongoose.model("database/files/demographic",
+  new mongoose.Schema({
+    "name": { type: String },
+    "file": { type: Object },
+    "aspect": { type: String },
+    "tags": { type: Array }
+  })
+);
 
-// router.route("/data/fetch/").post((request, response) => {
-//   let object = { unclassified: null, social: null, economic: null, environmental: null, demographic: null }
+router.route("/data/fetch/").post((request, response) => {
+  let object = {
+    unclassified: null,
+    social: null,
+    economic: null,
+    environmental: null,
+    demographic: null
+  }
 
-//   Promise
-//     .all([
-//       unclassifiedData
-//         .find({})
-//         .then((data) => { Object.assign(object, { unclassified: data }); })
-//         .catch((error) => { response.status(400).json("Error: " + error); }),
-//       socialData
-//         .find({})
-//         .then((data) => { Object.assign(object, { social: data }); })
-//         .catch((error) => { response.status(400).json("Error: " + error); }),
-//       economicData
-//         .find({})
-//         .then((data) => { Object.assign(object, { economic: data }); })
-//         .catch((error) => { response.status(400).json("Error: " + error); }),
-//       environmentalData
-//         .find({})
-//         .then((data) => { Object.assign(object, { environmental: data }); })
-//         .catch((error) => { response.status(400).json("Error: " + error); }),
-//       demographicData
-//         .find({})
-//         .then((data) => { Object.assign(object, { demographic: data }); })
-//         .catch((error) => { response.status(400).json("Error: " + error); })
-//     ])
-//     .then(() => { response.json(object); })
-//     .catch((error) => { response.status(400).json("Error: " + error); });  
-// });
+  Promise
+    .all([
+      unclassifiedData
+        .find({})
+        .then((data) => {
+          Object.assign(object, { unclassified: data });
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        }),
+      socialData
+        .find({})
+        .then((data) => {
+          Object.assign(object, { social: data });
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        }),
+      economicData
+        .find({})
+        .then((data) => {
+          Object.assign(object, { economic: data });
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        }),
+      environmentalData
+        .find({})
+        .then((data) => {
+          Object.assign(object, { environmental: data });
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        }),
+      demographicData
+        .find({})
+        .then((data) => {
+          Object.assign(object, { demographic: data });
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        })
+    ])
+    .then(() => {
+      response.json(object);
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });  
+});
 
-// const multer = require("multer");
+const storage = multer.diskStorage({
+  destination:
+    function (request, file, callback) {
+      callback(null, "./src/assets/files");
+    },
+  filename:
+    function (request, file, callback) {
+      callback(null, file.originalname);
+    }
+});
 
-// var storage = multer.diskStorage({
-//   destination:
-//     function (request, file, callback) {
-//       callback(null, "./src/assets/files");
-//     },
-//   filename:
-//     function (request, file, callback) {
-//       callback(null, file.originalname);
-//     }
-// });
+const upload = multer({ storage: storage }).fields([{ name: "file" }]);
 
-let source = path.join(__dirname, "assets/files/sample.shp");
+async function translate() {
+  let output = await convert(source)
+    .then((response) => {
+      console.log(response);
+      return (response);
+    })
+    .catch((erorr) => {
+      throw (error);
+    });
 
-async function buffer() {
-  let output = await convert(source).then((response) => {
-    console.log(response);
-    return (response);
-  });
-
-  return output;
+  return (output);
 }
 
-// buffer();
+function create(object, request) {
+  let tags = request.body.tags.split(" ").filter((word) => word.length > 0).splice(0, 5);
 
-// var upload = multer({ storage: storage }).fields([{ name: "file" }]);
+  switch (request.body.category) {
+    case "unclassified": 
+      unclassifiedData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object,
+          aspect: request.body.category,
+          tags: tags
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "social":
+      socialData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object,
+          aspect: request.body.category,
+          tags: tags
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => { 
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "economic":
+      economicData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object,
+          aspect: request.body.category,
+          tags: tags
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "environmental":
+      environmentalData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object,
+          aspect: request.body.category,
+          tags: tags
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "demographic":
+      demographicData
+        .create({
+          name: request.files.file[index].originalname,
+          file: object,
+          aspect: request.body.category,
+          tags: tags
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    default:
+      return (null);
+  }
+}
 
-// const { generate } = require("./functions/handleConversion");
+router.route("/data/upload/").post((request, response) => {
+  upload (request, response, function (error) {
+    if (error instanceof multer.MulterError) {
+      return (response.status(500).json(error));
+    }
+    else if (error) {
+      return (response.status(500).json(error));
+    }
 
-// router.route("/data/upload/").post((request, response) => {
-//   upload (request, response, function (error) {
-//     if (error instanceof multer.MulterError) { return (response.status(500).json(error)); }
-//     else if (error) { return (response.status(500).json(error)); }
+    for (let index = 0; index < request.files.file.length; index++) {
+      translate()
+        .then((file) => {
+          if (file) {
+            create(file, request);
+          }
+        })
+        .catch((error) => {
+          throw (error);
+        });      
+    }
+  });
+});
 
-//     for (let index = 0; index < request.files.file.length; index++) {
-//       let object = generate(request.files.file[index].path, request.files.file[index].filename.split(".").pop());
-//       let tags = request.body.tags.split(" ").filter((word) => word.length > 0).splice(0, 5);
+router.route("/data/edit/").post(() => {});
 
-//       if (object) {
-//         switch (request.body.category) {
-//           case "unclassified": 
-//             unclassifiedData
-//               .create({
-//                 name: request.files.file[index].originalname,
-//                 file: object,
-//                 aspect: request.body.category,
-//                 tags: tags
-//               })
-//               .then((data) => { response.json(data); })
-//               .catch((error) => { response.status(400).json("Error: " + error); });
-//             break;
-//           case "social":
-//             socialData
-//               .create({
-//                 name: request.files.file[index].originalname,
-//                 file: object,
-//                 aspect: request.body.category,
-//                 tags: tags
-//               })
-//               .then((data) => { response.json(data); })
-//               .catch((error) => { response.status(400).json("Error: " + error); });
-//             break;
-//           case "economic":
-//             economicData
-//               .create({
-//                 name: request.files.file[index].originalname,
-//                 file: object,
-//                 aspect: request.body.category,
-//                 tags: tags
-//               })
-//               .then((data) => { response.json(data); })
-//               .catch((error) => { response.status(400).json("Error: " + error); });
-//             break;
-//           case "environmental":
-//             environmentalData
-//               .create({
-//                 name: request.files.file[index].originalname,
-//                 file: object,
-//                 aspect: request.body.category,
-//                 tags: tags
-//               })
-//               .then((data) => { response.json(data); })
-//               .catch((error) => { response.status(400).json("Error: " + error); });
-//             break;
-//           case "demographic":
-//             demographicData
-//               .create({
-//                 name: request.files.file[index].originalname,
-//                 file: object,
-//                 aspect: request.body.category,
-//                 tags: tags
-//               })
-//               .then((data) => { response.json(data); })
-//               .catch((error) => { response.status(400).json("Error: " + error); });
-//             break;
-//           default:
-//             return null;
-//         }
-//       }
-//     }
-//   });
-// });
-
-// router.route("/data/edit/").post((request, response) => {
-
-// });
-
-// router.route("/data/delete/").post((request, response) => {
-//   switch (request.body.file.aspect) {
-//     case "unclassified": 
-//       unclassifiedData
-//         .deleteOne({ _id: request.body.file._id })
-//         .then((data) => { response.json(data); })
-//         .catch((error) => { response.status(400).json("Error: " + error); });
-//       break;
-//     case "social":
-//       socialData
-//         .deleteOne({ _id: request.body.file._id })
-//         .then((data) => { response.json(data); })
-//         .catch((error) => { response.status(400).json("Error: " + error); });
-//       break;
-//     case "economic":
-//       economicData
-//         .deleteOne({ _id: request.body.file._id })
-//         .then((data) => { response.json(data); })
-//         .catch((error) => { response.status(400).json("Error: " + error); });
-//       break;
-//     case "environmental":
-//       environmentalData
-//         .deleteOne({ _id: request.body.file._id })
-//         .then((data) => { response.json(data); })
-//         .catch((error) => { response.status(400).json("Error: " + error); });
-//       break;
-//     case "demographic":
-//       demographicData
-//         .deleteOne({ _id: request.body.file._id })
-//         .then((data) => { response.json(data); })
-//         .catch((error) => { response.status(400).json("Error: " + error); });
-//       break;
-//     default:
-//       return null;
-//   }
-// });
+router.route("/data/delete/").post((request, response) => {
+  switch (request.body.file.aspect) {
+    case "unclassified": 
+      unclassifiedData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "social":
+      socialData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "economic":
+      economicData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "environmental":
+      environmentalData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    case "demographic":
+      demographicData
+        .deleteOne({
+          _id: request.body.file._id
+        })
+        .then((data) => {
+          response.json(data);
+        })
+        .catch((error) => {
+          response.status(400).json("Error: " + error);
+        });
+      break;
+    default:
+      return (null);
+  }
+});
 
 module.exports = router;
