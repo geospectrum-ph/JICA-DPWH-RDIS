@@ -7,13 +7,17 @@ const app = express();
 
 app.use(express.json());
 
+const cors = require("cors");
+
+app.use(cors());
+
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
 
 const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/seeds-rebuild?retryWrites=true&w=majority"; /* MongoDB API connection string. */
 
-mongoose.connect(process.env.MONGODB_URI || uri).catch((error) => { console.log(error); });
+mongoose.connect(process.env.MONGODB_URI || uri);
 
 const connection = mongoose.connection;
 
@@ -27,7 +31,7 @@ connection.once("open", () => {
   const path = require("path");
 
   app.use(express.static(path.join(__dirname, "..", "/server/src/assets/files")));
-  app.get("*", (req, res) => { res.sendFile(path.join(__dirname, "..", "/server/src/assets/files/index.html")); });
+  app.get("*", (request, response) => { response.sendFile(path.join(__dirname, "..", "/server/src/assets/files/index.html")); });
 
   const port = process.env.PORT || 5000;
 

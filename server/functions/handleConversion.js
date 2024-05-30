@@ -1,12 +1,15 @@
+const dom = require("@xmldom/xmldom");
 
 const fs = require("fs");
-const admzip = require("adm-zip");
-const dom = require("@xmldom/xmldom");
+
 const tj = require("@tmcw/togeojson");
+
 const shapefile = require("shapefile");
-const geojson = require("geojson");
+
+// const geojson = require("geojson");
 
 function kmz_to_geojson(path) {
+  const admzip = require("adm-zip");
   const zip = new admzip(path);
   const entries = zip.getEntries();
 
@@ -41,31 +44,29 @@ function tcx_to_geojson(path) {
   return (tj.tcx(file));
 }
 
-function shp_to_geojson(path) {
-  let output = null;
-
-  shapefile
+async function shp_to_geojson(path) {
+  return shapefile
     .open(path)
     .then((source) => {
-      source
+      return (source
         .read()
-        .then(
-        //   function log(result) {
-        //   if (result.done) return;
-        //   console.log(result.value);
-        //   return source.read().then(log);
-        // }
-          (response) => { console.log(response); }
-        );
+        .then((response) => {
+          return (response.value);
+        })
+        .catch((error) => {
+          throw (error);
+        })
+      );
+    })
+    .then((response) => {
+      return (response);
     })
     .catch((error) => {
       throw (error);
     });
-
-  return (output);
 }
 
-function convert(source) {
+async function convert(source) {
   let type = source.split(".").pop();
 
   switch (type) {
@@ -85,4 +86,3 @@ function convert(source) {
 }
 
 module.exports = { convert };
- 

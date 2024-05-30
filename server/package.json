@@ -6,6 +6,8 @@
     "@tmcw/togeojson": "^5.8.1",
     "@xmldom/xmldom": "^0.8.10",
     "adm-zip": "^0.5.12",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^4.19.2",
     "fs": "^0.0.1-security",
     "geojson": "^0.5.0",

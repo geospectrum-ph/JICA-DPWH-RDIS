@@ -1,7 +1,7 @@
 /* This file serves as the router file for the SEEDs Rebuild application. */
 /* It routes requests for database information from the MongoDB server database. */
 
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 var router = require("express").Router();
 
@@ -10,63 +10,93 @@ const path = require("path");
 const { convert } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
-let source = path.join(__dirname, "assets/files/sample.shp");
+const usersData = mongoose.model("database/users",
+  new mongoose.Schema({
+    "username": { type: String },
+    "name": { type: String },
+    "password": { type: Object }
+  })
+);
 
-let output = convert(source);
+router.route("/user/sign-in/").post((request, response) => {
+  usersData
+    .find({})
+    .then((data) => {
+      let found = data.find((object) => object.username === request.body.username);
 
-console.log(output);
+      if (found === (null || undefined)) {
+        response.json({
+          note: "Please enter a valid username and password.",
+          code: 400
+        });
+      }
+      else if (decrypt(found.password) !== request.body.password) {
+        response.json({
+          note: "Please enter a valid username and password.",
+          code: 403
+        });
+      }
+      else {
+        response.json({
+          note: "Successful user authentication!",
+          code: 200
+        });
+      }
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
 
-// console.log(transform("./assets/files/sample.zip"));
+router.route("/user/change-password/").post((request, response) => {
+  usersData
+    .find({})
+    .then((data) => {
+      let found = data.find((object) => object.username === request.body.username);
 
-
-// const usersData = mongoose.model("database/users",
-//   new mongoose.Schema({
-//     "username": { type: String },
-//     "name": { type: String },
-//     "password": { type: Object }
-//   })
-// );
-
-
-
-// router.route("/user/sign-in/").post((request, response) => {
-//   usersData
-//     .find({})
-//     .then((data) => {
-//       let found = data.find((object) => object.username === request.body.username);
-
-//       if (found === (null || undefined)) { response.json({ note: "Please enter a valid username and password.", code: 400 }); }
-//       else if (decrypt(found.password) !== request.body.password) { response.json({ note: "Please enter a valid username and password.", code: 403 }); }
-//       else { response.json({ note: "Successful user authentication!", code: 200 }); }
-//     })
-//     .catch((error) => { response.status(400).json("Error: " + error); });
-// });
-
-// router.route("/user/change-password/").post((request, response) => {
-//   usersData
-//     .find({})
-//     .then((data) => {
-//       let found = data.find((object) => object.username === request.body.username);
-
-//       if (found === (null || undefined)) { response.json({ note: "Please enter a valid username and password.", code: 400 }); }
-//       else if (decrypt(found.password) !== request.body.password) { response.json({ note: "Please enter a valid username and password.", code: 403 }); }
-//       else {
-//         if (request.body.newPassword !== request.body.clonePassword) { response.json({ note: "The entered passwords do not match.", code: 400 }); }
-//         else { 
-//           usersData
-//             .findOneAndUpdate({
-//               username: found.username,
-//               password: found.password
-//             }, {
-//               password: encrypt(request.body.newPassword)
-//             })
-//             .then(() => { response.json({ note: "Successful password update!", code: 200 }); })
-//             .catch((error) => { response.status(400).json("Error: " + error); });
-//         }
-//       }
-//     })
-//     .catch((error) => { response.status(400).json("Error: " + error); });
-// });
+      if (found === (null || undefined)) {
+        response.json({
+          note: "Please enter a valid username and password.",
+          code: 400
+        });
+      }
+      else if (decrypt(found.password) !== request.body.password) {
+        response.json({
+          note: "Please enter a valid username and password.",
+          code: 403
+        });
+      }
+      else {
+        if (request.body.newPassword !== request.body.clonePassword) {
+          response.json({
+            note: "The entered passwords do not match.",
+            code: 400
+          });
+        }
+        else { 
+          usersData
+            .findOneAndUpdate({
+              username: found.username,
+              password: found.password
+            }, {
+              password: encrypt(request.body.newPassword)
+            })
+            .then(() => {
+              response.json({
+                note: "Successful password update!",
+                code: 200
+              });
+            })
+            .catch((error) => {
+              response.status(400).json("Error: " + error);
+            });
+        }
+      }
+    })
+    .catch((error) => {
+      response.status(400).json("Error: " + error);
+    });
+});
 
 // const unclassifiedData = mongoose.model("database/files/unclassified",
 //   new mongoose.Schema({
@@ -155,6 +185,19 @@ console.log(output);
 //       callback(null, file.originalname);
 //     }
 // });
+
+let source = path.join(__dirname, "assets/files/sample.shp");
+
+async function buffer() {
+  let output = await convert(source).then((response) => {
+    console.log(response);
+    return (response);
+  });
+
+  return output;
+}
+
+// buffer();
 
 // var upload = multer({ storage: storage }).fields([{ name: "file" }]);
 

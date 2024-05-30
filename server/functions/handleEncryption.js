@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 let algorithm = "aes-256-cbc";
-let key = crypto.scryptSync("password", "SEEDs Rebuild", 32);
+let key = crypto.scryptSync("password", "SEEDs Rebuild", 32); // Arbitrary string values.
 
 function encrypt(string) {
   let vector = crypto.randomBytes(16);
@@ -10,7 +10,10 @@ function encrypt(string) {
 
   output = Buffer.concat([output, cipher.final()]);
 
-  return ({ data: output.toString("hex"), vector: vector.toString("hex") });
+  return ({
+    data: output.toString("hex"),
+    vector: vector.toString("hex")
+  });
 }
 
 function decrypt(object) {
