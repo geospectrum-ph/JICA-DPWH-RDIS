@@ -218,18 +218,25 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).fields([{ name: "file" }]);
 
-async function translate() {
-  let output = await convert(source)
-    .then((response) => {
-      console.log(response);
-      return (response);
-    })
-    .catch((erorr) => {
-      throw (error);
-    });
+// async function translate() {
+//   let output = await convert(source)
+//     .then((response) => {
+//       return (response);
+//     })
+//     .catch((error) => {
+//       throw (error);
+//     });
 
-  return (output);
-}
+//   return (output);
+// }
+
+// translate()
+//   .then((response) => {
+//     return (response);
+//   })
+//   .catch((error) => {
+//     throw (error);
+//   });
 
 function create(object, request) {
   let tags = request.body.tags.split(" ").filter((word) => word.length > 0).splice(0, 5);
@@ -314,6 +321,10 @@ function create(object, request) {
       return (null);
   }
 }
+
+let source = path.join(__dirname, "/assets/files/Aurora - Province.zip");
+
+convert(source);
 
 router.route("/data/upload/").post((request, response) => {
   upload (request, response, function (error) {

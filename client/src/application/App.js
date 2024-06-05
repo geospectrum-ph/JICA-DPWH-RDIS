@@ -504,20 +504,20 @@ function App() {
           await fetch("http://localhost:5000/data/upload/", {
             method: "POST",
             body: data
-          })
-          .then((promise) => {
-            promise
-              .json()
-              .then((response) => {
-                if (response) {
-                  Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
-                  setFileArray(() => [...fileArray, response]);
-                }
-              })
-              .catch((error) => { setErrorMessage(error); });
-          })
-          .catch((error) => { setErrorMessage(error); })
-          .finally(() => {});
+          });
+          // .then((promise) => {
+          //   // promise
+          //   //   .json()
+          //   //   .then((response) => {
+          //   //     if (response) {
+          //   //       Object.assign(fileObject, { [response.aspect]: [...fileObject[response.aspect], response] });
+          //   //       setFileArray(() => [...fileArray, response]);
+          //   //     }
+          //   //   })
+          //   //   .catch((error) => { setErrorMessage(error); });
+          // })
+          // .catch((error) => { setErrorMessage(error); })
+          // .finally(() => {});
         }
     
         upload();
