@@ -1,151 +1,53 @@
 const initgdaljs = require("gdal3.js/node");
 
-const gdal = await initgdaljs();
+const mime = require("mime-types");
 
-async function convert(source) {
-  const file = await gdal.open([source]);
+function open_zip(path) {
+  const admzip = require("adm-zip");
 
-  const options = [
-    "-f", "GeoJSON",
-    "-t_srs", "EPSG:4326"
-  ];
+  const zip = new admzip(path);
+  
+  const entries = zip.getEntries();
 
-  const path = await gdal.ogr2ogr(file.datasets[0], options, "output"); 
+  let output = new Array();
 
-  const data = await gdal.getFileBytes(path);
+  entries.forEach((entry) => {
+    output.push(entry.getData());
+  })
 
-  const string = Buffer.from(data).toString("utf8");
-
-  const output = JSON.parse(string);
-
-  gdal.close(file);
-
-  console.log(output);
+  return (output);
 }
 
-// const dom = require("@xmldom/xmldom");
-
-// const fs = require("fs");
-
-// const tj = require("@tmcw/togeojson");
-
-// const shapefile = require("shapefile");
-
-// const geojson = require("geojson");
-
-// function kmz_to_geojson(path) {
-//   const admzip = require("adm-zip");
-//   const zip = new admzip(path);
-//   const entries = zip.getEntries();
-
-//   let output = null;
-
-//   entries.forEach((entry) => {
-//     if (entry.entryName.split(".").pop() === "kml") {
-//       let file = new dom.DOMParser().parseFromString(entry.getData().toString("utf8"));
-
-//       output = tj.kml(file);
-//     }
-//   });
-
-//   return (output);
-// }
-
-// function kml_to_geojson(path) {
-//   let file = new dom.DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
-
-//   return (tj.kml(file));
-// }
-
-// function gpx_to_geojson(path) {
-//   let file = new dom.DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
-
-//   return (tj.gpx(file));
-// }
-
-// function tcx_to_geojson(path) {
-//   let file = new dom.DOMParser().parseFromString(fs.readFileSync(path, "utf8"));
-
-//   return (tj.tcx(file));
-// }
-
-// async function shp_to_geojson(path) {
-//   return shapefile
-//     .open(path)
-//     .then((source) => {
-//       return (source
-//         .read()
-//         .then((response) => {
-//           console.log(response.value);
-//           return (response.value);
-//         })
-//         .catch((error) => {
-//           throw (error);
-//         })
-//       );
-//     })
-//     .then((response) => {
-//       return (response);
-//     })
-//     .catch((error) => {
-//       throw (error);
-//     });
-// }
-
 async function convert(source) {
+  const gdal = await initgdaljs();
+  
+  let type = mime.lookup(source);
+  
+  /*
+    mime.lookup(/path/) will return
+    > "text/plain" - for paths for files with a .TXT extension
+    > "text/csv" - for paths for files with a .CSV extension
+    > "application/geo+json" - for paths for files with a .GEOJSON extension
+    > "application/zip" - for paths for files with a .ZIP extension
+    > "application/vnd.google-earth.kmz" - for paths for files with a .KMZ extension
+    > "application/vnd.google-earth.kml+xml" - for paths for files with a .KML extension
+    > "application/vnd.dbf" - for paths for files with a .DBF extension
+    > false - for paths for files with .GPKG, .QGZ, .QMD, .SHP, .SHX, and .PRJ extensions
+  */
 
-  console.log(source);
+  if (type === "application/zip" || type === "application/vnd.google-earth.kmz") {
+    let file_array = open_zip(source);
+    console.log(file_array);
+  }
 
-  const file = await gdal.open([source]);
-
-  // const options = [
-  //   "-f", "GeoJSON",
-  //   "-t_srs", "EPSG:4326"
-  // ];
-
-  // const virtual_path = await gdal.ogr2ogr(file.datasets[0], options, "output");
-
-  // const unparsed_data = await gdal.getFileBytes(virtual_path);
-
-  // const string = Buffer.from(unparsed_data).toString("utf8");
-
-  // const parsed_data = JSON.parse(string);
-
-  // gdal.close(file);
-
-  // console.log(parsed_data);
- 
-  // return (
-  //   await handler(source)
-  //     .then((response) => {
-  //       return (response);
-  //     })
-  //     .catch((error) => {
-  //       throw (error);
-  //     })
-  // );
-
-
-  // let type = source.split(".").pop();
-
-  // switch (type) {
-  //   case "kmz":
-  //     return (kmz_to_geojson(source));
-  //   case "kml":
-  //     return (kml_to_geojson(source));
-  //   case "gpx":
-  //     return (gpx_to_geojson(source));
-  //   case "tcx":
-  //     return (tcx_to_geojson(source));
-  //   case "shp":
-  //     return (shp_to_geojson(source));
-  //   case "dbf":
-  //   case "csv":
-  //   case "gpkg":
-  //   case "zip":
-  //   default:
-  //     return (null);
-  // }
+  // const file = await gdal
+  //   .open([source])
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 }
 
 module.exports = { convert };
