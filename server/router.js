@@ -322,7 +322,7 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   }
 // }
 
-let source = path.join(__dirname, "/assets/files/Metro Manila.zip");
+let source = ("/assets/files/Metro Manila.kml");
 
 // let output;
 

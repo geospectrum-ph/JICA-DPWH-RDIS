@@ -5,7 +5,7 @@
   "dependencies": {
     "@tmcw/togeojson": "^5.8.1",
     "@xmldom/xmldom": "^0.8.10",
-    "adm-zip": "^0.5.12",
+    "adm-zip": "^0.5.14",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^4.19.2",

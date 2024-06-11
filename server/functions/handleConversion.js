@@ -1,27 +1,12 @@
-const initgdaljs = require("gdal3.js/node");
-
-const mime = require("mime-types");
-
-function open_zip(path) {
-  const admzip = require("adm-zip");
-
-  const zip = new admzip(path);
-  
-  const entries = zip.getEntries();
-
-  let output = new Array();
-
-  entries.forEach((entry) => {
-    output.push(entry.getData());
-  })
-
-  return (output);
-}
 
 async function convert(source) {
-  const gdal = await initgdaljs();
-  
-  let type = mime.lookup(source);
+  const path = require("path");
+
+  let file_path = path.join(__dirname, "..", source);
+
+  const mime = require("mime-types");
+
+  let type = mime.lookup(path);
   
   /*
     mime.lookup(/path/) will return
@@ -35,19 +20,53 @@ async function convert(source) {
     > false - for paths for files with .GPKG, .QGZ, .QMD, .SHP, .SHX, and .PRJ extensions
   */
 
-  if (type === "application/zip" || type === "application/vnd.google-earth.kmz") {
-    let file_array = open_zip(source);
-    console.log(file_array);
-  }
+  const initgdaljs = require("gdal3.js/node");
 
-  // const file = await gdal
-  //   .open([source])
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  const gdal = await initgdaljs();
+
+  const options = [
+    "-f", "GeoJSON",
+    "-t_srs", "EPSG:4326"
+  ];
+
+    const file =
+      await gdal
+        .open(file_path)
+        .then((response) => {
+          return (response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    
+    const virtual_path = file ? await gdal.ogr2ogr(file.datasets[0], options, "output") : null;
+    
+    const byte_data = virtual_path ? await gdal.getFileBytes(virtual_path) : null;
+
+    const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
+
+    console.log(geojson);
+
+    // const admzip = require("adm-zip");
+
+    // const zip = new admzip(path);
+
+    // const entries = zip.getEntries();
+
+    // const dom = require("@xmldom/xmldom");
+
+    // let output = new Array();
+
+    // entries.forEach((entry) => {
+    //   let type = entry.entryName.split(".").pop();
+    //   let file = new dom.DOMParser().parseFromString(entry.getData().toString("utf8"));
+      
+    //   output.push({
+    //     "type": type,
+    //     "file": file
+    //   });
+    // });
+  // }
 }
 
 module.exports = { convert };
