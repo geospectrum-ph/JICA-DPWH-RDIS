@@ -1,4 +1,3 @@
-
 async function convert(source) {
   const path = require("path");
 
@@ -29,23 +28,43 @@ async function convert(source) {
     "-t_srs", "EPSG:4326"
   ];
 
-    const file =
-      await gdal
-        .open(file_path)
-        .then((response) => {
-          return (response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    
-    const virtual_path = file ? await gdal.ogr2ogr(file.datasets[0], options, "output") : null;
-    
-    const byte_data = virtual_path ? await gdal.getFileBytes(virtual_path) : null;
+  const fs = require("fs");
 
-    const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
+  let read_stream = fs.createReadStream(file_path);
 
-    console.log(geojson);
+  let chunks = [];
+
+  read_stream.on("data", (data) => {
+    chunks.push(data);
+  });
+
+  const close_stream = new Promise ((resolve, reject) => {
+    read_stream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+  });
+
+  let data = await close_stream;
+
+  console.log(data);
+
+  // const file =
+  //   await gdal
+  //     .open(file_path)
+  //     .then((response) => {
+  //       return (response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  
+  // const virtual_path = file ? await gdal.ogr2ogr(file.datasets[0], options, "output") : null;
+  
+  // const byte_data = virtual_path ? await gdal.getFileBytes(virtual_path) : null;
+
+  // const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
+
+  // console.log(geojson);
 
     // const admzip = require("adm-zip");
 
