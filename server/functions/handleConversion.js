@@ -32,13 +32,13 @@ async function convert(source) {
 
   let read_stream = fs.createReadStream(file_path);
 
-  let chunks = [];
-
-  read_stream.on("data", (data) => {
-    chunks.push(data);
-  });
-
   const close_stream = new Promise ((resolve, reject) => {
+    let chunks = [];
+
+    read_stream.on("data", (data) => {
+      chunks.push(data);
+    });
+
     read_stream.on("end", () => {
       resolve(Buffer.concat(chunks));
     });
@@ -46,7 +46,47 @@ async function convert(source) {
 
   let data = await close_stream;
 
-  console.log(data);
+  const decoder = new TextDecoder();
+
+  let decoded = decoder.decode(data);
+
+  console.log(decoded);
+
+  const xmldom = require("xmldom");
+
+  const parser = new xmldom.DOMParser();
+
+  const doc = parser.parseFromString(decoded, "text/xml");
+
+  // const object = {};
+
+  // const nodes = doc.documentElement.childNodes;
+  // for (let i = 0; i < nodes.length; i++) {
+  //     const node = nodes[i];
+  //     if (node.nodeType === 1) {
+  //         object[node.nodeName] = node.textContent.trim();
+  //     }
+  // }
+  // const jsonResult = JSON.stringify(object, null, 2);
+  console.log(doc);
+
+  // const decoder = new TextDecoder();
+
+  // const geojson = data ? JSON.parse(decoder.decode(data)) : null;
+
+  // console.log(geojson);
+
+  // const decoder = new TextDecoder();
+
+  // let output = decoder.decode(data);
+
+  // const virtual_path__ = output ? await gdal.ogr2ogr([output], options, "output") : null;
+  
+  // const byte_data__ = virtual_path__ ? await gdal.getFileBytes(virtual_path) : null;
+
+  // const geojson__ = byte_data__ ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
+
+  // console.log(file__);
 
   // const file =
   //   await gdal
