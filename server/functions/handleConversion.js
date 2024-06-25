@@ -40,23 +40,14 @@ async function convert(source) {
     });
 
     read_stream.on("end", () => {
+      console.log(chunks);
       resolve(Buffer.concat(chunks));
     });
   });
 
   let data = await close_stream;
 
-  const decoder = new TextDecoder();
-
-  let decoded = decoder.decode(data);
-
-  console.log(decoded);
-
-  const xmldom = require("xmldom");
-
-  const parser = new xmldom.DOMParser();
-
-  const doc = parser.parseFromString(decoded, "text/xml");
+  console.log(result);
 
   // const object = {};
 
@@ -68,7 +59,6 @@ async function convert(source) {
   //     }
   // }
   // const jsonResult = JSON.stringify(object, null, 2);
-  console.log(doc);
 
   // const decoder = new TextDecoder();
 
