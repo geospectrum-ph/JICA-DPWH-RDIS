@@ -322,21 +322,23 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   }
 // }
 
-let source = ("/assets/files/Metro Manila.kml");
+// const unclassifiedData = mongoose.model("database/files/unclassified",
+//   new mongoose.Schema({
+//     "name": { type: String },
+//     "file": { type: Object }
+//   })
+// );
 
-// let output;
+let source = ("/assets/files/Roads.kml");
 
-// try { 
-//   output = convert(source);
-//   } 
-//   catch (e) { 
-//   console.error(e);
-//   } 
-//   finally {
-//    console.log(output);
-//   }
+async function test() {
+  convert(source).then((result) => {
+    console.log(result);
+  });
+}
 
-convert(source);
+test();
+
 
 // router.route("/data/upload/").post((request, response) => {
 //   upload (request, response, function (error) {

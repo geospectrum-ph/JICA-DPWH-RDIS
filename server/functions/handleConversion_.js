@@ -23,6 +23,27 @@ async function convert(source) {
   console.log(output);
 }
 
+
+const fs = require("fs");
+
+let read_stream = fs.createReadStream(file_path);
+
+const close_stream = new Promise ((resolve, reject) => {
+  let chunks = [];
+
+  read_stream.on("data", (data) => {
+    chunks.push(data);
+  });
+
+  read_stream.on("end", () => {
+    resolve(Buffer.concat(chunks));
+  });
+});
+
+let data = await close_stream;
+
+console.log(data);
+
 // const dom = require("@xmldom/xmldom");
 
 // const fs = require("fs");
