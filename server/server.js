@@ -1,39 +1,77 @@
-/* This file serves as the back-end file for the SEEDs Rebuild application. */
-/* It connects to the MongoDB server database. */
+/**
+ * NPM Module dependencies.
+ */
+const express = require('express');
+const trackRoute = express.Router();
+const multer = require('multer');
 
-const express = require("express");
+const mongodb = require('mongodb');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 
+/**
+ * NodeJS Module dependencies.
+ */
+const { Readable } = require('stream');
+
+
+
+/**
+ * Create Express server && Express Router configuration.
+ */
 const app = express();
+app.use('/tracks', trackRoute);
 
-app.use(express.json());
+/**
+ * Connect Mongo Driver to MongoDB.
+ */
+let db;
+MongoClient.connect('mongodb://localhost/trackDB', (err, database) => {
+  if (err) {
+    console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+    process.exit(1);
+  }
+  db = database;
+});
 
-const cors = require("cors");
+/**
+ * POST /tracks
+ */
+trackRoute.post('/', (req, res) => {
+  const storage = multer.memoryStorage()
+  const upload = multer({ storage: storage, limits: { fields: 1, fileSize: 6000000, files: 1, parts: 2 }});
+  upload.single('track')(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({ message: "Upload Request Validation Failed" });
+    } else if(!req.body.name) {
+      return res.status(400).json({ message: "No track name in request body" });
+    }
+    
+    let trackName = req.body.name;
+    
+    // Covert buffer to Readable Stream
+    const readableTrackStream = new Readable();
+    readableTrackStream.push(req.file.buffer);
+    readableTrackStream.push(null);
 
-app.use(cors());
+    let bucket = new mongodb.GridFSBucket(db, {
+      bucketName: 'tracks'
+    });
 
-const mongoose = require("mongoose");
+    let uploadStream = bucket.openUploadStream(trackName);
+    let id = uploadStream.id;
+    readableTrackStream.pipe(uploadStream);
 
-mongoose.set("strictQuery", false);
+    uploadStream.on('error', () => {
+      return res.status(500).json({ message: "Error uploading file" });
+    });
 
-const uri = "mongodb+srv://seeds:S33DsR3build2024@seeds.fcrkgun.mongodb.net/seeds-rebuild?retryWrites=true&w=majority"; /* MongoDB API connection string. */
+    uploadStream.on('finish', () => {
+      return res.status(201).json({ message: "File uploaded successfully, stored under Mongo ObjectID: " + id });
+    });
+  });
+});
 
-mongoose.connect(process.env.MONGODB_URI || uri);
-
-const connection = mongoose.connection;
-
-connection.once("open", () => {
-  console.log("The MongoDB database connection has been established successfully.");
-
-  const router = require("./router");
-
-  app.use("/", router);
-
-  const path = require("path");
-
-  app.use(express.static(path.join(__dirname, "..", "/server/src/assets/files")));
-  app.get("*", (request, response) => { response.sendFile(path.join(__dirname, "..", "/server/src/assets/files/index.html")); });
-
-  const port = process.env.PORT || 5000;
-
-  app.listen(port, () => { console.log(`The server is running on port: ${port}.`); });
+app.listen(3005, () => {
+  console.log("App listening on port 3005!");
 });
