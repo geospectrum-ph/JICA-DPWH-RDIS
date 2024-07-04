@@ -1,0 +1,12 @@
+name: Mobile CI
+on: push
+
+jobs:
+  test_build_push:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Testing Mobile CI
+        run: |
+          cd mobile
+          bash test.sh
