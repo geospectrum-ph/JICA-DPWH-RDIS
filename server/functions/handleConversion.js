@@ -44,6 +44,20 @@ async function convert(source) {
 
   const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
 
+
+
+
+  // let temp_path = path.join(__dirname, "..", "\\public\\uploads");
+
+  // let files = fs.readdirSync(temp_path);
+
+  // for (const file of files) {
+  //   fs.unlinkSync(path.join(temp_path, "\\", file));
+  // }
+
+
+
+
   return (geojson);
 
   // const fs = require("fs");
