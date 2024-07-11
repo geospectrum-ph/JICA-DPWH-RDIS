@@ -1,11 +1,11 @@
 async function convert(source) {
   const path = require("path");
 
-  let file_path = path.join(__dirname, "..", source);
+  const file_path = path.join(__dirname, "..", source);
 
   const mime = require("mime-types");
 
-  let type = mime.lookup(file_path);
+  const type = mime.lookup(file_path);
   
   /*
     mime.lookup(/path/) will return
@@ -44,8 +44,34 @@ async function convert(source) {
 
   const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
 
+  if (geojson) {
+    function find_within(object, key_name) {
+      const found = [];
+      
+      JSON.stringify(object, (key, value) => {
+        if (key === key_name) {
+         found.push(value);
+        }
+        return (value);
+      });
 
+      return (found[0]);
+    };
 
+    const features = find_within(geojson, "features");
+
+    console.log(features.length);
+
+    /*
+      Each feature in the features constant should be of the format:
+
+      {
+        type: 'Feature',
+        properties: { Name: [String], Description: [String] },
+        geometry: { type: 'MultiLineString', coordinates: [Array] }
+      }
+    */
+  }
 
   // let temp_path = path.join(__dirname, "..", "\\public\\uploads");
 
@@ -54,11 +80,6 @@ async function convert(source) {
   // for (const file of files) {
   //   fs.unlinkSync(path.join(temp_path, "\\", file));
   // }
-
-
-
-
-  return (geojson);
 
   // const fs = require("fs");
 

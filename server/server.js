@@ -1,16 +1,6 @@
 /* This file serves as the back-end file for the SEEDs Rebuild application. */
 /* It connects to the MongoDB server database. */
 
-const express = require("express");
-
-const app = express();
-
-app.use(express.json());
-
-const cors = require("cors");
-
-app.use(cors());
-
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
@@ -23,6 +13,16 @@ const connection = mongoose.connection;
 
 connection.once("open", () => {
   console.log("The MongoDB database connection has been established successfully.");
+
+  const express = require("express");
+
+  const app = express();
+
+  app.use(express.json());
+
+  const cors = require("cors");
+
+  app.use(cors());
 
   const router = require("./router");
 
