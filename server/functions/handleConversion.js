@@ -60,8 +60,6 @@ async function convert(source) {
 
     const features = find_within(geojson, "features");
 
-    console.log(features.length);
-
     /*
       Each feature in the features constant should be of the format:
 
@@ -71,6 +69,84 @@ async function convert(source) {
         geometry: { type: 'MultiLineString', coordinates: [Array] }
       }
     */
+      
+    function get_descriptive_statistics(array) {
+      const size = array.length;
+
+      const ascending = array.sort((return_value, working_value) => { return (return_value - working_value); });
+
+      const mean = (array.reduce((return_value, working_value) => (return_value + working_value))) / size;
+
+      console.log("Mean: " + mean);
+
+      const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
+
+      console.log("Median: " + median);
+
+      // const frequency = array.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
+
+      // const mode = Object.keys(frequency).filter((value) => { return (frequency[value] === Math.max.apply(null, Object.values(frequency))); }).map((value) => (parseFloat(value)));
+
+      // console.log("Mode: " + mode);
+
+      console.log();
+
+      const minimum = array.reduce((return_value, working_value) => (return_value > working_value ? return_value = working_value : return_value));
+
+      console.log("Minimum: " + minimum);
+
+      const maximum = array.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
+
+      console.log("Maximum: " + maximum);
+
+      console.log("Range: " + (maximum - minimum));
+
+      const p_25 = Math.floor((size + 1) / 4);
+      const p_25_factor = ((size + 1) / 4) - p_25;
+      const p_75 = Math.floor(3 * (size + 1) / 4);
+      const p_75_factor = (3 * (size + 1) / 4) - p_75;
+
+      const interquartile_range =
+        (size + 1) % 4 === 0 ?
+          ascending[p_75 - 1]
+          - ascending[p_25 - 1]
+          :
+          (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
+          - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
+
+      console.log("Interquartile Range: " + interquartile_range);
+
+      console.log();
+
+      const variance = (array.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
+
+      console.log("Variance: " + variance);
+
+      const standard_deviation = variance ** (1/2);
+
+      console.log("Standard Deviation: " + standard_deviation);
+
+      const skewness = (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
+
+      console.log("Skewness: " + skewness);
+
+      const kurtosis = (array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
+
+      console.log("Kurtosis: " + kurtosis);
+    }
+
+
+    // const test_size = 100;
+    // const test_array = Array(test_size).fill().map(() => Math.round(Math.random() * test_size))
+
+    // const result = get_descriptive_statistics(test_array);
+
+    const turf = require("@turf/turf");
+    const length_transform = features.map((feature) => (turf.length(feature, { units: "kilometers" })));
+
+    console.log(length_transform);
+
+    get_descriptive_statistics(length_transform);
   }
 
   // let temp_path = path.join(__dirname, "..", "\\public\\uploads");

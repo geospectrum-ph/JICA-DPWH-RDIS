@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@tmcw/togeojson": "^5.8.1",
+    "@turf/turf": "^7.0.0",
     "@xmldom/xmldom": "^0.8.10",
     "adm-zip": "^0.5.14",
     "cors": "^2.8.5",
