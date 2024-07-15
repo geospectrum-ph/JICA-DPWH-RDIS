@@ -329,16 +329,18 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   })
 // );
 
-let source = ("/assets/files/Roads.kml");
+// let source = ("/assets/files/Roads.kml");
 
-async function test() {
-  convert(source);
-  // convert(source).then((result) => {
-  //   console.log(result);
-  // });
-}
+// async function test() {
+//   convert(source);
+//   // convert(source).then((result) => {
+//   //   console.log(result);
+//   // });
+// }
 
-test();
+// test();
+
+convert();
 
 
 // router.route("/data/upload/").post((request, response) => {

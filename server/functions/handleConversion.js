@@ -1,4 +1,6 @@
-async function convert(source) {
+async function convert() {
+  let source = ("/assets/files/Cities.kml");
+
   const path = require("path");
 
   const file_path = path.join(__dirname, "..", source);
@@ -44,7 +46,29 @@ async function convert(source) {
 
   const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
 
-  if (geojson) {
+  let source_ = ("/assets/files/Points.kml");
+
+  const file_path_ = path.join(__dirname, "..", source_);
+
+  const type_ = mime.lookup(file_path_);
+
+  const file_ =
+    await gdal
+      .open(file_path_)
+      .then((response) => {
+        return (response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  
+  const virtual_path_ = file_ ? await gdal.ogr2ogr(file_.datasets[0], options, "output") : null;
+  
+  const byte_data_ = virtual_path_ ? await gdal.getFileBytes(virtual_path_) : null;
+
+  const geojson_ = byte_data_ ? JSON.parse(Buffer.from(byte_data_).toString("utf8")) : null;
+
+  if (geojson && geojson_) {
     function find_within(object, key_name) {
       const found = [];
       
@@ -59,6 +83,12 @@ async function convert(source) {
     };
 
     const features = find_within(geojson, "features");
+
+    console.log(features.length);
+
+    const features_ = find_within(geojson_, "features");
+
+    console.log(features_.length);
 
     /*
       Each feature in the features constant should be of the format:
@@ -141,12 +171,12 @@ async function convert(source) {
 
     // const result = get_descriptive_statistics(test_array);
 
-    const turf = require("@turf/turf");
-    const length_transform = features.map((feature) => (turf.length(feature, { units: "kilometers" })));
+    // const turf = require("@turf/turf");
+    // const length_transform = features.map((feature) => (turf.area(feature) / 1000000));
 
-    console.log(length_transform);
+    // console.log(length_transform);
 
-    get_descriptive_statistics(length_transform);
+    // get_descriptive_statistics(length_transform);
   }
 
   // let temp_path = path.join(__dirname, "..", "\\public\\uploads");
