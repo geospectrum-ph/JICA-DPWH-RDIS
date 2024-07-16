@@ -90,6 +90,20 @@ async function convert() {
 
     console.log(features_.length);
 
+    const turf = require("@turf/turf");
+
+    function count_features(feature) {
+      let count = 0;
+
+      features_.forEach((feature_) => { turf.booleanPointInPolygon(feature_, feature) ? count++ : null });
+      
+      return (count);
+    }
+
+    const count = features.map((area) => ({ [area.properties.Name]: count_features(area) }));
+
+    console.log(count);
+
     /*
       Each feature in the features constant should be of the format:
 
@@ -171,7 +185,6 @@ async function convert() {
 
     // const result = get_descriptive_statistics(test_array);
 
-    // const turf = require("@turf/turf");
     // const length_transform = features.map((feature) => (turf.area(feature) / 1000000));
 
     // console.log(length_transform);

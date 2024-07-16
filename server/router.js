@@ -329,18 +329,17 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   })
 // );
 
-// let source = ("/assets/files/Roads.kml");
+let boundaries_source = ("/assets/files/Cities.kml");
 
-// async function test() {
-//   convert(source);
-//   // convert(source).then((result) => {
-//   //   console.log(result);
-//   // });
-// }
+const boundaries = convert(boundaries_source);
 
-// test();
+let points_sample_source_01 = ("/assets/files/Health_Facilities.kml");
 
-convert();
+const dataset_points_01 = extract(points_sample_source_01);
+
+let lines_sample_source_01 = ("/assets/files/Roads.kml");
+
+const dataset_lines_01 = extract(lines_sample_source_01);
 
 
 // router.route("/data/upload/").post((request, response) => {
