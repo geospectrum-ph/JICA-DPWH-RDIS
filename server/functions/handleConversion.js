@@ -1,6 +1,4 @@
-async function convert() {
-  let source = ("/assets/files/Cities.kml");
-
+async function extract(source) {
   const path = require("path");
 
   const file_path = path.join(__dirname, "..", source);
@@ -46,28 +44,71 @@ async function convert() {
 
   const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
 
-  let source_ = ("/assets/files/Points.kml");
+  return (geojson);
+}
 
-  const file_path_ = path.join(__dirname, "..", source_);
+async function describe(dataset) {
+  const coordinates = dataset.features.map((feature) => ({ [feature.properties.Name]: feature.geometry.coordinates }));
 
-  const type_ = mime.lookup(file_path_);
+  const turf = require("@turf/turf");
 
-  const file_ =
-    await gdal
-      .open(file_path_)
-      .then((response) => {
-        return (response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  
-  const virtual_path_ = file_ ? await gdal.ogr2ogr(file_.datasets[0], options, "output") : null;
-  
-  const byte_data_ = virtual_path_ ? await gdal.getFileBytes(virtual_path_) : null;
+  return (coordinates);
 
-  const geojson_ = byte_data_ ? JSON.parse(Buffer.from(byte_data_).toString("utf8")) : null;
 
+
+  // const size = dataset.length;
+
+  // const ascending = dataset.sort((return_value, working_value) => { return (return_value - working_value); });
+
+  // const mean = (dataset.reduce((return_value, working_value) => (return_value + working_value))) / size;
+
+  // const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
+
+  // const frequency = dataset.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
+
+  // const mode = Object.keys(frequency).filter((value) => { return (frequency[value] === Math.max.apply(null, Object.values(frequency))); }).map((value) => (parseFloat(value)));
+
+  // const minimum = dataset.reduce((return_value, working_value) => (return_value > working_value ? return_value = working_value : return_value));
+
+  // const maximum = dataset.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
+
+  // const p_25 = Math.floor((size + 1) / 4);
+  // const p_25_factor = ((size + 1) / 4) - p_25;
+  // const p_75 = Math.floor(3 * (size + 1) / 4);
+  // const p_75_factor = (3 * (size + 1) / 4) - p_75;
+
+  // const interquartile_range =
+  //   (size + 1) % 4 === 0 ?
+  //     ascending[p_75 - 1]
+  //     - ascending[p_25 - 1]
+  //     :
+  //     (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
+  //     - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
+
+  // const variance = (dataset.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
+
+  // const standard_deviation = variance ** (1/2);
+
+  // const skewness = (dataset.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
+
+  // const kurtosis = (dataset.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
+
+  // return ({
+  //   "mean": mean,
+  //   "median": median,
+  //   "mode": mode,
+  //   "minimum": minimum,
+  //   "maximum": maximum,
+  //   "range": (maximum - minimum),
+  //   "interquantile_range": interquartile_range,
+  //   "variance": variance,
+  //   "standard_deviation": standard_deviation,
+  //   "skewness": skewness,
+  //   "kurtosis": kurtosis
+  // });
+}
+
+async function analyze(data, analysis) {
   if (geojson && geojson_) {
     function find_within(object, key_name) {
       const found = [];
@@ -90,7 +131,6 @@ async function convert() {
 
     console.log(features_.length);
 
-    const turf = require("@turf/turf");
 
     function count_features(feature) {
       let count = 0;
@@ -114,70 +154,7 @@ async function convert() {
       }
     */
       
-    function get_descriptive_statistics(array) {
-      const size = array.length;
 
-      const ascending = array.sort((return_value, working_value) => { return (return_value - working_value); });
-
-      const mean = (array.reduce((return_value, working_value) => (return_value + working_value))) / size;
-
-      console.log("Mean: " + mean);
-
-      const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
-
-      console.log("Median: " + median);
-
-      // const frequency = array.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
-
-      // const mode = Object.keys(frequency).filter((value) => { return (frequency[value] === Math.max.apply(null, Object.values(frequency))); }).map((value) => (parseFloat(value)));
-
-      // console.log("Mode: " + mode);
-
-      console.log();
-
-      const minimum = array.reduce((return_value, working_value) => (return_value > working_value ? return_value = working_value : return_value));
-
-      console.log("Minimum: " + minimum);
-
-      const maximum = array.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
-
-      console.log("Maximum: " + maximum);
-
-      console.log("Range: " + (maximum - minimum));
-
-      const p_25 = Math.floor((size + 1) / 4);
-      const p_25_factor = ((size + 1) / 4) - p_25;
-      const p_75 = Math.floor(3 * (size + 1) / 4);
-      const p_75_factor = (3 * (size + 1) / 4) - p_75;
-
-      const interquartile_range =
-        (size + 1) % 4 === 0 ?
-          ascending[p_75 - 1]
-          - ascending[p_25 - 1]
-          :
-          (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
-          - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
-
-      console.log("Interquartile Range: " + interquartile_range);
-
-      console.log();
-
-      const variance = (array.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
-
-      console.log("Variance: " + variance);
-
-      const standard_deviation = variance ** (1/2);
-
-      console.log("Standard Deviation: " + standard_deviation);
-
-      const skewness = (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
-
-      console.log("Skewness: " + skewness);
-
-      const kurtosis = (array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
-
-      console.log("Kurtosis: " + kurtosis);
-    }
 
 
     // const test_size = 100;
@@ -223,4 +200,4 @@ async function convert() {
   // console.log(result);
 }
 
-module.exports = { convert };
+module.exports = { extract, describe, analyze };

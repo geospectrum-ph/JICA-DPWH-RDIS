@@ -9,7 +9,7 @@ const path = require("path");
 
 const multer = require("multer");
 
-const { convert } = require("./functions/handleConversion");
+const { extract, describe, analyze } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
 // const usersData = mongoose.model("database/users",
@@ -329,17 +329,31 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   })
 // );
 
-let boundaries_source = ("/assets/files/Cities.kml");
+async function process_data() {
+  let boundaries_source = ("/assets/files/Cities.kml");
 
-const boundaries = convert(boundaries_source);
+  const boundaries = await extract(boundaries_source);
 
-let points_sample_source_01 = ("/assets/files/Health_Facilities.kml");
+  const boundaries_result = await describe(boundaries);
 
-const dataset_points_01 = extract(points_sample_source_01);
+  console.log(boundaries_result);
 
-let lines_sample_source_01 = ("/assets/files/Roads.kml");
+  let points_sample_source_01 = ("/assets/files/Health_Facilities.kml");
 
-const dataset_lines_01 = extract(lines_sample_source_01);
+  const dataset_points_01 = await extract(points_sample_source_01);
+
+  // console.log(await describe(dataset_points_01));
+
+  let lines_sample_source_01 = ("/assets/files/Roads.kml");
+
+  const dataset_lines_01 = await extract(lines_sample_source_01);
+
+  // console.log(await describe(dataset_lines_01));
+}
+
+process_data();
+
+
 
 
 // router.route("/data/upload/").post((request, response) => {
