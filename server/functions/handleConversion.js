@@ -79,7 +79,7 @@ async function describe(array) {
 
   const mean = (array.reduce((return_value, working_value) => (return_value + working_value))) / size;
 
-  const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
+  const median = size % 2 > 0 ? ascending[Math.ceil(size/2) - 1] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
 
   const frequency = array.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
 
