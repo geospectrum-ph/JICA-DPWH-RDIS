@@ -1,4 +1,0 @@
-Files under development:
-
-> server\router.js
-> server\functions\handleConversion.js

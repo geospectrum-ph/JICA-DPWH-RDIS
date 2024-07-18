@@ -9,7 +9,7 @@ const path = require("path");
 
 const multer = require("multer");
 
-const { extract, describe, analyze } = require("./functions/handleConversion");
+const { extract, parse, describe, analyze } = require("./functions/handleConversion");
 const { encrypt, decrypt } = require("./functions/handleEncryption");
 
 // const usersData = mongoose.model("database/users",
@@ -334,21 +334,59 @@ async function process_data() {
 
   const boundaries = await extract(boundaries_source);
 
-  const boundaries_result = await describe(boundaries);
+  const boundaries_stats = await describe((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
-  console.log(boundaries_result);
+  console.log(boundaries_stats);
+
+  const ss = require("simple-statistics");
+
+  const boundaries_stats_ss = {
+    "mean": ss.mean((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "median": ss.median((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "mode": ss.mode((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "minimum": ss.min((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "maximum": ss.max((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "interquantile_range": ss.interquartileRange((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "variance": ss.sampleVariance((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "standard_deviation": ss.standardDeviation((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0])))
+  }
+
+  console.log(boundaries_stats_ss);
+
+  const math = require("mathjs");
+
+  const boundaries_stats_mjs = {
+    "mean": math.mean((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "median": math.median((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "mode": math.mode((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "variance": math.variance((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0]))),
+    "standard_deviation": math.std((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0])))
+  }
+
+  console.log(boundaries_stats_mjs);
+
+
 
   let points_sample_source_01 = ("/assets/files/Health_Facilities.kml");
 
   const dataset_points_01 = await extract(points_sample_source_01);
 
-  // console.log(await describe(dataset_points_01));
+
+
+  const analysis = await analyze([boundaries.features, dataset_points_01.features], "count_points_in_boundaries");
+
+  console.log("Analysis: " + JSON.stringify(analysis));
+
+
+
+  const sum = analysis.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
+
+  console.log("Sum: " + JSON.stringify(sum));
+
 
   let lines_sample_source_01 = ("/assets/files/Roads.kml");
 
   const dataset_lines_01 = await extract(lines_sample_source_01);
-
-  // console.log(await describe(dataset_lines_01));
 }
 
 process_data();

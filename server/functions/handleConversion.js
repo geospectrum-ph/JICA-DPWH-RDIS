@@ -44,129 +44,107 @@ async function extract(source) {
 
   const geojson = byte_data ? JSON.parse(Buffer.from(byte_data).toString("utf8")) : null;
 
+  /*
+    The features should be of the format:
+
+    {
+      type: 'Feature',
+      properties: { Name: [String], Description: [String] },
+      geometry: { type: 'MultiLineString', coordinates: [Array] }
+    }
+  */
+
   return (geojson);
 }
 
-async function describe(dataset) {
-  const coordinates = dataset.features.map((feature) => ({ [feature.properties.Name]: feature.geometry.coordinates }));
-
+async function parse(array, parse_type) {
   const turf = require("@turf/turf");
 
-  return (coordinates);
+  function transform(feature) {
+    switch (parse_type) {
+      case "to_area": return (turf.area(feature));
+      default: return (null);
+    }
+  }
 
+  const result = array.features.map((feature) => ({ [feature.properties.Name]: transform(feature) }));
 
+  return (result);
+}
 
-  // const size = dataset.length;
+async function describe(array) {
+  const size = array.length;
 
-  // const ascending = dataset.sort((return_value, working_value) => { return (return_value - working_value); });
+  const ascending = array.sort((return_value, working_value) => { return (return_value - working_value); });
 
-  // const mean = (dataset.reduce((return_value, working_value) => (return_value + working_value))) / size;
+  const mean = (array.reduce((return_value, working_value) => (return_value + working_value))) / size;
 
-  // const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
+  const median = size % 2 > 0 ? ascending[Math.ceil(size/2)] : ((ascending[(size/2) - 1] + ascending[(size/2)]) / 2);
 
-  // const frequency = dataset.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
+  const frequency = array.reduce((object, value) => { object[value] = (object[value] || 0) + 1; return (object); }, {} );
 
-  // const mode = Object.keys(frequency).filter((value) => { return (frequency[value] === Math.max.apply(null, Object.values(frequency))); }).map((value) => (parseFloat(value)));
+  const mode = Object.keys(frequency).filter((value) => { return (frequency[value] === Math.max.apply(null, Object.values(frequency))); }).map((value) => (parseFloat(value)));
 
-  // const minimum = dataset.reduce((return_value, working_value) => (return_value > working_value ? return_value = working_value : return_value));
+  const minimum = array.reduce((return_value, working_value) => (return_value > working_value ? return_value = working_value : return_value));
 
-  // const maximum = dataset.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
+  const maximum = array.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
 
-  // const p_25 = Math.floor((size + 1) / 4);
-  // const p_25_factor = ((size + 1) / 4) - p_25;
-  // const p_75 = Math.floor(3 * (size + 1) / 4);
-  // const p_75_factor = (3 * (size + 1) / 4) - p_75;
+  const p_25 = Math.floor((size + 1) / 4);
+  const p_25_factor = ((size + 1) / 4) - p_25;
+  const p_75 = Math.floor(3 * (size + 1) / 4);
+  const p_75_factor = (3 * (size + 1) / 4) - p_75;
 
-  // const interquartile_range =
-  //   (size + 1) % 4 === 0 ?
-  //     ascending[p_75 - 1]
-  //     - ascending[p_25 - 1]
-  //     :
-  //     (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
-  //     - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
+  const interquartile_range =
+    (size + 1) % 4 === 0 ?
+      ascending[p_75 - 1]
+      - ascending[p_25 - 1]
+      :
+      (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
+      - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
 
-  // const variance = (dataset.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
+  const variance = (array.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
 
-  // const standard_deviation = variance ** (1/2);
+  const standard_deviation = variance ** (1/2);
 
-  // const skewness = (dataset.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
+  const skewness = (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
 
-  // const kurtosis = (dataset.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
+  const kurtosis = (array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
 
-  // return ({
-  //   "mean": mean,
-  //   "median": median,
-  //   "mode": mode,
-  //   "minimum": minimum,
-  //   "maximum": maximum,
-  //   "range": (maximum - minimum),
-  //   "interquantile_range": interquartile_range,
-  //   "variance": variance,
-  //   "standard_deviation": standard_deviation,
-  //   "skewness": skewness,
-  //   "kurtosis": kurtosis
-  // });
+  return ({
+    "mean": mean,
+    "median": median,
+    "mode": mode.length < size ? mode : null,
+    "minimum": minimum,
+    "maximum": maximum,
+    "range": (maximum - minimum),
+    "interquantile_range": interquartile_range,
+    "variance": variance,
+    "standard_deviation": standard_deviation,
+    "skewness": skewness,
+    "kurtosis": kurtosis
+  });
 }
 
 async function analyze(data, analysis) {
-  if (geojson && geojson_) {
-    function find_within(object, key_name) {
-      const found = [];
-      
-      JSON.stringify(object, (key, value) => {
-        if (key === key_name) {
-         found.push(value);
-        }
-        return (value);
-      });
+  const turf = require("@turf/turf");
 
-      return (found[0]);
-    };
-
-    const features = find_within(geojson, "features");
-
-    console.log(features.length);
-
-    const features_ = find_within(geojson_, "features");
-
-    console.log(features_.length);
-
-
-    function count_features(feature) {
+  function count_points_in_boundaries(boundaries, points) {
+    const count_array = boundaries.map(function (boundary) {
       let count = 0;
 
-      features_.forEach((feature_) => { turf.booleanPointInPolygon(feature_, feature) ? count++ : null });
-      
-      return (count);
-    }
+      points.map(function (point) {
+        turf.booleanPointInPolygon(point, boundary) ? count++ : null;
+      });
 
-    const count = features.map((area) => ({ [area.properties.Name]: count_features(area) }));
+      return ({ [boundary.properties.Name]: count });
+    });
 
-    console.log(count);
+    return (count_array);
+  }
 
-    /*
-      Each feature in the features constant should be of the format:
-
-      {
-        type: 'Feature',
-        properties: { Name: [String], Description: [String] },
-        geometry: { type: 'MultiLineString', coordinates: [Array] }
-      }
-    */
-      
-
-
-
-    // const test_size = 100;
-    // const test_array = Array(test_size).fill().map(() => Math.round(Math.random() * test_size))
-
-    // const result = get_descriptive_statistics(test_array);
-
-    // const length_transform = features.map((feature) => (turf.area(feature) / 1000000));
-
-    // console.log(length_transform);
-
-    // get_descriptive_statistics(length_transform);
+  switch (analysis) {
+    case "count_points_in_boundaries": return (count_points_in_boundaries(data[0], data[1]));
+    default: return (null);
   }
 
   // let temp_path = path.join(__dirname, "..", "\\public\\uploads");
@@ -200,4 +178,4 @@ async function analyze(data, analysis) {
   // console.log(result);
 }
 
-module.exports = { extract, describe, analyze };
+module.exports = { extract, parse, describe, analyze };
