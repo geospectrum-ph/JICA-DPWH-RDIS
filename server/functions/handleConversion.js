@@ -58,16 +58,32 @@ async function extract(source) {
 }
 
 async function parse(array, parse_type) {
-  const turf = require("@turf/turf");
+  function to_area(feature) {
+    const geodesic = require("geographiclib-geodesic");
+    const geo = geodesic.Geodesic.WGS84;
 
-  function transform(feature) {
+    const polygon = geo.Polygon(false);
+
+    feature.geometry.coordinates.flat().flat().forEach((point) => {
+        polygon.AddPoint(point[1], point[0]);
+    });
+
+    let measure = polygon.Compute(true, true);
+
+    const area = Math.abs(measure.area) / 1000000;
+    // const area = Math.round((Math.abs(measure.area) / 1000000) * 100) / 100;
+
+    return (area);
+  }
+
+  function transform(feature) { 
     switch (parse_type) {
-      case "to_area": return (turf.area(feature));
+      case "to_area": return to_area(feature);
       default: return (null);
     }
   }
 
-  const result = array.features.map((feature) => ({ [feature.properties.Name]: transform(feature) }));
+  const result = array.features.map((feature) => ({ [feature.properties.Name]: transform(feature) })).sort((first, second) => { return (Object.values(first)[0] - Object.values(second)[0]); });
 
   return (result);
 }
@@ -89,26 +105,28 @@ async function describe(array) {
 
   const maximum = array.reduce((return_value, working_value) => (return_value < working_value ? return_value = working_value : return_value));
 
-  const p_25 = Math.floor((size + 1) / 4);
-  const p_25_factor = ((size + 1) / 4) - p_25;
-  const p_75 = Math.floor(3 * (size + 1) / 4);
-  const p_75_factor = (3 * (size + 1) / 4) - p_75;
+  // const p_25 = Math.floor((size + 1) / 4);
+  // const p_25_factor = ((size + 1) / 4) - p_25;
+  // const p_75 = Math.floor(3 * (size + 1) / 4);
+  // const p_75_factor = (3 * (size + 1) / 4) - p_75;
 
-  const interquartile_range =
-    (size + 1) % 4 === 0 ?
-      ascending[p_75 - 1]
-      - ascending[p_25 - 1]
-      :
-      (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
-      - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
+  // const interquartile_range =
+  //   (size + 1) % 4 === 0 ?
+  //     ascending[p_75 - 1]
+  //     - ascending[p_25 - 1]
+  //     :
+  //     (ascending[p_75 - 1] === ascending[p_75] ? ascending[p_75 - 1] : ascending[p_75 - 1] + (p_75_factor * (ascending[p_75] - ascending[p_75 - 1])))
+  //     - (ascending[p_25 - 1] === ascending[p_25] ? ascending[p_25 - 1] : ascending[p_25 - 1] + (p_25_factor * (ascending[p_25] - ascending[p_25 - 1])));
 
   const variance = (array.map((value) => ((value - mean) ** 2)).reduce((return_value, working_value) => (return_value + working_value))) / (size - 1);
 
   const standard_deviation = variance ** (1/2);
 
-  const skewness = (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
+  // const skewness = (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 3));
+  const skewness = size * (array.map((value) => ((value - mean) ** 3)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (size - 2) * (standard_deviation ** 3));
 
-  const kurtosis = (array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
+  // const kurtosis = (array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / ((size - 1) * (standard_deviation ** 4));
+  const kurtosis = (((size) * (size + 1)) / ((size - 1) * (size - 2) * (size - 3))) * ((array.map((value) => ((value - mean) ** 4)).reduce((return_value, working_value) => (return_value + working_value))) / (standard_deviation ** 4)) - ((3 * (size - 1) * (size - 1)) / ((size - 2) * (size - 3)));
 
   return ({
     "mean": mean,
@@ -117,7 +135,7 @@ async function describe(array) {
     "minimum": minimum,
     "maximum": maximum,
     "range": (maximum - minimum),
-    "interquantile_range": interquartile_range,
+    // "interquantile_range": interquartile_range,
     "variance": variance,
     "standard_deviation": standard_deviation,
     "skewness": skewness,
@@ -128,22 +146,26 @@ async function describe(array) {
 async function analyze(data, analysis) {
   const turf = require("@turf/turf");
 
-  function count_points_in_boundaries(boundaries, points) {
-    const count_array = boundaries.map(function (boundary) {
-      let count = 0;
+  function count_in_boundaries(boundaries, points) {
+    const count_array = boundaries
+      .map(function (boundary) {
+        let count = 0;
 
-      points.map(function (point) {
-        turf.booleanPointInPolygon(point, boundary) ? count++ : null;
+        points.map(function (point) {
+          turf.booleanIntersects(point, boundary) ? count++ : null;
+        });
+
+        return ({ [boundary.properties.Name]: count });
+      })
+      .sort((first, second) => {
+        return (Object.values(first)[0] - Object.values(second)[0]);
       });
-
-      return ({ [boundary.properties.Name]: count });
-    });
 
     return (count_array);
   }
 
   switch (analysis) {
-    case "count_points_in_boundaries": return (count_points_in_boundaries(data[0], data[1]));
+    case "count_in_boundaries": return (count_in_boundaries(data[0], data[1]));
     default: return (null);
   }
 

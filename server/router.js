@@ -334,35 +334,52 @@ async function process_data() {
 
   const boundaries = await extract(boundaries_source);
 
-  const boundaries_stats = await describe((await parse(boundaries, "to_area")).map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
+  const boundaries_area = await parse(boundaries, "to_area");
+
+  console.log(boundaries_area);
+
+  const boundaries_area_total = boundaries_area.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
+
+  console.log(boundaries_area_total);
+
+  const boundaries_stats = await describe(boundaries_area.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
   console.log(boundaries_stats);
 
+  let points_source = ("/assets/files/Health_Facilities.kml");
 
-  let points_sample_source_01 = ("/assets/files/Health_Facilities.kml");
+  const dataset_points = await extract(points_source);
 
-  const dataset_points_01 = await extract(points_sample_source_01);
+  const dataset_points_count = await analyze([boundaries.features, dataset_points.features], "count_in_boundaries");
 
+  console.log(dataset_points_count);
 
+  const dataset_points_total = dataset_points_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  const analysis = await analyze([boundaries.features, dataset_points_01.features], "count_points_in_boundaries");
+  console.log(dataset_points_total);
 
-  console.log(analysis);
+  const dataset_points_stats = await describe(dataset_points_count.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
+  console.log(dataset_points_stats);
 
+  let lines_source = ("/assets/files/Roads.kml");
 
-  const sum = analysis.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
+  const dataset_lines = await extract(lines_source);
 
-  console.log(sum);
+  const dataset_lines_count = await analyze([boundaries.features, dataset_lines.features], "count_in_boundaries");
 
+  console.log(dataset_lines_count);
 
-  let lines_sample_source_01 = ("/assets/files/Roads.kml");
+  const dataset_lines_total = dataset_lines_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  const dataset_lines_01 = await extract(lines_sample_source_01);
+  console.log(dataset_lines_total);
+
+  const dataset_lines_stats = await describe(dataset_lines_count.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
+
+  console.log(dataset_lines_stats);
 }
 
 process_data();
-
 
 
 // router.route("/data/upload/").post((request, response) => {
