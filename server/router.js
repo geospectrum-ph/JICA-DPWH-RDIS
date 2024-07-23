@@ -329,8 +329,8 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 //   })
 // );
 
-async function process_data() {
-  let boundaries_source = ("/assets/files/Cities.kml");
+async function test_run() {
+  let boundaries_source = ("/assets/files/Barangays.kml");
 
   const boundaries = await extract(boundaries_source);
 
@@ -340,23 +340,23 @@ async function process_data() {
 
   const boundaries_area_total = boundaries_area.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log(boundaries_area_total);
+  console.log({ "total": boundaries_area_total });
 
   const boundaries_stats = await describe(boundaries_area.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
   console.log(boundaries_stats);
 
-  let points_source = ("/assets/files/Health_Facilities.kml");
+  let points_source = ("/assets/files/Buildings.kml");
 
   const dataset_points = await extract(points_source);
 
-  const dataset_points_count = await analyze([boundaries.features, dataset_points.features], "count_in_boundaries");
+  const dataset_points_count = await analyze([boundaries.features, dataset_points.features], "count");
 
   console.log(dataset_points_count);
 
   const dataset_points_total = dataset_points_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log(dataset_points_total);
+  console.log({ "total": dataset_points_total });
 
   const dataset_points_stats = await describe(dataset_points_count.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
@@ -366,20 +366,22 @@ async function process_data() {
 
   const dataset_lines = await extract(lines_source);
 
-  const dataset_lines_count = await analyze([boundaries.features, dataset_lines.features], "count_in_boundaries");
+  const dataset_lines_count = await analyze([boundaries.features, dataset_lines.features], "count");
 
   console.log(dataset_lines_count);
 
   const dataset_lines_total = dataset_lines_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log(dataset_lines_total);
+  console.log({ "total": dataset_lines_total });
 
-  const dataset_lines_stats = await describe(dataset_lines_count.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
+  const dataset_lines_length = await parse(boundaries, "to_length");
+
+  const dataset_lines_stats = await describe(dataset_lines_length.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
   console.log(dataset_lines_stats);
 }
 
-process_data();
+test_run();
 
 
 // router.route("/data/upload/").post((request, response) => {
