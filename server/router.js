@@ -330,21 +330,23 @@ const { encrypt, decrypt } = require("./functions/handleEncryption");
 // );
 
 async function test_run() {
+  const start = new Date();
+
   let boundaries_source = ("/assets/files/Barangays.kml");
 
   const boundaries = await extract(boundaries_source);
 
   const boundaries_area = await parse(boundaries, "to_area");
 
-  console.log(boundaries_area);
+  console.log(boundaries_area, ((new Date() - start) / 1000));
 
   const boundaries_area_total = boundaries_area.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log({ "total": boundaries_area_total });
+  console.log({ "total": boundaries_area_total }, ((new Date() - start) / 1000));
 
   const boundaries_stats = await describe(boundaries_area.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
-  console.log(boundaries_stats);
+  console.log(boundaries_stats, ((new Date() - start) / 1000));
 
   let points_source = ("/assets/files/Buildings.kml");
 
@@ -352,15 +354,15 @@ async function test_run() {
 
   const dataset_points_count = await analyze([boundaries.features, dataset_points.features], "count");
 
-  console.log(dataset_points_count);
+  console.log(dataset_points_count, ((new Date() - start) / 1000));
 
   const dataset_points_total = dataset_points_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log({ "total": dataset_points_total });
+  console.log({ "total": dataset_points_total }, ((new Date() - start) / 1000));
 
   const dataset_points_stats = await describe(dataset_points_count.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
-  console.log(dataset_points_stats);
+  console.log(dataset_points_stats, ((new Date() - start) / 1000));
 
   let lines_source = ("/assets/files/Roads.kml");
 
@@ -368,17 +370,17 @@ async function test_run() {
 
   const dataset_lines_count = await analyze([boundaries.features, dataset_lines.features], "count");
 
-  console.log(dataset_lines_count);
+  console.log(dataset_lines_count, ((new Date() - start) / 1000));
 
   const dataset_lines_total = dataset_lines_count.flatMap((item) => Object.values(item)).reduce((return_value, working_value) => (return_value + working_value));
 
-  console.log({ "total": dataset_lines_total });
+  console.log({ "total": dataset_lines_total }, ((new Date() - start) / 1000));
 
   const dataset_lines_length = await parse(boundaries, "to_length");
 
   const dataset_lines_stats = await describe(dataset_lines_length.map((object) => ((Object.keys(object).map((key) => (object[key])))[0])));
 
-  console.log(dataset_lines_stats);
+  console.log(dataset_lines_stats, ((new Date() - start) / 1000));
 }
 
 test_run();
