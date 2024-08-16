@@ -1,0 +1,11 @@
+.dashboard-body{
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+}
+
+.left, .right{
+  width: 50vw;
+  padding: 1vw;
+}

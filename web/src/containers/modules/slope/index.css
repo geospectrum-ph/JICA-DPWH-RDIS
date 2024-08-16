@@ -1,0 +1,26 @@
+.sdb-dropdown {
+  margin-top: 1vh;
+  height: 5vh;
+}
+
+.sdb-right-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.sdb-right-title {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.sdb-right-title:hover {
+
+}
