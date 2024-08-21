@@ -1,0 +1,32 @@
+log:
+  level: DEBUG
+
+api:
+  dashboard: true
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+entryPoints:
+  web:
+    address: ":80"
+
+routes:
+  api:
+    rule: "PathPrefix(`/api`)"
+    service: api
+  web:
+    rule: "PathPrefix(`/`)"
+    service: web
+
+services:
+  api:
+    loadBalancer:
+      servers:
+        - url: "http://rdis_api:3001"
+  web:
+    loadBalancer:
+      servers:
+        - url: "http://rdis_web:3000"
