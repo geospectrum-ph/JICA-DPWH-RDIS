@@ -1,8 +1,24 @@
 import React from 'react';
+import { LineChart, Line, PieChart, Pie } from 'recharts';
 
 import './index.css';
 
 export default function MainDashboard () {
+  const sampleData =[
+    {x: 1, y: 1.5},
+    {x: 2, y: 2},
+    {x: 3, y: 2.5},
+    {x: 4, y: 1},
+    {x: 5, y: 1.5},
+    {x: 6, y: 3.5},
+  ]
+
+  const sampleData2 = [
+    {name: 'A', value: 204},
+    {name: 'B', value: 931},
+    {name: 'C', value: 630}
+  ]
+
   return (
     <div className='main-dashboard-body'>
       <div className='mdb-left'>
@@ -10,7 +26,9 @@ export default function MainDashboard () {
           <b>Information</b>
         </div>
         <div className='mdb-left-graph'> 
-          graph
+          <LineChart width={250} height={280} data={sampleData}>
+            <Line dataKey="y"/>
+          </LineChart>
         </div>
         <div>
         Sed volutpat ut nisi et pretium. 
@@ -18,7 +36,9 @@ export default function MainDashboard () {
         Aenean et velit sem. Donec neque erat, congue sed odio eu.
         </div>
         <div>
-          
+          <PieChart width={250} height={280}>
+            <Pie data={sampleData2} dataKey="value" nameKey="name" outerRadius={120} fill='#8884d8'/>
+          </PieChart>
         </div>
       </div>
       <div className='mdb-right'>

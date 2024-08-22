@@ -22,5 +22,21 @@
 }
 
 .sdb-right-title:hover {
+  background-color: #5271ff;
 
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+.sdb-right-title-selected {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: #5271ff;
+  color: white;
 }

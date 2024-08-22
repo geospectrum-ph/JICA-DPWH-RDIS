@@ -25,3 +25,9 @@
 
   transition: ease-in-out 0.3s;
 }
+
+.appbar-button-selected {
+  padding: 2vh;
+  color: white;
+  background-color: #000000;
+}

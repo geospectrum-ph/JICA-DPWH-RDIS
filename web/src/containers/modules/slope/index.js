@@ -3,6 +3,9 @@ import React from 'react';
 import './index.css';
 
 export default function SlopeDashboard() {
+
+  const [slopeList, setSlopeList] = React.useState('inventory')
+
   return (
     <div className='main-dashboard-body'>
       <div className='mdb-left'>
@@ -39,6 +42,11 @@ export default function SlopeDashboard() {
           
         </select>
         
+        <select className='sdb-dropdown'>
+          <option disabled selected hidden>Project Status</option>
+          <option></option>
+          
+        </select>
         <br/>
         <div className='mdb-left-title'>
           <b>Sort</b>
@@ -58,11 +66,11 @@ export default function SlopeDashboard() {
       </div>
       <div className='mdb-right'>
         <div className='sdb-right-header'>
-          <div className='sdb-right-title'>
-            <b>Requests</b>
-          </div>
-          <div className='sdb-right-title'>
+          <div className={slopeList === 'inventory' ? 'sdb-right-title-selected' : 'sdb-right-title'} onClick={() => setSlopeList('inventory')}>
             <b>Inventory</b>
+          </div>
+          <div className={slopeList === 'funding' ? 'sdb-right-title-selected' : 'sdb-right-title'} onClick={() => setSlopeList('funding')}>
+            <b>For Funding</b>
           </div>
         </div>
       </div>

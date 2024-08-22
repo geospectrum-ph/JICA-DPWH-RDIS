@@ -2,6 +2,8 @@
 import React from 'react';
 import MapView from "@arcgis/core/views/MapView";
 import Map from "@arcgis/core/Map";
+import SceneView from "@arcgis/core/views/SceneView"
+import WebScene from "@arcgis/core/WebScene"
 
 const MapComponent = () => {
 
@@ -13,7 +15,7 @@ const MapComponent = () => {
        * Initialize application
        */
       const webmap = new Map({
-        basemap: "streets-vector"
+        basemap: "satellite"
       });
 
       const view = new MapView({
