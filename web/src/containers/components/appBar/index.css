@@ -27,6 +27,7 @@
 }
 
 .appbar-button-selected {
+  font-weight: bold;
   padding: 2vh;
   color: white;
   background-color: #000000;

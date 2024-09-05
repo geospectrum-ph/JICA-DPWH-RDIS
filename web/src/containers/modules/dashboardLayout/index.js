@@ -1,17 +1,21 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+
 import HeaderBar from '../../components/appBar';
 import HeaderTitle from '../../components/header';
 
-import './index.css';
 import MapComponent from '../tempMap';
 import MainDashboard from '../dashboard';
-
-import { MainContext } from '../../../contexts/MainContext';
 import SlopeDashboard from '../slope';
 import EmergencyDashboard from '../emergency';
 
+import { MainContext } from '../../../contexts/MainContext';
+
+import './index.css';
+import User from '../userManagement';
+
 export default function Dashboard() {
-  const {moduleTitle} = React.useContext(MainContext)
+  const {moduleSelect} = React.useContext(MainContext)
 
   return (
     <div>
@@ -19,18 +23,21 @@ export default function Dashboard() {
         <HeaderBar/>
         <HeaderTitle/>
         <div className='dashboard-body'>
-          <div className='left'>
-            { moduleTitle === 'Dashboard' ? 
-              <MainDashboard/> : moduleTitle === 'Slope Inventory and Countermeasure' ?
-              <SlopeDashboard/> : moduleTitle === 'Emergency Response' ?
-              <EmergencyDashboard/> :
-              <>Hazard</> 
+          <div className={moduleSelect === 'user' ? 'left-full' : 'left'}>
+            <Routes>
+              <Route path="dashboard" element={<MainDashboard/>}/>
+              <Route path="slope" element={<SlopeDashboard/>}/>
+              <Route path="emergency" element={<EmergencyDashboard/>}/>
+              <Route path="hazard"/>
 
-            }
+              <Route path="user" element={<User/>}/>
+            </Routes>
           </div>
-          <div className='right'>
-            <MapComponent/>
-          </div>
+          {moduleSelect === 'user' ? null :
+            <div className='right'>
+              <MapComponent/>
+            </div>
+          }
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import MapView from "@arcgis/core/views/MapView";
 import Map from "@arcgis/core/Map";
 import SceneView from "@arcgis/core/views/SceneView"
 import WebScene from "@arcgis/core/WebScene"
+import GeoJSONLayer from '@arcgis/core/layers/GeoJSONLayer'
 
 const MapComponent = () => {
 

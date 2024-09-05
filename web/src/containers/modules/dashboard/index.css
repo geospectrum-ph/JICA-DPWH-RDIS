@@ -25,6 +25,11 @@
   color: white;
 }
 
+.mdb-left-desc {
+  text-align: justify;
+  padding-top: 1vh;
+}
+
 .mdb-left-graph {
   height: 30vh;
 }
@@ -45,4 +50,16 @@
 
   background-color: black;
   color: white;
+}
+
+.mdb-right-desc {
+  height: 20vh;
+}
+
+.mdb-right-summ {
+
+}
+
+.mdb-right-summ-graph {
+  margin-left: -4vh;
 }

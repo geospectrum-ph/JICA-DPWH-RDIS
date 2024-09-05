@@ -11,11 +11,8 @@ function App() {
       
       <Routes>
         <Route path="/" element={<SignInPage/>}/>
-        <Route path="/home">
-          <Route path="dashboard" element={<Dashboard/>}/>
-          <Route path="countermeasure"/>
-          <Route path="emergency"/>
-          <Route path="hazard"/>
+        <Route path="/home/*" element={<Dashboard/>}/>
+        <Route path="/user">
 
         </Route>
       </Routes>

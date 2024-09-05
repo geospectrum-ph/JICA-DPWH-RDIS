@@ -1,87 +1,66 @@
 import React from 'react';
-import { LineChart, Line, PieChart, Pie } from 'recharts';
+import { LineChart, Line, PieChart, Pie, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 import './index.css';
 
 export default function MainDashboard () {
   const sampleData =[
-    {x: 1, y: 1.5},
-    {x: 2, y: 2},
-    {x: 3, y: 2.5},
-    {x: 4, y: 1},
-    {x: 5, y: 1.5},
-    {x: 6, y: 3.5},
+    {x: 'Jan', y: 24},
+    {x: 'Feb', y: 12},
+    {x: 'Mar', y: 28},
+    {x: 'Apr', y: 40},
+    {x: 'Jun', y: 4},
+    {x: 'Jul', y: 26},
+    {x: 'Aug', y: 26},
   ]
 
   const sampleData2 = [
-    {name: 'A', value: 204},
-    {name: 'B', value: 931},
-    {name: 'C', value: 630}
+    {name: 'Total roads', value: 204},
+    {name: 'For Funding', value: 931},
+    {name: 'Phase 2 project', value: 630}
   ]
 
   return (
     <div className='main-dashboard-body'>
       <div className='mdb-left'>
         <div className='mdb-left-title'>
-          <b>Information</b>
+          <b>About the system</b>
         </div>
-        <div className='mdb-left-graph'> 
-          <LineChart width={250} height={280} data={sampleData}>
-            <Line dataKey="y"/>
-          </LineChart>
+        <div className='mdb-left-desc'>
+        The Road Disaster Information System (RDIS) is a road and road disaster 
+        information management system developed for the Department of Public Works 
+        and Highways (DPWH) through the partnership of the Japan International 
+        Cooperation Agency (JICA) and Geospectrum Analytics Services, Inc. The 
+        RDIS aims to improve the operational capability of the department in 
+        managing road and road disaster information by enhancing and extending 
+        the methods utilized in road and road disaster data collection, sharing, 
+        and analysis. 
         </div>
         <div>
-        Sed volutpat ut nisi et pretium. 
-        Cras dignissim diam nunc, et posuere nunc ultrices ut. 
-        Aenean et velit sem. Donec neque erat, congue sed odio eu.
-        </div>
-        <div>
-          <PieChart width={250} height={280}>
-            <Pie data={sampleData2} dataKey="value" nameKey="name" outerRadius={120} fill='#8884d8'/>
-          </PieChart>
+          
         </div>
       </div>
       <div className='mdb-right'>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-      Proin nulla mauris, elementum a magna ac, ornare gravida elit. 
-      Duis cursus mauris quis lorem pulvinar, vitae efficitur augue suscipit. 
-      Maecenas a bibendum ante. 
-      Mauris mattis feugiat sapien, et finibus magna eleifend non. 
-      Aliquam dapibus libero et risus accumsan congue. 
-      Morbi fermentum enim at justo tincidunt dapibus. 
-      Integer dignissim id diam eu blandit. 
-      Nullam justo felis, hendrerit ut nisl et, elementum laoreet dolor. 
-      Ut semper, nibh ac blandit congue, tortor magna tincidunt lorem, 
-      eget molestie leo eros nec mi. 
-      Proin tincidunt, arcu vitae auctor cursus, metus dolor commodo diam, 
-      et sollicitudin sapien libero tincidunt nunc.
-      <br/><br/>
-      Nullam rhoncus neque nisi, ut ultricies orci pharetra quis. 
-      Mauris sodales dolor et aliquet semper. 
-      Integer at maximus turpis, eget tempor tellus. 
-      In quis mauris in sapien vulputate mattis. 
-      Donec non facilisis sapien.
-      <br/><br/>
-      Nullam id augue vitae lacus aliquam posuere ac rhoncus libero.
-      <br/><br/>
-      Aenean ac nunc quis libero pulvinar suscipit. 
-      Praesent semper, massa non condimentum varius, 
-      sapien velit vestibulum lorem, quis consequat enim leo nec dui. 
-      Morbi mollis orci sem, eu consequat ex feugiat vel. 
-      Interdum et malesuada fames ac ante ipsum primis in faucibus. 
-      Maecenas maximus ante non dui varius, sed posuere erat tempor. 
-      Nam libero lorem, tincidunt a orci volutpat, vehicula aliquam augue. 
-      Maecenas velit metus, sodales efficitur semper et, hendrerit a magna. 
-      Nullam porta libero vel lorem pellentesque lacinia.
-      <br/><br/>
-      Maecenas tincidunt lectus at nibh molestie dapibus. 
-      Pellentesque ac quam tincidunt, varius ex nec, tempor urna. 
-      Nam placerat cursus est, in mattis quam varius sodales. 
-      Duis pellentesque congue arcu non scelerisque. 
-      Mauris vel condimentum eros. Aliquam tempor ornare semper. 
-      Duis sollicitudin mauris quis enim sollicitudin sagittis sed eget magna. 
-      Vivamus in lectus pulvinar, sodales ex at, iaculis ante. 
-      Praesent venenatis luctus tempor. Integer et orci turpis.
+        <div className='mdb-right-title'>
+          <b>Information Summary</b>
+        </div>
+        <div className='mdb-right-summ'>
+          <PieChart width={500} height={280}>
+            <Tooltip/>
+            <Pie data={sampleData2} dataKey="value" nameKey="name" outerRadius={120} fill='#8884d8' label/>
+          </PieChart>
+          <br/>
+          <div className='mdb-right-summ-graph'>
+            <LineChart width={535} height={300} data={sampleData}>
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey='x'/>
+              <YAxis/>
+              <Tooltip/>
+              {/* <Legend/> */}
+              <Line type='monotone' dataKey='y' stroke="#8884d8"/>
+            </LineChart>
+          </div>
+        </div>
       </div>
     </div>
   )
