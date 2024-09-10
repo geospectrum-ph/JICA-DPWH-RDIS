@@ -1,12 +1,14 @@
 #!/bin/sh
-if [ "$PGDATABASE" = "postgres" ]
+if [ "$DB_ENGINE" = "mssql" ]
 then
-    echo "Waiting for postgres... $PGHOST $PGPORT;"
+    echo "Waiting for $DB_HOST... $DB_HOST $DB_PORT;"
 
-    while ! nc -z $PGHOST $PGPORT; do
+    while ! nc -z $DB_HOST $DB_PORT; do
       sleep 0.1
     done
 
 fi
-echo "PostgreSQL started"
+echo "MSSQL started"
+sleep 60
+npx sequelize-cli db:migrate
 exec "$@"

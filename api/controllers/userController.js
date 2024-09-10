@@ -59,7 +59,7 @@ exports.loginUser = async (req, res) => {
   if(user){
     const password_valid = await bcrypt.compare(req.body.password,user.password);
     if(password_valid){
-        token = jwt.sign({ "id" : user.id,"email" : user.email,"first_name":user.first_name }, process.env.SECRET);
+        token = jwt.sign({ "id" : user.id,"email" : user.email,"first_name":user.first_name }, process.env.JWT_SECRET);
         res.status(200).json({ token : token });
     } else {
       res.status(400).json({ error : "Password Incorrect" });
@@ -90,3 +90,5 @@ exports.userProfile = async (req, res, next) => {
   }
   res.status(200).json(user);
 };
+
+// reset password block

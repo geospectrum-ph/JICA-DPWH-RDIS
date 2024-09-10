@@ -1,12 +1,20 @@
-version: '3.7'
-
 services:
-  db:
-    image: postgres:15.4-alpine3.18 
+  rdisdbserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: rdisdbserver
     env_file:
-      - .env.db.dev
+    - .env.db.dev
     ports:
-      - "5432:5432"
+      - "1433:1433"
+    volumes:
+      - rdis_data:/var/opt/mssql
+      - ./setup_db.sh:/tmp/docker-entrypoint-initdb.d/init.sh
+    user: '0:0'  # Run as root
+    command:
+      - /bin/bash
+      - -c 
+      - |
+        ./tmp/docker-entrypoint-initdb.d/init.sh
   api:
     build: 
       context: ../api
@@ -20,8 +28,10 @@ services:
       - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
       - "traefik.http.services.api.loadbalancer.server.port=3001"
     restart: always
+    ports:
+      - "3001:3001"
     depends_on:
-      - db
+      - rdisdbserver
       - traefik
     env_file:
       - .env.dev
@@ -55,3 +65,4 @@ services:
 volumes:
   node_modules_api:
   node_modules_web:
+  rdis_data:
