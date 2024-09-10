@@ -14,7 +14,12 @@ module.exports = (sequelize, Sequelize) => {
     last_name: {
       type: Sequelize.STRING,
       allowNull: false
-    }
+    },
+    passwordResetToken: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    
   });
 
   return User;
