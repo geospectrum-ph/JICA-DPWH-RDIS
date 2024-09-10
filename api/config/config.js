@@ -1,7 +1,8 @@
 module.exports = {
-    HOST: process.env.PGHOST || "localhost",
-    USER: process.env.PGUSER || "myuser",
-    PASSWORD: process.env.PGPASSWORD || "mysecretpassword",
-    DB: process.env.PGDATABASE || "postgres",
-    dialect: "postgresql",
+    host: process.env.DB_HOST || "localhost",
+    username: process.env.DB_USER || "myuser",
+    password: process.env.DB_PASSWORD || "mysecretpassword",
+    database: process.env.DB_NAME || "mssqldb",
+    dialect: process.env.DB_ENGINE || "postgresql",
+    port: process.env.DB_PORT || 1433
   };
