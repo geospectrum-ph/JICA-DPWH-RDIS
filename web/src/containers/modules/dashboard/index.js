@@ -2,9 +2,12 @@ import React from 'react';
 import { LineChart, Line, PieChart, Pie, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 
 import './index.css';
+import { MainContext } from '../../../contexts/MainContext';
 
 export default function MainDashboard () {
-  const sampleData =[
+  const {sampleData} = React.useContext(MainContext)
+
+  const sampleData1 =[
     {x: 'Jan', y: 24},
     {x: 'Feb', y: 12},
     {x: 'Mar', y: 28},
@@ -15,7 +18,7 @@ export default function MainDashboard () {
   ]
 
   const sampleData2 = [
-    {name: 'Total roads', value: 204},
+    {name: 'Total roads', value: sampleData.features.length},
     {name: 'For Funding', value: 931},
     {name: 'Phase 2 project', value: 630}
   ]
@@ -51,7 +54,7 @@ export default function MainDashboard () {
           </PieChart>
           <br/>
           <div className='mdb-right-summ-graph'>
-            <LineChart width={535} height={300} data={sampleData}>
+            <LineChart width={535} height={300} data={sampleData1}>
               <CartesianGrid strokeDasharray="3 3"/>
               <XAxis dataKey='x'/>
               <YAxis/>

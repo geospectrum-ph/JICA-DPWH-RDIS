@@ -13,6 +13,7 @@ import { MainContext } from '../../../contexts/MainContext';
 
 import './index.css';
 import User from '../userManagement';
+import SlopeDetails from '../slope/details';
 
 export default function Dashboard() {
   const {moduleSelect} = React.useContext(MainContext)
@@ -25,12 +26,13 @@ export default function Dashboard() {
         <div className='dashboard-body'>
           <div className={moduleSelect === 'user' ? 'left-full' : 'left'}>
             <Routes>
-              <Route path="dashboard" element={<MainDashboard/>}/>
-              <Route path="slope" element={<SlopeDashboard/>}/>
-              <Route path="emergency" element={<EmergencyDashboard/>}/>
-              <Route path="hazard"/>
+              <Route path="/dashboard" element={<MainDashboard/>}/>
+              <Route path="/slope" element={<SlopeDashboard/>}/>
+              <Route path="/slope/:id" element={<SlopeDetails/>}/>
+              <Route path="/emergency" element={<EmergencyDashboard/>}/>
+              <Route path="/hazard"/>
 
-              <Route path="user" element={<User/>}/>
+              <Route path="/user" element={<User/>}/>
             </Routes>
           </div>
           {moduleSelect === 'user' ? null :

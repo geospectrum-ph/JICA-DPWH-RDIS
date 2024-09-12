@@ -1,77 +1,50 @@
 import React from 'react';
 
 import './index.css';
+import { MainContext } from '../../../contexts/MainContext';
+import ItemInventory from './inventory';
+import Filter from './filters';
+import { Route, Routes } from 'react-router-dom';
 
 export default function SlopeDashboard() {
+  const {sampleData, setSampleData, origData} = React.useContext(MainContext);
 
   const [slopeList, setSlopeList] = React.useState('inventory')
+
+  const filterSlopeList = (selection) => {
+    setSlopeList(selection)
+    setSampleData({...sampleData, features: origData.features.filter((feat) => {
+      if (selection === 'inventory') {
+        return feat.properties.inventory === 0
+      } return feat.properties.inventory === 1
+    })})
+  }
 
   return (
     <div className='main-dashboard-body'>
       <div className='mdb-left'>
-        <div className='mdb-left-title'>
-          <b>Filters</b>
-        </div>
-        <select name="region" className='sdb-dropdown'>
-          <option disabled selected hidden>Region</option>
-          <option></option>
-          
-        </select>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>DEO</option>
-          <option></option>
-          
-        </select>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Hazard level</option>
-          <option></option>
-          
-        </select>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Disaster</option>
-          <option></option>
-          
-        </select>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Priority</option>
-          <option></option>
-          
-        </select>
-        
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Project Status</option>
-          <option></option>
-          
-        </select>
-        <br/>
-        <div className='mdb-left-title'>
-          <b>Sort</b>
-        </div>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Date</option>
-          <option></option>
-          
-        </select>
-
-        <select className='sdb-dropdown'>
-          <option disabled selected hidden>Frequency</option>
-          <option></option>
-          
-        </select>
+        <Filter/>
       </div>
       <div className='mdb-right'>
         <div className='sdb-right-header'>
-          <div className={slopeList === 'inventory' ? 'sdb-right-title-selected' : 'sdb-right-title'} onClick={() => setSlopeList('inventory')}>
+          <div className={slopeList === 'inventory' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
+            onClick={() => filterSlopeList('inventory')}
+            >
             <b>Inventory</b>
           </div>
-          <div className={slopeList === 'funding' ? 'sdb-right-title-selected' : 'sdb-right-title'} onClick={() => setSlopeList('funding')}>
+          <div className={slopeList === 'funding' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
+            onClick={() => filterSlopeList('funding')}
+            >
             <b>For Funding</b>
           </div>
+        </div>
+        <div className='sdb-right-body'>
+          {sampleData.features.map((feat) => {
+            
+             return <ItemInventory roadName={feat.properties.road_name} properties={feat.properties} geometry={feat.geometry}/>
+            
+            // console.log(feat.properties.road_name)
+          })}
         </div>
       </div>
     </div>

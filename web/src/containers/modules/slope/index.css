@@ -40,3 +40,9 @@
   background-color: #5271ff;
   color: white;
 }
+
+.sdb-right-body {
+  margin-top: 1vh;
+  height: 70vh;
+  overflow-y: scroll;
+}
