@@ -1,12 +1,20 @@
-version: '3.7'
-
 services:
-  db:
-    image: postgres:15.4-alpine3.18 
+  rdisdbserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: rdisdbserver
     env_file:
-      - .env.db.dev
+    - .env.db.dev
     ports:
-      - "5432:5432"
+      - "1433:1433"
+    volumes:
+      - rdis_data:/var/opt/mssql
+      - ./setup_db.sh:/tmp/docker-entrypoint-initdb.d/init.sh
+    user: '0:0'  # Run as root
+    command:
+      - /bin/bash
+      - -c 
+      - |
+        ./tmp/docker-entrypoint-initdb.d/init.sh
   api:
     build: 
       context: ../api
@@ -15,25 +23,46 @@ services:
     volumes:
       - ../api:/app
       - node_modules_api:/app/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.api.loadbalancer.server.port=3001"
+    restart: always
     ports:
       - "3001:3001"
-    restart: always
     depends_on:
-      - db
+      - rdisdbserver
+      - traefik
     env_file:
       - .env.dev
     command: npm run dev
   web:
     build: ../web
-    ports:
-      - "3000:3000"
-    depends_on:
-      - api
+    container_name: rdis_web
     volumes:
       - ../web:/app
       - node_modules_web:/app/node_modules
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - api
+      - traefik
     command: npm start
+
+  traefik:
+    image: traefik:v2.4
+    ports:
+      - "80:80"
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --log.level=DEBUG
 
 volumes:
   node_modules_api:
   node_modules_web:
+  rdis_data:
