@@ -1,5 +1,5 @@
 /* This file serves as the library for local styles and styling at the application level. */
-@import "STRING_FONT_URL"; /* Style sheet for the font used by the application. */
+/* @import "STRING_FONT_URL"; Style sheet for the font used by the application. */
 /* Declaration of generic styling values. */
 /*
 .section {
@@ -30,6 +30,8 @@
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
+    padding-inline: 10vw;
+    padding-block: 5vh;
 }
 /* Generic class declarations for positioning and stacking. */
 .layer-hidden {
@@ -53,6 +55,10 @@
     z-index: 1000;
 }
 /* Generic class declarations for typography. */
+.header {
+  padding-block: 0;
+  margin-block: 0;
+}
 .type-header {
     font: normal normal calc(var(--default-size)*2)/100% "STRING_FONT_FAMILY", sans-serif;
     color: black;

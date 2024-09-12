@@ -1,12 +1,15 @@
 import * as React from "react";
+import { useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
-import "STRING_CSS_PATH";
-import header from "STRING_IMAGE_PATH";
+import "./index.css";
+// import header from "STRING_IMAGE_PATH";
 
 export default function SignInPage() {
   const [loginNote, setLoginNote] = React.useState("Please enter your username and password.");
+
+  const navigate = useNavigate();
 
   function handleLogin() {
     axios
@@ -36,13 +39,13 @@ export default function SignInPage() {
   return (
     <div className = "container column-center">
       <div className = "container row-center">
-        <div className = "container row-center">
+        {/* <div className = "container row-center">
           <img id = "image-login" src = { header } title = "RDIS" alt = "Header"/>
-        </div>
+        </div> */}
         <div className = "container column-center">
           <div className = "container column-center">
-            <div className = "container row-center">
-              <span className = "type-header">Sign In to <b>RDIS</b></span>
+            <div className = "container row-center header">
+              <span className = "type-header"><b>ROAD DISASTER INVENTORY SYSTEM (RDIS)</b></span>
             </div>
             <div className = "container row-center form-field">
               <label htmlFor = "sign-in-username"><span className = "type-body">Username</span></label>
@@ -55,7 +58,7 @@ export default function SignInPage() {
             <div className = "form-note">
               <span className = "type-footer">{ loginNote }</span>
             </div>
-            <div className = "button" onClick = { () => { handleLogin(); } }>
+            <div className = "button" onClick = { () => { {/*handleLogin();*/} navigate(`/home/dashboard`)} }>
               <span className = "type-button">Sign In</span>
             </div>
             <div className = "button" onClick = { () => { {/*FUNC_NAVIGATE_SECURITY();*/} } }>

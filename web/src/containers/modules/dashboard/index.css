@@ -1,0 +1,65 @@
+.main-dashboard-body {
+  width: 45vw;
+  display: flex;
+  flex-direction: row;
+}
+
+.mdb-left{
+  width: calc(45vw/3);
+  display: flex;
+  flex-direction: column;
+
+  padding-right: 1vw;
+
+}
+
+.mdb-left-title {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.mdb-left-desc {
+  text-align: justify;
+  padding-top: 1vh;
+}
+
+.mdb-left-graph {
+  height: 30vh;
+}
+
+.mdb-right{
+  width: calc((45vw/3)*2);
+
+  padding-left: 1vw;
+}
+
+.mdb-right-title {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.mdb-right-desc {
+  height: 20vh;
+}
+
+.mdb-right-summ {
+
+}
+
+.mdb-right-summ-graph {
+  margin-left: -4vh;
+}

@@ -1,0 +1,48 @@
+.sdb-dropdown {
+  margin-top: 1vh;
+  height: 5vh;
+}
+
+.sdb-right-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.sdb-right-title {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.sdb-right-title:hover {
+  background-color: #5271ff;
+
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+.sdb-right-title-selected {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: #5271ff;
+  color: white;
+}
+
+.sdb-right-body {
+  margin-top: 1vh;
+  height: 70vh;
+  overflow-y: scroll;
+}

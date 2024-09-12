@@ -1,0 +1,34 @@
+.rowbar {
+  height: 9vh;
+  width: 100vw;
+  background-color: #5271ff;
+}
+
+.headerbar {
+  height: 6vh;
+}
+
+.appbar {
+  display: flex;
+  flex-direction: row;
+  padding-left: 2vw;
+}
+
+.appbar-button {
+  padding: 2vh;
+  color: white;
+}
+
+.appbar-button:hover {
+  cursor: pointer;
+  background-color: #000000;
+
+  transition: ease-in-out 0.3s;
+}
+
+.appbar-button-selected {
+  font-weight: bold;
+  padding: 2vh;
+  color: white;
+  background-color: #000000;
+}
