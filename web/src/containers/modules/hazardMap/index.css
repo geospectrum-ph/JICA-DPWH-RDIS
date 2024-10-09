@@ -1,11 +1,68 @@
-.dashboard-body{
-  display: flex;
-  flex-direction: row;
-
-  width: 100vw;
+.sdb-dropdown {
+  margin-top: 1vh;
+  height: 5vh;
 }
 
-.left, .right{
-  width: 50vw;
+.sdb-left-report {
+  display: flex;
+  flex-direction: row;
   padding: 1vw;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.sdb-left-report:hover {
+  background-color: #5271ff;
+
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+
+.sdb-right-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.sdb-right-title {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.sdb-right-title:hover {
+  background-color: #5271ff;
+
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+.sdb-right-title-selected {
+  display: flex;
+  flex-direction: row;
+  padding: 2vw;
+  width: 50%;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: #5271ff;
+  color: white;
+}
+
+.sdb-right-body {
+  margin-top: 1vh;
+  height: 80vh;
+  overflow-y: scroll;
 }

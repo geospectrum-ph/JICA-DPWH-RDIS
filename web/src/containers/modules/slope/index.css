@@ -3,6 +3,26 @@
   height: 5vh;
 }
 
+.sdb-left-report {
+  display: flex;
+  flex-direction: row;
+  padding: 1vw;
+  
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.sdb-left-report:hover {
+  background-color: #5271ff;
+
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+
+
 .sdb-right-header {
   display: flex;
   flex-direction: row;
@@ -43,6 +63,6 @@
 
 .sdb-right-body {
   margin-top: 1vh;
-  height: 70vh;
+  height: 80vh;
   overflow-y: scroll;
 }

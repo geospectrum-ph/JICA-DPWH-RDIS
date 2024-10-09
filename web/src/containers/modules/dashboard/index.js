@@ -5,7 +5,7 @@ import './index.css';
 import { MainContext } from '../../../contexts/MainContext';
 
 export default function MainDashboard () {
-  const {sampleData} = React.useContext(MainContext)
+  const {roadSection} = React.useContext(MainContext)
 
   const sampleData1 =[
     {x: 'Jan', y: 24},
@@ -18,7 +18,7 @@ export default function MainDashboard () {
   ]
 
   const sampleData2 = [
-    {name: 'Total roads', value: sampleData.features.length},
+    {name: 'Total roads', value: roadSection.length},
     {name: 'For Funding', value: 931},
     {name: 'Phase 2 project', value: 630}
   ]

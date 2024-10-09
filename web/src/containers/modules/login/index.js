@@ -55,9 +55,11 @@ export default function SignInPage() {
               <label htmlFor = "sign-in-password"><span className = "type-body">Password</span></label>
               <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { (event) => { localStorage.setItem("password", event.target.value); } } required/>
             </div>
+            <br/>
             <div className = "form-note">
               <span className = "type-footer">{ loginNote }</span>
             </div>
+            <br/>
             <div className = "button" onClick = { () => { {/*handleLogin();*/} navigate(`/home/dashboard`)} }>
               <span className = "type-button">Sign In</span>
             </div>
@@ -84,7 +86,7 @@ export default function SignInPage() {
               </span>
             </div>
             <div className = "container row-center">
-              <span className = "type-footer">RDIS © 2024 by Geospectrum Analytics Services, Inc.</span>
+              <span className = "type-footer">RDIS © 2024</span>
             </div>
           </div>
         </div>

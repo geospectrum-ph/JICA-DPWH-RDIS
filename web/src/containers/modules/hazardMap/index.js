@@ -1,23 +1,32 @@
 import React from 'react';
-import HeaderBar from '../../components/appBar';
-import HeaderTitle from '../../components/header';
 
 import './index.css';
-import MapComponent from '../tempMap';
+import { MainContext } from '../../../contexts/MainContext';
+import ItemInventory from './inventory';
+import Filter from './filters';
+import { Route, Routes } from 'react-router-dom';
 
-export default function Dashboard() {
+export default function HazardMap() {
+  const {roadSection, setRoadSection, origData} = React.useContext(MainContext);
+
+  const [slopeList, setSlopeList] = React.useState('inventory')
+
   return (
-    <div>
-      <div>
-        <HeaderBar/>
-        <HeaderTitle/>
-        <div className='dashboard-body'>
-          <div className='left'>
+    <div className='main-dashboard-body'>
+      <div className='mdb-left'>
+        <Filter/>
+        <br/>
+        {/* <div className="sdb-left-report">Generate report</div> */}
+      </div>
+      <div className='mdb-right'>
+        <div className='sdb-right-header'>
+        </div>
+        <div className='sdb-right-body'>
+          {roadSection.length? roadSection.map((feat) => {
             
-          </div>
-          <div className='right'>
-            <MapComponent/>
-          </div>
+             return <ItemInventory roadName={feat.properties.ROAD_NAME} properties={feat.properties} geometry={feat.geometry}/>
+        
+          }) : <div>None</div> }
         </div>
       </div>
     </div>

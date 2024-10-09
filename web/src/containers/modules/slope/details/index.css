@@ -1,5 +1,5 @@
 .sld-container {
-  width: 45vw;
+  width: 53vw;
   display: flex;
   flex-direction: column;
 }
@@ -22,6 +22,13 @@
 
   background-color: black;
   color: white;
+
+  transition: ease-in-out 0.3s
+}
+
+.sld-header-back:hover {
+  background-color: #5271ff;
+  cursor: pointer;
 }
 
 .sld-header-title {
@@ -37,6 +44,75 @@
   color: white;
 }
 
+.sld-header-buttons {
+  width: 25%;
+  display: flex;
+  flex-direction: row;
+}
+
 .sld-header-button {
-  
+  width: 50%;
+  padding-inline: 3vw;
+  margin-left: 1vw;
+
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+
+  transition: ease-in-out 0.3s
+}
+
+.sld-body {
+  margin-top: 2vh;
+  width: 100%;
+  padding: 2vh;
+
+  height: auto;
+  border: solid;
+
+  display: grid;
+  grid-template-columns: 15vw auto;
+  /* grid-auto-rows: 24px; */
+}
+
+.sld-body-prop {
+  height: 2vh;
+  padding-block: 0.5vh;
+}
+
+.sld-segments {
+  height: 3vh;
+  padding-block: 0.75vh;
+}
+
+.sld-body-list-container {
+  height: 40vh;
+  overflow-y: scroll
+}
+
+.sld-body-list-details {
+  height: 40vh;
+  overflow-y: scroll;
+
+  display: grid;
+  grid-template-columns: 12vw auto;
+}
+
+.sld-body-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 3.5vh; 
+
+  transition: ease-in-out 0.35;
+}
+
+.sld-body-list:hover {
+   cursor: pointer;
+   color: blue
 }

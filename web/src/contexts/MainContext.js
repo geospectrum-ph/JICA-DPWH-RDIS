@@ -1,6 +1,10 @@
 import React from 'react';
 
-import sample from '../sampleFiles/sample_data.json'
+import sample from '../sampleFiles/road_sections_merged.json'
+import sample2 from '../sampleFiles/sample_road_projects.json'
+import hazardData from '../sampleFiles/R7_LRS_HaszardMapSample.json'
+import segments from '../sampleFiles/sample_disire_road_closure.json'
+import terrainData from '../assets/shp/terrain.json'
 
 export const MainContext = React.createContext();
 
@@ -9,20 +13,47 @@ const MainContextProvider = (props) => {
 
   const [moduleSelect, setModuleSelect] = React.useState('dashboard');
 
-  const [sampleData, setSampleData] = React.useState(sample)
+  const [roadSection, setRoadSection] = React.useState(sample);
+
+  const [roadSegments, setRoadSegments] = React.useState(segments);
+
+  const [origDataEmergency, setOrigDataEmergency] = React.useState(segments)
+
+  const [terrain, setTerrain] = React.useState(terrainData)
+  
+  const [selectedSegments, setSelectedSegments] = React.useState()
+
+  const [roadSegments2, setRoadSegments2] = React.useState(sample2)
+
+  const [hazardList, setHazardList] = React.useState(hazardData)
+
+  const [selectedHazard, setSelectedHazard] = React.useState()
 
   const [origData, setOrigData] = React.useState(sample)
 
+  const [origDataHazard, setOrigDataHazard] = React.useState(hazardData)
+
   const [selectedInventory, setSelectedInventory] = React.useState()
+
+  const [scale, setScale] = React.useState(50000)
 
   const [mapCenter, setMapCenter] = React.useState([120.59958964948025, 16.40383820492775])
 
   return (
     <MainContext.Provider value = {{moduleTitle, setModuleTitle,
                                     moduleSelect, setModuleSelect,
-                                    sampleData, setSampleData,
+                                    roadSection, setRoadSection,
+                                    roadSegments, setRoadSegments,
+                                    origDataEmergency, setOrigDataEmergency,
+                                    terrain, setTerrain,
+                                    selectedSegments, setSelectedSegments,
+                                    roadSegments2, setRoadSegments2,
+                                    hazardList, setHazardList,
+                                    selectedHazard, setSelectedHazard,
                                     origData, setOrigData,
+                                    origDataHazard, setOrigDataHazard,
                                     selectedInventory, setSelectedInventory,
+                                    scale, setScale,
                                     mapCenter, setMapCenter
     }}>
       {props.children}

@@ -42616,7 +42616,7 @@
     }
   },
   {
-    "region_name": "Bangsamoro Autonomous Region in Muslim Mindanao",
+    "region_name": "BARMM",
     "province_list": {
       "BASILAN": {
         "municipality_list": {
@@ -45692,7 +45692,7 @@
     }
   },
   {
-    "region_name": "Cordillera Administrative Region",
+    "region_name": "CAR",
     "province_list": {
       "ABRA": {
         "municipality_list": {
@@ -47205,7 +47205,7 @@
     }
   },
   {
-    "region_name": "National Capital Region",
+    "region_name": "NCR",
     "province_list": {
       "NATIONAL CAPITAL REGION - FOURTH DISTRICT": {
         "municipality_list": {

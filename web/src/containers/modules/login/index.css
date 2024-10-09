@@ -73,7 +73,7 @@
 }
 .type-footer {
     font: normal normal calc(var(--default-size)/3)/100% "STRING_FONT_FAMILY", sans-serif;
-    color: black;
+    color: gray;
 }
 /* Style declarations for special classes. */
 img {

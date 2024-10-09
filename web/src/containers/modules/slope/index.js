@@ -7,15 +7,15 @@ import Filter from './filters';
 import { Route, Routes } from 'react-router-dom';
 
 export default function SlopeDashboard() {
-  const {sampleData, setSampleData, origData} = React.useContext(MainContext);
+  const {roadSection, setRoadSection, origData} = React.useContext(MainContext);
 
   const [slopeList, setSlopeList] = React.useState('inventory')
 
   const filterSlopeList = (selection) => {
     setSlopeList(selection)
-    setSampleData({...sampleData, features: origData.features.filter((feat) => {
-      if (selection === 'inventory') {
-        return feat.properties.inventory === 0
+    setRoadSection({...roadSection, features: origData.features.filter((feat) => {
+      if (selection == 'inventory') {
+        return feat.properties.inventory !== ''
       } return feat.properties.inventory === 1
     })})
   }
@@ -24,26 +24,18 @@ export default function SlopeDashboard() {
     <div className='main-dashboard-body'>
       <div className='mdb-left'>
         <Filter/>
+        <br/>
+        <div className="sdb-left-report">Generate report</div>
       </div>
       <div className='mdb-right'>
         <div className='sdb-right-header'>
-          <div className={slopeList === 'inventory' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
-            onClick={() => filterSlopeList('inventory')}
-            >
-            <b>Inventory</b>
-          </div>
-          <div className={slopeList === 'funding' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
-            onClick={() => filterSlopeList('funding')}
-            >
-            <b>For Funding</b>
-          </div>
+             .
         </div>
         <div className='sdb-right-body'>
-          {sampleData.features.map((feat) => {
+          {roadSection.map((feat) => {
             
-             return <ItemInventory roadName={feat.properties.road_name} properties={feat.properties} geometry={feat.geometry}/>
-            
-            // console.log(feat.properties.road_name)
+             return <ItemInventory roadName={feat.properties.ROAD_NAME} properties={feat.properties} geometry={feat.geometry}/>
+        
           })}
         </div>
       </div>

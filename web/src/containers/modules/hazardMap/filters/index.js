@@ -1,6 +1,7 @@
 import React from 'react';
 import regions from '../../../../assets/regions-list.json'
 import deo from '../../../../assets/shp/engineering_district.json'
+import ld from '../../../../assets/shp/congressional_district.json'
 import { MainContext } from '../../../../contexts/MainContext';
 
 export default function Filter() {
@@ -8,6 +9,7 @@ export default function Filter() {
 
   const [regionSelect, setRegionSelect] = React.useState('Region')
   const [deoSelect, setDeoSelect] = React.useState('Engineering District')
+  const [ldSelect, setLdSelect] = React.useState('Legislative District')
   const [hazardSelect, setHazardSelect] = React.useState('Hazard')
 
   React.useEffect(() => {
@@ -16,7 +18,7 @@ export default function Filter() {
       setRoadSection(origData.filter((feat) => {
         // console.log(origData.features, feat)
         return feat.properties.REGION.toLowerCase() === regionSelect.toLowerCase()
-      }))
+      }).sort((a,b) => a.properties.SECTION_ID.localeCompare(b.properties.SECTION_ID)))
     } else {
       setRoadSection(origData)
     }
@@ -26,7 +28,7 @@ export default function Filter() {
     if (deoSelect !== 'Engineering District' && deoSelect.length > 0) {
       setRoadSection(origData.filter((feat) => {
         return feat.properties.DEO.toLowerCase().includes(deoSelect.toLowerCase())
-      }))
+      }).sort((a,b) => a.properties.SECTION_ID.localeCompare(b.properties.SECTION_ID)))
     }
     
   }, [deoSelect])
@@ -66,7 +68,19 @@ export default function Filter() {
         
       </select>
 
-      {/* <select className='sdb-dropdown' value={hazardSelect}
+      {/* <select className='sdb-dropdown' value={ldSelect}
+        onChange={(event) => setLdSelect(event.target.value)}>
+        <option disabled selected hidden value='Legislative District'>Legislative District</option>
+        <option value=''></option>
+        {deoSelect !== 'Engineering District' && deoSelect.length > 0  ? ld.filter((ld) => {
+          return ld.properties.REGION.toLowerCase() === regionSelect.toLowerCase()
+        }).map((deof) => {
+          return <option>{deof.properties.DEO}</option>
+        }) : null}
+        
+      </select> */}
+
+      <select className='sdb-dropdown' value={hazardSelect}
         onChange={(event) => setHazardSelect(event.target.value)}>
         <option disabled selected hidden value='Hazard'>Hazard level</option>
         <option></option>
@@ -74,7 +88,7 @@ export default function Filter() {
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
         
-      </select> */}
+      </select>
 
       {/* <select className='sdb-dropdown'>
         <option disabled selected hidden>Disaster</option>
@@ -94,7 +108,7 @@ export default function Filter() {
         
       </select> */}
       <br/>
-      <div className='mdb-left-title'>
+      {/* <div className='mdb-left-title'>
         <b>Sort</b>
       </div>
 
@@ -108,7 +122,7 @@ export default function Filter() {
         <option disabled selected hidden>Road Closure Frequency</option>
         <option></option>
         
-      </select>
+      </select> */}
     </>
   )
 }
