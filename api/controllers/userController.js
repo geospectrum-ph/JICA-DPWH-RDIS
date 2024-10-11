@@ -1,9 +1,7 @@
 // server/controllers/userController.js
 const db = require("../models");
 const User = db.users;
-const Op = db.Sequelize.Op;
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 exports.create = async (req, res) => {
   const hashedPassword = await bcrypt.hash(req.body.password, 16);
@@ -28,7 +26,7 @@ exports.create = async (req, res) => {
     });
 };
 exports.findAll = (req, res) => {
-  User.findAll({attributes: ['email']})
+  User.findAll({ attributes: ['email'] })
     .then(data => {
       res.send(data);
     })
@@ -41,7 +39,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-  User.findOne({where: {email: req.body.email}})
+  User.findOne({ where: { email: req.body.email } })
     .then(data => {
       res.send(data);
     })
@@ -53,42 +51,10 @@ exports.findOne = (req, res) => {
     });
 };
 
-
-exports.loginUser = async (req, res) => {
-  const user = await User.findOne({ where : {email : req.body.email }});
-  if(user){
-    const password_valid = await bcrypt.compare(req.body.password,user.password);
-    if(password_valid){
-        token = jwt.sign({ "id" : user.id,"email" : user.email,"first_name":user.first_name }, process.env.JWT_SECRET);
-        res.status(200).json({ token : token });
-    } else {
-      res.status(400).json({ error : "Password Incorrect" });
-    }
-  
-  }else{
-    res.status(404).json({ error : "User does not exist" });
-  }
-};
-
-exports.verifyJWT = async (req, res, next) => {
-  try {
-    let token = req.headers['authorization'].split(" ")[1];
-    let decoded = jwt.verify(token,process.env.SECRET);
-    req.user = decoded;
-    next();
-  } catch(err){
-    console.log(err)
-    res.status(401).json({"msg":"Couldnt Authenticate"});
-  }
-};
-
-
 exports.userProfile = async (req, res, next) => {
-  let user = await User.findOne({where:{id : req.user.id},attributes:{exclude:["password"]}});
-  if(user === null){
-    res.status(404).json({'msg':"User not found"});
+  let user = await User.findOne({ where: { id: req.user.id }, attributes: { exclude: ["password"] } });
+  if (user === null) {
+    res.status(404).json({ 'msg': "User not found" });
   }
   res.status(200).json(user);
 };
-
-// reset password block
