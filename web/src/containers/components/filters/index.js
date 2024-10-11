@@ -8,7 +8,7 @@ import { MainContext } from '../../../contexts/MainContext';
 
 export default function AreaFilter() {
 
-  const {setRoadSection, origDataSections, setMapCenter} = React.useContext(MainContext)
+  const {setRoadSection, origDataSections, setMapCenter, setRoadSegments, origDataEmergency} = React.useContext(MainContext)
 
   const [regionSelect, setRegionSelect] = React.useState('')
   const [regionDropdown, setRegionDropdown] = React.useState(false)
@@ -20,6 +20,15 @@ export default function AreaFilter() {
     setRoadSection(origDataSections.filter((section)=> {
       return section.properties.REGION.toLowerCase() === regionSection.toLowerCase()
     }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+
+    setRoadSegments(origDataEmergency.filter((segment) => {
+      var id = origDataSections.filter((section) => {
+        return section.properties.SECTION_ID === segment.properties.section_id
+      })
+      
+      return id[0].properties.REGION.toLowerCase() === regionSection.toLowerCase()
+    }).sort((a, b) => { return a.properties.section_id - b.properties.section_id
+    }))
   }
 
   const [deoSelect, setDeoSelect] = React.useState('')

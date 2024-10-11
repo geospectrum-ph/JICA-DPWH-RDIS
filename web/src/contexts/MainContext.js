@@ -1,7 +1,7 @@
 import React from 'react';
 
-import sample from '../sampleFiles/road_sections_merged.json'
-import sample2 from '../sampleFiles/sample_road_projects.json'
+import sections from '../sampleFiles/road_sections_merged.json'
+import projects from '../sampleFiles/sample_road_projects.json'
 import hazardData from '../sampleFiles/R7_LRS_HaszardMapSample.json'
 import closure from '../sampleFiles/sample_disire_road_closure.json'
 import terrainData from '../assets/shp/terrain.json'
@@ -13,9 +13,9 @@ const MainContextProvider = (props) => {
 
   const [moduleSelect, setModuleSelect] = React.useState('dashboard');
 
-  const [roadSection, setRoadSection] = React.useState(sample);
+  const [roadSection, setRoadSection] = React.useState(sections);
 
-  const [origDataSections, setOrigDataSections] = React.useState(sample)
+  const [origDataSections, setOrigDataSections] = React.useState(sections)
 
   const [roadSegments, setRoadSegments] = React.useState(closure);
 
@@ -25,9 +25,11 @@ const MainContextProvider = (props) => {
   
   const [selectedSegments, setSelectedSegments] = React.useState()
 
-  const [roadProjects, setRoadProjects] = React.useState(sample2)
+  const [roadProjects, setRoadProjects] = React.useState(projects)
 
   const [hazardList, setHazardList] = React.useState([])
+
+  const [closureList, setClosureList] = React.useState([])
 
   const [selectedSection, setSelectedSection] = React.useState()
 
@@ -51,6 +53,7 @@ const MainContextProvider = (props) => {
                                     selectedSegments, setSelectedSegments,
                                     roadProjects, setRoadProjects,
                                     hazardList, setHazardList,
+                                    closureList, setClosureList,
                                     selectedSection, setSelectedSection,
                                     selectedHazard, setSelectedHazard,
                                     origDataSections, setOrigDataSections,

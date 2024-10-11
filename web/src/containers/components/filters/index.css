@@ -45,6 +45,8 @@
 
   height: 20vh;
   overflow-y: scroll;
+
+  z-index: 100;
 }
 
 .areafilter-dropdown-item {

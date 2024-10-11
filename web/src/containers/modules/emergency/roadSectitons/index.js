@@ -7,7 +7,7 @@ import './index.css'
 export default function HazardRoadsList() {
   const {roadSection, setSelectedSection, setHazardList, origDataHazard, setMapCenter} = React.useContext(MainContext)
   
-  const filterHazardSegments = (section) => {
+  const filterClosureSegments = (section) => {
     setHazardList(origDataHazard.filter((hazard) => {
       return hazard.properties.SECTION_ID === section.properties.SECTION_ID
     }).sort((a, b) => { return a.properties.LRP_DISP1 - b.properties.LRP_DISP1}))

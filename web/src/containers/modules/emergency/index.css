@@ -1,4 +1,18 @@
 .emergency-container{
   display: grid;
-  grid-template-columns: 65% 35%;
+  gap: 1%;
+  grid-template-columns: 65% 34%;
+}
+
+.emergency-charts{
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+.emergency-charts-row1{
+  display: grid;
+  gap: 2%;
+  grid-template-columns: 34% 64%;
 }

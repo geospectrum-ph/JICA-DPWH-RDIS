@@ -1,4 +1,4 @@
-.closure-classpie-container{
+.closure-total-container{
   display: flex;
   flex-direction: column;
 
@@ -8,12 +8,12 @@
   height: 100%;
 }
 
-.closure-classpie-header{
+.closure-total-header{
   display: flex;
   flex-direction: row;
   padding-inline: 1vw;
 
-  width: 80%;
+  width: 100%;
 
   align-items: center;
   justify-content: center;
@@ -22,15 +22,7 @@
   color: white;
 }
 
-.closure-classpie-chart{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.closure-classpie-legend {
-  width: 40%;
-
-  display: grid;
-  grid-template-columns: 50% 50%;
+.closure-total-body{
+  font-size: 6vh;
+  padding-block: 2vh;
 }
