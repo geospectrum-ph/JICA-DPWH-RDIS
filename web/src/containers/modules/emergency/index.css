@@ -1,11 +1,4 @@
-.dashboard-body{
-  display: flex;
-  flex-direction: row;
-
-  width: 100vw;
-}
-
-.left, .right{
-  width: 50vw;
-  padding: 1vw;
+.emergency-container{
+  display: grid;
+  grid-template-columns: 65% 35%;
 }

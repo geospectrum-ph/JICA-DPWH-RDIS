@@ -1,22 +1,24 @@
-.rowbar {
-  height: 9vh;
-  width: 100vw;
+.headerbar-container {
+  height: auto;
+  width: 100%;
   background-color: #5271ff;
-}
-
-.headerbar {
-  height: 6vh;
 }
 
 .appbar {
   display: flex;
   flex-direction: row;
-  padding-left: 2vw;
+  padding-left: 1vw;
+
+  background-color: #5271ff;
+
 }
 
 .appbar-button {
-  padding: 2vh;
+  padding: 1vh;
+  height: 5%;
   color: white;
+  
+  margin-inline: 0.5vw;
 }
 
 .appbar-button:hover {
@@ -28,7 +30,7 @@
 
 .appbar-button-selected {
   font-weight: bold;
-  padding: 2vh;
+  padding: 1vh;
   color: white;
   background-color: #000000;
 }

@@ -1,0 +1,58 @@
+.areafilter-container{
+  height: 8%;
+  width: 100%;
+
+  display: flex;
+  background-color: gray;
+}
+
+.areafilter-header {
+  width: 65%;
+  background-color: orange;
+}
+
+.areafilter-dropdowns{
+  width: 35%;
+
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+}
+
+.areafilter-dropdown{
+  display: flex;
+  flex-direction: column;
+}
+
+.areafilter-dropdown-menu {
+  padding: 1vh;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  /* transition: 0.3s ease-in-out */
+}
+
+.areafilter-dropdown-menu:hover {
+  cursor: pointer;
+  font-weight: bold;
+
+}
+
+.areafilter-dropdown-list {
+  padding-inline: 1vh;
+  background-color: gray;
+
+  height: 20vh;
+  overflow-y: scroll;
+}
+
+.areafilter-dropdown-item {
+  color: white;
+  padding-block: 0.5vh;
+}
+
+.areafilter-dropdown-item:hover {
+  background-color: darkgray;
+  cursor: pointer;
+}

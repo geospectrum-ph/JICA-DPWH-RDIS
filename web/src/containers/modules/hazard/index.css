@@ -1,0 +1,7 @@
+.hazard-container {
+  display: grid;
+  column-gap: 2%;
+  grid-template-columns: 30% 68%;
+
+  height: 90%
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import sample from '../sampleFiles/road_sections_merged.json'
 import sample2 from '../sampleFiles/sample_road_projects.json'
 import hazardData from '../sampleFiles/R7_LRS_HaszardMapSample.json'
-import segments from '../sampleFiles/sample_disire_road_closure.json'
+import closure from '../sampleFiles/sample_disire_road_closure.json'
 import terrainData from '../assets/shp/terrain.json'
 
 export const MainContext = React.createContext();
@@ -15,21 +15,23 @@ const MainContextProvider = (props) => {
 
   const [roadSection, setRoadSection] = React.useState(sample);
 
-  const [roadSegments, setRoadSegments] = React.useState(segments);
+  const [origDataSections, setOrigDataSections] = React.useState(sample)
 
-  const [origDataEmergency, setOrigDataEmergency] = React.useState(segments)
+  const [roadSegments, setRoadSegments] = React.useState(closure);
+
+  const [origDataEmergency, setOrigDataEmergency] = React.useState(closure)
 
   const [terrain, setTerrain] = React.useState(terrainData)
   
   const [selectedSegments, setSelectedSegments] = React.useState()
 
-  const [roadSegments2, setRoadSegments2] = React.useState(sample2)
+  const [roadProjects, setRoadProjects] = React.useState(sample2)
 
-  const [hazardList, setHazardList] = React.useState(hazardData)
+  const [hazardList, setHazardList] = React.useState([])
+
+  const [selectedSection, setSelectedSection] = React.useState()
 
   const [selectedHazard, setSelectedHazard] = React.useState()
-
-  const [origData, setOrigData] = React.useState(sample)
 
   const [origDataHazard, setOrigDataHazard] = React.useState(hazardData)
 
@@ -47,10 +49,11 @@ const MainContextProvider = (props) => {
                                     origDataEmergency, setOrigDataEmergency,
                                     terrain, setTerrain,
                                     selectedSegments, setSelectedSegments,
-                                    roadSegments2, setRoadSegments2,
+                                    roadProjects, setRoadProjects,
                                     hazardList, setHazardList,
+                                    selectedSection, setSelectedSection,
                                     selectedHazard, setSelectedHazard,
-                                    origData, setOrigData,
+                                    origDataSections, setOrigDataSections,
                                     origDataHazard, setOrigDataHazard,
                                     selectedInventory, setSelectedInventory,
                                     scale, setScale,

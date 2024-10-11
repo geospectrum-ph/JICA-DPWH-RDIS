@@ -1,0 +1,63 @@
+.closure-roadsections-container{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+}
+
+.closure-roadsections-header{
+  display: flex;
+  flex-direction: row;
+  padding-inline: 4vw;
+
+  width: 60%;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.closure-roadsections-search{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.closure-roadsections-search input[type=text] {
+  padding: 6px;
+  border: none;
+  margin-top: 2%;
+  width: 100%;
+  font-size: 1.5vh;
+}
+
+.closure-roadsections-list {
+  height: 40vh;
+  width: 100%;
+
+  overflow-y: scroll;
+}
+
+.closure-list-item {
+  display: flex;
+  flex-direction: row;
+  padding-block: 0.5vh;
+
+  transition: 0.3s ease-in-out;
+}
+
+.closure-list-item:hover {
+  cursor: pointer;
+
+  background-color: gray;
+  color: white
+}
+
+.closure-list-id {
+  width: 25%;
+}

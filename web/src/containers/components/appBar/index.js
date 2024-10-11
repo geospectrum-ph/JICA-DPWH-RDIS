@@ -16,14 +16,14 @@ export default function HeaderBar () {
     navigate(`/home/${module}`)
   }
   return (
-    <div className='rowbar headerbar'>
+    <div className='headerbar-container'>
       <div className='appbar'>
-        <div className={moduleSelect === 'dashboard' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Dashboard', 'dashboard')}>Dashboard</div>
-        <div className={moduleSelect === 'slope' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Slope Inventory and Countermeasure', 'slope')}>Slope</div>
-        <div className={moduleSelect === 'emergency' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Emergency Response', 'emergency')}>Emergency</div>
-        <div className={moduleSelect === 'hazard' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Hazard Map', 'hazard')}>Hazard</div>
+        <div className={moduleSelect === 'dashboard' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Dashboard', 'dashboard')}>Main Dashboard</div>
+        <div className={moduleSelect === 'slope' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Slope Inventory and Countermeasure', 'slope')}>Slope Inventory and Countermeasure</div>
+        <div className={moduleSelect === 'emergency' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Emergency Response', 'emergency')}>Emergency Response</div>
+        <div className={moduleSelect === 'hazard' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('Hazard Map', 'hazard')}>Hazard Map</div>
         <div style={{flexGrow: 1}}></div>
-        <div className={moduleSelect === 'user' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('User Management', 'user')}>User</div>
+        <div className={moduleSelect === 'user' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('User Management', 'user')}>User Management</div>
         <div className='appbar-button' onClick={() => navigate('/')}>
           <span class="material-symbols-outlined">
             logout

@@ -13,7 +13,7 @@
 
 #data
 /src/sampleFiles
-/src/assets
+/src/assets/shp
 
 # misc
 .DS_Store

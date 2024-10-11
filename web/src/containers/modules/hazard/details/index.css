@@ -1,0 +1,19 @@
+.h-details-container {
+  height: 100%;
+
+  display: grid;
+  gap: 1%;
+  grid-template-rows: 18% 81%;
+}
+
+.h-details-header {
+  padding: 1vh;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+.h-details-body {
+  display: grid;
+  gap: 1%;
+  grid-template-columns: 49% 49%;
+}

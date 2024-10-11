@@ -1,19 +1,27 @@
-.main-dashboard-body {
-  width: 45vw;
-  display: flex;
-  flex-direction: row;
+.md-container {
+  display: grid;
+  padding-top: 1%;
+  padding-left: 1%;
+  gap: 2%;
+  grid-template-columns: 18.4% 18.4% 18.4% 18.4% 18.4%;
+  grid-template-rows: 30% 30% 40%;
+
+  height: 100%;
+    
 }
 
-.mdb-left{
-  width: calc(45vw/3);
+.md-description {
   display: flex;
   flex-direction: column;
-
-  padding-right: 1vw;
-
+  /* width: 66%; */
+  grid-column-end: span 3;
 }
 
-.mdb-left-title {
+.md-description-title {
+  
+}
+
+.md-description-title{
   display: flex;
   flex-direction: row;
   padding: 2vw;
@@ -25,41 +33,19 @@
   color: white;
 }
 
-.mdb-left-desc {
+.md-description-desc {
+  display: flex;
+  /* width: 100%; */
+
   text-align: justify;
-  padding-top: 1vh;
+  text-indent: 5%;
+
+  padding-inline: 2%;
+  margin-top: 2%;
 }
 
-.mdb-left-graph {
-  height: 30vh;
+.md-roadsections{
+  grid-column-end: span 2;
+  grid-row-end: span 2
 }
 
-.mdb-right{
-  width: calc((45vw/3)*2);
-
-  padding-left: 1vw;
-}
-
-.mdb-right-title {
-  display: flex;
-  flex-direction: row;
-  padding: 2vw;
-
-  align-items: center;
-  justify-content: center;
-
-  background-color: black;
-  color: white;
-}
-
-.mdb-right-desc {
-  height: 20vh;
-}
-
-.mdb-right-summ {
-
-}
-
-.mdb-right-summ-graph {
-  margin-left: -4vh;
-}
