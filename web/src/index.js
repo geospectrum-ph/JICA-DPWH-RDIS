@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import MainContextProvider from './contexts/MainContext';
+import ArcGISMapContextProvider from './containers/components/map';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
     <React.StrictMode>
       <MainContextProvider>
-        <App />
+        <ArcGISMapContextProvider>
+          <App />
+        </ArcGISMapContextProvider>
       </MainContextProvider>
     </React.StrictMode>
   </Router>

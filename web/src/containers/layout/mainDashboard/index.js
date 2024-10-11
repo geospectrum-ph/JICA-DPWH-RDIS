@@ -14,9 +14,12 @@ import './index.css';
 import HazardModule from '../../modules/hazard';
 import RoadInformation from '../../components/roadInformation';
 import EmergencyModule from '../../modules/emergency';
+import { ArcGISMapContext } from '../../components/map';
 
 export default function DashboardLayout(){
   const {moduleSelect, selectedSection} = React.useContext(MainContext)
+  const {ArcGISMap} = React.useContext(ArcGISMapContext)
+
   return (
     <div className='app-container'>
       <TitleBar/>
@@ -36,7 +39,7 @@ export default function DashboardLayout(){
         </div>
         <div className={moduleSelect === 'user' ? 'right-none' : 'right'}>
           <div>
-            test
+            <ArcGISMap/>
           </div>
           <div>
             {selectedSection ? <RoadInformation/> : null}
