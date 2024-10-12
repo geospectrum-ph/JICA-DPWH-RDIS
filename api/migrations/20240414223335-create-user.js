@@ -9,6 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      username: {
+        type: Sequelize.STRING
+      },
+      region: {
+        type: Sequelize.STRING
+      },
       first_name: {
         type: Sequelize.STRING
       },

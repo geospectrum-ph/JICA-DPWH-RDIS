@@ -13,20 +13,20 @@ entryPoints:
   web:
     address: ":80"
 
-routes:
-  api:
-    rule: "PathPrefix(`/api`)"
-    service: api
-  web:
-    rule: "PathPrefix(`/`)"
-    service: web
+# routes:
+#   api:
+#     rule: "PathPrefix(`/api`)"
+#     service: api
+#   web:
+#     rule: "PathPrefix(`/web`)"
+#     service: web
 
-services:
-  api:
-    loadBalancer:
-      servers:
-        - url: "http://rdis_api:3001"
-  web:
-    loadBalancer:
-      servers:
-        - url: "http://rdis_web:3000"
+# services:
+#   api:
+#     loadBalancer:
+#       servers:
+#         - url: "http://rdis_api:3001"
+#   web:
+#     loadBalancer:
+#       servers:
+#         - url: "http://rdis_web:3000"

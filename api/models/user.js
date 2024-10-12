@@ -1,8 +1,14 @@
 
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define("user", {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+
+    },
     email: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     password: {
       type: DataTypes.STRING,
@@ -16,13 +22,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    passwordResetToken: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
+    // passwordResetToken: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true
+    // },
     role: {
-      type: DataTypes.ENUM('user', 'admin'),
-      defaultValue: 'user'
+      type: DataTypes.ENUM('reader', 'editor', 'admin'),
+      defaultValue: 'reader'
+    },
+    region: {
+      type: DataTypes.STRING,
+      allowNull: false      
     }
     
   });
