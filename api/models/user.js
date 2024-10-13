@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    // passwordResetToken: {
-    //   type: DataTypes.STRING,
-    //   allowNull: true
-    // },
+    passwordResetToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     role: {
       type: DataTypes.ENUM('reader', 'editor', 'admin'),
       defaultValue: 'reader'
