@@ -9,6 +9,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      username: {
+        type: Sequelize.STRING
+      },
+      region: {
+        type: Sequelize.STRING
+      },
       first_name: {
         type: Sequelize.STRING
       },
@@ -21,6 +27,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      passwordResetToken: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -28,7 +37,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      role: {
+        type: Sequelize.STRING
       }
+
     });
   },
   async down(queryInterface, Sequelize) {

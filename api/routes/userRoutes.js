@@ -1,15 +1,8 @@
-module.exports = app => {
-  const users = require("../controllers/userController.js");  
-  var router = require("express").Router();
-  // Login a new User
-  router.post("/login", users.loginUser);
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/userController');
 
-  // Fetch User profile
-  router.get("/profile", users.verifyJWT, users.userProfile);
+router.post('/register', userController.register);
+router.post('/login', userController.login);
 
-  // Create a new User
-  router.post("/register", users.create);
-  // Retrieve all users
-  router.get("/", users.findAll);
-  app.use('/users', router);
-};
+module.exports = router;
