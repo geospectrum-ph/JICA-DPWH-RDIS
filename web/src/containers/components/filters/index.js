@@ -8,11 +8,26 @@ import { MainContext } from '../../../contexts/MainContext';
 
 export default function AreaFilter() {
 
-  const {regionSelect, setRegionSelect, setRoadSection, origDataSections, setMapCenter, setRoadSegments, origDataEmergency, moduleSelect, moduleSummarySelect, setModuleSummarySelect, slopePageSelect, setSlopePageSelect} = React.useContext(MainContext)
+  const {regionSelect, setRegionSelect, setRoadSection, roadSection, origDataSections, setMapCenter, setRoadSegments, origDataEmergency, moduleSelect, moduleSummarySelect, setModuleSummarySelect, slopePageSelect, setSlopePageSelect} = React.useContext(MainContext)
 
   const [regionDropdown, setRegionDropdown] = React.useState(false)
 
-  console.log(regionSelect)
+  const [ldList, setLdList] = React.useState([]);
+
+  React.useEffect(() => {
+    // console.log(roadSection[0])
+    var ldFilter = []
+    for (var i = 0; i < roadSection.length; i++) {
+      if (!ldFilter.includes(roadSection[i].properties.CONG_DIST)){
+        ldFilter.push(roadSection[i].properties.CONG_DIST)
+      }
+    }
+
+    setLdList(ldFilter)
+  }, [roadSection])
+  
+  console.log('ld', ldList)
+
   const changeRegion = (regionFilter, regionSection) => {
     if (regionFilter !== '') {
       setRoadSection(origDataSections.filter((section)=> {
@@ -75,6 +90,41 @@ export default function AreaFilter() {
     
   }
 
+  const [ldSelect, setLdSelect] = React.useState('')
+  const [ldDropdown, setLdDropdown] = React.useState('')
+
+  const changeLd = (ld) => {
+    if (ld !== ''){
+      // setMapCenter([center_x, center_y])
+
+      setRoadSection(origDataSections.filter((section)=> {
+        return section.properties.CONG_DIST.toLowerCase() === ld.toLowerCase()
+      }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+
+      setRoadSegments(origDataEmergency.filter((segment) => {
+        var id = origDataSections.filter((section) => {
+          return section.properties.SECTION_ID === segment.properties.section_id
+        })
+        
+        return id[0].properties.CONG_DIST.toLowerCase() === ld.toLowerCase()
+      }).sort((a, b) => { return a.properties.section_id - b.properties.section_id}))
+    } else {
+      setRoadSection(origDataSections.filter((section)=> {
+        return section.properties.DEO.toLowerCase() === deoSelect.toLowerCase()
+      }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+  
+      setRoadSegments(origDataEmergency.filter((segment) => {
+        var id = origDataSections.filter((section) => {
+          return section.properties.SECTION_ID === segment.properties.section_id
+        })
+        
+        return id[0].properties.DEO.toLowerCase() === deoSelect.toLowerCase()
+      }).sort((a, b) => { return a.properties.section_id - b.properties.section_id}))
+    }
+    setLdSelect(ld)
+    setLdDropdown(false)
+    
+  }
 
   return (
     <div className='areafilter-container'>
@@ -138,16 +188,19 @@ export default function AreaFilter() {
           </div>
         </div>
         <div className='areafilter-dropdown'>
-          <div className='areafilter-dropdown-menu' onClick={()=>setRegionDropdown(!regionDropdown)}>
+          <div className='areafilter-dropdown-menu' onClick={()=>setLdDropdown(!ldDropdown)}>
             <b>Legislative District</b>
-            {regionSelect === '' ? <div>No district selected</div> : regionSelect}
+            {ldSelect === '' ? <div>No district selected</div> : ldSelect}
           </div>
-          <div className='areafilter-dropdown-list' style={{display: regionDropdown ? 'block' : 'none'}}>
-            {regions.map((region)=> {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeRegion(region.filter_value, region.region_name)}>
-              {region.filter_value}
+          <div className='areafilter-dropdown-list' style={{display: ldDropdown ? 'block' : 'none'}}>
+            <div className='areafilter-dropdown-item' onClick={()=>changeLd('')}>
+              Select to clear filter
+            </div>
+            {regionSelect !== ''  && deoSelect !== '' ? ldList.sort((a, b) => {return a - b}).map((ld) => {
+              return <div className='areafilter-dropdown-item' onClick={()=>changeLd(ld)}>
+                {ld}
               </div>
-            })}
+            }) : null}
           </div>
         </div>
       </div>
