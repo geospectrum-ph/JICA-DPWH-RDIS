@@ -34,8 +34,6 @@ export default function SlopeProjectDetails() {
         <div>10/12/2022</div>
         <div><b>Source of Funds</b></div>
         <div>{selectedInventory.properties.source_of_fund}</div>
-        <div><b>Approved budget</b></div>
-        <div>{selectedInventory.properties.approved_amount}</div>
         <div><b>Latitude</b></div>
         <div></div>
         <div><b>Longitude</b></div>

@@ -2,27 +2,55 @@ import React from 'react';
 
 import { MainContext } from '../../../../contexts/MainContext';
 
-import terrain from '../../../../assets/shp/terrain.json'
-
 import './index.css'
 
 export default function SlopeRoadsPotentialList() {
-  const {roadSection, setSelectedSection, setRoadProjects, origDataProjects, setMapCenter} = React.useContext(MainContext)
+  const {roadSection, origDataHazard, terrain, setMapCenter, setTerrainList, annex2} = React.useContext(MainContext)
   
-  const filterSlopeSegments = (section) => {
-    setRoadProjects(origDataProjects.filter((project) => {
-      return project.properties.section_id === section.properties.SECTION_ID
-    }).sort((a, b) => { return a.properties.start_lrp - b.properties.start_lrp}))
+  const filterTerrainSegments = (id) => {
+    setTerrainList(annex2.filter((t) => {
+      return t.section_id === id
+    }))
+  }
 
-    setSelectedSection(section)
-    console.log(section.coordinates)
-    setMapCenter(section.geometry.coordinates[0][parseInt(section.geometry.coordinates[0].length/2) - 1])
+  const identifyHazard = (id) => {
+    var hazardData = origDataHazard.filter((data) => {
+      return data.properties.SECTION_ID === id
+    })
+
+
+    if(hazardData.length > 0){
+      if (hazardData[0].properties.HAZARD === "High") {
+        return '#329632'
+      } else if (hazardData[0].properties.HAZARD === 'Medium') {
+        return '#E27728'
+      } else if (hazardData[0].properties.HAZARD === 'High') {
+        return '#ff0000'
+      } else return '#808080'
+    } else return '#808080'
+    
+  }
+
+  const identifyTerrain = (id) => {
+    var terrainData = terrain.filter((data) => {
+      return data.section_id === id
+    })
+
+    if(terrainData.length > 0){
+      if (terrainData[0].terrain_ty === "High") {
+        return '#329632'
+      } else if (terrainData[0].terrain_ty === 'Medium') {
+        return '#E27728'
+      } else if (terrainData[0].terrain_ty === 'High') {
+        return '#ff0000'
+      } else return '#808080'
+    } else return '#808080'
   }
 
   return(
     <div className='hazard-roadsections-container'>
       <div className='hazard-roadsections-header'>
-        <b>LIST OF ROADS PRONE TO DISASTER</b>
+        <b>LIST OF ROAD SECTIONS</b>
       </div>
       <div className='hazard-roadsections-search'>
         <input type="text" placeholder="Search.."/>
@@ -31,15 +59,15 @@ export default function SlopeRoadsPotentialList() {
         </span>
       </div>
       <div className='hazard-roadsections-list'>
-        {terrain.features.length > 0 ? terrain.features.filter((section) => {
-          return section.properties.terrain_ty !== 'Flat'
-        }).map((section) => {
-          return <div className='hazard-list-item' 
-            // onClick={()=>filterSlopeSegments(section)}
-            >
-            <div className='hazard-list-id'>{section.properties.section_id}</div> <div>{section.properties.road_name}</div>
+        {roadSection.length > 0 ? roadSection.map((section) => {
+          return <div className='hazard-list-item' onClick={()=>filterTerrainSegments(section.properties.SECTION_ID)}>
+            <div className='hazard-list-id'>{section.properties.SECTION_ID}</div> <div>{section.properties.ROAD_NAME}</div>
           </div>
         }) : null}
+      </div>
+      <br/>
+      <div className='slope-potential-legend'>
+        
       </div>
     </div>
   )
