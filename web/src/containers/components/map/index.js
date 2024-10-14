@@ -19,8 +19,7 @@ import array_regions from "../../../assets/shp/region.json"
 
 export const ArcGISMapContext = React.createContext();
 
-const INTEGER_ZOOM_INITIAL = 4;
-const INTEGER_ZOOM_FOCUS = 12;
+const INTEGER_ZOOM_INITIAL = 6;
 const FLOAT_LATITUDE = 12.8797;
 const FLOAT_LONGITUDE = 121.7740;
 
@@ -57,6 +56,8 @@ const ArcGISMapContextProvider = (props) => {
       url: url,
       renderer: renderer
     });
+
+    view.map.layers.pop();
 
     view.map.layers.push(layer);
 

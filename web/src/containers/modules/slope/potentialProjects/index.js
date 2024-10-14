@@ -3,14 +3,26 @@ import React from 'react';
 import { MainContext } from '../../../../contexts/MainContext';
 
 import './index.css'
+import { ArcGISMapContext } from '../../../components/map';
 
 export default function SlopeRoadsPotentialList() {
   const {roadSection, origDataHazard, terrain, setMapCenter, setTerrainList, annex2} = React.useContext(MainContext)
+  const {recenter_map} = React.useContext(ArcGISMapContext);
   
-  const filterTerrainSegments = (id) => {
+  const filterTerrainSegments = (section) => {
     setTerrainList(annex2.filter((t) => {
-      return t.section_id === id
+      return t.section_id === section.properties.SECTION_ID
     }))
+
+    const point_pair_array = section.geometry.coordinates[0];
+
+    const lat_sum = point_pair_array.reduce(function (accumulator, element) { return (accumulator + parseFloat(element[0])); }, 0);
+    const lng_sum = point_pair_array.reduce(function (accumulator, element) { return (accumulator + parseFloat(element[1])); }, 0);
+
+    const mean = [lat_sum/point_pair_array.length, lng_sum/point_pair_array.length];
+    const zoom = 12;
+
+    recenter_map(mean, zoom);
   }
 
   const identifyHazard = (id) => {
@@ -59,8 +71,8 @@ export default function SlopeRoadsPotentialList() {
         </span>
       </div>
       <div className='hazard-roadsections-list'>
-        {roadSection.length > 0 ? roadSection.map((section) => {
-          return <div className='hazard-list-item' onClick={()=>filterTerrainSegments(section.properties.SECTION_ID)}>
+        {roadSection.length > 0 ? roadSection.map((section, index) => {
+          return <div className='hazard-list-item' key = {index} onClick={function () {filterTerrainSegments(section); }}>
             <div className='hazard-list-id'>{section.properties.SECTION_ID}</div> <div>{section.properties.ROAD_NAME}</div>
           </div>
         }) : null}
