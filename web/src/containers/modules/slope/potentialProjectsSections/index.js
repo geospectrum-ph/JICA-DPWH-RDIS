@@ -42,12 +42,12 @@ export default function PotentialSegmentList() {
         <b>PROPOSED FOR FUNDING</b>
       </div>
       <div className='hazard-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to Type to search.."/>
         <span class="material-symbols-outlined">
           search 
         </span>
       </div>
-      <div className='hazard-roadsections-list'>
+      <div className='potential-roadsections-list'>
         {terrainList.length > 0 ? terrainList.map((section) => {
           return <div className='hazard-list-item' 
             onClick={()=>setSelectedPotential(section)}
@@ -62,7 +62,7 @@ export default function PotentialSegmentList() {
               style={{color: identifyStatus(section.project_status)}}
               >{section.start_lrp} to {section.end_lrp}</div>
           </div>
-        }) : null}
+        }) : <div style={{fontSize: '1.5vh'}}>Please Select Road Section from list above</div>}
         <br/>
         {/* <div>
           <div>Legend</div>

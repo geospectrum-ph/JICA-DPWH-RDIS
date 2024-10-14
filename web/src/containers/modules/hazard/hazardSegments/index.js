@@ -47,7 +47,7 @@ export default function HazardSegmentList() {
         <b>LIST OF SURVEYS</b>
       </div>
       <div className='hazard-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to search.."/>
         <span className="material-symbols-outlined">
           search 
         </span>

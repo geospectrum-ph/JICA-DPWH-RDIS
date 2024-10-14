@@ -40,7 +40,7 @@ export default function RegionListChart() {
 
 
   return (
-    <div className='closure-classpie-container'>
+    <div className='closure-regionclass-container'>
       <div className='closure-classpie-header'>
         <b>ROAD CLOSURE BY REGION</b>
       </div>

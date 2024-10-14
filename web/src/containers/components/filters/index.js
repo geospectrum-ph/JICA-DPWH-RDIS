@@ -151,6 +151,25 @@ export default function AreaFilter() {
         </div>
         
       </div>
+      : moduleSelect === 'emergency' ? <div className='areafilter-header'>
+        <div className='areafilter-header-title'>
+          <b>EMERGENCY RESPONSE</b>
+        </div>
+        {/* <div className='areafilter-header-appbar'>
+          <div className={slopePageSelect === 'projects' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setSlopePageSelect('projects')}>Road Slope Inventory</div>
+          <div className={slopePageSelect === 'potential' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>{setSlopePageSelect('potential')}}>Prone to Road Slope Disaster</div>
+        </div> */}  
+      </div>
+        
+      : moduleSelect === 'hazard' ? <div className='areafilter-header'>
+        <div className='areafilter-header-title'>
+          <b>HAZARD MAP</b>
+        </div>
+        {/* <div className='areafilter-header-appbar'>
+          <div className={slopePageSelect === 'projects' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setSlopePageSelect('projects')}>Road Slope Inventory</div>
+          <div className={slopePageSelect === 'potential' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>{setSlopePageSelect('potential')}}>Prone to Road Slope Disaster</div>
+        </div> */}  
+      </div>
       : <div className='areafilter-header'/>}
       <div className='areafilter-dropdowns'>
         <div className='areafilter-dropdown'>

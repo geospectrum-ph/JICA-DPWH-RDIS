@@ -25,6 +25,8 @@
   width: 100%;
 
   display: grid;
-  gap: 1%;
+
+  gap: 2%;
+  row-gap: 5%;
   grid-template-columns: 40% 60%;
 }

@@ -8,7 +8,8 @@
 
 .areafilter-header {
   width: 65%;
-  background-color: orange;
+  background-color: gray;
+  color: white;
 
   display: flex;
   flex-direction: column;

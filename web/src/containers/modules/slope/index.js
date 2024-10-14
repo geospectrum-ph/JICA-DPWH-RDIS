@@ -24,7 +24,7 @@ export default function SlopeModule() {
         </div>
         <div className='slope-details'>
           {selectedInventory ? <SlopeProjectDetails/> :
-          <div> Please select project </div>}
+          <div style={{fontSize: '2.5vh'}}> Please select road project </div>}
         </div>
       </div> :
       <div className='slope-container'>
@@ -37,7 +37,7 @@ export default function SlopeModule() {
         </div>
         <div className='slope-details'>
           {selectedPotential ? <SlopePotentialDetails/> :
-          <div> Please select proposal </div>}
+          <div style={{fontSize: '2.5vh'}}> Please select proposal </div>}
         </div>
       </div>
         

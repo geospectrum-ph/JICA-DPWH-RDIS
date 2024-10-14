@@ -32,14 +32,18 @@ export default function SlopeProjectDetails() {
         <div>{selectedInventory.properties.hazard_risk}</div>
         <div><b>Road Closure Date/s</b></div>
         <div>10/12/2022</div>
+        <div><b>Remarks</b></div>
+        <div>Damaged Road</div>
+        
         <div><b>Source of Funds</b></div>
         <div>{selectedInventory.properties.source_of_fund}</div>
+        <div><b>Approved Amount</b></div>
+        <div>{selectedInventory.properties.approved_amount}</div>
         <div><b>Latitude</b></div>
         <div></div>
         <div><b>Longitude</b></div>
         <div></div>
-        <div><b>Remarks</b></div>
-        <div>Damaged Road</div>
+        
       </div>
       {/* <div className='h-details-body'>
         <div>

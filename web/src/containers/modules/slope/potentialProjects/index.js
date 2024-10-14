@@ -65,7 +65,7 @@ export default function SlopeRoadsPotentialList() {
         <b>LIST OF ROAD SECTIONS</b>
       </div>
       <div className='hazard-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to search.."/>
         <span class="material-symbols-outlined">
           search 
         </span>
