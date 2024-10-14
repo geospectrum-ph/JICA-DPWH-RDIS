@@ -2,8 +2,6 @@
   height: 100%;
 
   display: grid;
-  gap: 1%;
-  grid-template-rows: 18% 81%;
 }
 
 .h-details-header {
@@ -14,6 +12,65 @@
 
 .h-details-body {
   display: grid;
+  height: 30%;
+  overflow-y: auto;
   gap: 1%;
-  grid-template-columns: 49% 49%;
+
+  font-size: 1.5vh;
+}
+
+.hazardm-body-causes {
+  width: auto;
+  padding: 2vh;
+
+  height: auto;
+  /* border: solid; */
+
+  display: grid;
+  gap: 0.5%;
+  grid-template-columns: 25% 27% 23% auto 10%;
+  /* grid-auto-rows: 24px; */
+}
+
+.hm-body-prop {
+  /* height: auto; */
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-block: 0.3vh;
+}
+
+.hm-body-prop-score {
+  /* height: auto; */
+  width: 60%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-block: 0.3vh;
+}
+
+
+
+
+.hm-body-prop b{
+  font-size: 2vh;
+}
+
+.hm-prop-yes {
+  color: red
+}
+
+.hm-csf {
+  margin-top: 1.5vh;
+  width: auto;
+  padding: 2vh;
+
+  /* height: auto; */
+  /* border: solid; */
+
+  display: grid;
+  grid-template-columns: 60% auto;
 }

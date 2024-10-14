@@ -5,7 +5,7 @@ import projects from '../sampleFiles/sample_road_projects.json'
 import hazardData from '../sampleFiles/R7_LRS_HaszardMapSample.json'
 import closure from '../sampleFiles/sample_disire_road_closure.json'
 import terrainData from '../assets/terrain.json'
-import annex from '../sampleFiles//annex2.json'
+import annex from '../sampleFiles/annex2.json'
 
 export const MainContext = React.createContext();
 

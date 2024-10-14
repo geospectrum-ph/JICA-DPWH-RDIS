@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { MainContext } from '../../../contexts/MainContext';
 
@@ -9,12 +9,21 @@ export default function HeaderBar () {
   const {setModuleTitle, moduleSelect, setModuleSelect} = React.useContext(MainContext)
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   const setModule = (moduleName, module) => {
     setModuleTitle(moduleName)
     setModuleSelect(module)
     navigate(`/home/${module}`)
   }
+
+  React.useEffect(() => {
+    var splitLoc = location.pathname.split("/")
+    console.log(splitLoc)
+    // ssetModuleTitle(moduleName)
+    setModuleSelect(splitLoc[2])
+  }, [])
+
   return (
     <div className='headerbar-container'>
       <div className='appbar'>
