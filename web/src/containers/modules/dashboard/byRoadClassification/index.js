@@ -1,12 +1,12 @@
 import React from 'react';
 import { LineChart, Line, PieChart, Pie, Cell, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import { MainContext } from '../../../../../contexts/MainContext';
+import { MainContext } from '../../../../contexts/MainContext';
 
 import './index.css';
 
-export default function ClassPieChart() {
+export default function DashboardClassPieChart() {
 
-  const {origDataSections, roadSegments} = React.useContext(MainContext)
+  const {roadSection, roadSegments} = React.useContext(MainContext)
 
   const [pieData, setPieData] = React.useState([
     {name: 'Primary', value: 0},
@@ -19,21 +19,13 @@ export default function ClassPieChart() {
     var sec = 0;
     var ter = 0;
 
-    var filteredSegments = roadSegments.filter((segment) => {
-      return segment.properties.situation !== 'passable' 
-    })
-
-    for (var i = 0; i < filteredSegments.length; i++){
-      var section = origDataSections.filter((section) => {
-        return section.properties.SECTION_ID === filteredSegments[i].properties.section_id
-      })
-
-      if(section[0].properties.ROAD_SEC_C === "Primary"){
-        prim += 1
-      } else if(section[0].properties.ROAD_SEC_C === "Secondary") {
-        sec += 1
-      } else if(section[0].properties.ROAD_SEC_C === "Tertiary") {
-        ter += 1
+    for (var i = 0; i < roadSection.length; i++){
+      if(roadSection[i].properties.ROAD_SEC_C === "Primary"){
+        prim += roadSection[i].properties.SEC_LENGTH
+      } else if(roadSection[i].properties.ROAD_SEC_C === "Secondary") {
+        sec += roadSection[i].properties.SEC_LENGTH
+      } else if(roadSection[i].properties.ROAD_SEC_C === "Tertiary") {
+        ter += roadSection[i].properties.SEC_LENGTH
       }
     }
 
@@ -60,12 +52,12 @@ export default function ClassPieChart() {
   };
 
   return (
-    <div className='closure-classpie-container'>
-      <div className='closure-classpie-header'>
-        <b>ROAD CLOSURE BY CLASSIFICATION</b>
+    <div className='md-classpie-container'>
+      <div className='md-classpie-header'>
+        <b>LENGTH OF NATIONAL ROADS BY CLASSIFICATION</b>
       </div>
-      <div className='closure-classpie-chart'>
-        <PieChart width={500} height={280}>
+      <div className='md-classpie-chart'>
+        <PieChart width={250} height={280}>
           <Tooltip/>
           <Pie
             data={pieData}
@@ -73,7 +65,7 @@ export default function ClassPieChart() {
             cy="50%"
             labelLine={false}
             label={renderCustomizedLabel}
-            outerRadius={120}
+            outerRadius={90}
             fill="#8884d8"
             dataKey="value"
           >
@@ -82,13 +74,13 @@ export default function ClassPieChart() {
             ))}
           </Pie>
         </PieChart>
-        <div className='closure-classpie-legend'>
+        <div className='md-classpie-legend'>
           <div style={{color: COLORS[0]}}><b>Primary</b></div>
-          <div>{pieData[0].value}</div>
+          <div>{pieData[0].value} m</div>
           <div style={{color: COLORS[1]}}><b>Secondary</b></div>
-          <div>{pieData[1].value}</div>
+          <div>{pieData[1].value} m</div>
           <div style={{color: COLORS[2]}}><b>Tertiary</b></div>
-          <div>{pieData[2].value}</div>
+          <div>{pieData[2].value} m</div>
         </div>
       </div>
     </div>

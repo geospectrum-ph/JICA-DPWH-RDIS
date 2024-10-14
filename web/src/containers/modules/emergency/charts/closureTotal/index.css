@@ -4,18 +4,19 @@
 
   align-items: center;
 
-  width: 100%;
+  width: auto;
   height: 100%;
 }
 
 .closure-total-header{
   display: flex;
   flex-direction: row;
-  padding-inline: 1vw;
+  /* padding-inline: 1vw; */
 
   width: 100%;
 
   align-items: center;
+  text-align: center;
   justify-content: center;
 
   background-color: black;

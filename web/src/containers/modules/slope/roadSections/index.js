@@ -4,13 +4,13 @@ import { MainContext } from '../../../../contexts/MainContext';
 
 import './index.css'
 
-export default function HazardRoadsList() {
-  const {roadSection, setSelectedSection, setHazardList, origDataHazard, setMapCenter} = React.useContext(MainContext)
+export default function SlopeRoadsList() {
+  const {roadSection, setSelectedSection, setRoadProjects, origDataProjects, setMapCenter} = React.useContext(MainContext)
   
-  const filterClosureSegments = (section) => {
-    setHazardList(origDataHazard.filter((hazard) => {
-      return hazard.properties.SECTION_ID === section.properties.SECTION_ID
-    }).sort((a, b) => { return a.properties.LRP_DISP1 - b.properties.LRP_DISP1}))
+  const filterSlopeSegments = (section) => {
+    setRoadProjects(origDataProjects.filter((project) => {
+      return project.properties.section_id === section.properties.SECTION_ID
+    }).sort((a, b) => { return a.properties.start_lrp - b.properties.start_lrp}))
 
     setSelectedSection(section)
     console.log(section.coordinates)
@@ -30,7 +30,7 @@ export default function HazardRoadsList() {
       </div>
       <div className='hazard-roadsections-list'>
         {roadSection.length > 0 ? roadSection.map((section) => {
-          return <div className='hazard-list-item' onClick={()=>filterHazardSegments(section)}>
+          return <div className='hazard-list-item' onClick={()=>filterSlopeSegments(section)}>
             <div className='hazard-list-id'>{section.properties.SECTION_ID}</div> <div>{section.properties.ROAD_NAME}</div>
           </div>
         }) : null}

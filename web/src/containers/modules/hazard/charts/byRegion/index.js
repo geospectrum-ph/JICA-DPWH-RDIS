@@ -4,9 +4,9 @@ import { MainContext } from '../../../../../contexts/MainContext';
 
 import './index.css';
 
-export default function RegionListChart() {
+export default function HazardRegionListChart() {
 
-  const {origDataSections, roadSegments} = React.useContext(MainContext)
+  const {origDataHazard, hazardSegments} = React.useContext(MainContext)
 
   const [regionList, setRegionList] = React.useState()
   const listData = {}
@@ -14,14 +14,12 @@ export default function RegionListChart() {
   React.useEffect(() => {
 
 
-    for (var i = 0; i < roadSegments.length; i++){
-      var section = origDataSections.filter((section) => {
-        return section.properties.SECTION_ID === roadSegments[i].properties.section_id
-      })
-      if(section[0].properties.REGION in listData){
-        listData[section[0].properties.REGION] = listData[section[0].properties.REGION] + 1
+    for (var i = 0; i < hazardSegments.length; i++){
+
+      if(hazardSegments[0].properties.REGION in listData){
+        listData[hazardSegments[i].properties.REGION] = listData[hazardSegments[i].properties.REGION] + hazardSegments[i].properties.SEC_LENGTH
       } else {
-      listData[section[0].properties.REGION] = 1
+      listData[hazardSegments[i].properties.REGION] = hazardSegments[i].properties.SEC_LENGTH
       }
     }
 
@@ -36,13 +34,13 @@ export default function RegionListChart() {
     sortable.sort((a,b) => { return b[1] - a[1]}).forEach((item) => objSorted[item[0]] = item[1])
 
     setRegionList(objSorted)
-  }, [roadSegments])
+  }, [hazardSegments])
 
 
   return (
     <div className='closure-classpie-container'>
       <div className='closure-classpie-header'>
-        <b>ROAD CLOSURE BY REGION</b>
+        <b>HIGH HAZARD IN LENGTH BY REGION</b>
       </div>
       <div className='closure-region-container'>
         {regionList ? Object.keys(regionList).map((key) => {

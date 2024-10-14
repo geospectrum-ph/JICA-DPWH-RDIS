@@ -1,4 +1,7 @@
 .slope-container{
   display: grid;
-  grid-template-columns: 40% 60%;
+  column-gap: 2%;
+  grid-template-columns: 30% 68%;
+
+  height: 90%
 }

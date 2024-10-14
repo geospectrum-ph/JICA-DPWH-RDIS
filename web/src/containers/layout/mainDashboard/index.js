@@ -36,10 +36,10 @@ export default function DashboardLayout(){
         </div>
         <div className={moduleSelect === 'user' ? 'right-none' : 'right'}>
           <div>
-            test
+            map test
           </div>
           <div>
-            {selectedSection ? <RoadInformation/> : null}
+            {selectedSection ? <RoadInformation/> : <div className='layout-info-null'><b>PLEASE SELECT AN OBJECT</b></div>}
           </div>
         </div>
       </div>

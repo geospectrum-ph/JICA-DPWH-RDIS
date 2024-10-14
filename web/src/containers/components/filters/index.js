@@ -8,49 +8,100 @@ import { MainContext } from '../../../contexts/MainContext';
 
 export default function AreaFilter() {
 
-  const {setRoadSection, origDataSections, setMapCenter, setRoadSegments, origDataEmergency} = React.useContext(MainContext)
+  const {regionSelect, setRegionSelect, setRoadSection, origDataSections, setMapCenter, setRoadSegments, origDataEmergency, moduleSelect, moduleSummarySelect, setModuleSummarySelect, slopePageSelect, setSlopePageSelect} = React.useContext(MainContext)
 
-  const [regionSelect, setRegionSelect] = React.useState('')
   const [regionDropdown, setRegionDropdown] = React.useState(false)
 
+  console.log(regionSelect)
   const changeRegion = (regionFilter, regionSection) => {
+    if (regionFilter !== '') {
+      setRoadSection(origDataSections.filter((section)=> {
+        return section.properties.REGION.toLowerCase() === regionSection.toLowerCase()
+      }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+  
+      setRoadSegments(origDataEmergency.filter((segment) => {
+        var id = origDataSections.filter((section) => {
+          return section.properties.SECTION_ID === segment.properties.section_id
+        })
+        
+        return id[0].properties.REGION.toLowerCase() === regionSection.toLowerCase()
+      }).sort((a, b) => { return a.properties.section_id - b.properties.section_id}))
+    } else {
+      setRoadSection(origDataSections)
+      setRoadSegments(origDataEmergency)
+    }
     setRegionSelect(regionFilter)
     setRegionDropdown(false)
+    setDeoDropdown(false)
 
-    setRoadSection(origDataSections.filter((section)=> {
-      return section.properties.REGION.toLowerCase() === regionSection.toLowerCase()
-    }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+    
 
-    setRoadSegments(origDataEmergency.filter((segment) => {
-      var id = origDataSections.filter((section) => {
-        return section.properties.SECTION_ID === segment.properties.section_id
-      })
-      
-      return id[0].properties.REGION.toLowerCase() === regionSection.toLowerCase()
-    }).sort((a, b) => { return a.properties.section_id - b.properties.section_id
-    }))
+    setDeoSelect('')
   }
 
   const [deoSelect, setDeoSelect] = React.useState('')
   const [deoDropdown, setDeoDropdown] = React.useState('')
 
   const changeDEO = (deoFilter, center_x, center_y) => {
+    if (deoFilter !== ''){
+      setMapCenter([center_x, center_y])
+
+      setRoadSection(origDataSections.filter((section)=> {
+        return section.properties.DEO.toLowerCase() === deoFilter.toLowerCase()
+      }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+
+      setRoadSegments(origDataEmergency.filter((segment) => {
+        var id = origDataSections.filter((section) => {
+          return section.properties.SECTION_ID === segment.properties.section_id
+        })
+        
+        return id[0].properties.DEO.toLowerCase() === deoFilter.toLowerCase()
+      }).sort((a, b) => { return a.properties.section_id - b.properties.section_id}))
+    } else {
+      setRoadSection(origDataSections.filter((section)=> {
+        return section.properties.REGION.toLowerCase() === regionSelect.toLowerCase()
+      }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
+  
+      setRoadSegments(origDataEmergency.filter((segment) => {
+        var id = origDataSections.filter((section) => {
+          return section.properties.SECTION_ID === segment.properties.section_id
+        })
+        
+        return id[0].properties.REGION.toLowerCase() === regionSelect.toLowerCase()
+      }).sort((a, b) => { return a.properties.section_id - b.properties.section_id}))
+    }
     setDeoSelect(deoFilter)
     setDeoDropdown(false)
-    setMapCenter([center_x, center_y])
-
-    setRoadSection(origDataSections.filter((section)=> {
-      return section.properties.DEO.toLowerCase() === deoFilter.toLowerCase()
-    }).sort((a, b) => { return a.properties.SECTION_ID - b.properties.SECTION_ID}))
-
+    
   }
 
 
   return (
     <div className='areafilter-container'>
-      <div className='areafilter-header'>
-        test
+      {moduleSelect === 'dashboard' ?
+        <div className='areafilter-header'>
+          <div className='areafilter-header-title'>
+            <b>DASHBOARD SUMMARY</b>
+          </div>
+          <div className='areafilter-header-appbar'>
+            <div className={moduleSummarySelect === 'dashboard' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setModuleSummarySelect('dashboard')}>Main Dashboard</div>
+            <div className={moduleSummarySelect === 'slope' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>{setModuleSummarySelect('slope'); console.log('slope')}}>Slope Inventory and Countermeasure</div>
+            <div className={moduleSummarySelect === 'emergency' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setModuleSummarySelect('emergency')}>Emergency Response</div>
+            <div className={moduleSummarySelect === 'hazard' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setModuleSummarySelect('hazard')}>Hazard Map</div>
+          </div>
+          
+        </div>
+      : moduleSelect === 'slope' ? <div className='areafilter-header'>
+        <div className='areafilter-header-title'>
+          <b>SLOPE INVENTORY AND COUNTERMEASURE</b>
+        </div>
+        <div className='areafilter-header-appbar'>
+          <div className={slopePageSelect === 'projects' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>setSlopePageSelect('projects')}>Road Slope Inventory</div>
+          <div className={slopePageSelect === 'potential' ? 'areafilter-appbar-button-selected' : 'areafilter-appbar-button'} onClick={()=>{setSlopePageSelect('potential')}}>Prone to Road Slope Disaster</div>
+        </div>
+        
       </div>
+      : <div className='areafilter-header'/>}
       <div className='areafilter-dropdowns'>
         <div className='areafilter-dropdown'>
           <div className='areafilter-dropdown-menu' onClick={()=>setRegionDropdown(!regionDropdown)}>
@@ -58,6 +109,9 @@ export default function AreaFilter() {
             {regionSelect === '' ? <div>No region selected</div> : regionSelect}
           </div>
           <div className='areafilter-dropdown-list' style={{display: regionDropdown ? 'block' : 'none'}}>
+            <div className='areafilter-dropdown-item' onClick={()=>changeRegion('', '')}>
+              Select to clear filter
+            </div>
             {regions.map((region)=> {
               return <div className='areafilter-dropdown-item' onClick={()=>changeRegion(region.filter_value, region.region_name)}>
               {region.filter_value}
@@ -71,6 +125,9 @@ export default function AreaFilter() {
             {deoSelect === '' ? <div>No DEO selected</div> : deoSelect}
           </div>
           <div className='areafilter-dropdown-list' style={{display: deoDropdown ? 'block' : 'none'}}>
+            <div className='areafilter-dropdown-item' onClick={()=>changeDEO('', '', '')}>
+              Select to clear filter
+            </div>
             {regionSelect !== '' ? deos.filter((deo) => {
               return deo.REGION.toLowerCase() === regionSelect.toLowerCase()
             }).sort((a, b) => {return a.DEO - b.DEO}).map((deo) => {

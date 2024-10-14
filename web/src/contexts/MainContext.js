@@ -9,9 +9,15 @@ import terrainData from '../assets/shp/terrain.json'
 export const MainContext = React.createContext();
 
 const MainContextProvider = (props) => {
+  const [regionSelect, setRegionSelect] = React.useState('')
+
   const [moduleTitle, setModuleTitle] = React.useState('Dashboard');
 
   const [moduleSelect, setModuleSelect] = React.useState('dashboard');
+
+  const [moduleSummarySelect, setModuleSummarySelect] = React.useState('dashboard');
+
+  const [slopePageSelect, setSlopePageSelect] = React.useState('projects')
 
   const [roadSection, setRoadSection] = React.useState(sections);
 
@@ -27,6 +33,8 @@ const MainContextProvider = (props) => {
 
   const [roadProjects, setRoadProjects] = React.useState(projects)
 
+  const [hazardSegments, setHazardSegments] = React.useState(hazardData)
+
   const [hazardList, setHazardList] = React.useState([])
 
   const [closureList, setClosureList] = React.useState([])
@@ -35,7 +43,11 @@ const MainContextProvider = (props) => {
 
   const [selectedHazard, setSelectedHazard] = React.useState()
 
+  const [selectedClosure, setSelectedClosure] = React.useState()
+
   const [origDataHazard, setOrigDataHazard] = React.useState(hazardData)
+
+  const [origDataProjects, setOrigDataProjects] = React.useState(projects)
 
   const [selectedInventory, setSelectedInventory] = React.useState()
 
@@ -44,20 +56,26 @@ const MainContextProvider = (props) => {
   const [mapCenter, setMapCenter] = React.useState([120.59958964948025, 16.40383820492775])
 
   return (
-    <MainContext.Provider value = {{moduleTitle, setModuleTitle,
+    <MainContext.Provider value = {{regionSelect, setRegionSelect,
+                                    moduleTitle, setModuleTitle,
                                     moduleSelect, setModuleSelect,
+                                    moduleSummarySelect, setModuleSummarySelect,
+                                    slopePageSelect, setSlopePageSelect,
                                     roadSection, setRoadSection,
                                     roadSegments, setRoadSegments,
                                     origDataEmergency, setOrigDataEmergency,
                                     terrain, setTerrain,
                                     selectedSegments, setSelectedSegments,
                                     roadProjects, setRoadProjects,
+                                    hazardSegments, setHazardSegments,
                                     hazardList, setHazardList,
                                     closureList, setClosureList,
                                     selectedSection, setSelectedSection,
                                     selectedHazard, setSelectedHazard,
+                                    selectedClosure, setSelectedClosure,
                                     origDataSections, setOrigDataSections,
                                     origDataHazard, setOrigDataHazard,
+                                    origDataProjects, setOrigDataProjects,
                                     selectedInventory, setSelectedInventory,
                                     scale, setScale,
                                     mapCenter, setMapCenter

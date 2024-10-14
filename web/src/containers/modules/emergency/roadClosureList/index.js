@@ -5,7 +5,7 @@ import { MainContext } from '../../../../contexts/MainContext';
 import './index.css'
 
 export default function ClosureRoadsList() {
-  const {roadSegments, setMapCenter} = React.useContext(MainContext)
+  const {roadSegments, setMapCenter, origDataSections, setSelectedSection, setSelectedClosure} = React.useContext(MainContext)
   
   const checkSituation = (situation) => {
     if (situation === 'passable') {
@@ -15,6 +15,14 @@ export default function ClosureRoadsList() {
     } else if (situation === 'notpassable') {
       return '#ff0000'
     } else return '#808080'
+  }
+
+  const selectRoadClosure = (id, section) => {
+    setSelectedSection(origDataSections.filter((section) => {
+      return section.properties.SECTION_ID === id
+    })[0])
+
+    setSelectedClosure(section)
   }
 
   return(
@@ -32,7 +40,8 @@ export default function ClosureRoadsList() {
         {roadSegments.length > 0 ? roadSegments.filter((section)=> {
           return section.properties.situation !== 'passable'
         }).map((section) => {
-          return <div className='closure-list-item' style={{color: checkSituation(section.properties.situation)}}>
+          return <div className='closure-list-item' style={{color: checkSituation(section.properties.situation)}}
+            onClick={() => selectRoadClosure(section.properties.section_id, section)}>
             <div className='closure-list-id'>{section.properties.section_id}</div> <div>{section.properties.infrastructure_name}</div>
           </div>
         }) : null}

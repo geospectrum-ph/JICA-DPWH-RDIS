@@ -4,24 +4,23 @@ import { MainContext } from '../../../../../contexts/MainContext';
 
 import './index.css';
 
-export default function RegionListChart() {
+export default function DEOListChart() {
 
-  const {origDataSections, roadSegments} = React.useContext(MainContext)
+  const {roadSection, roadSegments} = React.useContext(MainContext)
 
   const [regionList, setRegionList] = React.useState()
   const listData = {}
 
   React.useEffect(() => {
 
-
     for (var i = 0; i < roadSegments.length; i++){
-      var section = origDataSections.filter((section) => {
+      var section = roadSection.filter((section) => {
         return section.properties.SECTION_ID === roadSegments[i].properties.section_id
       })
-      if(section[0].properties.REGION in listData){
-        listData[section[0].properties.REGION] = listData[section[0].properties.REGION] + 1
+      if(section[0].properties.DEO in listData){
+        listData[section[0].properties.DEO] = listData[section[0].properties.DEO] + 1
       } else {
-      listData[section[0].properties.REGION] = 1
+      listData[section[0].properties.DEO] = 1
       }
     }
 
@@ -42,7 +41,7 @@ export default function RegionListChart() {
   return (
     <div className='closure-classpie-container'>
       <div className='closure-classpie-header'>
-        <b>ROAD CLOSURE BY REGION</b>
+        <b>ROAD CLOSURE BY DEO</b>
       </div>
       <div className='closure-region-container'>
         {regionList ? Object.keys(regionList).map((key) => {
