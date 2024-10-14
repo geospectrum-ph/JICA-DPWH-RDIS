@@ -24,13 +24,13 @@ export default function HazardRoadsList() {
       </div>
       <div className='hazard-roadsections-search'>
         <input type="text" placeholder="Search.."/>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           search 
         </span>
       </div>
       <div className='hazard-roadsections-list'>
-        {roadSection.length > 0 ? roadSection.map((section) => {
-          return <div className='hazard-list-item' onClick={()=>filterHazardSegments(section)}>
+        {roadSection.length > 0 ? roadSection.map((section, index) => {
+          return <div className='hazard-list-item'key = {index} onClick={()=>filterHazardSegments(section)}>
             <div className='hazard-list-id'>{section.properties.SECTION_ID}</div> <div>{section.properties.ROAD_NAME}</div>
           </div>
         }) : null}

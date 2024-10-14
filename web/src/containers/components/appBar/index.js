@@ -25,7 +25,7 @@ export default function HeaderBar () {
         <div style={{flexGrow: 1}}></div>
         <div className={moduleSelect === 'user' ? 'appbar-button-selected' : 'appbar-button'} onClick={()=>setModule('User Management', 'user')}>User Management</div>
         <div className='appbar-button' onClick={() => navigate('/')}>
-          <span class="material-symbols-outlined">
+          <span className="material-symbols-outlined">
             logout
           </span>
         </div>

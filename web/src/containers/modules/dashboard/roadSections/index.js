@@ -13,14 +13,14 @@ export default function RoadsLists() {
       </div>
       <div className='md-roadsections-search'>
         <input type="text" placeholder="Search.."/>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           search 
         </span>
       </div>
       <div className='md-roadsections-list'>
-        {roadSection.length > 0 ? roadSection.map((section) => {
+        {roadSection.length > 0 ? roadSection.map((section, index) => {
           console.log(section)
-          return <div className='md-list-item'>
+          return <div className='md-list-item' key = {index}>
             <div className='md-list-id'>{section.properties.SECTION_ID}</div> <div>{section.properties.ROAD_NAME}</div>
           </div>
         }) : null}

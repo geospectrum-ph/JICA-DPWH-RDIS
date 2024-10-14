@@ -58,8 +58,8 @@ export default function AreaFilter() {
             {regionSelect === '' ? <div>No region selected</div> : regionSelect}
           </div>
           <div className='areafilter-dropdown-list' style={{display: regionDropdown ? 'block' : 'none'}}>
-            {regions.map((region)=> {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeRegion(region.filter_value, region.region_name)}>
+            {regions.map((region, index)=> {
+              return <div className='areafilter-dropdown-item' key = {index} onClick={()=>changeRegion(region.filter_value, region.region_name)}>
               {region.filter_value}
               </div>
             })}
@@ -73,8 +73,8 @@ export default function AreaFilter() {
           <div className='areafilter-dropdown-list' style={{display: deoDropdown ? 'block' : 'none'}}>
             {regionSelect !== '' ? deos.filter((deo) => {
               return deo.REGION.toLowerCase() === regionSelect.toLowerCase()
-            }).sort((a, b) => {return a.DEO - b.DEO}).map((deo) => {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeDEO(deo.DEO, deo.centroid_x, deo.centroid_y)}>
+            }).sort((a, b) => {return a.DEO - b.DEO}).map((deo, index) => {
+              return <div className='areafilter-dropdown-item' key = {index} onClick={()=>changeDEO(deo.DEO, deo.centroid_x, deo.centroid_y)}>
                 {deo.DEO}
               </div>
             }) : null}
@@ -86,8 +86,8 @@ export default function AreaFilter() {
             {regionSelect === '' ? <div>No district selected</div> : regionSelect}
           </div>
           <div className='areafilter-dropdown-list' style={{display: regionDropdown ? 'block' : 'none'}}>
-            {regions.map((region)=> {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeRegion(region.filter_value, region.region_name)}>
+            {regions.map((region, index)=> {
+              return <div className='areafilter-dropdown-item' key = {index}onClick={()=>changeRegion(region.filter_value, region.region_name)}>
               {region.filter_value}
               </div>
             })}

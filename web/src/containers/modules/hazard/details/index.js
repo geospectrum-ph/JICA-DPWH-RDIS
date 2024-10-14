@@ -3,10 +3,11 @@ import React from 'react';
 import { MainContext } from '../../../../contexts/MainContext';
 
 import './index.css';
+import { ArcGISMapContext } from '../../../components/map';
 
 export default function HazardDetails() {
-
   const {selectedHazard} = React.useContext(MainContext)
+  
   return (
     <div className='h-details-container'>
       <div className='h-details-header'>

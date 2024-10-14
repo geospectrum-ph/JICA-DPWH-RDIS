@@ -18,7 +18,8 @@ import array_regions from "../../../assets/shp/region.json"
 
 export const ArcGISMapContext = React.createContext();
 
-const INTEGER_ZOOM = 4;
+const INTEGER_ZOOM_INITIAL = 4;
+const INTEGER_ZOOM_FOCUS = 12;
 const FLOAT_LATITUDE = 12.8797;
 const FLOAT_LONGITUDE = 121.7740;
 
@@ -27,36 +28,65 @@ const STRING_KEY = null;
 var view;
 
 const ArcGISMapContextProvider = (props) => {  
-  function add_layer(file) {    
-    view.map.removeAll();
+  function add_layer(feature) {
+    const geojson = {
+      type: "FeatureCollection",
+      features: [feature]
+    };
 
-    const blob = new Blob([JSON.stringify(file)], {
+    // create a new blob from geojson featurecollection
+    const blob = new Blob([JSON.stringify(geojson)], {
       type: "application/json"
     });
 
+    // URL reference to the blob
     const url = URL.createObjectURL(blob);
-
+    // create new geojson layer using the blob url
     const layer = new GeoJSONLayer({
       url
     });
 
     view.map.layers.push(layer);
 
-    let longitude = 0;
-    let latitude = 0;
+    console.log(geojson);
 
-    for (let index = 0; index < file.features[0].geometry.coordinates[0].length; index++) {
-      longitude = longitude + file.features[0].geometry.coordinates[0][index][0];
-      latitude = latitude + file.features[0].geometry.coordinates[0][index][1];
-    }
+    // view.map.removeAll();
 
-    let calculated_center = [(longitude/file.features[0].geometry.coordinates[0].length), (latitude/file.features[0].geometry.coordinates[0].length)];
+    // const blob = new Blob([JSON.stringify(file)], {
+    //   type: "application/json"
+    // });
 
+    // const url = URL.createObjectURL(blob);
+
+    // const layer = new GeoJSONLayer({
+    //   url
+    // });
+
+    // view.map.layers.push(layer);
+
+    // let longitude = 0;
+    // let latitude = 0;
+
+    // for (let index = 0; index < file.features[0].geometry.coordinates[0].length; index++) {
+    //   longitude = longitude + file.features[0].geometry.coordinates[0][index][0];
+    //   latitude = latitude + file.features[0].geometry.coordinates[0][index][1];
+    // }
+
+    // let calculated_center = [(longitude/file.features[0].geometry.coordinates[0].length), (latitude/file.features[0].geometry.coordinates[0].length)];
+
+    // view.goTo({
+    //   center: calculated_center,
+    //   zoom: INTEGER_ZOOM_FOCUS
+    // });
+  }
+
+  function recenter_map(coordinates, zoom) {
     view.goTo({
-      center: calculated_center,
-      zoom: INTEGER_ZOOM
+      center: coordinates,
+      zoom: zoom
     });
   }
+
 
   function ArcGISMap() {
     // esriConfig.apiKey = STRING_KEY;
@@ -85,29 +115,29 @@ const ArcGISMapContextProvider = (props) => {
       url
     });
 
-    const geojson2 = {
-      type: "FeatureCollection",
-      features: array_regions.features
-    };
+    // const geojson2 = {
+    //   type: "FeatureCollection",
+    //   features: array_regions.features
+    // };
     
 
-    // SAMPLE_GEOJSON.forEach(
-    //   function (value, index, array) {
-    //     geojson.features.push(value);
-    //   }
-    // )
+    // // SAMPLE_GEOJSON.forEach(
+    // //   function (value, index, array) {
+    // //     geojson.features.push(value);
+    // //   }
+    // // )
 
-    // create a new blob from geojson featurecollection
-    const blob2 = new Blob([JSON.stringify(geojson2)], {
-      type: "application/json"
-    });
+    // // create a new blob from geojson featurecollection
+    // const blob2 = new Blob([JSON.stringify(geojson2)], {
+    //   type: "application/json"
+    // });
 
-    // URL reference to the blob
-    const url2 = URL.createObjectURL(blob2);
-    // create new geojson layer using the blob url
-    const layer2 = new GeoJSONLayer({
-      url2
-    });
+    // // URL reference to the blob
+    // const url2 = URL.createObjectURL(blob2);
+    // // create new geojson layer using the blob url
+    // const layer2 = new GeoJSONLayer({
+    //   url2
+    // });
     
 
     React.useEffect(() => {
@@ -120,7 +150,7 @@ const ArcGISMapContextProvider = (props) => {
         container: "sample-map",
         map: map,
         center: [FLOAT_LONGITUDE, FLOAT_LATITUDE],
-        zoom: INTEGER_ZOOM
+        zoom: INTEGER_ZOOM_INITIAL
       });
 
       const scale_bar = new ScaleBar({
@@ -142,7 +172,7 @@ const ArcGISMapContextProvider = (props) => {
       });
 
       view.map.layers.push(layer);
-      view.map.layers.push(layer2);
+      // view.map.layers.push(layer2);
     }, []);
 
     return (
@@ -152,7 +182,7 @@ const ArcGISMapContextProvider = (props) => {
   }
 
   return (
-    <ArcGISMapContext.Provider value = { { add_layer, ArcGISMap } }>{ props.children }</ArcGISMapContext.Provider>
+    <ArcGISMapContext.Provider value = { { add_layer, recenter_map, ArcGISMap } }>{ props.children }</ArcGISMapContext.Provider>
   )
 }
 

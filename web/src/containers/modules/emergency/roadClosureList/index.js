@@ -24,15 +24,15 @@ export default function ClosureRoadsList() {
       </div>
       <div className='closure-roadsections-search'>
         <input type="text" placeholder="Search.."/>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           search 
         </span>
       </div>
       <div className='closure-roadsections-list'>
         {roadSegments.length > 0 ? roadSegments.filter((section)=> {
           return section.properties.situation !== 'passable'
-        }).map((section) => {
-          return <div className='closure-list-item' style={{color: checkSituation(section.properties.situation)}}>
+        }).map((section, index) => {
+          return <div className='closure-list-item' key = {index}style={{color: checkSituation(section.properties.situation)}}>
             <div className='closure-list-id'>{section.properties.section_id}</div> <div>{section.properties.infrastructure_name}</div>
           </div>
         }) : null}
