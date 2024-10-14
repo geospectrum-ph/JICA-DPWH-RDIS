@@ -6,7 +6,7 @@ import './index.css';
 
 export default function ClassPieChart() {
 
-  const {roadSection, roadSegments} = React.useContext(MainContext)
+  const {origDataSections, roadSegments} = React.useContext(MainContext)
 
   const [pieData, setPieData] = React.useState([
     {name: 'Primary', value: 0},
@@ -19,9 +19,13 @@ export default function ClassPieChart() {
     var sec = 0;
     var ter = 0;
 
-    for (var i = 0; i < roadSegments.length; i++){
-      var section = roadSection.filter((section) => {
-        return section.properties.SECTION_ID === roadSegments[i].properties.section_id
+    var filteredSegments = roadSegments.filter((segment) => {
+      return segment.properties.situation !== 'passable' 
+    })
+
+    for (var i = 0; i < filteredSegments.length; i++){
+      var section = origDataSections.filter((section) => {
+        return section.properties.SECTION_ID === filteredSegments[i].properties.section_id
       })
 
       if(section[0].properties.ROAD_SEC_C === "Primary"){

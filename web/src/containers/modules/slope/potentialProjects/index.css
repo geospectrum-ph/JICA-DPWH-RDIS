@@ -1,0 +1,16 @@
+.slope-potential-container {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: 100%;
+
+  font-size: 1.5vh;
+}
+
+.slope-potential-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

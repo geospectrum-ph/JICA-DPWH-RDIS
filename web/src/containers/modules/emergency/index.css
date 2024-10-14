@@ -1,7 +1,7 @@
 .emergency-container{
   display: grid;
   gap: 1%;
-  grid-template-columns: 65% 34%;
+  grid-template-columns: 64% 35%;
 }
 
 .emergency-charts{
@@ -13,6 +13,6 @@
 
 .emergency-charts-row1{
   display: grid;
-  gap: 2%;
-  grid-template-columns: 34% 64%;
+  gap: 1%;
+  grid-template-columns: 34% 65%;
 }

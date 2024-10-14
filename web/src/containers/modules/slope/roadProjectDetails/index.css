@@ -1,0 +1,13 @@
+.slope-details-container {
+  height: 100%;
+
+  display: grid;
+  gap: 1%;
+  grid-template-rows: 81 18%;
+}
+
+.slope-details-list {
+  padding: 1vh;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}

@@ -8,6 +8,7 @@ export default function RoadInformation(){
 
   const {selectedSection} = React.useContext(MainContext)
 
+
   return (
     <div className='roadinfo-container'>
       <div><b>Region</b></div>

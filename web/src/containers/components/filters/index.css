@@ -9,6 +9,53 @@
 .areafilter-header {
   width: 65%;
   background-color: orange;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.areafilter-header-title {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2.5vh;
+}
+
+.areafilter-header-appbar {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+.areafilter-appbar-button {
+  /* font-weight: bold; */
+  padding: 1vh;
+  /* color: white;
+  background-color: #000000; */
+
+  text-align: center;
+}
+
+.areafilter-appbar-button:hover {
+  cursor: pointer;
+  background-color: #000000;
+  color: white;
+  text-align: center;
+  padding: 1vh;
+
+  transition: ease-in-out 0.3s;
+}
+
+.areafilter-appbar-button-selected {
+  font-weight: bold;
+  padding: 1vh;
+  color: white;
+  background-color: #000000;
+
+  text-align: center;
 }
 
 .areafilter-dropdowns{
@@ -44,7 +91,7 @@
   background-color: gray;
 
   height: 20vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   z-index: 100;
 }

@@ -11,9 +11,9 @@
 .closure-classpie-header{
   display: flex;
   flex-direction: row;
-  padding-inline: 1vw;
+  /* padding-inline: 1vw; */
 
-  width: 80%;
+  width: 100%;
 
   align-items: center;
   justify-content: center;
@@ -22,10 +22,16 @@
   color: white;
 }
 
-.closure-classpie-chart{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+.closure-region-container{
+  width: 70%;
+  height: 20vh;
+  overflow-y: scroll
+}
+
+.closure-region-list{
+  display: grid;
+
+  grid-template-columns: 80% 20%;
 }
 
 .closure-classpie-legend {

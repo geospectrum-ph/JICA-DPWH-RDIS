@@ -42,7 +42,7 @@ export default function DashboardLayout(){
             <ArcGISMap/>
           </div>
           <div>
-            {selectedSection ? <RoadInformation/> : null}
+            {selectedSection ? <RoadInformation/> : <div className='layout-info-null'><b>PLEASE SELECT AN OBJECT</b></div>}
           </div>
         </div>
       </div>

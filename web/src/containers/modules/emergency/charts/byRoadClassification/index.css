@@ -11,9 +11,9 @@
 .closure-classpie-header{
   display: flex;
   flex-direction: row;
-  padding-inline: 1vw;
+  /* padding-inline: 1vw; */
 
-  width: 80%;
+  width: 100%;
 
   align-items: center;
   justify-content: center;
