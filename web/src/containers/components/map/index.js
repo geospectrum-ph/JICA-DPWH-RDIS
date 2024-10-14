@@ -6,6 +6,7 @@ import MapView from "@arcgis/core/views/MapView.js";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle.js";
+import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer.js";
 
 import array_roads from "../../../sampleFiles/road_sections_merged.json"
 import array_regions from "../../../assets/shp/region.json"
@@ -42,13 +43,22 @@ const ArcGISMapContextProvider = (props) => {
     // URL reference to the blob
     const url = URL.createObjectURL(blob);
     // create new geojson layer using the blob url
+
+    const renderer = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-line",  // autocasts as new SimpleMarkerSymbol()
+        width: 2,
+        color: "#FFFF00",
+      }
+    };
+
     const layer = new GeoJSONLayer({
-      url
+      url: url,
+      renderer: renderer
     });
 
     view.map.layers.push(layer);
-
-    console.log(geojson);
 
     // view.map.removeAll();
 
@@ -91,28 +101,130 @@ const ArcGISMapContextProvider = (props) => {
   function ArcGISMap() {
     // esriConfig.apiKey = STRING_KEY;
 
-    const geojson = {
-      type: "FeatureCollection",
-      features: array_roads
-    };
-    
+    const primary_roads = [];
+    const secondary_roads = [];
+    const tertiary_roads = [];
+    const other_roads = [];
 
-    // SAMPLE_GEOJSON.forEach(
-    //   function (value, index, array) {
-    //     geojson.features.push(value);
-    //   }
-    // )
+    array_roads.forEach(function (element) {
+      switch (element.properties.ROAD_SEC_C) {
+        case "Primary":
+          primary_roads.push(element);
+          return;
+        case "Secondary":
+          secondary_roads.push(element);
+          return;
+        case "Tertiary":
+          tertiary_roads.push(element);
+          return;
+        default:
+          other_roads.push(element);
+          return;
+      }
+    });
+
+    const geojson_primary = {
+      type: "FeatureCollection",
+      features: primary_roads
+    };
+
+    const geojson_secondary = {
+      type: "FeatureCollection",
+      features: secondary_roads
+    };
+
+    const geojson_tertiary = {
+      type: "FeatureCollection",
+      features: tertiary_roads
+    };
+
+    const geojson_others = {
+      type: "FeatureCollection",
+      features: other_roads
+    };
 
     // create a new blob from geojson featurecollection
-    const blob = new Blob([JSON.stringify(geojson)], {
+    const blob_primary = new Blob([JSON.stringify(geojson_primary)], {
       type: "application/json"
     });
 
+    // create a new blob from geojson featurecollection
+    const blob_secondary = new Blob([JSON.stringify(geojson_secondary)], {
+      type: "application/json"
+    });
+
+    // create a new blob from geojson featurecollection
+    const blob_tertiary = new Blob([JSON.stringify(geojson_tertiary)], {
+      type: "application/json"
+    });
+
+    // create a new blob from geojson featurecollection
+    const blob_others = new Blob([JSON.stringify(geojson_others)], {
+      type: "application/json"
+    });
+
+
     // URL reference to the blob
-    const url = URL.createObjectURL(blob);
+    const url_primary = URL.createObjectURL(blob_primary);
+    const url_secondary = URL.createObjectURL(blob_secondary);
+    const url_tertiary = URL.createObjectURL(blob_tertiary);
+    const url_others = URL.createObjectURL(blob_others);
+
+    const renderer_primary = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-line",  // autocasts as new SimpleMarkerSymbol()
+        width: 1,
+        color: "#FF0000",
+      }
+    };
+
+    const renderer_secondary = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-line",  // autocasts as new SimpleMarkerSymbol()
+        width: 1,
+        color: "#00FF00",
+      }
+    };
+
+    const renderer_tertiary = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-line",  // autocasts as new SimpleMarkerSymbol()
+        width: 1,
+        color: "#0000FF",
+      }
+    };
+
+    const renderer_others = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-line",  // autocasts as new SimpleMarkerSymbol()
+        width: 1,
+        color: "#FFFFFF",
+      }
+    };
+
     // create new geojson layer using the blob url
-    const layer = new GeoJSONLayer({
-      url
+    const layer_primary = new GeoJSONLayer({
+      url: url_primary,
+      renderer: renderer_primary
+    });
+
+    const layer_secondary = new GeoJSONLayer({
+      url: url_secondary,
+      renderer: renderer_secondary
+    });
+
+    const layer_tertiary = new GeoJSONLayer({
+      url: url_tertiary,
+      renderer: renderer_tertiary
+    });
+
+    const layer_others = new GeoJSONLayer({
+      url: url_others,
+      renderer: renderer_others
     });
 
     // const geojson2 = {
@@ -171,7 +283,10 @@ const ArcGISMapContextProvider = (props) => {
         position: "top-right"
       });
 
-      view.map.layers.push(layer);
+      view.map.layers.push(layer_primary);
+      view.map.layers.push(layer_secondary);
+      view.map.layers.push(layer_tertiary);
+      view.map.layers.push(layer_others);
       // view.map.layers.push(layer2);
     }, []);
 

@@ -34,7 +34,7 @@ export default function HazardSegmentList() {
     const lng_sum = point_pair_array.reduce(function (accumulator, element) { return (accumulator + parseFloat(element[1])); }, 0);
 
     const mean = [lat_sum/point_pair_array.length, lng_sum/point_pair_array.length];
-    const zoom = 12;
+    const zoom = 18;
 
     recenter_map(mean, zoom);
 
