@@ -37,7 +37,7 @@ export default function MainDashboard() {
       {moduleSummarySelect === 'dashboard' ? 
         <div className='md-modules'>
           {/* <ClosureTotal/> */}
-          <div className='md-general-charts'>
+          <div className='md-general-charts-main'>
             <DashboardClassPieChart/>
           </div>
         </div>

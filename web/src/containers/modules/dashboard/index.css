@@ -71,6 +71,11 @@
 
 }
 
+.md-general-charts-main {
+  grid-column-end: span 3
+}
+
 .md-general-charts {
   grid-column-end: span 2
 }
+
