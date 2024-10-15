@@ -12,7 +12,7 @@ export default function RoadsLists() {
         <b>LIST OF ROADS</b>
       </div>
       <div className='md-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to search.."/>
         <span className="material-symbols-outlined">
           search 
         </span>

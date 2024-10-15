@@ -46,7 +46,7 @@ export default function SlopeSegmentList() {
         <b>LIST OF ROAD PROJECTS</b>
       </div>
       <div className='hazard-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to search.."/>
         <span class="material-symbols-outlined">
           search 
         </span>

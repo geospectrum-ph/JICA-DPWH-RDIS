@@ -43,9 +43,9 @@ export default function DEOListChart() {
       <div className='closure-classpie-header'>
         <b>ROAD CLOSURE BY DEO</b>
       </div>
-      <div className='closure-region-container'>
+      <div className='closure-deo-container'>
         {regionList ? Object.keys(regionList).map((key) => {
-          return <div className='closure-region-list'>
+          return <div className='closure-deo-list'>
             <div>{key}</div><div>{regionList[key]}</div>
           </div>
         }) : null}

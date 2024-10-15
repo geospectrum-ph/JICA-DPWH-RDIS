@@ -22,13 +22,13 @@
   color: white;
 }
 
-.closure-region-container{
+.closure-deo-container{
   width: 70%;
-  height: 20vh;
+  height: 40vh;
   overflow-y: auto
 }
 
-.closure-region-list{
+.closure-deo-list{
   display: grid;
 
   grid-template-columns: 80% 20%;

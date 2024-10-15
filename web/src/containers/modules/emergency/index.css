@@ -2,6 +2,7 @@
   display: grid;
   gap: 1%;
   grid-template-columns: 64% 35%;
+  height: 90%;
 }
 
 .emergency-charts{

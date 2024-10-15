@@ -1,0 +1,10 @@
+.potential-roadsections-list {
+  height: 32vh;
+  width: 100%;
+
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+
+  overflow-y: auto;
+}

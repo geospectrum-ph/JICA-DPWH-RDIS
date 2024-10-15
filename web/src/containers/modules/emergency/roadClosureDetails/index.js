@@ -29,7 +29,7 @@ export default function ClosureDetails() {
         <div><b>Road Classification</b></div>
         <div>{selectedClosure.properties.ROAD_SEC_C}</div> */}
       </div>
-      : <div>Please select road closure</div>}
+      : <div>Please select road closure from list above</div>}
     </div>
   )
 }

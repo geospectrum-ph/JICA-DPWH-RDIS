@@ -31,7 +31,7 @@ export default function ClosureRoadsList() {
         <b>LIST OF ROAD CLOSURE</b>
       </div>
       <div className='closure-roadsections-search'>
-        <input type="text" placeholder="Search.."/>
+        <input type="text" placeholder="Type to Type to search.."/>
         <span className="material-symbols-outlined">
           search 
         </span>
