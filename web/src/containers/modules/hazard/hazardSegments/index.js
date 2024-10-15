@@ -39,13 +39,20 @@ export default function HazardSegmentList() {
         <div style={{color: '#E27728'}}>Medium Risk</div>
         <div style={{color: '#329632'}}>Low Risk</div>
       </div>
-      <div className='hazard-roadsections-list'>
-        {selectedSection && hazardList.length > 0 ? hazardList.map((section, index) => {
-          return <div className='hazard-list-item' key = {index} style={{color: checkHazard(section.properties.HAZARD)}}
-            onClick={()=>{setSelectedHazard(section); surveyClicked(section);}}>
-            <div className='hazard-list-id'>{convertTime(section.properties.created_da)}</div> <div>{section.properties.LRP_DISP1} to {section.properties.LRP_DISP2}</div>
-          </div>
-        }) : <div className='hazard-list-select'>Select a road section</div>}
+      <div className = "hazard-roadsections-list">
+        {
+          selectedSection && hazardList.length > 0 ?
+            hazardList.map(function (section, index) {
+              return (
+                <div className = "hazard-list-item" key = { index } style = {{ color: checkHazard(section.properties.HAZARD) }} onClick = { function () { setSelectedHazard(section); add_layer(section); }}>
+                  <div className = "hazard-list-id">{ convertTime(section.properties.created_da) }</div>
+                  <div>{ section.properties.LRP_DISP1 } to { section.properties.LRP_DISP2 }</div>
+                </div>
+              );
+            })
+          :
+            <div className = "hazard-list-select">Select a road section</div>
+        }
       </div>
     </div>
   );
