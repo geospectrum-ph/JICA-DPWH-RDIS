@@ -43,8 +43,8 @@ export default function HazardRegionListChart() {
         <b>HIGH HAZARD IN LENGTH BY REGION</b>
       </div>
       <div className='closure-region-container'>
-        {regionList ? Object.keys(regionList).map((key) => {
-          return <div className='closure-region-list'>
+        {regionList ? Object.keys(regionList).map((key, index) => {
+          return <div className='closure-region-list' key = {index}>
             <div>{key}</div><div>{regionList[key]}</div>
           </div>
         }) : null}

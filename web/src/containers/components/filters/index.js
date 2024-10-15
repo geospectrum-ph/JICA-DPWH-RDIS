@@ -181,8 +181,8 @@ export default function AreaFilter() {
             <div className='areafilter-dropdown-item' onClick={()=>changeRegion('', '')}>
               Select to clear filter
             </div>
-            {regions.map((region)=> {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeRegion(region.filter_value, region.region_name)}>
+            {regions.map((region, index)=> {
+              return <div className='areafilter-dropdown-item' key = {index} onClick={()=>changeRegion(region.filter_value, region.region_name)}>
               {region.filter_value}
               </div>
             })}
@@ -215,8 +215,8 @@ export default function AreaFilter() {
             <div className='areafilter-dropdown-item' onClick={()=>changeLd('')}>
               Select to clear filter
             </div>
-            {regionSelect !== ''  && deoSelect !== '' ? ldList.sort((a, b) => {return a - b}).map((ld) => {
-              return <div className='areafilter-dropdown-item' onClick={()=>changeLd(ld)}>
+            {regionSelect !== ''  && deoSelect !== '' ? ldList.sort((a, b) => {return a - b}).map((ld, index) => {
+              return <div className='areafilter-dropdown-item' key = {index} onClick={()=>changeLd(ld)}>
                 {ld}
               </div>
             }) : null}

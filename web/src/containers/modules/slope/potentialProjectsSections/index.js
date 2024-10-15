@@ -43,13 +43,13 @@ export default function PotentialSegmentList() {
       </div>
       <div className='hazard-roadsections-search'>
         <input type="text" placeholder="Type to Type to search.."/>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           search 
         </span>
       </div>
       <div className='potential-roadsections-list'>
-        {terrainList.length > 0 ? terrainList.map((section) => {
-          return <div className='hazard-list-item' 
+        {terrainList.length > 0 ? terrainList.map((section, index) => {
+          return <div className='hazard-list-item' key = {index}
             onClick={()=>setSelectedPotential(section)}
             >
             <div className='hazard-list-id'>{section.section_id}</div>
