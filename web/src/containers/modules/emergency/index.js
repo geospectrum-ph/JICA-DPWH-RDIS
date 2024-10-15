@@ -11,7 +11,6 @@ import ClosureSettings from './settings';
 import ClosureDetails from './roadClosureDetails';
 
 export default function EmergencyModule() {
-
   const {regionSelect} = React.useContext(MainContext)
 
   return(

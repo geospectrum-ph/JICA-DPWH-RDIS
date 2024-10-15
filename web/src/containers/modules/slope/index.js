@@ -10,7 +10,6 @@ import PotentialSegmentList from './potentialProjectsSections';
 import SlopePotentialDetails from './potentialProjectDetails';
 
 export default function SlopeModule() {
-
   const {selectedInventory, selectedPotential, slopePageSelect} = React.useContext(MainContext)
 
   return (

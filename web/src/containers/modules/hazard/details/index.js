@@ -60,7 +60,7 @@ export default function HazardDetails() {
 
           <div className='hm-body-prop'>Correspond to 1</div>
           <div className='hm-body-prop-score'>20 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -89,7 +89,7 @@ export default function HazardDetails() {
           <div className='hm-body-prop'>Surface water castchment slope</div>
           <div className='hm-body-prop'>No Correspond</div>
           <div className='hm-body-prop-score'>0 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -119,7 +119,7 @@ export default function HazardDetails() {
 
           <div className='hm-body-prop'>No</div>
           <div className='hm-body-prop-score'>0 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -135,7 +135,7 @@ export default function HazardDetails() {
           <div className='hm-body-prop'><i className='hm-prop-yes'>High density of cracks</i></div>
           <div className='hm-body-prop'>Correspond to 2 or more</div>
           <div className='hm-body-prop-score'>10 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -163,7 +163,7 @@ export default function HazardDetails() {
           <div className='hm-body-prop' style={{gridRowEnd: 'span 4'}}>Slope direction of bedding plane or cracks</div>
           <div className='hm-body-prop'>Sloping towards the road, open crack</div>
           <div className='hm-body-prop-score'>10 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -194,7 +194,7 @@ export default function HazardDetails() {
 
           <div className='hm-body-prop'>No</div>
           <div className='hm-body-prop-score'>0 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -210,7 +210,7 @@ export default function HazardDetails() {
           <div className='hm-body-prop' style={{gridRowEnd: 'span 3'}}>Vegetation condition</div>
           <div className='hm-body-prop'>Bare land with minor vegetation</div>
           <div className='hm-body-prop-score'>10 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -233,7 +233,7 @@ export default function HazardDetails() {
 
           <div className='hm-body-prop'>Partly unstable</div>
           <div className='hm-body-prop-score'>8 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -256,7 +256,7 @@ export default function HazardDetails() {
 
           <div className='hm-body-prop'>None</div>
           <div className='hm-body-prop-score'>0 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>
@@ -273,7 +273,7 @@ export default function HazardDetails() {
           <div className='hm-body-prop'>Bending of tree root, fallen tree</div>
           <div className='hm-body-prop'>Correspond to 2</div>
           <div className='hm-body-prop-score'>25 
-            <span class="material-symbols-outlined">
+            <span className="material-symbols-outlined">
               check
               </span>
           </div>

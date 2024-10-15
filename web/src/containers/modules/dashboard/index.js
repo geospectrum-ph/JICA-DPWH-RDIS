@@ -12,7 +12,8 @@ import SlopeProjectTotal from '../slope/charts/totalAmount';
 import SlopeFundingTotal from '../slope/charts/totalForBudgeting';
 
 export default function MainDashboard() {
-  const {moduleSummarySelect} = React.useContext(MainContext)
+  const {moduleSummarySelect} = React.useContext(MainContext);
+
   return (
     <div className='md-container'>
       <div className='md-description'>

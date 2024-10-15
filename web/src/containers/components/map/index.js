@@ -328,11 +328,40 @@ const ArcGISMapContextProvider = (props) => {
     });
   }
 
-  function add_layer(feature) {
-    const geojson = {
-      type: "FeatureCollection",
-      features: [feature]
-    };
+  function add_layer(feature, module) {
+    var geojson;
+    var zoom;
+    var layer_name;
+
+    if (module === "inventory") {
+      geojson = {
+        type: "FeatureCollection",
+        features: [feature]
+      }
+      zoom = 12;
+      layer_name = feature.properties.SECTION_ID;
+    }
+    else if (module === "emergency") {
+      geojson = feature;
+      zoom = 12;
+      layer_name = feature.properties.section_id;
+    }
+    else if (module === "hazard") {
+      geojson = {
+        type: "FeatureCollection",
+        features: [feature]
+      }
+      zoom = 18;
+      layer_name = feature.properties.SECTION_ID;
+    }
+    else {
+      geojson = {
+        type: "FeatureCollection",
+        features: [feature]
+      }
+      zoom = 18;
+      layer_name = "New Layer";
+    }
 
     const blob = new Blob([JSON.stringify(geojson)], {
       type: "application/json"
@@ -350,7 +379,7 @@ const ArcGISMapContextProvider = (props) => {
     };
 
     const layer = new GeoJSONLayer({
-      title: feature.properties.SECTION_ID || "New Layer",
+      title: layer_name,
       url: url,
       renderer: renderer
     });
@@ -359,10 +388,8 @@ const ArcGISMapContextProvider = (props) => {
 
     activelayers.layers.push(layer);
 
-    recenter_map(feature.geometry.coordinates, 18);
+    recenter_map(feature.geometry.coordinates, zoom);
   }
-
-
 
   return (
     <ArcGISMapContext.Provider value = {{ ArcGISMap, clear_map, recenter_map, add_layer }}>{ props.children }</ArcGISMapContext.Provider>

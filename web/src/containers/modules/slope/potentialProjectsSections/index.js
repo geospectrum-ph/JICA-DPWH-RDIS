@@ -54,8 +54,8 @@ export default function PotentialSegmentList() {
         <div style={{color: '#0000ff'}}>For repair</div>
       </div>
       <div className='potential-roadsections-list'>
-        {terrainList.length > 0 ? terrainList.map((section) => {
-          return <div className='hazard-list-item' 
+        {terrainList.length > 0 ? terrainList.map((section, index) => {
+          return <div className='hazard-list-item' key = {index}
             onClick={()=>setSelectedPotential(section)}
             >
             <div className='hazard-list-id'>{section.section_id}</div>
