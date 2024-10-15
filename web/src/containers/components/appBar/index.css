@@ -15,10 +15,30 @@
 
 .appbar-button {
   padding: 1vh;
+  /* height: 5%; */
+  color: white;
+
+  width: 15vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  /* margin-inline: 0.5vw; */
+}
+
+.appbar-button-icon {
+  padding: 1vh;
   height: 5%;
   color: white;
-  
-  margin-inline: 0.5vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  /* margin-inline: 0.5vw; */
 }
 
 .appbar-button:hover {
@@ -31,6 +51,14 @@
 .appbar-button-selected {
   font-weight: bold;
   padding: 1vh;
+
+  width: 15vw;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   color: white;
   background-color: #000000;
 }

@@ -1,11 +1,13 @@
 .md-container {
   display: grid;
-  gap: 1%;
-  grid-template-columns: 18.6% 18.6% 18.6% 18.6% 18.6%;
+  row-gap: 1%;
+  grid-template-columns: 20% 20% 20% 20% 20%;
   grid-template-rows: 35% 40% 23%;
 
-  height: 91%;
-    
+  height: 91.5%;
+  width: 98.5%;
+
+  border-right: 1vw solid gray;
 }
 
 .md-description {
@@ -16,7 +18,7 @@
 }
 
 .md-description-title {
-  
+  border-bottom: 5px solid #F27D30;
 }
 
 .md-description-title{
@@ -53,7 +55,7 @@
 
   display: grid;
   gap: 1%;
-  grid-template-columns: 33% 33% 33%;
+  grid-template-columns: 32.5% 32.5% 32.5%;
   grid-template-rows: 59.5% 39.5%;
 
 }
@@ -72,4 +74,3 @@
 .md-general-charts {
   grid-column-end: span 2
 }
-

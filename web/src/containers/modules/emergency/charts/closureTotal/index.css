@@ -6,12 +6,16 @@
 
   width: auto;
   height: 100%;
+
+  border-bottom: 1px solid;
 }
 
 .closure-total-header{
   display: flex;
   flex-direction: row;
   /* padding-inline: 1vw; */
+
+  border-bottom: 5px solid #F27D30;
 
   width: 100%;
 

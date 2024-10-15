@@ -52,6 +52,12 @@ export default function HazardSegmentList() {
           search 
         </span>
       </div>
+      <div className='roadsections-legend'>
+        <div>Legend:</div> 
+        <div style={{color: '#ff0000'}}>High Risk</div> 
+        <div style={{color: '#E27728'}}>Medium Risk</div>
+        <div style={{color: '#329632'}}>Low Risk</div>
+      </div>
       <div className='hazard-roadsections-list'>
         {selectedSection && hazardList.length > 0 ? hazardList.map((section, index) => {
           return <div className='hazard-list-item' key = {index} style={{color: checkHazard(section.properties.HAZARD)}}
