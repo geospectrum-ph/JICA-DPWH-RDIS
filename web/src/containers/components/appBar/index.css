@@ -1,36 +1,51 @@
 .headerbar-container {
+  flex-flow: row nowrap;
+  place-content: center center;
+
+  display: flex;
+
   height: auto;
   width: 100%;
-  background-color: #5271ff;
-}
 
-.appbar {
-  display: flex;
-  flex-direction: row;
-  padding-left: 1vw;
+  background-color: rgba(100, 100, 100, 1.00);
 
-  background-color: #5271ff;
-
-}
-
-.appbar-button {
-  padding: 1vh;
-  height: 5%;
-  color: white;
+  > * {
+    flex-flow: row nowrap;
+    place-content: center center;
   
-  margin-inline: 0.5vw;
-}
+    display: flex;
 
-.appbar-button:hover {
-  cursor: pointer;
-  background-color: #000000;
+    height: auto;
+    box-sizing: border-box;
+    padding: 12px 24px;
 
-  transition: ease-in-out 0.3s;
-}
+    cursor: pointer;
 
-.appbar-button-selected {
-  font-weight: bold;
-  padding: 1vh;
-  color: white;
-  background-color: #000000;
+    font: normal 400 12px "Outfit", sans-serif;
+    color: rgba(255, 255, 255, 1.00);
+  }
+
+  .appbar-button {      
+    &:hover {
+      background-color: rgba(75, 75, 75, 1.00);
+    
+      transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+    }
+
+    > :nth-child(2) {
+      margin: 0 0 0 6px;
+
+      font-size: 12px;
+    }
+
+    &.selected {
+      background-color: rgba(82, 113, 255, 1.00);
+  
+      &:hover {
+        background-color: rgba(57, 88, 230, 1.00);
+      
+        transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+      }
+    }
+  }
 }

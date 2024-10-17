@@ -1,13 +1,48 @@
+/*
+
+CSS Stylesheet Organization Guide
+https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Organizing
+
+> General Styles (Default Styling)
+> Utility Classes and Site-Wide Styling
+> Specific Selectors
+> Animations and Transitions
+
+CSS Rule Order Guide
+https://9elements.com/css-rule-order/
+
+> User-Defined Variables
+
+> Generated Content
+content
+
+> Position and Layout
+position-* z-index top bottom left right **flexbox properties** float clear
+
+> Display and Visibility
+display opacity transform-*
+
+> Clipping
+overflow-* clip-*
+
+> Animation
+animation-* transition-*
+
+> Box Model
+margin-* outline-* border-* box-* width height padding-*
+
+> Background
+background-* cursor
+
+> Typography
+font-* text-* color
+
+> Pseudo-Classes & Pseudo-Elements (Nested Rules)
+
+*/
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  
+  font-family: "Outfit", sans-serif;
 }

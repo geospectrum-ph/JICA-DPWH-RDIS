@@ -1,24 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import DPWH from '../../../assets/logos/logo_DPWH.png';
-import BP from '../../../assets/logos/logo_Bagong Pilipinas.png';
+import logo_DPWH from "../../../assets/logos/logo_DPWH.png";
+import logo_BP from "../../../assets/logos/logo_BP.png";
 
-import './index.css';
+import "./index.css";
 
 export default function TitleBar() {
   return (
-    <div className='titlebar-container'>
-      <div className='titlebar-header'>
-        <div className='header-logo'>
-          <img src={DPWH}/>
-        </div>
-        <div className='header-logo'>
-          <img src={BP}/>
-        </div>
-        <div className='header-title'>
-          <b>ROAD DISASTER INFORMATION SYSTEM</b>
-        </div>
-      </div>
+    <div className = "titlebar-container">
+      <img src = { logo_DPWH } alt = "DPWH Logo"/>
+      <img src = { logo_BP } alt = "Bagong Pilipinas Logo"/>
+      <span>{ "ROAD DISASTER INFORMATION SYSTEM" }</span>
     </div>
-  )
+  );
 }
