@@ -42,10 +42,16 @@ export default function PotentialSegmentList() {
         <b>PROPOSED FOR FUNDING</b>
       </div>
       <div className='hazard-roadsections-search'>
-        <input type="text" placeholder="Type to Type to search.."/>
-        <span className="material-symbols-outlined">
+        <input type="text" placeholder="Type to search.."/>
+        <span class="material-symbols-outlined">
           search 
         </span>
+      </div>
+      <div className='roadsections-legend'>
+        <div>Legend:</div> 
+        <div style={{color: '#ff0000'}}>New</div> 
+        <div style={{color: '#00ff00'}}>Continuation</div>
+        <div style={{color: '#0000ff'}}>For repair</div>
       </div>
       <div className='potential-roadsections-list'>
         {terrainList.length > 0 ? terrainList.map((section, index) => {

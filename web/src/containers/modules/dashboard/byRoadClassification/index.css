@@ -14,6 +14,7 @@
   /* padding-inline: 1vw; */
 
   width: 100%;
+  border-bottom: 5px solid #F27D30;
 
   align-items: center;
   justify-content: center;
@@ -31,7 +32,7 @@
 }
 
 .md-classpie-legend {
-  width: 40%;
+  width: 50%;
 
   display: grid;
   grid-template-columns: 60% 40%;

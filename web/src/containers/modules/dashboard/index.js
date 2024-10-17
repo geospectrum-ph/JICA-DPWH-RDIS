@@ -34,39 +34,39 @@ export default function MainDashboard() {
         <RoadsLists/>
       </div>
       
-        {moduleSummarySelect === 'dashboard' ? 
-          <div className='md-modules'>
-            {/* <ClosureTotal/> */}
-            <div className='md-general-charts'>
-              <DashboardClassPieChart/>
-            </div>
-          </div>
-        : moduleSummarySelect === 'slope' ? 
-          <div className='md-modules-slope'>
-            <SlopeProjectTotal/>
-            <SlopeFundingTotal/>
-            {/* <div className='md-general-charts'>
-              {/* <SlopeProjectTotal/>
-            </div> */} 
-          </div>
-
-        : moduleSummarySelect === 'emergency' ? 
-          <div className='md-modules'>
-            <ClosureTotal/>
-            <div className='md-general-charts'>
-              <ClassPieChart/>
-            </div>
-            
-
-          </div>
-        : moduleSummarySelect === 'hazard' ? 
+      {moduleSummarySelect === 'dashboard' ? 
         <div className='md-modules'>
-          <HighRiskTotal/>
-          <div className='md-general-charts'>
-            <HazardRegionListChart/>
+          {/* <ClosureTotal/> */}
+          <div className='md-general-charts-main'>
+            <DashboardClassPieChart/>
           </div>
         </div>
-        : null}
+      : moduleSummarySelect === 'slope' ? 
+        <div className='md-modules-slope'>
+          <SlopeProjectTotal/>
+          <SlopeFundingTotal/>
+          {/* <div className='md-general-charts'>
+            {/* <SlopeProjectTotal/>
+          </div> */} 
+        </div>
+
+      : moduleSummarySelect === 'emergency' ? 
+        <div className='md-modules'>
+          <ClosureTotal/>
+          <div className='md-general-charts'>
+            <ClassPieChart/>
+          </div>
+          
+
+        </div>
+      : moduleSummarySelect === 'hazard' ? 
+      <div className='md-modules'>
+        <HighRiskTotal/>
+        <div className='md-general-charts'>
+          <HazardRegionListChart/>
+        </div>
+      </div>
+    : null}
         
 
       

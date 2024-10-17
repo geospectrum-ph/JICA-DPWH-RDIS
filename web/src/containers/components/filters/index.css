@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 }
 
 .areafilter-header-title {
@@ -42,7 +43,7 @@
 
 .areafilter-appbar-button:hover {
   cursor: pointer;
-  background-color: #000000;
+  background-color: #F27D30;
   color: white;
   text-align: center;
   padding: 1vh;
@@ -54,7 +55,7 @@
   font-weight: bold;
   padding: 1vh;
   color: white;
-  background-color: #000000;
+  background-color: #F27D30;
 
   text-align: center;
 }
@@ -78,13 +79,14 @@
   display: flex;
   flex-direction: column;
 
-  /* transition: 0.3s ease-in-out */
+  transition: 0.3s ease-in-out
 }
 
 .areafilter-dropdown-menu:hover {
   cursor: pointer;
   font-weight: bold;
 
+  background-color: #F27D30;
 }
 
 .areafilter-dropdown-list {

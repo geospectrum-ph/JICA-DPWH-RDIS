@@ -17,7 +17,7 @@ export default function SlopeFundingTotal() {
   
 
   return(
-    <div className='closure-total-container'>
+    <div className='slope-total-container'>
       <div className='closure-total-header'>
         <b>PROPOSED FOR BUDGET ALLOCATION</b>
       </div>

@@ -39,6 +39,11 @@ export default function ClosureRoadsList() {
         <input type = "text" placeholder = "Type to search..."/>
         <span className = "material-symbols-outlined">search</span>
       </div>
+      <div className='roadsections-legend'>
+        <div>Legend:</div> 
+        <div style={{color: '#ff0000'}}>Not passable</div> 
+        <div style={{color: '#e27728'}}>Limited Access</div>
+      </div>
       <div className = "closure-roadsections-list">
         {
           roadSegments.length > 0 ?

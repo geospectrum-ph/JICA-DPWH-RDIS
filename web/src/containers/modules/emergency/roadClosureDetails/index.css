@@ -13,6 +13,8 @@
   flex-direction: row;
   /* padding-inline: 4vw; */
 
+  border-bottom: 5px solid #F27D30;
+
   width: 100%;
 
   align-items: center;
