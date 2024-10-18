@@ -1,13 +1,13 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 export default function HazardSegmentList() {
   const {selectedSection, setSelectedHazard, hazardList} = React.useContext(MainContext);
-  const {add_layer} = React.useContext(ArcGISMapContext);
+  const {add_layer} = React.useContext(MapContext);
 
   const convertTime = (date) => {
     var new_date = new Date(date).toLocaleDateString("en-US");

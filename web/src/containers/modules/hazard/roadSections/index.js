@@ -1,13 +1,13 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 export default function HazardRoadsList() {
   const { roadSection, setSelectedSection, setHazardList, origDataHazard, setMapCenter } = React.useContext(MainContext);
-  const { recenter_map } = React.useContext(ArcGISMapContext);
+  const { recenter_map } = React.useContext(MapContext);
   
   const filterHazardSegments = (section) => {
     setHazardList(

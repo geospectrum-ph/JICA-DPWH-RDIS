@@ -1,13 +1,13 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 export default function ClosureRoadsList() {
   const { roadSegments, setMapCenter, origDataSections, setSelectedSection, setSelectedClosure } = React.useContext(MainContext);
-  const { add_layer } = React.useContext(ArcGISMapContext);
+  const { add_layer } = React.useContext(MapContext);
   
   function checkSituation (situation) {
     switch (situation) {

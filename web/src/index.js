@@ -1,28 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+
+import { BrowserRouter } from "react-router-dom";
+
 import ReactDOM from "react-dom/client";
 
 import MainContextProvider from "./contexts/MainContext";
-import ArcGISMapContextProvider from "./containers/components/map";
+import MapContextProvider from "./contexts/MapContext";
 
 import App from "./containers";
 
-import "./index.css";
-
 import reportWebVitals from "./reportWebVitals";
+
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <Router>
+  <BrowserRouter>
     <React.StrictMode>
       <MainContextProvider>
-        <ArcGISMapContextProvider>
-          <App />
-        </ArcGISMapContextProvider>
+        <MapContextProvider>
+          <App/>
+        </MapContextProvider>
       </MainContextProvider>
     </React.StrictMode>
-  </Router>
+  </BrowserRouter>
 );
 
 reportWebVitals();

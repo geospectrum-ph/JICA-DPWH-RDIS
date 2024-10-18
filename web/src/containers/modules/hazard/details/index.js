@@ -5,7 +5,6 @@ import { MainContext } from '../../../../contexts/MainContext';
 import ls2 from '../../../../assets/images/ls_road_rs_1.png'
 
 import './index.css';
-import { ArcGISMapContext } from '../../../components/map';
 
 export default function HazardDetails() {
   const {selectedHazard} = React.useContext(MainContext)

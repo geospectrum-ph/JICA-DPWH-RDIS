@@ -12,8 +12,7 @@
 /build
 
 #data
-/src/sampleFiles
-/src/assets/shp
+/src/assets
 
 # misc
 .DS_Store

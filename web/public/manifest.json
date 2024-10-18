@@ -16,9 +16,9 @@
       "type": "image/png"
     },
     {
-      "src": "/company-logo.png",
+      "src": "/favicons/logo.png",
       "sizes": "any",
-      "type": "image/x-icon"
+      "type": "image/png"
     }
   ],
   "start_url": ".",

@@ -1,10 +1,10 @@
 import React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { ArcGISMapContext } from "../map";
+import { MapContext } from "../../../contexts/MapContext";
 
-import regions from "../../../assets/regions-list.json";
-import deos from "../../../assets/engineering_district.json";
+import regions from "../../../assets/data/regions_list.json";
+import deos from "../../../assets/data/engineering_districts_list.json";
 
 import "./index.css";
 
@@ -19,7 +19,7 @@ export default function AreaFilter() {
     slopePageSelect, setSlopePageSelect
   } = React.useContext(MainContext);
 
-  const { recenter_map } = React.useContext(ArcGISMapContext);
+  const { recenter_map } = React.useContext(MapContext);
 
   const [regionDropdown, setRegionDropdown] = React.useState(false);
 

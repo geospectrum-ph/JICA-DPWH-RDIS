@@ -1,14 +1,14 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 
 export default function SlopeRoadsList() {
   const { roadSection, setSelectedSection, setRoadProjects, origDataProjects } = React.useContext(MainContext);
-  const { recenter_map } = React.useContext(ArcGISMapContext);
+  const { recenter_map } = React.useContext(MapContext);
   
   function filterSlopeSegments (section) {
     setRoadProjects(origDataProjects

@@ -1,13 +1,13 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 export default function SlopeSegmentList() {
   const { selectedSection, setSelectedInventory, roadProjects } = React.useContext(MainContext);
-  const { add_layer } = React.useContext(ArcGISMapContext);
+  const { add_layer } = React.useContext(MapContext);
 
   return (
     <div className = "hazard-roadsections-container">

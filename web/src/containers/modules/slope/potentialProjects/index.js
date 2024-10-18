@@ -1,13 +1,13 @@
 import React from "react";
 
 import { MainContext } from "../../../../contexts/MainContext";
-import { ArcGISMapContext } from "../../../components/map";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 export default function SlopeRoadsPotentialList() {
   const { roadSection, origDataHazard, terrain, setMapCenter, setTerrainList, annex2 } = React.useContext(MainContext);
-  const { recenter_map } = React.useContext(ArcGISMapContext);
+  const { recenter_map } = React.useContext(MapContext);
   
   function filterTerrainSegments (section) {
     setTerrainList(annex2.filter(function (road) {
