@@ -19,30 +19,12 @@
   }
 
   > :nth-child(1) {
-    box-sizing: border-box;
-    padding: 12px 0 12px 24px;
-
-    > img {
-      width: 24px;
-      height: 24px;   
-    }
-  }
-
-  > :nth-child(2) {
-    box-sizing: border-box;
-    padding: 12px 0 12px 12px;
-
-    > img {
-      width: 24px;
-      height: 24px;   
-    }
-  }
-
-  > :nth-child(3) {
     flex-grow: 1;
     height: 100%;
     box-sizing: border-box;
     padding: 12px;
+
+    cursor: pointer;
     
     > * {
       height: auto;
@@ -52,68 +34,14 @@
     }
   }
 
-  > :nth-child(4) {
-    flex-flow: row nowrap;
-    place-content: center center;
-
-    display: flex;
-
-    height: 100%;
-
-    > * {
-      flex-flow: row nowrap;
-      place-content: center center;
-      align-items: center;
-    
-      display: flex;
-
-      width: 144px;
-      height: 100%;
-      box-sizing: border-box;
-      padding: 12px;
-
-      cursor: pointer;
-
-      font: normal 400 12px "Outfit", sans-serif;
-      text-align: center;
-      color: rgba(255, 255, 255, 1.00);
-
-      &:hover {    
-        transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-
-        background-color: rgba(50, 50, 50, 1.00);
-      }
-
-      &.selected {
-        background-color: rgba(242, 125, 48, 1.00);
-
-        &:hover {    
-          transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-    
-          background-color: rgba(217, 100, 23, 1.00);
-        }
-      }
-    }
-  }
-
-  > :nth-child(5) {
-    height: 100%;
+  > :nth-child(2) {
     box-sizing: border-box;
-    padding: 0 24px;
-    
-    cursor: pointer;
-    
-    > * {
-      font-size: 18px;
-      color: rgba(255, 255, 255, 1.00);
-    }
+    padding: 12px;
+    gap: 12px;
 
-    &:hover {
-      > * {
-        color: rgba(242, 125, 48, 1.00);
-      }
-    
-      transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+    img {
+      width: 24px;
+      height: 24px;   
     }
   }
 }

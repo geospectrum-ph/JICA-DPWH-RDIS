@@ -1,4 +1,4 @@
-.layout-container {
+#home-container {
   flex-flow: column nowrap;
   place-content: center start;
 
@@ -15,6 +15,11 @@
   }
 
   > :nth-child(2) {
+    width: 100%;
+    height: auto;
+  }
+
+  > :nth-child(3) {
     flex-flow: row nowrap;
     place-content: center center;
   
@@ -26,13 +31,28 @@
     > :nth-child(1) {
       overflow: hidden;
 
-      width: 600px;
+      width: 360px;
       height: 100%;
     }
 
     > :nth-child(2) {
       flex-grow: 1;
       height: 100%;
+    }
+
+    &.map-hidden {
+      > :nth-child(1) {
+        width: 100%;
+
+        > :nth-child(1) {
+          display: none;
+        }
+      }
+
+      > :nth-child(2) {
+        width: 0;
+        height: 0;
+      }
     }
   }
 }

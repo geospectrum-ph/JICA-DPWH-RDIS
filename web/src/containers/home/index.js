@@ -6,24 +6,38 @@ import { MainContext } from "../../contexts/MainContext";
 import { MapContext } from "../../contexts/MapContext";
 
 import TitleBar from "../components/title-bar";
-import Filters from "../components/filters";
+import ModuleBar from "../components/module-bar";
+import FilterMenu from "../components/filter-menu";
 
 import "./index.css";
 
 function HomePage () {
   const { moduleSelect } = React.useContext(MainContext);
-  const { Map_ } = React.useContext(MapContext);
+  const { MapComponent } = React.useContext(MapContext);
+
+  function setClass (module) {
+    const modules_without_maps = ["dashboard", "status-reports", "user-management"];
+    const mapHidden = modules_without_maps.includes(module);
+
+    if (mapHidden) {
+      return ("map-hidden");
+    }
+    else {
+      return (null);
+    }
+  }
 
   return (
-    <div className = "layout-container">
+    <div id = "home-container">
       <TitleBar/>
-      <div>
+      <ModuleBar/>
+      <div className = { setClass(moduleSelect) }>
         <div>
-          <div><Filters/></div>
-          <div><Outlet/></div>
+          <FilterMenu/>
+          {/* <Outlet/> */}
         </div>
-        <div className = { moduleSelect === "user" || moduleSelect === "status" ? "hidden" : "visible" }>
-          <Map_/>
+        <div >
+          <MapComponent/>
         </div>
       </div>
     </div>

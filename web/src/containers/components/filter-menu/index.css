@@ -1,4 +1,4 @@
-.areafilter-container{
+/* .areafilter-container{
   height: 8%;
   width: 100%;
 
@@ -33,10 +33,10 @@
 }
 
 .areafilter-appbar-button {
-  /* font-weight: bold; */
+  font-weight: bold;
   padding: 1vh;
-  /* color: white;
-  background-color: #000000; */
+  color: white;
+  background-color: #000000;
 
   text-align: center;
 }
@@ -107,4 +107,80 @@
 .areafilter-dropdown-item:hover {
   background-color: darkgray;
   cursor: pointer;
+} */
+
+#filter-menu-container {
+  flex-flow: column nowrap;
+  place-content: center center;
+
+  display: flex;
+  
+  font: normal 400 12px "Outfit", sans-serif;
+  color: rgba(255, 255, 255, 1.00);
+
+  > * {
+    flex-flow: row nowrap;
+    place-content: center center;
+  
+    display: flex;
+
+    box-sizing: border-box;
+    outline: 1px solid rgba(200, 200, 200, 1.00);
+
+    > :nth-child(1) {
+      width: 50%;
+      box-sizing: border-box;
+      padding: 12px;
+
+      background-color: rgba(100, 100, 100, 1.00);
+    }
+
+    > :nth-child(2) {
+      width: 50%;
+
+      cursor: pointer;
+
+      > :nth-child(1) {
+        overflow: clip;
+        white-space: nowrap;
+  
+        height: auto;
+        box-sizing: border-box;
+        border: 12px solid rgba(0, 0, 0, 0.00);
+  
+        background-color: rgba(125, 125, 125, 1.00);
+  
+        text-overflow: ellipsis;
+      }
+
+      > :nth-child(2) {
+        position: absolute;
+        z-index: 1;
+  
+        display: none;
+  
+        overflow-y: auto;
+  
+        width: 180px;
+        max-height: 180px;
+  
+        background-color: rgba(125, 125, 125, 1.00);
+  
+        > * {
+          box-sizing: border-box;
+          padding: 8px 12px;
+
+          &:hover {
+            background-color: rgba(225, 125, 25, 1.00);
+          }
+        }
+      }
+
+      &:hover {
+        > :nth-child(2) {
+          display: block;
+        }
+      }
+    }
+  }
 }

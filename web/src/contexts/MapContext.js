@@ -263,7 +263,7 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  function Map_ () {
+  function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
     const zoom_national = 6;
@@ -400,7 +400,7 @@ function MapContextProvider (props) {
   }
 
   return (
-    <MapContext.Provider value = { { Map_, clear_map, recenter_map, add_layer } }>{ props.children }</MapContext.Provider>
+    <MapContext.Provider value = { { MapComponent, clear_map, recenter_map, add_layer } }>{ props.children }</MapContext.Provider>
   )
 }
 

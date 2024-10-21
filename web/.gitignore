@@ -11,10 +11,10 @@
 # production
 /build
 
-#data
+# data
 /src/assets
 
-# misc
+# miscellaneous
 .DS_Store
 .env.local
 .env.development.local

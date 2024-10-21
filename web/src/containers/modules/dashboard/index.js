@@ -16,7 +16,7 @@ export default function MainDashboard() {
 
   return (
     <div className='md-container'>
-      <div className='md-description'>
+      {/* <div className='md-description'>
         <div className='md-description-title'>
           <b>ABOUT THE SYSTEM</b>
         </div>
@@ -36,7 +36,7 @@ export default function MainDashboard() {
       
       {moduleSummarySelect === 'dashboard' ? 
         <div className='md-modules'>
-          {/* <ClosureTotal/> */}
+          <ClosureTotal/>
           <div className='md-general-charts-main'>
             <DashboardClassPieChart/>
           </div>
@@ -45,9 +45,9 @@ export default function MainDashboard() {
         <div className='md-modules-slope'>
           <SlopeProjectTotal/>
           <SlopeFundingTotal/>
-          {/* <div className='md-general-charts'>
-            {/* <SlopeProjectTotal/>
-          </div> */} 
+          <div className='md-general-charts'>
+            <SlopeProjectTotal/>
+          </div>
         </div>
 
       : moduleSummarySelect === 'emergency' ? 
@@ -66,7 +66,7 @@ export default function MainDashboard() {
           <HazardRegionListChart/>
         </div>
       </div>
-    : null}
+    : null} */}
         
 
       

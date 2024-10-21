@@ -1,0 +1,85 @@
+
+#module-bar-container {
+  flex-flow: row nowrap;
+  place-content: center center;
+
+  display: flex;
+
+  background-color: rgba(50, 50, 50, 1.00);
+
+  > :nth-child(1) {
+    flex-flow: row nowrap;
+    place-content: center start;
+  
+    display: flex;
+
+    flex-grow: 1;
+
+    > * {
+      flex-flow: row nowrap;
+      place-content: center center;
+      align-items: center;
+    
+      display: flex;
+  
+      box-sizing: border-box;
+      padding: 12px;
+  
+      cursor: pointer;
+  
+      font: normal 400 12px "Outfit", sans-serif;
+      text-align: center;
+      color: rgba(255, 255, 255, 1.00);
+  
+      &:hover {    
+        transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+  
+        color: rgba(225, 125, 25, 1.00);
+      }
+  
+      &.selected {
+        background-color: rgba(225, 125, 25, 1.00);
+
+        &:hover {    
+          transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+    
+          background-color: rgba(50, 50, 50, 1.00)
+        }
+      }
+    }
+  }
+
+  > :nth-child(2) {
+    flex-flow: row nowrap;
+    place-content: center center;
+    align-items: center;
+  
+    display: flex;
+
+    width: 84px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    gap: 8px;
+    
+    cursor: pointer;
+
+    > :nth-child(1) {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 1.00);
+    }
+    
+    > :nth-child(2) {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 1.00);
+    }
+
+    &:hover {
+      > * {
+        color: rgba(225, 125, 25, 1.00);
+      }
+    
+      transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+    }
+  }
+}
