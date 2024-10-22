@@ -5,7 +5,7 @@ import "./index.css";
 export default function ErrorPage() {
   return (
     <div id = "error-container">
-      { "Page not found!" }
+      { "PAGE NOT FOUND!" }
     </div>
   )
 }

@@ -57,14 +57,14 @@ export default function ModuleBar() {
         <div className = { setClass("road-slope-and-countermeasures") } onClick = { function () { setModule("Road Slope and Countermeasures"); } }>
           { "Road Slope and Countermeasures" }
         </div>
-        <div className = { setClass("evaluation-for-funding-proposal") } onClick = { function () { setModule("Evaluation for Funding Proposal"); } }>
-          { "Evaluation for Funding Proposal" }
+        <div className = { setClass("hazards-and-road-closures") } onClick = { function () { setModule("Hazards and Road Closures"); } }>
+          { "Hazards and Road Closures" }
+        </div>
+        <div className = { setClass("projects") } onClick = { function () { setModule("Projects"); } }>
+          { "Projects" }
         </div>
         <div className = { setClass("status-reports") } onClick = { function () { setModule( "Status Reports"); } }>
           { "Status Reports" }
-        </div>
-        <div className = { setClass("hazards-and-road-closures") } onClick = { function () { setModule("Hazards and Road Closures"); } }>
-          { "Hazards and Road Closures" }
         </div>
         <div className = { setClass("user-management") } onClick = {function () { setModule("User Management"); } }>
           { "User Management" }

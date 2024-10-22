@@ -6,16 +6,16 @@ import SignIn from "./modules/sign-in";
 
 import Home from "./home";
 
-import Dashboard from "./modules/dashboard";
+import Dashboard from "./modules/error";
 import RoadInventory from "./modules/error";
-import RoadSlopeAndCounterMeasuresInventory from "./modules/slope";
+import RoadSlopeAndCounterMeasures from "./modules/error";
 import ExistingStructures from "./modules/error";
 import PotentialStructures from "./modules/error";
-import EvaluationForFundingProposal from "./modules/error";
+import Projects from "./modules/error";
 import ExistingProjects from "./modules/error";
 import PotentialProjects from "./modules/error";
-import StatusReports from "./modules/emergency";
-import HazardsAndRoadClosures from "./modules/hazard";
+import StatusReports from "./modules/error";
+import HazardsAndRoadClosures from "./modules/error";
 import Hazards from "./modules/error";
 import RoadClosures from "./modules/error";
 import UserManagement from "./modules/error";
@@ -38,19 +38,19 @@ export default function App() {
           <Route path = "home" element = { <Home/> }>
             <Route path = "dashboard" element = { <Dashboard/> }/>
             <Route path = "road-inventory" element = { <RoadInventory/> }/>
-            <Route path = "road-slope-and-countermeasures" element = { <RoadSlopeAndCounterMeasuresInventory/> }>
+            <Route path = "road-slope-and-countermeasures" element = { <RoadSlopeAndCounterMeasures/> }>
               <Route path = "existing-structures" element = { <ExistingStructures/> }/>
               <Route path = "potential-structures" element = { <PotentialStructures/> }/>
             </Route>
-            <Route path = "evaluation-for-funding-proposal" element = { <EvaluationForFundingProposal/> }>
-              <Route path = "existing-projects" element = { <ExistingProjects/> }/>
-              <Route path = "potential-projects" element = { <PotentialProjects/> }/>
-            </Route>
-            <Route path = "status-reports" element = { <StatusReports/> }/>
             <Route path = "hazards-and-road-closures" element = { <HazardsAndRoadClosures/> }>
               <Route path = "hazard-risks" element = { <Hazards/> }/>
               <Route path = "road-closures" element = { <RoadClosures/> }/>
             </Route>
+            <Route path = "projects" element = { <Projects/> }>
+              <Route path = "existing-projects" element = { <ExistingProjects/> }/>
+              <Route path = "potential-projects" element = { <PotentialProjects/> }/>
+            </Route>
+            <Route path = "status-reports" element = { <StatusReports/> }/>
             <Route path = "user-management" element = { <UserManagement/> }/>
           </Route>
           <Route path = "about" element = { <About/> }/>

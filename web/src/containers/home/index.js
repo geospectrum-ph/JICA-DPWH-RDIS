@@ -34,7 +34,7 @@ function HomePage () {
       <div className = { setClass(moduleSelected) }>
         <div>
           <FilterMenu/>
-          {/* <Outlet/> */}
+          <Outlet/>
         </div>
         <div >
           <MapComponent/>
