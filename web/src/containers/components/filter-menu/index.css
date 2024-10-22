@@ -1,186 +1,103 @@
-/* .areafilter-container{
-  height: 8%;
-  width: 100%;
-
-  display: flex;
-  background-color: gray;
-}
-
-.areafilter-header {
-  width: 65%;
-  background-color: gray;
-  color: white;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  
-}
-
-.areafilter-header-title {
-  display: flex;
-  flex-direction: row;
-
-  align-items: center;
-  justify-content: center;
-
-  font-size: 2.5vh;
-}
-
-.areafilter-header-appbar {
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-}
-
-.areafilter-appbar-button {
-  font-weight: bold;
-  padding: 1vh;
-  color: white;
-  background-color: #000000;
-
-  text-align: center;
-}
-
-.areafilter-appbar-button:hover {
-  cursor: pointer;
-  background-color: #F27D30;
-  color: white;
-  text-align: center;
-  padding: 1vh;
-
-  transition: ease-in-out 0.3s;
-}
-
-.areafilter-appbar-button-selected {
-  font-weight: bold;
-  padding: 1vh;
-  color: white;
-  background-color: #F27D30;
-
-  text-align: center;
-}
-
-.areafilter-dropdowns{
-  width: 35%;
-
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-}
-
-.areafilter-dropdown{
-  display: flex;
-  flex-direction: column;
-}
-
-.areafilter-dropdown-menu {
-  padding: 1vh;
-  color: white;
-
-  display: flex;
-  flex-direction: column;
-
-  transition: 0.3s ease-in-out
-}
-
-.areafilter-dropdown-menu:hover {
-  cursor: pointer;
-  font-weight: bold;
-
-  background-color: #F27D30;
-}
-
-.areafilter-dropdown-list {
-  padding-inline: 1vh;
-  background-color: gray;
-
-  height: 20vh;
-  overflow-y: auto;
-
-  z-index: 100;
-}
-
-.areafilter-dropdown-item {
-  color: white;
-  padding-block: 0.5vh;
-}
-
-.areafilter-dropdown-item:hover {
-  background-color: darkgray;
-  cursor: pointer;
-} */
-
 #filter-menu-container {
   flex-flow: column nowrap;
   place-content: center center;
 
   display: flex;
-  
-  font: normal 400 12px "Outfit", sans-serif;
-  color: rgba(255, 255, 255, 1.00);
 
-  > * {
-    flex-flow: row nowrap;
+  font: normal 400 12px "Outfit", sans-serif;
+  color: rgba(75, 75, 75, 1.00);
+
+  > :nth-child(1) {
+    box-sizing: border-box;
+    padding: 12px;
+
+    text-transform: uppercase;
+  }
+  
+  > :nth-child(2) {
+    flex-flow: column nowrap;
     place-content: center center;
   
     display: flex;
+    
+    gap: 1px;
 
-    box-sizing: border-box;
-    outline: 1px solid rgba(200, 200, 200, 1.00);
-
-    > :nth-child(1) {
-      width: 50%;
+    > * {
+      flex-flow: row nowrap;
+      place-content: center center;
+    
+      display: flex;
+  
       box-sizing: border-box;
-      padding: 12px;
-
-      background-color: rgba(100, 100, 100, 1.00);
-    }
-
-    > :nth-child(2) {
-      width: 50%;
-
-      cursor: pointer;
-
+      outline: 1px solid rgba(225, 225, 225, 1.00);
+  
       > :nth-child(1) {
-        overflow: clip;
-        white-space: nowrap;
-  
-        height: auto;
+        width: 50%;
         box-sizing: border-box;
-        border: 12px solid rgba(0, 0, 0, 0.00);
+        padding: 12px;
   
-        background-color: rgba(125, 125, 125, 1.00);
-  
-        text-overflow: ellipsis;
+        background-color: rgba(255, 255, 255, 1.00);
       }
-
+  
       > :nth-child(2) {
-        position: absolute;
-        z-index: 1;
+        width: 50%;
   
-        display: none;
+        cursor: pointer;
   
-        overflow-y: auto;
-  
-        width: 180px;
-        max-height: 180px;
-  
-        background-color: rgba(125, 125, 125, 1.00);
-  
-        > * {
+        > :nth-child(1) {
+          overflow: clip;
+          white-space: nowrap;
+    
+          height: auto;
           box-sizing: border-box;
-          padding: 8px 12px;
-
-          &:hover {
-            background-color: rgba(225, 125, 25, 1.00);
+          border: 12px solid rgba(0, 0, 0, 0.00);
+    
+          background-color: rgba(240, 240, 240, 1.00);
+    
+          text-overflow: ellipsis;
+        }
+  
+        > :nth-child(2) {
+          position: absolute;
+          z-index: 100;
+    
+          display: none;
+    
+          overflow-y: auto;
+    
+          width: 180px;
+          max-height: 240px;
+          box-sizing: border-box;
+          border-top: 1px solid rgba(240, 240, 240, 1.00);
+    
+          background-color: rgba(240, 240, 240, 1.00);
+    
+          > * {
+            flex-flow: row nowrap;
+            place-content: center start;
+            align-items: center;
+          
+            display: flex;
+  
+            min-height: 40px;
+            box-sizing: border-box;
+            padding: 12px;
+  
+            &:hover {
+              background-color: rgba(225, 125, 25, 1.00);
+  
+              color: rgba(255, 255, 255, 1.00)
+            }
           }
         }
-      }
-
-      &:hover {
-        > :nth-child(2) {
-          display: block;
+  
+        &.active {
+          > :nth-child(2) {
+            display: block;
+          }
         }
       }
     }
   }
 }
+

@@ -321,7 +321,9 @@ function MapContextProvider (props) {
   }
 
   function clear_map() {
-    while (active_layers.layers.length) { active_layers.layers.pop(); }
+    if (active_layers) {
+      while (active_layers.layers.length) { active_layers.layers.pop(); }
+    }
   }
 
   function recenter_map(coordinates, zoom_level) {
@@ -330,10 +332,12 @@ function MapContextProvider (props) {
 
     const coordinates_mean = [latitude_sum/coordinates.length, longitude_sum/coordinates.length];
 
-    view.goTo({
-      center: coordinates_mean,
-      zoom: zoom_level
-    });
+    if (view) {
+      view.goTo({
+        center: coordinates_mean,
+        zoom: zoom_level
+      });
+    }
   }
 
   function add_layer(feature, module) {
@@ -394,7 +398,7 @@ function MapContextProvider (props) {
 
     clear_map();
 
-    active_layers.layers.push(layer);
+    if (active_layers) { active_layers.layers.push(layer); }
 
     recenter_map(feature.geometry.coordinates, zoom_level);
   }

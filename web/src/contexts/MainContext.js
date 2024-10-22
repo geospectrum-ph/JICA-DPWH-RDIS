@@ -18,22 +18,20 @@ import assets_engineering_districts_list from "../assets/data/engineering_distri
 export const MainContext = React.createContext();
 
 function MainContextProvider (props) {
-  // const [terrain, setTerrain] = React.useState(assets_terrain);
+  const [moduleSelected, setModuleSelected] = React.useState("dashboard");
+
   const [regions, setRegions] = React.useState(assets_regions);
-  // const [congressionalDistricts, setCongressionalDistricts] = React.useState(assets_congressional_districts);
-  // const [engineeringDistricts, setEngineeringDistricts] = React.useState(assets_engineering_districts);
-  // const [roadSections, setRoadSections] = React.useState(assets_road_sections);
-  // const [kilometerPosts, setKilometerPosts] = React.useState(assets_kilometer_posts);
+  const [engineeringDistricts, setEngineeringDistricts] = React.useState();
+  const [congressionalDistricts, setCongressionalDistricts] = React.useState();
 
   const [regionsList, setRegionsList] = React.useState(assets_regions_list);
   const [engineeringDistrictsList, setEngineeringDistrictsList] = React.useState(assets_engineering_districts_list);
+  const [congressionalDistrictsList, setCongressionalDistrictsList] = React.useState();
 
   const [regionSelected, setRegionSelected] = React.useState("");
   const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
+  const [congressionalDistrictSelected, setCongressionalDistrictSelected] = React.useState("");
 
-  const [moduleTitle, setModuleTitle] = React.useState("Dashboard");
-
-  const [moduleSelect, setModuleSelect] = React.useState("dashboard");
 
   const [moduleSummarySelect, setModuleSummarySelect] = React.useState("dashboard");
 
@@ -76,8 +74,17 @@ function MainContextProvider (props) {
 
   const [selectedInventory, setSelectedInventory] = React.useState();
 
+    // const [terrain, setTerrain] = React.useState(assets_terrain);
+
+
+  // const [roadSections, setRoadSections] = React.useState(assets_road_sections);
+  // const [kilometerPosts, setKilometerPosts] = React.useState(assets_kilometer_posts);
+
   function clear_selected () {
     setRegionSelected("");
+    setEngineeringDistrictSelected("");
+    setCongressionalDistrictSelected("");
+    
     setSelectedSection();
     setSelectedSegments();
     setSelectedHazard();
@@ -89,12 +96,13 @@ function MainContextProvider (props) {
   return (
     <MainContext.Provider value = {
       {
-        regions, setRegions,
         // terrain, regions, congressionalDistricts, engineeringDistricts, roadSections, kilometerPosts,
-        regionsList, setRegionsList, engineeringDistrictsList, setEngineeringDistrictsList, 
-        regionSelected, setRegionSelected, engineeringDistrictSelected, setEngineeringDistrictSelected,
-        moduleTitle, setModuleTitle,
-        moduleSelect, setModuleSelect,
+        moduleSelected, setModuleSelected,
+
+        regions, setRegions, engineeringDistricts, setEngineeringDistricts, congressionalDistricts, setCongressionalDistricts,
+        regionsList, setRegionsList, engineeringDistrictsList, setEngineeringDistrictsList, congressionalDistrictsList, setCongressionalDistrictsList,
+        regionSelected, setRegionSelected, engineeringDistrictSelected, setEngineeringDistrictSelected, congressionalDistrictSelected, setCongressionalDistrictSelected,
+
         moduleSummarySelect, setModuleSummarySelect,
         slopePageSelect, setSlopePageSelect,
         roadSection, setRoadSection,

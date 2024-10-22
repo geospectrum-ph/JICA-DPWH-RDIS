@@ -8,7 +8,7 @@ import { MapContext } from "../../../contexts/MapContext";
 import "./index.css";
 
 export default function ModuleBar() {
-  const { setModuleTitle, moduleSelect, setModuleSelect, clear_selected } = React.useContext(MainContext);
+  const { moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
   const { recenter_map, clear_map } = React.useContext(MapContext);
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function ModuleBar() {
   function setClass (module) {
     var className;
 
-    moduleSelect === module ? className = "appbar-button selected" : className = "appbar-button";
+    moduleSelected === module ? className = "appbar-button selected" : className = "appbar-button";
 
     return (className);
   }
@@ -32,11 +32,9 @@ export default function ModuleBar() {
 
     clear_selected();
 
-    setModuleTitle(moduleName);
-
     const module = moduleName.replace(/\s+/g, "-").toLowerCase();
 
-    setModuleSelect(module);
+    setModuleSelected(module);
 
     navigate(`/home/${module}`);
   }
@@ -44,7 +42,7 @@ export default function ModuleBar() {
   React.useEffect(function () {
     const splitLoc = location.pathname.split("/");
 
-    setModuleSelect(splitLoc[2]);
+    setModuleSelected(splitLoc[2]);
   }, []);
   
   return (

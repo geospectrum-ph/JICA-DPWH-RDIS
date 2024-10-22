@@ -32,19 +32,11 @@
       color: rgba(255, 255, 255, 1.00);
   
       &:hover {    
-        transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-  
-        color: rgba(225, 125, 25, 1.00);
+        background-color: rgba(225, 125, 25, 1.00);
       }
   
       &.selected {
         background-color: rgba(225, 125, 25, 1.00);
-
-        &:hover {    
-          transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-    
-          background-color: rgba(50, 50, 50, 1.00)
-        }
       }
     }
   }
@@ -75,11 +67,7 @@
     }
 
     &:hover {
-      > * {
-        color: rgba(225, 125, 25, 1.00);
-      }
-    
-      transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+      background-color: rgba(225, 125, 25, 1.00);
     }
   }
 }

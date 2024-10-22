@@ -12,7 +12,7 @@ import FilterMenu from "../components/filter-menu";
 import "./index.css";
 
 function HomePage () {
-  const { moduleSelect } = React.useContext(MainContext);
+  const { moduleSelected } = React.useContext(MainContext);
   const { MapComponent } = React.useContext(MapContext);
 
   function setClass (module) {
@@ -31,7 +31,7 @@ function HomePage () {
     <div id = "home-container">
       <TitleBar/>
       <ModuleBar/>
-      <div className = { setClass(moduleSelect) }>
+      <div className = { setClass(moduleSelected) }>
         <div>
           <FilterMenu/>
           {/* <Outlet/> */}
