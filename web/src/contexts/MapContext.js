@@ -16,8 +16,6 @@ import assets_roads from "../assets/data/roads.json";
 export const MapContext = React.createContext();
 
 function MapContextProvider (props) {
-  var view;
-
   const layer_regions = new FeatureLayer({
     title: "Regions",
     url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer",
@@ -68,6 +66,42 @@ function MapContextProvider (props) {
       }
     }
   });
+
+  const [regionsList, setRegionsList] = React.useState(null);
+  const [congressionalDistrictsList, setCongressionalDistrictsList] = React.useState(null);
+  const [engineeringDistrictsList, setEngineeringDistrictsList] = React.useState(null);
+
+  React.useEffect(function () {
+    layer_regions
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (results) {
+        setRegionsList(results.features);
+      });
+
+    layer_congressional_districts
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (results) {
+        setCongressionalDistrictsList(results.features);
+      });
+
+    layer_engineering_districts
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (results) {
+        setEngineeringDistrictsList(results.features);
+      });
+  }, []);
 
   const primary_roads = [];
   const secondary_roads = [];
@@ -233,6 +267,8 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  var view;
+
   function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
@@ -296,82 +332,70 @@ function MapContextProvider (props) {
   }
 
   function recenter_map(coordinates, zoom_level) {
-    const latitude_sum = coordinates.reduce(function (accumulator, element) { return (accumulator + parseFloat(element[0])); }, 0);
-    const longitude_sum = coordinates.reduce(function (accumulator, element) { return (accumulator + parseFloat(element[1])); }, 0);
-
-    const coordinates_mean = [latitude_sum/coordinates.length, longitude_sum/coordinates.length];
-
     view.goTo({
-      center: coordinates_mean,
+      center: coordinates,
       zoom: zoom_level
     });
   }
 
-  function add_layer(feature, module) {
-    var geojson;
-    var zoom_level;
-    var layer_name;
+  function add_layer(feature, type) {
+    var title;
+    var renderer;
 
-    if (module === "inventory") {
-      geojson = {
-        type: "FeatureCollection",
-        features: [feature]
-      }
-      zoom_level = 12;
-      layer_name = feature.properties.SECTION_ID;
-    }
-    else if (module === "emergency") {
-      geojson = feature;
-      zoom_level = 12;
-      layer_name = feature.properties.section_id;
-    }
-    else if (module === "hazard") {
-      geojson = {
-        type: "FeatureCollection",
-        features: [feature]
-      }
-      zoom_level = 18;
-      layer_name = feature.properties.SECTION_ID;
-    }
-    else {
-      geojson = {
-        type: "FeatureCollection",
-        features: [feature]
-      }
-      zoom_level = 18;
-      layer_name = "New Layer";
-    }
-
-    const blob = new Blob([JSON.stringify(geojson)], {
-      type: "application/json"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const renderer = {
+    const polygon_renderer = {
       type: "simple",
       symbol: {
-        type: "simple-line",
-        width: 2,
-        color: [242, 125, 48, 1.00]
+        type: "simple-fill",
+        color: [255, 255, 255, 0.75],
+        style: "solid",
+        outline: {
+          width: 1,
+          color: [255, 255, 255, 1.00],
+        }
       }
     };
 
-    const layer = new GeoJSONLayer({
-      title: layer_name,
-      url: url,
+    switch (type) {
+      case "region":
+        title = feature.attributes.DEO;
+        renderer = polygon_renderer;
+        break;
+      case "congressional_district": 
+        title = feature.attributes.CONG_DIST.toLocaleLowerCase().replace(/([^\s(])([^\s(]*)/g, function ($0, $1, $2) { return ($1.toUpperCase()+$2.toLowerCase()); });
+        renderer = polygon_renderer;
+        break;
+      case "engineering_district": 
+        title = feature.attributes.REGION + " (" + feature.attributes.VAR_NAME + ")";
+        renderer = polygon_renderer;
+        break;
+      default:
+        title = "New Layer";
+        renderer = polygon_renderer;
+        break;
+    }
+
+    const layer = new FeatureLayer({
+      title: title,
+      source: [feature],
+      objectIdField: "OBJECTID",
       renderer: renderer
     });
 
-    clear_map();
-
     active_layers.layers.push(layer);
-
-    recenter_map(feature.geometry.coordinates, zoom_level);
   }
 
   return (
-    <MapContext.Provider value = { { MapComponent, clear_map, recenter_map, add_layer } }>{ props.children }</MapContext.Provider>
+    <MapContext.Provider value = {
+      {
+        layer_regions, layer_congressional_districts, layer_engineering_districts,
+        regionsList, congressionalDistrictsList, engineeringDistrictsList,
+        layer_roads_primary, layer_roads_secondary, layer_roads_tertiary, layer_kilometer_posts,
+        MapComponent,
+        clear_map, recenter_map, add_layer
+      } 
+    }>
+      { props.children }
+    </MapContext.Provider>
   )
 }
 
