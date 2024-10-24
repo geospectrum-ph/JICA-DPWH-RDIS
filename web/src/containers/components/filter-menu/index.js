@@ -7,11 +7,57 @@ import "./index.css";
 
 export default function FilterMenu () {
   const { moduleSelected, regionSelected, setRegionSelected, engineeringDistrictSelected, setEngineeringDistrictSelected, congressionalDistrictSelected, setCongressionalDistrictSelected } = React.useContext(MainContext);
-  const { regionsList, congressionalDistrictsList, engineeringDistrictsList, clear_map, recenter_map, add_layer } = React.useContext(MapContext);
+  const { layer_regions, layer_congressional_districts, layer_engineering_districts, clear_map, recenter_map } = React.useContext(MapContext);
+
+  const [regions, setRegions] = React.useState(null);
+  const [congressionalDistricts, setCongressionalDistricts] = React.useState(null);
+  const [engineeringDistricts, setEngineeringDistricts] = React.useState(null);
+
+  function query_regions (expression) {
+    layer_regions
+      .queryFeatures({
+        where: expression || "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setRegions(response.features);
+      });
+  }
+
+  function query_congressional_districts (expression) {
+    layer_congressional_districts
+      .queryFeatures({
+        where: expression || "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setCongressionalDistricts(response.features);
+      });
+  }
+
+  function query_engineering_districts (expression) {
+    layer_engineering_districts
+      .queryFeatures({
+        where: expression || "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setEngineeringDistricts(response.features);
+      });
+  }
+
+  React.useEffect(function () {
+    query_regions("1 = 1");
+    query_congressional_districts("1 = 1");
+    query_engineering_districts("1 = 1");
+  }, []);
 
   function select (object, type) {
-    var center_coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-    var zoom_level = 8;
+    var coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
+    var zoom = 8;
 
     setRegionSelected(object.attributes.REGION);
 
@@ -23,27 +69,25 @@ export default function FilterMenu () {
       setCongressionalDistrictSelected(object.attributes.CONG_DIST);
       setEngineeringDistrictSelected("");
 
-      zoom_level = 9;
+      zoom = 9;
     }
     if (type === "engineering_district") {
       setEngineeringDistrictSelected(object.attributes.DEO);
       setCongressionalDistrictSelected("");
 
-      zoom_level = 9;
+      zoom = 9;
     }
 
     clear_map();
 
-    add_layer(object, type);
-
-    recenter_map(center_coordinates, zoom_level);
+    recenter_map(coordinates, zoom);
   }
 
   function clear (type) {
-    const object = regionsList.find(function (feature) { return (feature.attributes.REGION === regionSelected); });
+    const object = regions.find(function (feature) { return (feature.attributes.REGION === regionSelected); });
 
-    var center_coordinates = [121.7740, 12.8797];
-    var zoom_level = 6;
+    var coordinates = [121.7740, 12.8797];
+    var zoom = 6;
 
     if (type === "region") {
       setRegionSelected("");
@@ -52,28 +96,28 @@ export default function FilterMenu () {
 
       clear_map();
 
-      recenter_map(center_coordinates, zoom_level);
+      recenter_map(coordinates, zoom);
     }
     if (type === "engineering_district") {
       if (engineeringDistrictSelected !== "" && object) {
-        center_coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-        zoom_level = 8;
+        coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
+        zoom = 8;
 
         clear_map();
   
-        recenter_map(center_coordinates, zoom_level);
+        recenter_map(coordinates, zoom);
       }
 
       setEngineeringDistrictSelected("");
     }
     if (type === "congressional_district") {
       if (congressionalDistrictSelected !== "" && object) {
-        center_coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-        zoom_level = 8;
+        coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
+        zoom = 8;
 
         clear_map();
   
-        recenter_map(center_coordinates, zoom_level);
+        recenter_map(coordinates, zoom);
       }
 
       setCongressionalDistrictSelected("");
@@ -130,8 +174,8 @@ export default function FilterMenu () {
             <div>
               <div onClick = { function () { clear("region"); } }>{ "Clear Selection" }</div>
               {
-                regionsList ?
-                  regionsList
+                regions ?
+                  regions
                     .sort(function (base, next) {
                       let roman_parser = ["O", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
 
@@ -168,8 +212,8 @@ export default function FilterMenu () {
             <div>
               <div onClick = { function () { clear("congressional_district"); } }>{ "Clear Selection" }</div>
               {
-                congressionalDistrictsList ?
-                  congressionalDistrictsList
+                congressionalDistricts ?
+                  congressionalDistricts
                     .sort(function (base, next) {
                       return (base.attributes.CONG_DIST.localeCompare(next.attributes.CONG_DIST));
                     })
@@ -196,8 +240,8 @@ export default function FilterMenu () {
             <div>
               <div onClick = { function () { clear("engineering_district"); } }>{ "Clear Selection" }</div>
               {
-                engineeringDistrictsList ?
-                  engineeringDistrictsList
+                engineeringDistricts ?
+                  engineeringDistricts
                     .sort(function (base, next) {
                       return (base.attributes.DEO.localeCompare(next.attributes.DEO));
                     })

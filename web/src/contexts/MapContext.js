@@ -3,15 +3,11 @@ import * as React from "react";
 import esriConfig from "@arcgis/core/config.js";
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
-import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapToggle from "@arcgis/core/widgets/BasemapToggle.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
-
-// The imported assets here are only sample data. If files are missing, please refer to https://drive.google.com/file/d/1PetSQpOw8KdjuQ5CGdhUvwoBGnV2ILgY/view?usp=sharing. The password is `RDISpass`.
-import assets_roads from "../assets/data/roads.json";
 
 export const MapContext = React.createContext();
 
@@ -30,7 +26,8 @@ function MapContextProvider (props) {
           color: [255, 255, 255, 1.00],
         }
       }
-    }
+    },
+    visible: true
   });
 
   const layer_congressional_districts = new FeatureLayer({
@@ -47,7 +44,8 @@ function MapContextProvider (props) {
           color: [255, 255, 255, 1.00],
         }
       }
-    }
+    },
+    visible: false
   });
 
   const layer_engineering_districts = new FeatureLayer({
@@ -64,141 +62,57 @@ function MapContextProvider (props) {
           color: [255, 255, 255, 1.00],
         }
       }
-    }
+    },
+    visible: false
   });
 
-  const [regionsList, setRegionsList] = React.useState(null);
-  const [congressionalDistrictsList, setCongressionalDistrictsList] = React.useState(null);
-  const [engineeringDistrictsList, setEngineeringDistrictsList] = React.useState(null);
-
-  React.useEffect(function () {
-    layer_regions
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (results) {
-        setRegionsList(results.features);
-      });
-
-    layer_congressional_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (results) {
-        setCongressionalDistrictsList(results.features);
-      });
-
-    layer_engineering_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (results) {
-        setEngineeringDistrictsList(results.features);
-      });
-  }, []);
-
-  const primary_roads = [];
-  const secondary_roads = [];
-  const tertiary_roads = [];
-  const other_roads = [];
-
-  assets_roads.forEach(function (element) {
-    switch (element.properties.ROAD_SEC_C) {
-      case "Primary":
-        primary_roads.push(element);
-        return;
-      case "Secondary":
-        secondary_roads.push(element);
-        return;
-      case "Tertiary":
-        tertiary_roads.push(element);
-        return;
-      default:
-        other_roads.push(element);
-        return;
-    }
+  const layer_roads = new FeatureLayer({
+    url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"
   });
 
-  const geojson_roads_primary = {
-    type: "FeatureCollection",
-    features: primary_roads
-  };
-
-  const geojson_roads_secondary = {
-    type: "FeatureCollection",
-    features: secondary_roads
-  };
-
-  const geojson_roads_tertiary = {
-    type: "FeatureCollection",
-    features: tertiary_roads
-  };
-
-  const blob_roads_primary = new Blob([JSON.stringify(geojson_roads_primary)], {
-    type: "application/json"
-  });
-
-  const blob_roads_secondary = new Blob([JSON.stringify(geojson_roads_secondary)], {
-    type: "application/json"
-  });
-
-  const blob_roads_tertiary = new Blob([JSON.stringify(geojson_roads_tertiary)], {
-    type: "application/json"
-  });
-
-  const url_roads_primary = URL.createObjectURL(blob_roads_primary);
-  const url_roads_secondary = URL.createObjectURL(blob_roads_secondary);
-  const url_roads_tertiary = URL.createObjectURL(blob_roads_tertiary);
-
-  const renderer_roads_primary = {
-    type: "simple",
-    symbol: {
-      type: "simple-line",
-      width: 1,
-      color: [255, 0, 0, 1.00]
-    }
-  };
-
-  const renderer_roads_secondary = {
-    type: "simple",
-    symbol: {
-      type: "simple-line",
-      width: 1,
-      color: [0, 255, 0, 1.00]
-    }
-  };
-
-  const renderer_roads_tertiary = {
-    type: "simple",
-    symbol: {
-      type: "simple-line",
-      width: 1,
-      color: [0, 0, 255, 1.00]
-    }
-  };
-
-  const layer_roads_primary = new GeoJSONLayer({
+  const layer_primary_roads = new FeatureLayer({
     title: "Primary Roads",
-    url: url_roads_primary,
-    renderer: renderer_roads_primary
+    url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer",
+    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 0, 0, 1.00]
+      }
+    },
+    visible: true
   });
 
-  const layer_roads_secondary = new GeoJSONLayer({
+  const layer_secondary_roads = new FeatureLayer({
     title: "Secondary Roads",
-    url: url_roads_secondary,
-    renderer: renderer_roads_secondary
+    url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer",
+    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [0, 255, 0, 1.00]
+      }
+    },
+    visible: true
   });
 
-  const layer_roads_tertiary = new GeoJSONLayer({
+  const layer_tertiary_roads = new FeatureLayer({
     title: "Tertiary Roads",
-    url: url_roads_tertiary,
-    renderer: renderer_roads_tertiary
+    url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer",
+    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [0, 0, 255, 1.00]
+      }
+    },
+    visible: true
   });
 
   const layer_kilometer_posts = new FeatureLayer({
@@ -209,13 +123,21 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-marker",
         size: "2px",
-        color: [0, 0, 0, 1.00],
         outline: {
-          color: [255, 255, 0, 1.00],
-          width: 2
+          width: 1,
+          color: [255, 255, 0, 1.00]
         }
       }
-    }
+    },
+    visible: false
+  });
+
+  const base_layers = new GroupLayer({
+    title: "Base Layers",
+    visible: true,
+    visibilityMode: "independent",
+    layers: [layer_regions, layer_congressional_districts, layer_engineering_districts, layer_primary_roads, layer_secondary_roads, layer_tertiary_roads, layer_kilometer_posts],
+    opacity: 1.00
   });
 
   const layer_road_closures = new FeatureLayer({
@@ -228,34 +150,15 @@ function MapContextProvider (props) {
         width: 2,
         color: [225, 125, 25, 1.00]
       }
-    }
-  });
-
-  const base_layers = new GroupLayer({
-    title: "Base Layers",
-    visible: true,
-    visibilityMode: "independent",
-    layers: [
-      // Layers are ordered on the web map acoording to their order here. The last one has the highest z-index and the first, the lowest.
-      layer_regions,
-      layer_congressional_districts,
-      layer_engineering_districts,
-      layer_roads_tertiary,
-      layer_roads_secondary,
-      layer_roads_primary,
-      layer_kilometer_posts
-    ],
-    opacity: 1.00
+    },
+    visible: false
   });
 
   const overlay_layers = new GroupLayer({
     title: "Overlay Layers",
     visible: true,
     visibilityMode: "independent",
-    layers: [
-      // Layers are ordered on the web map acoording to their order here. The last one has the highest z-index and the first, the lowest.
-      layer_road_closures
-    ],
+    layers: [layer_road_closures],
     opacity: 1.00
   });
 
@@ -272,22 +175,15 @@ function MapContextProvider (props) {
   function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
-    const zoom_national = 6;
-
-    const latitude_initial = 12.8797; // Latitude of the center of the PH.
-    const longitude_initial = 121.7740; // Longitude of the center of the PH.
-
-    React.useEffect(() => {
-      const map = new Map({
-        basemap: "satellite",
-        layers: [base_layers, overlay_layers, active_layers]
-      });
-
+    React.useEffect(function () {
       view = new MapView({
-        container: "sample-map",
-        map: map,
-        center: [longitude_initial, latitude_initial],
-        zoom: zoom_national
+        container: "map-container",
+        map: new Map({
+          basemap: "satellite",
+          layers: [base_layers, overlay_layers, active_layers]
+        }),
+        center: [121.7740, 12.8797],
+        zoom: 6
       });
 
       const widget_layer_list = new LayerList({
@@ -314,16 +210,11 @@ function MapContextProvider (props) {
       view.ui.add(widget_scale_bar, {
         position: "bottom-right"
       });
-
-      layer_kilometer_posts.visible = false; // Initial value only.
-      layer_engineering_districts.visible = false; // Initial value only.
-      layer_congressional_districts.visible = false; // Initial value only.
-      layer_road_closures.visible = false; // Initial value only.
     }, []);
 
     return (
       // Note: The parent <div> needs its width and height dimensions to be set into a constant value.
-      <div id = "sample-map" style = { { width: "100%", height: "100%" } }></div>
+      <div id = "map-container" style = { { width: "100%", height: "100%" } }></div>
     );
   }
 
@@ -331,54 +222,59 @@ function MapContextProvider (props) {
     while (active_layers.layers.length) { active_layers.layers.pop(); }
   }
 
-  function recenter_map(coordinates, zoom_level) {
+  function recenter_map(coordinates, zoom) {
     view.goTo({
       center: coordinates,
-      zoom: zoom_level
+      zoom: zoom
     });
   }
 
-  function add_layer(feature, type) {
-    var title;
-    var renderer;
-
-    const polygon_renderer = {
-      type: "simple",
-      symbol: {
-        type: "simple-fill",
-        color: [255, 255, 255, 0.75],
-        style: "solid",
-        outline: {
+  function add_layer(feature, title, style) {
+    function renderer(geometry) {
+      var symbol;
+  
+      if (geometry === "polygon") {
+        symbol = {
+          type: "simple-fill",
+          color: [0, 0, 0, 0.50],
+          style: "solid",
+          outline: {
+            width: 1,
+            color: [255, 255, 255, 1.00],
+          }
+        };
+      }
+  
+      if (geometry === "polyline") {
+        symbol = {
+          type: "simple-line",
           width: 1,
-          color: [255, 255, 255, 1.00],
+          color: [255, 255, 255, 1.00]
         }
       }
-    };
-
-    switch (type) {
-      case "region":
-        title = feature.attributes.DEO;
-        renderer = polygon_renderer;
-        break;
-      case "congressional_district": 
-        title = feature.attributes.CONG_DIST.toLocaleLowerCase().replace(/([^\s(])([^\s(]*)/g, function ($0, $1, $2) { return ($1.toUpperCase()+$2.toLowerCase()); });
-        renderer = polygon_renderer;
-        break;
-      case "engineering_district": 
-        title = feature.attributes.REGION + " (" + feature.attributes.VAR_NAME + ")";
-        renderer = polygon_renderer;
-        break;
-      default:
-        title = "New Layer";
-        renderer = polygon_renderer;
-        break;
+  
+      if (geometry === "point" || geometry === "multipoint") {
+        symbol = {
+          type: "simple-marker",
+          size: "1px",
+          outline: {
+            width: 1,
+            color: [255, 255, 255, 1.00]
+          }
+        }
+      }
+  
+      return ({
+        type: "simple",
+        symbol: symbol
+      });
     }
 
     const layer = new FeatureLayer({
-      title: title,
+      title: title || "New Layer",
       source: [feature],
       objectIdField: "OBJECTID",
-      renderer: renderer
+      renderer: style || renderer(feature.geometry.type)
     });
 
     active_layers.layers.push(layer);
@@ -387,9 +283,7 @@ function MapContextProvider (props) {
   return (
     <MapContext.Provider value = {
       {
-        layer_regions, layer_congressional_districts, layer_engineering_districts,
-        regionsList, congressionalDistrictsList, engineeringDistrictsList,
-        layer_roads_primary, layer_roads_secondary, layer_roads_tertiary, layer_kilometer_posts,
+        layer_regions, layer_congressional_districts, layer_engineering_districts, layer_roads,
         MapComponent,
         clear_map, recenter_map, add_layer
       } 
