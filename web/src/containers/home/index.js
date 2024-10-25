@@ -16,10 +16,13 @@ function HomePage () {
   const { MapComponent } = React.useContext(MapContext);
 
   function setClass (module) {
-    const modules_without_maps = ["dashboard", "status-reports", "user-management"];
+    const modules_without_maps = ["status-reports", "user-management"];
     const mapHidden = modules_without_maps.includes(module);
 
-    if (mapHidden) {
+    if (module === "dashboard") {
+      return ("map-dashboard");
+    }
+    else if (mapHidden) {
       return ("map-hidden");
     }
     else {

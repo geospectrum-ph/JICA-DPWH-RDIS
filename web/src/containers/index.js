@@ -6,8 +6,8 @@ import SignIn from "./modules/sign-in";
 
 import Home from "./home";
 
-import Dashboard from "./modules/error";
-import RoadInventory from "./modules/error";
+import Dashboard from "./modules/dashboard";
+import RoadInventory from "./modules/road-inventory";
 import RoadSlopeAndCounterMeasures from "./modules/error";
 import ExistingStructures from "./modules/error";
 import PotentialStructures from "./modules/error";

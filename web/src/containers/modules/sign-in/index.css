@@ -14,7 +14,7 @@
     display: flex;
 
     width: 100%;
-    flex-grow: 1;
+    flex: 1;
 
     > :nth-child(1) {
       flex-flow: column nowrap;
@@ -140,7 +140,7 @@
 
       > :nth-child(1) {
         margin: 12px 0 0 0;
-        flex-grow: 1;
+        flex: 1;
         height: auto;
 
         > :nth-child(odd) {

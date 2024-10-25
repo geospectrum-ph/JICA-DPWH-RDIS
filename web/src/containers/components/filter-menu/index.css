@@ -8,10 +8,14 @@
   color: rgba(75, 75, 75, 1.00);
 
   > :nth-child(1) {
+    border-bottom: 12px solid rgba(225, 125, 25, 1.00);
     box-sizing: border-box;
     padding: 12px;
 
+    background-color: rgba(0, 0, 0, 1.00);
+
     text-transform: uppercase;
+    color: rgba(255, 255, 255, 1.00);
   }
   
   > :nth-child(2) {
@@ -65,10 +69,10 @@
     
           overflow-y: auto;
     
+          border-top: 1px solid rgba(240, 240, 240, 1.00);
           width: 180px;
           max-height: 240px;
           box-sizing: border-box;
-          border-top: 1px solid rgba(240, 240, 240, 1.00);
     
           background-color: rgba(240, 240, 240, 1.00);
     

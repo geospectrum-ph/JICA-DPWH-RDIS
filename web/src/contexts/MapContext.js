@@ -66,6 +66,20 @@ function MapContextProvider (props) {
     visible: false
   });
 
+  const layer_terrain = new FeatureLayer({
+    title: "Terrain",
+    url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    visible: false
+  });
+
   const layer_roads = new FeatureLayer({
     url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"
   });
@@ -136,7 +150,7 @@ function MapContextProvider (props) {
     title: "Base Layers",
     visible: true,
     visibilityMode: "independent",
-    layers: [layer_regions, layer_congressional_districts, layer_engineering_districts, layer_primary_roads, layer_secondary_roads, layer_tertiary_roads, layer_kilometer_posts],
+    layers: [layer_regions, layer_congressional_districts, layer_engineering_districts, layer_terrain, layer_primary_roads, layer_secondary_roads, layer_tertiary_roads, layer_kilometer_posts],
     opacity: 1.00
   });
 
@@ -175,16 +189,20 @@ function MapContextProvider (props) {
   function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
+    const map_reference = React.useRef(null);
+
     React.useEffect(function () {
-      view = new MapView({
-        container: "map-container",
-        map: new Map({
-          basemap: "satellite",
-          layers: [base_layers, overlay_layers, active_layers]
-        }),
-        center: [121.7740, 12.8797],
-        zoom: 6
-      });
+      if (map_reference.current) {
+        view = new MapView({
+          container: "map-container",
+          map: new Map({
+            basemap: "satellite",
+            layers: [base_layers, overlay_layers, active_layers]
+          }),
+          center: [121.7740, 12.8797],
+          zoom: 6
+        });
+      }
 
       const widget_layer_list = new LayerList({
         view: view
@@ -210,11 +228,11 @@ function MapContextProvider (props) {
       view.ui.add(widget_scale_bar, {
         position: "bottom-right"
       });
-    }, []);
+    }, [map_reference]);
 
     return (
       // Note: The parent <div> needs its width and height dimensions to be set into a constant value.
-      <div id = "map-container" style = { { width: "100%", height: "100%" } }></div>
+      <div id = "map-container" ref = { map_reference } style = { { width: "100%", height: "100%" } }></div>
     );
   }
 
@@ -222,11 +240,8 @@ function MapContextProvider (props) {
     while (active_layers.layers.length) { active_layers.layers.pop(); }
   }
 
-  function recenter_map(coordinates, zoom) {
-    view.goTo({
-      center: coordinates,
-      zoom: zoom
-    });
+  function recenter_map(extent) {
+    view.goTo(extent);
   }
 
   function add_layer(feature, title, style) {
@@ -274,7 +289,8 @@ function MapContextProvider (props) {
       title: title || "New Layer",
       source: [feature],
       objectIdField: "OBJECTID",
-      renderer: style || renderer(feature.geometry.type)
+      renderer: style || renderer(feature.geometry.type),
+      effect: "bloom(1, 0px, 1%)"
     });
 
     active_layers.layers.push(layer);

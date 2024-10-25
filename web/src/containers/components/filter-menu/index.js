@@ -56,9 +56,6 @@ export default function FilterMenu () {
   }, []);
 
   function select (object, type) {
-    var coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-    var zoom = 8;
-
     setRegionSelected(object.attributes.REGION);
 
     if (type === "region") {
@@ -68,26 +65,19 @@ export default function FilterMenu () {
     if (type === "congressional_district") {
       setCongressionalDistrictSelected(object.attributes.CONG_DIST);
       setEngineeringDistrictSelected("");
-
-      zoom = 9;
     }
     if (type === "engineering_district") {
       setEngineeringDistrictSelected(object.attributes.DEO);
       setCongressionalDistrictSelected("");
-
-      zoom = 9;
     }
 
     clear_map();
 
-    recenter_map(coordinates, zoom);
+    recenter_map(object.geometry.extent);
   }
 
   function clear (type) {
     const object = regions.find(function (feature) { return (feature.attributes.REGION === regionSelected); });
-
-    var coordinates = [121.7740, 12.8797];
-    var zoom = 6;
 
     if (type === "region") {
       setRegionSelected("");
@@ -96,28 +86,24 @@ export default function FilterMenu () {
 
       clear_map();
 
-      recenter_map(coordinates, zoom);
+      recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
     }
     if (type === "engineering_district") {
       if (engineeringDistrictSelected !== "" && object) {
-        coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-        zoom = 8;
-
         clear_map();
+
+        console.log(regions);
   
-        recenter_map(coordinates, zoom);
+        recenter_map(object.geometry.extent);
       }
 
       setEngineeringDistrictSelected("");
     }
     if (type === "congressional_district") {
       if (congressionalDistrictSelected !== "" && object) {
-        coordinates = [object.geometry.centroid.longitude, object.geometry.centroid.latitude];
-        zoom = 8;
-
         clear_map();
   
-        recenter_map(coordinates, zoom);
+        recenter_map(object.geometry.extent);
       }
 
       setCongressionalDistrictSelected("");

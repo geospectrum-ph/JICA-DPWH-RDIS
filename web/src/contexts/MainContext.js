@@ -1,9 +1,7 @@
 import React from "react";
+import Dashboard from "../containers/modules/dashboard";
 
 // The imported assets here are only sample data. If files are missing, please refer to https://drive.google.com/file/d/1PetSQpOw8KdjuQ5CGdhUvwoBGnV2ILgY/view?usp=sharing. The password is `RDISpass`.
-import assets_regions_list from "../assets/data/regions_list.json";
-// import assets_congressional_districts_list from "../assets/data/congressional_districts_list.json"
-import assets_engineering_districts_list from "../assets/data/engineering_districts_list.json";
 
 // import assets_sample_annex from "../assets/files/sample_annex.json";
 // import assets_sample_hazard_map_surveys from "../assets/files/sample_hazard_map_surveys.json";
@@ -15,10 +13,6 @@ export const MainContext = React.createContext();
 
 function MainContextProvider (props) {
   const [moduleSelected, setModuleSelected] = React.useState("dashboard");
-
-  const [regionsList, setRegionsList] = React.useState(assets_regions_list);
-  const [engineeringDistrictsList, setEngineeringDistrictsList] = React.useState(assets_engineering_districts_list);
-  const [congressionalDistrictsList, setCongressionalDistrictsList] = React.useState();
 
   const [regionSelected, setRegionSelected] = React.useState("");
   const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
@@ -47,8 +41,8 @@ function MainContextProvider (props) {
 
   function clear_selected () {
     setRegionSelected("");
-    setEngineeringDistrictSelected("");
     setCongressionalDistrictSelected("");
+    setEngineeringDistrictSelected("");
     
     // setSelectedSection();
     // setSelectedSegments();
@@ -58,15 +52,24 @@ function MainContextProvider (props) {
     // setSelectedPotential();
   }
 
+  const text_content = {
+    dashboard: {
+      title: `ABOUT THE SYSTEM`,
+      description: `The Road Disaster Information System (RDIS) developed for the Department of Public Works and Highways (DPWH) through the partnership of the Japan International Cooperation Agency (JICA) and Geospectrum Analytics Services, Inc. The RDIS aims to improve the operational capability of the department in managing road and road disaster information by enhancing and extending the methods utilized in road and road disaster data collection, sharing, and analysis.`
+    }
+  };
+
   return (
     <MainContext.Provider value = {
       {
         moduleSelected, setModuleSelected,
-
-        regionsList, setRegionsList, engineeringDistrictsList, setEngineeringDistrictsList, congressionalDistrictsList, setCongressionalDistrictsList,
-        regionSelected, setRegionSelected, engineeringDistrictSelected, setEngineeringDistrictSelected, congressionalDistrictSelected, setCongressionalDistrictSelected,
+        regionSelected, setRegionSelected,
+        congressionalDistrictSelected, setCongressionalDistrictSelected,
+        engineeringDistrictSelected, setEngineeringDistrictSelected, 
         
-        clear_selected
+        clear_selected,
+
+        text_content
 
         // moduleSummarySelect, setModuleSummarySelect,
         // slopePageSelect, setSlopePageSelect,

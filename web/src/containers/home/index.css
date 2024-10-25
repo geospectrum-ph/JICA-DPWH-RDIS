@@ -26,7 +26,7 @@
     display: flex;
 
     width: 100%;
-    flex-grow: 1;
+    flex: 1;
 
     > :nth-child(1) {
       overflow: hidden;
@@ -36,8 +36,22 @@
     }
 
     > :nth-child(2) {
-      flex-grow: 1;
+      flex: 1;
       height: 100%;
+    }
+
+    &.map-dashboard {
+      > :nth-child(1) {
+        width: 50%;
+
+        > :nth-child(1) {
+          display: none;
+        }
+      }
+
+      > :nth-child(2) {
+        width: 50%;
+      }
     }
 
     &.map-hidden {
