@@ -1,26 +1,32 @@
 
 #module-bar-container {
-  flex-flow: row nowrap;
-  place-content: center center;
-
   display: flex;
+  flex-flow: row nowrap;
+  place-items: center center;
+  place-content: center center;
 
   background-color: rgba(50, 50, 50, 1.00);
 
   > :nth-child(1) {
+    display: flex;
     flex-flow: row nowrap;
+    place-items: center center;
     place-content: center start;
   
-    display: flex;
+    flex: 1 1 auto;
 
-    flex: 1;
+    width: auto;
+    height: 100%;
 
+    /* Module Button */
     > * {
-      flex-flow: row nowrap;
-      place-content: center center;
-      align-items: center;
-    
       display: flex;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center center;
+
+      width: auto;
+      height: 100%;
   
       box-sizing: border-box;
       padding: 12px;
@@ -41,15 +47,16 @@
     }
   }
 
+  /* Exit Button */
   > :nth-child(2) {
-    flex-flow: row nowrap;
-    place-content: center center;
-    align-items: center;
-  
     display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
 
     width: 84px;
     height: 100%;
+    
     box-sizing: border-box;
     padding: 8px 12px;
     gap: 8px;

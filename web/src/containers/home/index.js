@@ -8,21 +8,45 @@ import { MapContext } from "../../contexts/MapContext";
 import TitleBar from "../components/title-bar";
 import ModuleBar from "../components/module-bar";
 import FilterMenu from "../components/filter-menu";
+import LayerInfo from "../components/layer-info";
 
 import "./index.css";
 
 function HomePage () {
-  const { moduleSelected } = React.useContext(MainContext);
-  const { MapComponent } = React.useContext(MapContext);
+  const {
+    setRoads,
+    modules, moduleSelected
+  } = React.useContext(MainContext);
 
-  function setClass (module) {
-    const modules_without_maps = ["status-reports", "user-management"];
-    const mapHidden = modules_without_maps.includes(module);
+  const {
+    layer_roads,
+    MapComponent
+  } = React.useContext(MapContext);
 
-    if (module === "dashboard") {
+  function query_roads (expression) {
+    layer_roads
+      .queryFeatures({
+        where: expression || "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setRoads(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  React.useEffect(function () {
+    query_roads("1 = 1");
+  }, []);
+
+  function set_class (index) {
+    if (index === 0) {
       return ("map-dashboard");
     }
-    else if (mapHidden) {
+    else if (!modules[index].map_visible) {
       return ("map-hidden");
     }
     else {
@@ -34,10 +58,12 @@ function HomePage () {
     <div id = "home-container">
       <TitleBar/>
       <ModuleBar/>
-      <div className = { setClass(moduleSelected) }>
+      <div className = { set_class(moduleSelected) }>
         <div>
+          <div>{ modules[moduleSelected].name }</div>
           <FilterMenu/>
           <Outlet/>
+          <LayerInfo/>
         </div>
         <div >
           <MapComponent/>

@@ -8,7 +8,7 @@ https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Organizing
 > Specific Selectors
 > Animations and Transitions
 
-CSS Rule Order Guide
+Suggested CSS Rule Order Guide
 https://9elements.com/css-rule-order/
 
 > User-Defined Variables
@@ -17,10 +17,10 @@ https://9elements.com/css-rule-order/
 content
 
 > Position and Layout
-position-* z-index top bottom left right **flexbox properties** float clear
+position-* z-index top bottom left right float clear
 
 > Display and Visibility
-display opacity transform-*
+display **flexbox properties** opacity transform-*
 
 > Clipping
 overflow-* clip-*
@@ -29,7 +29,7 @@ overflow-* clip-*
 animation-* transition-*
 
 > Box Model
-margin-* outline-* border-* box-* width height padding-*
+width height margin-* outline-* border-* box-* padding-*
 
 > Background
 background-* cursor
@@ -42,7 +42,15 @@ font-* text-* color
 */
 
 body {
-  margin: 0;
+  width: 100vw;
+  height: 100vh;
   
+  margin: 0;
+
   font-family: "Outfit", sans-serif;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
 }

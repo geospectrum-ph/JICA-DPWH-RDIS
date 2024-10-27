@@ -6,7 +6,7 @@ import SignIn from "./modules/sign-in";
 
 import Home from "./home";
 
-import Dashboard from "./modules/dashboard";
+import Dashboard from "./modules/error";
 import RoadInventory from "./modules/road-inventory";
 import RoadSlopeAndCounterMeasures from "./modules/error";
 import ExistingStructures from "./modules/error";

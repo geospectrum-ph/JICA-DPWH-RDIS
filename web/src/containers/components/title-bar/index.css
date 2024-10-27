@@ -1,12 +1,8 @@
 .title-bar-container{
-  flex-flow: row nowrap;
-  place-content: center center;
-  align-items: center;
-
   display: flex;
-
-  width: 100%;
-  height: auto;
+  flex-flow: row nowrap;
+  place-items: center center;
+  place-content: center center;
 
   background-color: rgba(0, 0, 0, 1.00);
 
@@ -18,9 +14,11 @@
     display: flex;
   }
 
+  /* Title */
   > :nth-child(1) {
     flex: 1;
     height: 100%;
+    
     box-sizing: border-box;
     padding: 12px;
 
@@ -34,6 +32,7 @@
     }
   }
 
+  /* Logos */
   > :nth-child(2) {
     box-sizing: border-box;
     padding: 12px;

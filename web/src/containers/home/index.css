@@ -1,73 +1,131 @@
 #home-container {
-  flex-flow: column nowrap;
-  place-content: center start;
-
   display: flex;
 
-  overflow: hidden;
+  flex-flow: column nowrap;
+  place-items: center center;
+  place-content: center center;
 
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 
-  > :nth-child(1) {
+  /* Title Bar */
+  > :nth-child(1) { 
+    flex: auto 1 auto;
+
     width: 100%;
     height: auto;
   }
 
+  /* Module Bar */
   > :nth-child(2) {
+    flex: auto 1 auto;
+
     width: 100%;
     height: auto;
   }
 
+  /* Workspace */
   > :nth-child(3) {
-    flex-flow: row nowrap;
-    place-content: center center;
-  
     display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    overflow: hidden hidden;
+
+    flex: 1 1 auto;
 
     width: 100%;
-    flex: 1;
+    height: 100%;
 
+    /* Sidebar */
     > :nth-child(1) {
-      overflow: hidden;
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: center center;
+      place-content: center center;
+  
+      overflow: hidden hidden;
 
       width: 360px;
+      min-width: 360px;
       height: 100%;
+      max-height: 100%;
+
+      /* Module Title */
+      > :nth-child(1) {
+        display: flex;
+        flex-flow: column nowrap;
+        place-items: start center;
+        place-content: center center;
+
+        flex: auto 1 auto;
+
+        width: 100%;
+        height: auto;
+
+        border-bottom: 6px solid rgba(225, 125, 25, 1.00);
+        box-sizing: border-box;
+        padding: 12px;
+
+        background-color: rgba(0, 0, 0, 1.00);
+
+        font: normal 400 12px "Outfit", sans-serif;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 1.00);
+      }
+
+      /* Filter Menu */
+      > :nth-child(2) {
+        flex: auto 1 auto;
+
+        width: 100%;
+        height: auto;
+      }
     }
 
+    /* Map */
     > :nth-child(2) {
-      flex: 1;
+      width: 100%;
       height: 100%;
+
+      flex: 1 1 auto;
     }
 
     &.map-dashboard {
+      /* Sidebar */
       > :nth-child(1) {
         width: 50%;
 
-        > :nth-child(1) {
+        /* Filter Menu */
+        > :nth-child(2) {
           display: none;
         }
       }
 
+      /* Map */
       > :nth-child(2) {
         width: 50%;
       }
     }
 
     &.map-hidden {
+      /* Sidebar */
       > :nth-child(1) {
         width: 100%;
 
-        > :nth-child(1) {
+        /* Filter Menu */
+        > :nth-child(2) {
           display: none;
         }
       }
 
+      /* Map */
       > :nth-child(2) {
         opacity: 0;
-        
-        width: 1px;
-        height: 1px;
+
+        width: 100vw;
+        height: 100vh;
       }
     }
   }

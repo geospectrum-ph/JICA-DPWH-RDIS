@@ -15,8 +15,15 @@ import SlopeProjectTotal from '../slope/charts/totalAmount';
 import SlopeFundingTotal from '../slope/charts/totalForBudgeting';
 
 export default function Dashboard() {
-  const { text_content } = React.useContext(MainContext);
+  const {  } = React.useContext(MainContext);
   const {  } = React.useContext(MapContext);
+
+  const text_content = {
+    dashboard: {
+      title: `ABOUT THE SYSTEM`,
+      description: `The Road Disaster Information System (RDIS) developed for the Department of Public Works and Highways (DPWH) through the partnership of the Japan International Cooperation Agency (JICA) and Geospectrum Analytics Services, Inc. The RDIS aims to improve the operational capability of the department in managing road and road disaster information by enhancing and extending the methods utilized in road and road disaster data collection, sharing, and analysis.`
+    }
+  };
 
   return (
     <div id = "dashboard-container">

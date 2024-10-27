@@ -8,67 +8,54 @@ import { MapContext } from "../../../contexts/MapContext";
 import "./index.css";
 
 export default function ModuleBar() {
-  const { moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
-  const { recenter_map, clear_map } = React.useContext(MapContext);
-
   const navigate = useNavigate();
   const location = useLocation();
 
-  function setClass (module) {
+  const { modules, moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
+  const { clear_map, recenter_map } = React.useContext(MapContext);
+
+  function set_class (index) {
     var className;
 
-    moduleSelected === module ? className = "appbar-button selected" : className = "appbar-button";
+    moduleSelected === index ? className = "appbar-button selected" : className = "appbar-button";
 
     return (className);
   }
 
-  function setModule (moduleName) {
+  function set_module (index) {
     clear_map();
 
-    const coordinates = [121.7740, 12.8797];
-    const coordinate_array = [coordinates, coordinates, coordinates, coordinates];
-
-    recenter_map(coordinate_array, 6);
+    recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
 
     clear_selected();
 
-    const module = moduleName.replace(/\s+/g, "-").toLowerCase();
+    setModuleSelected(index);
 
-    setModuleSelected(module);
-
-    navigate(`/home/${module}`);
+    navigate(`/home/${modules[index].path}`);
   }
 
   React.useEffect(function () {
-    const splitLoc = location.pathname.split("/");
+    const path = location.pathname.split("/")[2];
+    const index = modules.findIndex(function (module) { return (module.path === path); });
 
-    setModuleSelected(splitLoc[2]);
+    setModuleSelected(index);
   }, []);
   
   return (
     <div id = "module-bar-container">
       <div>
-        <div className = { setClass("dashboard") } onClick = { function () { setModule("Dashboard"); } }>
-          { "DASHBOARD" }
-        </div>
-        <div className = { setClass("road-inventory") } onClick = { function () { setModule("Road Inventory"); } }>
-          { "Road Inventory" }
-        </div>
-        <div className = { setClass("road-slope-and-countermeasures") } onClick = { function () { setModule("Road Slope and Countermeasures"); } }>
-          { "Road Slope and Countermeasures" }
-        </div>
-        <div className = { setClass("hazards-and-road-closures") } onClick = { function () { setModule("Hazards and Road Closures"); } }>
-          { "Hazards and Road Closures" }
-        </div>
-        <div className = { setClass("projects") } onClick = { function () { setModule("Projects"); } }>
-          { "Projects" }
-        </div>
-        <div className = { setClass("status-reports") } onClick = { function () { setModule( "Status Reports"); } }>
-          { "Status Reports" }
-        </div>
-        <div className = { setClass("user-management") } onClick = {function () { setModule("User Management"); } }>
-          { "User Management" }
-        </div>
+        {
+          modules ? 
+            modules.map(function (module, index) {
+              return (
+                <div key = { index } className = { set_class(index) } onClick = { function () { set_module(index); } }>
+                  { module.name }
+                </div>
+              );
+            })
+            :
+            null
+        }
       </div>
       <div onClick = { function () { navigate("/"); } }>
         <span>{ "EXIT" }</span>

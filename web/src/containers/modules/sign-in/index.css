@@ -1,6 +1,7 @@
 #login-container {
   flex-flow: column nowrap;
   place-content: center center;
+  align-items: stretch;
 
   display: flex;
 
@@ -9,7 +10,8 @@
 
   > :nth-child(1) {
     flex-flow: column nowrap;
-    place-content: center start;
+    place-content: center flex-start;
+    align-items: center;
   
     display: flex;
 
@@ -19,21 +21,25 @@
     > :nth-child(1) {
       flex-flow: column nowrap;
       place-content: center center;
+      align-items: center;
     
       display: flex;
 
       height: 50%;
+
       box-sizing: border-box;
       padding: 24px;
 
       > :nth-child(1) {
         flex-flow: row nowrap;
         place-content: center end;
+        align-items: center;
       
         display: flex;
 
         width: 100%;
         height: 50%;
+
         box-sizing: border-box;
         padding: 0 0 120px 0;
 
@@ -47,6 +53,7 @@
       > :nth-child(2) {
         flex-flow: row nowrap;
         place-content: center center;
+        align-items: center;
 
         animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
