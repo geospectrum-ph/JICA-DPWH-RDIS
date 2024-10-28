@@ -20,8 +20,13 @@ function MainContextProvider (props) {
       map_visible: true
     },
     {
-      name: "Hazards and Road Closures",
-      path: "hazards-and-road-closures",
+      name: "Hazard Risks",
+      path: "hazard-risks",
+      map_visible: true
+    },
+    {
+      name: "Road Closures",
+      path: "road-closures",
       map_visible: true
     },
     {
@@ -53,14 +58,14 @@ function MainContextProvider (props) {
   const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
 
   const [roads, setRoads] = React.useState(null);
-  const [roadSelected, setRoadSelected] = React.useState("");
+  const [roadSelected, setRoadSelected] = React.useState(["", ""]);
 
   function clear_selected () {
     setRegionSelected("");
     setCongressionalDistrictSelected("");
     setEngineeringDistrictSelected("");
 
-    setRoadSelected("");
+    setRoadSelected(["", ""]);
   }
 
   return (

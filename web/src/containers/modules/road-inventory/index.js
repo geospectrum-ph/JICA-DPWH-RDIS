@@ -17,7 +17,7 @@ export default function RoadInventory() {
 
   const {
     layer_roads,
-    clear_map, recenter_map, add_layer
+    recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
   function handle_click (feature) {
@@ -28,26 +28,11 @@ export default function RoadInventory() {
         outFields: ["*"]
       })
       .then(function (response) {
-        clear_map();
-    
-        const layer = new FeatureLayer({
-          title: response.features[0].attributes.ROAD_NAME,
-          source: response.features,
-          objectIdField: "OBJECTID",
-          renderer: {
-            type: "simple",
-            symbol: {
-              type: "simple-line",
-              width: 2,
-              color: [255, 255, 255, 1.00]
-            }
-          },
-          effect: "bloom(1, 0px, 1%)"
-        });
-
-        add_layer(layer);
+        close_popup();
 
         recenter_map(response.features[0].geometry.extent.expand(1.50));
+
+        open_popup(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -57,18 +42,20 @@ export default function RoadInventory() {
   return (
     <div id = "road-inventory-container">
       <div>
-        <div>{ "Legend: " }</div>
         <div>
-          <div><div></div></div>
-          <div>{ "Primary" }</div>
-        </div>
-        <div>
-          <div><div></div></div>
-          <div>{ "Secondary" }</div>
-        </div>
-        <div>
-          <div><div></div></div>
-          <div>{ "Tertiary" }</div>
+          <div>{ "Legend: " }</div>
+          <div>
+            <div><div></div></div>
+            <div>{ "Primary" }</div>
+          </div>
+          <div>
+            <div><div></div></div>
+            <div>{ "Secondary" }</div>
+          </div>
+          <div>
+            <div><div></div></div>
+            <div>{ "Tertiary" }</div>
+          </div>
         </div>
       </div>
       <div>
@@ -105,9 +92,7 @@ export default function RoadInventory() {
                 );
               })
             :
-            <div className = "loading">
-              <div>{ "Loading data..." }</div>
-            </div>
+            <div className = "loading">{ "Loading data..." }</div>
         }
       </div>
     </div>

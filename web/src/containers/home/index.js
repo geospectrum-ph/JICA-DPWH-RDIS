@@ -8,7 +8,6 @@ import { MapContext } from "../../contexts/MapContext";
 import TitleBar from "../components/title-bar";
 import ModuleBar from "../components/module-bar";
 import FilterMenu from "../components/filter-menu";
-import LayerInfo from "../components/layer-info";
 
 import "./index.css";
 
@@ -63,7 +62,6 @@ function HomePage () {
           <div>{ modules[moduleSelected].name }</div>
           <FilterMenu/>
           <Outlet/>
-          <LayerInfo/>
         </div>
         <div >
           <MapComponent/>

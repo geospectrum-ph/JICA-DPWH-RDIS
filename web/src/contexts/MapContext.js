@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import esriConfig from "@arcgis/core/config.js";
+import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
@@ -35,11 +36,12 @@ function MapContextProvider (props) {
         style: "solid",
         outline: {
           width: 1,
-          color: [255, 255, 255, 1.00],
+          color: [255, 255, 255, 0.50],
         }
       }
     },
-    visible: true
+    defaultPopupTemplateEnabled: true,
+    visible: true,
   });
 
   const layer_congressional_districts = new FeatureLayer({
@@ -53,10 +55,11 @@ function MapContextProvider (props) {
         style: "solid",
         outline: {
           width: 1,
-          color: [255, 255, 255, 1.00],
+          color: [255, 255, 255, 0.50],
         }
       }
     },
+    defaultPopupTemplateEnabled: true,
     visible: false
   });
 
@@ -71,10 +74,11 @@ function MapContextProvider (props) {
         style: "solid",
         outline: {
           width: 1,
-          color: [255, 255, 255, 1.00],
+          color: [255, 255, 255, 0.50],
         }
       }
     },
+    defaultPopupTemplateEnabled: true,
     visible: false
   });
 
@@ -82,62 +86,83 @@ function MapContextProvider (props) {
     title: "Terrain",
     url: url_terrain,
     renderer: {
-      type: "simple",
-      symbol: {
+      type: "unique-value",
+      field: "terrain_ty",
+      defaultSymbol: {
         type: "simple-line",
         width: 1,
         color: [255, 255, 255, 1.00]
-      }
+      },
+      uniqueValueInfos: [
+        {
+          value: "Flat",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 100, 0, 1.00]
+          }
+        }, 
+        {
+          value: "Rolling",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 150, 0, 1.00]
+          }
+        },
+        {
+          value: "Mountainous",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 200, 0, 1.00]
+          }
+        }
+      ]
     },
+    defaultPopupTemplateEnabled: true,
     visible: false
   });
 
   const layer_roads = new FeatureLayer({
-    url: url_roads
-  });
-
-  const layer_primary_roads = new FeatureLayer({
-    title: "Primary Roads",
+    title: "Roads",
     url: url_roads,
-    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
     renderer: {
-      type: "simple",
-      symbol: {
+      type: "unique-value",
+      field: "ROAD_SEC_C",
+      defaultSymbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 0, 0, 1.00]
-      }
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "Primary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "Secondary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        },
+        {
+          value: "Tertiary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 0, 255, 1.00]
+          }
+        }
+      ]
     },
-    visible: true
-  });
-
-  const layer_secondary_roads = new FeatureLayer({
-    title: "Secondary Roads",
-    url: url_roads,
-    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 255, 0, 1.00]
-      }
-    },
-    visible: true
-  });
-
-  const layer_tertiary_roads = new FeatureLayer({
-    title: "Tertiary Roads",
-    url: url_roads,
-    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 0, 255, 1.00]
-      }
-    },
+    defaultPopupTemplateEnabled: true,
     visible: true
   });
 
@@ -151,10 +176,11 @@ function MapContextProvider (props) {
         size: "2px",
         outline: {
           width: 1,
-          color: [255, 255, 0, 1.00]
+          color: [255, 255, 255, 1.00]
         }
       }
     },
+    defaultPopupTemplateEnabled: true,
     visible: false
   });
 
@@ -163,14 +189,12 @@ function MapContextProvider (props) {
     visible: true,
     visibilityMode: "independent",
     layers: [
-      layer_regions || null,
-      layer_congressional_districts || null,
-      layer_engineering_districts || null,
-      layer_terrain || null,
-      layer_primary_roads || null,
-      layer_secondary_roads || null,
-      layer_tertiary_roads || null,
-      layer_kilometer_posts || null
+      layer_regions,
+      layer_congressional_districts,
+      layer_engineering_districts,
+      layer_terrain,
+      layer_roads, 
+      layer_kilometer_posts
     ],
     opacity: 1.00
   });
@@ -186,24 +210,17 @@ function MapContextProvider (props) {
         color: [225, 125, 25, 1.00]
       }
     },
+    defaultPopupTemplateEnabled: true,
     visible: false
-  });
-
-  const overlay_layers = new GroupLayer({
-    title: "Overlay Layers",
-    visible: true,
-    visibilityMode: "independent",
-    layers: [
-      layer_road_closures || null
-    ],
-    opacity: 1.00
   });
 
   const active_layers = new GroupLayer({
     title: "Active Layers",
     visible: true,
     visibilityMode: "independent",
-    layers: [],
+    layers: [
+      layer_road_closures
+    ],
     opacity: 1.00
   });
 
@@ -216,14 +233,23 @@ function MapContextProvider (props) {
       view = new MapView({
         container: "map-container",
         map: new Map({
-          basemap: "satellite",
+          basemap: "dark-gray",
           layers: [
-            base_layers || null,
-            overlay_layers || null,
-            active_layers || null]
+            base_layers,
+            active_layers 
+          ]
         }),
         center: [121.7740, 12.8797],
-        zoom: 6
+        zoom: 6,
+        popup: {
+          defaultPopupTemplateEnabled: true,
+          dockEnabled: true,
+          dockOptions: {
+            buttonEnabled: false,
+            position: "bottom-left",
+            breakpoint: false
+          }
+        }
       });
 
       const widget_search = new Search({
@@ -233,7 +259,8 @@ function MapContextProvider (props) {
 
       const expand_search = new Expand({
         view: view,
-        content: widget_search
+        content: widget_search,
+        group: "widgets"
       });
 
       view.ui.add(expand_search, {
@@ -247,10 +274,26 @@ function MapContextProvider (props) {
       
       const expand_layer_list = new Expand({
         view: view,
-        content: widget_layer_list
+        content: widget_layer_list,
+        group: "widgets"
       });
 
       view.ui.add(expand_layer_list, {
+        position: "top-right"
+      });
+
+      const widget_attachments = new Attachments({
+        view: view,
+        container: document.createElement("map-attachments")
+      });
+
+      const expand_attachments = new Expand({
+        view: view,
+        content: widget_attachments,
+        group: "widgets"
+      });
+
+      view.ui.add(expand_attachments, {
         position: "top-right"
       });
 
@@ -261,7 +304,8 @@ function MapContextProvider (props) {
 
       const expand_basemap_gallery = new Expand({
         view: view,
-        content: widget_basemap_gallery
+        content: widget_basemap_gallery,
+        group: "widgets"
       });
 
       view.ui.add(expand_basemap_gallery, {
@@ -275,24 +319,22 @@ function MapContextProvider (props) {
 
       const expand_print = new Expand({
         view: view,
-        content: widget_print
+        content: widget_print,
+        group: "widgets"
       });
 
       view.ui.add(expand_print, {
         position: "top-right"
       });
 
-      const widget_attachments = new Attachments({
-        view: view,
-        container: document.createElement("map-attachments")
-      });
+      const widget_info = document.createElement("map-info");
 
-      const expand_attachments = new Expand({
-        view: view,
-        content: widget_attachments
-      });
+      widget_info.innerText = "Please select a feature.";
+      widget_info.style.boxSizing = "border-box";
+      widget_info.style.padding = "12px";
+      widget_info.style.backgroundColor = "rgba(255, 255, 255, 1.00)";
 
-      view.ui.add(expand_attachments, {
+      view.ui.add(widget_info, {
         position: "bottom-left"
       });
 
@@ -304,8 +346,6 @@ function MapContextProvider (props) {
       view.ui.add(widget_scale_bar, {
         position: "bottom-right"
       });
-
-      view.popup.defaultPopupTemplateEnabled = true;
     }, []);
 
     return (
@@ -314,26 +354,37 @@ function MapContextProvider (props) {
     );
   }
 
-  function clear_map() {
-    if (active_layers) {
-      while (active_layers.layers.length) {
-        active_layers.layers.pop();
-      }
-    }
-  }
-
   function recenter_map(extent) {
     view
-      .goTo(extent)
+      .when(function () {
+        view.goTo(extent);
+      })
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   }
 
-  function add_layer(layer) {
-    if (active_layers) {
-      active_layers.layers.push(layer);
-    }
+  function open_popup (feature_array) {
+    view
+      .when(function () {
+        view.popup.open({
+          location: feature_array[0].geometry.centroid,
+          features: feature_array
+        });
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  function close_popup() {
+    view
+      .when(function () {
+        view.popup.visible = false;
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   return (
@@ -342,7 +393,7 @@ function MapContextProvider (props) {
         layer_regions, layer_congressional_districts, layer_engineering_districts,
         layer_roads,
         MapComponent,
-        clear_map, recenter_map, add_layer
+        recenter_map, open_popup, close_popup
       } 
     }>
       { props.children }

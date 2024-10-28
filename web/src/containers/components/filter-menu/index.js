@@ -19,7 +19,7 @@ export default function FilterMenu () {
     layer_regions,
     layer_congressional_districts,
     layer_engineering_districts,
-    clear_map, recenter_map
+    recenter_map, close_popup
   } = React.useContext(MapContext);
 
   function query_regions () {
@@ -74,7 +74,7 @@ export default function FilterMenu () {
   }, []);
 
   function select (object, type) {
-    clear_map();
+    close_popup();
 
     setRegionSelected(object.attributes.REGION);
 
@@ -126,7 +126,7 @@ export default function FilterMenu () {
   }
 
   function clear (type) {
-    clear_map();
+    close_popup();
 
     if (type === "region") {
       setRegionSelected("");
