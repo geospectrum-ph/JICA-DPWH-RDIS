@@ -346,6 +346,16 @@ function MapContextProvider (props) {
       view.ui.add(widget_scale_bar, {
         position: "bottom-right"
       });
+
+      reactiveUtils.watch(
+        function () {
+          return (view.popup?.selectedFeature);
+        },
+        function (selectedFeature) {
+          if ((selectedFeature) && (view.popup.visible)) {
+            view.goTo(selectedFeature.geometry.extent);
+          }
+        });
     }, []);
 
     return (
