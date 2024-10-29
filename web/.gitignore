@@ -8,12 +8,10 @@
 # testing
 /coverage
 
-# production
-/build
-
 # data
 /src/assets
 /src/assets.zip
+/src/sampleFiles
 
 # miscellaneous
 .DS_Store
