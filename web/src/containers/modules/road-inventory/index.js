@@ -25,7 +25,7 @@ export default function RoadInventory () {
   function handle_click (feature) {
     layer_road_inventory
       .queryFeatures({
-        where: "objectid = '" + feature.attributes.objectid + "'",
+        where: "OBJECTID = '" + feature.attributes.OBJECTID + "'",
         returnGeometry: true,
         outFields: ["*"]
       })

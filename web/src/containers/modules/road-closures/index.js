@@ -25,7 +25,7 @@ export default function RoadClosures () {
   function handle_click (feature) {
     layer_road_closures
       .queryFeatures({
-        where: "objectid = '" + feature.attributes.objectid + "'",
+        where: "ObjectId = '" + feature.attributes.ObjectId + "'",
         returnGeometry: true,
         outFields: ["*"]
       })
