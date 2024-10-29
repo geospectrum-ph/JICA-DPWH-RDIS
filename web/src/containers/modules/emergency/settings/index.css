@@ -1,0 +1,61 @@
+.closure-settings-container{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: auto;
+  height: 100%;
+
+  border: 1px solid;
+}
+
+.closure-settings-header{
+  display: flex;
+  flex-direction: row;
+  /* padding-inline: 1vw; */
+
+  border-bottom: 5px solid #F27D30;
+
+  width: 100%;
+
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.closure-settings-body{
+  display: flex;
+  flex-direction: column;
+}
+
+.closure-settings-fetch {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  padding-inline: 1vw;
+
+  background-color: black;
+  color: white;
+}
+
+.closure-settings-time {
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.closure-settings-time input[type=time] {
+  padding: 1vh;
+  padding-inline: 1vw;
+  margin-block: 1vh;
+}
+
+.material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

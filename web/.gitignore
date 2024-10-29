@@ -8,8 +8,11 @@
 # testing
 /coverage
 
-# production
-/build
+# data
+/src/assets
+/src/assets.zip
+/src/sampleFiles
+
 
 #data
 /src/sampleFiles

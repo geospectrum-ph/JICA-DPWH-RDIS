@@ -1,11 +1,26 @@
-.dashboard-body{
-  display: flex;
-  flex-direction: row;
-
-  width: 100vw;
+.emergency-container{
+  display: grid;
+  gap: 1%;
+  grid-template-columns: 64% 35%;
+  height: 92%;
 }
 
-.left, .right{
-  width: 50vw;
-  padding: 1vw;
+.emergency-charts{
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+.emergency-charts-row1{
+  display: grid;
+  row-gap: 1%;
+  grid-template-columns: 34% 66%;
+
+  width: 100%;
+  height: 100%;
+}
+
+.emergency-list {
+  border-left: 1px solid;
 }

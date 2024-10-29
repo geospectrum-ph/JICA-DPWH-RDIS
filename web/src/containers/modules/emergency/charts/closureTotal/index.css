@@ -1,0 +1,34 @@
+.closure-total-container{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: auto;
+  height: 100%;
+
+  border-bottom: 1px solid;
+}
+
+.closure-total-header{
+  display: flex;
+  flex-direction: row;
+  /* padding-inline: 1vw; */
+
+  border-bottom: 5px solid #F27D30;
+
+  width: 100%;
+
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.closure-total-body{
+  font-size: 6vh;
+  padding-block: 2vh;
+  text-align: center;
+}

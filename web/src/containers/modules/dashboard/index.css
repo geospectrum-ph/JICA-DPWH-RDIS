@@ -1,19 +1,27 @@
-.main-dashboard-body {
-  width: 45vw;
-  display: flex;
-  flex-direction: row;
+.md-container {
+  display: grid;
+  row-gap: 1%;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+  grid-template-rows: 35% 40% 23%;
+
+  height: 91.5%;
+  width: 98.5%;
+
+  border-right: 1vw solid gray;
 }
 
-.mdb-left{
-  width: calc(45vw/3);
+.md-description {
   display: flex;
   flex-direction: column;
-
-  padding-right: 1vw;
-
+  /* width: 66%; */
+  grid-column-end: span 3;
 }
 
-.mdb-left-title {
+.md-description-title {
+  border-bottom: 5px solid #F27D30;
+}
+
+.md-description-title{
   display: flex;
   flex-direction: row;
   padding: 2vw;
@@ -25,41 +33,54 @@
   color: white;
 }
 
-.mdb-left-desc {
+.md-description-desc {
+  display: flex;
+  /* width: 100%; */
+
   text-align: justify;
-  padding-top: 1vh;
+  text-indent: 5%;
+
+  padding-inline: 2%;
+  margin-top: 2%;
 }
 
-.mdb-left-graph {
-  height: 30vh;
+.md-roadsections{
+  grid-column-end: span 2;
+  grid-row-end: span 3
 }
 
-.mdb-right{
-  width: calc((45vw/3)*2);
+.md-modules {
+  grid-column-end: span 3;
+  grid-row-end: span 2;
 
-  padding-left: 1vw;
-}
-
-.mdb-right-title {
-  display: flex;
-  flex-direction: row;
-  padding: 2vw;
-
-  align-items: center;
-  justify-content: center;
-
-  background-color: black;
-  color: white;
-}
-
-.mdb-right-desc {
-  height: 20vh;
-}
-
-.mdb-right-summ {
+  display: grid;
+  gap: 1%;
+  grid-template-columns: 32.5% 32.5% 32.5%;
+  grid-template-rows: 59.5% 39.5%;
 
 }
 
-.mdb-right-summ-graph {
-  margin-left: -4vh;
+.md-modules-slope {
+  grid-column-end: span 3;
+  grid-row-end: span 2;
+
+  display: grid;
+  gap: 1%;
+  grid-template-columns: 49.5% 49.5%;
+  grid-template-rows: 59.5% 39.5%;
+
 }
+
+.md-general-charts-main {
+  grid-column-end: span 3
+}
+
+.md-general-charts {
+  grid-column-end: span 2
+}
+
+#dashboard-container {
+  box-sizing: border-box;
+  padding: 12px;
+}
+

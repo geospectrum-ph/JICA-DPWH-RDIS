@@ -1,0 +1,46 @@
+.title-bar-container{
+  display: flex;
+  flex-flow: row nowrap;
+  place-items: center center;
+  place-content: center center;
+
+  background-color: rgba(0, 0, 0, 1.00);
+
+  > * {
+    flex-flow: row nowrap;
+    place-content: center start;
+    align-items: center;
+  
+    display: flex;
+  }
+
+  /* Title */
+  > :nth-child(1) {
+    flex: 1;
+    height: 100%;
+    
+    box-sizing: border-box;
+    padding: 12px;
+
+    pointer-events: none;
+        
+    > * {
+      height: auto;
+  
+      font: normal 600 18px "Outfit", sans-serif;
+      color: rgba(255, 255, 255, 1.00);
+    }
+  }
+
+  /* Logos */
+  > :nth-child(2) {
+    box-sizing: border-box;
+    padding: 12px;
+    gap: 12px;
+
+    img {
+      width: 24px;
+      height: 24px;   
+    }
+  }
+}

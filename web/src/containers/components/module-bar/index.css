@@ -1,0 +1,80 @@
+
+#module-bar-container {
+  display: flex;
+  flex-flow: row nowrap;
+  place-items: center center;
+  place-content: center center;
+
+  background-color: rgba(50, 50, 50, 1.00);
+
+  > :nth-child(1) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center start;
+  
+    flex: 1 1 auto;
+
+    width: auto;
+    height: 100%;
+
+    /* Module Button */
+    > * {
+      display: flex;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center center;
+
+      width: auto;
+      height: 100%;
+  
+      box-sizing: border-box;
+      padding: 12px;
+  
+      cursor: pointer;
+  
+      font: normal 400 12px "Outfit", sans-serif;
+      text-align: center;
+      color: rgba(255, 255, 255, 1.00);
+  
+      &:hover {    
+        background-color: rgba(225, 125, 25, 1.00);
+      }
+  
+      &.selected {
+        background-color: rgba(225, 125, 25, 1.00);
+      }
+    }
+  }
+
+  /* Exit Button */
+  > :nth-child(2) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    width: 84px;
+    height: 100%;
+    
+    box-sizing: border-box;
+    padding: 8px 12px;
+    gap: 8px;
+    
+    cursor: pointer;
+
+    > :nth-child(1) {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 1.00);
+    }
+    
+    > :nth-child(2) {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 1.00);
+    }
+
+    &:hover {
+      background-color: rgba(225, 125, 25, 1.00);
+    }
+  }
+}

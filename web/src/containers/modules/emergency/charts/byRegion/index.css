@@ -1,0 +1,47 @@
+.closure-regionclass-container{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid;
+}
+
+.closure-classpie-header{
+  display: flex;
+  flex-direction: row;
+  /* padding-inline: 1vw; */
+
+  border-bottom: 5px solid #F27D30;
+
+  width: 100%;
+
+  align-items: center;
+  justify-content: center;
+
+  background-color: black;
+  color: white;
+}
+
+.closure-region-container{
+  width: 70%;
+  height: auto;
+  overflow-y: auto;
+  font-size: 2vh;
+}
+
+.closure-region-list{
+  display: grid;
+
+  grid-template-columns: 80% 20%;
+}
+
+.closure-classpie-legend {
+  width: 40%;
+
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

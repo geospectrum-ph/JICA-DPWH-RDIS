@@ -1,31 +1,95 @@
-import React from 'react';
-
-import sample from '../sampleFiles/sample_data.json'
+import React from "react";
 
 export const MainContext = React.createContext();
 
-const MainContextProvider = (props) => {
-  const [moduleTitle, setModuleTitle] = React.useState('Dashboard');
+function MainContextProvider (props) {
+  const [modules, setModules] = React.useState([
+    {
+      name: "DASHBOARD",
+      path: "dashboard",
+      map_visible: true
+    },
+    {
+      name: "Road Inventory",
+      path: "road-inventory",
+      map_visible: true
+    },
+    {
+      name: "Road Slopes and Countermeasures",
+      path: "road-slope-and-countermeasures",
+      map_visible: true
+    },
+    {
+      name: "Hazard Map",
+      path: "hazard-map",
+      map_visible: true
+    },
+    {
+      name: "Road Closures",
+      path: "road-closures",
+      map_visible: true
+    },
+    {
+      name: "Projects",
+      path: "projects",
+      map_visible: true
+    },
+    {
+      name: "Status Reports",
+      path: "status-reports",
+      map_visible: false
+    },
+    {
+      name: "User Management",
+      path: "user-management",
+      map_visible: false
+    }
+  ]);
+  
+  const [moduleSelected, setModuleSelected] = React.useState(0);
 
-  const [moduleSelect, setModuleSelect] = React.useState('dashboard');
+  const [regions, setRegions] = React.useState(null);
+  const [regionSelected, setRegionSelected] = React.useState("");
 
-  const [sampleData, setSampleData] = React.useState(sample)
+  const [congressionalDistricts, setCongressionalDistricts] = React.useState(null);
+  const [congressionalDistrictSelected, setCongressionalDistrictSelected] = React.useState("");
 
-  const [origData, setOrigData] = React.useState(sample)
+  const [engineeringDistricts, setEngineeringDistricts] = React.useState(null);
+  const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
 
-  const [selectedInventory, setSelectedInventory] = React.useState()
+  const [roadInventory, setRoadInventory] = React.useState(null);
+  const [hazardMap, setHazardMap] = React.useState(null);
+  const [roadClosures, setRoadClosures] = React.useState(null);
 
-  const [mapCenter, setMapCenter] = React.useState([120.59958964948025, 16.40383820492775])
+  function clear_selected () {
+    setRegionSelected("");
+    setCongressionalDistrictSelected("");
+    setEngineeringDistrictSelected("");
+  }
 
   return (
-    <MainContext.Provider value = {{moduleTitle, setModuleTitle,
-                                    moduleSelect, setModuleSelect,
-                                    sampleData, setSampleData,
-                                    origData, setOrigData,
-                                    selectedInventory, setSelectedInventory,
-                                    mapCenter, setMapCenter
-    }}>
-      {props.children}
+    <MainContext.Provider value = {
+      {
+        modules, setModules,
+        moduleSelected, setModuleSelected,
+
+        regions, setRegions,
+        regionSelected, setRegionSelected,
+
+        congressionalDistricts, setCongressionalDistricts,
+        congressionalDistrictSelected, setCongressionalDistrictSelected,
+
+        engineeringDistricts, setEngineeringDistricts,
+        engineeringDistrictSelected, setEngineeringDistrictSelected, 
+
+        roadInventory, setRoadInventory,
+        hazardMap, setHazardMap,
+        roadClosures, setRoadClosures,
+        
+        clear_selected
+      }
+    }>
+      { props.children }
     </MainContext.Provider>
   )
 }

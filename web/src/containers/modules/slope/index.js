@@ -1,52 +1,47 @@
 import React from 'react';
 
-import './index.css';
+import './index.css'
+import SlopeRoadsList from './roadSections';
+import SlopeSegmentList from './roadProjects';
+import SlopeProjectDetails from './roadProjectDetails';
 import { MainContext } from '../../../contexts/MainContext';
-import ItemInventory from './inventory';
-import Filter from './filters';
-import { Route, Routes } from 'react-router-dom';
+import SlopeRoadsPotentialList from './potentialProjects';
+import PotentialSegmentList from './potentialProjectsSections';
+import SlopePotentialDetails from './potentialProjectDetails';
 
-export default function SlopeDashboard() {
-  const {sampleData, setSampleData, origData} = React.useContext(MainContext);
-
-  const [slopeList, setSlopeList] = React.useState('inventory')
-
-  const filterSlopeList = (selection) => {
-    setSlopeList(selection)
-    setSampleData({...sampleData, features: origData.features.filter((feat) => {
-      if (selection === 'inventory') {
-        return feat.properties.inventory === 0
-      } return feat.properties.inventory === 1
-    })})
-  }
+export default function SlopeModule() {
+  const {selectedInventory, selectedPotential, slopePageSelect} = React.useContext(MainContext)
 
   return (
-    <div className='main-dashboard-body'>
-      <div className='mdb-left'>
-        <Filter/>
-      </div>
-      <div className='mdb-right'>
-        <div className='sdb-right-header'>
-          <div className={slopeList === 'inventory' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
-            onClick={() => filterSlopeList('inventory')}
-            >
-            <b>Inventory</b>
-          </div>
-          <div className={slopeList === 'funding' ? 'sdb-right-title-selected' : 'sdb-right-title'} 
-            onClick={() => filterSlopeList('funding')}
-            >
-            <b>For Funding</b>
-          </div>
+    <>
+      {slopePageSelect === 'projects' ?
+      <div className='slope-container'>
+        <div className='slope-lists'>
+          <SlopeRoadsList/>
+          <br/>
+          <SlopeSegmentList/>
         </div>
-        <div className='sdb-right-body'>
-          {sampleData.features.map((feat) => {
-            
-             return <ItemInventory roadName={feat.properties.road_name} properties={feat.properties} geometry={feat.geometry}/>
-            
-            // console.log(feat.properties.road_name)
-          })}
+        <div className='slope-details'>
+          {selectedInventory ? <SlopeProjectDetails/> :
+          <div style={{fontSize: '2.5vh'}}> Please select road project </div>}
+        </div>
+      </div> :
+      <div className='slope-container'>
+        <div className='slope-lists'>
+          <SlopeRoadsPotentialList/>
+          <br/>
+          <PotentialSegmentList/>
+          {/* <br/>
+          <SlopeSegmentList/> */}
+        </div>
+        <div className='slope-details'>
+          {selectedPotential ? <SlopePotentialDetails/> :
+          <div style={{fontSize: '2.5vh'}}> Please select proposal </div>}
         </div>
       </div>
-    </div>
+        
+      }
+      
+    </>
   )
 }
