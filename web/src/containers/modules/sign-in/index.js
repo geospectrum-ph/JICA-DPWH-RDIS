@@ -6,7 +6,7 @@ import logo_BP from "../../../assets/logos/logo_BP.png";
 
 import "./index.css";
 
-export default function SignInPage() {
+export default function SignInPage () {
   const navigate = useNavigate();
  
   return (

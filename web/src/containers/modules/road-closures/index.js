@@ -5,7 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadClosures() {
+export default function RoadClosures () {
   const {
     regionSelected,
     congressionalDistrictSelected,
@@ -25,7 +25,7 @@ export default function RoadClosures() {
   function handle_click (feature) {
     layer_road_closures
       .queryFeatures({
-        where: "section_id = '" + feature.attributes.section_id + "'",
+        where: "objectid = '" + feature.attributes.objectid + "'",
         returnGeometry: true,
         outFields: ["*"]
       })
@@ -42,10 +42,10 @@ export default function RoadClosures() {
   }
 
   return (
-    <div id = "road-inventory-container">
+    <div id = "road-closures-container">
       <div>
         <div>
-          <div>{ "Road Classification: " }</div>
+          <div>{ "Road Status: " }</div>
           <div>
             <div><div></div></div>
             <div>{ "Passable" }</div>

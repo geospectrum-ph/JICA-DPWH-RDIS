@@ -1,4 +1,4 @@
-#road-inventory-container {
+#hazard-map-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: center center;
@@ -69,7 +69,7 @@
 
           border-radius: 100%;
 
-          background-color: rgba(255, 0, 0, 1.00);;
+          background-color: rgba(255, 155, 55, 1.00);
         }
       }    
       
@@ -80,13 +80,13 @@
 
           border-radius: 100%;
 
-          background-color: rgba(0, 0, 255, 1.00);;
+          background-color: rgba(255, 0, 0, 1.00);;
         }
       }
     }
   }
 
-  /* Road Inventory List */
+  /* Road Closures List */
   > :nth-child(2) {
     overflow: hidden auto;
 
@@ -118,16 +118,16 @@
         box-sizing: border-box;
         padding: 0;
 
-        &.Primary {
+        &.risk_low {
           border: 4px solid rgba(255, 255, 0, 1.00);
         }
 
-        &.Secondary {
-          border: 4px solid rgba(255, 0, 0, 1.00);
+        &.risk_middle {
+          border: 4px solid rgba(255, 155, 55, 1.00);
         }
 
-        &.Tertiary {
-          border: 4px solid rgba(0, 0, 255, 1.00);
+        &.risk_high {
+          border: 4px solid rgba(255, 0, 0, 1.00);
         }
       }
 

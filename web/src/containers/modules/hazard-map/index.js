@@ -5,27 +5,27 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadInventory () {
+export default function HazardMap () {
   const {
     regionSelected,
     congressionalDistrictSelected,
     engineeringDistrictSelected,
-    roadInventory
+    hazardMap
   } = React.useContext(MainContext);
 
   const {
-    layer_road_inventory,
+    layer_hazard_map,
     view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("road-inventory");
+    view_layer("hazard-map");
   }, []);
   
   function handle_click (feature) {
-    layer_road_inventory
+    layer_hazard_map
       .queryFeatures({
-        where: "objectid = '" + feature.attributes.objectid + "'",
+        where: "ObjectId = '" + feature.attributes.ObjectId + "'",
         returnGeometry: true,
         outFields: ["*"]
       })
@@ -42,54 +42,54 @@ export default function RoadInventory () {
   }
 
   return (
-    <div id = "road-inventory-container">
+    <div id = "hazard-map-container">
       <div>
         <div>
-          <div>{ "Road Classification: " }</div>
+          <div>{ "Hazard Risk: " }</div>
           <div>
             <div><div></div></div>
-            <div>{ "Primary" }</div>
+            <div>{ "Low" }</div>
           </div>
           <div>
             <div><div></div></div>
-            <div>{ "Secondary" }</div>
+            <div>{ "Middle" }</div>
           </div>
           <div>
             <div><div></div></div>
-            <div>{ "Tertiary" }</div>
+            <div>{ "High" }</div>
           </div>
         </div>
       </div>
       <div>
         {
-          roadInventory ? 
-            roadInventory
-              .filter(function (road) {
+          hazardMap ? 
+            hazardMap
+              .filter(function (hazard) {
                 if (regionSelected === "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
                   return (true);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
-                  return (road.attributes.REGION === regionSelected);
+                  return (hazard.attributes.REGION === regionSelected);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected !== "" && engineeringDistrictSelected === "") {
-                  return (road.attributes.CONG_DIST === congressionalDistrictSelected);
+                  return (hazard.attributes.CONG_DIST === congressionalDistrictSelected);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected !== "") {
-                  return (road.attributes.DEO === engineeringDistrictSelected);
+                  return (hazard.attributes.DEO === engineeringDistrictSelected);
                 }
                 else {
                   return (false);
                 }
               })
               .sort(function (base, next) {
-                return (base.attributes.ROAD_ID.localeCompare(next.attributes.ROAD_ID));
+                return (base.attributes.section_id_select.localeCompare(next.attributes.section_id_select ));
               })
-              .map(function (road, key) {
+              .map(function (hazard, key) {
                 return (
-                  <div key = { key } onClick = { function () { handle_click(road); } }>
-                    <div className = { road.attributes.ROAD_SEC_C || "" }></div>
-                    <div>{ road.attributes.ROAD_ID || "" }</div>
-                    <div>{ road.attributes.ROAD_NAME || "" }</div>
+                  <div key = { key } onClick = { function () { handle_click(hazard); } }>
+                    <div className = { hazard.attributes.hazard_risk_select || "" }></div>
+                    <div>{ hazard.attributes.section_id_select || "" }</div>
+                    <div>{ hazard.attributes.globalid || "" }</div>
                   </div>
                 );
               })

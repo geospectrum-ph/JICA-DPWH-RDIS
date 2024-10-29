@@ -7,7 +7,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function ModuleBar() {
+export default function ModuleBar () {
   const navigate = useNavigate();
   const location = useLocation();
 

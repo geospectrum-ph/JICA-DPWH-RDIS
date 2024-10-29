@@ -15,7 +15,7 @@ import Projects from "./modules/error";
 import ExistingProjects from "./modules/error";
 import PotentialProjects from "./modules/error";
 import StatusReports from "./modules/error";
-import HazardMap from "./modules/error";
+import HazardMap from "./modules/hazard-map";
 import RoadClosures from "./modules/road-closures";
 import UserManagement from "./modules/error";
 

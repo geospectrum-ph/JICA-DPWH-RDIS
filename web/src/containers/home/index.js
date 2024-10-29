@@ -13,12 +13,12 @@ import "./index.css";
 
 function HomePage () {
   const {
-    setRoadInventory, setRoadClosures,
+    setRoadInventory, setHazardMap, setRoadClosures,
     modules, moduleSelected
   } = React.useContext(MainContext);
 
   const {
-    layer_road_inventory, layer_road_closures,
+    layer_road_inventory, layer_hazard_map, layer_road_closures,
     MapComponent
   } = React.useContext(MapContext);
 
@@ -31,6 +31,21 @@ function HomePage () {
       })
       .then(function (response) {
         setRoadInventory(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_hazard_map () {
+    layer_hazard_map
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setHazardMap(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -54,6 +69,7 @@ function HomePage () {
 
   React.useEffect(function () {
     query_road_inventory();
+    query_hazard_map();
     query_road_closures();
   }, []);
 

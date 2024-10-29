@@ -58,6 +58,7 @@ function MainContextProvider (props) {
   const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
 
   const [roadInventory, setRoadInventory] = React.useState(null);
+  const [hazardMap, setHazardMap] = React.useState(null);
   const [roadClosures, setRoadClosures] = React.useState(null);
 
   function clear_selected () {
@@ -82,6 +83,7 @@ function MainContextProvider (props) {
         engineeringDistrictSelected, setEngineeringDistrictSelected, 
 
         roadInventory, setRoadInventory,
+        hazardMap, setHazardMap,
         roadClosures, setRoadClosures,
         
         clear_selected

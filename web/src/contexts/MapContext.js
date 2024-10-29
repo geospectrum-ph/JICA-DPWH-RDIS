@@ -11,7 +11,6 @@ import Search from "@arcgis/core/widgets/Search.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import Print from "@arcgis/core/widgets/Print.js";
-import Attachments from "@arcgis/core/widgets/Attachments.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 
 export const MapContext = React.createContext();
@@ -23,6 +22,7 @@ function MapContextProvider (props) {
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
   const url_roads = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
   const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
+  const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map/FeatureServer";
   const url_road_closures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/sample_disire_road_closure/FeatureServer";
 
   const layer_regions = new FeatureLayer({
@@ -241,6 +241,49 @@ function MapContextProvider (props) {
     visible: true
   });
 
+  const layer_hazard_map = new FeatureLayer({
+    title: "Hazard Map",
+    url: url_hazard_map,
+    renderer: {
+      type: "unique-value",
+      field: "hazard_risk_select",
+      defaultSymbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "risk_low",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "risk_middle",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 155, 55, 1.00]
+          }
+        },
+        {
+          value: "risk_high",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        }
+      ]
+    },
+    defaultPopupTemplateEnabled: true,
+    visible: true
+  });
+
+
   const layer_road_closures = new FeatureLayer({
     title: "Road Closures",
     url: url_road_closures,
@@ -349,21 +392,6 @@ function MapContextProvider (props) {
         position: "top-right"
       });
 
-      const widget_attachments = new Attachments({
-        view: view,
-        container: document.createElement("map-attachments")
-      });
-
-      const expand_attachments = new Expand({
-        view: view,
-        content: widget_attachments,
-        group: "widgets"
-      });
-
-      view.ui.add(expand_attachments, {
-        position: "top-right"
-      });
-
       const widget_basemap_gallery = new BasemapGallery({
         view: view,
         container: document.createElement("map-basemap-gallery-container")
@@ -420,7 +448,13 @@ function MapContextProvider (props) {
         },
         function (selectedFeature) {
           if ((selectedFeature) && (view.popup.visible)) {
-            view.goTo(selectedFeature.geometry.extent);
+            view
+              .when(function () {
+                view.goTo(selectedFeature.geometry.extent);
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
           }
         });
     }, []);
@@ -446,6 +480,9 @@ function MapContextProvider (props) {
       switch (module) {
         case "road-inventory":
           active_layers.layers.push(layer_road_inventory);
+          break;
+        case "hazard-map":
+          active_layers.layers.push(layer_hazard_map);
           break;
         case "road-closures":
           active_layers.layers.push(layer_road_closures);
@@ -493,7 +530,7 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_regions, layer_congressional_districts, layer_engineering_districts,
-        layer_road_inventory, layer_road_closures,
+        layer_road_inventory, layer_hazard_map, layer_road_closures,
         MapComponent, hide_layer, view_layer, recenter_map, open_popup, close_popup
       } 
     }>

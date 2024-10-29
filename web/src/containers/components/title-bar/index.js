@@ -5,7 +5,7 @@ import logo_BP from "../../../assets/logos/logo_BP.png";
 
 import "./index.css";
 
-export default function TitleBar() {
+export default function TitleBar () {
   return (
     <div className = "title-bar-container">
       <div>
