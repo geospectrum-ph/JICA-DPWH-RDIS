@@ -12,7 +12,7 @@ export default function ModuleBar() {
   const location = useLocation();
 
   const { modules, moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
-  const { recenter_map, close_popup } = React.useContext(MapContext);
+  const { hide_layer, recenter_map, close_popup } = React.useContext(MapContext);
 
   function set_class (index) {
     var className;
@@ -23,9 +23,11 @@ export default function ModuleBar() {
   }
 
   function set_module (index) {
-    close_popup();
+    hide_layer();
 
     recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
+
+    close_popup();
 
     clear_selected();
 

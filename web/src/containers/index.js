@@ -15,8 +15,8 @@ import Projects from "./modules/error";
 import ExistingProjects from "./modules/error";
 import PotentialProjects from "./modules/error";
 import StatusReports from "./modules/error";
-import HazardRisks from "./modules/error";
-import RoadClosures from "./modules/error";
+import HazardMap from "./modules/error";
+import RoadClosures from "./modules/road-closures";
 import UserManagement from "./modules/error";
 
 import About from "./modules/error";
@@ -41,7 +41,7 @@ export default function App() {
               <Route path = "existing-structures" element = { <ExistingStructures/> }/>
               <Route path = "potential-structures" element = { <PotentialStructures/> }/>
             </Route>
-            <Route path = "hazard-risks" element = { <HazardRisks/> }/>
+            <Route path = "hazard-map" element = { <HazardMap/> }/>
             <Route path = "road-closures" element = { <RoadClosures/> }/>
             <Route path = "projects" element = { <Projects/> }>
               <Route path = "existing-projects" element = { <ExistingProjects/> }/>

@@ -5,27 +5,27 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadInventory() {
+export default function RoadClosures() {
   const {
     regionSelected,
     congressionalDistrictSelected,
     engineeringDistrictSelected,
-    roadInventory
+    roadClosures
   } = React.useContext(MainContext);
 
   const {
-    layer_road_inventory,
+    layer_road_closures,
     view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("road-inventory");
+    view_layer("road-closures");
   }, []);
   
   function handle_click (feature) {
-    layer_road_inventory
+    layer_road_closures
       .queryFeatures({
-        where: "SECTION_ID = '" + feature.attributes.SECTION_ID + "'",
+        where: "section_id = '" + feature.attributes.section_id + "'",
         returnGeometry: true,
         outFields: ["*"]
       })
@@ -48,48 +48,48 @@ export default function RoadInventory() {
           <div>{ "Road Classification: " }</div>
           <div>
             <div><div></div></div>
-            <div>{ "Primary" }</div>
+            <div>{ "Passable" }</div>
           </div>
           <div>
             <div><div></div></div>
-            <div>{ "Secondary" }</div>
+            <div>{ "Not Passable" }</div>
           </div>
           <div>
             <div><div></div></div>
-            <div>{ "Tertiary" }</div>
+            <div>{ "Limited Access" }</div>
           </div>
         </div>
       </div>
       <div>
         {
-          roadInventory ? 
-            roadInventory
-              .filter(function (road) {
+          roadClosures ? 
+            roadClosures
+              .filter(function (road_closure) {
                 if (regionSelected === "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
                   return (true);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
-                  return (road.attributes.REGION === regionSelected);
+                  return (road_closure.attributes.REGION === regionSelected);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected !== "" && engineeringDistrictSelected === "") {
-                  return (road.attributes.CONG_DIST === congressionalDistrictSelected);
+                  return (road_closure.attributes.CONG_DIST === congressionalDistrictSelected);
                 }
                 else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected !== "") {
-                  return (road.attributes.DEO === engineeringDistrictSelected);
+                  return (road_closure.attributes.DEO === engineeringDistrictSelected);
                 }
                 else {
                   return (false);
                 }
               })
               .sort(function (base, next) {
-                return (base.attributes.ROAD_ID.localeCompare(next.attributes.ROAD_ID));
+                return (base.attributes.section_id.localeCompare(next.attributes.section_id));
               })
-              .map(function (road, key) {
+              .map(function (road_closure, key) {
                 return (
-                  <div key = { key } onClick = { function () { handle_click(road); } }>
-                    <div className = { road.attributes.ROAD_SEC_C || "" }></div>
-                    <div>{ road.attributes.ROAD_ID || "" }</div>
-                    <div>{ road.attributes.ROAD_NAME || "" }</div>
+                  <div key = { key } onClick = { function () { handle_click(road_closure); } }>
+                    <div className = { road_closure.attributes.situation || "" }></div>
+                    <div>{ road_closure.attributes.section_id || "" }</div>
+                    <div>{ road_closure.attributes.infrastructure_name || "" }</div>
                   </div>
                 );
               })

@@ -13,24 +13,39 @@ import "./index.css";
 
 function HomePage () {
   const {
-    setRoads,
+    setRoadInventory, setRoadClosures,
     modules, moduleSelected
   } = React.useContext(MainContext);
 
   const {
-    layer_roads,
+    layer_road_inventory, layer_road_closures,
     MapComponent
   } = React.useContext(MapContext);
 
-  function query_roads (expression) {
-    layer_roads
+  function query_road_inventory () {
+    layer_road_inventory
       .queryFeatures({
-        where: expression || "1 = 1",
+        where: "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
       .then(function (response) {
-        setRoads(response.features);
+        setRoadInventory(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_road_closures () {
+    layer_road_closures
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setRoadClosures(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -38,7 +53,8 @@ function HomePage () {
   }
 
   React.useEffect(function () {
-    query_roads("1 = 1");
+    query_road_inventory();
+    query_road_closures();
   }, []);
 
   function set_class (index) {

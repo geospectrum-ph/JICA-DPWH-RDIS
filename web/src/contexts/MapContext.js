@@ -141,7 +141,7 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 255, 0, 1.00]
+            color: [200, 200, 200, 1.00]
           }
         }, 
         {
@@ -149,7 +149,7 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 0, 0, 1.00]
+            color: [150, 150, 150, 1.00]
           }
         },
         {
@@ -157,13 +157,13 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [0, 0, 255, 1.00]
+            color: [100, 100, 100, 1.00]
           }
         }
       ]
     },
     defaultPopupTemplateEnabled: true,
-    visible: true
+    visible: false
   });
 
   const layer_kilometer_posts = new FeatureLayer({
@@ -199,28 +199,95 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_road_inventory = new FeatureLayer({
+    title: "Road Classifications",
+    url: url_roads,
+    renderer: {
+      type: "unique-value",
+      field: "ROAD_SEC_C",
+      defaultSymbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "Primary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "Secondary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        },
+        {
+          value: "Tertiary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 0, 255, 1.00]
+          }
+        }
+      ]
+    },
+    defaultPopupTemplateEnabled: true,
+    visible: true
+  });
+
   const layer_road_closures = new FeatureLayer({
     title: "Road Closures",
     url: url_road_closures,
     renderer: {
-      type: "simple",
-      symbol: {
+      type: "unique-value",
+      field: "situation",
+      defaultSymbol: {
         type: "simple-line",
-        width: 2,
-        color: [225, 125, 25, 1.00]
-      }
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "passable",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "notpassable",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        },
+        {
+          value: "limitedaccess",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
+        }
+      ]
     },
     defaultPopupTemplateEnabled: true,
-    visible: false
+    visible: true
   });
 
   const active_layers = new GroupLayer({
     title: "Active Layers",
     visible: true,
     visibilityMode: "independent",
-    layers: [
-      layer_road_closures
-    ],
+    layers: [],
     opacity: 1.00
   });
 
@@ -354,7 +421,32 @@ function MapContextProvider (props) {
     );
   }
 
-  function recenter_map(extent) {
+  function hide_layer () {
+    if (active_layers) {
+      while (active_layers.layers.length > 0) {
+        active_layers.layers.pop();
+      }
+    }
+  }
+
+  function view_layer (module) {
+    hide_layer();
+
+    if (active_layers) {
+      switch (module) {
+        case "road-inventory":
+          active_layers.layers.push(layer_road_inventory);
+          break;
+        case "road-closures":
+          active_layers.layers.push(layer_road_closures);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  function recenter_map (extent) {
     view
       .when(function () {
         view.goTo(extent);
@@ -391,9 +483,8 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_regions, layer_congressional_districts, layer_engineering_districts,
-        layer_roads,
-        MapComponent,
-        recenter_map, open_popup, close_popup
+        layer_road_inventory, layer_road_closures,
+        MapComponent, hide_layer, view_layer, recenter_map, open_popup, close_popup
       } 
     }>
       { props.children }
