@@ -331,7 +331,7 @@ function MapContextProvider (props) {
 
       widget_info.innerText = "Please select a feature.";
       widget_info.style.boxSizing = "border-box";
-      widget_info.style.padding = "12px";
+      widget_info.style.padding = "8px 12px";
       widget_info.style.backgroundColor = "rgba(255, 255, 255, 1.00)";
 
       view.ui.add(widget_info, {

@@ -1,59 +1,62 @@
 #login-container {
+  display: flex;
   flex-flow: column nowrap;
   place-content: center center;
   align-items: stretch;
 
-  display: flex;
-
   width: 100%;
   height: 100%;
 
+  /* Main Interface */
   > :nth-child(1) {
-    flex-flow: column nowrap;
-    place-content: center flex-start;
-    align-items: center;
-  
     display: flex;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center flex-start;
+  
+    flex: 1 1 auto;
 
     width: 100%;
-    flex: 1;
+    height: 100%;
 
+    /* Title Container */
     > :nth-child(1) {
+      display: flex;
       flex-flow: column nowrap;
       place-content: center center;
-      align-items: center;
+      place-items: center center;
     
-      display: flex;
-
+      width: 100%;
       height: 50%;
 
       box-sizing: border-box;
       padding: 24px;
 
+      /* Logo Container */
       > :nth-child(1) {
-        flex-flow: row nowrap;
-        place-content: center end;
-        align-items: center;
-      
         display: flex;
-
+        flex-flow: row nowrap;
+        place-items: start center;
+        place-content: center end;
+      
         width: 100%;
         height: 50%;
 
         box-sizing: border-box;
-        padding: 0 0 120px 0;
+        gap: 24px;
 
         img {
-          margin: 0 0 0 12px;
           width: 64px;
           height: 64px;
         }
       }
 
+      /* Title */
       > :nth-child(2) {
+        display: flex;
         flex-flow: row nowrap;
+        place-items: center center;
         place-content: center center;
-        align-items: center;
 
         animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
@@ -71,113 +74,135 @@
       }
     }
 
+    /* Sign-In Interface */
     > :nth-child(2) {
-      margin: 24px 0 0 0;
-    }
-
-    > :nth-child(2), > :nth-child(3) {
-      flex-flow: row nowrap;
-      place-content: center center;
-    
       display: flex;
-
-      box-sizing: border-box;
-      padding: 12px 24px;
+      flex-flow: column nowrap;
+      place-items: center center;
+      place-content: center flex-start;
       
-      label {
-        width: 120px;
-        box-sizing: border-box;
-        padding: calc(12px + 2px);
-
-        font: normal 600 16px "Outfit", sans-serif;
-      }
-
-      input {
-        width: 360px;
-        box-sizing: border-box;
-        padding: 12px;
-
-        font: normal 400 16px "Outfit", sans-serif;
-      }
-    }
-
-    > :nth-child(4) {
-      flex-flow: row nowrap;
-      place-content: center center;
-    
-      display: flex;
+      width: 100%;
+      height: 50%;
 
       box-sizing: border-box;
-      padding: 12px;
+      padding: 24px;
 
-      > span {
-        transition: 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-
-        width: 240px;
+      /* Input Fields */
+      > :nth-child(1), > :nth-child(2) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center center;
+      
+        width: 100%;
         height: auto;
+
+        box-sizing: border-box;
+        padding: 12px 24px;
+        
+        label {
+          display: flex;
+          flex-flow: row nowrap;
+          place-items: center center;
+          place-content: center center;
+
+          width: 120px;
+          height: 100%;
+
+          box-sizing: border-box;
+          padding: 12px;
+
+          background-color: rgba(0, 0, 0, 1.00);
+  
+          font: normal 400 16px "Outfit", sans-serif;
+          color: rgba(255, 255, 255, 1.00);
+        }
+  
+        input {
+          width: 360px;
+          height: auto;
+
+          box-sizing: border-box;
+          padding: 12px;
+  
+          font: normal 400 16px "Outfit", sans-serif;
+        }
+      }
+  
+      /* SIgn-In Button */
+      > :nth-child(3) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center center;
+  
         box-sizing: border-box;
         padding: 12px;
+  
+        > span {
+          width: 240px;
+          height: auto;
 
-        background-color: rgba(0, 0, 0, 1.00);
-        cursor: pointer;
-
-        text-align: center;
-        color: rgba(255, 255, 255, 1.00);
-
-        &:hover {
-          background-color: rgba(242, 125, 48, 1.00);
+          box-sizing: border-box;
+          padding: 12px;
+  
+          background-color: rgba(0, 0, 0, 1.00);
+          cursor: pointer;
+  
+          text-align: center;
+          color: rgba(255, 255, 255, 1.00);
+  
+          &:hover {
+            background-color: rgba(225, 125, 25, 1.00);
+          }
         }
       }
     }
   }
 
+  /* Footer */
   > :nth-child(2) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center start;
+
+    box-sizing: border-box;
+    padding: 12px 24px 24px 24px;
+
+    background-color: rgba(0, 0, 0, 1.00);
+
+    color: rgba(255, 255, 255, 1.00);
+
+    /* Links */
     > :nth-child(1) {
-      flex-flow: row wrap;
-      place-content: center start;
-  
-      display: flex;
+      flex: 1 1 auto;
+
+      width: 100%;
+      height: auto;
 
       box-sizing: border-box;
-      padding: 12px 24px 24px 24px;
 
-      background-color: rgba(0, 0, 0, 1.00);
+      > :nth-child(odd) {
+        > a {
+          text-decoration: none;
+          color: rgba(255, 255, 255, 1.00);
 
-      color: rgba(255, 255, 255, 1.00);
-
-      > :nth-child(1) {
-        margin: 12px 0 0 0;
-        flex: 1;
-        height: auto;
-
-        > :nth-child(odd) {
-          > a {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 1.00);
-
-            &:hover {
-              color: rgba(242, 125, 48, 1.00);
-            }
+          &:hover {
+            color: rgba(225, 125, 25, 1.00);
           }
-        }
-
-        > :nth-child(even) {
-          margin: 0 12px;
         }
       }
 
-      > :nth-child(2) {
-        margin: 12px 0 0 0;
-        width: auto;
-        height: auto;
+      > :nth-child(even) {
+        margin: 0 12px;
       }
     }
 
+    /* Copyright Tag */
     > :nth-child(2) {
-      box-sizing: border-box;
-      padding: 4px;
-
-      background-color: rgba(242, 125, 48, 1.00);
+      width: auto;
+      height: auto;
     }
   }
 }
@@ -192,5 +217,3 @@
     transform: translate(0px, 0px);
   }
 }
-
-/* Note: Ongoing development for responsive layout. */

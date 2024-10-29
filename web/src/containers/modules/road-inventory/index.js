@@ -43,7 +43,7 @@ export default function RoadInventory() {
     <div id = "road-inventory-container">
       <div>
         <div>
-          <div>{ "Legend: " }</div>
+          <div>{ "Road Classification: " }</div>
           <div>
             <div><div></div></div>
             <div>{ "Primary" }</div>
