@@ -1,8 +1,6 @@
 const dbConfig = require("../config/config.js");
 
-const { Sequelize } = require('sequelize');
-
-console.log(dbConfig)
+const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(`${dbConfig.dialect}://${dbConfig.username}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`, {
   dialectOptions: {
@@ -11,12 +9,9 @@ const sequelize = new Sequelize(`${dbConfig.dialect}://${dbConfig.username}:${db
   }
 }});
 
+const User = require('./user')(sequelize, DataTypes);
 
-const db = {};
-
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.users = require("../models/user.js")(sequelize, Sequelize);
-
-module.exports = db;
+module.exports = {
+  sequelize,
+  User
+};

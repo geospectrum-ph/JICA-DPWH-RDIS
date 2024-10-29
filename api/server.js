@@ -1,25 +1,30 @@
 const express = require('express');
-const app = express();
+const { sequelize } = require('./models');
+const userRoutes = require('./routes/userRoutes');
+const { verifyToken, checkRole } = require('./middleware/auth');
 
+const app = express();
 app.use(express.json());
 
-// sync tables
-const db = require("./models");
-db.sequelize.sync()
-  .then(() => {
-    console.log("Synced db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
+app.use('/users', userRoutes);
 
-require("./routes/userRoutes")(app);
-app.use('/', (req, res, next) => {
+app.get('/protected', verifyToken, (req, res) => {
+  res.json({ message: 'This is a protected route', userId: req.userId });
+});
+
+// apply checkRole for role specific routes
+app.get('/admin', verifyToken, checkRole(['admin']), (req, res) => {
+  res.json({ message: 'This is an admin-only route' });
+});
+
+app.get('/', (req, res) => {
   res.status(200).json({status: true, message: 'Server is running.'});
 });
 
-const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+const PORT = process.env.PORT || 3001;
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
 });

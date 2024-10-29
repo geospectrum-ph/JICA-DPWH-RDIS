@@ -1,26 +1,39 @@
-module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define("user", {
+
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define("user", {
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false
+
+    },
     email: {
-      type: Sequelize.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     password: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     first_name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     last_name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     passwordResetToken: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: true
     },
+    role: {
+      type: DataTypes.ENUM('reader', 'editor', 'admin'),
+      defaultValue: 'reader'
+    },
+    region: {
+      type: DataTypes.STRING,
+      allowNull: false      
+    }
     
   });
-
-  return User;
 };

@@ -13,7 +13,11 @@
 /src/assets.zip
 /src/sampleFiles
 
-# miscellaneous
+
+#data
+/src/sampleFiles
+
+# misc
 .DS_Store
 .env.local
 .env.development.local
