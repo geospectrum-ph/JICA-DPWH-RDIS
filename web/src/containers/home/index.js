@@ -7,30 +7,103 @@ import { MapContext } from "../../contexts/MapContext";
 
 import TitleBar from "../components/title-bar";
 import ModuleBar from "../components/module-bar";
-import FilterMenu from "../components/filter-menu";
 
 import "./index.css";
 
 function HomePage () {
   const {
-    setRoadInventory, setHazardMap, setRoadClosures,
-    modules, moduleSelected
+    modules, moduleSelected,
+
+    setExistingRoadSlopesData,
+    setNonExistingRoadSlopesData,
+    setPotentialRoadSlopeProjectsData,
+    setFundedRoadSlopeProjectsData,
+    setProposalForFundingData,
+    setHazardMapData,
+    setReportsData
   } = React.useContext(MainContext);
 
   const {
-    layer_road_inventory, layer_hazard_map, layer_road_closures,
+    layer_existing_road_slopes,
+    layer_non_existing_road_slopes,
+    layer_potential_road_slope_projects,
+    layer_funded_road_slope_projects,
+    layer_proposal_for_funding,
+    layer_hazard_map,
+    layer_reports,
+
     MapComponent
   } = React.useContext(MapContext);
 
-  function query_road_inventory () {
-    layer_road_inventory
+  function query_existing_road_slopes () {
+    layer_existing_road_slopes
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
       .then(function (response) {
-        setRoadInventory(response.features);
+        setExistingRoadSlopesData(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_non_existing_road_slopes () {
+    layer_non_existing_road_slopes
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setNonExistingRoadSlopesData(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_potential_road_slope_projects () {
+    layer_potential_road_slope_projects
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setPotentialRoadSlopeProjectsData(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_funded_road_slope_projects () {
+    layer_funded_road_slope_projects
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setFundedRoadSlopeProjectsData(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function query_proposal_for_funding () {
+    layer_proposal_for_funding
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        setProposalForFundingData(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -45,22 +118,22 @@ function HomePage () {
         outFields: ["*"]
       })
       .then(function (response) {
-        setHazardMap(response.features);
+        setHazardMapData(response.features);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  function query_road_closures () {
-    layer_road_closures
+  function query_reports () {
+    layer_reports
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
       .then(function (response) {
-        setRoadClosures(response.features);
+        setReportsData(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -68,31 +141,25 @@ function HomePage () {
   }
 
   React.useEffect(function () {
-    query_road_inventory();
-    query_hazard_map();
-    query_road_closures();
+    // query_existing_road_slopes();
+    // query_non_existing_road_slopes();
+    // query_potential_road_slope_projects();
+    // query_funded_road_slope_projects();
+    // query_proposal_for_funding();
+    // query_hazard_map();
+    // query_reports();
   }, []);
-
-  function set_class (index) {
-    if (index === 0) {
-      return ("map-dashboard");
-    }
-    else if (!modules[index].map_visible) {
-      return ("map-hidden");
-    }
-    else {
-      return (null);
-    }
-  }
 
   return (
     <div id = "home-container">
-      <TitleBar/>
-      <ModuleBar/>
-      <div className = { set_class(moduleSelected) }>
+      <div>
+        <TitleBar/>
+      </div>
+      <div>
+        <ModuleBar/>
+      </div>
+      <div>
         <div>
-          <div>{ modules[moduleSelected].name }</div>
-          <FilterMenu/>
           <Outlet/>
         </div>
         <div >

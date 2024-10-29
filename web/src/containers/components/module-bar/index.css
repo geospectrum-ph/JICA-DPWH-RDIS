@@ -2,50 +2,125 @@
 #module-bar-container {
   display: flex;
   flex-flow: row nowrap;
-  place-items: center center;
+  place-items: start center;
   place-content: center center;
 
-  background-color: rgba(50, 50, 50, 1.00);
+  width: 100%;
+  height: auto;
 
+  box-sizing: border-box;
+  padding: 12px;
+
+  background-color: rgba(100, 100, 100, 1.00);
+
+  /* Module Button Container */
   > :nth-child(1) {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     place-items: center center;
-    place-content: center start;
+    place-content: center center;
   
     flex: 1 1 auto;
 
-    width: auto;
+    width: 100%;
     height: 100%;
 
-    /* Module Button */
-    > * {
+    box-sizing: border-box;
+    gap: 12px;
+
+    > :nth-child(1) {
       display: flex;
       flex-flow: row nowrap;
       place-items: center center;
-      place-content: center center;
-
-      width: auto;
+      place-content: center start;
+    
+      flex: 1 1 auto;
+  
+      width: 100%;
       height: 100%;
   
       box-sizing: border-box;
-      padding: 12px;
+      gap: 12px;
   
-      cursor: pointer;
+      /* Module Button */
+      > * {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center center;
   
-      font: normal 400 12px "Outfit", sans-serif;
-      text-align: center;
-      color: rgba(255, 255, 255, 1.00);
-  
-      &:hover {    
-        background-color: rgba(225, 125, 25, 1.00);
+        width: auto;
+        height: 100%;
+    
+        box-sizing: border-box;
+        outline: 2px solid rgba(255, 255, 255, 1.00);
+        padding: 6px 18px;
+    
+        cursor: pointer;
+    
+        font: normal 400 12px "Outfit", sans-serif;
+        text-align: center;
+        color: rgba(255, 255, 255, 1.00);
+    
+        &:hover {    
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+    
+        &.selected {
+          background-color: rgba(225, 125, 25, 1.00);
+        }
       }
+    }
+
+    > :nth-child(2) {
+      display: none;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center start;
+    
+      flex: 1 1 auto;
   
-      &.selected {
-        background-color: rgba(225, 125, 25, 1.00);
+      width: 100%;
+      height: 100%;
+  
+      box-sizing: border-box;
+      gap: 12px;
+  
+      /* Module Button */
+      > * {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center center;
+  
+        width: auto;
+        height: 100%;
+    
+        box-sizing: border-box;
+        outline: 2px solid rgba(255, 255, 255, 1.00);
+        padding: 6px 32px;
+    
+        cursor: pointer;
+    
+        font: normal 400 12px "Outfit", sans-serif;
+        text-align: center;
+        color: rgba(255, 255, 255, 1.00);
+    
+        &:hover {    
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+    
+        &.selected {
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+      }
+
+      &.active {
+        display: flex;
       }
     }
   }
+
 
   /* Exit Button */
   > :nth-child(2) {
@@ -54,11 +129,12 @@
     place-items: center center;
     place-content: center center;
 
-    width: 84px;
-    height: 100%;
+    width: auto;
+    height: auto;
     
     box-sizing: border-box;
-    padding: 8px 12px;
+    outline: 2px solid rgba(255, 255, 255, 1.00);
+    padding: 6px 18px;
     gap: 8px;
     
     cursor: pointer;

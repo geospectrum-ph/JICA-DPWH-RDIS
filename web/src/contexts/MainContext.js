@@ -5,18 +5,28 @@ export const MainContext = React.createContext();
 function MainContextProvider (props) {
   const [modules, setModules] = React.useState([
     {
-      name: "DASHBOARD",
-      path: "dashboard",
+      name: "SUMMARY",
+      path: "summary",
       map_visible: true
     },
     {
-      name: "Road Inventory",
-      path: "road-inventory",
+      name: "Road Slope Inventory",
+      path: "road-slope-inventory",
       map_visible: true
     },
     {
-      name: "Road Slopes and Countermeasures",
-      path: "road-slope-and-countermeasures",
+      name: "Potential Road Slope Projects",
+      path: "potential-road-slope-projects",
+      map_visible: true
+    },
+    {
+      name: "Funded Road Slope Projects",
+      path: "funded-road-slope-projects",
+      map_visible: true
+    },
+    {
+      name: "Proposal For Funding",
+      path: "proposal-for-funding",
       map_visible: true
     },
     {
@@ -25,24 +35,9 @@ function MainContextProvider (props) {
       map_visible: true
     },
     {
-      name: "Road Closures",
-      path: "road-closures",
+      name: "Reports",
+      path: "reports",
       map_visible: true
-    },
-    {
-      name: "Projects",
-      path: "projects",
-      map_visible: true
-    },
-    {
-      name: "Status Reports",
-      path: "status-reports",
-      map_visible: false
-    },
-    {
-      name: "User Management",
-      path: "user-management",
-      map_visible: false
     }
   ]);
   
@@ -51,21 +46,25 @@ function MainContextProvider (props) {
   const [regions, setRegions] = React.useState(null);
   const [regionSelected, setRegionSelected] = React.useState("");
 
-  const [congressionalDistricts, setCongressionalDistricts] = React.useState(null);
-  const [congressionalDistrictSelected, setCongressionalDistrictSelected] = React.useState("");
+  const [legislativeDistricts, setLegislativeDistricts] = React.useState(null);
+  const [legislativeDistrictSelected, setLegislativeDistrictSelected] = React.useState("");
 
   const [engineeringDistricts, setEngineeringDistricts] = React.useState(null);
   const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
 
-  const [roadInventory, setRoadInventory] = React.useState(null);
-  const [hazardMap, setHazardMap] = React.useState(null);
-  const [roadClosures, setRoadClosures] = React.useState(null);
-
   function clear_selected () {
     setRegionSelected("");
-    setCongressionalDistrictSelected("");
+    setLegislativeDistrictSelected("");
     setEngineeringDistrictSelected("");
   }
+
+  const [existingRoadSlopesData, setExistingRoadSlopesData] = React.useState(null);
+  const [nonExistingRoadSlopesData, setNonExistingRoadSlopesData] = React.useState(null);
+  const [potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData] = React.useState(null);
+  const [fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData] = React.useState(null);
+  const [proposalForFundingData, setProposalForFundingData] = React.useState(null);
+  const [hazardMapData, setHazardMapData] = React.useState(null);
+  const [reportsData, setReportsData] = React.useState(null);
 
   return (
     <MainContext.Provider value = {
@@ -76,17 +75,21 @@ function MainContextProvider (props) {
         regions, setRegions,
         regionSelected, setRegionSelected,
 
-        congressionalDistricts, setCongressionalDistricts,
-        congressionalDistrictSelected, setCongressionalDistrictSelected,
+        legislativeDistricts, setLegislativeDistricts,
+        legislativeDistrictSelected, setLegislativeDistrictSelected,
 
         engineeringDistricts, setEngineeringDistricts,
         engineeringDistrictSelected, setEngineeringDistrictSelected, 
 
-        roadInventory, setRoadInventory,
-        hazardMap, setHazardMap,
-        roadClosures, setRoadClosures,
-        
-        clear_selected
+        clear_selected,
+
+        existingRoadSlopesData, setExistingRoadSlopesData,
+        nonExistingRoadSlopesData, setNonExistingRoadSlopesData,
+        potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData,
+        fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData,
+        proposalForFundingData, setProposalForFundingData,
+        hazardMapData, setHazardMapData,
+        reportsData, setReportsData
       }
     }>
       { props.children }

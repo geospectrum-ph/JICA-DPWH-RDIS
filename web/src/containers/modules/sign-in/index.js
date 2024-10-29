@@ -30,7 +30,7 @@ export default function SignInPage () {
             <label htmlFor = "sign-in-password"><span className = "type-body">Password</span></label>
             <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { function (event) { localStorage.setItem("password", event.target.value); } } required/>
           </div>
-          <div onClick = { function () { navigate(`/home/dashboard`); } }>
+          <div onClick = { function () { navigate(`/home/summary`); } }>
             <span>{ "SIGN IN" }</span>
           </div>
         </div>

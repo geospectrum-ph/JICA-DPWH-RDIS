@@ -14,50 +14,59 @@ export default function ModuleBar () {
   const { modules, moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
   const { hide_layer, recenter_map, close_popup } = React.useContext(MapContext);
 
-  function set_class (index) {
-    var className;
-
-    moduleSelected === index ? className = "appbar-button selected" : className = "appbar-button";
-
-    return (className);
-  }
+  const [roadSlopeInventoryTabSelected, setRoadSlopeInventoryTabSelected] = React.useState(0);
 
   function set_module (index) {
-    hide_layer();
+    // hide_layer();
 
-    recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
+    // recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
 
-    close_popup();
+    // close_popup();
 
     clear_selected();
 
     setModuleSelected(index);
 
-    navigate(`/home/${modules[index].path}`);
+    setRoadSlopeInventoryTabSelected(0);
+
+    if (index !== 1) {
+      navigate(`/home/${modules[index].path}`);
+
+    }
+    else {
+      navigate(`/home/existing-road-slopes`);
+    }
   }
 
   React.useEffect(function () {
     const path = location.pathname.split("/")[2];
     const index = modules.findIndex(function (module) { return (module.path === path); });
 
-    setModuleSelected(index);
+    if (index > -1) { setModuleSelected(index); }
+    else { setModuleSelected(1); }
   }, []);
   
   return (
     <div id = "module-bar-container">
       <div>
-        {
-          modules ? 
-            modules.map(function (module, index) {
-              return (
-                <div key = { index } className = { set_class(index) } onClick = { function () { set_module(index); } }>
-                  { module.name }
-                </div>
-              );
-            })
-            :
-            null
-        }
+        <div>
+          {
+            modules ? 
+              modules.map(function (module, index) {
+                return (
+                  <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
+                    { module.name }
+                  </div>
+                );
+              })
+              :
+              null
+          }
+        </div>
+        <div className = { moduleSelected === 1 ? "active" : null }>
+          <div className = { roadSlopeInventoryTabSelected === 0 ? "selected" : null } onClick = { function () { setRoadSlopeInventoryTabSelected(0); navigate(`/home/existing-road-slopes`); } }>{ "Existing Road Slopes" }</div>
+          <div className = { roadSlopeInventoryTabSelected === 1 ? "selected" : null } onClick = { function () { setRoadSlopeInventoryTabSelected(1); navigate(`/home/non-existing-road-slopes`); } }>{ "Non-Existing Road Slopes" }</div>
+        </div>
       </div>
       <div onClick = { function () { navigate("/"); } }>
         <span>{ "EXIT" }</span>

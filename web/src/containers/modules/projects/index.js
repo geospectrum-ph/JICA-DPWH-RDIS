@@ -1,48 +1,35 @@
 import * as React from "react";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { useNavigate, Outlet } from "react-router-dom";
+
 import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadClosures () {
-  const {
-    regionSelected,
-    congressionalDistrictSelected,
-    engineeringDistrictSelected,
-    roadClosures
-  } = React.useContext(MainContext);
+export default function Projects () {
+  const navigate = useNavigate();
 
-  const {
-    layer_road_closures,
-    view_layer, recenter_map, open_popup, close_popup
-  } = React.useContext(MapContext);
+  const { view_layer } = React.useContext(MapContext);
 
-  React.useEffect(function () {
-    view_layer("road-closures");
-  }, []);
-  
-  function handle_click (feature) {
-    layer_road_closures
-      .queryFeatures({
-        where: "ObjectId = '" + feature.attributes.ObjectId + "'",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        close_popup();
+  const [projectsActive, setProjectsActive] = React.useState(0);
 
-        recenter_map(response.features[0].geometry.extent.expand(1.50));
-
-        open_popup(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  function switch_projects (tab) {
+    setProjectsActive(tab);
+    navigate(`/home/projects/${tab}`); 
   }
 
+  React.useEffect(function () {
+    view_layer("projects");
+
+    switch_projects("existing-projects"); 
+  }, []);
+
   return (
-    <div id = "road-closures-container">
+    <div id = "projects-container">
+      <div>
+        <div className = { projectsActive === "existing-projects" ? "active" : null } onClick = { function () { switch_projects("existing-projects"); } }>Existing Projects</div>
+        <div className = { projectsActive === "potential-projects" ? "active" : null } onClick = { function () { switch_projects("potential-projects"); } }>Potential Projects</div>
+      </div>
       <Outlet/>
     </div>
   );

@@ -9,17 +9,16 @@ export default function FilterMenu () {
   const {
     regions, setRegions,
     regionSelected, setRegionSelected,
-    congressionalDistricts, setCongressionalDistricts,
-    congressionalDistrictSelected, setCongressionalDistrictSelected,
+    legislativeDistricts, setLegislativeDistricts,
+    legislativeDistrictSelected, setLegislativeDistrictSelected,
     engineeringDistricts, setEngineeringDistricts,
     engineeringDistrictSelected, setEngineeringDistrictSelected
   } = React.useContext(MainContext);
   
   const {
     layer_regions,
-    layer_congressional_districts,
-    layer_engineering_districts,
-    recenter_map, close_popup
+    layer_legislative_districts,
+    layer_engineering_districts
   } = React.useContext(MapContext);
 
   function query_regions () {
@@ -27,25 +26,10 @@ export default function FilterMenu () {
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
-        outFields: ["*"]
+        outFields: ["REGION"]
       })
       .then(function (response) {
         setRegions(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  function query_congressional_districts () {
-    layer_congressional_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setCongressionalDistricts(response.features);
       })
       .catch(function (error) {
         console.log(error);
@@ -57,7 +41,7 @@ export default function FilterMenu () {
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
-        outFields: ["*"]
+        outFields: ["REGION", "DEO"]
       })
       .then(function (response) {
         setEngineeringDistricts(response.features);
@@ -67,123 +51,77 @@ export default function FilterMenu () {
       });
   }
 
-  React.useEffect(function () {
-    query_regions("1 = 1");
-    query_congressional_districts("1 = 1");
-    query_engineering_districts("1 = 1");
-  }, []);
-
-  function select (object, type) {
-    close_popup();
-
-    setRegionSelected(object.attributes.REGION);
-
-    if (type === "region") {
-      setCongressionalDistrictSelected("");
-      setEngineeringDistrictSelected("");
-
-      layer_regions
-        .queryExtent({
-          where: "REGION = '" + object.attributes.REGION + "'",
-        })
-        .then(function (response) {
-          recenter_map(response.extent.expand(1.50));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-    if (type === "congressional_district") {
-      setCongressionalDistrictSelected(object.attributes.CONG_DIST);
-      setEngineeringDistrictSelected("");
-
-      layer_congressional_districts
-        .queryExtent({
-          where: "CONG_DIST = '" + object.attributes.CONG_DIST + "'",
-        })
-        .then(function (response) {
-          recenter_map(response.extent.expand(1.50));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-    if (type === "engineering_district") {
-      setEngineeringDistrictSelected(object.attributes.DEO);
-      setCongressionalDistrictSelected("");
-
-      layer_engineering_districts
-        .queryExtent({
-          where: "DEO = '" + object.attributes.DEO + "'",
-        })
-        .then(function (response) {
-          recenter_map(response.extent.expand(1.50));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+  function query_legislative_districts () {
+    layer_legislative_districts
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["REGION", "CONG_DIST"]
+      })
+      .then(function (response) {
+        setLegislativeDistricts(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
-  function clear (type) {
-    close_popup();
+  React.useEffect(function () {
+    query_regions();
+    query_engineering_districts();
+    query_legislative_districts();
+  }, []);
 
+  function clear_filter (type) {
     if (type === "region") {
       setRegionSelected("");
       setEngineeringDistrictSelected("");
-      setCongressionalDistrictSelected("");
-
-      recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
+      setLegislativeDistrictSelected("");
     }
     else {
-      if (type === "congressional_district" && congressionalDistrictSelected !== "") {
-        setCongressionalDistrictSelected("");
-
-        layer_regions
-          .queryExtent({
-            where: "REGION = '" + regionSelected + "'",
-          })
-          .then(function (response) {
-            recenter_map(response.extent.expand(1.50));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-      if (type === "engineering_district" && engineeringDistrictSelected !== "") {
+      if (type === "engineering-district" && engineeringDistrictSelected !== "") {
         setEngineeringDistrictSelected("");
-
-        layer_regions
-          .queryExtent({
-            where: "REGION = '" + regionSelected + "'",
-          })
-          .then(function (response) {
-            recenter_map(response.extent.expand(1.50));
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+      }
+      if (type === "legislative-district" && legislativeDistrictSelected !== "") {
+        setLegislativeDistrictSelected("");
       }
     }
   }
 
-  const [dropdownActive, setDropdownActive] = React.useState(-1);
-  const [dropdownRegionsActive, setDropdownRegionsActive] = React.useState(false);
-  const [dropdownCDsActive, setDropdownCDsActive] = React.useState(false);
-  const [dropdownDEOsActive, setDropdownDEOsActive] = React.useState(false);
+  function select_filter (type, object) {
+    setRegionSelected(object.attributes.REGION);
 
-  function click (index) {
+    if (type === "region") {
+      setLegislativeDistrictSelected("");
+      setEngineeringDistrictSelected("");
+    }
+    if (type === "engineering-district") {
+      setEngineeringDistrictSelected(object.attributes.DEO);
+      setLegislativeDistrictSelected("");
+    }
+    if (type === "legislative-district") {
+      setLegislativeDistrictSelected(object.attributes.CONG_DIST);
+      setEngineeringDistrictSelected("");
+    }
+  }
+
+  const [dropdownActive, setDropdownActive] = React.useState(false);
+  const [dropdownRegionsActive, setDropdownRegionsActive] = React.useState(false);
+  const [dropdownDEOsActive, setDropdownDEOsActive] = React.useState(false);
+  const [dropdownLDsActive, setDropdownLDsActive] = React.useState(false);
+
+  function click_dropdown (index) {
     setDropdownRegionsActive(false);
-    setDropdownCDsActive(false);
     setDropdownDEOsActive(false);
+    setDropdownLDsActive(false);
 
     if (dropdownActive === index) {
       setDropdownActive(-1);
     }
     else {
       if (index === 0) { setDropdownRegionsActive(true); }
-      if (index === 1) { setDropdownCDsActive(true); }
-      if (index === 2) { setDropdownDEOsActive(true); }
+      if (index === 1) { setDropdownDEOsActive(true); }
+      if (index === 2) { setDropdownLDsActive(true); }
 
       setDropdownActive(index);
     }
@@ -198,8 +136,8 @@ export default function FilterMenu () {
       }
       else {
         setDropdownRegionsActive(false);
-        setDropdownCDsActive(false);
         setDropdownDEOsActive(false);
+        setDropdownLDsActive(false);
   
         setDropdownActive(-1);
       }
@@ -210,10 +148,10 @@ export default function FilterMenu () {
     <div id = "filter-menu-container">
       <div>
         <div>{ "Region" }</div>
-        <div className = { dropdownRegionsActive ? "active" : null } onClick = { function () { click(0); } }>
+        <div className = { dropdownRegionsActive ? "active" : null } onClick = { function () { click_dropdown(0); } }>
           <div>{ regionSelected ? regionSelected : "All" }</div>
           <div>
-            <div onClick = { function () { clear("region"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter("region"); } }>{ "Clear Selection" }</div>
             {
               regions ?
                 regions
@@ -222,7 +160,7 @@ export default function FilterMenu () {
 
                     let base_string_array = base.attributes.REGION.split(/[ -]+/);
                     let next_string_array = next.attributes.REGION.split(/[ -]+/);
-
+                  
                     if (base_string_array[0] === "Region" && next_string_array[0] === "Region") {
                       if (base_string_array[1] === next_string_array[1]) {
                         return (base_string_array[2].localeCompare(next_string_array[2]));
@@ -237,7 +175,7 @@ export default function FilterMenu () {
                   })
                   .map(function (region, index) {
                     return (
-                      <div key = { index } onClick = { function () { select(region, "region"); } }>{ region.attributes.REGION + " (" + region.attributes.VAR_NAME + ")" }</div>
+                      <div key = { index } onClick = { function () { select_filter("region", region); } }>{ region.attributes.REGION }</div>
                     );
                   })
                 :
@@ -247,39 +185,11 @@ export default function FilterMenu () {
         </div>
       </div>
       <div>
-        <div>{ "Congressional District" }</div>
-        <div className = { dropdownCDsActive ? "active" : null } onClick = { function () { click(1); } }>
-          <div>{ congressionalDistrictSelected ? congressionalDistrictSelected.toLocaleLowerCase().replace(/([^\s(])([^\s(]*)/g, function ($0, $1, $2) { return ($1.toUpperCase()+$2.toLowerCase()); }) : "All" }</div>
-          <div>
-            <div onClick = { function () { clear("congressional_district"); } }>{ "Clear Selection" }</div>
-            {
-              congressionalDistricts ?
-                congressionalDistricts
-                  .sort(function (base, next) {
-                    return (base.attributes.CONG_DIST.localeCompare(next.attributes.CONG_DIST));
-                  })
-                  .map(function (congressional_district, index) {
-                    if (regionSelected && regionSelected !== congressional_district.attributes.REGION) {
-                      return (null);
-                    }
-                    else {  
-                      return (
-                        <div key = { index } onClick = { function () { select(congressional_district, "congressional_district"); } }>{ congressional_district.attributes.CONG_DIST.toLocaleLowerCase().replace(/([^\s(])([^\s(]*)/g, function ($0, $1, $2) { return ($1.toUpperCase()+$2.toLowerCase()); }) }</div>
-                      );
-                    }
-                  })
-                :
-                null
-            }
-          </div>
-        </div>
-      </div>
-      <div>
         <div>{ "Engineering District" }</div>
-        <div className = { dropdownDEOsActive ? "active" : null } onClick = { function () { click(2); } }>
+        <div className = { dropdownDEOsActive ? "active" : null } onClick = { function () { click_dropdown(1); } }>
           <div>{ engineeringDistrictSelected ? engineeringDistrictSelected : "All" }</div>
           <div>
-            <div onClick = { function () { clear("engineering_district"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter("engineering-district"); } }>{ "Clear Selection" }</div>
             {
               engineeringDistricts ?
                 engineeringDistricts
@@ -292,7 +202,35 @@ export default function FilterMenu () {
                     }
                     else {  
                       return (
-                        <div key = { index } onClick = { function () { select(engineering_district, "engineering_district"); } }>{ engineering_district.attributes.DEO }</div>
+                        <div key = { index } onClick = { function () { select_filter("engineering-district", engineering_district); } }>{ engineering_district.attributes.DEO }</div>
+                      );
+                    }
+                  })
+                :
+                null
+            }
+          </div>
+        </div>
+      </div>
+      <div>
+        <div>{ "Legislative District" }</div>
+        <div className = { dropdownLDsActive ? "active" : null } onClick = { function () { click_dropdown(2); } }>
+          <div>{ legislativeDistrictSelected ? legislativeDistrictSelected : "All" }</div>
+          <div>
+            <div onClick = { function () { clear_filter("legislative-district"); } }>{ "Clear Selection" }</div>
+            {
+              legislativeDistricts ?
+                legislativeDistricts
+                  .sort(function (base, next) {
+                    return (base.attributes.CONG_DIST.localeCompare(next.attributes.CONG_DIST));
+                  })
+                  .map(function (legislative_district, index) {
+                    if (regionSelected && regionSelected !== legislative_district.attributes.REGION) {
+                      return (null);
+                    }
+                    else {  
+                      return (
+                        <div key = { index } onClick = { function () { select_filter("legislative-district", legislative_district); } }>{ legislative_district.attributes.CONG_DIST }</div>
                       );
                     }
                   })
