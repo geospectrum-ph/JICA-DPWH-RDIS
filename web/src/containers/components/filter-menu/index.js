@@ -18,14 +18,15 @@ export default function FilterMenu () {
   const {
     layer_regions,
     layer_legislative_districts,
-    layer_engineering_districts
+    layer_engineering_districts,
+    recenter_map
   } = React.useContext(MapContext);
 
   function query_regions () {
     layer_regions
       .queryFeatures({
         where: "1 = 1",
-        returnGeometry: false,
+        returnGeometry: true,
         outFields: ["REGION"]
       })
       .then(function (response) {
@@ -40,7 +41,7 @@ export default function FilterMenu () {
     layer_engineering_districts
       .queryFeatures({
         where: "1 = 1",
-        returnGeometry: false,
+        returnGeometry: true,
         outFields: ["REGION", "DEO"]
       })
       .then(function (response) {
@@ -55,7 +56,7 @@ export default function FilterMenu () {
     layer_legislative_districts
       .queryFeatures({
         where: "1 = 1",
-        returnGeometry: false,
+        returnGeometry: true,
         outFields: ["REGION", "CONG_DIST"]
       })
       .then(function (response) {
@@ -103,6 +104,8 @@ export default function FilterMenu () {
       setLegislativeDistrictSelected(object.attributes.CONG_DIST);
       setEngineeringDistrictSelected("");
     }
+
+    recenter_map(object.geometry.extent);
   }
 
   const [dropdownActive, setDropdownActive] = React.useState(false);

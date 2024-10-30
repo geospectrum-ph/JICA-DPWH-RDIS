@@ -7,7 +7,13 @@ import "./index.css";
 
 export default function ExistingRoadSlopes () {
 
-  return (<div/>);
+  const { view_layer } = React.useContext(MapContext);
+
+  React.useEffect(function () {
+    view_layer("existing-road-slopes");
+  }, []);
+
+  return (null);
   // const {
   //   regionSelected,
   //   congressionalDistrictSelected,
@@ -20,9 +26,7 @@ export default function ExistingRoadSlopes () {
   //   // view_layer, recenter_map, open_popup, close_popup
   // } = React.useContext(MapContext);
 
-  // React.useEffect(function () {
-  //   view_layer("road-inventory");
-  // }, []);
+
   
   // function handle_click (feature) {
   //   layer_road_inventory

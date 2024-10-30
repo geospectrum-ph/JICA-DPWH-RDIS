@@ -12,7 +12,7 @@ import NonExistingRoadSlopes from "./modules/error";
 import PotentialRoadSlopeProjects from "./modules/error";
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
-import HazardMap from "./modules/hazard-map";
+import HazardMap from "./modules/error";
 import Reports from "./modules/error";
 
 import About from "./modules/error";

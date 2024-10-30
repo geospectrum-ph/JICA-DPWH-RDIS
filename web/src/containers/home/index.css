@@ -75,27 +75,25 @@
 }
 
 #map-container {
-  > div.esri-view-root > div.esri-ui.calcite-mode-light > div.esri-ui-inner-container.esri-ui-corner-container > div.esri-ui-top-right.esri-ui-corner {
+  .esri-ui-top-right.esri-ui-corner {
     display: flex;
     flex-flow: row nowrap;
     place-items: center center;
     place-content: center center;
-
-    calcite-popover {
-      position: absolute;
-      left: 20px;
-      top: 400px;
-    }‍‍‍‍
 
     map-search-container {
       margin-right: 12px;
     }
   }
 
-  > div.esri-view-root > div.esri-ui.calcite-mode-light > div.esri-ui-inner-container.esri-ui-corner-container > div.esri-ui-bottom-left.esri-ui-corner > map-info {    
-    box-sizing: border-box;
-    padding: 4px 12px;
-  
-    background-color: rgba(255, 255, 255, 1.00);
+  .esri-ui-bottom-left.esri-ui-corner {
+    map-info {    
+      box-sizing: border-box;
+      padding: 4px 12px;
+    
+      background-color: rgba(255, 255, 255, 1.00);
+    }
   }
+
 }
+

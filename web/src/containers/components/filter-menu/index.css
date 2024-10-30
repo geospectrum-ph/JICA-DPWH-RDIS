@@ -12,7 +12,6 @@
   gap: 12px;
 
   font: normal 400 12px "Outfit", sans-serif;
-  color: rgba(0, 0, 0, 1.00);
   
   /* Filter Categories */
   > * {
@@ -73,6 +72,7 @@
   
         text-transform: capitalize;
         text-overflow: ellipsis;
+        color: rgba(100, 100, 100, 1.00);
       }
 
       /* Dropdown List */
@@ -107,6 +107,7 @@
 
           text-transform: capitalize;
           text-overflow: ellipsis;
+          color: rgba(100, 100, 100, 1.00);
 
           &:hover {
             background-color: rgba(225, 125, 25, 1.00);
