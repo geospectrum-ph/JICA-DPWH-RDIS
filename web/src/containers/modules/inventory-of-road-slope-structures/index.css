@@ -1,4 +1,4 @@
-#road-inventory-container {
+#inventory-of-road-slope-structures-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: center center;
@@ -6,11 +6,8 @@
 
   overflow: hidden hidden;
 
-  width: 100%;
+  width: 360px;
   height: 100%;
-
-  font: normal 400 12px "Outfit", sans-serif;
-  color: rgba(75, 75, 75, 1.00);
 
   /* Header */
   > :nth-child(1) {
@@ -22,66 +19,39 @@
     width: 100%;
     height: auto;
 
-    /* Legend */
-    > * {
+    > :nth-child(1) {
+      width: 100%;
+      height: auto;
+
+      box-sizing: border-box;
+      padding: 12px;
+  
+      background-color: rgba(150, 150, 150, 1.00);
+  
+      font: normal 400 16px "Outfit", sans-serif;
+      color: rgba(255, 255, 255, 1.00);
+    }
+
+    > :nth-child(2) {
       display: flex;
       flex-flow: row nowrap;
       place-items: center center;
-      place-content: start start;
-  
+      place-content: center center;
+
       width: 100%;
       height: auto;
-  
+
       box-sizing: border-box;
-      border-bottom: 1px solid rgba(225, 225, 225, 1.00);
-
-      background-color: rgba(240, 240, 240, 1.00);
+      padding: 12px;
   
+      background-color: rgba(150, 150, 150, 1.00);
+  
+      font: normal 400 12px "Outfit", sans-serif;
+      color: rgba(255, 255, 255, 1.00);
+
       > * {
-        display: flex;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center center;
-          
-        width: auto;
-        height: 100%;
-  
-        box-sizing: border-box;
-        padding: 12px;
-        gap: 8px;
-      }
-  
-      > :nth-child(2) {
-        > :nth-child(1) {
-          width: 8px;
-          height: 8px;
-
-          border-radius: 100%;
-
-          background-color: rgba(255, 255, 0, 1.00);;
-        }
-      }
-  
-      > :nth-child(3) {
-        > :nth-child(1) {
-          width: 8px;
-          height: 8px;
-
-          border-radius: 100%;
-
-          background-color: rgba(255, 0, 0, 1.00);;
-        }
-      }    
-      
-      > :nth-child(4) {
-        > :nth-child(1) {
-          width: 8px;
-          height: 8px;
-
-          border-radius: 100%;
-
-          background-color: rgba(0, 0, 255, 1.00);;
-        }
+        width: 50%;
+        height: auto;
       }
     }
   }
@@ -96,7 +66,9 @@
     height: 100%;
 
     box-sizing: border-box;
-    border-bottom: 1px solid rgba(225, 225, 225, 1.00);
+    
+    font: normal 400 12px "Outfit", sans-serif;
+    color: rgba(0, 0, 0, 1.00);
 
     > * {
       display: flex;

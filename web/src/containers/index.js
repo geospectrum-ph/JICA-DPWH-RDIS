@@ -7,8 +7,8 @@ import SignIn from "./modules/sign-in";
 import Home from "./home";
 
 import Summary from "./modules/error";
-import ExistingRoadSlopes from "./modules/existing-road-slopes";
-import NonExistingRoadSlopes from "./modules/error";
+import InventoryOfRoadSlopeStructures from "./modules/inventory-of-road-slope-structures";
+import InventoryOfRoadSlopes from "./modules/error";
 import PotentialRoadSlopeProjects from "./modules/error";
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
@@ -32,8 +32,8 @@ export default function App() {
           <Route index element = { <SignIn/> }/>
           <Route path = "home" element = { <Home/> }>
             <Route path = "summary" element = { <Summary/> }/>
-            <Route path = "existing-road-slopes" element = { <ExistingRoadSlopes/> }/>
-            <Route path = "non-existing-road-slopes" element = { <NonExistingRoadSlopes/> }/>
+            <Route path = "inventory-of-road-slope-structures" element = { <InventoryOfRoadSlopeStructures/> }/>
+            <Route path = "inventory-of-road-slopes" element = { <InventoryOfRoadSlopes/> }/>
             <Route path = "potential-road-slope-projects" element = { <PotentialRoadSlopeProjects/> }/>
             <Route path = "funded-road-slope-projects" element = { <FundedRoadSlopeProjects/> }/>
             <Route path = "proposal-for-funding" element = { <ProposalForFunding/> }/>

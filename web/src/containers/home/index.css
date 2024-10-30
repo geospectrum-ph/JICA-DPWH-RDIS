@@ -54,14 +54,10 @@
       place-items: center center;
       place-content: center center;
   
-      overflow: hidden hidden;
-
       flex: auto 1 auto;
 
       width: auto;
-      min-width: auto;
       height: 100%;
-      max-height: 100%;
     }
 
     /* Map Component Container */
@@ -89,9 +85,11 @@
   .esri-ui-bottom-left.esri-ui-corner {
     map-info {    
       box-sizing: border-box;
-      padding: 4px 12px;
+      padding: 12px;
     
       background-color: rgba(255, 255, 255, 1.00);
+
+      font: normal 400 16px "Outfit", sans-serif;
     }
   }
 

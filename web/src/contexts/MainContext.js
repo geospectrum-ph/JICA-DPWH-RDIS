@@ -10,8 +10,13 @@ function MainContextProvider (props) {
       map_visible: true
     },
     {
-      name: "Road Slope Inventory",
-      path: "road-slope-inventory",
+      name: "Inventory of Road Slope Structures",
+      path: "inventory-of-road-slope-structures",
+      map_visible: true
+    },
+    {
+      name: "Inventory of Road Slopes",
+      path: "inventory-of-road-slopes",
       map_visible: true
     },
     {
@@ -58,8 +63,8 @@ function MainContextProvider (props) {
     setEngineeringDistrictSelected("");
   }
 
-  const [existingRoadSlopesData, setExistingRoadSlopesData] = React.useState(null);
-  const [nonExistingRoadSlopesData, setNonExistingRoadSlopesData] = React.useState(null);
+  const [inventoryOfRoadSlopeStructuresData, setInventoryOfRoadSlopeStructuresData] = React.useState(null);
+  const [inventoryOfRoadSlopesData, setInventoryOfRoadSlopesData] = React.useState(null);
   const [potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData] = React.useState(null);
   const [fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData] = React.useState(null);
   const [proposalForFundingData, setProposalForFundingData] = React.useState(null);
@@ -83,8 +88,8 @@ function MainContextProvider (props) {
 
         clear_selected,
 
-        existingRoadSlopesData, setExistingRoadSlopesData,
-        nonExistingRoadSlopesData, setNonExistingRoadSlopesData,
+        inventoryOfRoadSlopeStructuresData, setInventoryOfRoadSlopeStructuresData,
+        inventoryOfRoadSlopesData, setInventoryOfRoadSlopesData,
         potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData,
         fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData,
         proposalForFundingData, setProposalForFundingData,
