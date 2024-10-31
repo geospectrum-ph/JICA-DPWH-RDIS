@@ -14,6 +14,7 @@ import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
+import Zoom from "@arcgis/core/widgets/Zoom.js";
 
 export const MapContext = React.createContext();
 
@@ -856,7 +857,7 @@ function MapContextProvider (props) {
       view = new MapView({
         container: "map-container",
         map: new Map({
-          basemap: "dark-gray",
+          basemap: "osm/standard",
           layers: []
         }),
         center: [121.7740, 12.8797],
@@ -865,10 +866,18 @@ function MapContextProvider (props) {
           dockEnabled: true,
           dockOptions: {
             buttonEnabled: false,
-            position: "bottom-left",
+            position: "top-left",
             breakpoint: false
           }
         }
+      });
+
+      const widget_info = document.createElement("map-info");
+
+      widget_info.innerText = "Please select a feature.";
+
+      view.ui.add(widget_info, {
+        position: "top-left"
       });
 
       const widget_search = new Search({
@@ -928,7 +937,7 @@ function MapContextProvider (props) {
           closeButton: true,
           collapseButton: false,
           errors: false,
-          filter: false,
+          filter: true,
           heading: true,
           statusIndicators: false
         }
@@ -965,23 +974,17 @@ function MapContextProvider (props) {
         index: 4
       });
 
-      const widget_info = document.createElement("map-info");
-
-      widget_info.innerText = "Please select a feature.";
-
-      view.ui.add(widget_info, {
-        position: "bottom-left"
-      });
-
       const widget_scale_bar = new ScaleBar({
         view: view,
         container: document.createElement("map-scale-bar")
       });
 
       view.ui.add(widget_scale_bar, {
-        position: "bottom-right",
+        position: "bottom-left",
         index: 0
       });
+     
+      view.ui.move("zoom", "bottom-right");
 
       reactiveUtils.watch(
         function () {

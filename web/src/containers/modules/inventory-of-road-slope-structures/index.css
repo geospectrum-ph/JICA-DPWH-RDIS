@@ -26,9 +26,10 @@
       box-sizing: border-box;
       padding: 12px;
   
-      background-color: rgba(150, 150, 150, 1.00);
+      background-color: rgba(50, 50, 50, 1.00);
   
-      font: normal 400 16px "Outfit", sans-serif;
+      font: normal 400 18px "Outfit", sans-serif;
+      text-transform: uppercase;
       color: rgba(255, 255, 255, 1.00);
     }
 
@@ -44,9 +45,9 @@
       box-sizing: border-box;
       padding: 12px;
   
-      background-color: rgba(150, 150, 150, 1.00);
+      background-color: rgba(100, 100, 100, 1.00);
   
-      font: normal 400 12px "Outfit", sans-serif;
+      font: normal 400 24px "Outfit", sans-serif;
       color: rgba(255, 255, 255, 1.00);
 
       > * {
@@ -67,7 +68,7 @@
 
     box-sizing: border-box;
     
-    font: normal 400 12px "Outfit", sans-serif;
+    font: normal 400 18px "Outfit", sans-serif;
     color: rgba(0, 0, 0, 1.00);
 
     > * {
@@ -80,7 +81,7 @@
       height: auto;
 
       box-sizing: border-box;
-      border-bottom: 1px solid rgba(225, 225, 225, 1.00);
+      outline: 1px solid rgba(255, 255, 255, 1.00);
 
       cursor: pointer;
 
@@ -107,10 +108,11 @@
         flex: 1 1 auto;
         
         box-sizing: border-box;
-        border-right: 1px solid rgba(225, 225, 225, 1.00);
         padding: 12px;
 
-        background-color: rgba(240, 240, 240, 1.00);
+        background-color: rgba(75, 75, 75, 1.00);
+
+        color: rgba(255, 255, 255, 1.00);
       }
 
       > :nth-child(3) {        
@@ -118,9 +120,13 @@
 
         width: calc((100% * 3 / 5));
         height: auto;
-        
+                
         box-sizing: border-box;
         padding: 12px;
+
+        background-color: rgba(100, 100, 100, 1.00);
+
+        color: rgba(255, 255, 255, 1.00);
       }
 
       &:hover {

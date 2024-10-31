@@ -35,7 +35,6 @@
       }
     }
 
-    
     /* Title */
     > :nth-child(3) {
       display: flex;
@@ -62,5 +61,8 @@
 
     width: auto;
     height: 100%;
+
+    box-sizing: border-box;
+    outline: 2px solid rgba(0, 0, 0, 1.00);
   }
 }

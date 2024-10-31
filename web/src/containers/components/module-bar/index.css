@@ -58,7 +58,7 @@
     
         cursor: pointer;
     
-        font: normal 400 16px "Outfit", sans-serif;
+        font: normal 400 18px "Outfit", sans-serif;
         text-align: center;
         color: rgba(255, 255, 255, 1.00);
     
@@ -92,12 +92,12 @@
     cursor: pointer;
 
     > :nth-child(1) {
-      font-size: 16px;
+      font-size: 18px;
       color: rgba(255, 255, 255, 1.00);
     }
     
     > :nth-child(2) {
-      font-size: 16px;
+      font-size: 18px;
       color: rgba(255, 255, 255, 1.00);
     }
 
