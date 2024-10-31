@@ -1,0 +1,52 @@
+#summary-container {
+  display: flex;
+  gap: 5px;
+  flex-flow: row wrap;
+  place-items: center center;
+  place-content: start center;
+
+  overflow: hidden hidden;
+
+  width: 720px;
+  height: 100%;
+
+}
+
+#summary-blocks {
+  width: 350px;
+
+  > :nth-child(1){
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    padding-inline: 40px;
+
+    height: 50px;
+
+    background-color: rgba(100, 100, 100, 1.00);
+    color: rgba(255, 255, 255, 1.00);
+  }
+
+  > :nth-child(2){
+    display: flex;
+    gap: 20px;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    padding-inline: 10px;
+    padding-block: 5px;
+    
+    height: 175px;
+
+    > :nth-child(2){
+      display: flex;
+      flex-flow: column nowrap;
+    }
+  }
+}
+
+#summary-icons {
+  font-size: 90px;
+}

@@ -6,7 +6,7 @@ import SignIn from "./modules/sign-in";
 
 import Home from "./home";
 
-import Summary from "./modules/error";
+import Summary from "./modules/summary";
 import InventoryOfRoadSlopeStructures from "./modules/inventory-of-road-slope-structures";
 import InventoryOfRoadSlopes from "./modules/error";
 import PotentialRoadSlopeProjects from "./modules/error";
