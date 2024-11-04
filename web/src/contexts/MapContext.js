@@ -22,7 +22,7 @@ function MapContextProvider (props) {
   const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";
   const url_legislative_districts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Congressional_Districts/FeatureServer";
   const url_engineering_districts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/engineering_district_rdis/FeatureServer";
-  const url_sample_data = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
+  const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
   const url_hazard_risks = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map/FeatureServer";
   const url_road_closures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/sample_disire_road_closure/FeatureServer";
@@ -168,7 +168,7 @@ function MapContextProvider (props) {
 
   const layer_inventory_of_road_slope_structures = new FeatureLayer({
     title: "Inventory of Road Slope Structures",
-    url: url_sample_data,
+    url: url_road_sections,
     renderer: {
       type: "unique-value",
       field: "DIRECTION",
@@ -218,7 +218,7 @@ function MapContextProvider (props) {
 
   const layer_inventory_of_road_slopes = new FeatureLayer({
     title: "Inventory of Road Slopes",
-    url: url_sample_data,
+    url: url_road_sections,
     renderer: {
       type: "unique-value",
       field: "ROAD_SEC_C",
@@ -519,9 +519,9 @@ function MapContextProvider (props) {
     ]
   }
 
-  const layer_sample_data = new FeatureLayer({
+  const layer_road_sections = new FeatureLayer({
     title: "Sample Data",
-    url: url_sample_data,
+    url: url_road_sections,
     renderer: {
       type: "simple",
       symbol: {
@@ -535,7 +535,7 @@ function MapContextProvider (props) {
 
   const layer_good = new FeatureLayer({
     title: "Good",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "DIRECTION = 'BOTTOM LEFT'",
     renderer: {
       type: "simple",
@@ -551,7 +551,7 @@ function MapContextProvider (props) {
 
   const layer_fair = new FeatureLayer({
     title: "Fair",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "DIRECTION = 'BOTTOM RIGHT'",
     renderer: {
       type: "simple",
@@ -567,7 +567,7 @@ function MapContextProvider (props) {
 
   const layer_poor = new FeatureLayer({
     title: "Poor",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "DIRECTION = 'TOP LEFT'",
     renderer: {
       type: "simple",
@@ -583,7 +583,7 @@ function MapContextProvider (props) {
 
   const layer_bad = new FeatureLayer({
     title: "Bad",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "DIRECTION = 'TOP RIGHT'",
     renderer: {
       type: "simple",
@@ -607,7 +607,7 @@ function MapContextProvider (props) {
 
   const layer_primary = new FeatureLayer({
     title: "Primary",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
     renderer: {
       type: "simple",
@@ -622,7 +622,7 @@ function MapContextProvider (props) {
 
   const layer_secondary = new FeatureLayer({
     title: "Secondary",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
     renderer: {
       type: "simple",
@@ -637,7 +637,7 @@ function MapContextProvider (props) {
 
   const layer_tertiary = new FeatureLayer({
     title: "Tertiary",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
     renderer: {
       type: "simple",
@@ -721,7 +721,7 @@ function MapContextProvider (props) {
 
   const layer_soil_slope_collapse = new FeatureLayer({
     title: "Soil Slope Collapse (SSC)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
     renderer: {
       type: "simple",
@@ -736,7 +736,7 @@ function MapContextProvider (props) {
 
   const layer_rock_slope_collapse = new FeatureLayer({
     title: "Rock Slope Collapse / Rock Fall (RSC)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
     renderer: {
       type: "simple",
@@ -751,7 +751,7 @@ function MapContextProvider (props) {
 
   const layer_landslide = new FeatureLayer({
     title: "Landslide (LS)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
     renderer: {
       type: "simple",
@@ -766,7 +766,7 @@ function MapContextProvider (props) {
 
   const layer_road_slip = new FeatureLayer({
     title: "Road Slip (RS)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
     renderer: {
       type: "simple",
@@ -781,7 +781,7 @@ function MapContextProvider (props) {
 
   const layer_river_erosion = new FeatureLayer({
     title: "River Erosion (RE)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
     renderer: {
       type: "simple",
@@ -796,7 +796,7 @@ function MapContextProvider (props) {
 
   const layer_debris_flow = new FeatureLayer({
     title: "Debris Flow (DF)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
     renderer: {
       type: "simple",
@@ -811,7 +811,7 @@ function MapContextProvider (props) {
 
   const layer_coastal_erosion = new FeatureLayer({
     title: "Coastal Erosion (CE)",
-    url: url_sample_data,
+    url: url_road_sections,
     definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
     renderer: {
       type: "simple",
@@ -842,7 +842,7 @@ function MapContextProvider (props) {
 
   const group_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
-    layers: [layer_sample_data],
+    layers: [layer_road_sections],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -1090,7 +1090,7 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_regions, layer_engineering_districts, layer_legislative_districts, 
-        layer_sample_data,
+        layer_road_sections,
         MapComponent,
         view_layer, recenter_map
       } 

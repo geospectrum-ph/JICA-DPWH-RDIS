@@ -13,7 +13,7 @@ export default function SlopeDetails () {
     <div className='sld-container'>
       <div className='sld-header'>
         <div className='sld-header-back'>
-          <b><span class="material-symbols-outlined">
+          <b><span className="material-symbols-outlined">
             arrow_back
           </span></b>
         </div>

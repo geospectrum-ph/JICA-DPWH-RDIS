@@ -11,7 +11,7 @@ export default function Summary () {
       <div id = 'summary-blocks'>
         <div>{"Total Number of Existing Inventory"}</div>
         <div>
-          <span class="material-symbols-outlined" id = 'summary-icons'>
+          <span className="material-symbols-outlined" id = 'summary-icons'>
             warning
           </span>
           <div>
@@ -26,7 +26,7 @@ export default function Summary () {
       <div id = 'summary-blocks'>
         <div>{"Total Number of Road Slope Inventory by Hazard Level"}</div>
         <div>
-          <span class="material-symbols-outlined" id = 'summary-icons'>
+          <span className="material-symbols-outlined" id = 'summary-icons'>
             warning
           </span>
           <div>
@@ -40,7 +40,7 @@ export default function Summary () {
       <div id = 'summary-blocks'>
         <div>{"Total Number of Sections by Road Terrain"}</div>
         <div>
-          <span class="material-symbols-outlined" id = 'summary-icons'>
+          <span className="material-symbols-outlined" id = 'summary-icons'>
             warning
           </span>
           <div>
@@ -55,7 +55,7 @@ export default function Summary () {
       <div id = 'summary-blocks'>
         <div>{"Total Number of Non-existing Road Slope Inventory"}</div>
         <div>
-          <span class="material-symbols-outlined" id = 'summary-icons'>
+          <span className="material-symbols-outlined" id = 'summary-icons'>
             warning
           </span>
           <div>

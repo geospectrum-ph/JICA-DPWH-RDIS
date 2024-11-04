@@ -13,7 +13,7 @@ import "./index.css";
 function HomePage () {
   const {
     // modules, moduleSelected,
-
+    setRoadSections,
     setInventoryOfRoadSlopeStructuresData,
     setInventoryOfRoadSlopesData,
     // setPotentialRoadSlopeProjectsData,
@@ -24,13 +24,28 @@ function HomePage () {
   } = React.useContext(MainContext);
 
   const {
-    layer_sample_data,
+    layer_road_sections,
 
     MapComponent
   } = React.useContext(MapContext);
 
+  function query_road_sections () {
+    layer_road_sections
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        // setRoadSections(response.features);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   function query_inventory_of_road_slope_structures () {
-    layer_sample_data
+    layer_road_sections
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
@@ -45,7 +60,7 @@ function HomePage () {
   }
 
   function query_inventory_of_road_slopes () {
-    layer_sample_data
+    layer_road_sections
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
@@ -135,8 +150,9 @@ function HomePage () {
   // }
 
   React.useEffect(function () {
-    query_inventory_of_road_slope_structures();
-    query_inventory_of_road_slopes();
+    query_road_sections();
+    // query_inventory_of_road_slope_structures();
+    // query_inventory_of_road_slopes();
     // query_potential_road_slope_projects();
     // query_funded_road_slope_projects();
     // query_proposal_for_funding();

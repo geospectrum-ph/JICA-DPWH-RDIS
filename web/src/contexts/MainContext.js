@@ -48,19 +48,18 @@ function MainContextProvider (props) {
   
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
-  const [regions, setRegions] = React.useState(null);
-  const [regionSelected, setRegionSelected] = React.useState("");
+  const [dataArray, setDataArray] = React.useState(null);
 
-  const [legislativeDistricts, setLegislativeDistricts] = React.useState(null);
-  const [legislativeDistrictSelected, setLegislativeDistrictSelected] = React.useState("");
-
-  const [engineeringDistricts, setEngineeringDistricts] = React.useState(null);
-  const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
+  const [filterL01Selected, setFilterL01Selected] = React.useState("");
+  const [filterL02Selected, setFilterL02Selected] = React.useState("");
+  const [filterL03Selected, setFilterL03Selected] = React.useState("");
+  const [filterL04Selected, setFilterL04Selected] = React.useState("");
 
   function clear_selected () {
-    setRegionSelected("");
-    setLegislativeDistrictSelected("");
-    setEngineeringDistrictSelected("");
+    setFilterL01Selected("");
+    setFilterL02Selected("");
+    setFilterL03Selected("");
+    setFilterL04Selected("");
   }
 
   const [inventoryOfRoadSlopeStructuresData, setInventoryOfRoadSlopeStructuresData] = React.useState(null);
@@ -77,14 +76,12 @@ function MainContextProvider (props) {
         modules, setModules,
         moduleSelected, setModuleSelected,
 
-        regions, setRegions,
-        regionSelected, setRegionSelected,
+        dataArray, setDataArray,
 
-        legislativeDistricts, setLegislativeDistricts,
-        legislativeDistrictSelected, setLegislativeDistrictSelected,
-
-        engineeringDistricts, setEngineeringDistricts,
-        engineeringDistrictSelected, setEngineeringDistrictSelected, 
+        filterL01Selected, setFilterL01Selected,
+        filterL02Selected, setFilterL02Selected,
+        filterL03Selected, setFilterL03Selected, 
+        filterL04Selected, setFilterL04Selected, 
 
         clear_selected,
 

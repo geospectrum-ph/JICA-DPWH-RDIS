@@ -32,12 +32,12 @@ export default function ItemInventory(props) {
         <div> {properties.objectid} {roadName} </div>
       </div>
       <div className='inv-buttons' onClick={assignInventorySelect}>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           settings
         </span>
       </div>
       <div className='inv-buttons'>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           delete
         </span>
       </div>

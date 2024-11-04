@@ -5,126 +5,153 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
+import array_level_01 from "./filter_level_01.json";
+import array_level_02 from "./filter_level_02.json";
+import array_level_03 from "./filter_level_03.json";
+
 export default function FilterMenu () {
   const {
-    regions, setRegions,
-    regionSelected, setRegionSelected,
-    legislativeDistricts, setLegislativeDistricts,
-    legislativeDistrictSelected, setLegislativeDistrictSelected,
-    engineeringDistricts, setEngineeringDistricts,
-    engineeringDistrictSelected, setEngineeringDistrictSelected
+    setDataArray,
+    filterL01Selected, setFilterL01Selected,
+    filterL02Selected, setFilterL02Selected,
+    filterL03Selected, setFilterL03Selected,
+    filterL04Selected, setFilterL04Selected
   } = React.useContext(MainContext);
   
   const {
-    layer_regions,
-    layer_legislative_districts,
-    layer_engineering_districts,
+    layer_road_sections,
     recenter_map
   } = React.useContext(MapContext);
 
-  function query_regions () {
-    layer_regions
+  function query_features (expression) {
+    layer_road_sections
       .queryFeatures({
-        where: "1 = 1",
+        where: expression || "1 = 1",
         returnGeometry: true,
-        outFields: ["REGION"]
+        outFields: ["*"]
       })
       .then(function (response) {
-        setRegions(response.features);
+        if (response && response.features && response.features.length > 0) {
+          setDataArray(response.features);
+
+          var extent = response.features[0].geometry.extent;
+
+          response.features.forEach(function(feature) {
+            extent = extent.union(feature.geometry.extent);
+          })
+
+          recenter_map(extent);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   }
-
-  function query_engineering_districts () {
-    layer_engineering_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["REGION", "DEO"]
-      })
-      .then(function (response) {
-        setEngineeringDistricts(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  function query_legislative_districts () {
-    layer_legislative_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["REGION", "CONG_DIST"]
-      })
-      .then(function (response) {
-        setLegislativeDistricts(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  React.useEffect(function () {
-    query_regions();
-    query_engineering_districts();
-    query_legislative_districts();
-  }, []);
 
   function clear_filter (type) {
-    if (type === "region") {
-      setRegionSelected("");
-      setEngineeringDistrictSelected("");
-      setLegislativeDistrictSelected("");
+    if (type === 1) {
+      setFilterL01Selected("");
+      setFilterL02Selected("");
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+
+      query_features(null);
     }
-    else {
-      if (type === "engineering-district" && engineeringDistrictSelected !== "") {
-        setEngineeringDistrictSelected("");
-      }
-      if (type === "legislative-district" && legislativeDistrictSelected !== "") {
-        setLegislativeDistrictSelected("");
-      }
+    if (type === 2) {
+      setFilterL02Selected("");
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+
+      query_features("REGION = '" + filterL01Selected + "'");
+    }
+    if (type === 3) {
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+
+      query_features("DEO = '" + filterL02Selected + "'");
+    }
+    if (type === 4) {
+      setFilterL04Selected("");
+
+      query_features("CONG_DIST = '" + filterL03Selected + "'");
     }
   }
 
   function select_filter (type, object) {
-    setRegionSelected(object.attributes.REGION);
+    if (type === 1) {
+      setFilterL01Selected(object.REGION);
+      setFilterL02Selected("");
+      setFilterL03Selected("");
+      setFilterL04Selected("");
 
-    if (type === "region") {
-      setLegislativeDistrictSelected("");
-      setEngineeringDistrictSelected("");
+      query_features("REGION = '" + object.REGION + "'");
     }
-    if (type === "engineering-district") {
-      setEngineeringDistrictSelected(object.attributes.DEO);
-      setLegislativeDistrictSelected("");
-    }
-    if (type === "legislative-district") {
-      setLegislativeDistrictSelected(object.attributes.CONG_DIST);
-      setEngineeringDistrictSelected("");
-    }
+    if (type === 2) {
+      setFilterL01Selected(object.REGION);
+      setFilterL02Selected(object.DEO);
+      setFilterL03Selected("");
+      setFilterL04Selected("");
 
-    recenter_map(object.geometry.extent);
+      query_features("DEO = '" + object.DEO + "'");
+    }
+    if (type === 3) {
+      setFilterL01Selected(object.REGION);
+      setFilterL02Selected(object.DEO);
+      setFilterL03Selected(object.CONG_DIST);
+      setFilterL04Selected("");
+
+      query_features("CONG_DIST = '" + object.CONG_DIST + "'");
+    }
+    if (type === 4) {
+      layer_road_sections
+        .queryFeatures({
+          where: "SECTION_ID = '" + object.query + "'",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            setDataArray(response.features);
+
+            let found_object = response.features[0];
+  
+            setFilterL01Selected(found_object.attributes.REGION);
+            setFilterL02Selected(found_object.attributes.DEO);
+            setFilterL03Selected(found_object.attributes.CONG_DIST);
+            setFilterL04Selected(found_object.attributes.SECTION_ID);
+
+            recenter_map(found_object.geometry.extent);
+          }
+          else {
+            clear_filter(4);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 
   const [dropdownActive, setDropdownActive] = React.useState(false);
-  const [dropdownRegionsActive, setDropdownRegionsActive] = React.useState(false);
-  const [dropdownDEOsActive, setDropdownDEOsActive] = React.useState(false);
-  const [dropdownLDsActive, setDropdownLDsActive] = React.useState(false);
+  const [dropdown01Active, setDropdown01Active] = React.useState(false);
+  const [dropdown02Active, setDropdown02Active] = React.useState(false);
+  const [dropdown03Active, setDropdown03Active] = React.useState(false);
+  const [dropdown04Active, setDropdown04Active] = React.useState(false);
 
   function click_dropdown (index) {
-    setDropdownRegionsActive(false);
-    setDropdownDEOsActive(false);
-    setDropdownLDsActive(false);
+    setDropdown01Active(false);
+    setDropdown02Active(false);
+    setDropdown03Active(false);
+    setDropdown04Active(false);
 
     if (dropdownActive === index) {
-      setDropdownActive(-1);
+      setDropdownActive(0);
     }
     else {
-      if (index === 0) { setDropdownRegionsActive(true); }
-      if (index === 1) { setDropdownDEOsActive(true); }
-      if (index === 2) { setDropdownLDsActive(true); }
+      if (index === 1) { setDropdown01Active(true); }
+      if (index === 2) { setDropdown02Active(true); }
+      if (index === 3) { setDropdown03Active(true); }
+      if (index === 4) { setDropdown04Active(true); }
 
       setDropdownActive(index);
     }
@@ -138,11 +165,12 @@ export default function FilterMenu () {
         return (null);
       }
       else {
-        setDropdownRegionsActive(false);
-        setDropdownDEOsActive(false);
-        setDropdownLDsActive(false);
+        setDropdown01Active(false);
+        setDropdown02Active(false);
+        setDropdown03Active(false);
+        setDropdown04Active(false);
   
-        setDropdownActive(-1);
+        setDropdownActive(0);
       }
     }
   });
@@ -151,34 +179,19 @@ export default function FilterMenu () {
     <div id = "filter-menu-container">
       <div>
         <div>{ "Region" }</div>
-        <div className = { dropdownRegionsActive ? "active" : null } onClick = { function () { click_dropdown(0); } }>
-          <div>{ regionSelected ? regionSelected : "All" }</div>
+        <div className = { dropdown01Active ? "active" : null } onClick = { function () { click_dropdown(1); } }>
+          <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter("region"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
             {
-              regions ?
-                regions
+              array_level_01 ?
+                array_level_01
                   .sort(function (base, next) {
-                    let roman_parser = ["O", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"];
-
-                    let base_string_array = base.attributes.REGION.split(/[ -]+/);
-                    let next_string_array = next.attributes.REGION.split(/[ -]+/);
-                  
-                    if (base_string_array[0] === "Region" && next_string_array[0] === "Region") {
-                      if (base_string_array[1] === next_string_array[1]) {
-                        return (base_string_array[2].localeCompare(next_string_array[2]));
-                      }
-                      else {
-                        return (roman_parser.indexOf(base_string_array[1]) - roman_parser.indexOf(next_string_array[1]));
-                      }
-                    }
-                    else {
-                      return (base.attributes.REGION.localeCompare(next.attributes.REGION));
-                    }
+                    return (base.L01_ID.localeCompare(next.L01_ID));
                   })
-                  .map(function (region, index) {
+                  .map(function (item, index) {
                     return (
-                      <div key = { index } onClick = { function () { select_filter("region", region); } }>{ region.attributes.REGION }</div>
+                      <div key = { index } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
                     );
                   })
                 :
@@ -189,23 +202,23 @@ export default function FilterMenu () {
       </div>
       <div>
         <div>{ "Engineering District" }</div>
-        <div className = { dropdownDEOsActive ? "active" : null } onClick = { function () { click_dropdown(1); } }>
-          <div>{ engineeringDistrictSelected ? engineeringDistrictSelected : "All" }</div>
+        <div className = { dropdown02Active ? "active" : null } onClick = { function () { click_dropdown(2); } }>
+          <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter("engineering-district"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
             {
-              engineeringDistricts ?
-                engineeringDistricts
+              array_level_02 ?
+                array_level_02
                   .sort(function (base, next) {
-                    return (base.attributes.DEO.localeCompare(next.attributes.DEO));
+                    return (base.L02_ID.localeCompare(next.L02_ID));
                   })
-                  .map(function (engineering_district, index) {
-                    if (regionSelected && regionSelected !== engineering_district.attributes.REGION) {
+                  .map(function (item, index) {
+                    if (filterL01Selected && filterL01Selected !== item.REGION) {
                       return (null);
                     }
                     else {  
                       return (
-                        <div key = { index } onClick = { function () { select_filter("engineering-district", engineering_district); } }>{ engineering_district.attributes.DEO }</div>
+                        <div key = { index } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
                       );
                     }
                   })
@@ -217,30 +230,52 @@ export default function FilterMenu () {
       </div>
       <div>
         <div>{ "Legislative District" }</div>
-        <div className = { dropdownLDsActive ? "active" : null } onClick = { function () { click_dropdown(2); } }>
-          <div>{ legislativeDistrictSelected ? legislativeDistrictSelected : "All" }</div>
+        <div className = { dropdown03Active ? "active" : null } onClick = { function () { click_dropdown(3); } }>
+          <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter("legislative-district"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
             {
-              legislativeDistricts ?
-                legislativeDistricts
+              array_level_03 ?
+                array_level_03
                   .sort(function (base, next) {
-                    return (base.attributes.CONG_DIST.localeCompare(next.attributes.CONG_DIST));
+                    return (base.L03_ID.localeCompare(next.L03_ID));
                   })
-                  .map(function (legislative_district, index) {
-                    if (regionSelected && regionSelected !== legislative_district.attributes.REGION) {
+                  .map(function (item, index) {
+                    if (filterL01Selected && filterL01Selected !== item.REGION) {
                       return (null);
                     }
-                    else {  
-                      return (
-                        <div key = { index } onClick = { function () { select_filter("legislative-district", legislative_district); } }>{ legislative_district.attributes.CONG_DIST }</div>
-                      );
+                    else {
+                      if (filterL02Selected && filterL02Selected !== item.DEO) {
+                        return (null);
+                      }
+                      else {
+                        return (
+                          <div key = { index } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
+                        );
+                      }
                     }
                   })
                 :
                 null
             }
           </div>
+        </div>
+      </div>
+      <div>
+        <div>{ "Section ID" }</div>
+        <div className = { dropdown04Active ? "active" : null } onClick = { function () { click_dropdown(4); } }>
+          <input
+            type = "text"
+            value = { filterL04Selected }
+            onChange = { function (event) { setFilterL04Selected(event.target.value); } }
+            onKeyDown = {
+              function (event) {
+                if (event.key === "Enter") {
+                  select_filter(4, { "query": filterL04Selected });
+                }
+              }
+            }
+          />
         </div>
       </div>
     </div>

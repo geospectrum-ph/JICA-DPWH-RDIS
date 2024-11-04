@@ -43,7 +43,7 @@ export default function PotentialSegmentList() {
       </div>
       <div className='hazard-roadsections-search'>
         <input type="text" placeholder="Type to search.."/>
-        <span class="material-symbols-outlined">
+        <span className="material-symbols-outlined">
           search 
         </span>
       </div>
