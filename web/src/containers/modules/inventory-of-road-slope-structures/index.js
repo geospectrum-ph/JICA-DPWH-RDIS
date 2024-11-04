@@ -18,9 +18,9 @@ export default function InventoryOfRoadSlopeStructures () {
     // view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
 
-  React.useEffect(function () {
-    console.log(inventoryOfRoadSlopeStructuresData);
-  }, [inventoryOfRoadSlopeStructuresData]);
+  // React.useEffect(function () {
+  //   console.log(inventoryOfRoadSlopeStructuresData);
+  // }, [inventoryOfRoadSlopeStructuresData]);
   
   function handle_click (feature) {
     // layer_sample

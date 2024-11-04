@@ -17,13 +17,13 @@ export default function ModuleBar () {
   function set_module (index) {
     // hide_layer();
 
-    recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
+    // recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
 
     // close_popup();
 
     view_layer(modules[index].path);
 
-    clear_selected();
+    // clear_selected();
 
     setModuleSelected(index);
 

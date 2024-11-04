@@ -13,7 +13,8 @@ import "./index.css";
 function HomePage () {
   const {
     // modules, moduleSelected,
-    setRoadSections,
+    setDataArray,
+
     setInventoryOfRoadSlopeStructuresData,
     setInventoryOfRoadSlopesData,
     // setPotentialRoadSlopeProjectsData,
@@ -25,11 +26,12 @@ function HomePage () {
 
   const {
     layer_road_sections,
+    recenter_map,
 
     MapComponent
   } = React.useContext(MapContext);
 
-  function query_road_sections () {
+  function query_features () {
     layer_road_sections
       .queryFeatures({
         where: "1 = 1",
@@ -37,7 +39,17 @@ function HomePage () {
         outFields: ["*"]
       })
       .then(function (response) {
-        // setRoadSections(response.features);
+        if (response && response.features && response.features.length > 0) {
+          setDataArray(response.features);
+
+          var extent = response.features[0].geometry.extent;
+
+          response.features.forEach(function(feature) {
+            extent = extent.union(feature.geometry.extent);
+          })
+
+          recenter_map(extent);
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -150,7 +162,7 @@ function HomePage () {
   // }
 
   React.useEffect(function () {
-    query_road_sections();
+    query_features();
     // query_inventory_of_road_slope_structures();
     // query_inventory_of_road_slopes();
     // query_potential_road_slope_projects();
