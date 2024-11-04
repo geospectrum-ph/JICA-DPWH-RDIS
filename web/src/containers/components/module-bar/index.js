@@ -42,22 +42,18 @@ export default function ModuleBar () {
   
   return (
     <div id = "module-bar-container">
-      <div>
-        <div>
-          {
-            modules ? 
-              modules.map(function (module, index) {
-                return (
-                  <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
-                    { module.name }
-                  </div>
-                );
-              })
-              :
-              null
-          }
-        </div>
-      </div>
+      {
+        modules ? 
+          modules.map(function (module, index) {
+            return (
+              <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
+                { module.name }
+              </div>
+            );
+          })
+          :
+          null
+      }
       <div onClick = { function () { navigate("/"); } }>
         <span>{ "EXIT" }</span>
         <span className = "material-symbols-outlined">logout</span>

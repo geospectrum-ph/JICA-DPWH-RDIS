@@ -7,7 +7,7 @@ import SignIn from "./modules/sign-in";
 import Home from "./home";
 
 import Summary from "./modules/summary";
-import InventoryOfRoadSlopeStructures from "./modules/inventory-of-road-slope-structures";
+import InventoryOfRoadSlopeStructures from "./modules/error";
 import InventoryOfRoadSlopes from "./modules/error";
 import PotentialRoadSlopeProjects from "./modules/error";
 import FundedRoadSlopeProjects from "./modules/error";

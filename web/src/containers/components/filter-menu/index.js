@@ -5,6 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
+/* Parser for filter levels; To be updated once live data is available. */
 import array_level_01 from "./filter_level_01.json";
 import array_level_02 from "./filter_level_02.json";
 import array_level_03 from "./filter_level_03.json";

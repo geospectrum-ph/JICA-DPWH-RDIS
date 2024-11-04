@@ -14,32 +14,144 @@ import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
-import Zoom from "@arcgis/core/widgets/Zoom.js";
 
 export const MapContext = React.createContext();
 
 function MapContextProvider (props) {
-  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";
-  const url_legislative_districts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Congressional_Districts/FeatureServer";
-  const url_engineering_districts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/engineering_district_rdis/FeatureServer";
   const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
   const url_hazard_risks = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map/FeatureServer";
   const url_road_closures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/sample_disire_road_closure/FeatureServer";
 
-  const layer_regions = new FeatureLayer({
-    url: url_regions
-  });
-
-  const layer_engineering_districts = new FeatureLayer({
-    url: url_engineering_districts
-  });
-
-  const layer_legislative_districts = new FeatureLayer({
-    url: url_legislative_districts
-  });
-
   const template_summary = {
+    title: "{ROAD_NAME}",
+    outFields: ["*"],
+    content: [
+      {
+        type: "fields",
+        fieldInfos: [
+          {
+            fieldName: "REGION",
+            label: "Region"
+          },
+          {
+            fieldName: "DEO",
+            label: "Engineering District"
+          },
+          {
+            fieldName: "CONG_DIST",
+            label: "Legislative District"
+          },
+          {
+            fieldName: "ROAD_NAME",
+            label: "Road Name"
+          },
+          {
+            fieldName: "SECTION_ID",
+            label: "Section ID"
+          },
+          {
+            fieldName: "TERRAIN",
+            label: "Terrain"
+          },
+          {
+            fieldName: "ROAD_SEC_C",
+            label: "Road Classification"
+          },
+          {
+            fieldName: "AADT",
+            label: "Volume of Traffic (AADT)"
+          },
+          {
+            fieldName: "START_LRP",
+            label: "Start Station Limit"
+          },
+          {
+            fieldName: "END_LRP",
+            label: "End Station Limit"
+          },
+          {
+            fieldName: "START_CHAINAGE",
+            label: "Start Chainage"
+          },
+          {
+            fieldName: "END_CHAINAGE",
+            label: "End Chainage"
+          },
+          {
+            fieldName: "END_LRP",
+            label: "Start Coordinates"
+          },
+          {
+            fieldName: "END_LRP",
+            label: "End Coordinates"
+          },
+          {
+            fieldName: "SEC_LENGTH",
+            label: "Length"
+          },
+          {
+            fieldName: "SEC_HEIGHT",
+            label: "Height"
+          },
+          {
+            fieldName: "SEC_AREA",
+            label: "Area"
+          },
+          {
+            fieldName: "SEC_SLOPE",
+            label: "Slope Angle / Gradient (degrees)"
+          },
+          {
+            fieldName: "DISASTERS",
+            label: "Type of Disaster"
+          },
+          {
+            fieldName: "SCOPE",
+            label: "Scope of Work"
+          },
+          {
+            fieldName: "STRUCTURE_NAME",
+            label: "Structure Name"
+          },
+          {
+            fieldName: "STRUCTURE_TYPE",
+            label: "Structure Type"
+          },
+          {
+            fieldName: "ROAD_SIDE",
+            label: "Side of the Road"
+          },
+          {
+            fieldName: "HAZARD",
+            label: "Hazard Risk"
+          },
+          {
+            fieldName: "ROAD_CLOSURES",
+            label: "Road Closure Dates"
+          },
+          {
+            fieldName: "SOURCE",
+            label: "Source of Funds"
+          },
+          {
+            fieldName: "SEC_LATITUDE",
+            label: "Latitude"
+          },          {
+            fieldName: "SEC_LONGITUDE",
+            label: "Longitude"
+          },
+          {
+            fieldName: "REMARKS",
+            label: "Remarks"
+          },
+        ]
+      }
+    ]
+  }
+
+  
+  const template_slope_inventory = {
     title: "{ROAD_NAME}",
     outFields: ["*"],
     content: [
@@ -212,7 +324,8 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupTemplate: template_summary,
+    popupEnabled: true,
+    popupTemplate: template_slope_inventory,
     visible: true
   });
 
@@ -254,7 +367,7 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupTemplate: template_summary,
+    // popupTemplate: template_summary,
     visible: true
   });
 
@@ -296,7 +409,7 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupTemplate: template_summary,
+    // popupTemplate: template_summary,
     visible: true
   });
 
@@ -338,7 +451,7 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupTemplate: template_summary,
+    // popupTemplate: template_summary,
     visible: true
   });
 
@@ -380,7 +493,7 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupTemplate: template_summary,
+    // popupTemplate: template_summary,
     visible: true
   });
 
@@ -392,132 +505,6 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  const template_slope_inventory = {
-    title: "{ROAD_NAME}",
-    outFields: ["*"],
-    content: [
-      {
-        type: "fields",
-        fieldInfos: [
-          {
-            fieldName: "REGION",
-            label: "Region"
-          },
-          {
-            fieldName: "DEO",
-            label: "Engineering District"
-          },
-          {
-            fieldName: "CONG_DIST",
-            label: "Legislative District"
-          },
-          {
-            fieldName: "ROAD_NAME",
-            label: "Road Name"
-          },
-          {
-            fieldName: "SECTION_ID",
-            label: "Section ID"
-          },
-          {
-            fieldName: "TERRAIN",
-            label: "Terrain"
-          },
-          {
-            fieldName: "ROAD_SEC_C",
-            label: "Road Classification"
-          },
-          {
-            fieldName: "AADT",
-            label: "Volume of Traffic (AADT)"
-          },
-          {
-            fieldName: "START_LRP",
-            label: "Start Station Limit"
-          },
-          {
-            fieldName: "END_LRP",
-            label: "End Station Limit"
-          },
-          {
-            fieldName: "START_CHAINAGE",
-            label: "Start Chainage"
-          },
-          {
-            fieldName: "END_CHAINAGE",
-            label: "End Chainage"
-          },
-          {
-            fieldName: "END_LRP",
-            label: "Start Coordinates"
-          },
-          {
-            fieldName: "END_LRP",
-            label: "End Coordinates"
-          },
-          {
-            fieldName: "SEC_LENGTH",
-            label: "Length"
-          },
-          {
-            fieldName: "SEC_HEIGHT",
-            label: "Height"
-          },
-          {
-            fieldName: "SEC_AREA",
-            label: "Area"
-          },
-          {
-            fieldName: "SEC_SLOPE",
-            label: "Slope Angle / Gradient (degrees)"
-          },
-          {
-            fieldName: "DISASTERS",
-            label: "Type of Disaster"
-          },
-          {
-            fieldName: "SCOPE",
-            label: "Scope of Work"
-          },
-          {
-            fieldName: "STRUCTURE_NAME",
-            label: "Structure Name"
-          },
-          {
-            fieldName: "STRUCTURE_TYPE",
-            label: "Structure Type"
-          },
-          {
-            fieldName: "ROAD_SIDE",
-            label: "Side of the Road"
-          },
-          {
-            fieldName: "HAZARD",
-            label: "Hazard Risk"
-          },
-          {
-            fieldName: "ROAD_CLOSURES",
-            label: "Road Closure Dates"
-          },
-          {
-            fieldName: "SOURCE",
-            label: "Source of Funds"
-          },
-          {
-            fieldName: "SEC_LATITUDE",
-            label: "Latitude"
-          },          {
-            fieldName: "SEC_LONGITUDE",
-            label: "Longitude"
-          },
-          {
-            fieldName: "REMARKS",
-            label: "Remarks"
-          },
-        ]
-      }
-    ]
-  }
 
   const layer_road_sections = new FeatureLayer({
     title: "Sample Data",
@@ -545,7 +532,7 @@ function MapContextProvider (props) {
         color: [0, 255, 0, 1.00]
       }
     },
-    popupTemplate: template_slope_inventory,
+    // popupTemplate: template_slope_inventory,
     visible: true
   });
 
@@ -561,7 +548,7 @@ function MapContextProvider (props) {
         color: [100, 200, 0, 1.00]
       }
     },
-    popupTemplate: template_slope_inventory,
+    // popupTemplate: template_slope_inventory,
     visible: true
   });
 
@@ -577,7 +564,7 @@ function MapContextProvider (props) {
         color: [200, 100, 0, 1.00]
       }
     },
-    popupTemplate: template_slope_inventory,
+    // popupTemplate: template_slope_inventory,
     visible: true
   });
 
@@ -593,7 +580,7 @@ function MapContextProvider (props) {
         color: [255, 0, 0, 1.00]
       }
     },
-    popupTemplate: template_slope_inventory,
+    // popupTemplate: template_slope_inventory,
     visible: true
   });
 
@@ -848,6 +835,33 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function open_popup (event) {
+    view
+      .when(function () {
+        const lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
+        const lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
+      
+        view.openPopup({
+          // Set the popup's title to the coordinates of the clicked location
+          title: "Test",
+          location: event.mapPoint // Set the location of the popup to the clicked location
+        });
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  function close_popup() {
+    // view
+    //   .when(function () {
+    //     view.popup.visible = false;
+    //   })
+    //   .catch(function (error) {
+    //     console.error(error);
+    //   });
+  }
+
   var view;
 
   function MapComponent () {
@@ -1063,33 +1077,9 @@ function MapContextProvider (props) {
 
   }
 
-  function open_popup (feature_array) {
-    // view
-    //   .when(function () {
-    //     view.popup.open({
-    //       location: feature_array[0].geometry.centroid,
-    //       features: feature_array
-    //     });
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
-  }
-
-  function close_popup() {
-    // view
-    //   .when(function () {
-    //     view.popup.visible = false;
-    //   })
-    //   .catch(function (error) {
-    //     console.error(error);
-    //   });
-  }
-
   return (
     <MapContext.Provider value = {
       {
-        layer_regions, layer_engineering_districts, layer_legislative_districts, 
         layer_road_sections,
         MapComponent,
         view_layer, recenter_map

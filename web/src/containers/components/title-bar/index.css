@@ -30,8 +30,8 @@
       padding: 8px;
 
       img {
-        width: 48px;
-        height: 48px;   
+        width: 32px;
+        height: 32px;   
       }
     }
 
@@ -46,9 +46,9 @@
       height: 100%;
 
       box-sizing: border-box;
-      padding: 12px;
+      padding: 8px;
 
-      font: normal 600 36px "Outfit", sans-serif;
+      font: normal 600 32px "Outfit", sans-serif;
       color: rgba(255, 255, 255, 1.00);
 
       pointer-events: none;

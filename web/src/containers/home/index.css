@@ -87,29 +87,3 @@
     }
   }
 }
-
-#map-container {
-  .esri-ui-top-right.esri-ui-corner {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    map-search-container {
-      margin-right: 12px;
-    }
-  }
-
-  .esri-ui-top-left.esri-ui-corner {
-    map-info {    
-      box-sizing: border-box;
-      padding: 12px;
-    
-      background-color: rgba(255, 255, 255, 1.00);
-
-      font: normal 400 18px "Outfit", sans-serif;
-    }
-  }
-
-}
-
