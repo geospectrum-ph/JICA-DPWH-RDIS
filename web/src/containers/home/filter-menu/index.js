@@ -33,15 +33,15 @@ export default function FilterMenu () {
       })
       .then(function (response) {
         if (response && response.features && response.features.length > 0) {
-          setDataArray(response.features);
-
           var extent = response.features[0].geometry.extent;
 
           response.features.forEach(function(feature) {
             extent = extent.union(feature.geometry.extent);
-          })
+          });
 
           recenter_map(extent);
+
+          setDataArray(response.features);
         }
       })
       .catch(function (error) {

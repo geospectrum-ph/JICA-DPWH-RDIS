@@ -11,19 +11,13 @@ export default function ModuleBar () {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { modules, moduleSelected, setModuleSelected, clear_selected } = React.useContext(MainContext);
-  const { hide_layer, view_layer, recenter_map, close_popup } = React.useContext(MapContext);
+  const { modules, moduleSelected, setModuleSelected } = React.useContext(MainContext);
+  const { view_layer, close_popup } = React.useContext(MapContext);
 
   function set_module (index) {
-    // hide_layer();
-
-    // recenter_map({ center: [121.7740, 12.8797], zoom: 6 });
-
-    // close_popup();
+    close_popup();
 
     view_layer(modules[index].path);
-
-    // clear_selected();
 
     setModuleSelected(index);
 
@@ -35,8 +29,11 @@ export default function ModuleBar () {
     const index = modules.findIndex(function (module) { return (module.path === path); });
 
     if (index > -1) {
-      setModuleSelected(index);
+      close_popup();
+
       view_layer(modules[index].path);
+
+      setModuleSelected(index);
     }
   }, []);
   

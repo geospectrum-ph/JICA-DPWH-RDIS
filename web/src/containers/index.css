@@ -5,28 +5,3 @@
   box-sizing: border-box;
   padding: 6px;
 }
-
-#map-container {
-  --esri-widget-panel-max-height: 60px;
-  .esri-ui-top-right.esri-ui-corner {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    > map-search-container {
-      margin-right: 12px;
-    }
-  }
-
-  .esri-ui-top-left.esri-ui-corner {
-    map-info {    
-      box-sizing: border-box;
-      padding: 8px;
-    
-      background-color: rgba(255, 255, 255, 1.00);
-
-      font: normal 400 16px "Outfit", sans-serif;
-    }
-  }
-}

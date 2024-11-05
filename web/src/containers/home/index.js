@@ -5,15 +5,15 @@ import { Outlet } from "react-router-dom";
 import { MainContext } from "../../contexts/MainContext";
 import { MapContext } from "../../contexts/MapContext";
 
-import TitleBar from "../components/title-bar";
-import ModuleBar from "../components/module-bar";
+import TitleBar from "./title-bar";
+import ModuleBar from "./module-bar";
 
 import "./index.css";
 
 function HomePage () {
   const {
     // modules, moduleSelected,
-    setDataArray,
+    dataArray, setDataArray,
 
     setInventoryOfRoadSlopeStructuresData,
     setInventoryOfRoadSlopesData,
@@ -180,13 +180,14 @@ function HomePage () {
       <div>
         <ModuleBar/>
       </div>
-      <div>
+      <div className = { dataArray ? "loaded" : null }>
         <div>
           <Outlet/>
         </div>
-        <div >
+        <div>
           <MapComponent/>
         </div>
+        <div/>
       </div>
     </div>
   );
