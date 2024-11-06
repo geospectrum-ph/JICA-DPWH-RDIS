@@ -1650,8 +1650,8 @@ function MapContextProvider (props) {
       const widget_legend = new Legend({
         view: view,
         style: {
-          type: "card",
-          layout: "side-by-side"
+          type: "classic",
+          layout: "stack"
         }
       });
 
