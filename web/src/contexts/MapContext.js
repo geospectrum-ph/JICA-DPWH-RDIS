@@ -594,7 +594,7 @@ function MapContextProvider (props) {
   const layer_M01_terrain_flat = new FeatureLayer({
     title: "Flat",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'FLAT'",
+    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -615,7 +615,7 @@ function MapContextProvider (props) {
   const layer_M01_terrain_rolling = new FeatureLayer({
     title: "Rolling",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'ROLLING'",
+    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -636,7 +636,7 @@ function MapContextProvider (props) {
   const layer_M01_terrain_mountainous = new FeatureLayer({
     title: "Mountainous",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'MOUNTAINOUS'",
+    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -670,9 +670,164 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M01_soil_slope_collapse = new FeatureLayer({
+    title: "Soil Slope Collapse (SSC)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [232, 20, 22, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_rock_slope_collapse = new FeatureLayer({
+    title: "Rock Slope Collapse / Rock Fall (RSC)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 165, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_landslide = new FeatureLayer({
+    title: "Landslide (LS)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [250, 235, 54, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_road_slip = new FeatureLayer({
+    title: "Road Slip (RS)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [121, 195, 20, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_river_erosion = new FeatureLayer({
+    title: "River Erosion (RE)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [72, 125, 231, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_debris_flow = new FeatureLayer({
+    title: "Debris Flow (DF)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [75, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_coastal_erosion = new FeatureLayer({
+    title: "Coastal Erosion (CE)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [112, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
   const group_M01_type_of_disaster = new GroupLayer({
     title: "Type of Disaster",
-    layers: [],
+    layers: [
+      layer_M01_soil_slope_collapse,
+      layer_M01_rock_slope_collapse,
+      layer_M01_landslide,
+      layer_M01_road_slip,
+      layer_M01_river_erosion,
+      layer_M01_debris_flow,
+      layer_M01_coastal_erosion
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -760,7 +915,7 @@ function MapContextProvider (props) {
   const layer_M02_terrain_flat = new FeatureLayer({
     title: "Flat",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'FLAT'",
+    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -781,7 +936,7 @@ function MapContextProvider (props) {
   const layer_M02_terrain_rolling = new FeatureLayer({
     title: "Rolling",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'ROLLING'",
+    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -802,7 +957,7 @@ function MapContextProvider (props) {
   const layer_M02_terrain_mountainous = new FeatureLayer({
     title: "Mountainous",
     url: url_road_sections,
-    definitionExpression: "TERRAIN_TY = 'MOUNTAINOUS'",
+    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
     renderer: {
       type: "simple",
       symbol: {
@@ -836,9 +991,164 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M02_soil_slope_collapse = new FeatureLayer({
+    title: "Soil Slope Collapse (SSC)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [232, 20, 22, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_rock_slope_collapse = new FeatureLayer({
+    title: "Rock Slope Collapse / Rock Fall (RSC)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 165, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_landslide = new FeatureLayer({
+    title: "Landslide (LS)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [250, 235, 54, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_road_slip = new FeatureLayer({
+    title: "Road Slip (RS)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [121, 195, 20, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_river_erosion = new FeatureLayer({
+    title: "River Erosion (RE)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [72, 125, 231, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_debris_flow = new FeatureLayer({
+    title: "Debris Flow (DF)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [75, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_coastal_erosion = new FeatureLayer({
+    title: "Coastal Erosion (CE)",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [112, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
   const group_M02_type_of_disaster = new GroupLayer({
     title: "Type of Disaster",
-    layers: [],
+    layers: [
+      layer_M02_soil_slope_collapse,
+      layer_M02_rock_slope_collapse,
+      layer_M02_landslide,
+      layer_M02_road_slip,
+      layer_M02_river_erosion,
+      layer_M02_debris_flow,
+      layer_M02_coastal_erosion
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00

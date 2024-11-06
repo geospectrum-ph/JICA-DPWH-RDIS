@@ -105,9 +105,10 @@
       box-sizing: border-box;
       padding: 8px;
     
-      background-color: rgba(255, 255, 255, 1.00);
+      background-color: rgb(43, 43, 43, 1.00);
 
       font: normal 400 16px "Outfit", sans-serif;
+      color: rgb(209, 209, 209, 1.00);
     }
   }
 }
