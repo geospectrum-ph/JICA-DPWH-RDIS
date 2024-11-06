@@ -180,14 +180,13 @@ function HomePage () {
       <div>
         <ModuleBar/>
       </div>
-      <div className = { dataArray ? "loaded" : null }>
+      <div>
         <div>
           <Outlet/>
         </div>
         <div>
           <MapComponent/>
         </div>
-        <div/>
       </div>
     </div>
   );
