@@ -153,7 +153,9 @@ function MapContextProvider (props) {
 
   const group_inventory_of_road_slope_structures = new GroupLayer({
     title: "Inventory of Road Slope Structures",
-    layers: [layer_inventory_of_road_slope_structures],
+    layers: [
+      layer_inventory_of_road_slope_structures
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -272,7 +274,9 @@ function MapContextProvider (props) {
 
   const group_inventory_of_road_slopes = new GroupLayer({
     title: "Inventory of Road Slopes",
-    layers: [layer_inventory_of_road_slopes],
+    layers: [
+      layer_inventory_of_road_slopes
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -364,7 +368,10 @@ function MapContextProvider (props) {
 
   const group_hazards = new GroupLayer({
     title: "Hazards",
-    layers: [layer_hazards, layer_road_closures],
+    layers: [
+      layer_hazards,
+      layer_road_closures
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -414,21 +421,67 @@ function MapContextProvider (props) {
 
   const group_terrain = new GroupLayer({
     title: "Terrain",
-    layers: [layer_terrain],
+    layers: [
+      layer_terrain
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
+  });
+
+  const layer_type_of_road_slope_structures = new FeatureLayer({
+    title: "Type of Road Slope Structures",
+    url: url_road_sections,
+    renderer: {
+      type: "unique-value",
+      field: "ROAD_SEC_C",
+      defaultSymbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "Primary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "Secondary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        },
+        {
+          value: "Tertiary",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [0, 0, 255, 1.00]
+          }
+        }
+      ]
+    },
+    popupEnabled: true,
+    visible: true
   });
 
   const group_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
-    layers: [],
+    layers: [
+      layer_type_of_road_slope_structures
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_M01_road_slope_good = new FeatureLayer({
+  const layer_M01_good = new FeatureLayer({
     title: "Good",
     url: url_road_sections,
     definitionExpression: "DIRECTION = 'BOTTOM LEFT'",
@@ -449,7 +502,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_road_slope_fair = new FeatureLayer({
+  const layer_M01_fair = new FeatureLayer({
     title: "Fair",
     url: url_road_sections,
     definitionExpression: "DIRECTION = 'BOTTOM RIGHT'",
@@ -470,7 +523,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_road_slope_poor = new FeatureLayer({
+  const layer_M01_poor = new FeatureLayer({
     title: "Poor",
     url: url_road_sections,
     definitionExpression: "DIRECTION = 'TOP LEFT'",
@@ -491,7 +544,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_road_slope_bad = new FeatureLayer({
+  const layer_M01_bad = new FeatureLayer({
     title: "Bad",
     url: url_road_sections,
     definitionExpression: "DIRECTION = 'TOP RIGHT'",
@@ -514,13 +567,18 @@ function MapContextProvider (props) {
 
   const group_M01_road_slope_condition = new GroupLayer({
     title: "Road Slope Condition",
-    layers: [layer_M01_road_slope_bad, layer_M01_road_slope_poor, layer_M01_road_slope_fair, layer_M01_road_slope_good],
+    layers: [
+      layer_M01_bad,
+      layer_M01_poor,
+      layer_M01_fair,
+      layer_M01_good
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_M01_road_sections_primary = new FeatureLayer({
+  const layer_M01_primary = new FeatureLayer({
     title: "Primary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
@@ -541,7 +599,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_road_sections_secondary = new FeatureLayer({
+  const layer_M01_secondary = new FeatureLayer({
     title: "Secondary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
@@ -562,7 +620,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_road_sections_tertiary = new FeatureLayer({
+  const layer_M01_tertiary = new FeatureLayer({
     title: "Tertiary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
@@ -585,13 +643,17 @@ function MapContextProvider (props) {
 
   const group_M01_road_classification = new GroupLayer({
     title: "Road Classification",
-    layers: [layer_M01_road_sections_tertiary, layer_M01_road_sections_secondary, layer_M01_road_sections_primary],
+    layers: [
+      layer_M01_tertiary,
+      layer_M01_secondary,
+      layer_M01_primary
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_M01_terrain_flat = new FeatureLayer({
+  const layer_M01_flat = new FeatureLayer({
     title: "Flat",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
@@ -612,7 +674,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_terrain_rolling = new FeatureLayer({
+  const layer_M01_rolling = new FeatureLayer({
     title: "Rolling",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
@@ -633,7 +695,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M01_terrain_mountainous = new FeatureLayer({
+  const layer_M01_mountainous = new FeatureLayer({
     title: "Mountainous",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
@@ -656,7 +718,11 @@ function MapContextProvider (props) {
 
   const group_M01_terrain = new GroupLayer({
     title: "Terrain",
-    layers: [layer_M01_terrain_flat, layer_M01_terrain_rolling, layer_M01_terrain_mountainous],
+    layers: [
+      layer_M01_flat,
+      layer_M01_rolling,
+      layer_M01_mountainous
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -664,7 +730,9 @@ function MapContextProvider (props) {
 
   const group_M01_volume_of_traffic = new GroupLayer({
     title: "Volume of Traffic",
-    layers: [],
+    layers: [
+
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -833,15 +901,82 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M01_rehabilitation = new FeatureLayer({
+    title: "Rehabilitation",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'BOTTOM LEFT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [0, 255, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_reconstruction = new FeatureLayer({
+    title: "Reconstruction",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'BOTTOM RIGHT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_construction = new FeatureLayer({
+    title: "Construction",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'TOP LEFT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 0, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
   const group_M01_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
-    layers: [],
+    layers: [
+      layer_M01_rehabilitation,
+      layer_M01_reconstruction,
+      layer_M01_construction
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_M02_road_sections_primary = new FeatureLayer({
+  const layer_M02_primary = new FeatureLayer({
     title: "Primary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
@@ -862,7 +997,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M02_road_sections_secondary = new FeatureLayer({
+  const layer_M02_secondary = new FeatureLayer({
     title: "Secondary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
@@ -883,7 +1018,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M02_road_sections_tertiary = new FeatureLayer({
+  const layer_M02_tertiary = new FeatureLayer({
     title: "Tertiary",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
@@ -906,13 +1041,17 @@ function MapContextProvider (props) {
 
   const group_M02_road_classification = new GroupLayer({
     title: "Road Classification",
-    layers: [layer_M02_road_sections_tertiary, layer_M02_road_sections_secondary, layer_M02_road_sections_primary],
+    layers: [
+      layer_M02_tertiary,
+      layer_M02_secondary,
+      layer_M02_primary
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_M02_terrain_flat = new FeatureLayer({
+  const layer_M02_flat = new FeatureLayer({
     title: "Flat",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
@@ -933,7 +1072,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M02_terrain_rolling = new FeatureLayer({
+  const layer_M02_rolling = new FeatureLayer({
     title: "Rolling",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
@@ -954,7 +1093,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_M02_terrain_mountainous = new FeatureLayer({
+  const layer_M02_mountainous = new FeatureLayer({
     title: "Mountainous",
     url: url_road_sections,
     definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
@@ -977,7 +1116,11 @@ function MapContextProvider (props) {
 
   const group_M02_terrain = new GroupLayer({
     title: "Terrain",
-    layers: [layer_M02_terrain_flat, layer_M02_terrain_rolling, layer_M02_terrain_mountainous],
+    layers: [
+      layer_M02_flat,
+      layer_M02_rolling,
+      layer_M02_mountainous
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -985,7 +1128,9 @@ function MapContextProvider (props) {
 
   const group_M02_volume_of_traffic = new GroupLayer({
     title: "Volume of Traffic",
-    layers: [],
+    layers: [
+
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
@@ -1154,9 +1299,76 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M02_rehabilitation = new FeatureLayer({
+    title: "Rehabilitation",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'BOTTOM LEFT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [0, 255, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M02_reconstruction = new FeatureLayer({
+    title: "Reconstruction",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'BOTTOM RIGHT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M02_construction = new FeatureLayer({
+    title: "Construction",
+    url: url_road_sections,
+    definitionExpression: "DIRECTION = 'TOP LEFT'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 0, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
   const group_M02_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
-    layers: [],
+    layers: [
+      layer_M02_rehabilitation,
+      layer_M02_reconstruction,
+      layer_M02_construction
+    ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
