@@ -151,16 +151,6 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const group_inventory_of_road_slope_structures = new GroupLayer({
-    title: "Inventory of Road Slope Structures",
-    layers: [
-      layer_inventory_of_road_slope_structures
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
   function content_inventory_of_road_slopes (target) {
     return (document.createElement("attribute-table").innerHTML = `
       <table cellpadding = "8">
@@ -272,16 +262,6 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const group_inventory_of_road_slopes = new GroupLayer({
-    title: "Inventory of Road Slopes",
-    layers: [
-      layer_inventory_of_road_slopes
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
   const layer_hazards = new FeatureLayer({
     title: "Hazards",
     url: url_hazards,
@@ -322,59 +302,6 @@ function MapContextProvider (props) {
     },
     popupEnabled: false,
     visible: true
-  });
-
-  const layer_road_closures = new FeatureLayer({
-    title: "Road Closures",
-    url: url_road_closures,
-    renderer: {
-      type: "unique-value",
-      field: "situation",
-      defaultSymbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 255, 255, 1.00]
-      },
-      uniqueValueInfos: [
-        {
-          value: "passable",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [0, 255, 0, 1.00]
-          }
-        }, 
-        {
-          value: "notpassable",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 0, 0, 1.00]
-          }
-        },
-        {
-          value: "limitedaccess",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 255, 0, 1.00]
-          }
-        }
-      ]
-    },
-    popupEnabled: false,
-    visible: true
-  });
-
-  const group_hazards = new GroupLayer({
-    title: "Hazards",
-    layers: [
-      layer_hazards,
-      layer_road_closures
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
   });
 
   const layer_terrain = new FeatureLayer({
@@ -419,16 +346,6 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const group_terrain = new GroupLayer({
-    title: "Terrain",
-    layers: [
-      layer_terrain
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
   const layer_type_of_road_slope_structures = new FeatureLayer({
     title: "Type of Road Slope Structures",
     url: url_road_sections,
@@ -469,16 +386,6 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     visible: true
-  });
-
-  const group_type_of_road_slope_structures = new GroupLayer({
-    title: "Type of Road Slope Structures",
-    layers: [
-      layer_type_of_road_slope_structures
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
   });
 
   const layer_M01_good = new FeatureLayer({
@@ -728,10 +635,163 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M01_level_01 = new FeatureLayer({
+    title: "0 - 9,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [232, 20, 22, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_02 = new FeatureLayer({
+    title: "9,001 - 18,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 165, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_03 = new FeatureLayer({
+    title: "18,001 - 27,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [250, 235, 54, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_04 = new FeatureLayer({
+    title: "27,001 - 36,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [121, 195, 20, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_05 = new FeatureLayer({
+    title: "36,001 - 45,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [72, 125, 231, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_06 = new FeatureLayer({
+    title: "45,001 - 54,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [75, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
+  const layer_M01_level_07 = new FeatureLayer({
+    title: "54,001 - 63,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [112, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
+
   const group_M01_volume_of_traffic = new GroupLayer({
     title: "Volume of Traffic",
     layers: [
-
+      layer_M01_level_07,
+      layer_M01_level_06,
+      layer_M01_level_05,
+      layer_M01_level_04,
+      layer_M01_level_03,
+      layer_M01_level_02,
+      layer_M01_level_01
     ],
     visible: true,
     visibilityMode: "independent",
@@ -1126,10 +1186,163 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_M02_level_01 = new FeatureLayer({
+    title: "0 - 9,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [232, 20, 22, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_02 = new FeatureLayer({
+    title: "9,001 - 18,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 165, 0, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_03 = new FeatureLayer({
+    title: "18,001 - 27,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [250, 235, 54, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_04 = new FeatureLayer({
+    title: "27,001 - 36,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [121, 195, 20, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_05 = new FeatureLayer({
+    title: "36,001 - 45,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [72, 125, 231, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_06 = new FeatureLayer({
+    title: "45,001 - 54,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [75, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_M02_level_07 = new FeatureLayer({
+    title: "54,001 - 63,000",
+    url: url_road_sections,
+    definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [112, 54, 157, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
   const group_M02_volume_of_traffic = new GroupLayer({
     title: "Volume of Traffic",
     layers: [
-
+      layer_M02_level_07,
+      layer_M02_level_06,
+      layer_M02_level_05,
+      layer_M02_level_04,
+      layer_M02_level_03,
+      layer_M02_level_02,
+      layer_M02_level_01
     ],
     visible: true,
     visibilityMode: "independent",
@@ -1315,7 +1528,7 @@ function MapContextProvider (props) {
     popupTemplate: {
       title: "{SECTION_ID}: {ROAD_NAME}",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures
+      content: content_inventory_of_road_slopes
     },
     visible: true
   });
@@ -1336,7 +1549,7 @@ function MapContextProvider (props) {
     popupTemplate: {
       title: "{SECTION_ID}: {ROAD_NAME}",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures
+      content: content_inventory_of_road_slopes
     },
     visible: true
   });
@@ -1357,7 +1570,7 @@ function MapContextProvider (props) {
     popupTemplate: {
       title: "{SECTION_ID}: {ROAD_NAME}",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures
+      content: content_inventory_of_road_slopes
     },
     visible: true
   });
@@ -1545,11 +1758,11 @@ function MapContextProvider (props) {
               }
 
               if (module === "summary") {
-                view.map.layers.push(group_type_of_road_slope_structures);
-                view.map.layers.push(group_terrain);
-                view.map.layers.push(group_hazards);
-                view.map.layers.push(group_inventory_of_road_slopes);
-                view.map.layers.push(group_inventory_of_road_slope_structures);
+                view.map.layers.push(layer_type_of_road_slope_structures);
+                view.map.layers.push(layer_terrain);
+                view.map.layers.push(layer_hazards);
+                view.map.layers.push(layer_inventory_of_road_slopes);
+                view.map.layers.push(layer_inventory_of_road_slope_structures);
               }
               if (module === "inventory-of-road-slope-structures") {
                 view.map.layers.push(group_M01_type_of_road_slope_structures);
