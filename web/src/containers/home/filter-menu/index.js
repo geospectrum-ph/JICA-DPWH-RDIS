@@ -388,7 +388,7 @@ export default function FilterMenu () {
         <div className = { dropdown04Active ? "active" : null } onClick = { function () { click_dropdown(4); } }>
           <input
             type = "text"
-            value = { filterL04Selected }
+            value = { filterL04Selected ? filterL04Selected : "" }
             onChange = { function (event) { setFilterL04Selected(event.target.value); } }
             onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }
           />
