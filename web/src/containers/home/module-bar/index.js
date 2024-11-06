@@ -26,8 +26,6 @@ export default function ModuleBar () {
     view_layer(modules[index].path);
 
     setModuleSelected(index);
-
-    navigate(`/home/${modules[index].path}`);
   }
 
   React.useEffect(function () {
@@ -35,11 +33,7 @@ export default function ModuleBar () {
     const index = modules.findIndex(function (module) { return (module.path === path); });
 
     if (index > -1) {
-      close_popup();
-
-      view_layer(modules[index].path);
-
-      setModuleSelected(index);
+      set_module(index);
     }
   }, []);
   
@@ -49,7 +43,7 @@ export default function ModuleBar () {
         modules ? 
           modules.map(function (module, index) {
             return (
-              <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
+              <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); navigate(`/home/${modules[index].path}`); } }>
                 { module.name }
               </div>
             );

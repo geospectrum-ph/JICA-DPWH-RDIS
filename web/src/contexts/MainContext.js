@@ -50,17 +50,10 @@ function MainContextProvider (props) {
 
   const [dataArray, setDataArray] = React.useState(null);
 
-  const [filterL01Selected, setFilterL01Selected] = React.useState("");
-  const [filterL02Selected, setFilterL02Selected] = React.useState("");
-  const [filterL03Selected, setFilterL03Selected] = React.useState("");
-  const [filterL04Selected, setFilterL04Selected] = React.useState("");
-
-  function clear_selected () {
-    setFilterL01Selected("");
-    setFilterL02Selected("");
-    setFilterL03Selected("");
-    setFilterL04Selected("");
-  }
+  const [filterL01Selected, setFilterL01Selected] = React.useState(null);
+  const [filterL02Selected, setFilterL02Selected] = React.useState(null);
+  const [filterL03Selected, setFilterL03Selected] = React.useState(null);
+  const [filterL04Selected, setFilterL04Selected] = React.useState(null);
 
   return (
     <MainContext.Provider value = {
@@ -73,9 +66,7 @@ function MainContextProvider (props) {
         filterL01Selected, setFilterL01Selected,
         filterL02Selected, setFilterL02Selected,
         filterL03Selected, setFilterL03Selected, 
-        filterL04Selected, setFilterL04Selected, 
-
-        clear_selected
+        filterL04Selected, setFilterL04Selected
       }
     }>
       { props.children }
