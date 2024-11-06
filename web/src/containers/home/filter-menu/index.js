@@ -12,7 +12,10 @@ import array_level_03 from "./filter_level_03.json";
 
 export default function FilterMenu () {
   const {
+    moduleSelected,
+    
     setDataArray,
+
     filterL01Selected, setFilterL01Selected,
     filterL02Selected, setFilterL02Selected,
     filterL03Selected, setFilterL03Selected,
@@ -21,32 +24,151 @@ export default function FilterMenu () {
   
   const {
     layer_road_sections,
-    recenter_map
+    layer_inventory_of_road_slope_structures,
+    layer_inventory_of_road_slopes,
+    layer_hazard_map,
+
+    recenter_map, close_popup
   } = React.useContext(MapContext);
 
-  function query_features (expression) {
-    layer_road_sections
-      .queryFeatures({
-        where: expression || "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response && response.features && response.features.length > 0) {
-          var extent = response.features[0].geometry.extent;
+  function query_features () {
+    const type = 
+      filterL04Selected && filterL04Selected !== "" ? 4 :
+      filterL03Selected && filterL03Selected !== "" ? 3 :
+      filterL02Selected && filterL02Selected !== "" ? 2 :
+      1;
 
-          response.features.forEach(function(feature) {
-            extent = extent.union(feature.geometry.extent);
-          });
+    const expression =
+      type === 1 ? "REGION = '" + filterL01Selected + "'" :
+      type === 2 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'" :
+      type === 3 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'" :
+      type === 4 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "' AND SECTION_ID = '" + filterL04Selected :
+      null;
 
-          recenter_map(extent);
+    if (moduleSelected === "inventory-of-road-slope-structures") {
+      layer_inventory_of_road_slope_structures
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
 
-          setDataArray(response.features);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "inventory-of-road-slopes") {
+      layer_inventory_of_road_slopes
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "hazard-map") {
+      layer_hazard_map
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else {
+      layer_road_sections
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 
   function clear_filter (type) {
@@ -84,47 +206,161 @@ export default function FilterMenu () {
       setFilterL02Selected("");
       setFilterL03Selected("");
       setFilterL04Selected("");
-
-      query_features("REGION = '" + object.REGION + "'");
     }
     if (type === 2) {
       setFilterL01Selected(object.REGION);
       setFilterL02Selected(object.DEO);
       setFilterL03Selected("");
       setFilterL04Selected("");
-
-      query_features("DEO = '" + object.DEO + "'");
     }
     if (type === 3) {
       setFilterL01Selected(object.REGION);
       setFilterL02Selected(object.DEO);
       setFilterL03Selected(object.CONG_DIST);
       setFilterL04Selected("");
-
-      query_features("CONG_DIST = '" + object.CONG_DIST + "'");
     }
     if (type === 4) {
-      layer_road_sections
+      setFilterL01Selected(object.REGION);
+      setFilterL02Selected(object.DEO);
+      setFilterL03Selected(object.CONG_DIST);
+      setFilterL04Selected(object.SECTION_ID);
+    }
+  }
+
+  function handle_click (type, object) {
+    const expression =
+      type === 1 ? "REGION = '" + object.REGION + "'" :
+      type === 2 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'" :
+      type === 3 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'" :
+      type === 4 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "' AND SECTION_ID = '" + object.SECTION_ID :
+      null;
+    
+    if (moduleSelected === "inventory-of-road-slope-structures") {
+      layer_inventory_of_road_slope_structures
         .queryFeatures({
-          where: "SECTION_ID = '" + object.query + "'",
+          where: expression || "1 = 1",
           returnGeometry: true,
           outFields: ["*"]
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            setDataArray(response.features);
+            select_filter(type, object);
 
-            let found_object = response.features[0];
-  
-            setFilterL01Selected(found_object.attributes.REGION);
-            setFilterL02Selected(found_object.attributes.DEO);
-            setFilterL03Selected(found_object.attributes.CONG_DIST);
-            setFilterL04Selected(found_object.attributes.SECTION_ID);
+            var extent = response.features[0].geometry.extent;
 
-            recenter_map(found_object.geometry.extent);
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
           }
           else {
-            clear_filter(4);
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "inventory-of-road-slopes") {
+      layer_inventory_of_road_slopes
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            select_filter(type, object);
+
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "hazard-map") {
+      layer_hazard_map
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            select_filter(type, object);
+
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else {
+      layer_road_sections
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            select_filter(type, object);
+
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
           }
         })
         .catch(function (error) {
@@ -192,7 +428,7 @@ export default function FilterMenu () {
                   })
                   .map(function (item, index) {
                     return (
-                      <div key = { index } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
+                      <div key = { index } onClick = { function () { handle_click(1, item); } }>{ item.L01_NAME }</div>
                     );
                   })
                 :
@@ -219,7 +455,7 @@ export default function FilterMenu () {
                     }
                     else {  
                       return (
-                        <div key = { index } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
+                        <div key = { index } onClick = { function () { handle_click(2, item); } }>{ item.L02_NAME }</div>
                       );
                     }
                   })
@@ -251,7 +487,7 @@ export default function FilterMenu () {
                       }
                       else {
                         return (
-                          <div key = { index } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
+                          <div key = { index } onClick = { function () { handle_click(3, item); } }>{ item.L03_NAME }</div>
                         );
                       }
                     }
@@ -269,13 +505,7 @@ export default function FilterMenu () {
             type = "text"
             value = { filterL04Selected }
             onChange = { function (event) { setFilterL04Selected(event.target.value); } }
-            onKeyDown = {
-              function (event) {
-                if (event.key === "Enter") {
-                  select_filter(4, { "query": filterL04Selected });
-                }
-              }
-            }
+            onKeyDown = { function (event) { if (event.key === "Enter") { handle_click(4, { "query": filterL04Selected }); } } }
           />
         </div>
       </div>

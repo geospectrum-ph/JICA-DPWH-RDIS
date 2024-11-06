@@ -7,20 +7,13 @@ import "./index.css";
 
 export default function InventoryOfRoadSlopeStructures () {
   const {
-    regionSelected,
-    congressionalDistrictSelected,
-    engineeringDistrictSelected,
-    inventoryOfRoadSlopeStructuresData,
+    dataArray
   } = React.useContext(MainContext);
 
   const {
     // layer_road_inventory,
     // view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
-
-  // React.useEffect(function () {
-  //   console.log(inventoryOfRoadSlopeStructuresData);
-  // }, [inventoryOfRoadSlopeStructuresData]);
   
   function handle_click (feature) {
     // layer_sample
@@ -48,34 +41,37 @@ export default function InventoryOfRoadSlopeStructures () {
       </div>
       <div>
         {
-          inventoryOfRoadSlopeStructuresData ? 
-            inventoryOfRoadSlopeStructuresData
-              // .filter(function (road) {
-              //   if (regionSelected === "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
-              //     return (true);
-              //   }
-              //   else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected === "") {
-              //     return (road.attributes.REGION === regionSelected);
-              //   }
-              //   else if (regionSelected !== "" && congressionalDistrictSelected !== "" && engineeringDistrictSelected === "") {
-              //     return (road.attributes.CONG_DIST === congressionalDistrictSelected);
-              //   }
-              //   else if (regionSelected !== "" && congressionalDistrictSelected === "" && engineeringDistrictSelected !== "") {
-              //     return (road.attributes.DEO === engineeringDistrictSelected);
-              //   }
-              //   else {
-              //     return (false);
-              //   }
-              // })
+          dataArray ?
+            dataArray
               .sort(function (base, next) {
-                return (base.attributes.ROAD_ID.localeCompare(next.attributes.ROAD_ID));
+                return (base[0].localeCompare(next[0]));
               })
               .map(function (road, key) {
                 return (
-                  <div key = { key } onClick = { function () { handle_click(road); } }>
-                    <div className = { road.attributes.ROAD_SEC_C || "" }></div>
-                    <div>{ road.attributes.SECTION_ID || "" }</div>
-                    <div>{ road.attributes.ROAD_NAME || "" }</div>
+                  <div key = { key } onClick = { function () { } }>
+                    <div>
+                      <div>
+                        { road[0] }
+                      </div>
+                      <div>
+                        { road[1][0].attributes.ROAD_NAME }
+                      </div>
+                    </div>
+                    <div>
+                      {
+                        road[1]
+                          .sort(function (base, next) {
+                            return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID));
+                          })
+                          .map(function (section, key) {
+                            return (
+                              <div key = { key }>
+                                { section.attributes.SECTION_ID }
+                              </div>
+                            );
+                          })
+                      }
+                    </div>
                   </div>
                 );
               })

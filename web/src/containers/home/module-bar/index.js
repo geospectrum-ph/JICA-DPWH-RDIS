@@ -11,8 +11,14 @@ export default function ModuleBar () {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { modules, moduleSelected, setModuleSelected } = React.useContext(MainContext);
-  const { view_layer, close_popup } = React.useContext(MapContext);
+  const {
+    modules,
+    moduleSelected, setModuleSelected
+  } = React.useContext(MainContext);
+
+  const {
+    view_layer, close_popup
+  } = React.useContext(MapContext);
 
   function set_module (index) {
     close_popup();

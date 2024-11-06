@@ -62,14 +62,6 @@ function MainContextProvider (props) {
     setFilterL04Selected("");
   }
 
-  const [inventoryOfRoadSlopeStructuresData, setInventoryOfRoadSlopeStructuresData] = React.useState(null);
-  const [inventoryOfRoadSlopesData, setInventoryOfRoadSlopesData] = React.useState(null);
-  const [potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData] = React.useState(null);
-  const [fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData] = React.useState(null);
-  const [proposalForFundingData, setProposalForFundingData] = React.useState(null);
-  const [hazardMapData, setHazardMapData] = React.useState(null);
-  const [reportsData, setReportsData] = React.useState(null);
-
   return (
     <MainContext.Provider value = {
       {
@@ -83,15 +75,7 @@ function MainContextProvider (props) {
         filterL03Selected, setFilterL03Selected, 
         filterL04Selected, setFilterL04Selected, 
 
-        clear_selected,
-
-        inventoryOfRoadSlopeStructuresData, setInventoryOfRoadSlopeStructuresData,
-        inventoryOfRoadSlopesData, setInventoryOfRoadSlopesData,
-        potentialRoadSlopeProjectsData, setPotentialRoadSlopeProjectsData,
-        fundedRoadSlopeProjectsData, setFundedRoadSlopeProjectsData,
-        proposalForFundingData, setProposalForFundingData,
-        hazardMapData, setHazardMapData,
-        reportsData, setReportsData
+        clear_selected
       }
     }>
       { props.children }

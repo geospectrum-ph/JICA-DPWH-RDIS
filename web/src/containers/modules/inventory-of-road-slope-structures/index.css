@@ -28,7 +28,7 @@
   
       background-color: rgba(50, 50, 50, 1.00);
   
-      font: normal 400 18px "Outfit", sans-serif;
+      font: normal 400 16px "Outfit", sans-serif;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 1.00);
     }
@@ -47,7 +47,7 @@
   
       background-color: rgba(100, 100, 100, 1.00);
   
-      font: normal 400 24px "Outfit", sans-serif;
+      font: normal 400 16px "Outfit", sans-serif;
       color: rgba(255, 255, 255, 1.00);
 
       > * {
@@ -68,76 +68,62 @@
 
     box-sizing: border-box;
     
-    font: normal 400 18px "Outfit", sans-serif;
+    font: normal 400 16px "Outfit", sans-serif;
     color: rgba(0, 0, 0, 1.00);
 
+    /* Road Inventory Items, by REGION_ID */
     > * {
       display: flex;
-      flex-flow: row nowrap;
+      flex-flow: column nowrap;
       place-items: stretch center;
       place-content: center center;
 
       width: 100%;
       height: auto;
 
-      box-sizing: border-box;
-      outline: 1px solid rgba(255, 255, 255, 1.00);
-
       cursor: pointer;
 
       > :nth-child(1) {
-        flex: auto 1 auto;
-        
-        box-sizing: border-box;
-        padding: 0;
-
-        &.Primary {
-          border: 4px solid rgba(255, 255, 0, 1.00);
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: stretch center;
+        place-content: center center;
+  
+        > :nth-child(1) {        
+          flex: 1 1 auto;
+          
+          box-sizing: border-box;
+          padding: 12px;
+  
+          background-color: rgba(75, 75, 75, 1.00);
+  
+          color: rgba(255, 255, 255, 1.00);
         }
-
-        &.Secondary {
-          border: 4px solid rgba(255, 0, 0, 1.00);
-        }
-
-        &.Tertiary {
-          border: 4px solid rgba(0, 0, 255, 1.00);
-        }
-      }
-
-      > :nth-child(2) {        
-        flex: 1 1 auto;
-        
-        box-sizing: border-box;
-        padding: 12px;
-
-        background-color: rgba(75, 75, 75, 1.00);
-
-        color: rgba(255, 255, 255, 1.00);
-      }
-
-      > :nth-child(3) {        
-        flex: auto 1 auto; 
-
-        width: calc((100% * 3 / 5));
-        height: auto;
-                
-        box-sizing: border-box;
-        padding: 12px;
-
-        background-color: rgba(100, 100, 100, 1.00);
-
-        color: rgba(255, 255, 255, 1.00);
-      }
-
-      &:hover {
-        > * {
-          background-color: rgba(225, 125, 25, 1.00);
-
+  
+        > :nth-child(2) {        
+          flex: auto 1 auto; 
+  
+          width: calc((100% * 3 / 5));
+          height: auto;
+                  
+          box-sizing: border-box;
+          padding: 12px;
+  
+          background-color: rgba(100, 100, 100, 1.00);
+  
           color: rgba(255, 255, 255, 1.00);
         }
 
-        > :nth-child(2) {
-          border-right: 1px solid rgba(225, 125, 25, 1.00);
+        &:hover {
+          > * {
+            background-color: rgba(225, 125, 25, 1.00);
+  
+            color: rgba(255, 255, 255, 1.00);
+          }
+  
+          > :nth-child(2) {
+            border-right: 1px solid rgba(225, 125, 25, 1.00);
+          }
         }
       }
 

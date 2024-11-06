@@ -12,164 +12,189 @@ import "./index.css";
 
 function HomePage () {
   const {
-    // modules, moduleSelected,
-    dataArray, setDataArray,
+    moduleSelected,
+    
+    setDataArray,
 
-    setInventoryOfRoadSlopeStructuresData,
-    setInventoryOfRoadSlopesData,
-    // setPotentialRoadSlopeProjectsData,
-    // setFundedRoadSlopeProjectsData,
-    // setProposalForFundingData,
-    // setHazardMapData,
-    // setReportsData
+    filterL01Selected, setFilterL01Selected,
+    filterL02Selected, setFilterL02Selected,
+    filterL03Selected, setFilterL03Selected,
+    filterL04Selected, setFilterL04Selected
   } = React.useContext(MainContext);
 
   const {
     layer_road_sections,
-    recenter_map,
+    layer_inventory_of_road_slope_structures,
+    layer_inventory_of_road_slopes,
+    layer_hazard_map,
 
-    MapComponent
+    MapComponent,
+    recenter_map, close_popup
   } = React.useContext(MapContext);
 
+  function clear_filter (type) {
+    if (type === 1) {
+      setFilterL01Selected("");
+      setFilterL02Selected("");
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+    }
+    if (type === 2) {
+      setFilterL02Selected("");
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+    }
+    if (type === 3) {
+      setFilterL03Selected("");
+      setFilterL04Selected("");
+    }
+    if (type === 4) {
+      setFilterL04Selected("");
+    }
+  }
+
   function query_features () {
-    layer_road_sections
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response && response.features && response.features.length > 0) {
-          setDataArray(response.features);
+    const type = 
+      filterL04Selected && filterL04Selected !== "" ? 4 :
+      filterL03Selected && filterL03Selected !== "" ? 3 :
+      filterL02Selected && filterL02Selected !== "" ? 2 :
+      1;
 
-          var extent = response.features[0].geometry.extent;
+    const expression =
+      type === 1 ? "REGION = '" + filterL01Selected + "'" :
+      type === 2 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'" :
+      type === 3 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'" :
+      type === 4 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "' AND SECTION_ID = '" + filterL04Selected :
+      null;
 
-          response.features.forEach(function(feature) {
-            extent = extent.union(feature.geometry.extent);
-          })
+    if (moduleSelected === "inventory-of-road-slope-structures") {
+      layer_inventory_of_road_slope_structures
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
 
-          recenter_map(extent);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "inventory-of-road-slopes") {
+      layer_inventory_of_road_slopes
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else if (moduleSelected === "hazard-map") {
+      layer_hazard_map
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    else {
+      layer_road_sections
+        .queryFeatures({
+          where: expression || "1 = 1",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            recenter_map(extent);
+
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+
+            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            close_popup();
+          }
+          else {
+            clear_filter(1);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
-
-  function query_inventory_of_road_slope_structures () {
-    layer_road_sections
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setInventoryOfRoadSlopeStructuresData(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  function query_inventory_of_road_slopes () {
-    layer_road_sections
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setInventoryOfRoadSlopesData(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  // function query_potential_road_slope_projects () {
-  //   layer_potential_road_slope_projects
-  //     .queryFeatures({
-  //       where: "1 = 1",
-  //       returnGeometry: false,
-  //       outFields: ["*"]
-  //     })
-  //     .then(function (response) {
-  //       setPotentialRoadSlopeProjectsData(response.features);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
-
-  // function query_funded_road_slope_projects () {
-  //   layer_funded_road_slope_projects
-  //     .queryFeatures({
-  //       where: "1 = 1",
-  //       returnGeometry: false,
-  //       outFields: ["*"]
-  //     })
-  //     .then(function (response) {
-  //       setFundedRoadSlopeProjectsData(response.features);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
-
-  // function query_proposal_for_funding () {
-  //   layer_proposal_for_funding
-  //     .queryFeatures({
-  //       where: "1 = 1",
-  //       returnGeometry: false,
-  //       outFields: ["*"]
-  //     })
-  //     .then(function (response) {
-  //       setProposalForFundingData(response.features);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
-
-  // function query_hazard_map () {
-  //   layer_hazard_map
-  //     .queryFeatures({
-  //       where: "1 = 1",
-  //       returnGeometry: false,
-  //       outFields: ["*"]
-  //     })
-  //     .then(function (response) {
-  //       setHazardMapData(response.features);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
-
-  // function query_reports () {
-  //   layer_reports
-  //     .queryFeatures({
-  //       where: "1 = 1",
-  //       returnGeometry: false,
-  //       outFields: ["*"]
-  //     })
-  //     .then(function (response) {
-  //       setReportsData(response.features);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // }
 
   React.useEffect(function () {
     query_features();
-    // query_inventory_of_road_slope_structures();
-    // query_inventory_of_road_slopes();
-    // query_potential_road_slope_projects();
-    // query_funded_road_slope_projects();
-    // query_proposal_for_funding();
-    // query_hazard_map();
-    // query_reports();
   }, []);
 
   return (
