@@ -29,16 +29,19 @@
     color: rgba(255, 255, 255, 1.00);
   }
 
+  
   > :nth-child(2){
     display: flex;
     gap: 20px;
     flex-flow: row nowrap;
     align-items: center;
+    vertical-align: middle;
 
     padding-inline: 10px;
     padding-block: 5px;
     
     height: 175px;
+    overflow-y: auto;
 
     > :nth-child(2){
       display: flex;
@@ -47,6 +50,27 @@
   }
 }
 
+table {
+  height: 175px;
+  overflow-y: auto;
+}
+
 #summary-icons {
   font-size: 90px;
+}
+
+#hazard-high {
+  color: red
+}
+
+#hazard-middle {
+  color: orange
+}
+
+#hazard-low {
+  color: green
+}
+
+#hazard-none {
+  color: gray
 }
