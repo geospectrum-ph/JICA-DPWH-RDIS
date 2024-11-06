@@ -11,34 +11,45 @@ export default function InventoryOfRoadSlopeStructures () {
   } = React.useContext(MainContext);
 
   const {
-    // layer_road_inventory,
-    // view_layer, recenter_map, open_popup, close_popup
+    layer_inventory_of_road_slope_structures,
+    recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
-  function handle_click (feature) {
-    // layer_sample
-      // .queryFeatures({
-      //   where: "OBJECTID = '" + feature.attributes.OBJECTID + "'",
-      //   returnGeometry: true,
-      //   outFields: ["*"]
-      // })
-      // .then(function (response) {
-      //   // close_popup();
+  function find_road (level, value) {
+    const expression =
+      level === 0 ? "ROAD_ID = '" + value + "'" :
+      level === 1 ? "SECTION_ID = '" + value + "'" :
+      null;
 
-      //   recenter_map(response.features[0].geometry.extent.expand(1.50));
+    layer_inventory_of_road_slope_structures
+      .queryFeatures({
+        where: expression || "1 = 0",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response && response.features && response.features.length > 0) {
+          close_popup();
 
-      //   // open_popup(response.features);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+          var extent = response.features[0].geometry.extent;
+
+          response.features.forEach(function(feature) {
+            extent = extent.union(feature.geometry.extent);
+          });
+
+          recenter_map(extent);
+
+          if (level !== 0) { open_popup(response.features[0]); }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (
     <div id = "inventory-of-road-slope-structures-container">
-      <div>
-        <div>{ "List of Road Sections" }</div>
-      </div>
+      <div>{ "List of Road Sections" }</div>
       <div>
         {
           dataArray ?
@@ -48,8 +59,8 @@ export default function InventoryOfRoadSlopeStructures () {
               })
               .map(function (road, key) {
                 return (
-                  <div key = { key } onClick = { function () { } }>
-                    <div>
+                  <div key = { key }>
+                    <div onClick = { function () { find_road(0, road[0]); } }>
                       <div>
                         { road[0] }
                       </div>
@@ -66,7 +77,14 @@ export default function InventoryOfRoadSlopeStructures () {
                           .map(function (section, key) {
                             return (
                               <div key = { key }>
-                                { section.attributes.SECTION_ID }
+                                <div onClick = { function () { find_road(1, section.attributes.SECTION_ID); } }>
+                                  <div></div>
+                                  <div>{ section.attributes.SECTION_ID }</div>
+                                </div>
+                                <div>
+                                  <div></div>
+                                  <div>{ "No available data." }</div>
+                                </div>
                               </div>
                             );
                           })

@@ -2286,15 +2286,15 @@ function MapContextProvider (props) {
       });     
   }
 
-  function open_popup (center) {
+  function open_popup (feature) {
     reactiveUtils.watch(
       function () {
         if (view) {
           view
             .when(function () {
               view.openPopup({
-                location: center,
-                fetchFeatures: true
+                features: [feature],
+                fetchFeatures: false
               });
             })
             .catch(function (error) {

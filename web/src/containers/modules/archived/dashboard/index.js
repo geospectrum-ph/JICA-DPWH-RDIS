@@ -1,18 +1,18 @@
 import React from "react";
 
-import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+import { MainContext } from "../../../../contexts/MainContext";
+import { MapContext } from "../../../../contexts/MapContext";
 
 import "./index.css";
 
 import RoadsLists from './roadSections';
-import ClosureTotal from '../emergency/charts/closureTotal';
+import ClosureTotal from '../../emergency/charts/closureTotal';
 import DashboardClassPieChart from './byRoadClassification';
-import ClassPieChart from '../emergency/charts/byRoadClassification';
-import HighRiskTotal from '../hazard/charts/totalLength';
-import HazardRegionListChart from '../hazard/charts/byRegion';
-import SlopeProjectTotal from '../slope/charts/totalAmount';
-import SlopeFundingTotal from '../slope/charts/totalForBudgeting';
+import ClassPieChart from '../../emergency/charts/byRoadClassification';
+import HighRiskTotal from '../../hazard/charts/totalLength';
+import HazardRegionListChart from '../../hazard/charts/byRegion';
+import SlopeProjectTotal from '../../slope/charts/totalAmount';
+import SlopeFundingTotal from '../../slope/charts/totalForBudgeting';
 
 export default function Dashboard() {
   const {  } = React.useContext(MainContext);

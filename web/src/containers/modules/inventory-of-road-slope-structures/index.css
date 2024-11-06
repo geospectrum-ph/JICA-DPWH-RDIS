@@ -6,55 +6,27 @@
 
   overflow: hidden hidden;
 
-  width: 360px;
+  width: 320px;
   height: 100%;
 
   /* Header */
   > :nth-child(1) {
     display: flex;
     flex-flow: column nowrap;
-    place-items: center center;
+    place-items: start center;
     place-content: center center;
 
     width: 100%;
     height: auto;
 
-    > :nth-child(1) {
-      width: 100%;
-      height: auto;
+    box-sizing: border-box;
+    padding: 12px;
 
-      box-sizing: border-box;
-      padding: 12px;
-  
-      background-color: rgba(50, 50, 50, 1.00);
-  
-      font: normal 400 16px "Outfit", sans-serif;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 1.00);
-    }
+    background-color: rgba(50, 50, 50, 1.00);
 
-    > :nth-child(2) {
-      display: flex;
-      flex-flow: row nowrap;
-      place-items: center center;
-      place-content: center center;
-
-      width: 100%;
-      height: auto;
-
-      box-sizing: border-box;
-      padding: 12px;
-  
-      background-color: rgba(100, 100, 100, 1.00);
-  
-      font: normal 400 16px "Outfit", sans-serif;
-      color: rgba(255, 255, 255, 1.00);
-
-      > * {
-        width: 50%;
-        height: auto;
-      }
-    }
+    font: normal 400 16px "Outfit", sans-serif;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1.00);
   }
 
   /* Road Inventory List */
@@ -71,7 +43,7 @@
     font: normal 400 16px "Outfit", sans-serif;
     color: rgba(0, 0, 0, 1.00);
 
-    /* Road Inventory Items, by REGION_ID */
+    /* Road Inventory Items, by ROAD_ID */
     > * {
       display: flex;
       flex-flow: column nowrap;
@@ -83,12 +55,14 @@
 
       cursor: pointer;
 
+      /* ROAD_ID Panel */
       > :nth-child(1) {
         display: flex;
         flex-flow: row nowrap;
         place-items: stretch center;
         place-content: center center;
   
+        /* Road ID */
         > :nth-child(1) {        
           flex: 1 1 auto;
           
@@ -100,6 +74,7 @@
           color: rgba(255, 255, 255, 1.00);
         }
   
+        /* Road Name */
         > :nth-child(2) {        
           flex: auto 1 auto; 
   
@@ -123,6 +98,86 @@
   
           > :nth-child(2) {
             border-right: 1px solid rgba(225, 125, 25, 1.00);
+          }
+        }
+      }
+
+    /* Level Buffer */
+    > :nth-child(2) {
+        display: flex;
+        flex-flow: column nowrap;
+        place-items: stretch center;
+        place-content: center center;
+  
+        /* Road Inventory Items, by SECTION_ID */
+        > * {    
+          display: flex;
+          flex-flow: column nowrap;
+          place-items: stretch center;
+          place-content: center center;
+
+          /* SECTION_ID Panel */
+          > :nth-child(1) {
+            display: flex;
+            flex-flow: row nowrap;
+            place-items: stretch center;
+            place-content: center center;
+
+            width: 100%;
+            height: auto;
+
+            background-color: rgba(255, 255, 255, 1.00);
+  
+            color: rgba(50, 50, 50, 1.00);
+
+            /* Buffer */
+            > :nth-child(1) {
+              width: 24px;
+              height: 100%;
+            }
+
+            /* Section ID */
+            > :nth-child(2) {        
+              flex: 1 1 auto;
+              
+              box-sizing: border-box;
+              padding: 12px;
+            }
+
+            &:hover {
+              background-color: rgba(225, 125, 25, 1.00);
+  
+              color: rgba(255, 255, 255, 1.00);
+            }
+          }
+
+          /* Details */
+          > :nth-child(2) {
+            display: flex;
+            flex-flow: row nowrap;
+            place-items: stretch center;
+            place-content: center center;
+
+            width: 100%;
+            height: auto;
+
+            background-color: rgba(255, 255, 255, 1.00);
+  
+            color: rgba(100, 100, 100, 1.00);
+
+            /* Buffer */
+            > :nth-child(1) {
+              width: 48px;
+              height: 100%;
+            }
+
+            /* Section ID */
+            > :nth-child(2) {        
+              flex: 1 1 auto;
+              
+              box-sizing: border-box;
+              padding: 12px;
+            }
           }
         }
       }

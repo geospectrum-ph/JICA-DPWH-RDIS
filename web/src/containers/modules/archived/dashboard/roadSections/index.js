@@ -1,7 +1,7 @@
 import React from "react";
 
-import { MainContext } from "../../../../contexts/MainContext";
-import { MapContext } from "../../../../contexts/MapContext";
+import { MainContext } from "../../../../../contexts/MainContext";
+import { MapContext } from "../../../../../contexts/MapContext";
 
 import "./index.css";
 

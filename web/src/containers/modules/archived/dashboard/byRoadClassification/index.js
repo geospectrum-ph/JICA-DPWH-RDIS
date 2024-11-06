@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, PieChart, Pie, Cell, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import { MainContext } from '../../../../contexts/MainContext';
+import { MainContext } from '../../../../../contexts/MainContext';
 
 import './index.css';
 

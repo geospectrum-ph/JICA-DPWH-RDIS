@@ -304,7 +304,7 @@ export default function FilterMenu () {
         <div className = { dropdown01Active ? "active" : null } onClick = { function () { click_dropdown(1); } }>
           <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(1); query_features("1 = 1"); } }>{ "Clear Selection" }</div>
             {
               array_level_01 ?
                 array_level_01
@@ -327,7 +327,7 @@ export default function FilterMenu () {
         <div className = { dropdown02Active ? "active" : null } onClick = { function () { click_dropdown(2); } }>
           <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(2); query_features("REGION = '" + filterL01Selected + "'"); } }>{ "Clear Selection" }</div>
             {
               array_level_02 ?
                 array_level_02
@@ -355,7 +355,7 @@ export default function FilterMenu () {
         <div className = { dropdown03Active ? "active" : null } onClick = { function () { click_dropdown(3); } }>
           <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(3); query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'"); } }>{ "Clear Selection" }</div>
             {
               array_level_03 ?
                 array_level_03
