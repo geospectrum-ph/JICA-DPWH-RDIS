@@ -14,6 +14,7 @@ export default function InventoryOfRoadSlopeStructures () {
 
   const {
     layer_inventory_of_road_slope_structures,
+
     recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
@@ -42,7 +43,7 @@ export default function InventoryOfRoadSlopeStructures () {
           recenter_map(extent);
 
           if (level === 1) {
-            open_popup(response.features[0]);
+            open_popup(response.features);
 
             setRoadSelected(response.features[0].attributes.SECTION_ID);
           }
@@ -64,7 +65,7 @@ export default function InventoryOfRoadSlopeStructures () {
           dataArray ?
             dataArray
               .sort(function (base, next) {
-                return (base[0].localeCompare(next[0]));
+                if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
               })
               .map(function (road, key) {
                 return (
@@ -81,7 +82,7 @@ export default function InventoryOfRoadSlopeStructures () {
                       {
                         road[1]
                           .sort(function (base, next) {
-                            return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID));
+                            if (base.attributes.SECTION_ID && next.attributes.SECTION_ID) { return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID)); }
                           })
                           .map(function (section, key) {
                             return (

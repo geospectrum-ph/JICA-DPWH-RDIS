@@ -1,5 +1,6 @@
 import * as React from "react";
-import {Pie, PieChart, Cell} from "recharts";
+
+import { Pie, PieChart, Cell } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
 import { MapContext } from "../../../contexts/MapContext";

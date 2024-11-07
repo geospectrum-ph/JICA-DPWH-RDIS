@@ -20,7 +20,7 @@ function HomePage () {
   const {
     MapComponent
   } = React.useContext(MapContext);
-
+  
   const array_media_container_visible = [1, 2];
 
   return (

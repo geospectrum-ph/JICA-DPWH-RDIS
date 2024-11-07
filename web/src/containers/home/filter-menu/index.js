@@ -14,7 +14,7 @@ export default function FilterMenu () {
   const {
     moduleSelected,
     
-    setDataArray,
+    dataArray, setDataArray,
 
     filterL01Selected, setFilterL01Selected,
     filterL02Selected, setFilterL02Selected,
@@ -32,7 +32,9 @@ export default function FilterMenu () {
   } = React.useContext(MapContext);
 
   function query_features (expression) {
-    if (moduleSelected === "inventory-of-road-slope-structures") {
+    setDataArray(null);
+
+    if (moduleSelected === 1) {
       layer_inventory_of_road_slope_structures
         .queryFeatures({
           where: expression || "1 = 0",
@@ -60,7 +62,7 @@ export default function FilterMenu () {
           console.log(error);
         });
     }
-    else if (moduleSelected === "inventory-of-road-slopes") {
+    else if (moduleSelected === 2) {
       layer_inventory_of_road_slopes
         .queryFeatures({
           where: expression || "1 = 0",
@@ -88,7 +90,7 @@ export default function FilterMenu () {
           console.log(error);
         });
     }
-    else if (moduleSelected === "hazard-map") {
+    else if (moduleSelected === 6) {
       layer_hazard_map
         .queryFeatures({
           where: expression || "1 = 0",
@@ -107,7 +109,7 @@ export default function FilterMenu () {
 
             close_popup();
 
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.road_id) });
 
             setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
           }
@@ -251,8 +253,8 @@ export default function FilterMenu () {
   }
 
   React.useEffect(function () {
-    query_features("1 = 1");
-  }, []);
+    if (dataArray === null && moduleSelected) { query_features("1 = 1"); }
+  }, [moduleSelected]);
 
   const [dropdownActive, setDropdownActive] = React.useState(false);
   const [dropdown01Active, setDropdown01Active] = React.useState(false);

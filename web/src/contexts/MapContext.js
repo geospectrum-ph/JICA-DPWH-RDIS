@@ -21,12 +21,28 @@ export const MapContext = React.createContext();
 
 function MapContextProvider (props) {
   const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
+  const url_road_section_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_e8aa2f87765547658af3c3e5c41b8485/FeatureServer";
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver2/FeatureServer";
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
 
   const layer_road_sections = new FeatureLayer({
     title: "Road Sections",
     url: url_road_sections,
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: false,
+    visible: true
+  });
+
+  const layer_road_section_photos = new FeatureLayer({
+    title: "Road Sections",
+    url: url_road_section_photos,
     renderer: {
       type: "simple",
       symbol: {
@@ -2286,14 +2302,14 @@ function MapContextProvider (props) {
       });     
   }
 
-  function open_popup (feature) {
+  function open_popup (features) {
     reactiveUtils.watch(
       function () {
         if (view) {
           view
             .when(function () {
               view.openPopup({
-                features: [feature],
+                features: features,
                 fetchFeatures: false
               });
             })
@@ -2323,6 +2339,7 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_road_sections,
+        layer_road_section_photos,
         layer_inventory_of_road_slope_structures,
         layer_inventory_of_road_slopes,
         layer_hazard_map,

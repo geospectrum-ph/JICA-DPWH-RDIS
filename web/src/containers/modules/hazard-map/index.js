@@ -7,66 +7,97 @@ import "./index.css";
 
 export default function HazardMap () {
   const {
+    setRoadSelected,
+
     dataArray
   } = React.useContext(MainContext);
 
   const {
-    // layer_road_inventory,
-    // view_layer, recenter_map, open_popup, close_popup
+    layer_hazard_map,
+    
+    recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
-  function handle_click (feature) {
-    // layer_sample
-      // .queryFeatures({
-      //   where: "OBJECTID = '" + feature.attributes.OBJECTID + "'",
-      //   returnGeometry: true,
-      //   outFields: ["*"]
-      // })
-      // .then(function (response) {
-      //   // close_popup();
+  function find_road (level, value) {
+    const expression =
+      level === 0 ? "road_id = '" + value + "'" :
+      level === 1 ? "section_id = '" + value + "'" :
+      null;
 
-      //   recenter_map(response.features[0].geometry.extent.expand(1.50));
+    layer_hazard_map
+      .queryFeatures({
+        where: expression || "1 = 0",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response && response.features && response.features.length > 0) {
+          close_popup();
 
-      //   // open_popup(response.features);
-      // })
-      // .catch(function (error) {
-      //   console.log(error);
-      // });
+          var extent = response.features[0].geometry.extent;
+
+          response.features.forEach(function(feature) {
+            extent = extent.union(feature.geometry.extent);
+          });
+
+          recenter_map(extent);
+
+          if (level === 1) {
+            open_popup(response.features);
+
+            setRoadSelected(response.features[0].attributes.section_id);
+          }
+          else {
+            setRoadSelected(null);
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   return (
     <div id = "hazard-map-container">
-      <div>
-        <div>{ "List of Road Sections" }</div>
-      </div>
+      <div>{ "List of Road Sections" }</div>
       <div>
         {
           dataArray ?
             dataArray
               .sort(function (base, next) {
-                return (base[0].localeCompare(next[0]));
+                if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
               })
               .map(function (road, key) {
                 return (
-                  <div key = { key } onClick = { function () { } }>
-                    <div>
+                  <div key = { key }>
+                    <div onClick = { function () { find_road(0, road[0]); } }>
                       <div>
                         { road[0] }
                       </div>
                       <div>
-                        { road[1][0].attributes.ROAD_NAME }
+                        { road[1][0].attributes.road_name }
                       </div>
                     </div>
                     <div>
                       {
                         road[1]
                           .sort(function (base, next) {
-                            return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID));
+                            if (base.attributes.section_id && next.attributes.section_id) { return (base.attributes.section_id.localeCompare(next.attributes.section_id)); }
                           })
                           .map(function (section, key) {
                             return (
                               <div key = { key }>
-                                { section.attributes.SECTION_ID }
+                                <div onClick = { function () { find_road(1, section.attributes.section_id); } }>
+                                  <div className = { section.attributes.priority_ranking }></div>
+                                  <div>{ section.attributes.section_id }</div>
+                                </div>
+                                <div>
+                                  <div></div>
+                                  <div>
+                                    <div>{ "Start Station Limit: " + section.attributes.start_lrp }</div>
+                                    <div>{ "End Station Limit: " + section.attributes.end_lrp }</div>
+                                  </div>
+                                </div>
                               </div>
                             );
                           })

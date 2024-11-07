@@ -15,21 +15,23 @@ export default function ModuleBar () {
     modules,
     moduleSelected, setModuleSelected,
 
-    setRoadSelected
+    setRoadSelected,
+
+    setDataArray
   } = React.useContext(MainContext);
 
   const {
-    view_layer, close_popup
+    view_layer,
   } = React.useContext(MapContext);
 
   function set_module (index) {
-    close_popup();
-
     view_layer(modules[index].path);
 
-    setModuleSelected(index);
+    setDataArray(null);
 
     setRoadSelected(null);
+
+    setModuleSelected(index);
   }
 
   React.useEffect(function () {
