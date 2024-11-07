@@ -277,6 +277,53 @@ function MapContextProvider (props) {
     visible: true
   });
 
+  const layer_hazards = new FeatureLayer({
+    title: "Hazards",
+    url: url_hazards,
+    renderer: {
+      type: "unique-value",
+      field: "priority_ranking",
+      defaultSymbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "risk_low",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
+        }, 
+        {
+          value: "risk_middle",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 155, 55, 1.00]
+          }
+        },
+        {
+          value: "risk_high",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        }
+      ]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{SECTION_ID}: {ROAD_NAME}",
+      outFields: ["*"],
+      content: content_hazard_map
+    },
+    visible: true
+  });
+
   const disaster_type_codes = {
     "disaster_ssc": "Soil Slope Collapse",
     "disaster_rsc": "Rock Slope Collapse",
@@ -363,12 +410,12 @@ function MapContextProvider (props) {
     `);
   }
 
-  const layer_hazard_map = new FeatureLayer({
-    title: "Hazard Map",
-    url: url_hazard_map,
+  const layer_road_closures = new FeatureLayer({
+    title: "Road Closures",
+    url: url_road_closures,
     renderer: {
       type: "unique-value",
-      field: "priority_ranking",
+      field: "situation",
       defaultSymbol: {
         type: "simple-line",
         width: 1,
@@ -376,38 +423,41 @@ function MapContextProvider (props) {
       },
       uniqueValueInfos: [
         {
-          value: "risk_low",
+          value: "passable",
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 255, 0, 1.00]
+            color: [0, 255, 0, 1.00]
           }
         }, 
         {
-          value: "risk_middle",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 155, 55, 1.00]
-          }
-        },
-        {
-          value: "risk_high",
+          value: "notpassable",
           symbol: {
             type: "simple-line",
             width: 1,
             color: [255, 0, 0, 1.00]
           }
+        },
+        {
+          value: "limitedaccess",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 255, 0, 1.00]
+          }
         }
       ]
     },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
+    popupEnabled: false,
     visible: true
+  });
+
+  const group_hazards = new GroupLayer({
+    title: "Hazards",
+    layers: [layer_hazards, layer_road_closures],
+    visible: true,
+    visibilityMode: "independent",
+    opacity: 1.00
   });
 
   const layer_terrain = new FeatureLayer({
@@ -1693,322 +1743,9 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  const layer_M06_primary = new FeatureLayer({
-    title: "Primary",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 0, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_secondary = new FeatureLayer({
-    title: "Secondary",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 255, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_tertiary = new FeatureLayer({
-    title: "Tertiary",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 0, 255, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const group_M06_road_classification = new GroupLayer({
-    title: "Road Classification",
-    layers: [
-      layer_M06_tertiary,
-      layer_M06_secondary,
-      layer_M06_primary
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
-  const layer_M06_flat = new FeatureLayer({
-    title: "Flat",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'PRIMARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 100, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_rolling = new FeatureLayer({
-    title: "Rolling",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'SECONDARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 150, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_mountainous = new FeatureLayer({
-    title: "Mountainous",
-    url: url_road_sections,
-    definitionExpression: "ROAD_SEC_C = 'TERTIARY'",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [0, 200, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const group_M06_terrain = new GroupLayer({
-    title: "Terrain",
-    layers: [
-      layer_M06_flat,
-      layer_M06_rolling,
-      layer_M06_mountainous
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
-  const layer_M06_level_01 = new FeatureLayer({
-    title: "0 - 9,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH >= 0 AND SEC_LENGTH <= 10",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [232, 20, 22, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_02 = new FeatureLayer({
-    title: "9,001 - 18,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 10 AND SEC_LENGTH <= 100",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 165, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_03 = new FeatureLayer({
-    title: "18,001 - 27,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 100 AND SEC_LENGTH <= 1000",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [250, 235, 54, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_04 = new FeatureLayer({
-    title: "27,001 - 36,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 1000 AND SEC_LENGTH <= 10000",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [121, 195, 20, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_05 = new FeatureLayer({
-    title: "36,001 - 45,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 10000 AND SEC_LENGTH <= 50000",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [72, 125, 231, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_06 = new FeatureLayer({
-    title: "45,001 - 54,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 50000 AND SEC_LENGTH <= 100000",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [75, 54, 157, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const layer_M06_level_07 = new FeatureLayer({
-    title: "54,001 - 63,000",
-    url: url_road_sections,
-    definitionExpression: "SEC_LENGTH > 100000 AND SEC_LENGTH <= 500000",
-    renderer: {
-      type: "simple",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [112, 54, 157, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
-      outFields: ["*"],
-      content: content_hazard_map
-    },
-    visible: true
-  });
-
-  const group_M06_volume_of_traffic = new GroupLayer({
-    title: "Volume of Traffic",
-    layers: [
-      layer_M06_level_07,
-      layer_M06_level_06,
-      layer_M06_level_05,
-      layer_M06_level_04,
-      layer_M06_level_03,
-      layer_M06_level_02,
-      layer_M06_level_01
-    ],
-    visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
   const layer_M06_high = new FeatureLayer({
     title: "High Risk",
-    url: url_hazard_map,
+    url: url_hazards,
     definitionExpression: "priority_ranking = 'risk_high'",
     renderer: {
       type: "simple",
@@ -2029,7 +1766,7 @@ function MapContextProvider (props) {
 
   const layer_M06_middle = new FeatureLayer({
     title: "Middle Risk",
-    url: url_hazard_map,
+    url: url_hazards,
     definitionExpression: "priority_ranking = 'risk_middle'",
     renderer: {
       type: "simple",
@@ -2049,8 +1786,8 @@ function MapContextProvider (props) {
   });
 
   const layer_M06_low = new FeatureLayer({
-    title: "Low Risk",
-    url: url_hazard_map,
+    title: "Middle Risk",
+    url: url_hazards,
     definitionExpression: "priority_ranking = 'risk_low'",
     renderer: {
       type: "simple",
@@ -2069,7 +1806,7 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const group_M06_hazard_map = new GroupLayer({
+  const group_M06_hazards = new GroupLayer({
     title: "Hazards",
     layers: [
       layer_M06_high,
@@ -2254,7 +1991,7 @@ function MapContextProvider (props) {
               if (module === "summary") {
                 view.map.layers.push(layer_type_of_road_slope_structures);
                 view.map.layers.push(layer_terrain);
-                view.map.layers.push(layer_hazard_map);
+                view.map.layers.push(layer_hazards);
                 view.map.layers.push(layer_inventory_of_road_slopes);
                 view.map.layers.push(layer_inventory_of_road_slope_structures);
               }
@@ -2274,10 +2011,10 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_M02_road_classification);
               }
               if (module === "hazard-map") {
-                view.map.layers.push(group_M06_hazard_map);
-                view.map.layers.push(group_M06_volume_of_traffic);
-                view.map.layers.push(group_M06_terrain);
-                view.map.layers.push(group_M06_road_classification);
+                view.map.layers.push(group_M06_hazards);
+                view.map.layers.push(group_M02_volume_of_traffic);
+                view.map.layers.push(group_M02_terrain);
+                view.map.layers.push(group_M02_road_classification);
               }
             })
             .catch(function (error) {
@@ -2302,14 +2039,14 @@ function MapContextProvider (props) {
       });     
   }
 
-  function open_popup (features) {
+  function open_popup (feature) {
     reactiveUtils.watch(
       function () {
         if (view) {
           view
             .when(function () {
               view.openPopup({
-                features: features,
+                features: [feature],
                 fetchFeatures: false
               });
             })
@@ -2339,7 +2076,6 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_road_sections,
-        layer_road_section_photos,
         layer_inventory_of_road_slope_structures,
         layer_inventory_of_road_slopes,
         layer_hazard_map,
