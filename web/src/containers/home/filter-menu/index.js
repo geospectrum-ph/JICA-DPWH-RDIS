@@ -253,7 +253,9 @@ export default function FilterMenu () {
   }
 
   React.useEffect(function () {
-    if (dataArray === null && moduleSelected) { query_features("1 = 1"); }
+    console.log(moduleSelected);
+
+    if (moduleSelected !== 0) { query_features("1 = 1"); }
   }, [moduleSelected]);
 
   const [dropdownActive, setDropdownActive] = React.useState(false);

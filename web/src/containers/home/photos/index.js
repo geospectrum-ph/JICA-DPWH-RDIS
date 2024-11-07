@@ -14,9 +14,9 @@ export default function Photos () {
     layer_road_section_photos
   } = React.useContext(MapContext);
 
-  React.useEffect(function () {
+  // React.useEffect(function () {
 
-  }, [roadSelected]);
+  // }, [roadSelected]);
 
   return (
     <div id = "photos-container">
