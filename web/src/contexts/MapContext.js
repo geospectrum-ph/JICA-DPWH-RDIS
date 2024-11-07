@@ -10,11 +10,13 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 
 import Expand from "@arcgis/core/widgets/Expand.js";
+import Editor from "@arcgis/core/widgets/Editor.js";
 import Search from "@arcgis/core/widgets/Search.js";
 import Home from "@arcgis/core/widgets/Home.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
+import Print from "@arcgis/core/widgets/Print.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 
 export const MapContext = React.createContext();
@@ -2206,6 +2208,40 @@ function MapContextProvider (props) {
         index: 4
       });
 
+      const widget_editor = new Editor({
+        view: view
+      });
+
+      const expand_editor = new Expand({
+        view: view,
+        content: widget_editor,
+        container: document.createElement("map-editor-container"),
+        placement: "bottom-end",
+        group: "widgets"
+      });
+
+      view.ui.add(expand_editor, {
+        position: "top-right",
+        index: 5
+      });
+
+      const widget_print = new Print({
+        view: view
+      });
+
+      const expand_print = new Expand({
+        view: view,
+        content: widget_print,
+        container: document.createElement("map-print-container"),
+        placement: "bottom-end",
+        group: "widgets"
+      });
+
+      view.ui.add(expand_print, {
+        position: "top-right",
+        index: 6
+      });
+
       const widget_scale_bar = new ScaleBar({
         view: view,
         container: document.createElement("map-scale-bar")
@@ -2302,14 +2338,14 @@ function MapContextProvider (props) {
       });     
   }
 
-  function open_popup (feature) {
+  function open_popup (features) {
     reactiveUtils.watch(
       function () {
         if (view) {
           view
             .when(function () {
               view.openPopup({
-                features: [feature],
+                features: features,
                 fetchFeatures: false
               });
             })
