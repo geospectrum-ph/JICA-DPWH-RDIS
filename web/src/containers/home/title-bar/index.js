@@ -9,7 +9,7 @@ import "./index.css";
 
 export default function TitleBar () {
   return (
-    <div className = "title-bar-container">
+    <div id = "title-bar-container">
       <div>
         <div>
           <a href = "https://www.dpwh.gov.ph/dpwh/" target = "_blank" rel = "noreferrer"><img src = { logo_DPWH } alt = "DPWH Logo"/></a>

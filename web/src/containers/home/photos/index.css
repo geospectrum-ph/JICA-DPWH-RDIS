@@ -1,4 +1,4 @@
-.photos-container{
+#photos-container{
   display: flex;
   flex-flow: column nowrap;
   place-items: center center;
@@ -6,6 +6,9 @@
 
   width: 320px;
   height: 100%;
+
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 1.00);
 
   > :nth-child(1) {
     display: flex;

@@ -5,7 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function InventoryOfRoadSlopeStructures () {
+export default function InventoryOfRoadSlopes () {
   const {
     setRoadSelected,
 
@@ -13,7 +13,7 @@ export default function InventoryOfRoadSlopeStructures () {
   } = React.useContext(MainContext);
 
   const {
-    layer_inventory_of_road_slope_structures,
+    layer_inventory_of_road_slopes,
     recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
@@ -23,7 +23,7 @@ export default function InventoryOfRoadSlopeStructures () {
       level === 1 ? "SECTION_ID = '" + value + "'" :
       null;
 
-    layer_inventory_of_road_slope_structures
+    layer_inventory_of_road_slopes
       .queryFeatures({
         where: expression || "1 = 0",
         returnGeometry: true,
@@ -57,7 +57,7 @@ export default function InventoryOfRoadSlopeStructures () {
   }
 
   return (
-    <div id = "inventory-of-road-slope-structures-container">
+    <div id = "inventory-of-road-slopes-container">
       <div>{ "List of Road Sections" }</div>
       <div>
         {

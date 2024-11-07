@@ -1,15 +1,20 @@
 import React from "react";
 
-import logo_DPWH from "../../../assets/logos/logo_DPWH.png";
-import logo_BP from "../../../assets/logos/logo_BP.png";
-
-import FilterMenu from "../filter-menu";
+import { MainContext } from "../../../contexts/MainContext";
 
 import "./index.css";
 
 export default function Photos () {
+  const {
+    roadSelected
+  } = React.useContext(MainContext);
+
+  React.useEffect(function () {
+    // console.log(roadSelected);
+  }, [roadSelected]);
+
   return (
-    <div className = "photos-container">
+    <div id = "photos-container">
       <div>{ "Photos" }</div>
     </div>
   );

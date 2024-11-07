@@ -1,4 +1,4 @@
-.title-bar-container{
+#title-bar-container{
   display: flex;
   flex-flow: row nowrap;
   place-items: center center;
@@ -6,6 +6,9 @@
 
   width: 100%;
   height: auto;
+
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 1.00);
 
   background-color: rgba(50, 50, 50, 1.00);
 

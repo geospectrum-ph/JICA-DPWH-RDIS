@@ -6,7 +6,9 @@
 
   width: 100%;
   height: 100%;
+
   box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 1.00);
   padding: 12px;
 
   font: normal 400 12px "Outfit", sans-serif;

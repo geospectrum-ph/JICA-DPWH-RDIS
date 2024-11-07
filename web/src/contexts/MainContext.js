@@ -48,6 +48,8 @@ function MainContextProvider (props) {
   
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
+  const [roadSelected, setRoadSelected] = React.useState(null);
+
   const [dataArray, setDataArray] = React.useState(null);
 
   const [filterL01Selected, setFilterL01Selected] = React.useState(null);
@@ -60,6 +62,8 @@ function MainContextProvider (props) {
       {
         modules, setModules,
         moduleSelected, setModuleSelected,
+
+        roadSelected, setRoadSelected,
 
         dataArray, setDataArray,
 

@@ -13,7 +13,9 @@ export default function ModuleBar () {
 
   const {
     modules,
-    moduleSelected, setModuleSelected
+    moduleSelected, setModuleSelected,
+
+    setRoadSelected
   } = React.useContext(MainContext);
 
   const {
@@ -26,6 +28,8 @@ export default function ModuleBar () {
     view_layer(modules[index].path);
 
     setModuleSelected(index);
+
+    setRoadSelected(null);
   }
 
   React.useEffect(function () {

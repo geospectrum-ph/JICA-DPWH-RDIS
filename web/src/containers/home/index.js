@@ -21,6 +21,8 @@ function HomePage () {
     MapComponent
   } = React.useContext(MapContext);
 
+  const array_media_container_visible = [1, 2];
+
   return (
     <div id = "home-container">
       <div>
@@ -29,18 +31,23 @@ function HomePage () {
       <div>
         <ModuleBar/>
       </div>
-      <div>
+      <div className = { array_media_container_visible.findIndex(function (module) { return (module === moduleSelected); }) < 0 ? "media-container-hidden" : "media-container-visible" }>
         <div>
           <Outlet/>
         </div>
-        <div>
-          <div>
-            <Photos/>
-          </div>
-          <div>
-            <Status/>
-          </div>
-        </div>
+        {
+          array_media_container_visible.findIndex(function (module) { return (module === moduleSelected); }) < 0 ?
+            null
+            :
+            <div>
+              <div>
+                <Photos/>
+              </div>
+              <div>
+                <Status/>
+              </div>
+            </div>
+        }
         <div>
           <MapComponent/>
         </div>
