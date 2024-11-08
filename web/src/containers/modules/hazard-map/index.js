@@ -43,7 +43,7 @@ export default function HazardMap () {
           recenter_map(extent);
 
           if (level === 1) {
-            open_popup(response.features);
+            if (response.features) { open_popup(response.features); }
 
             setRoadSelected(response.features[0].attributes.section_id);
           }

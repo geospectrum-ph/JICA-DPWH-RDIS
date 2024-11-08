@@ -26,6 +26,38 @@ function MapContextProvider (props) {
   const url_road_section_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_e8aa2f87765547658af3c3e5c41b8485/FeatureServer";
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver2/FeatureServer";
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
+  const url_km_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
+  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";
+
+  const layer_km_posts = new FeatureLayer({
+    title: "Kilometer Posts",
+    url: url_km_posts,
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-marker",
+        size: 6,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: false,
+    visible: true
+  });
+
+  const layer_regions = new FeatureLayer({
+    title: "Regions",
+    url: url_regions,
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: false,
+    visible: true
+  });
 
   const layer_road_sections = new FeatureLayer({
     title: "Road Sections",
@@ -2051,7 +2083,7 @@ function MapContextProvider (props) {
   });
 
   const layer_M06_low = new FeatureLayer({
-    title: "Middle Risk",
+    title: "Low Risk",
     url: url_hazard_map,
     definitionExpression: "priority_ranking = 'risk_low'",
     renderer: {
@@ -2262,7 +2294,7 @@ function MapContextProvider (props) {
           if ((selectedFeature) && (view.popup.visible)) {
             view
               .when(function () {
-                view.goTo(selectedFeature.geometry.extent);
+                if (selectedFeature.geometry.extent) view.goTo(selectedFeature.geometry.extent);
               })
               .catch(function (error) {
                 console.error(error);
@@ -2310,6 +2342,8 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_M02_road_classification);
               }
               if (module === "hazard-map") {
+                view.map.layers.push(layer_regions);
+                view.map.layers.push(layer_km_posts);
                 view.map.layers.push(group_M06_volume_of_traffic);
                 view.map.layers.push(group_M06_terrain);
                 view.map.layers.push(group_M06_road_classification);
