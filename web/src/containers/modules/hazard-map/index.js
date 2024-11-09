@@ -7,9 +7,10 @@ import "./index.css";
 
 export default function HazardMap () {
   const {
-    setRoadSelected,
+    dataArray,
+    dataLoading,
 
-    dataArray
+    setRoadSelected
   } = React.useContext(MainContext);
 
   const {
@@ -107,7 +108,7 @@ export default function HazardMap () {
                 );
               })
             :
-            <div className = "loading">{ "Loading data..." }</div>
+            dataLoading ? <div className = "loading">{ "Loading data..." }</div> : <div className = "loading">{ "No data available." }</div>
         }
       </div>
     </div>
