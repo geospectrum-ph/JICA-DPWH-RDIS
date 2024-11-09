@@ -12,21 +12,22 @@ import array_level_03 from "./filter_level_03.json";
 
 export default function FilterMenu () {
   const {
+    dataSource,
+    setDataArray,
+    setDataLoading,
+
     moduleSelected,
-    
-    dataArray, setDataArray,
 
     filterL01Selected, setFilterL01Selected,
     filterL02Selected, setFilterL02Selected,
     filterL03Selected, setFilterL03Selected,
-    filterL04Selected, setFilterL04Selected
+    filterL04Selected, setFilterL04Selected,
+
+    setRoadSelected
   } = React.useContext(MainContext);
   
   const {
     layer_road_sections,
-    layer_inventory_of_road_slope_structures,
-    layer_inventory_of_road_slopes,
-    layer_hazard_map,
 
     recenter_map, close_popup
   } = React.useContext(MapContext);
@@ -34,8 +35,8 @@ export default function FilterMenu () {
   function query_features (expression) {
     setDataArray(null);
 
-    if (moduleSelected === 1) {
-      layer_inventory_of_road_slope_structures
+    if (dataSource) {
+      dataSource
         .queryFeatures({
           where: expression || "1 = 0",
           returnGeometry: true,
@@ -51,70 +52,21 @@ export default function FilterMenu () {
 
             recenter_map(extent);
 
-            close_popup();
-
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID || attributes.road_id); });
 
             setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            setDataLoading(false);
+          }
+          else {
+            setDataLoading(false);
+
+            setDataArray([]);
           }
         })
         .catch(function (error) {
-          console.log(error);
-        });
-    }
-    else if (moduleSelected === 2) {
-      layer_inventory_of_road_slopes
-        .queryFeatures({
-          where: expression || "1 = 0",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response && response.features && response.features.length > 0) {
-            var extent = response.features[0].geometry.extent;
+          setDataLoading(false);
 
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
-
-            recenter_map(extent);
-            
-            close_popup();
-
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
-
-            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-    else if (moduleSelected === 6) {
-      layer_hazard_map
-        .queryFeatures({
-          where: expression || "1 = 0",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response && response.features && response.features.length > 0) {
-            var extent = response.features[0].geometry.extent;
-
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
-
-            recenter_map(extent);
-
-            close_popup();
-
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.road_id) });
-
-            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
-          }
-        })
-        .catch(function (error) {
           console.log(error);
         });
     }
@@ -135,14 +87,21 @@ export default function FilterMenu () {
 
             recenter_map(extent);
 
-            close_popup();
-
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID) });
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID || attributes.road_id); });
 
             setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+
+            setDataLoading(false);
+          }
+          else {
+            setDataLoading(false);
+
+            setDataArray([]);
           }
         })
         .catch(function (error) {
+          setDataLoading(false);
+
           console.log(error);
         });
     }
@@ -154,34 +113,71 @@ export default function FilterMenu () {
       setFilterL02Selected(null);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
+
+      query_features("1 = 1");
     }
     if (type === 2) {
       setFilterL02Selected(null);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
+
+     if (filterL01Selected) {  
+        query_features("REGION = '" + filterL01Selected + "'");
+      }
+      else {  
+        query_features("1 = 1");
+      }
     }
     if (type === 3) {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
+
+      if (filterL02Selected) {  
+        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'");
+      }
+      else if (filterL01Selected) {  
+        query_features("REGION = '" + filterL01Selected + "'");
+      }
+      else {  
+        query_features("1 = 1");
+      }
     }
     if (type === 4) {
       setFilterL04Selected(null);
+
+      if (filterL03Selected) {  
+        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'");
+      }
+      else if (filterL02Selected) {  
+        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'");
+      }
+      else if (filterL01Selected) {  
+        query_features("REGION = '" + filterL01Selected + "'");
+      }
+      else {  
+        query_features("1 = 1");
+      }
     }
   }
-
+  
   function select_filter (type, object) {
+    close_popup();
+
+    setDataLoading(true);
+
     if (type === 1) {
       setFilterL01Selected(object.REGION);
-
-      clear_filter(2);
+      setFilterL02Selected(null);
+      setFilterL03Selected(null);
+      setFilterL04Selected(null);
 
       query_features("REGION = '" + object.REGION + "'");
     }
     if (type === 2) {
       setFilterL01Selected(object.REGION);
       setFilterL02Selected(object.DEO);
-
-      clear_filter(3);
+      setFilterL03Selected(null);
+      setFilterL04Selected(null);
 
       query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'");
     }
@@ -189,8 +185,7 @@ export default function FilterMenu () {
       setFilterL01Selected(object.REGION);
       setFilterL02Selected(object.DEO);
       setFilterL03Selected(object.CONG_DIST);
-
-      clear_filter(4);
+      setFilterL04Selected(null);
 
       query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'");
     }
@@ -206,8 +201,6 @@ export default function FilterMenu () {
             var extent = response.features[0].geometry.extent;
 
             recenter_map(extent);
-
-            close_popup();
 
             setFilterL04Selected(response.features[0].attributes.SECTION_ID);
             setFilterL03Selected(response.features[0].attributes.CONG_DIST);
@@ -226,36 +219,43 @@ export default function FilterMenu () {
           else {
             if (filterL03Selected) {
               clear_filter(4);
-
-              query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'");
             }
             else if (filterL02Selected) {
               clear_filter(3);
-
-              query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'");
             }
             else if (filterL01Selected) {
               clear_filter(2);
-
-              query_features("REGION = '" + object.REGION + "'");
             }
             else {
               clear_filter(1);
-
-              query_features("1 = 1");
             }
           }
         })
         .catch(function (error) {
+          setDataLoading(false);
+
           console.log(error);
         });
     }
+
+    setRoadSelected(null);
   }
 
   React.useEffect(function () {
-    console.log(moduleSelected);
+    setDataLoading(true);
 
-    if (moduleSelected !== 0) { query_features("1 = 1"); }
+    if (filterL03Selected) {
+      clear_filter(4);
+    }
+    else if (filterL02Selected) {
+      clear_filter(3);
+    }
+    else if (filterL01Selected) {
+      clear_filter(2);
+    }
+    else {
+      clear_filter(1);
+    }
   }, [moduleSelected]);
 
   const [dropdownActive, setDropdownActive] = React.useState(false);
@@ -308,7 +308,7 @@ export default function FilterMenu () {
         <div className = { dropdown01Active ? "active" : null } onClick = { function () { click_dropdown(1); } }>
           <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(1); query_features("1 = 1"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
             {
               array_level_01 ?
                 array_level_01
@@ -317,7 +317,7 @@ export default function FilterMenu () {
                   })
                   .map(function (item, index) {
                     return (
-                      <div key = { index } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
+                      <div key = { index } className = { filterL01Selected && array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME === item.L01_NAME ? "selected" : null } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
                     );
                   })
                 :
@@ -331,7 +331,7 @@ export default function FilterMenu () {
         <div className = { dropdown02Active ? "active" : null } onClick = { function () { click_dropdown(2); } }>
           <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(2); query_features("REGION = '" + filterL01Selected + "'"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
             {
               array_level_02 ?
                 array_level_02
@@ -344,7 +344,7 @@ export default function FilterMenu () {
                     }
                     else {  
                       return (
-                        <div key = { index } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
+                        <div key = { index } className = { filterL02Selected && array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME === item.L02_NAME ? "selected" : null } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
                       );
                     }
                   })
@@ -359,7 +359,7 @@ export default function FilterMenu () {
         <div className = { dropdown03Active ? "active" : null } onClick = { function () { click_dropdown(3); } }>
           <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
           <div>
-            <div onClick = { function () { clear_filter(3); query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'"); } }>{ "Clear Selection" }</div>
+            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
             {
               array_level_03 ?
                 array_level_03
@@ -370,15 +370,13 @@ export default function FilterMenu () {
                     if (filterL01Selected && filterL01Selected !== item.REGION) {
                       return (null);
                     }
+                    else if (filterL02Selected && filterL02Selected !== item.DEO) {
+                      return (null);
+                    }
                     else {
-                      if (filterL02Selected && filterL02Selected !== item.DEO) {
-                        return (null);
-                      }
-                      else {
-                        return (
-                          <div key = { index } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
-                        );
-                      }
+                      return (
+                        <div key = { index } className = { filterL03Selected && array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME === item.L03_NAME ? "selected" : null } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
+                      );
                     }
                   })
                 :

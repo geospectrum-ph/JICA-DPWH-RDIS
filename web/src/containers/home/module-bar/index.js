@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
 import { MapContext } from "../../../contexts/MapContext";
@@ -9,9 +9,11 @@ import "./index.css";
 
 export default function ModuleBar () {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const {
+    setDataSource,
+    setDataLoading,
+
     modules,
     moduleSelected, setModuleSelected,
 
@@ -19,24 +21,46 @@ export default function ModuleBar () {
   } = React.useContext(MainContext);
 
   const {
+    layer_road_sections,
+    layer_hazard_map,
+    layer_inventory_of_road_slopes,
+    layer_inventory_of_road_slope_structures,
+
     view_layer,
+    close_popup
   } = React.useContext(MapContext);
 
   function set_module (index) {
+    close_popup();
+    
     view_layer(modules[index].path);
 
     setRoadSelected(null);
 
+    setDataLoading(true);
+
+    switch (index) {
+      case 1:
+        setDataSource(layer_hazard_map);
+        break;
+      case 2:
+        setDataSource(layer_inventory_of_road_slopes);
+        break;
+      case 3:
+        setDataSource(layer_inventory_of_road_slope_structures);
+        break;
+      default:
+        setDataSource(layer_road_sections);
+        break;
+    }
+
     setModuleSelected(index);
+
+    navigate(`/home/${modules[index].path}`);
   }
 
   React.useEffect(function () {
-    const path = location.pathname.split("/")[2];
-    const index = modules.findIndex(function (module) { return (module.path === path); });
-
-    if (index > -1) {
-      set_module(index);
-    }
+    set_module(0);
   }, []);
   
   return (
@@ -45,7 +69,7 @@ export default function ModuleBar () {
         modules ? 
           modules.map(function (module, index) {
             return (
-              <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); navigate(`/home/${modules[index].path}`); } }>
+              <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
                 { module.name }
               </div>
             );

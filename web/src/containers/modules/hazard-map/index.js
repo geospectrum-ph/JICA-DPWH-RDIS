@@ -14,7 +14,7 @@ export default function HazardMap () {
 
   const {
     layer_hazard_map,
-    
+        
     recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   

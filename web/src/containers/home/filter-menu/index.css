@@ -116,7 +116,13 @@
             background-color: rgba(225, 125, 25, 1.00);
 
             color: rgba(255, 255, 255, 1.00)
-          }    
+          }
+
+          &.selected {
+            background-color: rgba(225, 125, 25, 1.00);
+
+            color: rgba(255, 255, 255, 1.00)
+          }
         }
       }
 
