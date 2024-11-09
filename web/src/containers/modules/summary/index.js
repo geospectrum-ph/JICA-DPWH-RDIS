@@ -80,25 +80,25 @@ export default function Summary () {
           <div/>
           <div>
             <div>
-              <span class="material-symbols-outlined" id='hazard-high'>
+              <span className="material-symbols-outlined" id='hazard-high'>
                 horizontal_rule
               </span>
               {"High"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
             </div>
             <div>
-              <span class="material-symbols-outlined" id='hazard-middle'>
+              <span className="material-symbols-outlined" id='hazard-middle'>
                 horizontal_rule
               </span>
               {"Middle"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
             </div>
             <div>
-              <span class="material-symbols-outlined" id='hazard-low'>
+              <span className="material-symbols-outlined" id='hazard-low'>
                 horizontal_rule
               </span>
               {"Low"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
             </div>
             <div>
-              <span class="material-symbols-outlined" id='hazard-none'>
+              <span className="material-symbols-outlined" id='hazard-none'>
                 horizontal_rule
               </span>
               {"Non-evaluated"}&emsp;&emsp;{"0000"}
@@ -148,8 +148,8 @@ export default function Summary () {
               <th>Poor</th>
               <th>Bad</th>
             </tr>
-            {structureTypes.map((type) => {
-              return <tr>
+            {structureTypes.map((type, index) => {
+              return <tr key = {index}>
                 <td>{type}</td>
                 <td>0</td>
                 <td>0</td>
