@@ -106,15 +106,38 @@
 #map-container {
   box-sizing: border-box;
   border: 2px solid rgba(0, 0, 0, 1.00);
+
+  .esri-expand {
+    > calcite-popover {
+      box-sizing: border-box;
+      margin-top: 8px;
   
+      > .esri-expand__popover-content {
+        > .esri-expand__content-container {
+          max-height: 360px;
+
+          > .esri-widget {
+            max-height: 100%;
+          }
+        }
+      }
+    }
+  }
+
   .esri-ui-top-right.esri-ui-corner {
     display: flex;
     flex-flow: row nowrap;
     place-items: center center;
     place-content: center center;
 
-    map-search-container {
+    > map-search-container {
       margin-right: 12px;
+    }
+
+    > map-layer-list-container {
+      .esri-slider {
+        padding: 8px;
+      }
     }
   }
 

@@ -14,7 +14,7 @@ export default function HazardMap () {
   } = React.useContext(MainContext);
 
   const {
-    layer_hazard_map,
+    layer_hazard_risk_surveys,
         
     recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
@@ -25,7 +25,7 @@ export default function HazardMap () {
       level === 1 ? "section_id = '" + value + "'" :
       null;
 
-    layer_hazard_map
+    layer_hazard_risk_surveys
       .queryFeatures({
         where: expression || "1 = 0",
         returnGeometry: true,
@@ -67,6 +67,7 @@ export default function HazardMap () {
             dataArray
               .sort(function (base, next) {
                 if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
+                else { return (1); }
               })
               .map(function (road, key) {
                 return (
@@ -84,6 +85,7 @@ export default function HazardMap () {
                         road[1]
                           .sort(function (base, next) {
                             if (base.attributes.section_id && next.attributes.section_id) { return (base.attributes.section_id.localeCompare(next.attributes.section_id)); }
+                            else { return (1); }
                           })
                           .map(function (section, key) {
                             return (

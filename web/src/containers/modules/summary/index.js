@@ -141,6 +141,7 @@ export default function Summary () {
         <div>{"Total Number of Type of Road Slope Structure by Condition"}</div>
         <div>
           <table>
+            <tbody>
             <tr>
               <th>Particular</th>
               <th>Good</th>
@@ -157,6 +158,7 @@ export default function Summary () {
                 <td>0</td>
               </tr>
             })}
+            </tbody>
           </table>
         </div>
       </div>
