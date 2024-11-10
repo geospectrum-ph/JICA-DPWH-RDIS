@@ -38,7 +38,7 @@ export default function FilterMenu () {
     if (dataSource) {
       dataSource
         .queryFeatures({
-          where: expression || "1 = 0",
+          where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
           returnGeometry: true,
           outFields: ["*"]
         })

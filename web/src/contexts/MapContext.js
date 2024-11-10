@@ -28,7 +28,6 @@ function MapContextProvider (props) {
 
   const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer";
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver2/FeatureServer";
-  const url_hazard_map_with_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_df81ab0664a64e08b17f4ac6ade70d08/FeatureServer";
   const url_hazard_map_storm_surge_noah = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
   const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
@@ -94,78 +93,89 @@ function MapContextProvider (props) {
   }
 
   function content_hazard_map (target) {
-    return (document.createElement("attribute-table").innerHTML = `
-      <table cellpadding = "8">
-        <tr style = "background-color: #393939;">
-          <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_name || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.district_name || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Priority ranking</b></td>
-          <td>${ target.graphic.attributes.priority_ranking || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_length || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_height || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.target_area || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Type of Disaster</b></td>
-          <td>${ disaster_type_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
-        </tr>
-      </table>
-    `);
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tr style = "background-color: #393939;">
+                <td><b>Region</b></td>
+                <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Engineering District</b></td>
+                <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Legislative District</b></td>
+                <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Road Classification</b></td>
+                <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Road Name</b></td>
+                <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Section ID</b></td>
+                <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Terrain</b></td>
+                <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Priority ranking</b></td>
+                <td>${ target.graphic.attributes.priority_ranking || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Station Limit</b></td>
+                <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Station Limit</b></td>
+                <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Chainage</b></td>
+                <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Chainage</b></td>
+                <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Length</b> (meters)</td>
+                <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Height</b> (meters)</td>
+                <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Area</b> (sq. meters)</td>
+                <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Slope Angle / Gradient</b> (degrees)</td>
+                <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Type of Disaster</b></td>
+                <td>${ disaster_type_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
+              </tr>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
   }
 
   const layer_hazard_map = new FeatureLayer({
@@ -282,94 +292,105 @@ function MapContextProvider (props) {
   });
   
   function content_inventory_of_road_slopes (target) {
-    return (document.createElement("attribute-table").innerHTML = `
-      <table cellpadding = "8">
-        <tr style = "background-color: #393939;">
-          <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.TERRAIN_TYPE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Volume of Traffic</b> (AADT)</td>
-          <td>${ target.graphic.attributes.AADT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.START_LRP || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.END_LRP || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.START_CHAINAGE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.END_CHAINAGE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Coordinates</b></td>
-          <td>${ target.graphic.attributes.START_COORDS || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Coordinates</b></td>
-          <td>${ target.graphic.attributes.END_COORDS || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.LENGTH || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.HEIGHT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.LENGTH * target.graphic.attributes.HEIGHT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.GRADIENT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Type of Disaster</b></td>
-          <td>${ target.graphic.attributes.DISASTER_TYPE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>With Slope Disaster Failure?</b></td>
-          <td>${ target.graphic.attributes.FAILURE_BOOL || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Date of Occurence</b></td>
-          <td>${ target.graphic.attributes.DATE || "No available data" }</td>
-        </tr>
-      </table>
-    `);
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tr style = "background-color: #393939;">
+                <td><b>Region</b></td>
+                <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Engineering District</b></td>
+                <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Legislative District</b></td>
+                <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Road Classification</b></td>
+                <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Road Name</b></td>
+                <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Section ID</b></td>
+                <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Terrain</b></td>
+                <td>${ target.graphic.attributes.TERRAIN_TYPE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Volume of Traffic</b> (AADT)</td>
+                <td>${ target.graphic.attributes.AADT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Station Limit</b></td>
+                <td>${ target.graphic.attributes.START_LRP || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Station Limit</b></td>
+                <td>${ target.graphic.attributes.END_LRP || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Chainage</b></td>
+                <td>${ target.graphic.attributes.START_CHAINAGE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Chainage</b></td>
+                <td>${ target.graphic.attributes.END_CHAINAGE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Coordinates</b></td>
+                <td>${ target.graphic.attributes.START_COORDS || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Coordinates</b></td>
+                <td>${ target.graphic.attributes.END_COORDS || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Length</b> (meters)</td>
+                <td>${ target.graphic.attributes.LENGTH || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Height</b> (meters)</td>
+                <td>${ target.graphic.attributes.HEIGHT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Area</b> (sq. meters)</td>
+                <td>${ target.graphic.attributes.LENGTH * target.graphic.attributes.HEIGHT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Slope Angle / Gradient</b> (degrees)</td>
+                <td>${ target.graphic.attributes.GRADIENT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Type of Disaster</b></td>
+                <td>${ target.graphic.attributes.DISASTER_TYPE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>With Slope Disaster Failure?</b></td>
+                <td>${ target.graphic.attributes.FAILURE_BOOL || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Date of Occurence</b></td>
+                <td>${ target.graphic.attributes.DATE || "No available data" }</td>
+              </tr>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
   }
 
   const layer_inventory_of_road_slopes = new FeatureLayer({
@@ -394,94 +415,105 @@ function MapContextProvider (props) {
   });
 
   function content_inventory_of_road_slope_structures (target) {
-    return (document.createElement("attribute-table").innerHTML = `
-      <table cellpadding = "8">
-        <tr style = "background-color: #393939;">
-          <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.TERRAIN_TYPE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Volume of Traffic</b> (AADT)</td>
-          <td>${ target.graphic.attributes.AADT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.START_LRP || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.END_LRP || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.START_CHAINAGE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.END_CHAINAGE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Start Coordinates</b></td>
-          <td>${ target.graphic.attributes.START_COORDS || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>End Coordinates</b></td>
-          <td>${ target.graphic.attributes.END_COORDS || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Existing Type of Road Slope Structure</b></td>
-          <td>${ target.graphic.attributes.STRUCTURE_TYPE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.LENGTH || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.HEIGHT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.LENGTH * target.graphic.attributes.HEIGHT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #2d2d2d;">
-          <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.GRADIENT || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Type of Disaster</b></td>
-          <td>${ target.graphic.attributes.DISASTER_TYPE || "No available data" }</td>
-        </tr>
-        <tr style = "background-color: #393939;">
-          <td><b>Condition</b></td>
-          <td>${ target.graphic.attributes.CONDITION || "No available data" }</td>
-        </tr>
-      </table>
-    `);
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tr style = "background-color: #393939;">
+                <td><b>Region</b></td>
+                <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Engineering District</b></td>
+                <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Legislative District</b></td>
+                <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Road Classification</b></td>
+                <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Road Name</b></td>
+                <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Section ID</b></td>
+                <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Terrain</b></td>
+                <td>${ target.graphic.attributes.TERRAIN_TYPE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Volume of Traffic</b> (AADT)</td>
+                <td>${ target.graphic.attributes.AADT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Station Limit</b></td>
+                <td>${ target.graphic.attributes.START_LRP || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Station Limit</b></td>
+                <td>${ target.graphic.attributes.END_LRP || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Chainage</b></td>
+                <td>${ target.graphic.attributes.START_CHAINAGE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Chainage</b></td>
+                <td>${ target.graphic.attributes.END_CHAINAGE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Start Coordinates</b></td>
+                <td>${ target.graphic.attributes.START_COORDS || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>End Coordinates</b></td>
+                <td>${ target.graphic.attributes.END_COORDS || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Existing Type of Road Slope Structure</b></td>
+                <td>${ target.graphic.attributes.STRUCTURE_TYPE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Length</b> (meters)</td>
+                <td>${ target.graphic.attributes.LENGTH || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Height</b> (meters)</td>
+                <td>${ target.graphic.attributes.HEIGHT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Area</b> (sq. meters)</td>
+                <td>${ target.graphic.attributes.LENGTH * target.graphic.attributes.HEIGHT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #2d2d2d;">
+                <td><b>Slope Angle / Gradient</b> (degrees)</td>
+                <td>${ target.graphic.attributes.GRADIENT || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Type of Disaster</b></td>
+                <td>${ target.graphic.attributes.DISASTER_TYPE || "No available data" }</td>
+              </tr>
+              <tr style = "background-color: #393939;">
+                <td><b>Condition</b></td>
+                <td>${ target.graphic.attributes.CONDITION || "No available data" }</td>
+              </tr>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
   }
 
   const layer_inventory_of_road_slope_structures = new FeatureLayer({

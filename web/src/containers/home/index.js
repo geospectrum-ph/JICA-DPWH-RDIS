@@ -7,11 +7,13 @@ import { MapContext } from "../../contexts/MapContext";
 
 import TitleBar from "./title-bar";
 import ModuleBar from "./module-bar";
+import LoadingModal from "./loading-modal";
 
 import "./index.css";
 
 function HomePage () {
   const {
+    dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
@@ -20,7 +22,7 @@ function HomePage () {
   } = React.useContext(MapContext);
   
   return (
-    <div id = "home-container" className = { dataLoading ? null : "interactive" }>
+    <div id = "home-container" className = { dataLoading ? null : "home-container-interactive" }>
       <div>
         <TitleBar/>
       </div>
@@ -30,6 +32,9 @@ function HomePage () {
       <div>
         <div><Outlet/></div>
         <div><MapComponent/></div>
+      </div>
+      <div className = { !dataArray && dataLoading ? "loading-modal-active" : "loading-modal-hidden" }>
+        <LoadingModal/>
       </div>
     </div>
   );
