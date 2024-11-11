@@ -1,8 +1,8 @@
 #hazard-map-container {
   display: flex;
   flex-flow: column nowrap;
-  place-items: center center;
-  place-content: start start;
+  place-items: stretch center;
+  place-content: center start;
 
   overflow: hidden hidden;
 
@@ -135,20 +135,8 @@
 
             /* Buffer */
             > :nth-child(1) {
-              width: 12px;
-              height: auto;
-
-              &.risk_low {
-                border-left: 12px solid rgba(255, 255, 0, 1.00);
-              }
-
-              &.risk_middle {
-                border-left: 12px solid rgba(255, 155, 55, 1.00);
-              }
-
-              &.risk_high {
-                border-left: 12px solid rgba(255, 0, 0, 1.00);
-              }
+              width: 24px;
+              height: 100%;
             }
 
             /* Section ID */

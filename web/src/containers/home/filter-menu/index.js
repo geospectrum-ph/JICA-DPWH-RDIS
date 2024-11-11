@@ -305,7 +305,7 @@ export default function FilterMenu () {
     <div id = "filter-menu-container">
       <div>
         <div>{ "Region" }</div>
-        <div className = { dropdown01Active ? "active" : null } onClick = { function () { click_dropdown(1); } }>
+        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(1); } }>
           <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
           <div>
             <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
@@ -317,7 +317,7 @@ export default function FilterMenu () {
                   })
                   .map(function (item, index) {
                     return (
-                      <div key = { index } className = { filterL01Selected && array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME === item.L01_NAME ? "selected" : null } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
+                      <div key = { index } className = { filterL01Selected && array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME === item.L01_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
                     );
                   })
                 :
@@ -328,7 +328,7 @@ export default function FilterMenu () {
       </div>
       <div>
         <div>{ "Engineering District" }</div>
-        <div className = { dropdown02Active ? "active" : null } onClick = { function () { click_dropdown(2); } }>
+        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(2); } }>
           <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
           <div>
             <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
@@ -344,7 +344,7 @@ export default function FilterMenu () {
                     }
                     else {  
                       return (
-                        <div key = { index } className = { filterL02Selected && array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME === item.L02_NAME ? "selected" : null } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
+                        <div key = { index } className = { filterL02Selected && array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME === item.L02_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
                       );
                     }
                   })
@@ -356,7 +356,7 @@ export default function FilterMenu () {
       </div>
       <div>
         <div>{ "Legislative District" }</div>
-        <div className = { dropdown03Active ? "active" : null } onClick = { function () { click_dropdown(3); } }>
+        <div className = { dropdown03Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(3); } }>
           <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
           <div>
             <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
@@ -375,7 +375,7 @@ export default function FilterMenu () {
                     }
                     else {
                       return (
-                        <div key = { index } className = { filterL03Selected && array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME === item.L03_NAME ? "selected" : null } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
+                        <div key = { index } className = { filterL03Selected && array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME === item.L03_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
                       );
                     }
                   })
@@ -387,7 +387,7 @@ export default function FilterMenu () {
       </div>
       <div>
         <div>{ "Section ID" }</div>
-        <div className = { dropdown04Active ? "active" : null } onClick = { function () { click_dropdown(4); } }>
+        <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(4); } }>
           <input
             type = "text"
             value = { filterL04Selected ? filterL04Selected : "" }

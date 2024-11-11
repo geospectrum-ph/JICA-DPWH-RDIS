@@ -74,10 +74,10 @@ export default function HazardMap () {
                   <div key = { key }>
                     <div onClick = { function () { find_road(0, road[0]); } }>
                       <div>
-                        { road[0] }
+                        { road[0] || "No available data." }
                       </div>
                       <div>
-                        { road[1][0].attributes.road_name }
+                        { road[1][0].attributes.ROAD_NAME || "No available data." }
                       </div>
                     </div>
                     <div>
@@ -91,15 +91,12 @@ export default function HazardMap () {
                             return (
                               <div key = { key }>
                                 <div onClick = { function () { find_road(1, section.attributes.section_id); } }>
-                                  <div className = { section.attributes.priority_ranking }></div>
-                                  <div>{ section.attributes.section_id }</div>
+                                  <div></div>
+                                  <div>{ section.attributes.section_id || "No available data." }</div>
                                 </div>
                                 <div>
                                   <div></div>
-                                  <div>
-                                    <div>{ "Start Station Limit: " + section.attributes.start_lrp }</div>
-                                    <div>{ "End Station Limit: " + section.attributes.end_lrp }</div>
-                                  </div>
+                                  <div>{ "No available data." }</div>
                                 </div>
                               </div>
                             );

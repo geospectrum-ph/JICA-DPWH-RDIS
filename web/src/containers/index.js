@@ -32,12 +32,12 @@ export default function App() {
           <Route index element = { <SignIn/> }/>
           <Route path = "home" element = { <Home/> }>
             <Route path = "summary" element = { <Summary/> }/>
-            <Route path = "inventory-of-road-slope-structures" element = { <InventoryOfRoadSlopeStructures/> }/>
+            <Route path = "hazard-map" element = { <HazardMap/> }/>
             <Route path = "inventory-of-road-slopes" element = { <InventoryOfRoadSlopes/> }/>
+            <Route path = "inventory-of-road-slope-structures" element = { <InventoryOfRoadSlopeStructures/> }/>
             <Route path = "potential-road-slope-projects" element = { <PotentialRoadSlopeProjects/> }/>
             <Route path = "funded-road-slope-projects" element = { <FundedRoadSlopeProjects/> }/>
             <Route path = "proposal-for-funding" element = { <ProposalForFunding/> }/>
-            <Route path = "hazard-map" element = { <HazardMap/> }/>
             <Route path = "reports" element = { <Reports/> }/>
           </Route>
           <Route path = "about" element = { <About/> }/>

@@ -1,8 +1,8 @@
 #inventory-of-road-slope-structures-container {
   display: flex;
   flex-flow: column nowrap;
-  place-items: center center;
-  place-content: start start;
+  place-items: stretch center;
+  place-content: center start;
 
   overflow: hidden hidden;
 

@@ -67,16 +67,17 @@ export default function InventoryOfRoadSlopeStructures () {
             dataArray
               .sort(function (base, next) {
                 if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
+                else { return (1); }
               })
               .map(function (road, key) {
                 return (
                   <div key = { key }>
                     <div onClick = { function () { find_road(0, road[0]); } }>
                       <div>
-                        { road[0] }
+                        { road[0] || "No available data." }
                       </div>
                       <div>
-                        { road[1][0].attributes.ROAD_NAME }
+                        { road[1][0].attributes.ROAD_NAME || "No available data." }
                       </div>
                     </div>
                     <div>
@@ -84,13 +85,14 @@ export default function InventoryOfRoadSlopeStructures () {
                         road[1]
                           .sort(function (base, next) {
                             if (base.attributes.SECTION_ID && next.attributes.SECTION_ID) { return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID)); }
+                            else { return (1); }
                           })
                           .map(function (section, key) {
                             return (
                               <div key = { key }>
                                 <div onClick = { function () { find_road(1, section.attributes.SECTION_ID); } }>
                                   <div></div>
-                                  <div>{ section.attributes.SECTION_ID }</div>
+                                  <div>{ section.attributes.SECTION_ID || "No available data." }</div>
                                 </div>
                                 <div>
                                   <div></div>
