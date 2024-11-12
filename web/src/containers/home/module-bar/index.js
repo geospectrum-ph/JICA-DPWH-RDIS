@@ -22,7 +22,7 @@ export default function ModuleBar () {
 
   const {
     layer_road_sections,
-    layer_hazard_risk_surveys,
+    layer_hazard_map,
     layer_inventory_of_road_slopes,
     layer_inventory_of_road_slope_structures,
 
@@ -41,13 +41,15 @@ export default function ModuleBar () {
 
     switch (index) {
       case 1:
-        setDataSource(layer_hazard_risk_surveys);
+        setDataSource(layer_hazard_map);
         break;
       case 2:
-        setDataSource(layer_inventory_of_road_slopes);
+        // setDataSource(layer_inventory_of_road_slopes);
+        setDataSource(null);
         break;
       case 3:
-        setDataSource(layer_inventory_of_road_slope_structures);
+        // setDataSource(layer_inventory_of_road_slope_structures);
+        setDataSource(null);
         break;
       default:
         setDataSource(layer_road_sections);
