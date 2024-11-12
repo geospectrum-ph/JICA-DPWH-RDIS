@@ -78,7 +78,7 @@ export default function HazardMap () {
                         { road[0] || "No available data." }
                       </div>
                       <div>
-                        { road[1][0].attributes.ROAD_NAME || "No available data." }
+                        { road[1][0].attributes.road_name || "No available data." }
                       </div>
                     </div>
                     <div>
