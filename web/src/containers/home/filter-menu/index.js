@@ -60,9 +60,7 @@ export default function FilterMenu () {
 
             recenter_map(extent);
 
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID || attributes.road_id); });
-
-            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+            setDataArray(response.features);
 
             setDataLoading(false);
           }
@@ -103,9 +101,7 @@ export default function FilterMenu () {
 
             recenter_map(extent);
 
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID); });
-
-            setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
+            setDataArray(response.features);
 
             setDataLoading(false);
           }

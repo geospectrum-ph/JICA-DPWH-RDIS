@@ -58,61 +58,68 @@ export default function HazardMap () {
       });
   }
 
+  function DataArray () {
+    const roads_object = Object.groupBy(dataArray, function ({ attributes }) { return (attributes.road_id); });
+    const roads_array = Object.keys(roads_object).map((key) => [key, roads_object[key]]);
+
+    return (
+      roads_array
+        .sort(function (base, next) {
+          if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
+          else { return (1); }
+        })
+        .map(function (road, key) {
+          return (
+            <div key = { key }>
+              <div onClick = { function () { find_road(0, road[0]); } }>
+                <div>
+                  { road[0] || "No available data." }
+                </div>
+                <div>
+                  { road[1][0].attributes.ROAD_NAME || "No available data." }
+                </div>
+              </div>
+              <div>
+                {
+                  road[1]
+                    .sort(function (base, next) {
+                      if (base.attributes.SECTION_ID && next.attributes.SECTION_ID) { return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID)); }
+                      else { return (1); }
+                    })
+                    .map(function (section, key) {
+                      return (
+                        <div key = { key }>
+                          <div onClick = { function () { find_road(1, section.attributes.SECTION_ID); } }>
+                            <div></div>
+                            <div>{ section.attributes.SECTION_ID || "No available data." }</div>
+                          </div>
+                          <div>
+                            <div></div>
+                            <div>{ "No available data." }</div>
+                          </div>
+                        </div>
+                      );
+                    })
+                }
+              </div>
+            </div>
+          );
+        })
+    );
+  }
+
   return (
     <div id = "hazard-map-container">
       <div>{ "List of Road Sections" }</div>
-      <div>
-        {
-          dataArray ?
-            dataArray
-              .sort(function (base, next) {
-                if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
-                else { return (1); }
-              })
-              .map(function (road, key) {
-                return (
-                  <div key = { key }>
-                    <div onClick = { function () { find_road(0, road[0]); } }>
-                      <div>
-                        { road[0] || "No available data." }
-                      </div>
-                      <div>
-                        { road[1][0].attributes.road_name || "No available data." }
-                      </div>
-                    </div>
-                    <div>
-                      {
-                        road[1]
-                          .sort(function (base, next) {
-                            if (base.attributes.section_id && next.attributes.section_id) { return (base.attributes.section_id.localeCompare(next.attributes.section_id)); }
-                            else { return (1); }
-                          })
-                          .map(function (section, key) {
-                            return (
-                              <div key = { key }>
-                                <div onClick = { function () { find_road(1, section.attributes.section_id); } }>
-                                  <div></div>
-                                  <div>{ section.attributes.section_id || "No available data." }</div>
-                                </div>
-                                <div>
-                                  <div></div>
-                                  <div>
-                                    <div>Start LRP: {section.attributes.start_lrp}</div>
-                                    <div>End LRP: {section.attributes.end_lrp}</div>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })
-                      }
-                    </div>
-                  </div>
-                );
-              })
+      {
+        dataArray ?
+          <DataArray/>
+          :
+          dataLoading ?
+            <div className = "data-array-placeholder">{ "Loading data..." }</div>
             :
-            dataLoading ? <div className = "loading">{ "Loading data..." }</div> : <div className = "loading">{ "No data available." }</div>
-        }
-      </div>
+            <div className = "data-array-placeholder">{ "No data available." }</div>
+      }
     </div>
   );
 }

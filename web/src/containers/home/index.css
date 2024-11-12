@@ -159,8 +159,20 @@
     }
 
     > map-layer-list-container {
-      .esri-slider {
-        padding: 8px;
+      .esri-list-item-panel {
+        box-sizing: border-box;
+        padding: 0 16px;
+
+        > :nth-child(1) {
+          box-sizing: border-box;
+          padding: 4px 8px 8px 8px;
+        }
+
+        > :nth-child(2) {
+          > :nth-child(1) {
+            background-color: rgba(0, 0, 0, 0.00);
+          }
+        }
       }
     }
   }

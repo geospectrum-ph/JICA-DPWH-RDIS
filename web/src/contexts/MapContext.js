@@ -2532,7 +2532,7 @@ function MapContextProvider (props) {
           });
       
           item.panel = {
-            content: ["<div className = 'panel-title'>Change Opacity</div>", slider],
+            content: ["Change the layer's opacity", slider],
             icon: "sliders-horizontal"
           };
       
