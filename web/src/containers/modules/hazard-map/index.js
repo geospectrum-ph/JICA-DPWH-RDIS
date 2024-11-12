@@ -20,6 +20,7 @@ export default function HazardMap () {
   } = React.useContext(MapContext);
   
   function find_road (level, value) {
+    console.log(level, value)
     const expression =
       level === 0 ? "road_id = '" + value + "'" :
       level === 1 ? "section_id = '" + value + "'" :
@@ -96,7 +97,10 @@ export default function HazardMap () {
                                 </div>
                                 <div>
                                   <div></div>
-                                  <div>{ "No available data." }</div>
+                                  <div>
+                                    <div>Start LRP: {section.attributes.start_lrp}</div>
+                                    <div>End LRP: {section.attributes.end_lrp}</div>
+                                  </div>
                                 </div>
                               </div>
                             );
