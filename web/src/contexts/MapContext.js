@@ -401,17 +401,59 @@ function MapContextProvider (props) {
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Profile Slope Height Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_height_score || "No available data" }</td>
+                  <td>${ target.graphic.attributes.profile_slope_height_score || "0" }</td>
                 </tr><tr style = "background-color: #393939;">
                   <td><b>Profile Slope Angle Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_angle_score || "No available data" }</td>
+                  <td>${ target.graphic.attributes.profile_slope_angle_score || "0" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Topography G1 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g1_score || "No available data" }</td>
+                  <td>${ target.graphic.attributes.topography_g1_score || "0" }</td>
                 </tr><tr style = "background-color: #393939;">
                   <td><b>Topography G2 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g2_score || "No available data" }</td>
+                  <td>${ target.graphic.attributes.topography_g2_score || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Geological Soil Score</b></td>
+                  <td>${ target.graphic.attributes.geological_soil_score || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Geological Rock Score</b></td>
+                  <td>${ target.graphic.attributes.geological_rock_score || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Geological Slope Score</b></td>
+                  <td>${ target.graphic.attributes.geological_slope_score || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Geological Sediment Score</b></td>
+                  <td>${ target.graphic.attributes.geological_sediment_score || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Surface Vegetation Score</b></td>
+                  <td>${ target.graphic.attributes.surface_vegetation_score || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Surface Soil Score</b></td>
+                  <td>${ target.graphic.attributes.surface_soil_score || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Surface Water Score</b></td>
+                  <td>${ target.graphic.attributes.surface_water_score || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Anomaly Score</b></td>
+                  <td>${ target.graphic.attributes.anomaly_score || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Total Score (A)</b></td>
+                  <td>${ target.graphic.attributes.total_score_a || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Total Score (B)</b></td>
+                  <td>${ target.graphic.attributes.total_score_b || "0" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Disaster History Score</b></td>
+                  <td>${ target.graphic.attributes.disaster_history_score || "0" }</td>
+                </tr><tr style = "background-color: #393939;">
+                  <td><b>Score (D)</b></td>
+                  <td>${ target.graphic.attributes.score_d || "0" }</td>
                 </tr>
               </tbody>
             </table>
