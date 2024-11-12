@@ -586,7 +586,7 @@ function MapContextProvider (props) {
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Priority ranking</b></td>
-                  <td>${ target.graphic.attributes.hazard_risk_select || "No available data" }</td>
+                  <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Start Station Limit</b></td>
@@ -618,40 +618,11 @@ function MapContextProvider (props) {
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.slope_angle || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Type of Disaster</b></td>
-                  <td>${ disaster_codes[target.graphic.attributes.disaster_type_select] || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Type Left</b></td>
-                  <td>${ target.graphic.attributes.slope_type_left || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Slope Type Right</b></td>
-                  <td>${ target.graphic.attributes.slope_type_right || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Survey Side</b></td>
-                  <td>${ target.graphic.attributes.survey_side || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td colspan="2" style="text-align: center;"><b>Hazard Scores</b></td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Profile Slope Height Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_height_score || "No available data" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Profile Slope Angle Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_angle_score || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Topography G1 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g1_score || "No available data" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Topography G2 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g2_score || "No available data" }</td>
+                  <td>${ disaster_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Slope Type Left</b></td>
