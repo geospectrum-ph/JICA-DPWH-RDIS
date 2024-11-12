@@ -25,6 +25,10 @@ import Error from "./modules/error";
 import "./index.css"
 
 export default function App() {
+  window.addEventListener("offline", function (event) {
+    console.log("Web application is offline.");
+  });
+  
   return (
     <div id = "app-container">
       <Routes>

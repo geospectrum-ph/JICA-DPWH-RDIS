@@ -14,19 +14,18 @@ export default function HazardMap () {
   } = React.useContext(MainContext);
 
   const {
-    layer_hazard_risk_surveys,
+    layer_hazard_map,
         
     recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
   
   function find_road (level, value) {
-    console.log(level, value)
     const expression =
       level === 0 ? "road_id = '" + value + "'" :
       level === 1 ? "section_id = '" + value + "'" :
       null;
 
-    layer_hazard_risk_surveys
+    layer_hazard_map
       .queryFeatures({
         where: expression || "1 = 0",
         returnGeometry: true,

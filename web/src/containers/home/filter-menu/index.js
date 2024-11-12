@@ -32,10 +32,18 @@ export default function FilterMenu () {
     recenter_map, close_popup
   } = React.useContext(MapContext);
 
-  function query_features (expression) {
+  function query_features (level, object) {
     setDataArray(null);
 
     if (dataSource) {
+      const expression =
+        level === 0 ? "1 = 1" :
+        level === 1 ? "region_name = '" + object.REGION || filterL01Selected + "'" :
+        level === 2 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "'" :
+        level === 3 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "' AND district_name = '" + object.CONG_DIST || filterL03Selected + "'" :
+        level === 4 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "' AND district_name = '" + object.CONG_DIST || filterL03Selected + "' AND section_id = '" + object.SECTION_ID || filterL04Selected + "'" :
+        "1 = 0";
+
       dataSource
         .queryFeatures({
           where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
@@ -61,7 +69,7 @@ export default function FilterMenu () {
           else {
             setDataLoading(false);
 
-            setDataArray([]);
+            setDataArray(null);
           }
         })
         .catch(function (error) {
@@ -71,6 +79,14 @@ export default function FilterMenu () {
         });
     }
     else {
+      const expression =
+        level === 0 ? "1 = 1" :
+        level === 1 ? "REGION = '" + object.REGION || filterL01Selected + "'" :
+        level === 2 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "'" :
+        level === 3 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "' AND CONG_DIST = '" + object.CONG_DIST || filterL03Selected + "'" :
+        level === 4 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "' AND CONG_DIST = '" + object.CONG_DIST || filterL03Selected + "' AND SECTION_ID = '" + object.SECTION_ID || filterL04Selected + "'" :
+        "1 = 0";
+
       layer_road_sections
         .queryFeatures({
           where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
@@ -87,7 +103,7 @@ export default function FilterMenu () {
 
             recenter_map(extent);
 
-            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID || attributes.road_id); });
+            const data_object = Object.groupBy(response.features, function ({ attributes }) { return (attributes.ROAD_ID); });
 
             setDataArray(Object.keys(data_object).map((key) => [key, data_object[key]]));
 
@@ -96,7 +112,7 @@ export default function FilterMenu () {
           else {
             setDataLoading(false);
 
-            setDataArray([]);
+            setDataArray(null);
           }
         })
         .catch(function (error) {
@@ -114,7 +130,7 @@ export default function FilterMenu () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-      query_features("1 = 1");
+      query_features(0, null);
     }
     if (type === 2) {
       setFilterL02Selected(null);
@@ -122,10 +138,10 @@ export default function FilterMenu () {
       setFilterL04Selected(null);
 
      if (filterL01Selected) {  
-        query_features("REGION = '" + filterL01Selected + "'");
+        query_features(1, null);
       }
       else {  
-        query_features("1 = 1");
+        query_features(0, null);
       }
     }
     if (type === 3) {
@@ -133,29 +149,29 @@ export default function FilterMenu () {
       setFilterL04Selected(null);
 
       if (filterL02Selected) {  
-        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'");
+        query_features(2, null);
       }
       else if (filterL01Selected) {  
-        query_features("REGION = '" + filterL01Selected + "'");
+        query_features(1, null);
       }
       else {  
-        query_features("1 = 1");
+        query_features(0, null);
       }
     }
     if (type === 4) {
       setFilterL04Selected(null);
 
       if (filterL03Selected) {  
-        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'");
+        query_features(3, null);
       }
       else if (filterL02Selected) {  
-        query_features("REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'");
+        query_features(2, null);
       }
       else if (filterL01Selected) {  
-        query_features("REGION = '" + filterL01Selected + "'");
+        query_features(1, null);
       }
       else {  
-        query_features("1 = 1");
+        query_features(0, null);
       }
     }
   }
@@ -171,7 +187,7 @@ export default function FilterMenu () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-      query_features("REGION = '" + object.REGION + "'");
+      query_features(1, object);
     }
     if (type === 2) {
       setFilterL01Selected(object.REGION);
@@ -179,7 +195,7 @@ export default function FilterMenu () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-      query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'");
+      query_features(2, object);
     }
     if (type === 3) {
       setFilterL01Selected(object.REGION);
@@ -187,7 +203,7 @@ export default function FilterMenu () {
       setFilterL03Selected(object.CONG_DIST);
       setFilterL04Selected(null);
 
-      query_features("REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'");
+      query_features(3, object);
     }
     if (type === 4) {
       layer_road_sections
@@ -207,14 +223,7 @@ export default function FilterMenu () {
             setFilterL02Selected(response.features[0].attributes.DEO);
             setFilterL01Selected(response.features[0].attributes.REGION);
 
-            const expression =
-              "REGION = '" + response.features[0].attributes.REGION +
-              "' AND DEO = '" + response.features[0].attributes.DEO +
-              "' AND CONG_DIST = '" + response.features[0].attributes.CONG_DIST +
-              "' AND SECTION_ID = '" + response.features[0].attributes.SECTION_ID +
-              "'";
-
-            query_features(expression);
+            query_features(4, response.features[0].attributes);
           }
           else {
             if (filterL03Selected) {
