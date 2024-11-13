@@ -72,7 +72,7 @@ export default function InventoryOfRoadSlopeStructures () {
     const roads_array = Object
       .keys(roads_object)
       .sort(function (base, next) {
-        if (base, next) {
+        if (base && next) {
           return (base.localeCompare(next));
         }
         else {
@@ -96,7 +96,7 @@ export default function InventoryOfRoadSlopeStructures () {
               const sections_array = Object
                 .keys(sections_object)
                 .sort(function (base, next) {
-                  if (base, next) {
+                  if (base && next) {
                     return (base.localeCompare(next));
                   }
                   else {

@@ -72,7 +72,7 @@ export default function HazardMap () {
     const roads_array = Object
       .keys(roads_object)
       .sort(function (base, next) {
-        if (base, next) {
+        if (base && next) {
           return (base.localeCompare(next));
         }
         else {

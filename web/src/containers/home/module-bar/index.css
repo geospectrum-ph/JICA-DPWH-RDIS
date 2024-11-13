@@ -1,56 +1,116 @@
 
 #module-bar-container {
   display: flex;
-  flex-flow: row nowrap;
-  place-items: center center;
-  place-content: center start;
+  flex-flow: column nowrap;
+  place-items: start center;
+  place-content: center stretch;
 
   width: 100%;
   height: auto;
 
   box-sizing: border-box;
   border: 2px solid rgba(0, 0, 0, 1.00);
-  padding: 12px;
-  gap: 12px;
 
   background-color: rgba(100, 100, 100, 1.00);
 
-  /* Module Buttons */
-  > * {
+  > :nth-child(1) {
     display: flex;
     flex-flow: row nowrap;
     place-items: center center;
-    place-content: center center;
-
-    width: auto;
-    height: 100%;
-
+    place-content: center start;
+  
+    width: 100%;
+    height: auto;
+  
     box-sizing: border-box;
-    outline: 2px solid rgba(255, 255, 255, 1.00);
-    padding: 8px;
+    padding: 12px;
+    gap: 12px;
+  
+    /* Module Buttons */
+    > * {
+      display: flex;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center center;
 
-    cursor: pointer;
+      width: auto;
+      height: 100%;
 
-    font: normal 400 16px "Outfit", sans-serif;
-    color: rgba(255, 255, 255, 1.00);
+      box-sizing: border-box;
+      outline: 2px solid rgba(255, 255, 255, 1.00);
+      padding: 8px;
 
-    &:hover {    
-      background-color: rgba(225, 125, 25, 1.00);
+      cursor: pointer;
+
+      font: normal 400 16px "Outfit", sans-serif;
+      color: rgba(255, 255, 255, 1.00);
+
+      &:hover {    
+        background-color: rgba(225, 125, 25, 1.00);
+      }
+
+      &.selected {
+        background-color: rgba(225, 125, 25, 1.00);
+      }
     }
 
-    &.selected {
-      background-color: rgba(225, 125, 25, 1.00);
+    /* Exit Button */
+    > :last-child {
+      box-sizing: border-box;
+      margin-left: auto;
+      gap: 8px;
+
+      > :last-child {
+        font-size: 15px;
+      }
     }
   }
 
-  /* Exit Button */
-  > :last-child {
-    box-sizing: border-box;
-    margin-left: auto;
-    gap: 8px;
+  /* Hidden Container */
+  > :nth-child(2) {
+    display: none;
 
-    > :last-child {
-      font-size: 15px;
+    &.hidden-container-active {
+      display: flex;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center start;
+    
+      width: 100%;
+      height: auto;
+    
+      box-sizing: border-box;
+      padding: 0 12px 12px 12px;
+      gap: 12px;
+  
+      /* Module Buttons */
+      > * {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center center;
+  
+        width: auto;
+        min-width: 270px;
+        height: 100%;
+  
+        box-sizing: border-box;
+        outline: 2px solid rgba(255, 255, 255, 1.00);
+        padding: 8px;
+  
+        cursor: pointer;
+  
+        font: normal 400 16px "Outfit", sans-serif;
+        color: rgba(255, 255, 255, 1.00);
+  
+        &:hover {    
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+  
+        &.selected {
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+      } 
     }
   }
 }
