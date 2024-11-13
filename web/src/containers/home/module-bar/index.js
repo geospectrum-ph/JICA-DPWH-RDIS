@@ -17,7 +17,7 @@ export default function ModuleBar () {
     modules,
     moduleSelected, setModuleSelected,
 
-    setRoadSelected
+    setDataSelected
   } = React.useContext(MainContext);
 
   const {
@@ -35,7 +35,7 @@ export default function ModuleBar () {
     
     view_layer(modules[index].path);
 
-    setRoadSelected(null);
+    setDataSelected(null);
 
     setDataLoading(true);
 

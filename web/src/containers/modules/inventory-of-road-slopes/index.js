@@ -10,7 +10,7 @@ export default function InventoryOfRoadSlopes () {
     dataArray,
     dataLoading,
 
-    setRoadSelected
+    dataSelected, setDataSelected
   } = React.useContext(MainContext);
 
   const {
@@ -23,6 +23,7 @@ export default function InventoryOfRoadSlopes () {
     const expression =
       level === 0 ? "ROAD_ID = '" + value + "'" :
       level === 1 ? "SECTION_ID = '" + value + "'" :
+      level === 2 ? "GlobalID = '" + value + "'" :
       null;
 
     layer_inventory_of_road_slopes
@@ -43,14 +44,18 @@ export default function InventoryOfRoadSlopes () {
 
           recenter_map(extent);
 
-          if (level === 1) {
-            open_popup(response.features);
+          if (level === 2) {
+            setDataSelected(response.features[0].attributes.GlobalID);
 
-            setRoadSelected(response.features[0].attributes.SECTION_ID);
+            open_popup(response.features);
           }
           else {
-            setRoadSelected(null);
+            setDataSelected(null);
+
+            close_popup();
           }
+
+          console.log(response.features[0]);
         }
       })
       .catch(function (error) {
@@ -58,58 +63,111 @@ export default function InventoryOfRoadSlopes () {
       });
   }
 
-  return (
-    <div id = "inventory-of-road-slopes-container">
-      <div>{ "List of Road Sections" }</div>
-      <div>
+  function DataArray () {
+    const roads_object = Object
+      .groupBy(dataArray, function ({ attributes }) {
+        return (attributes.ROAD_ID);
+      });
+    
+    const roads_array = Object
+      .keys(roads_object)
+      .sort(function (base, next) {
+        return (base.localeCompare(next));
+      })
+      .map(function (road_id) {
+        return ([road_id, roads_object[road_id]]);
+      });
+
+    return (
+      <div className = "data-array-container">
         {
-          dataArray ?
-            dataArray
-              .sort(function (base, next) {
-                if (base[0] && next[0]) { return (base[0].localeCompare(next[0])); }
-                else { return (1); }
-              })
-              .map(function (road, key) {
-                return (
-                  <div key = { key }>
-                    <div onClick = { function () { find_road(0, road[0]); } }>
-                      <div>
-                        { road[0] || "No available data." }
-                      </div>
-                      <div>
-                        { road[1][0].attributes.ROAD_NAME || "No available data." }
-                      </div>
-                    </div>
-                    <div>
-                      {
-                        road[1]
-                          .sort(function (base, next) {
-                            if (base.attributes.SECTION_ID && next.attributes.SECTION_ID) { return (base.attributes.SECTION_ID.localeCompare(next.attributes.SECTION_ID)); }
-                            else { return (1); }
-                          })
-                          .map(function (section, key) {
-                            return (
-                              <div key = { key }>
-                                <div onClick = { function () { find_road(1, section.attributes.SECTION_ID); } }>
-                                  <div></div>
-                                  <div>{ section.attributes.SECTION_ID || "No available data." }</div>
-                                </div>
-                                <div>
-                                  <div></div>
-                                  <div>{ "No available data." }</div>
-                                </div>
-                              </div>
-                            );
-                          })
-                      }
-                    </div>
+          roads_array
+            .map(function (road, key) {
+              const sections_object = Object
+                .groupBy(road[1], function ({ attributes }) {
+                  return (attributes.SECTION_ID);
+                });
+            
+              const sections_array = Object
+                .keys(sections_object)
+                .sort(function (base, next) {
+                  return (base.localeCompare(next));
+                })
+                .map(function (section_id) {
+                  return ([section_id, sections_object[section_id]]);
+                });
+
+              return (
+                <div key = { key }>
+                  <div onClick = { function () { find_road(0, road[0]); } }>
+                    <span>{ road[0] + " (" + road[1][0].attributes.ROAD_NAME + ")" || "No available data." }</span>
                   </div>
-                );
-              })
-            :
-            dataLoading ? <div className = "loading">{ "Loading data..." }</div> : <div className = "loading">{ "No data available." }</div>
+                  <div>
+                    {
+                      sections_array
+                        .map(function (section, key) {
+                          return (
+                            <div key = { key }>
+                              <div onClick = { function () { find_road(1, section[0]); } }>
+                                <span>{ section[0] || "No available data." }</span>
+                              </div>
+                              <div>
+                                {
+                                  section[1]
+                                    // .sort(function (base, next) {
+                                    //   return (base.attributes.GlobalID.localeCompare(next.attributes.GlobalID));
+                                    // })
+                                    .map(function (chainage, key) {
+                                      return (
+                                        <div key = { key } className = { dataSelected === chainage.attributes.GlobalID ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.GlobalID); } }>
+                                          <div>
+                                            <span>{ "Type of Disaster" }</span>
+                                            <span>{ chainage.attributes.DISASTER_TYPE || "No available data." }</span>
+                                          </div>
+                                          <div>
+                                            <span>{ "With Slope Disaster Failure?" }</span>
+                                            <span>{ chainage.attributes.PAST_FAILURE || "No available data." }</span>
+                                          </div>
+                                          <div>
+                                            <span>{ "Dates of Occurence" }</span>
+                                            <span>{ chainage.attributes.DATES_OF_OCCURENCE || "No available data." }</span>
+                                          </div>
+                                        </div>
+                                      );
+                                    })
+                                }
+                              </div>
+                            </div>
+                          );
+                        })
+                    }
+                  </div>
+                </div>
+              );
+            })
         }
       </div>
+    );
+  }
+
+  return (
+    <div id = "inventory-of-road-slopes-container">
+      <div>
+        <span>{ "List of Road Sections" }</span>
+      </div>
+      {
+        dataArray ?
+          <DataArray/>
+          :
+          dataLoading ?
+            <div className = "data-array-placeholder">
+              <span>{ "Loading data..." }</span>
+            </div>
+            :
+            <div className = "data-array-placeholder">
+              <span>{ "No data available." }</span>
+            </div>
+      }
     </div>
   );
 }

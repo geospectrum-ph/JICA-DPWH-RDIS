@@ -57,7 +57,7 @@ function MainContextProvider (props) {
   const [filterL03Selected, setFilterL03Selected] = React.useState(null);
   const [filterL04Selected, setFilterL04Selected] = React.useState(null);
 
-  const [roadSelected, setRoadSelected] = React.useState(null);
+  const [dataSelected, setDataSelected] = React.useState(null);
 
   return (
     <MainContext.Provider value = {
@@ -74,7 +74,7 @@ function MainContextProvider (props) {
         filterL03Selected, setFilterL03Selected, 
         filterL04Selected, setFilterL04Selected,
 
-        roadSelected, setRoadSelected
+        dataSelected, setDataSelected
       }
     }>
       { props.children }

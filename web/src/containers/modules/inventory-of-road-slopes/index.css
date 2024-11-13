@@ -3,7 +3,7 @@
   flex-flow: column nowrap;
   place-items: stretch center;
   place-content: center start;
-  
+
   overflow: hidden hidden;
 
   width: 320px;
@@ -12,14 +12,15 @@
   box-sizing: border-box;
   border: 2px solid rgba(0, 0, 0, 1.00);
 
-  /* Header */
-  > :nth-child(1) {
-    display: flex;
-    flex-flow: column nowrap;
-    place-items: start center;
-    place-content: center center;
+  background-color: rgba(100, 100, 100, 1.00);
 
-    width: 100%;
+  color: rgba(255, 255, 255, 1.00);
+
+  /* Data Array Header */
+  > :nth-child(1) {
+    flex: auto 1 auto;
+
+    width: auto;
     height: auto;
 
     box-sizing: border-box;
@@ -29,175 +30,151 @@
 
     font: normal 400 16px "Outfit", sans-serif;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 1.00);
   }
 
-  /* Road Inventory List */
-  > :nth-child(2) {
+  > .data-array-container {
     overflow: hidden auto;
-
-    flex: 1 1 auto;
 
     width: 100%;
     height: 100%;
 
-    box-sizing: border-box;
-    
     font: normal 400 16px "Outfit", sans-serif;
-    color: rgba(0, 0, 0, 1.00);
 
-    /* Road Inventory Items, by ROAD_ID */
+    /* Road Container */
     > * {
-      display: flex;
-      flex-flow: column nowrap;
-      place-items: stretch center;
-      place-content: center center;
+      display: grid;
 
-      width: 100%;
-      height: auto;
-
-      cursor: pointer;
-
-      /* ROAD_ID Panel */
+      /* Road Header */
       > :nth-child(1) {
-        display: flex;
+        display: inline-flex;
         flex-flow: row nowrap;
-        place-items: stretch center;
-        place-content: center center;
-  
-        /* Road ID */
-        > :nth-child(1) {        
+        place-items: start center;
+        place-content: center start;
+
+        box-sizing: border-box;
+        padding: 12px;
+
+        background-color: rgba(70, 70, 70, 1.00);
+
+        cursor: pointer;
+
+        /* Section ID */
+        > :nth-child(1) {
+          display: flex;
+
           flex: 1 1 auto;
-          
-          box-sizing: border-box;
-          padding: 12px;
-  
-          background-color: rgba(75, 75, 75, 1.00);
-  
-          color: rgba(255, 255, 255, 1.00);
-        }
-  
-        /* Road Name */
-        > :nth-child(2) {        
-          flex: auto 1 auto; 
-  
-          width: calc((100% * 3 / 5));
-          height: auto;
-                  
-          box-sizing: border-box;
-          padding: 12px;
-  
-          background-color: rgba(100, 100, 100, 1.00);
-  
-          color: rgba(255, 255, 255, 1.00);
         }
 
         &:hover {
-          > * {
-            background-color: rgba(225, 125, 25, 1.00);
-  
-            color: rgba(255, 255, 255, 1.00);
-          }
-  
-          > :nth-child(2) {
-            border-right: 1px solid rgba(225, 125, 25, 1.00);
-          }
+          background-color: rgba(225, 125, 25, 1.00);
         }
       }
 
-    /* Level Buffer */
-    > :nth-child(2) {
-        display: flex;
-        flex-flow: column nowrap;
-        place-items: stretch center;
-        place-content: center center;
-  
-        /* Road Inventory Items, by SECTION_ID */
-        > * {    
-          display: flex;
-          flex-flow: column nowrap;
-          place-items: stretch center;
-          place-content: center center;
+      /* Sections Container */
+      > :nth-child(2) {
+        width: 100%;
+        height: auto;
 
-          /* SECTION_ID Panel */
+        /* Section Container */
+        > * {
+          display: grid;
+
+          background-color: rgba(85, 85, 85, 1.00);
+
+          /* Section Header */
           > :nth-child(1) {
-            display: flex;
+            display: inline-flex;
             flex-flow: row nowrap;
-            place-items: stretch center;
-            place-content: center center;
+            place-items: start center;
+            place-content: center start;
+    
+            box-sizing: border-box;
+            padding: 12px;
 
-            width: 100%;
-            height: auto;
-
-            background-color: rgba(255, 255, 255, 1.00);
-  
-            color: rgba(50, 50, 50, 1.00);
-
-            /* Buffer */
-            > :nth-child(1) {
-              width: 24px;
-              height: 100%;
-            }
-
+            cursor: pointer;
+    
             /* Section ID */
-            > :nth-child(2) {        
+            > :nth-child(1) {
+              display: flex;
+    
               flex: 1 1 auto;
-              
-              box-sizing: border-box;
-              padding: 12px;
             }
 
             &:hover {
               background-color: rgba(225, 125, 25, 1.00);
-  
-              color: rgba(255, 255, 255, 1.00);
             }
           }
 
-          /* Details */
+          /* Chainages Container */
           > :nth-child(2) {
-            display: flex;
-            flex-flow: row nowrap;
-            place-items: stretch center;
-            place-content: center center;
+            display: grid;
 
-            width: 100%;
-            height: auto;
+            box-sizing: border-box;
+            padding: 12px;
+            gap: 12px;
 
-            background-color: rgba(255, 255, 255, 1.00);
-  
-            color: rgba(100, 100, 100, 1.00);
+            background-color: rgba(100, 100, 100, 1.00);
 
-            /* Buffer */
-            > :nth-child(1) {
-              width: 48px;
-              height: 100%;
-            }
-
-            /* Section ID */
-            > :nth-child(2) {        
-              flex: 1 1 auto;
+            /* Chainage Container */
+            > * {
+              display: grid;
               
               box-sizing: border-box;
+              border: 2px solid rgba(255, 255, 255, 1.00);
               padding: 12px;
+
+              cursor: pointer;
+
+              &.data-selected {
+                background-color: rgba(225, 125, 25, 1.00);
+              }
+
+              &:hover {
+                background-color: rgba(225, 125, 25, 1.00);
+              }
+
+              /* Chainages */
+              > * {
+                display: inline-flex;
+                flex-flow: row nowrap;
+                place-items: start center;
+                place-content: center start;
+
+                box-sizing: border-box;
+                padding: 4px;
+
+                /* Label */
+                > :nth-child(1) {
+                  display: flex;
+
+                  width: 150px;
+                  height: auto;
+                }
+
+                /* Value */
+                > :nth-child(2) {
+                  display: flex;
+
+                  flex: 1 1 auto;
+                }
+              }
             }
           }
         }
       }
-
-      &.loading {
-        display: flex;
-        flex-flow: row nowrap;
-        place-items: start start;
-        place-content: start start;
-  
-        width: 100%;
-        height: 100%;
-  
-        box-sizing: border-box;
-        border-bottom: 1px solid rgba(225, 225, 225, 1.00);
-        padding: 12px;
-      }
     }
+  }
+
+  > .data-array-placeholder {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: start center;
+    place-content: center stretch;
+
+    width: 100%;
+    height: auto;
+
+    box-sizing: border-box;
+    padding: 12px;
   }
 }

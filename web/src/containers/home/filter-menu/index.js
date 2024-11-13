@@ -23,7 +23,7 @@ export default function FilterMenu () {
     filterL03Selected, setFilterL03Selected,
     filterL04Selected, setFilterL04Selected,
 
-    setRoadSelected
+    setDataSelected
   } = React.useContext(MainContext);
   
   const {
@@ -37,16 +37,24 @@ export default function FilterMenu () {
 
     if (dataSource) {
       const expression =
+        moduleSelected === 0 ? "1 = 0" :
+        object ?
+          level === 0 ? "1 = 1" :
+          level === 1 ? "region_name = '" + object.REGION + "'" :
+          level === 2 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "'" :
+          level === 3 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'" :
+          level === 4 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "' AND section_id = '" + object.SECTION_ID + "'" :
+          "1 = 0" :
         level === 0 ? "1 = 1" :
-        level === 1 ? "region_name = '" + object.REGION || filterL01Selected + "'" :
-        level === 2 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "'" :
-        level === 3 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "' AND district_name = '" + object.CONG_DIST || filterL03Selected + "'" :
-        level === 4 ? "region_name = '" + object.REGION || filterL01Selected + "' AND deo_name = '" + object.DEO || filterL02Selected + "' AND district_name = '" + object.CONG_DIST || filterL03Selected + "' AND section_id = '" + object.SECTION_ID || filterL04Selected + "'" :
+        level === 1 ? "region_name = '" + filterL01Selected + "'" :
+        level === 2 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "'" :
+        level === 3 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'" :
+        level === 4 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "' AND section_id = '" + filterL04Selected + "'" :
         "1 = 0";
 
       dataSource
         .queryFeatures({
-          where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
+          where: expression || "1 = 0",
           returnGeometry: true,
           outFields: ["*"]
         })
@@ -78,11 +86,19 @@ export default function FilterMenu () {
     }
     else {
       const expression =
+        moduleSelected === 0 ? "1 = 0" :
+        object ?
+          level === 0 ? "1 = 1" :
+          level === 1 ? "REGION = '" + object.REGION + "'" :
+          level === 2 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'" :
+          level === 3 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND district_name = '" + object.CONG_DIST + "'" :
+          level === 4 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND district_name = '" + object.CONG_DIST + "' AND section_id = '" + object.SECTION_ID + "'" :
+          "1 = 0" :
         level === 0 ? "1 = 1" :
-        level === 1 ? "REGION = '" + object.REGION || filterL01Selected + "'" :
-        level === 2 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "'" :
-        level === 3 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "' AND CONG_DIST = '" + object.CONG_DIST || filterL03Selected + "'" :
-        level === 4 ? "REGION = '" + object.REGION || filterL01Selected + "' AND DEO = '" + object.DEO || filterL02Selected + "' AND CONG_DIST = '" + object.CONG_DIST || filterL03Selected + "' AND SECTION_ID = '" + object.SECTION_ID || filterL04Selected + "'" :
+        level === 1 ? "REGION = '" + filterL01Selected + "'" :
+        level === 2 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'" :
+        level === 3 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND district_name = '" + filterL03Selected + "'" :
+        level === 4 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND district_name = '" + filterL03Selected + "' AND section_id = '" + filterL04Selected + "'" :
         "1 = 0";
 
       layer_road_sections
@@ -243,7 +259,7 @@ export default function FilterMenu () {
         });
     }
 
-    setRoadSelected(null);
+    setDataSelected(null);
   }
 
   React.useEffect(function () {
