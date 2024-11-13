@@ -334,7 +334,12 @@ export default function FilterMenu () {
               array_level_01 ?
                 array_level_01
                   .sort(function (base, next) {
-                    return (base.L01_ID.localeCompare(next.L01_ID));
+                    if (base.L01_ID && next.L01_ID) {
+                      return (base.L01_ID.localeCompare(next.L01_ID));
+                    }
+                    else {
+                      return (0);
+                    }
                   })
                   .map(function (item, index) {
                     return (
@@ -357,7 +362,12 @@ export default function FilterMenu () {
               array_level_02 ?
                 array_level_02
                   .sort(function (base, next) {
-                    return (base.L02_ID.localeCompare(next.L02_ID));
+                    if (base.L02_ID && next.L02_ID) {
+                      return (base.L02_ID.localeCompare(next.L02_ID));
+                    }
+                    else {
+                      return (0);
+                    }
                   })
                   .map(function (item, index) {
                     if (filterL01Selected && filterL01Selected !== item.REGION) {
@@ -385,7 +395,12 @@ export default function FilterMenu () {
               array_level_03 ?
                 array_level_03
                   .sort(function (base, next) {
-                    return (base.L03_ID.localeCompare(next.L03_ID));
+                    if (base.L03_ID && next.L03_ID) {
+                      return (base.L03_ID.localeCompare(next.L03_ID));
+                    }
+                    else {
+                      return (0);
+                    }
                   })
                   .map(function (item, index) {
                     if (filterL01Selected && filterL01Selected !== item.REGION) {

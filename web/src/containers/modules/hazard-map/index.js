@@ -72,7 +72,12 @@ export default function HazardMap () {
     const roads_array = Object
       .keys(roads_object)
       .sort(function (base, next) {
-        return (base.localeCompare(next));
+        if (base, next) {
+          return (base.localeCompare(next));
+        }
+        else {
+          return (0);
+        }
       })
       .map(function (road_id) {
         return ([road_id, roads_object[road_id]]);
@@ -91,7 +96,12 @@ export default function HazardMap () {
               const sections_array = Object
                 .keys(sections_object)
                 .sort(function (base, next) {
-                  return (base.localeCompare(next));
+                  if (base, next) {
+                    return (base.localeCompare(next));
+                  }
+                  else {
+                    return (0);
+                  }
                 })
                 .map(function (section_id) {
                   return ([section_id, sections_object[section_id]]);
@@ -114,9 +124,14 @@ export default function HazardMap () {
                               <div>
                                 {
                                   section[1]
-                                    // .sort(function (base, next) {
-                                    //   return (base.attributes.start_lrp.localeCompare(next.attributes.start_lrp));
-                                    // })
+                                    .sort(function (base, next) {
+                                      if (base.attributes.start_lrp && next.attributes.start_lrp) {
+                                        return (base.attributes.start_lrp.localeCompare(next.attributes.start_lrp));
+                                      }
+                                      else {
+                                        return (0);
+                                      }
+                                    })
                                     .map(function (chainage, key) {
                                       return (
                                         <div key = { key } className = { dataSelected === chainage.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.globalid); } }>

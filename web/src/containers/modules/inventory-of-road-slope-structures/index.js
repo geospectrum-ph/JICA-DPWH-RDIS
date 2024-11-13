@@ -72,7 +72,12 @@ export default function InventoryOfRoadSlopeStructures () {
     const roads_array = Object
       .keys(roads_object)
       .sort(function (base, next) {
-        return (base.localeCompare(next));
+        if (base, next) {
+          return (base.localeCompare(next));
+        }
+        else {
+          return (0);
+        }
       })
       .map(function (road_id) {
         return ([road_id, roads_object[road_id]]);
@@ -91,7 +96,12 @@ export default function InventoryOfRoadSlopeStructures () {
               const sections_array = Object
                 .keys(sections_object)
                 .sort(function (base, next) {
-                  return (base.localeCompare(next));
+                  if (base, next) {
+                    return (base.localeCompare(next));
+                  }
+                  else {
+                    return (0);
+                  }
                 })
                 .map(function (section_id) {
                   return ([section_id, sections_object[section_id]]);
@@ -114,23 +124,28 @@ export default function InventoryOfRoadSlopeStructures () {
                               <div>
                                 {
                                   section[1]
-                                    // .sort(function (base, next) {
-                                    //   const base_value =
-                                    //     base.attributes.ROAD_CONDITION === "good" ? 1 :
-                                    //     base.attributes.ROAD_CONDITION === "fair" ? 2 :
-                                    //     base.attributes.ROAD_CONDITION === "poor" ? 3 :
-                                    //     base.attributes.ROAD_CONDITION === "bad" ? 4 :
-                                    //     0;
+                                    .sort(function (base, next) {
+                                      if (base.attributes.ROAD_CONDITION && next.attributes.ROAD_CONDITION) {
+                                        const base_value =
+                                          base.attributes.ROAD_CONDITION === "good" ? 1 :
+                                          base.attributes.ROAD_CONDITION === "fair" ? 2 :
+                                          base.attributes.ROAD_CONDITION === "poor" ? 3 :
+                                          base.attributes.ROAD_CONDITION === "bad" ? 4 :
+                                          0;
 
-                                    //   const next_value =
-                                    //     next.attributes.ROAD_CONDITION === "good" ? 1 :
-                                    //     next.attributes.ROAD_CONDITION === "fair" ? 2 :
-                                    //     next.attributes.ROAD_CONDITION === "poor" ? 3 :
-                                    //     next.attributes.ROAD_CONDITION === "bad" ? 4 :
-                                    //     0;
+                                        const next_value =
+                                          next.attributes.ROAD_CONDITION === "good" ? 1 :
+                                          next.attributes.ROAD_CONDITION === "fair" ? 2 :
+                                          next.attributes.ROAD_CONDITION === "poor" ? 3 :
+                                          next.attributes.ROAD_CONDITION === "bad" ? 4 :
+                                          0;
 
-                                    //   return (base_value - next_value);
-                                    // })
+                                        return (base_value - next_value);
+                                      }
+                                      else {
+                                        return (0);
+                                      }
+                                    })
                                     .map(function (chainage, key) {
                                       return (
                                         <div key = { key } className = { dataSelected === chainage.attributes.GlobalID ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.GlobalID); } }>
