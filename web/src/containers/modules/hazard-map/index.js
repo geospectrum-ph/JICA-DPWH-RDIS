@@ -136,11 +136,11 @@ export default function HazardMap () {
                                       return (
                                         <div key = { key } className = { dataSelected === chainage.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.globalid); } }>
                                           <div>
-                                            <span>{ "Start Chainage" }</span>
+                                            <span>{ "Start LRP" }</span>
                                             <span>{ chainage.attributes.start_lrp || "No available data." }</span>
                                           </div>
                                           <div>
-                                            <span>{ "End Chainage" }</span>
+                                            <span>{ "End LRP" }</span>
                                             <span>{ chainage.attributes.end_lrp || "No available data." }</span>
                                           </div>
                                         </div>
