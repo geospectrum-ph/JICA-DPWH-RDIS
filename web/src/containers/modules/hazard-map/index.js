@@ -114,9 +114,9 @@ export default function HazardMap () {
                               <div>
                                 {
                                   section[1]
-                                    .sort(function (base, next) {
-                                      return (base.attributes.start_lrp.localeCompare(next.attributes.start_lrp));
-                                    })
+                                    // .sort(function (base, next) {
+                                    //   return (base.attributes.start_lrp.localeCompare(next.attributes.start_lrp));
+                                    // })
                                     .map(function (chainage, key) {
                                       return (
                                         <div key = { key } className = { dataSelected === chainage.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.globalid); } }>
