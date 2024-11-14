@@ -35,6 +35,46 @@ function MapContextProvider (props) {
 
   /* Reference Data */
 
+  function content_road_sections (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
   const layer_road_sections = new FeatureLayer({
     title: "Road Sections",
     url: url_road_sections,
@@ -212,11 +252,78 @@ function MapContextProvider (props) {
         }
       ]
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_road_sections
+    },
     visible: true
   });
 
+  const group_road_sections = new GroupLayer({
+    title: "Road Sections",
+    layers: [
+      layer_road_sections
+    ],
+    visible: false,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
+
   /* Common Data */
+
+  function content_kilometer_posts (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Kilometer Post</b></td>
+                  <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Chainage</b></td>
+                  <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Side</b></td>
+                  <td>${ target.graphic.attributes.XSP || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
 
   const layer_kilometer_posts = new FeatureLayer({
     title: "Kilometer Posts",
@@ -226,7 +333,7 @@ function MapContextProvider (props) {
       label: "Kilometer Post",
       symbol: {
         type: "simple-marker",
-        size: "4px",
+        size: "8px",
         color: [255, 255, 255, 1.00],
         outline: {
           color: [0, 0, 0, 1.00],
@@ -234,7 +341,12 @@ function MapContextProvider (props) {
         }
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Kilometer Post: {KM_POST}",
+      outFields: ["*"],
+      content: content_kilometer_posts
+    },
     visible: true
   });
 
@@ -247,6 +359,63 @@ function MapContextProvider (props) {
     visibilityMode: "independent",
     opacity: 1.00
   });
+
+  function generate_volume (proxy_data) {
+    return (
+      proxy_data >= 0 && proxy_data <= 10 ? "0 - 9,000" :
+      proxy_data > 10 && proxy_data <= 100 ? "9,001 - 18,000" :
+      proxy_data > 100 && proxy_data <= 1000 ? "18,001 - 27,000" :
+      proxy_data > 1000 && proxy_data <= 10000 ? "27,001 - 36,000" :
+      proxy_data > 10000 && proxy_data <= 50000 ? "36,001 - 45,000" :
+      proxy_data > 50000 && proxy_data <= 100000 ? "45,001 - 54,000" :
+      proxy_data >= 100000 && proxy_data <= 500000 ? "54,001 - 63,000" :
+      "No available data"
+    );
+  }
+
+  function content_volume_of_traffic (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Traffic Volume</b></td>
+                  <td>${ generate_volume(target.graphic.attributes.SEC_LENGTH) || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
 
   const layer_traffic_volume_level_01 = new FeatureLayer({
     title: "Level 01 Traffic Volume",
@@ -261,7 +430,12 @@ function MapContextProvider (props) {
         color: [232, 20, 22, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 01",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -278,7 +452,12 @@ function MapContextProvider (props) {
         color: [255, 165, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 02",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -295,7 +474,12 @@ function MapContextProvider (props) {
         color: [250, 235, 54, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 03",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -312,7 +496,12 @@ function MapContextProvider (props) {
         color: [121, 195, 20, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 04",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -329,7 +518,12 @@ function MapContextProvider (props) {
         color: [72, 125, 231, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 05",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -346,7 +540,12 @@ function MapContextProvider (props) {
         color: [75, 54, 157, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 07",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -363,7 +562,12 @@ function MapContextProvider (props) {
         color: [112, 54, 157, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Traffic Volume: Level 07",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
     visible: true
   });
 
@@ -383,6 +587,50 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function content_road_classification (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Classification</b></td>
+                  <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
   const layer_primary_roads = new FeatureLayer({
     title: "Primary Roads",
     url: url_road_sections,
@@ -396,7 +644,12 @@ function MapContextProvider (props) {
         color: [255, 0, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Classification: {ROAD_SEC_C}",
+      outFields: ["*"],
+      content: content_road_classification
+    },
     visible: true
   });
 
@@ -413,7 +666,12 @@ function MapContextProvider (props) {
         color: [0, 255, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Classification: {ROAD_SEC_C}",
+      outFields: ["*"],
+      content: content_road_classification
+    },
     visible: true
   });
 
@@ -430,7 +688,12 @@ function MapContextProvider (props) {
         color: [0, 0, 255, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Classification: {ROAD_SEC_C}",
+      outFields: ["*"],
+      content: content_road_classification
+    },
     visible: true
   });
 
@@ -446,6 +709,50 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function content_terrain (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.district_n || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Terrain Type</b></td>
+                  <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
   const layer_flat_terrain = new FeatureLayer({
     title: "Flat Terrain",
     url: url_terrain,
@@ -459,7 +766,12 @@ function MapContextProvider (props) {
         color: [0, 50, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
     visible: true
   });
 
@@ -476,7 +788,12 @@ function MapContextProvider (props) {
         color: [0, 150, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
     visible: true
   });
 
@@ -493,7 +810,12 @@ function MapContextProvider (props) {
         color: [0, 250, 0, 1.00]
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
     visible: true
   });
 
@@ -509,6 +831,34 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function content_regions (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Region Name</b></td>
+                  <td>${ target.graphic.attributes.VAR_NAME || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
   const layer_regions = new FeatureLayer({
     title: "Regions",
     url: url_regions,
@@ -516,12 +866,20 @@ function MapContextProvider (props) {
       type: "simple",
       label: "Region",
       symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 255, 255, 1.00]
+        type: "simple-fill",
+        color: [255, 255, 255, 0.10],
+        outline: { 
+          color: [255, 255, 255, 1.00],
+          width: "1px"
+        }
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Region: {REGION}",
+      outFields: ["*"],
+      content: content_regions
+    },
     visible: true
   });
 
@@ -751,7 +1109,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_hazard_map
     },
@@ -786,27 +1144,27 @@ function MapContextProvider (props) {
               <tbody>
                 <tr style = "background-color: #393939;">
                   <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+                  <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Terrain</b></td>
@@ -908,7 +1266,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -925,27 +1283,27 @@ function MapContextProvider (props) {
               <tbody>
                 <tr style = "background-color: #393939;">
                   <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+                  <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Terrain</b></td>
@@ -1065,7 +1423,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{SECTION_ID}: {ROAD_NAME}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1089,7 +1447,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
@@ -1111,7 +1469,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
@@ -1133,7 +1491,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
@@ -1152,6 +1510,39 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function generate_storm_surge (proxy_data) {
+    return (
+      proxy_data === 1 ? "Low Risk" :
+      proxy_data === 2 ? "Medium Risk" :
+      proxy_data === 3 ? "High Risk" :
+      "No available data"
+    );
+  }
+
+  function content_storm_surge (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Storm Surge Hazard Level</b></td>
+                  <td>${ generate_storm_surge(target.graphic.attributes.HAZ) || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
   const layer_hazard_map_storm_surge_risk_low = new FeatureLayer({
     title: "Low Risk",
     url: url_storm_surge_map_noah,
@@ -1168,7 +1559,12 @@ function MapContextProvider (props) {
         }
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge
+    },
     visible: true
   });
 
@@ -1188,7 +1584,12 @@ function MapContextProvider (props) {
         }
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge
+    },
     visible: true
   });
 
@@ -1208,7 +1609,12 @@ function MapContextProvider (props) {
         }
       }
     },
-    popupEnabled: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge
+    },
     visible: true
   });
 
@@ -1241,7 +1647,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1263,7 +1669,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1285,7 +1691,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1307,7 +1713,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1329,7 +1735,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1351,7 +1757,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1373,7 +1779,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1395,7 +1801,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1434,7 +1840,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1456,7 +1862,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1478,7 +1884,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1500,7 +1906,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1522,7 +1928,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1544,7 +1950,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1566,7 +1972,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1588,7 +1994,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1610,7 +2016,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1632,7 +2038,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1654,7 +2060,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1676,7 +2082,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1698,7 +2104,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1720,7 +2126,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1742,7 +2148,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1790,7 +2196,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1812,7 +2218,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1834,7 +2240,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1856,7 +2262,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1891,7 +2297,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1913,7 +2319,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1935,7 +2341,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1957,7 +2363,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1979,7 +2385,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2001,7 +2407,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2023,7 +2429,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2045,7 +2451,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2084,7 +2490,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2106,7 +2512,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2128,7 +2534,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2150,7 +2556,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2172,7 +2578,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2194,7 +2600,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2216,7 +2622,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2238,7 +2644,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2260,7 +2666,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2282,7 +2688,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2304,7 +2710,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2326,7 +2732,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2348,7 +2754,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2370,7 +2776,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2392,7 +2798,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "{section_id}: {road_name}",
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2659,6 +3065,7 @@ function MapContextProvider (props) {
 
               view.map.layers.push(group_regions);
               view.map.layers.push(group_terrain);
+              view.map.layers.push(group_road_sections);
               view.map.layers.push(group_road_classification);
               view.map.layers.push(group_volume_of_traffic);
               view.map.layers.push(group_kilometer_posts);
@@ -2671,6 +3078,14 @@ function MapContextProvider (props) {
               if (module === "hazard-map") {
                 view.map.layers.push(group_hazard_map_storm_surge_map_noah);
                 view.map.layers.push(group_hazard_map_slope_hazard_risks);
+              }
+              if (module === "road-inventory") {
+                view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);
+                view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
+                view.map.layers.push(group_inventory_of_road_slope_structures_road_slope_condition);
+
+                view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
+                view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_structures);
               }
               if (module === "inventory-of-road-slopes") {
                 view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);

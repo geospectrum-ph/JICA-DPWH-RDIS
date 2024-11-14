@@ -30,13 +30,9 @@ export default function ModuleBar () {
     close_popup
   } = React.useContext(MapContext);
 
-  const [hiddenContainerActive, setHiddenContainerActive] = React.useState(false);
-
   function set_module (index) {
     close_popup();
     
-    view_layer(modules[index].path);
-
     setDataSelected(null);
 
     setDataLoading(true);
@@ -49,23 +45,12 @@ export default function ModuleBar () {
         // setDataSource(layer_inventory_of_road_slopes);
         setDataSource(null);
         break;
-      case 3:
-        // setDataSource(layer_inventory_of_road_slope_structures);
-        setDataSource(null);
-        break;
       default:
         setDataSource(layer_road_sections);
         break;
     }
 
     setModuleSelected(index);
-
-    if (index === 2 || index === 3) {
-      setHiddenContainerActive(true);
-    }
-    else {
-      setHiddenContainerActive(false);
-    }
 
     navigate(`/home/${modules[index].path}`);
   }
@@ -80,23 +65,11 @@ export default function ModuleBar () {
         {
           modules ? 
             modules.map(function (module, index) {
-              if (index === 2) {
-                return (null);
-              }
-              else if (index === 3) {
-                return (
-                  <div key = { index } className = { moduleSelected === 2 || moduleSelected === 3 ? "selected" : null } onClick = { function () { if (moduleSelected !== 2 && moduleSelected !== 3) { setHiddenContainerActive(!hiddenContainerActive); } } }>
-                    { "Road Inventory" }
-                  </div>
-                );
-              }
-              else {
-                return (
-                  <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
-                    { module.name }
-                  </div>
-                );
-              }
+              return (
+                <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
+                  { module.name }
+                </div>
+              );
             })
             :
             null
@@ -104,14 +77,6 @@ export default function ModuleBar () {
         <div onClick = { function () { navigate("/"); } }>
           <span>{ "EXIT" }</span>
           <span className = "material-symbols-outlined">logout</span>
-        </div>
-      </div>
-      <div className = { hiddenContainerActive || moduleSelected === 2 || moduleSelected === 3 ? "hidden-container-active" : null }>
-        <div className = { moduleSelected === 2 ? "selected" : null } onClick = { function () { set_module(2); } }>
-          { "Inventory of Road Slopes" }
-        </div>
-        <div className = { moduleSelected === 3 ? "selected" : null } onClick = { function () { set_module(3); } }>
-          { "Inventory of Road Slope Structures" }
         </div>
       </div>
     </div>

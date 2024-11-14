@@ -16,8 +16,12 @@ export default function HazardMap () {
   const {
     layer_hazard_map,
         
-    recenter_map, open_popup, close_popup
+    view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
+
+  React.useEffect(function () {
+    view_layer("hazard-map");
+  }, []);
   
   function find_road (level, value) {
     const expression =
@@ -54,8 +58,6 @@ export default function HazardMap () {
 
             close_popup();
           }
-
-          console.log(response.features[0]);
         }
       })
       .catch(function (error) {
@@ -110,12 +112,33 @@ export default function HazardMap () {
               return (
                 <div key = { key }>
                   <div onClick = { function () { find_road(0, road[0]); } }>
-                    <span>{ road[0] + " (" + road[1][0].attributes.road_name + ")" || "No available data." }</span>
+                    <span>{ road[1][0].attributes.road_name || "No available data." }</span>
                   </div>
                   <div>
                     {
                       sections_array
                         .map(function (section, key) {
+                          function parse_limits (string) {
+                            if (string) {
+                              if (string.includes("-")) {
+                                const string_array = string.split(/[-]/);
+
+                                return (string_array[0] + " + (-" + string_array[1] + ")");
+                              }
+                              else if (string.includes("+")) {
+                                const string_array = string.split(/[+]/);
+
+                                return (string_array[0] + " + " + string_array[1]);
+                              }
+                              else {
+                                return (string);
+                              }                              
+                            }
+                            else {
+                              return (null);
+                            }
+                          }
+
                           return (
                             <div key = { key }>
                               <div onClick = { function () { find_road(1, section[0]); } }>
@@ -132,17 +155,10 @@ export default function HazardMap () {
                                         return (0);
                                       }
                                     })
-                                    .map(function (chainage, key) {
+                                    .map(function (item, key) {
                                       return (
-                                        <div key = { key } className = { dataSelected === chainage.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, chainage.attributes.globalid); } }>
-                                          <div>
-                                            <span>{ "Start LRP" }</span>
-                                            <span>{ chainage.attributes.start_lrp || "No available data." }</span>
-                                          </div>
-                                          <div>
-                                            <span>{ "End LRP" }</span>
-                                            <span>{ chainage.attributes.end_lrp || "No available data." }</span>
-                                          </div>
+                                        <div key = { key } className = { dataSelected === item.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, item.attributes.globalid); } }>
+                                          <span>{ parse_limits(item.attributes.start_lrp) + " to " + parse_limits(item.attributes.end_lrp) || "No available data." }</span>
                                         </div>
                                       );
                                     })

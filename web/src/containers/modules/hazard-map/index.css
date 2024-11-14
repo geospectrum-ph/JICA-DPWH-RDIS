@@ -117,7 +117,10 @@
 
             /* Chainage Container */
             > * {
-              display: grid;
+              display: inline-flex;
+              flex-flow: row nowrap;
+              place-items: start center;
+              place-content: center start;
               
               box-sizing: border-box;
               border: 2px solid rgba(255, 255, 255, 1.00);
@@ -125,38 +128,19 @@
 
               cursor: pointer;
 
+              /* Station Limits */
+              > * {
+                display: flex;
+
+                flex: 1 1 auto;
+              }
+
               &.data-selected {
                 background-color: rgba(225, 125, 25, 1.00);
               }
 
               &:hover {
                 background-color: rgba(225, 125, 25, 1.00);
-              }
-
-              /* Chainages */
-              > * {
-                display: inline-flex;
-                flex-flow: row nowrap;
-                place-items: start center;
-                place-content: center start;
-
-                box-sizing: border-box;
-                padding: 4px;
-
-                /* Label */
-                > :nth-child(1) {
-                  display: flex;
-
-                  width: 150px;
-                  height: auto;
-                }
-
-                /* Value */
-                > :nth-child(2) {
-                  display: flex;
-
-                  flex: 1 1 auto;
-                }
               }
             }
           }

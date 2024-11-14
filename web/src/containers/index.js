@@ -7,8 +7,7 @@ import SignIn from "./modules/sign-in";
 import Home from "./home";
 
 import Summary from "./modules/summary";
-import InventoryOfRoadSlopeStructures from "./modules/inventory-of-road-slope-structures";
-import InventoryOfRoadSlopes from "./modules/inventory-of-road-slopes";
+import RoadInventory from "./modules/road-inventory";
 import PotentialRoadSlopeProjects from "./modules/error";
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
@@ -37,8 +36,7 @@ export default function App() {
           <Route path = "home" element = { <Home/> }>
             <Route path = "summary" element = { <Summary/> }/>
             <Route path = "hazard-map" element = { <HazardMap/> }/>
-            <Route path = "inventory-of-road-slopes" element = { <InventoryOfRoadSlopes/> }/>
-            <Route path = "inventory-of-road-slope-structures" element = { <InventoryOfRoadSlopeStructures/> }/>
+            <Route path = "road-inventory" element = { <RoadInventory/> }/>
             <Route path = "potential-road-slope-projects" element = { <PotentialRoadSlopeProjects/> }/>
             <Route path = "funded-road-slope-projects" element = { <FundedRoadSlopeProjects/> }/>
             <Route path = "proposal-for-funding" element = { <ProposalForFunding/> }/>

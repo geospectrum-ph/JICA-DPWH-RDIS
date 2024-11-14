@@ -1,0 +1,192 @@
+#road-inventory-container {
+  display: flex;
+  flex-flow: column nowrap;
+  place-items: stretch center;
+  place-content: center start;
+
+  overflow: hidden hidden;
+
+  width: 320px;
+  height: 100%;
+
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 1.00);
+
+  background-color: rgba(100, 100, 100, 1.00);
+
+  color: rgba(255, 255, 255, 1.00);
+
+  /* Data Array Header */
+  > :nth-child(1) {
+    display: grid;
+    
+    flex: auto 1 auto;
+
+    width: auto;
+    height: auto;
+
+    box-sizing: border-box;
+    padding: 12px;
+    gap: 12px;
+
+    background-color: rgba(50, 50, 50, 1.00);
+
+    /* Title */
+    > :nth-child(1) { 
+      font: normal 400 16px "Outfit", sans-serif;
+      text-transform: uppercase;
+    }
+
+    /* Fieldset */
+    > :nth-child(2) {
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: start center;
+      place-content: center stretch;
+      
+      box-sizing: border-box;
+      gap: 12px;
+
+      font: normal 400 16px "Outfit", sans-serif;
+
+      > * {
+        display: flex;
+
+        > :not(:first-child) {
+          box-sizing: border-box;
+          padding: 4px 12px;
+        }
+      }
+    }
+  }
+
+  > .data-array-container {
+    overflow: hidden auto;
+
+    width: 100%;
+    height: 100%;
+
+    font: normal 400 16px "Outfit", sans-serif;
+
+    /* Road Container */
+    > * {
+      display: grid;
+
+      /* Road Header */
+      > :nth-child(1) {
+        display: inline-flex;
+        flex-flow: row nowrap;
+        place-items: start center;
+        place-content: center start;
+
+        box-sizing: border-box;
+        padding: 12px;
+
+        background-color: rgba(70, 70, 70, 1.00);
+
+        cursor: pointer;
+
+        /* Section ID */
+        > :nth-child(1) {
+          display: flex;
+
+          flex: 1 1 auto;
+        }
+
+        &:hover {
+          background-color: rgba(225, 125, 25, 1.00);
+        }
+      }
+
+      /* Sections Container */
+      > :nth-child(2) {
+        width: 100%;
+        height: auto;
+
+        /* Section Container */
+        > * {
+          display: grid;
+
+          background-color: rgba(85, 85, 85, 1.00);
+
+          /* Section Header */
+          > :nth-child(1) {
+            display: inline-flex;
+            flex-flow: row nowrap;
+            place-items: start center;
+            place-content: center start;
+    
+            box-sizing: border-box;
+            padding: 12px;
+
+            cursor: pointer;
+    
+            /* Section ID */
+            > :nth-child(1) {
+              display: flex;
+    
+              flex: 1 1 auto;
+            }
+
+            &:hover {
+              background-color: rgba(225, 125, 25, 1.00);
+            }
+          }
+
+          /* Chainages Container */
+          > :nth-child(2) {
+            display: grid;
+
+            box-sizing: border-box;
+            padding: 12px;
+            gap: 12px;
+
+            background-color: rgba(100, 100, 100, 1.00);
+
+            /* Chainage Container */
+            > * {
+              display: inline-flex;
+              flex-flow: row nowrap;
+              place-items: start center;
+              place-content: center start;
+              
+              box-sizing: border-box;
+              border: 2px solid rgba(255, 255, 255, 1.00);
+              padding: 12px;
+
+              cursor: pointer;
+
+              /* Station Limits */
+              > * {
+                display: flex;
+
+                flex: 1 1 auto;
+              }
+
+              &.data-selected {
+                background-color: rgba(225, 125, 25, 1.00);
+              }
+
+              &:hover {
+                background-color: rgba(225, 125, 25, 1.00);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > .data-array-placeholder {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: start center;
+    place-content: center stretch;
+
+    width: 100%;
+    height: auto;
+
+    box-sizing: border-box;
+    padding: 12px;
+  }
+}

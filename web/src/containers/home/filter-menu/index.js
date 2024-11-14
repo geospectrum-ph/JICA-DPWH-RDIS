@@ -43,13 +43,12 @@ export default function FilterMenu () {
           level === 1 ? "region_name = '" + object.REGION + "'" :
           level === 2 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "'" :
           level === 3 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "'" :
-          level === 4 ? "region_name = '" + object.REGION + "' AND deo_name = '" + object.DEO + "' AND CONG_DIST = '" + object.CONG_DIST + "' AND section_id = '" + object.SECTION_ID + "'" :
+          level === 4 ? "ROAD_ID LIKE '%" + object.query + "%' OR ROAD_NAME LIKE '%" + object.query + "%' OR SECTION_ID LIKE '%" + object.query + "%'" || "1 = 0" :
           "1 = 0" :
         level === 0 ? "1 = 1" :
         level === 1 ? "region_name = '" + filterL01Selected + "'" :
         level === 2 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "'" :
         level === 3 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'" :
-        level === 4 ? "region_name = '" + filterL01Selected + "' AND deo_name = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "' AND section_id = '" + filterL04Selected + "'" :
         "1 = 0";
 
       dataSource
@@ -92,13 +91,12 @@ export default function FilterMenu () {
           level === 1 ? "REGION = '" + object.REGION + "'" :
           level === 2 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "'" :
           level === 3 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND district_name = '" + object.CONG_DIST + "'" :
-          level === 4 ? "REGION = '" + object.REGION + "' AND DEO = '" + object.DEO + "' AND district_name = '" + object.CONG_DIST + "' AND section_id = '" + object.SECTION_ID + "'" :
+          level === 4 ? "ROAD_ID LIKE '%" + object.query + "%' OR ROAD_NAME LIKE '%" + object.query + "%' OR SECTION_ID LIKE '%" + object.query + "%'" || "1 = 0" :
           "1 = 0" :
         level === 0 ? "1 = 1" :
         level === 1 ? "REGION = '" + filterL01Selected + "'" :
         level === 2 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "'" :
         level === 3 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND district_name = '" + filterL03Selected + "'" :
-        level === 4 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND district_name = '" + filterL03Selected + "' AND section_id = '" + filterL04Selected + "'" :
         "1 = 0";
 
       layer_road_sections
@@ -171,20 +169,9 @@ export default function FilterMenu () {
       }
     }
     if (type === 4) {
-      setFilterL04Selected(null);
-
-      if (filterL03Selected) {  
-        query_features(3, null);
-      }
-      else if (filterL02Selected) {  
-        query_features(2, null);
-      }
-      else if (filterL01Selected) {  
-        query_features(1, null);
-      }
-      else {  
-        query_features(0, null);
-      }
+      setFilterL01Selected(null);
+      setFilterL02Selected(null);
+      setFilterL03Selected(null);
     }
   }
   
@@ -218,45 +205,9 @@ export default function FilterMenu () {
       query_features(3, object);
     }
     if (type === 4) {
-      layer_road_sections
-        .queryFeatures({
-          where: "SECTION_ID = '" + object.query + "'" || "1 = 0",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response && response.features && response.features.length > 0) {
-            var extent = response.features[0].geometry.extent;
+      clear_filter(4);
 
-            recenter_map(extent);
-
-            setFilterL04Selected(response.features[0].attributes.SECTION_ID);
-            setFilterL03Selected(response.features[0].attributes.CONG_DIST);
-            setFilterL02Selected(response.features[0].attributes.DEO);
-            setFilterL01Selected(response.features[0].attributes.REGION);
-
-            query_features(4, response.features[0].attributes);
-          }
-          else {
-            if (filterL03Selected) {
-              clear_filter(4);
-            }
-            else if (filterL02Selected) {
-              clear_filter(3);
-            }
-            else if (filterL01Selected) {
-              clear_filter(2);
-            }
-            else {
-              clear_filter(1);
-            }
-          }
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-
-          console.log(error);
-        });
+      query_features(4, object);
     }
 
     setDataSelected(null);
@@ -283,22 +234,19 @@ export default function FilterMenu () {
   const [dropdown01Active, setDropdown01Active] = React.useState(false);
   const [dropdown02Active, setDropdown02Active] = React.useState(false);
   const [dropdown03Active, setDropdown03Active] = React.useState(false);
-  const [dropdown04Active, setDropdown04Active] = React.useState(false);
 
   function click_dropdown (index) {
     setDropdown01Active(false);
     setDropdown02Active(false);
     setDropdown03Active(false);
-    setDropdown04Active(false);
 
-    if (dropdownActive === index) {
+    if (index === 0 || dropdownActive === index) {
       setDropdownActive(0);
     }
     else {
       if (index === 1) { setDropdown01Active(true); }
       if (index === 2) { setDropdown02Active(true); }
       if (index === 3) { setDropdown03Active(true); }
-      if (index === 4) { setDropdown04Active(true); }
 
       setDropdownActive(index);
     }
@@ -315,7 +263,6 @@ export default function FilterMenu () {
         setDropdown01Active(false);
         setDropdown02Active(false);
         setDropdown03Active(false);
-        setDropdown04Active(false);
   
         setDropdownActive(0);
       }
@@ -422,8 +369,8 @@ export default function FilterMenu () {
         </div>
       </div>
       <div>
-        <div>{ "Section ID" }</div>
-        <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(4); } }>
+        <div>{ "Search" }</div>
+        <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(0); } }>
           <input
             type = "text"
             value = { filterL04Selected ? filterL04Selected : "" }
