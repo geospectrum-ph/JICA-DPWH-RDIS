@@ -85,113 +85,86 @@ export default function RoadInventory () {
   }
 
   function DataArray () {
-    const roads_object = Object
-      .groupBy(dataArray, function ({ attributes }) {
-        return (attributes.ROAD_ID);
-      });
-    
-    const roads_array = Object
-      .keys(roads_object)
-      .sort(function (base, next) {
-        if (base && next) {
-          return (base.localeCompare(next));
+    function nest_groups_by(array, properties) {
+      properties = Array.from(properties);
+
+      if (properties.length === 1) {
+        return (Object.groupBy(array, properties[0]));
+      }
+
+      const property = properties.shift();
+      
+      var grouped = Object.groupBy(array, property);
+
+      for (let key in grouped) {
+        grouped[key] = nest_groups_by(grouped[key], Array.from(properties));
+      }
+
+      return (grouped);
+    }
+
+    // Grouping hierarchy, as per DPWH - PS: Inventory Type > Condition / Type of Disaster / Type of Structure > Road Classification > Road Name > Section ID > Survey Side > Limits
+
+    const ordered_data = nest_groups_by(dataArray, [
+      function ({ attributes }) { return (attributes.DISASTER_TYPE || "Unclassified Roads"); },
+      function ({ attributes }) { return (attributes.ROAD_SEC_C); },
+      function ({ attributes }) { return (attributes.ROAD_NAME); },
+      function ({ attributes }) { return (attributes.SECTION_ID); },
+      function ({ attributes }) { return (attributes.SURVEY_SIDE || "Unclassified Roads"); }
+    ]);
+
+    function create_tree(container, data, depth) {
+      if (typeof depth === "number") { depth++; }
+      else { depth = 1; }
+
+      const div = document.createElement("div");
+
+      container.appendChild(div);
+
+      const sorted_data = Object.entries(data).sort(function (base, next) { if (base && next) { return (base[0].localeCompare(next[0])); } else { return (0); } });
+
+      for (const [key, values] of sorted_data) {
+        if (Object.keys(values).length) {
+          const span = document.createElement("span");
+
+          span.innerHTML = "\t".repeat(depth) + key;
+
+          div.appendChild(span);
+
+          create_tree(values, depth);
         }
         else {
-          return (0);
+          function parse_limits (string) {
+            if (string) {
+              if (string.includes("-")) {
+                const string_array = string.split(/[-]/);
+
+                return (string_array[0] + " + (-" + string_array[1] + ")");
+              }
+              else if (string.includes("+")) {
+                const string_array = string.split(/[+]/);
+
+                return (string_array[0] + " + " + string_array[1]);
+              }
+              else {
+                return (string);
+              }                              
+            }
+            else {
+              return (null);
+            }
+          }
+
+          values.attributes.START_LRP ?
+            console.log("\t".repeat(depth) + parse_limits(values.attributes.START_LRP)) :
+            console.log("\t".repeat(depth) + "No available data.");
         }
-      })
-      .map(function (road_id) {
-        return ([road_id, roads_object[road_id]]);
-      });
+      }
+    }
 
     return (
       <div className = "data-array-container">
-        {
-          roads_array
-            .map(function (road, key) {
-              const sections_object = Object
-                .groupBy(road[1], function ({ attributes }) {
-                  return (attributes.SECTION_ID);
-                });
-            
-              const sections_array = Object
-                .keys(sections_object)
-                .sort(function (base, next) {
-                  if (base, next) {
-                    return (base.localeCompare(next));
-                  }
-                  else {
-                    return (0);
-                  }
-                })
-                .map(function (section_id) {
-                  return ([section_id, sections_object[section_id]]);
-                });
-
-              return (
-                <div key = { key }>
-                  <div onClick = { function () { find_road(0, road[0]); } }>
-                    <span>{ road[1][0].attributes.ROAD_NAME || "No available data." }</span>
-                  </div>
-                  <div>
-                    {
-                      sections_array
-                        .map(function (section, key) {
-                          function parse_limits (string) {
-                            if (string) {
-                              if (string.includes("-")) {
-                                const string_array = string.split(/[-]/);
-
-                                return (string_array[0] + " + (-" + string_array[1] + ")");
-                              }
-                              else if (string.includes("+")) {
-                                const string_array = string.split(/[+]/);
-
-                                return (string_array[0] + " + " + string_array[1]);
-                              }
-                              else {
-                                return (string);
-                              }                              
-                            }
-                            else {
-                              return (null);
-                            }
-                          }
-
-                          return (
-                            <div key = { key }>
-                              <div onClick = { function () { find_road(1, section[0]); } }>
-                                <span>{ section[0] || "No available data." }</span>
-                              </div>
-                              <div>
-                                {
-                                  section[1]
-                                    .sort(function (base, next) {
-                                      if (base.attributes.START_LRP && next.attributes.START_LRP) {
-                                        return (base.attributes.START_LRP.localeCompare(next.attributes.START_LRP));
-                                      }
-                                      else {
-                                        return (0);
-                                      }
-                                    })
-                                    .map(function (item, key) {
-                                      return (
-                                        <div key = { key } className = { dataSelected === item.attributes.GlobalID ? "data-selected" : null } onClick = { function () { find_road(2, item.attributes.GlobalID); } }>
-                                          <span>{ parse_limits(item.attributes.START_LRP) + " to " + parse_limits(item.attributes.END_LRP) || "No available data." }</span>
-                                        </div>
-                                      );
-                                    })
-                                }
-                              </div>
-                            </div>
-                          );
-                        })
-                    }
-                  </div>
-                </div>
-              );
-            })
-        }
+        { create_tree(document.getElementById("data-array-container"), ordered_data) }
       </div>
     );
   }
@@ -226,7 +199,7 @@ export default function RoadInventory () {
             </div>
             :
             <div className = "data-array-placeholder">
-              <span>{ "No data available." }</span>
+              <span>{ "No available data." }</span>
             </div>
       }
     </div>

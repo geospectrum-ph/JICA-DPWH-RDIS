@@ -65,7 +65,7 @@ export default function HazardMap () {
       });
   }
 
-  function DataArray () {
+  function DataArray () { 
     const roads_object = Object
       .groupBy(dataArray, function ({ attributes }) {
         return (attributes.road_id);
@@ -192,7 +192,7 @@ export default function HazardMap () {
             </div>
             :
             <div className = "data-array-placeholder">
-              <span>{ "No data available." }</span>
+              <span>{ "No available data." }</span>
             </div>
       }
     </div>
