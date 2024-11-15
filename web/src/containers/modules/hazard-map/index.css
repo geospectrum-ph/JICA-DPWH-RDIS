@@ -38,111 +38,61 @@
     width: 100%;
     height: 100%;
 
-    font: normal 400 16px "Outfit", sans-serif;
+    background-color: rgba(100, 100, 100, 1.00);
 
-    /* Road Container */
-    > * {
+    font: normal 400 16px "Outfit", sans-serif;
+    color: rgba(255, 255, 255, 1.00);
+
+    pointer-events: none;
+
+    .data-container {
       display: grid;
 
-      /* Road Header */
+      /* Header */
       > :nth-child(1) {
-        display: inline-flex;
-        flex-flow: row nowrap;
-        place-items: start center;
-        place-content: center start;
-
         box-sizing: border-box;
         padding: 12px;
 
-        background-color: rgba(70, 70, 70, 1.00);
-
+        pointer-events: all;
         cursor: pointer;
 
-        /* Section ID */
-        > :nth-child(1) {
+        > * {
           display: flex;
-
-          flex: 1 1 auto;
-        }
-
-        &:hover {
-          background-color: rgba(225, 125, 25, 1.00);
+          flex-flow: row nowrap;
+          place-items: start center;
+          place-content: center stretch;
         }
       }
 
-      /* Sections Container */
-      > :nth-child(2) {
-        width: 100%;
-        height: auto;
+      > :not(:first-child) {
+        box-sizing: border-box;
+        padding-left: 24px;
 
-        /* Section Container */
         > * {
-          display: grid;
+          box-sizing: border-box;
+          border-left: dashed 2px rgba(150, 150, 150, 1.00);
+        }
+      }
 
-          background-color: rgba(85, 85, 85, 1.00);
+      &.data-container-level-03 {
+        pointer-events: all;
+        cursor: pointer;
 
-          /* Section Header */
-          > :nth-child(1) {
-            display: inline-flex;
-            flex-flow: row nowrap;
-            place-items: start center;
-            place-content: center start;
-    
-            box-sizing: border-box;
-            padding: 12px;
+        box-sizing: border-box;
+        padding: 0 12px;
 
-            cursor: pointer;
-    
-            /* Section ID */
-            > :nth-child(1) {
-              display: flex;
-    
-              flex: 1 1 auto;
-            }
+        > * {
+          box-sizing: border-box;
+          margin: 12px;
+          outline: solid 2px rgba(255, 255, 255, 1.00);
+          padding: 12px;
 
-            &:hover {
-              background-color: rgba(225, 125, 25, 1.00);
-            }
+          &:hover {    
+            background-color: rgba(225, 125, 25, 1.00);
           }
-
-          /* Chainages Container */
-          > :nth-child(2) {
-            display: grid;
-
-            box-sizing: border-box;
-            padding: 12px;
-            gap: 12px;
-
-            background-color: rgba(100, 100, 100, 1.00);
-
-            /* Chainage Container */
-            > * {
-              display: inline-flex;
-              flex-flow: row nowrap;
-              place-items: start center;
-              place-content: center start;
-              
-              box-sizing: border-box;
-              border: 2px solid rgba(255, 255, 255, 1.00);
-              padding: 12px;
-
-              cursor: pointer;
-
-              /* Station Limits */
-              > * {
-                display: flex;
-
-                flex: 1 1 auto;
-              }
-
-              &.data-selected {
-                background-color: rgba(225, 125, 25, 1.00);
-              }
-
-              &:hover {
-                background-color: rgba(225, 125, 25, 1.00);
-              }
-            }
+  
+          &.selected {
+            background-color: rgba(225, 125, 25, 1.00);
           }
         }
       }

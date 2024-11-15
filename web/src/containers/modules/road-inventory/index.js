@@ -8,7 +8,7 @@ import "./index.css";
 export default function RoadInventory () {
   const {
     dataArray,
-    dataLoading,
+    dataLoading, setDataLoading,
 
     dataSelected, setDataSelected
   } = React.useContext(MainContext);
@@ -42,12 +42,8 @@ export default function RoadInventory () {
     setRoadSlopeStructuresActive(true);
   }, []);
 
-  function find_road (level, value) {
-    const expression =
-      level === 0 ? "ROAD_ID = '" + value + "'" :
-      level === 1 ? "SECTION_ID = '" + value + "'" :
-      level === 2 ? "GlobalID = '" + value + "'" :
-      null;
+  function find_road (value) {
+    const expression = "GlobalID = '" + value + "'";
 
     layer_inventory_of_road_slopes
       .queryFeatures({
@@ -67,16 +63,9 @@ export default function RoadInventory () {
 
           recenter_map(extent);
 
-          if (level === 2) {
-            setDataSelected(response.features[0].attributes.globalid);
+          setDataSelected(response.features[0].attributes.GlobalID);
 
-            open_popup(response.features);
-          }
-          else {
-            setDataSelected(null);
-
-            close_popup();
-          }
+          open_popup(response.features);
         }
       })
       .catch(function (error) {
@@ -113,58 +102,67 @@ export default function RoadInventory () {
       function ({ attributes }) { return (attributes.SURVEY_SIDE || "Unclassified Roads"); }
     ]);
 
-    function create_tree(container, data, depth) {
+    function create_tree(data, depth) {
       if (typeof depth === "number") { depth++; }
       else { depth = 1; }
 
-      const div = document.createElement("div");
-
-      container.appendChild(div);
-
-      const sorted_data = Object.entries(data).sort(function (base, next) { if (base && next) { return (base[0].localeCompare(next[0])); } else { return (0); } });
-
-      for (const [key, values] of sorted_data) {
-        if (Object.keys(values).length) {
-          const span = document.createElement("span");
-
-          span.innerHTML = "\t".repeat(depth) + key;
-
-          div.appendChild(span);
-
-          create_tree(values, depth);
-        }
-        else {
-          function parse_limits (string) {
-            if (string) {
-              if (string.includes("-")) {
-                const string_array = string.split(/[-]/);
-
-                return (string_array[0] + " + (-" + string_array[1] + ")");
-              }
-              else if (string.includes("+")) {
-                const string_array = string.split(/[+]/);
-
-                return (string_array[0] + " + " + string_array[1]);
-              }
-              else {
-                return (string);
-              }                              
+      return (
+        Object
+          .entries(data)
+          .sort(function (base, next) {
+            if (base && next) {
+              return (base[0].localeCompare(next[0]));
             }
             else {
-              return (null);
+              return (0);
             }
-          }
-
-          values.attributes.START_LRP ?
-            console.log("\t".repeat(depth) + parse_limits(values.attributes.START_LRP)) :
-            console.log("\t".repeat(depth) + "No available data.");
-        }
-      }
+          })
+          .map(function (item, key) {
+            if (Object.keys(item[1]).length) {
+              return (
+                <div key = { key } className = { "data-container data-container-level-0" + depth }>
+                  <div>
+                    <span>{ item[0] }</span>
+                  </div>
+                  { create_tree(item[1], depth) }
+                </div>
+              )
+            }
+            else {
+              function parse_limits (string) {
+                if (string) {
+                  if (string.includes("-")) {
+                    const string_array = string.split(/[-]/);
+  
+                    return (string_array[0] + " + (-" + string_array[1] + ")");
+                  }
+                  else if (string.includes("+")) {
+                    const string_array = string.split(/[+]/);
+  
+                    return (string_array[0] + " + " + string_array[1]);
+                  }
+                  else {
+                    return (string);
+                  }                              
+                }
+                else {
+                  return (null);
+                }
+              }
+  
+              return (
+                <div key = { key } className = { "data-container data-container-level-0" + depth }>
+                  <span className = { dataSelected === item[1].attributes.GlobalID ? " selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>{ parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) }</span>
+                </div>
+              );
+            }
+          })
+      );
     }
 
     return (
       <div className = "data-array-container">
-        { create_tree(document.getElementById("data-array-container"), ordered_data) }
+        { create_tree(ordered_data) }
       </div>
     );
   }
@@ -176,9 +174,9 @@ export default function RoadInventory () {
           <span>{ "List of Road Sections" }</span>
         </div>
         <div>
-          <div>
-            <span>{ "Please choose an active inventory: " }</span>
-          </div>
+          <span>{ "Please choose an active inventory: " }</span>
+        </div>
+        <div>
           <div>
             <input type = "checkbox" id = "inventory-of-road-slopes-checkbox" checked = { roadSlopesActive } onChange = { function () { setRoadSlopesActive(!roadSlopesActive); } }/>
             <span>{ "Inventory of Road Slopes" }</span>

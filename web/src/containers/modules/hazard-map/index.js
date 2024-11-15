@@ -23,12 +23,8 @@ export default function HazardMap () {
     view_layer("hazard-map");
   }, []);
   
-  function find_road (level, value) {
-    const expression =
-      level === 0 ? "road_id = '" + value + "'" :
-      level === 1 ? "section_id = '" + value + "'" :
-      level === 2 ? "globalid = '" + value + "'" :
-      null;
+  function find_road (value) {
+    const expression = "globalid = '" + value + "'";
 
     layer_hazard_map
       .queryFeatures({
@@ -48,16 +44,9 @@ export default function HazardMap () {
 
           recenter_map(extent);
 
-          if (level === 2) {
-            setDataSelected(response.features[0].attributes.globalid);
+          setDataSelected(response.features[0].attributes.globalid);
 
-            open_popup(response.features);
-          }
-          else {
-            setDataSelected(null);
-
-            close_popup();
-          }
+          open_popup(response.features);
         }
       })
       .catch(function (error) {
@@ -65,114 +54,93 @@ export default function HazardMap () {
       });
   }
 
-  function DataArray () { 
-    const roads_object = Object
-      .groupBy(dataArray, function ({ attributes }) {
-        return (attributes.road_id);
-      });
-    
-    const roads_array = Object
-      .keys(roads_object)
-      .sort(function (base, next) {
-        if (base && next) {
-          return (base.localeCompare(next));
-        }
-        else {
-          return (0);
-        }
-      })
-      .map(function (road_id) {
-        return ([road_id, roads_object[road_id]]);
-      });
+  function DataArray () {
+    function nest_groups_by(array, properties) {
+      properties = Array.from(properties);
+
+      if (properties.length === 1) {
+        return (Object.groupBy(array, properties[0]));
+      }
+
+      const property = properties.shift();
+      
+      var grouped = Object.groupBy(array, property);
+
+      for (let key in grouped) {
+        grouped[key] = nest_groups_by(grouped[key], Array.from(properties));
+      }
+
+      return (grouped);
+    }
+
+    // Grouping hierarchy, as per DPWH - PS: Inventory Type > Condition / Type of Disaster / Type of Structure > Road Classification > Road Name > Section ID > Survey Side > Limits
+
+    const ordered_data = nest_groups_by(dataArray, [
+      function ({ attributes }) { return (attributes.road_name); },
+      function ({ attributes }) { return (attributes.section_id); }
+    ]);
+
+    function create_tree(data, depth) {
+      if (typeof depth === "number") { depth++; }
+      else { depth = 1; }
+
+      return (
+        Object
+          .entries(data)
+          .sort(function (base, next) {
+            if (base && next) {
+              return (base[0].localeCompare(next[0]));
+            }
+            else {
+              return (0);
+            }
+          })
+          .map(function (item, key) {
+            if (Object.keys(item[1]).length) {
+              return (
+                <div key = { key } className = { "data-container data-container-level-0" + depth }>
+                  <div>
+                    <span>{ item[0] }</span>
+                  </div>
+                  { create_tree(item[1], depth) }
+                </div>
+              )
+            }
+            else {
+              function parse_limits (string) {
+                if (string) {
+                  if (string.includes("-")) {
+                    const string_array = string.split(/[-]/);
+  
+                    return (string_array[0] + " + (-" + string_array[1] + ")");
+                  }
+                  else if (string.includes("+")) {
+                    const string_array = string.split(/[+]/);
+  
+                    return (string_array[0] + " + " + string_array[1]);
+                  }
+                  else {
+                    return (string);
+                  }                              
+                }
+                else {
+                  return (null);
+                }
+              }
+  
+              return (
+                <div key = { key } className = { "data-container data-container-level-0" + depth }>
+                  <span className = { dataSelected === item[1].attributes.globalid ? " selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>{ parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) }</span>
+                </div>
+              );
+            }
+          })
+      );
+    }
 
     return (
       <div className = "data-array-container">
-        {
-          roads_array
-            .map(function (road, key) {
-              const sections_object = Object
-                .groupBy(road[1], function ({ attributes }) {
-                  return (attributes.section_id);
-                });
-            
-              const sections_array = Object
-                .keys(sections_object)
-                .sort(function (base, next) {
-                  if (base, next) {
-                    return (base.localeCompare(next));
-                  }
-                  else {
-                    return (0);
-                  }
-                })
-                .map(function (section_id) {
-                  return ([section_id, sections_object[section_id]]);
-                });
-
-              return (
-                <div key = { key }>
-                  <div onClick = { function () { find_road(0, road[0]); } }>
-                    <span>{ road[1][0].attributes.road_name || "No available data." }</span>
-                  </div>
-                  <div>
-                    {
-                      sections_array
-                        .map(function (section, key) {
-                          function parse_limits (string) {
-                            if (string) {
-                              if (string.includes("-")) {
-                                const string_array = string.split(/[-]/);
-
-                                return (string_array[0] + " + (-" + string_array[1] + ")");
-                              }
-                              else if (string.includes("+")) {
-                                const string_array = string.split(/[+]/);
-
-                                return (string_array[0] + " + " + string_array[1]);
-                              }
-                              else {
-                                return (string);
-                              }                              
-                            }
-                            else {
-                              return (null);
-                            }
-                          }
-
-                          return (
-                            <div key = { key }>
-                              <div onClick = { function () { find_road(1, section[0]); } }>
-                                <span>{ section[0] || "No available data." }</span>
-                              </div>
-                              <div>
-                                {
-                                  section[1]
-                                    .sort(function (base, next) {
-                                      if (base.attributes.start_lrp && next.attributes.start_lrp) {
-                                        return (base.attributes.start_lrp.localeCompare(next.attributes.start_lrp));
-                                      }
-                                      else {
-                                        return (0);
-                                      }
-                                    })
-                                    .map(function (item, key) {
-                                      return (
-                                        <div key = { key } className = { dataSelected === item.attributes.globalid ? "data-selected" : null } onClick = { function () { find_road(2, item.attributes.globalid); } }>
-                                          <span>{ parse_limits(item.attributes.start_lrp) + " to " + parse_limits(item.attributes.end_lrp) || "No available data." }</span>
-                                        </div>
-                                      );
-                                    })
-                                }
-                              </div>
-                            </div>
-                          );
-                        })
-                    }
-                  </div>
-                </div>
-              );
-            })
-        }
+        { create_tree(ordered_data) }
       </div>
     );
   }

@@ -12,7 +12,6 @@ export default function ModuleBar () {
 
   const {
     setDataSource,
-    setDataLoading,
 
     modules,
     moduleSelected, setModuleSelected,
@@ -26,7 +25,6 @@ export default function ModuleBar () {
     layer_inventory_of_road_slopes,
     layer_inventory_of_road_slope_structures,
 
-    view_layer,
     close_popup
   } = React.useContext(MapContext);
 
@@ -34,8 +32,6 @@ export default function ModuleBar () {
     close_popup();
     
     setDataSelected(null);
-
-    setDataLoading(true);
 
     switch (index) {
       case 1:
