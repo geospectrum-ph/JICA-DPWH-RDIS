@@ -1,4 +1,4 @@
-#road-inventory-container {
+#road-slope-inventory-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: stretch center;
@@ -112,6 +112,7 @@
         > * {
           box-sizing: border-box;
           margin: 12px;
+          border-left: none;
           outline: solid 2px rgba(255, 255, 255, 1.00);
           padding: 12px;
 

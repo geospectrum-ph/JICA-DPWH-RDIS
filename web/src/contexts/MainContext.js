@@ -19,8 +19,8 @@ function MainContextProvider (props) {
       map_visible: true
     },
     {
-      name: "Road Inventory",
-      path: "road-inventory",
+      name: "Road Slope Inventory",
+      path: "road-slope-inventory",
       map_visible: true
     },
     {

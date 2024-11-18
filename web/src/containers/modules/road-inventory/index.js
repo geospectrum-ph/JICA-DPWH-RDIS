@@ -5,7 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadInventory () {
+export default function RoadSlopeInventory () {
   const {
     dataArray,
     dataLoading, setDataLoading,
@@ -168,7 +168,7 @@ export default function RoadInventory () {
   }
 
   return (
-    <div id = "road-inventory-container">
+    <div id = "road-slope-inventory-container">
       <div>
         <div>
           <span>{ "List of Road Sections" }</span>
