@@ -24,7 +24,7 @@ export default function PotentialRoadSlopeProjects () {
 
   React.useEffect(function () {
     if (roadSlopesActive && roadSlopeStructuresActive) {
-      view_layer("road-inventory");
+      view_layer("potential-road-slope-projects");
     }
     else if (roadSlopesActive) {
       view_layer("inventory-of-road-slopes");

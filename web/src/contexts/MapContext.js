@@ -25,6 +25,7 @@ export const MapContext = React.createContext();
 function MapContextProvider (props) {
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
   const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RSM.
+  const url_potential_road_slopes= "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RSM.
 
   const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
   const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RBIA.
@@ -2832,6 +2833,84 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  const layer_potential_road_slope_project_01 = new FeatureLayer({
+    title: "Rehabilitation/Major Repair",
+    url: url_potential_road_slopes,
+    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Rehabilitation'",
+    renderer: {
+      type: "simple",
+      label: "Rehabilitation/Major Repair",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures //to change
+    },
+    visible: true
+  });
+
+  const layer_potential_road_slope_project_02 = new FeatureLayer({
+    title: "Reconstruction",
+    url: url_potential_road_slopes,
+    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Reconstruction'",
+    renderer: {
+      type: "simple",
+      label: "Reconstruction",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures //to change
+    },
+    visible: true
+  });
+
+  const layer_potential_road_slope_project_03 = new FeatureLayer({
+    title: "Construction",
+    url: url_potential_road_slopes,
+    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Construction'",
+    renderer: {
+      type: "simple",
+      label: "Construction",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures //to change
+    },
+    visible: true
+  });
+
+  const group_potential_road_slope_projects = new GroupLayer({
+    title: "Potential Road Slope Projects",
+    layers: [
+      layer_potential_road_slope_project_01,
+      layer_potential_road_slope_project_02,
+      layer_potential_road_slope_project_03
+    ],
+    visible: true,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
+
   var view;
 
   function MapComponent () {
@@ -3098,6 +3177,11 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
                 view.map.layers.push(group_inventory_of_road_slope_structures_road_slope_condition);
+              }
+              if (module === 'potential-road-slope-projects'){
+                view.map.layers.push(group_potential_road_slope_projects);
+                
+                
               }
             })
             .catch(function (error) {
