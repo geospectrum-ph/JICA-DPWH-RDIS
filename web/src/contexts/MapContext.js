@@ -946,7 +946,7 @@ function MapContextProvider (props) {
                   <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
-                  <td><b>Priority ranking</b></td>
+                  <td><b>Hazard Risk</b></td>
                   <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
@@ -1082,7 +1082,7 @@ function MapContextProvider (props) {
       },
       uniqueValueInfos: [
         {
-          value: "risk_low",
+          value: "Low",
           label: "Low Risk",
           symbol: {
             type: "simple-line",
@@ -1091,7 +1091,7 @@ function MapContextProvider (props) {
           },
         }, 
         {
-          value: "risk_middle",
+          value: "Middle",
           label: "Middle Risk",
           symbol: {
             type: "simple-line",
@@ -1100,7 +1100,7 @@ function MapContextProvider (props) {
           }
         },
         {
-          value: "risk_high",
+          value: "High",
           label: "High Risk",
           symbol: {
             type: "simple-line",
@@ -1438,7 +1438,7 @@ function MapContextProvider (props) {
   const layer_hazard_map_slope_hazard_risk_low = new FeatureLayer({
     title: "Low Risk",
     url: url_hazard_map,
-    definitionExpression: "hazard_risk = 'risk_low'",
+    definitionExpression: "hazard_risk = 'Low'",
     renderer: {
       type: "simple",
       label: "Low Risk",
@@ -1460,7 +1460,7 @@ function MapContextProvider (props) {
   const layer_hazard_map_slope_hazard_risk_medium = new FeatureLayer({
     title: "Medium Risk",
     url: url_hazard_map,
-    definitionExpression: "hazard_risk = 'risk_middle'",
+    definitionExpression: "hazard_risk = 'Middle'",
     renderer: {
       type: "simple",
       label: "Medium Risk",
@@ -1482,7 +1482,7 @@ function MapContextProvider (props) {
   const layer_hazard_map_slope_hazard_risk_high = new FeatureLayer({
     title: "High Risk",
     url: url_hazard_map,
-    definitionExpression: "hazard_risk = 'risk_high'",
+    definitionExpression: "hazard_risk = 'High'",
     renderer: {
       type: "simple",
       label: "High Risk",
