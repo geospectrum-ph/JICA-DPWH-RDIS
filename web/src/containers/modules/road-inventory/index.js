@@ -42,37 +42,6 @@ export default function RoadSlopeInventory () {
     setRoadSlopeStructuresActive(true);
   }, []);
 
-  function find_road (value) {
-    const expression = "GlobalID = '" + value + "'";
-
-    layer_inventory_of_road_slopes
-      .queryFeatures({
-        where: expression || "1 = 0",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response && response.features && response.features.length > 0) {
-          close_popup();
-
-          var extent = response.features[0].geometry.extent;
-
-          response.features.forEach(function(feature) {
-            extent = extent.union(feature.geometry.extent);
-          });
-
-          recenter_map(extent);
-
-          setDataSelected(response.features[0].attributes.GlobalID);
-
-          open_popup(response.features);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
   const sublevels = [
     function ({ attributes }) { return (attributes.DISASTER_TYPE || "Unclassified Roads"); },
     function ({ attributes }) { return (attributes.ROAD_SEC_C); },
@@ -99,9 +68,58 @@ export default function RoadSlopeInventory () {
     }));
   }
 
-  function create_tree(data, depth) {
+  function nest_groups_by(array, properties) {
+    properties = Array.from(properties);
+
+    if (properties.length === 1) {
+      return (Object.groupBy(array, properties[0]));
+    }
+
+    const property = properties.shift();
+    
+    var grouped = Object.groupBy(array, property);
+
+    for (let key in grouped) {
+      grouped[key] = nest_groups_by(grouped[key], Array.from(properties));
+    }
+
+    return (grouped);
+  }
+
+  function DataRenderer ({ data, depth }) {
     if (typeof depth === "number") { depth++; }
     else { depth = 0; }
+
+    function find_road (value) {
+      const expression = "GlobalID = '" + value + "'";
+  
+      layer_inventory_of_road_slopes
+        .queryFeatures({
+          where: expression || "1 = 0",
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response && response.features && response.features.length > 0) {
+            close_popup();
+  
+            var extent = response.features[0].geometry.extent;
+  
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+  
+            recenter_map(extent);
+  
+            setDataSelected(response.features[0].attributes.GlobalID);
+  
+            open_popup(response.features);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
 
     return (
       Object
@@ -122,7 +140,7 @@ export default function RoadSlopeInventory () {
                   <span className = "material-symbols-outlined">{ activeLevels[depth].indexOf(item[0]) > -1 ? "keyboard_arrow_down" : "keyboard_arrow_right" }</span>
                   <span>{ item[0] }</span>
                 </div>
-                { create_tree(item[1], depth) }
+                <DataRenderer data = { item[1] } depth = { depth }/>
               </div>
             )
           }
@@ -160,34 +178,6 @@ export default function RoadSlopeInventory () {
     );
   }
 
-  function DataArray () {
-    function nest_groups_by(array, properties) {
-      properties = Array.from(properties);
-  
-      if (properties.length === 1) {
-        return (Object.groupBy(array, properties[0]));
-      }
-  
-      const property = properties.shift();
-      
-      var grouped = Object.groupBy(array, property);
-  
-      for (let key in grouped) {
-        grouped[key] = nest_groups_by(grouped[key], Array.from(properties));
-      }
-  
-      return (grouped);
-    }
-
-    const ordered_data = nest_groups_by(dataArray, sublevels);
-
-    return (
-      <div className = "data-array-container">
-        { create_tree(ordered_data) }
-      </div>
-    );
-  }
-
   return (
     <div id = "road-slope-inventory-container">
       <div>
@@ -210,7 +200,9 @@ export default function RoadSlopeInventory () {
       </div>
       {
         dataArray ?
-          <DataArray/>
+          <div className = "data-array-container">
+            { <DataRenderer data = { nest_groups_by(dataArray, sublevels) }/> }
+          </div>
           :
           dataLoading ?
             <div className = "data-array-placeholder">
