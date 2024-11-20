@@ -28,6 +28,7 @@ export default function FilterMenu () {
   
   const {
     layer_road_sections,
+    layer_road_slopes_and_countermeasures,
 
     recenter_map, close_popup
   } = React.useContext(MapContext);
@@ -108,14 +109,38 @@ export default function FilterMenu () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            var extent = response.features[0].geometry.extent;
+            if (moduleSelected === 2 || moduleSelected === 3) {
+              layer_road_slopes_and_countermeasures
+                .queryFeatures({
+                  where: "1 = 1",
+                  returnGeometry: true,
+                  outFields: ["*"]
+                })
+                .then(function (response) {
+                  if (response && response.features.length > 0) {
+                    var extent = response.features[0].geometry.extent;
 
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
+                    response.features.forEach(function(feature) {
+                      extent = extent.union(feature.geometry.extent);
+                    });
+        
+                    recenter_map(extent);
+                  }
+                })
+                .catch(function (error) {
+                  console.log(error);
+                });
+            }
+            else {
+              var extent = response.features[0].geometry.extent;
 
-            recenter_map(extent);
-
+              response.features.forEach(function(feature) {
+                extent = extent.union(feature.geometry.extent);
+              });
+  
+              recenter_map(extent);
+            }
+            
             setDataArray(response.features);
 
             setDataLoading(false);

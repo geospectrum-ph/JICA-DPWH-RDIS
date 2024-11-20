@@ -1,4 +1,4 @@
-#road-slope-inventory-container {
+#potential-road-slope-projects-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: stretch center;
@@ -34,30 +34,6 @@
     > :nth-child(1) {
       text-transform: uppercase;
     }
-
-    /* Fieldset */
-    > :nth-child(3) {
-      display: flex;
-      flex-flow: column nowrap;
-      place-items: start center;
-      place-content: center stretch;
-
-      width: 100%;
-      height: auto;
-
-      box-sizing: border-box;
-      outline: solid 2px rgba(255, 255, 255, 1.00);
-      padding: 12px;
-      gap: 12px;
-
-      /* Fieldset Items */
-      > * {
-        display: flex;
-
-        box-sizing: border-box;
-        gap: 12px;
-      }
-    }
   }
 
   > .data-array-container {
@@ -78,20 +54,20 @@
 
       /* Header */
       > :nth-child(1) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: start center;
+        place-content: center start;
+
         box-sizing: border-box;
         padding: 12px;
+        gap: 4px;
 
         pointer-events: all;
-        cursor: pointer;
-
-        > * {
-          display: flex;
-          flex-flow: row nowrap;
-          place-items: start center;
-          place-content: center stretch;
-        }
+        cursor: pointer; 
       }
 
+      /* Inner Items */
       > :not(:first-child) {
         box-sizing: border-box;
         padding-left: 24px;
@@ -102,7 +78,8 @@
         }
       }
 
-      &.data-container-level-06 {
+      /* Last Item */
+      &.data-container-details {
         pointer-events: all;
         cursor: pointer;
 
@@ -124,6 +101,30 @@
             background-color: rgba(225, 125, 25, 1.00);
           }
         }
+      }
+    }
+
+    .data-container-hidden {
+      display: grid;
+
+      /* Header */
+      > :nth-child(1) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: start center;
+        place-content: center start;
+
+        box-sizing: border-box;
+        padding: 12px;
+        gap: 4px;
+
+        pointer-events: all;
+        cursor: pointer; 
+      }
+
+      /* Inner Items */
+      > :not(:first-child) {
+        display: none;
       }
     }
   }

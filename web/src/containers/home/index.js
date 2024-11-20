@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { Outlet } from "react-router-dom";
 
 import { MainContext } from "../../contexts/MainContext";

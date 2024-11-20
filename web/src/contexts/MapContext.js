@@ -23,18 +23,16 @@ import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 export const MapContext = React.createContext();
 
 function MapContextProvider (props) {
-  const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
-  const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RSM.
-  const url_potential_road_slopes= "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RSM.
-
   const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
   const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RBIA.
   const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
-  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";  
+  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";
+
+  const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
+  const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/rsm_mobile_ver2/FeatureServer";
 
   const url_storm_surge_map_noah = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
 
-  const url_hazard_raw = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_df81ab0664a64e08b17f4ac6ade70d08/FeatureServer"
   /* Reference Data */
 
   function content_road_sections (target) {
@@ -351,8 +349,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  console.log("MapContext:", layer_kilometer_posts)
 
   const group_kilometer_posts = new GroupLayer({
     title: "Kilometer Posts",
@@ -1120,23 +1116,135 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const scope_of_work_codes = {
-    "scope_of_work_1": "Grouted Riprap",
-    "scope_of_work_2": "Grouted Riprap with Steel Sheet Pile Foundation",
-    "scope_of_work_3": "Grouted Riprap with Concrete Sheet Pile Foundation",
-    "scope_of_work_4": "Rubble Concrete Pavement (Spread Type I)",
-    "scope_of_work_5": "Stone Masonry",
-    "scope_of_work_6": "Concrete Slope Protection (Reinforced Concrete Type II)",
-    "scope_of_work_7": "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
-    "scope_of_work_8": "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
-    "scope_of_work_9": "Gravity Wall (Type I)",
-    "scope_of_work_10": "Gabion / Mattress Slope Protection",
-    "scope_of_work_11": "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
-    "scope_of_work_12": "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
-    "scope_of_work_13": "Earthfill Dike (Type I)",
-    "scope_of_work_14": "Boulder Spur Dike (Type I)",
-    "scope_of_work_15": "Gabions Revetment (Pile-Up Type)"
+  function content_road_slopes_and_countermeasures (target) {
+    return ([
+      {
+        type: "custom",
+        creator: function (target) {
+          return (document.createElement("attribute-table").innerHTML = `
+            <table cellpadding = "8">
+              <tbody>
+                <tr style = "background-color: #393939;">
+                  <td><b>Region</b></td>
+                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Engineering District</b></td>
+                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Legislative District</b></td>
+                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Road Classification</b></td>
+                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Road Name</b></td>
+                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Section ID</b></td>
+                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Terrain</b></td>
+                  <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Hazard Risk</b></td>
+                  <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Start Station Limit</b></td>
+                  <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>End Station Limit</b></td>
+                  <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Start Chainage</b></td>
+                  <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>End Chainage</b></td>
+                  <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Length</b> (meters)</td>
+                  <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Height</b> (meters)</td>
+                  <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Area</b> (sq. meters)</td>
+                  <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
+                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
+                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #393939;">
+                  <td><b>Slope Type Right</b></td>
+                  <td>${ target.graphic.attributes.rsm_category || "No available data" }</td>
+                </tr>
+              </tbody>
+            </table>
+          `);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
   }
+
+  const layer_road_slopes_and_countermeasures = new FeatureLayer({
+    title: "Road Slopes and Countermeasures",
+    url: url_road_slopes_and_countermeasures,
+    renderer: {
+      type: "unique-value",
+      field: "rsm_category",
+      defaultLabel: "Unclassified Road Slope and Countermeasure Data",
+      defaultSymbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 255, 1.00]
+      },
+      uniqueValueInfos: [
+        {
+          value: "Inventory of Road Slope",
+          label: "Inventory of Road Slopes",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 0, 0, 1.00]
+          }
+        }, 
+        {
+          value: "Inventory of Road Slope Structures",
+          label: "Inventory of Road Slope Structures",
+          symbol: {
+            type: "simple-line",
+            width: 1,
+            color: [255, 155, 55, 1.00]
+          }
+        }
+      ]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_road_slopes_and_countermeasures
+    },
+    visible: true
+  });
 
   function content_inventory_of_road_slopes (target) {
     return ([
@@ -1148,27 +1256,27 @@ function MapContextProvider (props) {
               <tbody>
                 <tr style = "background-color: #393939;">
                   <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Terrain</b></td>
@@ -1208,11 +1316,11 @@ function MapContextProvider (props) {
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.road_gradient || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Type of Disaster</b></td>
-                  <td>${ disaster_codes[target.graphic.attributes.disaster_type_select] || "No available data" }</td>
+                  <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>With Slope Disaster Failure?</b></td>
@@ -1237,7 +1345,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes = new FeatureLayer({
     title: "Inventory of Road Slopes",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2",
+    definitionExpression: "rsm_category = Inventory of Road Slope",
     renderer: {
       type: "unique-value",
       field: "past_failure",
@@ -1254,7 +1362,7 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [0, 255, 0, 1.00]
+            color: [240, 0, 60, 1.00]
           }
         }, 
         {
@@ -1263,7 +1371,7 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 0, 0, 1.00]
+            color: [180, 0, 120, 1.00]
           }
         }
       ]
@@ -1287,27 +1395,27 @@ function MapContextProvider (props) {
               <tbody>
                 <tr style = "background-color: #393939;">
                   <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.ROAD_SEC_C || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #2d2d2d;">
                   <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Terrain</b></td>
@@ -1333,33 +1441,33 @@ function MapContextProvider (props) {
                   <td><b>End Chainage</b></td>
                   <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
                 </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Existing Type of Road Slope Structure</b></td>
-                  <td>${ scope_of_work_codes[target.graphic.attributes.scope_work_selected] || "No available data" }</td>
-                </tr>
                 <tr style = "background-color: #393939;">
+                  <td><b>Existing Type of Road Slope Structure</b></td>
+                  <td>${ target.graphic.attributes.road_slope_structure_type || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
                   <td><b>Length</b> (meters)</td>
                   <td>${ target.graphic.attributes.road_length || "No available data" }</td>
                 </tr>
-                <tr style = "background-color: #2d2d2d;">
+                <tr style = "background-color: #393939;">
                   <td><b>Height</b> (meters)</td>
                   <td>${ target.graphic.attributes.road_height || "No available data" }</td>
                 </tr>
-                <tr style = "background-color: #393939;">
+                <tr style = "background-color: #2d2d2d;">
                   <td><b>Area</b> (sq. meters)</td>
                   <td>${ target.graphic.attributes.target_area || "No available data" }</td>
                 </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.slope_angle || "No available data" }</td>
-                </tr>
                 <tr style = "background-color: #393939;">
+                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
+                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+                </tr>
+                <tr style = "background-color: #2d2d2d;">
                   <td><b>Type of Disaster</b></td>
-                  <td>${ disaster_codes[target.graphic.attributes.disaster_type_select] || "No available data" }</td>
+                  <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
                 </tr>
                 <tr style = "background-color: #393939;">
                   <td><b>Condition</b></td>
-                  <td>${ target.graphic.attributes.ROAD_CONDITION || "No available data" }</td>
+                  <td>${ target.graphic.attributes.road_condition || "No available data" }</td>
                 </tr>
               </tbody>
             </table>
@@ -1376,7 +1484,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures = new FeatureLayer({
     title: "Inventory of Road Slope Structures",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1",
+    definitionExpression: "rsm_category = Inventory of Road Slope Structures",
     renderer: {
       type: "unique-value",
       field: "road_condition",
@@ -1388,7 +1496,7 @@ function MapContextProvider (props) {
       },
       uniqueValueInfos: [
         {
-          value: "good",
+          value: "Good",
           label: "Road in Good Condition",
           symbol: {
             type: "simple-line",
@@ -1397,7 +1505,7 @@ function MapContextProvider (props) {
           }
         }, 
         {
-          value: "fair",
+          value: "Fair",
           label: "Road in Fair Condition",
           symbol: {
             type: "simple-line",
@@ -1406,7 +1514,7 @@ function MapContextProvider (props) {
           }
         },
         {
-          value: "poor",
+          value: "Poor",
           label: "Road in Poor Condition",
           symbol: {
             type: "simple-line",
@@ -1415,7 +1523,7 @@ function MapContextProvider (props) {
           }
         },
         {
-          value: "bad",
+          value: "Bad",
           label: "Road in Bad Condition",
           symbol: {
             type: "simple-line",
@@ -1427,7 +1535,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -1639,7 +1747,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_soil_slope_collapse = new FeatureLayer({
     title: "Soil Slope Collapse (SSC)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_ssc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ssc'",
     renderer: {
       type: "simple",
       label: "Road Affected by Soil Slope Collapse",
@@ -1651,7 +1759,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1661,7 +1769,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_rock_slope_collapse = new FeatureLayer({
     title: "Rock Slope Collapse (RSC)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_rsc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rsc'",
     renderer: {
       type: "simple",
       label: "Road Affected by Rock Slope Collapse",
@@ -1673,7 +1781,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1683,7 +1791,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_rock_fall = new FeatureLayer({
     title: "Rock Fall (RF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_rf'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rf'",
     renderer: {
       type: "simple",
       label: "Road Affected by Rock Fall",
@@ -1695,7 +1803,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1705,7 +1813,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_landslide = new FeatureLayer({
     title: "Landslide (LS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_ls'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ls'",
     renderer: {
       type: "simple",
       label: "Road Affected by Landslide",
@@ -1717,7 +1825,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1727,7 +1835,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_road_slip = new FeatureLayer({
     title: "Road Slip (RS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_rs'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rs'",
     renderer: {
       type: "simple",
       label: "Road Affected by Road Slip",
@@ -1739,7 +1847,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1749,7 +1857,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_river_erosion = new FeatureLayer({
     title: "River Erosion (RE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_re'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_re'",
     renderer: {
       type: "simple",
       label: "Road Affected by River Erosion",
@@ -1761,7 +1869,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1771,7 +1879,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_debris_flow = new FeatureLayer({
     title: "Debris Flow (DF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_df'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_df'",
     renderer: {
       type: "simple",
       label: "Road Affected by Debris Flow",
@@ -1783,7 +1891,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1793,7 +1901,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_coastal_erosion = new FeatureLayer({
     title: "Coastal Erosion (CE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND disaster_type_select = 'disaster_ce'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ce'",
     renderer: {
       type: "simple",
       label: "Road Affected by Coastal Erosion",
@@ -1805,7 +1913,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1832,7 +1940,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_scope_01 = new FeatureLayer({
     title: "Grouted Riprap",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_1'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND scope_work_selected = 'scope_of_work_1'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap",
@@ -2833,13 +2941,15 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  const layer_potential_road_slope_project_01 = new FeatureLayer({
-    title: "Rehabilitation/Major Repair",
-    url: url_potential_road_slopes,
-    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Rehabilitation'",
+  /* Potential Road Slope Projects Data */
+
+  const layer_potential_road_slope_projects_rehabilitation = new FeatureLayer({
+    title: "Rehabilitation / Major Repair",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Rehabilitation'",
     renderer: {
       type: "simple",
-      label: "Rehabilitation/Major Repair",
+      label: "Rehabilitation / Major Repair",
       symbol: {
         type: "simple-line",
         width: 1,
@@ -2848,17 +2958,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures //to change
+      content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_potential_road_slope_project_02 = new FeatureLayer({
+  const layer_potential_road_slope_project_reconstruction = new FeatureLayer({
     title: "Reconstruction",
-    url: url_potential_road_slopes,
-    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Reconstruction'",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Reconstruction'",
     renderer: {
       type: "simple",
       label: "Reconstruction",
@@ -2870,17 +2980,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures //to change
+      content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_potential_road_slope_project_03 = new FeatureLayer({
+  const layer_potential_road_slope_project_construction = new FeatureLayer({
     title: "Construction",
-    url: url_potential_road_slopes,
-    definitionExpression: "rsm_select = 1 AND type_of_work_select = 'Construction'",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Construction'",
     renderer: {
       type: "simple",
       label: "Construction",
@@ -2892,9 +3002,9 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
-      content: content_inventory_of_road_slope_structures //to change
+      content: content_inventory_of_road_slope_structures // To change
     },
     visible: true
   });
@@ -2902,9 +3012,9 @@ function MapContextProvider (props) {
   const group_potential_road_slope_projects = new GroupLayer({
     title: "Potential Road Slope Projects",
     layers: [
-      layer_potential_road_slope_project_01,
-      layer_potential_road_slope_project_02,
-      layer_potential_road_slope_project_03
+      layer_potential_road_slope_projects_rehabilitation,
+      layer_potential_road_slope_project_reconstruction,
+      layer_potential_road_slope_project_construction
     ],
     visible: true,
     visibilityMode: "independent",
@@ -3135,6 +3245,21 @@ function MapContextProvider (props) {
     );
   }
 
+  function recenter_map (extent) {
+    reactiveUtils.watch(
+      function () {
+        if (view && extent) {
+          view
+            .when(function () {
+              view.goTo(extent);
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        }
+      });     
+  }
+
   function view_layer (module) {
     reactiveUtils.watch(
       function () {
@@ -3161,7 +3286,7 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_hazard_map_storm_surge_map_noah);
                 view.map.layers.push(group_hazard_map_slope_hazard_risks);
               }
-              if (module === "road-inventory") {
+              if (module === "road-slope-inventory") {
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
                 view.map.layers.push(group_inventory_of_road_slope_structures_road_slope_condition);
@@ -3178,26 +3303,9 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
                 view.map.layers.push(group_inventory_of_road_slope_structures_road_slope_condition);
               }
-              if (module === 'potential-road-slope-projects'){
+              if (module === "potential-road-slope-projects"){
                 view.map.layers.push(group_potential_road_slope_projects);
-                
-                
               }
-            })
-            .catch(function (error) {
-              console.error(error);
-            });
-        }
-      });     
-  }
-
-  function recenter_map (extent) {
-    reactiveUtils.watch(
-      function () {
-        if (view && extent) {
-          view
-            .when(function () {
-              view.goTo(extent);
             })
             .catch(function (error) {
               console.error(error);
@@ -3243,19 +3351,17 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_road_sections,
+
         layer_hazard_map,
+        layer_road_slopes_and_countermeasures,
+
         layer_inventory_of_road_slopes,
         layer_inventory_of_road_slope_structures,
+        // layer_potential_road_slope_projects,
 
-        layer_inventory_of_road_slope_structures_good,
-        layer_inventory_of_road_slope_structures_fair,
-        layer_inventory_of_road_slope_structures_poor,
-        layer_inventory_of_road_slope_structures_bad,
-
-        view,
         MapComponent,
 
-        view_layer, recenter_map, open_popup, close_popup
+        recenter_map, view_layer, open_popup, close_popup
       } 
     }>
       { props.children }

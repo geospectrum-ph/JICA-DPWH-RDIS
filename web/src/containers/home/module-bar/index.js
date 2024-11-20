@@ -1,5 +1,4 @@
 import React from "react";
-
 import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
@@ -20,10 +19,7 @@ export default function ModuleBar () {
   } = React.useContext(MainContext);
 
   const {
-    layer_road_sections,
     layer_hazard_map,
-    layer_inventory_of_road_slopes,
-    layer_inventory_of_road_slope_structures,
 
     close_popup
   } = React.useContext(MapContext);
@@ -38,11 +34,10 @@ export default function ModuleBar () {
         setDataSource(layer_hazard_map);
         break;
       case 2:
-        // setDataSource(layer_inventory_of_road_slopes);
         setDataSource(null);
         break;
       default:
-        setDataSource(layer_road_sections);
+        setDataSource(null);
         break;
     }
 

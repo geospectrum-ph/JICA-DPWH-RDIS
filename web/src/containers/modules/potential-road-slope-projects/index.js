@@ -5,7 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function RoadSlopeInventory () {
+export default function PotentialRoadSlopeProjects () {
   const {
     dataArray,
     dataLoading,
@@ -14,39 +14,17 @@ export default function RoadSlopeInventory () {
   } = React.useContext(MainContext);
 
   const {
-    layer_road_sections,
     layer_road_slopes_and_countermeasures,
-    layer_inventory_of_road_slopes,
-    layer_inventory_of_road_slope_structures,
 
-    view_layer, recenter_map, open_popup, close_popup
+    recenter_map, view_layer, open_popup, close_popup
   } = React.useContext(MapContext);
 
-  const [roadSlopesActive, setRoadSlopesActive] = React.useState(true);
-  const [roadSlopeStructuresActive, setRoadSlopeStructuresActive] = React.useState(true);
-
   React.useEffect(function () {
-    if (roadSlopesActive && roadSlopeStructuresActive) {
-      view_layer("road-slope-inventory");
-    }
-    else if (roadSlopesActive) {
-      view_layer("inventory-of-road-slopes");
-    }
-    else if (roadSlopeStructuresActive) {
-      view_layer("inventory-of-road-slope-structures");
-    }
-    else {
-      view_layer(" ");
-    }
-  }, [roadSlopesActive, roadSlopeStructuresActive]);
-  
-  React.useEffect(function () {
-    setRoadSlopesActive(true);
-    setRoadSlopeStructuresActive(true);
+    view_layer("potential-road-slope-projects");
   }, []);
 
   const sublevels = [
-    function ({ attributes }) { return (attributes.DISASTER_TYPE || "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.SCOPE_OF_WORK || "Unclassified Roads"); },
     function ({ attributes }) { return (attributes.ROAD_SEC_C); },
     function ({ attributes }) { return (attributes.ROAD_NAME); },
     function ({ attributes }) { return (attributes.SECTION_ID); },
@@ -167,11 +145,7 @@ export default function RoadSlopeInventory () {
 
             const imported_data = [];
 
-            const expression = 
-              roadSlopesActive && roadSlopeStructuresActive ? "section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              roadSlopesActive ? "rsm_category = 'Inventory of Road Slope' AND section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              roadSlopeStructuresActive ? "rsm_category = 'Inventory of Road Slope Structures' AND section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              null;
+            const expression = "rsm_category = 'Inventory of Road Slope' AND section_id = '" + item[1].attributes.SECTION_ID + "'";
 
             layer_road_slopes_and_countermeasures
               .queryFeatures({
@@ -197,7 +171,7 @@ export default function RoadSlopeInventory () {
                     imported_data.map(function (item, key) {
                       return (
                         <span key = { key } className = { dataSelected === item.attributes.globalid ? "selected" : null } onClick = { function () { find_road(item.attributes.globalid); } }>
-                          { parse_limits(item.attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) }
+                          { parse_limits(item.attributes.start_lrp) + " to " + parse_limits(item.attributes.end_lrp) }
                         </span>
                       );
                     })
@@ -212,23 +186,10 @@ export default function RoadSlopeInventory () {
   }
 
   return (
-    <div id = "road-slope-inventory-container">
+    <div id = "potential-road-slope-projects-container">
       <div>
         <div>
           <span>{ "List of Road Sections" }</span>
-        </div>
-        <div>
-          <span>{ "Please choose an active inventory: " }</span>
-        </div>
-        <div>
-          <div>
-            <input type = "checkbox" checked = { roadSlopesActive } onChange = { function () { setRoadSlopesActive(!roadSlopesActive); } }/>
-            <span>{ "Inventory of Road Slopes" }</span>
-          </div>
-          <div>
-            <input type = "checkbox" checked = { roadSlopeStructuresActive } onChange = { function () { setRoadSlopeStructuresActive(!roadSlopeStructuresActive); } }/>
-            <span>{ "Inventory of Road Slope Structures" }</span>
-          </div>
         </div>
       </div>
       {
