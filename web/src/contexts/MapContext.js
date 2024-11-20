@@ -3247,6 +3247,12 @@ function MapContextProvider (props) {
         layer_inventory_of_road_slopes,
         layer_inventory_of_road_slope_structures,
 
+        layer_inventory_of_road_slope_structures_good,
+        layer_inventory_of_road_slope_structures_fair,
+        layer_inventory_of_road_slope_structures_poor,
+        layer_inventory_of_road_slope_structures_bad,
+
+        view,
         MapComponent,
 
         view_layer, recenter_map, open_popup, close_popup

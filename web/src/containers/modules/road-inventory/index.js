@@ -8,7 +8,7 @@ import "./index.css";
 export default function RoadSlopeInventory () {
   const {
     dataArray,
-    dataLoading, setDataLoading,
+    dataLoading,
 
     dataSelected, setDataSelected
   } = React.useContext(MainContext);
@@ -73,92 +73,113 @@ export default function RoadSlopeInventory () {
       });
   }
 
+  const sublevels = [
+    function ({ attributes }) { return (attributes.DISASTER_TYPE || "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.ROAD_SEC_C); },
+    function ({ attributes }) { return (attributes.ROAD_NAME); },
+    function ({ attributes }) { return (attributes.SECTION_ID); },
+    function ({ attributes }) { return (attributes.SURVEY_SIDE || "Unclassified Roads"); }
+  ];
+
+  const [activeLevels, setActiveLevels] = React.useState([...Array(sublevels.length)].map(function () { return ([]); }));
+
+  function change_active (depth, name) {
+    setActiveLevels(activeLevels.map(function (row, index) {
+      if (depth === index) {
+        if (row.indexOf(name) < 0) {
+          return ([...row, name]);
+        }
+        else {
+          return (row.filter(function (item) { return (item !== name); }));
+        }
+      }
+      else {
+        return (row);
+      }
+    }));
+  }
+
+  function create_tree(data, depth) {
+    if (typeof depth === "number") { depth++; }
+    else { depth = 0; }
+
+    return (
+      Object
+        .entries(data)
+        .sort(function (base, next) {
+          if (base && next) {
+            return (base[0].localeCompare(next[0]));
+          }
+          else {
+            return (0);
+          }
+        })
+        .map(function (item, key) {
+          if (Object.keys(item[1]).length) {
+            return (
+              <div key = { key } className = { activeLevels[depth].indexOf(item[0]) > -1 ? "data-container data-container-level-0" + depth : "data-container-hidden" }>
+                <div onClick = { function () { change_active(depth, item[0]); } }>
+                  <span className = "material-symbols-outlined">{ activeLevels[depth].indexOf(item[0]) > -1 ? "keyboard_arrow_down" : "keyboard_arrow_right" }</span>
+                  <span>{ item[0] }</span>
+                </div>
+                { create_tree(item[1], depth) }
+              </div>
+            )
+          }
+          else {
+            function parse_limits (string) {
+              if (string) {
+                if (string.includes("-")) {
+                  const string_array = string.split(/[-]/);
+
+                  return (string_array[0] + " + (-" + string_array[1] + ")");
+                }
+                else if (string.includes("+")) {
+                  const string_array = string.split(/[+]/);
+
+                  return (string_array[0] + " + " + string_array[1]);
+                }
+                else {
+                  return (string);
+                }                              
+              }
+              else {
+                return (null);
+              }
+            }
+
+            return (
+              <div key = { key } className = { "data-container data-container-details"}>
+                <span className = { dataSelected === item[1].attributes.GlobalID ? "selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>
+                  { parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) }
+                </span>
+              </div>
+            );
+          }
+        })
+    );
+  }
+
   function DataArray () {
     function nest_groups_by(array, properties) {
       properties = Array.from(properties);
-
+  
       if (properties.length === 1) {
         return (Object.groupBy(array, properties[0]));
       }
-
+  
       const property = properties.shift();
       
       var grouped = Object.groupBy(array, property);
-
+  
       for (let key in grouped) {
         grouped[key] = nest_groups_by(grouped[key], Array.from(properties));
       }
-
+  
       return (grouped);
     }
 
-    // Grouping hierarchy, as per DPWH - PS: Inventory Type > Condition / Type of Disaster / Type of Structure > Road Classification > Road Name > Section ID > Survey Side > Limits
-
-    const ordered_data = nest_groups_by(dataArray, [
-      function ({ attributes }) { return (attributes.DISASTER_TYPE || "Unclassified Roads"); },
-      function ({ attributes }) { return (attributes.ROAD_SEC_C); },
-      function ({ attributes }) { return (attributes.ROAD_NAME); },
-      function ({ attributes }) { return (attributes.SECTION_ID); },
-      function ({ attributes }) { return (attributes.SURVEY_SIDE || "Unclassified Roads"); }
-    ]);
-
-    function create_tree(data, depth) {
-      if (typeof depth === "number") { depth++; }
-      else { depth = 1; }
-
-      return (
-        Object
-          .entries(data)
-          .sort(function (base, next) {
-            if (base && next) {
-              return (base[0].localeCompare(next[0]));
-            }
-            else {
-              return (0);
-            }
-          })
-          .map(function (item, key) {
-            if (Object.keys(item[1]).length) {
-              return (
-                <div key = { key } className = { "data-container data-container-level-0" + depth }>
-                  <div>
-                    <span>{ item[0] }</span>
-                  </div>
-                  { create_tree(item[1], depth) }
-                </div>
-              )
-            }
-            else {
-              function parse_limits (string) {
-                if (string) {
-                  if (string.includes("-")) {
-                    const string_array = string.split(/[-]/);
-  
-                    return (string_array[0] + " + (-" + string_array[1] + ")");
-                  }
-                  else if (string.includes("+")) {
-                    const string_array = string.split(/[+]/);
-  
-                    return (string_array[0] + " + " + string_array[1]);
-                  }
-                  else {
-                    return (string);
-                  }                              
-                }
-                else {
-                  return (null);
-                }
-              }
-  
-              return (
-                <div key = { key } className = { "data-container data-container-level-0" + depth }>
-                  <span className = { dataSelected === item[1].attributes.GlobalID ? " selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>{ parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) }</span>
-                </div>
-              );
-            }
-          })
-      );
-    }
+    const ordered_data = nest_groups_by(dataArray, sublevels);
 
     return (
       <div className = "data-array-container">
@@ -178,11 +199,11 @@ export default function RoadSlopeInventory () {
         </div>
         <div>
           <div>
-            <input type = "checkbox" id = "inventory-of-road-slopes-checkbox" checked = { roadSlopesActive } onChange = { function () { setRoadSlopesActive(!roadSlopesActive); } }/>
+            <input type = "checkbox" checked = { roadSlopesActive } onChange = { function () { setRoadSlopesActive(!roadSlopesActive); } }/>
             <span>{ "Inventory of Road Slopes" }</span>
           </div>
           <div>
-            <input type = "checkbox" id = "inventory-of-road-slope-structures-checkbox" checked = { roadSlopeStructuresActive } onChange = { function () { setRoadSlopeStructuresActive(!roadSlopeStructuresActive); } }/>
+            <input type = "checkbox" checked = { roadSlopeStructuresActive } onChange = { function () { setRoadSlopeStructuresActive(!roadSlopeStructuresActive); } }/>
             <span>{ "Inventory of Road Slope Structures" }</span>
           </div>
         </div>
