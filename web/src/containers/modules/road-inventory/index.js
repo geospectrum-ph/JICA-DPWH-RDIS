@@ -53,7 +53,7 @@ export default function RoadSlopeInventory () {
     function ({ attributes }) { return (attributes.SURVEY_SIDE || "Unclassified Roads"); }
   ];
 
-  function nest_groups_by(array, properties) {
+  function nest_groups_by (array, properties) {
     properties = Array.from(properties);
 
     if (properties.length === 1) {
@@ -105,7 +105,7 @@ export default function RoadSlopeInventory () {
           console.log(error);
         });
     }
-
+    
     return (
       Object
         .entries(data)
@@ -165,45 +165,11 @@ export default function RoadSlopeInventory () {
               }
             }
 
-            const imported_data = [];
-
-            const expression = 
-              roadSlopesActive && roadSlopeStructuresActive ? "section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              roadSlopesActive ? "rsm_category = 'Inventory of Road Slope' AND section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              roadSlopeStructuresActive ? "rsm_category = 'Inventory of Road Slope Structures' AND section_id = '" + item[1].attributes.SECTION_ID + "'" :
-              null;
-
-            layer_road_slopes_and_countermeasures
-              .queryFeatures({
-                where: expression || "1 = 0",
-                returnGeometry: true,
-                outFields: ["*"]
-              })
-              .then(function (response) {
-                if (response && response.features && response.features.length > 0) {
-                  response.features.map(function (item) {
-                    imported_data.push(item);
-                  })
-                }
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-
             return (
               <div key = { key } className = { "data-container data-container-details"}>
-                {
-                  imported_data && imported_data.length > 0 ? 
-                    imported_data.map(function (item, key) {
-                      return (
-                        <span key = { key } className = { dataSelected === item.attributes.globalid ? "selected" : null } onClick = { function () { find_road(item.attributes.globalid); } }>
-                          { parse_limits(item.attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) }
-                        </span>
-                      );
-                    })
-                    :
-                    <span>{ "No available data. "}</span>
-                }
+                <span className = { dataSelected === item[1].attributes.GlobalID ? "selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>
+                  { parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) }
+                </span>
               </div>
             );
           }

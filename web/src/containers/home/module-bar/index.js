@@ -21,7 +21,7 @@ export default function ModuleBar () {
   const {
     layer_hazard_map,
 
-    close_popup
+    view_layer, close_popup
   } = React.useContext(MapContext);
 
   function set_module (index) {
@@ -48,6 +48,8 @@ export default function ModuleBar () {
 
   React.useEffect(function () {
     set_module(0);
+
+    view_layer("summary");
   }, []);
   
   return (

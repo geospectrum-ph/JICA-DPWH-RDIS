@@ -23,10 +23,10 @@ import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 export const MapContext = React.createContext();
 
 function MapContextProvider (props) {
-  const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer";
-  const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // Proxy data for RBIA.
-  const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer";
-  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer";
+  const url_kilometer_posts = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/kilometer_posts/FeatureServer"; // TEMPORARY_DATA_SOURCE
+  const url_road_sections = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/road_sections_merged/FeatureServer"; // TEMPORARY_DATA_SOURCE
+  const url_terrain = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/terrain/FeatureServer"; // TEMPORARY_DATA_SOURCE
+  const url_regions = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/region_rdis/FeatureServer"; // TEMPORARY_DATA_SOURCE
 
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
   const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/rsm_mobile_ver2/FeatureServer";
@@ -1208,34 +1208,13 @@ function MapContextProvider (props) {
     title: "Road Slopes and Countermeasures",
     url: url_road_slopes_and_countermeasures,
     renderer: {
-      type: "unique-value",
-      field: "rsm_category",
-      defaultLabel: "Unclassified Road Slope and Countermeasure Data",
-      defaultSymbol: {
+      type: "simple",
+      label: "Road Slopes and Countermeasures Data",
+      symbol: {
         type: "simple-line",
         width: 1,
         color: [255, 255, 255, 1.00]
-      },
-      uniqueValueInfos: [
-        {
-          value: "Inventory of Road Slope",
-          label: "Inventory of Road Slopes",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 0, 0, 1.00]
-          }
-        }, 
-        {
-          value: "Inventory of Road Slope Structures",
-          label: "Inventory of Road Slope Structures",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 155, 55, 1.00]
-          }
-        }
-      ]
+      }
     },
     popupEnabled: true,
     popupTemplate: {
@@ -1345,40 +1324,19 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes = new FeatureLayer({
     title: "Inventory of Road Slopes",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = Inventory of Road Slope",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope'",
     renderer: {
-      type: "unique-value",
-      field: "past_failure",
-      defaultLabel: "Unclassified Road Slope",
-      defaultSymbol: {
+      type: "simple",
+      label: "Inventory of Road Slopes",
+      symbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 255, 255, 1.00]
-      },
-      uniqueValueInfos: [
-        {
-          value: "no",
-          label: "Without Slope Disaster Failure",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [240, 0, 60, 1.00]
-          }
-        }, 
-        {
-          value: "yes",
-          label: "With Slope Disaster Failure",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [180, 0, 120, 1.00]
-          }
-        }
-      ]
+        color: [255, 0, 0, 1.00]
+      }
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -1484,54 +1442,15 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures = new FeatureLayer({
     title: "Inventory of Road Slope Structures",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = Inventory of Road Slope Structures",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures'",
     renderer: {
-      type: "unique-value",
-      field: "road_condition",
-      defaultLabel: "Unclassified Road Slope Structure",
-      defaultSymbol: {
+      type: "simple",
+      label: "Inventory of Road Slope Structures",
+      symbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 255, 255, 1.00]
-      },
-      uniqueValueInfos: [
-        {
-          value: "Good",
-          label: "Road in Good Condition",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [0, 145, 173, 1.00]
-          }
-        }, 
-        {
-          value: "Fair",
-          label: "Road in Fair Condition",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [69, 94, 137, 1.00]
-          }
-        },
-        {
-          value: "Poor",
-          label: "Road in Poor Condition",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [137, 43, 100, 1.00]
-          }
-        },
-        {
-          value: "Bad",
-          label: "Road in Bad Condition",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [183, 9, 76, 1.00]
-          }
-        }
-      ]
+        color: [255, 155, 55, 1.00]
+      }
     },
     popupEnabled: true,
     popupTemplate: {
@@ -1747,7 +1666,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_soil_slope_collapse = new FeatureLayer({
     title: "Soil Slope Collapse (SSC)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ssc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Soil Slope Collapse'",
     renderer: {
       type: "simple",
       label: "Road Affected by Soil Slope Collapse",
@@ -1767,12 +1686,12 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_rock_slope_collapse = new FeatureLayer({
-    title: "Rock Slope Collapse (RSC)",
+    title: "Rock Slope Collapse (RSC) / Rock Fall (RF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rsc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Rock Slope Collapse",
+      label: "Road Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
         width: 1,
@@ -1788,32 +1707,32 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_rock_fall = new FeatureLayer({
-    title: "Rock Fall (RF)",
-    url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rf'",
-    renderer: {
-      type: "simple",
-      label: "Road Affected by Rock Fall",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 165, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Section: {section_id} ({road_name})",
-      outFields: ["*"],
-      content: content_inventory_of_road_slopes
-    },
-    visible: true
-  });
+  // const layer_inventory_of_road_slopes_rock_fall = new FeatureLayer({
+  //   title: "Rock Fall (RF)",
+  //   url: url_road_slopes_and_countermeasures,
+  //   definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
+  //   renderer: {
+  //     type: "simple",
+  //     label: "Road Affected by Rock Fall",
+  //     symbol: {
+  //       type: "simple-line",
+  //       width: 1,
+  //       color: [255, 165, 0, 1.00]
+  //     }
+  //   },
+  //   popupEnabled: true,
+  //   popupTemplate: {
+  //     title: "Road Section: {section_id} ({road_name})",
+  //     outFields: ["*"],
+  //     content: content_inventory_of_road_slopes
+  //   },
+  //   visible: true
+  // });
 
   const layer_inventory_of_road_slopes_landslide = new FeatureLayer({
     title: "Landslide (LS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ls'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Landslide'",
     renderer: {
       type: "simple",
       label: "Road Affected by Landslide",
@@ -1835,7 +1754,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_road_slip = new FeatureLayer({
     title: "Road Slip (RS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_rs'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Road Slip'",
     renderer: {
       type: "simple",
       label: "Road Affected by Road Slip",
@@ -1857,7 +1776,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_river_erosion = new FeatureLayer({
     title: "River Erosion (RE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_re'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'River Erosion'",
     renderer: {
       type: "simple",
       label: "Road Affected by River Erosion",
@@ -1879,7 +1798,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_debris_flow = new FeatureLayer({
     title: "Debris Flow (DF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_df'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Debris Flow'",
     renderer: {
       type: "simple",
       label: "Road Affected by Debris Flow",
@@ -1901,7 +1820,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slopes_coastal_erosion = new FeatureLayer({
     title: "Coastal Erosion (CE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'disaster_ce'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Coastal Erosion'",
     renderer: {
       type: "simple",
       label: "Road Affected by Coastal Erosion",
@@ -1925,7 +1844,7 @@ function MapContextProvider (props) {
     layers: [
       layer_inventory_of_road_slopes_soil_slope_collapse,
       layer_inventory_of_road_slopes_rock_slope_collapse,
-      layer_inventory_of_road_slopes_rock_fall,
+      // layer_inventory_of_road_slopes_rock_fall,
       layer_inventory_of_road_slopes_landslide,
       layer_inventory_of_road_slopes_road_slip,
       layer_inventory_of_road_slopes_river_erosion,
@@ -1937,10 +1856,10 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  const layer_inventory_of_road_slopes_scope_01 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_01 = new FeatureLayer({
     title: "Grouted Riprap",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND scope_work_selected = 'scope_of_work_1'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap",
@@ -1952,17 +1871,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_02 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_02 = new FeatureLayer({
     title: "Grouted Riprap with Steel Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_2'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap with Steel Sheet Pile Foundation'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap with Steel Sheet Pile Foundation",
@@ -1974,17 +1893,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_03 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_03 = new FeatureLayer({
     title: "Grouted Riprap with Concrete Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_3'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap with Concrete Sheet Pile Foundation'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap with Concrete Sheet Pile Foundation",
@@ -1996,17 +1915,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_04 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_04 = new FeatureLayer({
     title: "Rubble Concrete Revetment (Spread Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_4'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Rubble Concrete Revetment (Spread Type I)'",
     renderer: {
       type: "simple",
       label: "Rubble Concrete Revetment (Spread Type I)",
@@ -2018,17 +1937,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_05 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_05 = new FeatureLayer({
     title: "Stone Masonry",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_5'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Stone Masonry'",
     renderer: {
       type: "simple",
       label: "Stone Masonry",
@@ -2040,17 +1959,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_06 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_06 = new FeatureLayer({
     title: "Concrete Slope Protection (Reinforced Concrete Type II)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_6'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Concrete Slope Protection (Reinforced Concrete Type II)'",
     renderer: {
       type: "simple",
       label: "Concrete Slope Protection (Reinforced Concrete Type II)",
@@ -2062,17 +1981,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_07 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_07 = new FeatureLayer({
     title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_7'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)'",
     renderer: {
       type: "simple",
       label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
@@ -2084,17 +2003,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_08 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_08 = new FeatureLayer({
     title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_8'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)'",
     renderer: {
       type: "simple",
       label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
@@ -2106,17 +2025,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_09 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_09 = new FeatureLayer({
     title: "Gravity Wall (Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_9'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gravity Wall (Type I)'",
     renderer: {
       type: "simple",
       label: "Gravity Wall (Type I)",
@@ -2128,17 +2047,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_10 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_10 = new FeatureLayer({
     title: "Gabion / Mattress Slope Protection",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_10'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gabion/Mattress Slope Protection'",
     renderer: {
       type: "simple",
       label: "Gabion / Mattress Slope Protection",
@@ -2150,17 +2069,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_11 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_11 = new FeatureLayer({
     title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_11'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)'",
     renderer: {
       type: "simple",
       label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
@@ -2172,17 +2091,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_12 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_12 = new FeatureLayer({
     title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_12'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)'",
     renderer: {
       type: "simple",
       label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
@@ -2194,17 +2113,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_13 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_13 = new FeatureLayer({
     title: "Earthfill Dike (Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_13'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Earthfill Dike (Type I)'",
     renderer: {
       type: "simple",
       label: "Earthfill Dike (Type I)",
@@ -2216,17 +2135,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_14 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_14 = new FeatureLayer({
     title: "Boulder Spur Dike (Type II)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_14'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Boulder Spur Dike (Type II)'",
     renderer: {
       type: "simple",
       label: "Boulder Spur Dike (Type II)",
@@ -2238,17 +2157,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slopes_scope_15 = new FeatureLayer({
+  const layer_inventory_of_road_slopes_structure_type_15 = new FeatureLayer({
     title: "Gabions Revetment (Pile-Up Type)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 2 AND scope_work_selected = 'scope_of_work_15'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
       label: "Gabions Revetment (Pile-Up Type)",
@@ -2260,7 +2179,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slopes
     },
@@ -2270,21 +2189,21 @@ function MapContextProvider (props) {
   const group_inventory_of_road_slopes_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
     layers: [
-      layer_inventory_of_road_slopes_scope_01,
-      layer_inventory_of_road_slopes_scope_02,
-      layer_inventory_of_road_slopes_scope_03,
-      layer_inventory_of_road_slopes_scope_04,
-      layer_inventory_of_road_slopes_scope_05,
-      layer_inventory_of_road_slopes_scope_06,
-      layer_inventory_of_road_slopes_scope_07,
-      layer_inventory_of_road_slopes_scope_08,
-      layer_inventory_of_road_slopes_scope_09,
-      layer_inventory_of_road_slopes_scope_10,
-      layer_inventory_of_road_slopes_scope_11,
-      layer_inventory_of_road_slopes_scope_12,
-      layer_inventory_of_road_slopes_scope_13,
-      layer_inventory_of_road_slopes_scope_14,
-      layer_inventory_of_road_slopes_scope_15
+      layer_inventory_of_road_slopes_structure_type_01,
+      layer_inventory_of_road_slopes_structure_type_02,
+      layer_inventory_of_road_slopes_structure_type_03,
+      layer_inventory_of_road_slopes_structure_type_04,
+      layer_inventory_of_road_slopes_structure_type_05,
+      layer_inventory_of_road_slopes_structure_type_06,
+      layer_inventory_of_road_slopes_structure_type_07,
+      layer_inventory_of_road_slopes_structure_type_08,
+      layer_inventory_of_road_slopes_structure_type_09,
+      layer_inventory_of_road_slopes_structure_type_10,
+      layer_inventory_of_road_slopes_structure_type_11,
+      layer_inventory_of_road_slopes_structure_type_12,
+      layer_inventory_of_road_slopes_structure_type_13,
+      layer_inventory_of_road_slopes_structure_type_14,
+      layer_inventory_of_road_slopes_structure_type_15
     ],
     visible: true,
     visibilityMode: "independent",
@@ -2296,7 +2215,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_good = new FeatureLayer({
     title: "Roads in Good Condition",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND road_condition = 'good'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Good'",
     renderer: {
       type: "simple",
       symbol: {
@@ -2308,7 +2227,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2318,7 +2237,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_fair = new FeatureLayer({
     title: "Roads in Fair Condition",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND road_condition = 'fair'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Fair'",
     renderer: {
       type: "simple",
       symbol: {
@@ -2330,7 +2249,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2340,7 +2259,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_poor = new FeatureLayer({
     title: "Roads in Poor Condition",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND road_condition = 'poor'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Poor'",
     renderer: {
       type: "simple",
       label: "Road in Poor Condition",
@@ -2352,7 +2271,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2362,7 +2281,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_bad = new FeatureLayer({
     title: "Roads in Bad Condition",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND road_condition = 'bad'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Bad'",
     renderer: {
       type: "simple",
       symbol: {
@@ -2374,7 +2293,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2397,7 +2316,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_soil_slope_collapse = new FeatureLayer({
     title: "Soil Slope Collapse (SSC)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_ssc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Soil Slope Collapse'",
     renderer: {
       type: "simple",
       label: "Road Affected by Soil Slope Collapse",
@@ -2409,7 +2328,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2417,12 +2336,12 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_rock_slope_collapse = new FeatureLayer({
-    title: "Rock Slope Collapse (RSC)",
+    title: "Rock Slope Collapse (RSC) / Rock Fall (RF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_rsc'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Rock Slope Collapse",
+      label: "Road Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
         width: 1,
@@ -2431,39 +2350,39 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_rock_fall = new FeatureLayer({
-    title: "Rock Fall (RF)",
-    url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_rf'",
-    renderer: {
-      type: "simple",
-      label: "Road Affected by Rock Fall",
-      symbol: {
-        type: "simple-line",
-        width: 1,
-        color: [255, 165, 0, 1.00]
-      }
-    },
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
-      outFields: ["*"],
-      content: content_inventory_of_road_slope_structures
-    },
-    visible: true
-  });
+  // const layer_inventory_of_road_slope_structures_rock_fall = new FeatureLayer({
+  //   title: "Rock Fall (RF)",
+  //   url: url_road_slopes_and_countermeasures,
+  //   definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
+  //   renderer: {
+  //     type: "simple",
+  //     label: "Road Affected by Rock Fall",
+  //     symbol: {
+  //       type: "simple-line",
+  //       width: 1,
+  //       color: [255, 165, 0, 1.00]
+  //     }
+  //   },
+  //   popupEnabled: true,
+  //   popupTemplate: {
+  //     title: "Road Section: {section_id} ({road_name})",
+  //     outFields: ["*"],
+  //     content: content_inventory_of_road_slope_structures
+  //   },
+  //   visible: true
+  // });
 
   const layer_inventory_of_road_slope_structures_landslide = new FeatureLayer({
     title: "Landslide (LS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_ls'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Landslide'",
     renderer: {
       type: "simple",
       label: "Road Affected by Landslide",
@@ -2475,7 +2394,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2485,7 +2404,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_road_slip = new FeatureLayer({
     title: "Road Slip (RS)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_rs'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Road Slip'",
     renderer: {
       type: "simple",
       label: "Road Affected by Road Slip",
@@ -2497,7 +2416,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2507,7 +2426,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_river_erosion = new FeatureLayer({
     title: "River Erosion (RE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_re'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'River Erosion'",
     renderer: {
       type: "simple",
       label: "Road Affected by River Erosion",
@@ -2519,7 +2438,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2529,7 +2448,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_debris_flow = new FeatureLayer({
     title: "Debris Flow (DF)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_df'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Debris Flow'",
     renderer: {
       type: "simple",
       label: "Road Affected by Debris Flow",
@@ -2541,7 +2460,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2551,7 +2470,7 @@ function MapContextProvider (props) {
   const layer_inventory_of_road_slope_structures_coastal_erosion = new FeatureLayer({
     title: "Coastal Erosion (CE)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND disaster_type_select = 'disaster_ce'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Coastal Erosion'",
     renderer: {
       type: "simple",
       label: "Road Affected by Coastal Erosion",
@@ -2563,7 +2482,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2575,7 +2494,7 @@ function MapContextProvider (props) {
     layers: [
       layer_inventory_of_road_slope_structures_soil_slope_collapse,
       layer_inventory_of_road_slope_structures_rock_slope_collapse,
-      layer_inventory_of_road_slope_structures_rock_fall,
+      // layer_inventory_of_road_slope_structures_rock_fall,
       layer_inventory_of_road_slope_structures_landslide,
       layer_inventory_of_road_slope_structures_road_slip,
       layer_inventory_of_road_slope_structures_river_erosion,
@@ -2587,10 +2506,10 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  const layer_inventory_of_road_slope_structures_scope_01 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_01 = new FeatureLayer({
     title: "Grouted Riprap",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_1'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap",
@@ -2602,17 +2521,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_02 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_02 = new FeatureLayer({
     title: "Grouted Riprap with Steel Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_2'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap with Steel Sheet Pile Foundation'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap with Steel Sheet Pile Foundation",
@@ -2624,17 +2543,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_03 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_03 = new FeatureLayer({
     title: "Grouted Riprap with Concrete Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_3'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap with Concrete Sheet Pile Foundation'",
     renderer: {
       type: "simple",
       label: "Grouted Riprap with Concrete Sheet Pile Foundation",
@@ -2646,17 +2565,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_04 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_04 = new FeatureLayer({
     title: "Rubble Concrete Revetment (Spread Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_4'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Rubble Concrete Revetment (Spread Type I)'",
     renderer: {
       type: "simple",
       label: "Rubble Concrete Revetment (Spread Type I)",
@@ -2668,17 +2587,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_05 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_05 = new FeatureLayer({
     title: "Stone Masonry",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_5'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Stone Masonry'",
     renderer: {
       type: "simple",
       label: "Stone Masonry",
@@ -2690,17 +2609,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_06 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_06 = new FeatureLayer({
     title: "Concrete Slope Protection (Reinforced Concrete Type II)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_6'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Concrete Slope Protection (Reinforced Concrete Type II)'",
     renderer: {
       type: "simple",
       label: "Concrete Slope Protection (Reinforced Concrete Type II)",
@@ -2712,17 +2631,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_07 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_07 = new FeatureLayer({
     title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_7'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)'",
     renderer: {
       type: "simple",
       label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
@@ -2734,17 +2653,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_08 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_08 = new FeatureLayer({
     title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_8'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)'",
     renderer: {
       type: "simple",
       label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
@@ -2756,17 +2675,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_09 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_09 = new FeatureLayer({
     title: "Gravity Wall (Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_9'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gravity Wall (Type I)'",
     renderer: {
       type: "simple",
       label: "Gravity Wall (Type I)",
@@ -2778,17 +2697,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_10 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_10 = new FeatureLayer({
     title: "Gabion / Mattress Slope Protection",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_10'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gabion/Mattress Slope Protection'",
     renderer: {
       type: "simple",
       label: "Gabion / Mattress Slope Protection",
@@ -2800,17 +2719,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_11 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_11 = new FeatureLayer({
     title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_11'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)'",
     renderer: {
       type: "simple",
       label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
@@ -2822,17 +2741,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_12 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_12 = new FeatureLayer({
     title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_12'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)'",
     renderer: {
       type: "simple",
       label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
@@ -2844,17 +2763,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_13 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_13 = new FeatureLayer({
     title: "Earthfill Dike (Type I)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_13'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Earthfill Dike (Type I)'",
     renderer: {
       type: "simple",
       label: "Earthfill Dike (Type I)",
@@ -2866,17 +2785,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_14 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_14 = new FeatureLayer({
     title: "Boulder Spur Dike (Type II)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_14'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Boulder Spur Dike (Type II)'",
     renderer: {
       type: "simple",
       label: "Boulder Spur Dike (Type II)",
@@ -2888,17 +2807,17 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_scope_15 = new FeatureLayer({
+  const layer_inventory_of_road_slope_structures_structure_type_15 = new FeatureLayer({
     title: "Gabions Revetment (Pile-Up Type)",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_select = 1 AND scope_work_selected = 'scope_of_work_15'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
       label: "Gabions Revetment (Pile-Up Type)",
@@ -2910,7 +2829,7 @@ function MapContextProvider (props) {
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_inventory_of_road_slope_structures
     },
@@ -2920,21 +2839,21 @@ function MapContextProvider (props) {
   const group_inventory_of_road_slope_structures_type_of_road_slope_structures = new GroupLayer({
     title: "Type of Road Slope Structures",
     layers: [
-      layer_inventory_of_road_slope_structures_scope_01,
-      layer_inventory_of_road_slope_structures_scope_02,
-      layer_inventory_of_road_slope_structures_scope_03,
-      layer_inventory_of_road_slope_structures_scope_04,
-      layer_inventory_of_road_slope_structures_scope_05,
-      layer_inventory_of_road_slope_structures_scope_06,
-      layer_inventory_of_road_slope_structures_scope_07,
-      layer_inventory_of_road_slope_structures_scope_08,
-      layer_inventory_of_road_slope_structures_scope_09,
-      layer_inventory_of_road_slope_structures_scope_10,
-      layer_inventory_of_road_slope_structures_scope_11,
-      layer_inventory_of_road_slope_structures_scope_12,
-      layer_inventory_of_road_slope_structures_scope_13,
-      layer_inventory_of_road_slope_structures_scope_14,
-      layer_inventory_of_road_slope_structures_scope_15
+      layer_inventory_of_road_slope_structures_structure_type_01,
+      layer_inventory_of_road_slope_structures_structure_type_02,
+      layer_inventory_of_road_slope_structures_structure_type_03,
+      layer_inventory_of_road_slope_structures_structure_type_04,
+      layer_inventory_of_road_slope_structures_structure_type_05,
+      layer_inventory_of_road_slope_structures_structure_type_06,
+      layer_inventory_of_road_slope_structures_structure_type_07,
+      layer_inventory_of_road_slope_structures_structure_type_08,
+      layer_inventory_of_road_slope_structures_structure_type_09,
+      layer_inventory_of_road_slope_structures_structure_type_10,
+      layer_inventory_of_road_slope_structures_structure_type_11,
+      layer_inventory_of_road_slope_structures_structure_type_12,
+      layer_inventory_of_road_slope_structures_structure_type_13,
+      layer_inventory_of_road_slope_structures_structure_type_14,
+      layer_inventory_of_road_slope_structures_structure_type_15
     ],
     visible: true,
     visibilityMode: "independent",
