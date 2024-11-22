@@ -84,7 +84,7 @@
         place-content: center start;
 
         box-sizing: border-box;
-        padding: 12px;
+        padding: 4px 8px;
         gap: 4px;
 
         pointer-events: all;
@@ -94,28 +94,22 @@
       /* Inner Items */
       > :not(:first-child) {
         box-sizing: border-box;
-        padding-left: 24px;
-
-        > * {
-          box-sizing: border-box;
-          border-left: dashed 2px rgba(150, 150, 150, 1.00);
-        }
+        padding-left: 12px;
       }
 
       /* Last Item */
       &.data-container-details {
         box-sizing: border-box;
-        padding: 0 12px;
+        padding: 4px 8px;
 
         > * {
           pointer-events: all;
           cursor: pointer;
 
           box-sizing: border-box;
-          margin: 12px;
-          border-left: none;
+          margin: 4px;
           outline: solid 2px rgba(255, 255, 255, 1.00);
-          padding: 12px;
+          padding: 4px 8px;
 
           &:hover {    
             background-color: rgba(225, 125, 25, 1.00);
@@ -141,7 +135,7 @@
         place-content: center start;
 
         box-sizing: border-box;
-        padding: 12px;
+        padding: 4px 8px;
         gap: 4px;
 
         pointer-events: all;
@@ -165,6 +159,6 @@
     height: auto;
 
     box-sizing: border-box;
-    padding: 12px;
+    padding: 4px 8px;
   }
 }

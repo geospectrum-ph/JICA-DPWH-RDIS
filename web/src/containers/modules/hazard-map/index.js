@@ -156,7 +156,7 @@ export default function PotentialRoadSlopeProjects () {
     <div id = "hazard-map-container">
       <div>
         <div>
-          <span>{ "List of Road Sections" }</span>
+          <span>{ "Hazard Survey Inventory" }</span>
         </div>
       </div>
       {

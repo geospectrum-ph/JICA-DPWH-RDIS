@@ -20,6 +20,7 @@ export default function ModuleBar () {
 
   const {
     layer_hazard_map,
+    layer_road_slopes_and_countermeasures,
 
     view_layer, close_popup
   } = React.useContext(MapContext);
@@ -34,10 +35,10 @@ export default function ModuleBar () {
         setDataSource(layer_hazard_map);
         break;
       case 2:
-        setDataSource(null);
+        setDataSource(layer_road_slopes_and_countermeasures);
         break;
       default:
-        setDataSource(null);
+        setDataSource(layer_road_slopes_and_countermeasures);
         break;
     }
 

@@ -1840,7 +1840,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
-    title: "Type of Disaster",
+    title: "Inventory of Road Slopes - Types of Disaster",
     layers: [
       layer_inventory_of_road_slopes_soil_slope_collapse,
       layer_inventory_of_road_slopes_rock_slope_collapse,
@@ -2187,7 +2187,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slopes_type_of_road_slope_structures = new GroupLayer({
-    title: "Type of Road Slope Structures",
+    title: "Inventory of Road Slopes - Type of Road Slope Structures",
     layers: [
       layer_inventory_of_road_slopes_structure_type_01,
       layer_inventory_of_road_slopes_structure_type_02,
@@ -2301,7 +2301,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_road_slope_condition = new GroupLayer({
-    title: "Road Slope Condition",
+    title: "Inventory of Road Slopes - Road Slope Condition",
     layers: [
       layer_inventory_of_road_slope_structures_bad,
       layer_inventory_of_road_slope_structures_poor,
@@ -2490,7 +2490,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_type_of_disaster = new GroupLayer({
-    title: "Type of Disaster",
+    title: "Inventory of Road Slope Structures - Type of Disaster",
     layers: [
       layer_inventory_of_road_slope_structures_soil_slope_collapse,
       layer_inventory_of_road_slope_structures_rock_slope_collapse,
@@ -2837,7 +2837,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_type_of_road_slope_structures = new GroupLayer({
-    title: "Type of Road Slope Structures",
+    title: "Inventory of Road Slope Structures - Type of Road Slope Structures",
     layers: [
       layer_inventory_of_road_slope_structures_structure_type_01,
       layer_inventory_of_road_slope_structures_structure_type_02,
@@ -3212,15 +3212,6 @@ function MapContextProvider (props) {
 
                 view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
                 view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_structures);
-              }
-              if (module === "inventory-of-road-slopes") {
-                view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
-                view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_structures);
-              }
-              if (module === "inventory-of-road-slope-structures") {
-                view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);
-                view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
-                view.map.layers.push(group_inventory_of_road_slope_structures_road_slope_condition);
               }
               if (module === "potential-road-slope-projects"){
                 view.map.layers.push(group_potential_road_slope_projects);
