@@ -3,5 +3,5 @@
   height: 100%;
 
   box-sizing: border-box;
-  padding: 6px;
+  padding: var(--space-100, 12px);
 }

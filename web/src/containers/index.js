@@ -7,11 +7,11 @@ import SignIn from "./modules/sign-in";
 import Home from "./home";
 
 import Summary from "./modules/summary";
+import HazardMap from "./modules/hazard-map";
 import RoadSlopeInventory from "./modules/road-inventory";
 import PotentialRoadSlopeProjects from "./modules/potential-road-slope-projects";
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
-import HazardMap from "./modules/hazard-map";
 import Reports from "./modules/error";
 
 import About from "./modules/error";
@@ -24,10 +24,6 @@ import Error from "./modules/error";
 import "./index.css"
 
 export default function App() {
-  window.addEventListener("offline", function (event) {
-    console.log("Web application is offline.");
-  });
-  
   return (
     <div id = "app-container">
       <Routes>

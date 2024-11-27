@@ -2949,7 +2949,7 @@ function MapContextProvider (props) {
       view = new MapView({
         container: "map-container",
         map: new Map({
-          basemap: "dark-gray-vector",
+          basemap: "osm",
           layers: []
         }),
         center: [121.7740, 12.8797],
@@ -2965,8 +2965,9 @@ function MapContextProvider (props) {
         }
       });
 
-      const widget_info = document.createElement("map-info");
+      const widget_info = document.createElement("div");
 
+      widget_info.id = "map-info-container";
       widget_info.innerText = "Please select a feature.";
 
       view.ui.add(widget_info, {
@@ -2974,16 +2975,19 @@ function MapContextProvider (props) {
       });
 
       const widget_search = new Search({
-        view: view
+        view: view,
+        container: document.createElement("div")
       });
 
       const expand_search = new Expand({
         view: view,
         content: widget_search,
-        container: document.createElement("map-search-container"),
+        container: document.createElement("div"),
         placement: "bottom-end",
         group: "widgets"
       });
+
+      expand_search.container.id = "map-search-container";
 
       view.ui.add(expand_search, {
         position: "top-right",
@@ -2992,9 +2996,11 @@ function MapContextProvider (props) {
 
       const widget_home = new Home({
         view: view,
-        container: document.createElement("map-home-container")
+        id: "map-home-container"
       });
 
+      widget_home.
+      
       view.ui.add(widget_home, {
         position: "top-right",
         index: 1
@@ -3011,10 +3017,12 @@ function MapContextProvider (props) {
       const expand_legend = new Expand({
         view: view,
         content: widget_legend,
-        container: document.createElement("map-legend-container"),
+        container: document.createElement("div"),
         placement: "bottom-end",
         group: "widgets"
       });
+
+      expand_legend.container.id = "map-legend-container"
 
       view.ui.add(expand_legend, {
         position: "top-right",
@@ -3131,7 +3139,8 @@ function MapContextProvider (props) {
 
       const widget_scale_bar = new ScaleBar({
         view: view,
-        container: document.createElement("map-scale-bar")
+        container: document.createElement("map-scale-bar"),
+        unit: "dual"
       });
 
       view.ui.add(widget_scale_bar, {

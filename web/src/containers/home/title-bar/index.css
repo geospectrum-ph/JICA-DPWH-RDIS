@@ -8,9 +8,12 @@
   height: auto;
 
   box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 1.00);
+  outline: var(--border-black-025, 3px solid rgba(0, 0, 0, 1.00));
 
-  background-color: rgba(50, 50, 50, 1.00);
+  background-color: var(--color-white, rgba(255, 255, 255, 1.00));
+  
+  font: var(--type-bold-300, normal 800 36px/1 "Outfit", sans-serif);
+  color: var(--color-black, rgba(0, 0, 0, 1.00));
 
   /* Header Container */
   > :nth-child(1) {
@@ -25,7 +28,7 @@
     height: 100%;
 
     box-sizing: border-box;
-    padding: 12px;
+    padding: var(--space-100, 12px);
     
     /* Logos */
     > :nth-child(1), > :nth-child(2) {
@@ -51,8 +54,6 @@
       box-sizing: border-box;
       padding: 8px;
 
-      font: normal 600 32px "Outfit", sans-serif;
-      color: rgba(255, 255, 255, 1.00);
 
       pointer-events: none;
     }

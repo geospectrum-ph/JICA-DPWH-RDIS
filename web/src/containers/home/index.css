@@ -8,7 +8,7 @@
   height: 100%;  
 
   box-sizing: border-box;
-  gap: 6px;
+  gap: var(--space-100, 12px);
 
   pointer-events: none;
   user-select: none;
@@ -25,14 +25,8 @@
     place-items: center center;
     place-content: center center;
 
-    flex: auto 1 auto;
-
     width: 100%;
     height: auto;
-
-    > * {
-      display: flex;
-    }
   }
 
   /* Module Bar Container */
@@ -41,15 +35,9 @@
     flex-flow: column nowrap;
     place-items: center center;
     place-content: center center;
-    
-    flex: auto 1 auto;
 
     width: 100%;
     height: auto;
-
-    > * {
-      display: flex;
-    }
   }
 
   /* Home Page */
@@ -61,13 +49,11 @@
 
     overflow: hidden hidden;
 
-    flex: 1 1 auto;
-
     width: 100%;
     height: 100%;
 
     box-sizing: border-box;
-    gap: 6px;
+    gap: var(--space-100, 12px);
 
     /* Sidebar / Outlet Container */
     > :nth-child(1) {
@@ -76,14 +62,8 @@
       place-items: center center;
       place-content: center center;
 
-      flex: auto 0 auto;
-
       width: auto;
       height: 100%;
-
-      > * {
-        display: flex;
-      }
     }
     
     /* Map Component Container */
@@ -93,14 +73,8 @@
       place-items: center center;
       place-content: center center;
 
-      flex: 1 1 auto;
-
       width: 100%;
       height: 100%;
-
-      > * {
-        display: flex;
-      }
     }
   }
 
@@ -129,63 +103,148 @@
 
 #map-container {
   box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 1.00);
+  border: var(--border-100, 3px) solid var(--color-black, rgba(0, 0, 0, 1.00));
 
-  .esri-expand {
-    > calcite-popover {
-      box-sizing: border-box;
-      margin-top: 8px;
+  .esri-ui-inner-container.esri-ui-corner-container {
+    inset: 0 !important;
+
+    box-sizing: border-box;
+    margin: var(--space-100, 12px) var(--space-100, 12px) calc(var(--space-100, 12px) + (var(--space-100, 12px) * 2) + (var(--space-100, 12px) * 1.25)) var(--space-100, 12px);
   
-      > .esri-expand__popover-content {
-        > .esri-expand__content-container {
-          max-height: 360px;
-
-          > .esri-widget {
-            max-height: 100%;
-          }
-        }
-      }
-    }
-  }
-
-  .esri-ui-top-right.esri-ui-corner {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    > map-search-container {
-      margin-right: 12px;
+    .esri-widget--button {
+      width: calc(var(--space-100, 12px) * 4);
+      height: calc(var(--space-100, 12px) * 4);
     }
 
-    > map-layer-list-container {
-      .esri-list-item-panel {
+    .esri-expand {
+      > calcite-popover {
         box-sizing: border-box;
-        padding: 0 16px;
+        margin-top: calc(var(--space-100, 12px) * 0.50);
+    
+        > .esri-expand__popover-content {
+          > .esri-expand__content-container {
+            max-height: var(--height-100, 480px);
 
-        > :nth-child(1) {
-          box-sizing: border-box;
-          padding: 4px 8px 8px 8px;
-        }
-
-        > :nth-child(2) {
-          > :nth-child(1) {
-            background-color: rgba(0, 0, 0, 0.00);
+            > .esri-widget {
+              max-height: 100%;
+            }
           }
         }
       }
     }
+
+    .esri-ui-top-left.esri-ui-corner {
+      #map-info-container {
+        display: flex;
+        flex-flow: column nowrap;
+        place-items: center center;
+        place-content: center center;
+
+        width: auto;
+        height: calc(var(--space-100, 12px) * 4);
+
+        box-sizing: border-box;
+        margin: 0;
+        padding: var(--space-100, 12px);
+      
+        background-color: var(--color-gray-50);
+
+        font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
+        color: var(--color-gray-08, rgba(200, 200, 200, 1.00));
+      }
+    }
+
+    .esri-ui-top-right.esri-ui-corner {
+      display: flex;
+      flex-flow: row nowrap;
+      place-items: center center;
+      place-content: center center;
+
+      #map-search-container {
+        box-sizing: border-box;
+        margin-right: var(--space-100, 12px);
+
+        input {
+          width: 100%;
+          height: 100%;
+
+          box-sizing: border-box;
+          padding: var(--space-100, 12px);
+
+          font: var(--type-normal-117, normal 400 14px/1.25 "Outfit", sans-serif);
+          color: var(--color-white, rgba(255, 255, 255, 1.00));
+
+          &:focus {
+            box-sizing: border-box;
+            outline: none;
+          }
+        }
+      }
+
+      #map-home-container {
+        width: calc(var(--space-100, 12px) * 4);
+        height: calc(var(--space-100, 12px) * 4);
+      }
+
+      map-layer-list-container {
+        .esri-list-item-panel {
+          display: grid;
+
+          box-sizing: border-box;
+          gap: var(--space-100, 12px);
+
+          > :nth-child(2) {
+            > :nth-child(1) {
+              background-color: var(--color-none, rgba(0, 0, 0, 0.00));
+            }
+          }
+        }
+      }
+    }
+
+    .esri-ui-bottom-left.esri-ui-corner {
+      map-scale-bar {
+        > * {
+          > :nth-child(1) {
+            height: calc(var(--space-100, 12px) * 1.83);
+
+            background-color: rgba(255, 255, 255, 0.50);
+
+            &::before, &::after {
+              height: calc(var(--space-100, 12px) * 1.83);
+
+              border-right: calc(var(--space-100, 12px) * 0.25) solid var(--color-gray-04, rgba(100, 100, 100, 1.00));
+            }
+          }
+
+          > :nth-child(2) {
+            box-sizing: border-box;
+            padding: calc(var(--space-100, 12px) * 0.12) calc(var(--space-100, 12px) * 0.25);
+
+            > * {
+              font: var(--type-normal-100, normal 400 12px/1.25 "Outfit", sans-serif);
+              color: var(--color-black, rgba(0, 0, 0, 1.00));
+            }
+          }
+        }
+      }
+    }
+
+    .esri-ui-bottom-right.esri-ui-corner {
+      .esri-widget--button {
+        width: calc(var(--space-100, 12px) * 3.67);
+        height: calc(var(--space-100, 12px) * 3.67);
+      }
+    }
   }
 
-  .esri-ui-top-left.esri-ui-corner {
-    map-info {    
+  .esri-ui-inner-container.esri-ui-manual-container {
+    .esri-attribution {
       box-sizing: border-box;
-      padding: 12px;
-    
-      background-color: rgb(43, 43, 43, 1.00);
+      padding: var(--space-100, 12px);
 
-      font: normal 400 16px "Outfit", sans-serif;
-      color: rgb(209, 209, 209, 1.00);
+      font: var(--type-normal-100, normal 400 12px/1.25 "Outfit", sans-serif);
+      color: var(--color-gray-08, rgba(200, 200, 200, 1.00));
     }
   }
 }
