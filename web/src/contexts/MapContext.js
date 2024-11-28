@@ -10,13 +10,13 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 
 import Expand from "@arcgis/core/widgets/Expand.js";
-import Editor from "@arcgis/core/widgets/Editor.js";
 import Search from "@arcgis/core/widgets/Search.js";
 import Home from "@arcgis/core/widgets/Home.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
-import Slider from "@arcgis/core/widgets/Slider.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
+import Editor from "@arcgis/core/widgets/Editor.js";
+
 import Print from "@arcgis/core/widgets/Print.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 
@@ -1075,7 +1075,12 @@ function MapContextProvider (props) {
       defaultSymbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 255, 255, 1.00]
+        color: [255, 255, 255, 1.00],
+        marker: {
+          style: "x",
+          color: [255, 255, 255, 1.00],
+          placement: "begin-end"
+       }
       },
       uniqueValueInfos: [
         {
@@ -1084,7 +1089,12 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 255, 0, 1.00]
+            color: [255, 255, 0, 1.00],
+            marker: {
+              style: "x",
+              color: [255, 255, 0, 1.00],
+              placement: "begin-end"
+           }
           },
         }, 
         {
@@ -1093,7 +1103,12 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 155, 55, 1.00]
+            color: [255, 155, 55, 1.00],
+            marker: {
+              style: "x",
+              color: [255, 155, 55, 1.00],
+              placement: "begin-end"
+           }
           }
         },
         {
@@ -1102,7 +1117,12 @@ function MapContextProvider (props) {
           symbol: {
             type: "simple-line",
             width: 1,
-            color: [255, 0, 0, 1.00]
+            color: [255, 0, 0, 1.00],
+            marker: {
+              style: "x",
+              color: [255, 0, 0, 1.00],
+              placement: "begin-end"
+           }
           }
         }
       ]
@@ -1473,7 +1493,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 255, 0, 1.00]
+        color: [255, 255, 0, 1.00],
+        marker: {
+          style: "x",
+          color: [255, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -1495,7 +1520,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 155, 55, 1.00]
+        color: [255, 155, 55, 1.00],
+        marker: {
+          style: "x",
+          color: [255, 155, 55, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -1516,8 +1546,13 @@ function MapContextProvider (props) {
       label: "High Risk",
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [255, 0, 0, 1.00]
+        width: 5,
+        color: [255, 0, 0, 1.00],
+        marker: {
+          style: "square",
+          color: [255, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2965,72 +3000,94 @@ function MapContextProvider (props) {
         }
       });
 
-      const widget_info = document.createElement("div");
+      const widget_info_container = document.createElement("div");
 
-      widget_info.id = "map-info-container";
-      widget_info.innerText = "Please select a feature.";
+      widget_info_container.id = "widget-info-container";
+      widget_info_container.innerText = "Please select a feature.";
 
-      view.ui.add(widget_info, {
+      view.ui.add(widget_info_container, {
         position: "top-left"
       });
 
+      const widget_search_container = document.createElement("div");
+
+      widget_search_container.id = "widget-search-container";
+
       const widget_search = new Search({
         view: view,
-        container: document.createElement("div")
+        container: widget_search_container
       });
 
-      const expand_search = new Expand({
-        view: view,
-        content: widget_search,
-        container: document.createElement("div"),
-        placement: "bottom-end",
-        group: "widgets"
-      });
+      // const expand_search_container = document.createElement("div");
 
-      expand_search.container.id = "map-search-container";
+      // expand_search_container.id = "expand-search-container";
 
-      view.ui.add(expand_search, {
+      // const expand_search = new Expand({
+      //   view: view,
+      //   group: "widgets",
+      //   container: expand_search_container,
+      //   content: widget_search,
+      //   placement: "bottom-end",
+      //   autoCollapse: true
+      // });
+
+      view.ui.add(widget_search, {
         position: "top-right",
         index: 0
       });
 
+      const widget_home_container = document.createElement("div");
+
+      widget_home_container.id = "widget-home-container";
+
       const widget_home = new Home({
         view: view,
-        id: "map-home-container"
+        container: widget_home_container
       });
 
-      widget_home.
-      
       view.ui.add(widget_home, {
         position: "top-right",
         index: 1
       });
 
+      const widget_legend_container = document.createElement("div");
+
+      widget_legend_container.id = "widget-legend-container";
+
       const widget_legend = new Legend({
         view: view,
+        container: widget_legend_container,
         style: {
           type: "classic",
           layout: "stack"
         }
       });
+      
+      const expand_legend_container = document.createElement("div");
+
+      expand_legend_container.id = "expand-legend-container";
 
       const expand_legend = new Expand({
         view: view,
+        group: "widgets",
+        container: expand_legend_container,
         content: widget_legend,
-        container: document.createElement("div"),
         placement: "bottom-end",
-        group: "widgets"
+        autoCollapse: true
       });
-
-      expand_legend.container.id = "map-legend-container"
 
       view.ui.add(expand_legend, {
         position: "top-right",
         index: 2
       });
+      
+      const widget_layer_list_container = document.createElement("div");
+
+      widget_layer_list_container.id = "widget-layer-list-container";
 
       const widget_layer_list = new LayerList({
         view: view,
+        container: widget_layer_list_container,
         visibleElements: {
           catalogLayerList: true,
           closeButton: false,
@@ -3040,45 +3097,21 @@ function MapContextProvider (props) {
           heading: true,
           statusIndicators: false
         },
-        dragEnabled: true,
-        listItemCreatedFunction: function (event) {
-          const item = event.item;
-
-          const slider = new Slider({
-            label: "Opacity",
-            min: 0,
-            max: 1,
-            precision: 2,
-            values: [1],
-            visibleElements: {
-              labels: false,
-              rangeLabels: true
-            }
-          });
-      
-          item.panel = {
-            content: ["Change the layer's opacity", slider],
-            icon: "sliders-horizontal"
-          };
-      
-          reactiveUtils.watch(
-            function () {
-              return (slider.values.map(function (value) { return (value); }));
-            },
-            function (values) {
-              item.layer.opacity = values[0];
-            }
-          );
-        }
+        dragEnabled: true
       });
+      
+      const expand_layer_list_container = document.createElement("div");
+
+      expand_layer_list_container.id = "expand-layer-list-container";
 
       const expand_layer_list = new Expand({
         view: view,
-        content: widget_layer_list,
-        container: document.createElement("map-layer-list-container"),
-        placement: "bottom-end",
         group: "widgets",
-        expanded: true
+        container: expand_layer_list_container,
+        content: widget_layer_list,
+        placement: "bottom-end",
+        expanded: true,
+        autoCollapse: true
       });
 
       view.ui.add(expand_layer_list, {
@@ -3086,16 +3119,26 @@ function MapContextProvider (props) {
         index: 3
       });
 
+      const widget_basemap_gallery_container = document.createElement("div");
+
+      widget_basemap_gallery_container.id = "widget-basemap-gallery-container";
+
       const widget_basemap_gallery = new BasemapGallery({
-        view: view
+        view: view,
+        container: widget_basemap_gallery_container
       });
+
+      const expand_basemap_gallery_container = document.createElement("div");
+
+      expand_basemap_gallery_container.id = "expand-basemap-gallery-container";
 
       const expand_basemap_gallery = new Expand({
         view: view,
+        group: "widgets",
+        container: expand_basemap_gallery_container,
         content: widget_basemap_gallery,
-        container: document.createElement("map-basemap-gallery-container"),
         placement: "bottom-end",
-        group: "widgets"
+        autoCollapse: true
       });
 
       view.ui.add(expand_basemap_gallery, {
@@ -3103,16 +3146,26 @@ function MapContextProvider (props) {
         index: 4
       });
 
+      const widget_editor_container = document.createElement("div");
+
+      widget_editor_container.id = "widget-editor-container";
+
       const widget_editor = new Editor({
-        view: view
+        view: view,
+        container: widget_editor_container
       });
+
+      const expand_editor_container = document.createElement("div");
+
+      expand_editor_container.id = "expand-editor-container";
 
       const expand_editor = new Expand({
         view: view,
+        group: "widgets",
+        container: expand_editor_container,
         content: widget_editor,
-        container: document.createElement("map-editor-container"),
         placement: "bottom-end",
-        group: "widgets"
+        autoCollapse: true
       });
 
       view.ui.add(expand_editor, {
@@ -3120,16 +3173,26 @@ function MapContextProvider (props) {
         index: 5
       });
 
+      const widget_print_container = document.createElement("div");
+
+      widget_print_container.id = "widget-print-container";
+
       const widget_print = new Print({
-        view: view
+        view: view,
+        container: widget_print_container
       });
+
+      const expand_print_container = document.createElement("div");
+
+      expand_print_container.id = "expand-print-container";
 
       const expand_print = new Expand({
         view: view,
+        group: "widgets",
+        container: expand_print_container,
         content: widget_print,
-        container: document.createElement("map-print-container"),
         placement: "bottom-end",
-        group: "widgets"
+        autoCollapse: true
       });
 
       view.ui.add(expand_print, {
@@ -3137,9 +3200,13 @@ function MapContextProvider (props) {
         index: 6
       });
 
+      const widget_scale_container = document.createElement("div");
+
+      widget_scale_container.id = "widget-scale-container";
+
       const widget_scale_bar = new ScaleBar({
         view: view,
-        container: document.createElement("map-scale-bar"),
+        container: widget_scale_container,
         unit: "dual"
       });
 
