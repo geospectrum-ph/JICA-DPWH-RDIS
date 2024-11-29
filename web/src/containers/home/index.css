@@ -141,7 +141,7 @@
         box-sizing: border-box;
         padding: calc(var(--calcite-spacing-xs, --space-100, 12px) + var(--calcite-spacing-px, 0));
       
-        background-color: var(--calcite-color-background);
+        background-color: var(--calcite-color-foreground-3);
 
         font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
         color: var(--calcite-color-text-2, --color-gray-08, rgba(200, 200, 200, 1.00));
@@ -186,7 +186,7 @@
 
           > :nth-child(2) {
             box-sizing: border-box;
-            padding: 0 calc(var(--space-100, 12px) * 0.25) ;
+            padding: 0 calc(var(--space-100, 12px) * 0.25);
 
             > * {
               font: var(--type-normal-s12, normal 400 12px/1.25 "Outfit", sans-serif);
@@ -199,6 +199,19 @@
   }
 
   .esri-ui-inner-container.esri-ui-manual-container {
+    .esri-component.esri-popup {
+      box-sizing: border-box;
+      margin: var(--space-100, 12px);
+    }
+
+    .esri-feature-content > * > * {
+      table > * {
+        > :nth-child(odd) {
+          background-color: red;
+        }
+      }
+    }
+
     .esri-attribution {
       box-sizing: border-box;
       padding: var(--space-100, 12px);

@@ -33,39 +33,53 @@ function MapContextProvider (props) {
 
   const url_storm_surge_map_noah = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
 
+  /* Symbology Colors */
+
+  const color_black = [0, 0, 0, 1.00];
+  const color_white = [255, 255, 255, 1.00];
+  
+  const color_yellow = [255, 255, 0, 1.00];
+  const color_red = [255, 0, 0, 1.00];
+  const color_green = [0, 255, 0, 1.00];
+  const color_blue = [0, 0, 255, 1.00];
+
   /* Reference Data */
 
   function content_road_sections (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table" cellpadding = "8">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -79,178 +93,13 @@ function MapContextProvider (props) {
     title: "Road Sections",
     url: url_road_sections,
     renderer: {
-      type: "unique-value",
-      field: "REGION",
-      defaultLabel: "Unclassified Road Section",
-      defaultSymbol: {
+      type: "simple",
+      label: "Road Section",
+      symbol: {
         type: "simple-line",
         width: 1,
-        color: [255, 255, 255, 1.00]
-      },
-      uniqueValueInfos: [
-        {
-          value: "Bangsamoro Autonomous Region in Muslim Mindanao",
-          label: "Road Section (BARMM)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [232, 30, 99, 1.00]
-          }
-        }, 
-        {
-          value: "Cordillera Administrative Region",
-          label: "Road Section (CAR)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 87, 34, 1.00]
-          }
-        },
-        {
-          value: "National Capital Region",
-          label: "Road Section (NCR)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 235, 59, 1.00]
-          }
-        },
-        {
-          value: "Negros Island Region",
-          label: "Road Section (NIR)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [3, 169, 244, 1.00]
-          }
-        },
-        {
-          value: "Region I",
-          label: "Road Section (Region I)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [244, 67, 54, 1.00]
-          }
-        },
-        {
-          value: "Region II",
-          label: "Road Section (Region II)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 152, 0, 1.00]
-          }
-        },
-        {
-          value: "Region III",
-          label: "Road Section (Region III)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [255, 193, 7, 1.00]
-          }
-        },
-        {
-          value: "Region IV-A",
-          label: "Road Section (Region IV-A)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [205, 220, 57, 1.00]
-          }
-        },
-        {
-          value: "Region IV-B",
-          label: "Road Section (Region IV-B)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [139, 195, 74, 1.00]
-          }
-        },
-        {
-          value: "Region V",
-          label: "Road Section (Region V)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [76, 175, 80, 1.00]
-          }
-        },
-        {
-          value: "Region VI",
-          label: "Road Section (Region VI)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [0, 150, 136, 1.00]
-          }
-        },
-        {
-          value: "Region VII",
-          label: "Road Section (Region VII)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [0, 188, 212, 1.00]
-          }
-        },
-        {
-          value: "Region VIII",
-          label: "Road Section (Region VIII)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [3, 169, 244, 1.00]
-          }
-        },
-        {
-          value: "Region IX",
-          label: "Road Section (Region IX)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [33, 150, 243, 1.00]
-          }
-        },
-        {
-          value: "Region X",
-          label: "Road Section (Region X)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [63, 81, 181, 1.00]
-          }
-        },
-        {
-          value: "Region XI",
-          label: "Road Section (Region XI)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [156, 39, 176, 1.00]
-          }
-        },
-        {
-          value: "Region XII",
-          label: "Road Section (Region XII)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [180, 36, 150, 1.00]
-          }
-        },
-        {
-          value: "Region XIII",
-          label: "Road Section (Region XIII)",
-          symbol: {
-            type: "simple-line",
-            width: 1,
-            color: [103, 58, 183, 1.00]
-          }
-        }
-      ]
+        color: color_black
+      }
     },
     popupEnabled: true,
     popupTemplate: {
@@ -274,48 +123,52 @@ function MapContextProvider (props) {
   /* Common Data */
 
   function content_kilometer_posts (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table" cellpadding = "8">
+        <tbody>
+          <tr style = "background-color: #393939;">
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #2d2d2d;">
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #393939;">
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #2d2d2d;">
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #393939;">
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #2d2d2d;">
+            <td><b>Kilometer Post</b></td>
+            <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #393939;">
+            <td><b>Chainage</b></td>
+            <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
+          </tr>
+          <tr style = "background-color: #2d2d2d;">
+            <td><b>Road Side</b></td>
+            <td>${ target.graphic.attributes.XSP || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
         creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Kilometer Post</b></td>
-                  <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Chainage</b></td>
-                  <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Side</b></td>
-                  <td>${ target.graphic.attributes.XSP || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+          return (container);
         }
       },
       {
@@ -3018,19 +2871,6 @@ function MapContextProvider (props) {
         container: widget_search_container
       });
 
-      // const expand_search_container = document.createElement("div");
-
-      // expand_search_container.id = "expand-search-container";
-
-      // const expand_search = new Expand({
-      //   view: view,
-      //   group: "widgets",
-      //   container: expand_search_container,
-      //   content: widget_search,
-      //   placement: "bottom-end",
-      //   autoCollapse: true
-      // });
-
       view.ui.add(widget_search, {
         position: "top-right",
         index: 0
@@ -3110,8 +2950,8 @@ function MapContextProvider (props) {
         container: expand_layer_list_container,
         content: widget_layer_list,
         placement: "bottom-end",
-        expanded: true,
-        autoCollapse: true
+        autoCollapse: true,
+        expanded: true
       });
 
       view.ui.add(expand_layer_list, {
