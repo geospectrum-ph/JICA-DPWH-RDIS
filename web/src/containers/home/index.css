@@ -102,8 +102,40 @@
 }
 
 #map-container {
+  display: flex;
+  flex-flow: column nowrap;
+  place-items: end center;
+  place-content: center end;
+
   box-sizing: border-box;
   border: var(--border-100, 3px) solid var(--color-black, rgba(0, 0, 0, 1.00));
+
+  #map-view-switch {
+    position: absolute;
+    z-index: 100;
+
+    width: auto;
+    height: calc(var(--height-100, 480px) / 15);
+
+    box-sizing: border-box;
+    margin: var(--space-100, 12px) calc(32px + (var(--space-100, 12px) * 2)) calc(((var(--space-100, 12px) + 1px) * 3) + var(--space-100, 12px)) var(--space-100, 12px);
+    padding: calc(var(--calcite-spacing-xs, --space-100, 12px) + var(--calcite-spacing-px, 0));
+  
+    background-color: var(--color-gray-50, rgba(50, 50, 50, 1.00));
+
+    cursor: pointer;
+
+    font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
+    color: var(--color-gray-200, rgba(200, 200, 200, 1.00));
+  }
+
+  #map-container-2d {
+    display: flex;
+  }
+
+  #map-container-3d {
+    display: none;
+  }
 
   .esri-ui-inner-container.esri-ui-corner-container {
     inset: 0 !important;

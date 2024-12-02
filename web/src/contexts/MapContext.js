@@ -6,6 +6,7 @@ import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
+import SceneView from "@arcgis/core/views/SceneView.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 
@@ -14,6 +15,7 @@ import Search from "@arcgis/core/widgets/Search.js";
 import Home from "@arcgis/core/widgets/Home.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
+import Slider from "@arcgis/core/widgets/Slider.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import Editor from "@arcgis/core/widgets/Editor.js";
 
@@ -2830,18 +2832,374 @@ function MapContextProvider (props) {
 
   var view;
 
+  const [viewMode, setViewMode] = React.useState("3D");
+
+  const [view2D, setView2D] = React.useState(null);
+  const [view3D, setView3D] = React.useState(null);
+
+  function change_view() {
+    if (viewMode === "3D") {
+      setViewMode("2D");
+    }
+    else {
+      setViewMode("3D");
+    }
+  }
+
+  function build_view() {
+    const widget_info_container = document.createElement("div");
+
+    widget_info_container.id = "widget-info-container";
+    widget_info_container.innerText = "Please select a feature.";
+
+    view.ui.add(widget_info_container, {
+      position: "top-left"
+    });
+
+    const widget_search_container = document.createElement("div");
+
+    widget_search_container.id = "widget-search-container";
+
+    const widget_search = new Search({
+      view: view,
+      container: widget_search_container
+    });
+
+    view.ui.add(widget_search, {
+      position: "top-right",
+      index: 0
+    });
+
+    const widget_home_container = document.createElement("div");
+
+    widget_home_container.id = "widget-home-container";
+
+    const widget_home = new Home({
+      view: view,
+      container: widget_home_container
+    });
+
+    view.ui.add(widget_home, {
+      position: "top-right",
+      index: 1
+    });
+
+    const widget_legend_container = document.createElement("div");
+
+    widget_legend_container.id = "widget-legend-container";
+
+    const widget_legend = new Legend({
+      view: view,
+      container: widget_legend_container,
+      style: {
+        type: "classic",
+        layout: "stack"
+      }
+    });
+    
+    const expand_legend_container = document.createElement("div");
+
+    expand_legend_container.id = "expand-legend-container";
+
+    const expand_legend = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_legend_container,
+      content: widget_legend,
+      placement: "bottom-end",
+      autoCollapse: true
+    });
+
+    view.ui.add(expand_legend, {
+      position: "top-right",
+      index: 2
+    });
+    
+    const widget_layer_list_container = document.createElement("div");
+
+    widget_layer_list_container.id = "widget-layer-list-container";
+
+    const widget_layer_list = new LayerList({
+      view: view,
+      container: widget_layer_list_container,
+      listItemCreatedFunction: async function defineActions(event) {
+        const { item } = event;
+
+        await item.layer.when();
+
+        if (item.children.items.length === 0) {
+          item.actionsSections = [[
+            {
+              title: "Export data",
+              icon: "export",
+              id: "export"
+            }
+          ]];
+        }
+
+        const slider = new Slider({
+          min: 0,
+          max: 1,
+          precision: 2,
+          values: [1],
+          visibleElements: {
+            labels: true,
+            rangeLabels: true
+          }
+        });
+
+        item.panel = {
+          content: slider,
+          icon: "sliders-horizontal",
+          title: "Change layer opacity"
+        };
+
+        reactiveUtils.watch(
+          () => slider.values.map((value) => value),
+          (values) => (item.layer.opacity = values[0])
+        );
+      },
+      visibleElements: {
+        catalogLayerList: true,
+        closeButton: false,
+        collapseButton: true,
+        errors: false,
+        filter: true,
+        heading: true,
+        statusIndicators: false
+      },
+      dragEnabled: true
+    });
+
+    widget_layer_list.on("trigger-action", function (event) {
+      function save_file(filename, data) {
+        const blob = new Blob([JSON.stringify(data)], { type: "text/json" });
+        const link = document.createElement("a");
+    
+        link.download = filename;
+        link.href = window.URL.createObjectURL(blob);
+        link.dataset.downloadurl = ["text/json", link.download, link.href].join(":");
+    
+        const event = new MouseEvent("click", {
+          view: window,
+          bubbles: true,
+          cancelable: true
+        });
+    
+        link.dispatchEvent(event);
+        link.remove();
+      }
+
+      if (event.item.layer) {
+        event.item.layer
+          .queryFeatures({
+            where: "1 = 1",
+            returnGeometry: true,
+            outFields: ["*"]
+          })
+          .then(function (response) {
+            save_file(event.item.title.replace(/ /g,"_") + ".json", response.features);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    });
+    
+    const expand_layer_list_container = document.createElement("div");
+
+    expand_layer_list_container.id = "expand-layer-list-container";
+
+    const expand_layer_list = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_layer_list_container,
+      content: widget_layer_list,
+      placement: "bottom-end",
+      autoCollapse: true,
+      expanded: true
+    });
+
+    view.ui.add(expand_layer_list, {
+      position: "top-right",
+      index: 3
+    });
+
+    const widget_basemap_gallery_container = document.createElement("div");
+
+    widget_basemap_gallery_container.id = "widget-basemap-gallery-container";
+
+    const widget_basemap_gallery = new BasemapGallery({
+      view: view,
+      container: widget_basemap_gallery_container
+    });
+
+    const expand_basemap_gallery_container = document.createElement("div");
+
+    expand_basemap_gallery_container.id = "expand-basemap-gallery-container";
+
+    const expand_basemap_gallery = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_basemap_gallery_container,
+      content: widget_basemap_gallery,
+      placement: "bottom-end",
+      autoCollapse: true
+    });
+
+    view.ui.add(expand_basemap_gallery, {
+      position: "top-right",
+      index: 4
+    });
+
+    const widget_editor_container = document.createElement("div");
+
+    widget_editor_container.id = "widget-editor-container";
+
+    const widget_editor = new Editor({
+      view: view,
+      container: widget_editor_container
+    });
+
+    const expand_editor_container = document.createElement("div");
+
+    expand_editor_container.id = "expand-editor-container";
+
+    const expand_editor = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_editor_container,
+      content: widget_editor,
+      placement: "bottom-end",
+      autoCollapse: true
+    });
+
+    view.ui.add(expand_editor, {
+      position: "top-right",
+      index: 5
+    });
+
+    const widget_print_container = document.createElement("div");
+
+    widget_print_container.id = "widget-print-container";
+
+    const widget_print = new Print({
+      view: view,
+      container: widget_print_container
+    });
+
+    const expand_print_container = document.createElement("div");
+
+    expand_print_container.id = "expand-print-container";
+
+    const expand_print = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_print_container,
+      content: widget_print,
+      placement: "bottom-end",
+      autoCollapse: true
+    });
+
+    view.ui.add(expand_print, {
+      position: "top-right",
+      index: 6
+    });
+
+    const widget_scale_container = document.createElement("div");
+
+    widget_scale_container.id = "widget-scale-container";
+
+    const widget_scale_bar = new ScaleBar({
+      view: view,
+      container: widget_scale_container,
+      unit: "dual"
+    });
+
+    view.ui.add(widget_scale_bar, {
+      position: "bottom-left",
+      index: 0
+    });
+   
+    view.ui.move("zoom", "bottom-right");
+
+    reactiveUtils.watch(
+      function () {
+        return (view.popup?.selectedFeature);
+      },
+      function (selectedFeature) {
+        if ((selectedFeature) && (view.popup.visible)) {
+          view
+            .when(function () {
+              if (selectedFeature.geometry.extent) { view.goTo(selectedFeature.geometry.extent); }
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        }
+    });
+  }
+
   function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
     React.useEffect(function () {
+      // setView2D(
+      //   new MapView({
+      //     container: "map-container-2d",
+      //     map: new Map({
+      //       basemap: "osm",
+      //       layers: []
+      //     }),
+      //     center: [121.7740, 12.8797],
+      //     zoom: 4,
+      //     popup: {
+      //       dockEnabled: true,
+      //       dockOptions: {
+      //         buttonEnabled: false,
+      //         position: "top-left",
+      //         breakpoint: false
+      //       },
+      //       highlightEnabled: true
+      //     }
+      //   })
+      // );
+    
+      // setView3D(
+      //   new SceneView({
+      //     container: "map-container-3d",
+      //     map: new Map({
+      //       basemap: "osm",
+      //       ground: "world-elevation",
+      //       layers: []
+      //     }),
+      //     center: [121.7740, 12.8797],
+      //     zoom: 4,
+      //     heading: 30,
+      //     tilt: 60,
+      //     popup: {
+      //       dockEnabled: true,
+      //       dockOptions: {
+      //         buttonEnabled: false,
+      //         position: "top-left",
+      //         breakpoint: false
+      //       },
+      //       highlightEnabled: true
+      //     }
+      //   })
+      // );
+
       view = new MapView({
-        container: "map-container",
+        container: "map-container-2d",
         map: new Map({
           basemap: "osm",
+          ground: "world-elevation",
           layers: []
         }),
         center: [121.7740, 12.8797],
         zoom: 4,
+        heading: 30,
+        tilt: 60,
         popup: {
           dockEnabled: true,
           dockOptions: {
@@ -2852,231 +3210,21 @@ function MapContextProvider (props) {
           highlightEnabled: true
         }
       });
-
-      const widget_info_container = document.createElement("div");
-
-      widget_info_container.id = "widget-info-container";
-      widget_info_container.innerText = "Please select a feature.";
-
-      view.ui.add(widget_info_container, {
-        position: "top-left"
-      });
-
-      const widget_search_container = document.createElement("div");
-
-      widget_search_container.id = "widget-search-container";
-
-      const widget_search = new Search({
-        view: view,
-        container: widget_search_container
-      });
-
-      view.ui.add(widget_search, {
-        position: "top-right",
-        index: 0
-      });
-
-      const widget_home_container = document.createElement("div");
-
-      widget_home_container.id = "widget-home-container";
-
-      const widget_home = new Home({
-        view: view,
-        container: widget_home_container
-      });
-
-      view.ui.add(widget_home, {
-        position: "top-right",
-        index: 1
-      });
-
-      const widget_legend_container = document.createElement("div");
-
-      widget_legend_container.id = "widget-legend-container";
-
-      const widget_legend = new Legend({
-        view: view,
-        container: widget_legend_container,
-        style: {
-          type: "classic",
-          layout: "stack"
-        }
-      });
-      
-      const expand_legend_container = document.createElement("div");
-
-      expand_legend_container.id = "expand-legend-container";
-
-      const expand_legend = new Expand({
-        view: view,
-        group: "widgets",
-        container: expand_legend_container,
-        content: widget_legend,
-        placement: "bottom-end",
-        autoCollapse: true
-      });
-
-      view.ui.add(expand_legend, {
-        position: "top-right",
-        index: 2
-      });
-      
-      const widget_layer_list_container = document.createElement("div");
-
-      widget_layer_list_container.id = "widget-layer-list-container";
-
-      const widget_layer_list = new LayerList({
-        view: view,
-        container: widget_layer_list_container,
-        visibleElements: {
-          catalogLayerList: true,
-          closeButton: false,
-          collapseButton: true,
-          errors: false,
-          filter: true,
-          heading: true,
-          statusIndicators: false
-        },
-        dragEnabled: true
-      });
-      
-      const expand_layer_list_container = document.createElement("div");
-
-      expand_layer_list_container.id = "expand-layer-list-container";
-
-      const expand_layer_list = new Expand({
-        view: view,
-        group: "widgets",
-        container: expand_layer_list_container,
-        content: widget_layer_list,
-        placement: "bottom-end",
-        autoCollapse: true,
-        expanded: true
-      });
-
-      view.ui.add(expand_layer_list, {
-        position: "top-right",
-        index: 3
-      });
-
-      const widget_basemap_gallery_container = document.createElement("div");
-
-      widget_basemap_gallery_container.id = "widget-basemap-gallery-container";
-
-      const widget_basemap_gallery = new BasemapGallery({
-        view: view,
-        container: widget_basemap_gallery_container
-      });
-
-      const expand_basemap_gallery_container = document.createElement("div");
-
-      expand_basemap_gallery_container.id = "expand-basemap-gallery-container";
-
-      const expand_basemap_gallery = new Expand({
-        view: view,
-        group: "widgets",
-        container: expand_basemap_gallery_container,
-        content: widget_basemap_gallery,
-        placement: "bottom-end",
-        autoCollapse: true
-      });
-
-      view.ui.add(expand_basemap_gallery, {
-        position: "top-right",
-        index: 4
-      });
-
-      const widget_editor_container = document.createElement("div");
-
-      widget_editor_container.id = "widget-editor-container";
-
-      const widget_editor = new Editor({
-        view: view,
-        container: widget_editor_container
-      });
-
-      const expand_editor_container = document.createElement("div");
-
-      expand_editor_container.id = "expand-editor-container";
-
-      const expand_editor = new Expand({
-        view: view,
-        group: "widgets",
-        container: expand_editor_container,
-        content: widget_editor,
-        placement: "bottom-end",
-        autoCollapse: true
-      });
-
-      view.ui.add(expand_editor, {
-        position: "top-right",
-        index: 5
-      });
-
-      const widget_print_container = document.createElement("div");
-
-      widget_print_container.id = "widget-print-container";
-
-      const widget_print = new Print({
-        view: view,
-        container: widget_print_container
-      });
-
-      const expand_print_container = document.createElement("div");
-
-      expand_print_container.id = "expand-print-container";
-
-      const expand_print = new Expand({
-        view: view,
-        group: "widgets",
-        container: expand_print_container,
-        content: widget_print,
-        placement: "bottom-end",
-        autoCollapse: true
-      });
-
-      view.ui.add(expand_print, {
-        position: "top-right",
-        index: 6
-      });
-
-      const widget_scale_container = document.createElement("div");
-
-      widget_scale_container.id = "widget-scale-container";
-
-      const widget_scale_bar = new ScaleBar({
-        view: view,
-        container: widget_scale_container,
-        unit: "dual"
-      });
-
-      view.ui.add(widget_scale_bar, {
-        position: "bottom-left",
-        index: 0
-      });
-     
-      view.ui.move("zoom", "bottom-right");
-
-      reactiveUtils.watch(
-        function () {
-          return (view.popup?.selectedFeature);
-        },
-        function (selectedFeature) {
-          if ((selectedFeature) && (view.popup.visible)) {
-            view
-              .when(function () {
-                if (selectedFeature.geometry.extent) { view.goTo(selectedFeature.geometry.extent); }
-              })
-              .catch(function (error) {
-                console.error(error);
-              });
-          }
-      });
     }, []);
+
+    React.useEffect(function () {
+      if (view && view.ui.getComponents().length < 3) {
+        build_view();
+      }
+    }, [view]);
 
     return (
       // Note: The parent <div> needs its width and height dimensions to be set into a constant value.
-      <div id = "map-container" style = { { width: "100%", height: "100%" } }></div>
+      <div id = "map-container" style = { { width: "100%", height: "100%" } }>
+        <div id = "map-view-switch" onClick = { function () { change_view(); } }>{ viewMode }</div>
+        <div id = "map-container-2d" style = { { width: "100%", height: "100%" } }></div>
+        <div id = "map-container-3d" style = { { width: "100%", height: "100%" } }></div>
+      </div>
     );
   }
 
