@@ -15,7 +15,6 @@ import Search from "@arcgis/core/widgets/Search.js";
 import Home from "@arcgis/core/widgets/Home.js";
 import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
-import Slider from "@arcgis/core/widgets/Slider.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import Editor from "@arcgis/core/widgets/Editor.js";
 
@@ -90,6 +89,27 @@ function MapContextProvider (props) {
       }
     ]);
   }
+
+  const layer_roads = new FeatureLayer({
+    title: "Roads",
+    url: "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/RoadNetwork_RoadClassification/MapServer/1",
+    renderer: {
+      type: "simple",
+      label: "Road Section",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: color_black
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      outFields: ["*"],
+      content: content_road_sections
+    },
+    visible: true
+  });
 
   const layer_road_sections = new FeatureLayer({
     title: "Road Sections",
@@ -2830,12 +2850,7 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  var view;
-
   const [viewMode, setViewMode] = React.useState("3D");
-
-  const [view2D, setView2D] = React.useState(null);
-  const [view3D, setView3D] = React.useState(null);
 
   function change_view() {
     if (viewMode === "3D") {
@@ -2845,6 +2860,10 @@ function MapContextProvider (props) {
       setViewMode("3D");
     }
   }
+
+  var view;
+
+  const [moduleBuffer, setModuleBuffer] = React.useState("summary");
 
   function build_view() {
     const widget_info_container = document.createElement("div");
@@ -2936,28 +2955,6 @@ function MapContextProvider (props) {
             }
           ]];
         }
-
-        const slider = new Slider({
-          min: 0,
-          max: 1,
-          precision: 2,
-          values: [1],
-          visibleElements: {
-            labels: true,
-            rangeLabels: true
-          }
-        });
-
-        item.panel = {
-          content: slider,
-          icon: "sliders-horizontal",
-          title: "Change layer opacity"
-        };
-
-        reactiveUtils.watch(
-          () => slider.values.map((value) => value),
-          (values) => (item.layer.opacity = values[0])
-        );
       },
       visibleElements: {
         catalogLayerList: true,
@@ -3024,6 +3021,8 @@ function MapContextProvider (props) {
       position: "top-right",
       index: 3
     });
+
+    view_layer(moduleBuffer);
 
     const widget_basemap_gallery_container = document.createElement("div");
 
@@ -3106,144 +3105,108 @@ function MapContextProvider (props) {
       index: 6
     });
 
-    const widget_scale_container = document.createElement("div");
+    if (viewMode === "3D") {
+      const widget_scale_container = document.createElement("div");
 
-    widget_scale_container.id = "widget-scale-container";
+      widget_scale_container.id = "widget-scale-container";
+  
+      const widget_scale_bar = new ScaleBar({
+        view: view,
+        container: widget_scale_container,
+        unit: "dual"
+      });
+  
+      view.ui.add(widget_scale_bar, {
+        position: "bottom-left",
+        index: 0
+      });
+    } 
+    else {
+      view.ui.move(["navigation-toggle", "compass"], "bottom-left");
+    }
 
-    const widget_scale_bar = new ScaleBar({
-      view: view,
-      container: widget_scale_container,
-      unit: "dual"
-    });
-
-    view.ui.add(widget_scale_bar, {
-      position: "bottom-left",
-      index: 0
-    });
-   
     view.ui.move("zoom", "bottom-right");
-
-    reactiveUtils.watch(
-      function () {
-        return (view.popup?.selectedFeature);
-      },
-      function (selectedFeature) {
-        if ((selectedFeature) && (view.popup.visible)) {
-          view
-            .when(function () {
-              if (selectedFeature.geometry.extent) { view.goTo(selectedFeature.geometry.extent); }
-            })
-            .catch(function (error) {
-              console.error(error);
-            });
-        }
-    });
   }
 
   function MapComponent () {
     // esriConfig.apiKey = STRING_KEY;
 
     React.useEffect(function () {
-      // setView2D(
-      //   new MapView({
-      //     container: "map-container-2d",
-      //     map: new Map({
-      //       basemap: "osm",
-      //       layers: []
-      //     }),
-      //     center: [121.7740, 12.8797],
-      //     zoom: 4,
-      //     popup: {
-      //       dockEnabled: true,
-      //       dockOptions: {
-      //         buttonEnabled: false,
-      //         position: "top-left",
-      //         breakpoint: false
-      //       },
-      //       highlightEnabled: true
-      //     }
-      //   })
-      // );
-    
-      // setView3D(
-      //   new SceneView({
-      //     container: "map-container-3d",
-      //     map: new Map({
-      //       basemap: "osm",
-      //       ground: "world-elevation",
-      //       layers: []
-      //     }),
-      //     center: [121.7740, 12.8797],
-      //     zoom: 4,
-      //     heading: 30,
-      //     tilt: 60,
-      //     popup: {
-      //       dockEnabled: true,
-      //       dockOptions: {
-      //         buttonEnabled: false,
-      //         position: "top-left",
-      //         breakpoint: false
-      //       },
-      //       highlightEnabled: true
-      //     }
-      //   })
-      // );
+      if (viewMode === "3D") {
+        view = new MapView({
+          container: "map-interface",
+          map: new Map({
+            basemap: "osm",
+            layers: []
+          }),
+          center: [121.7740, 12.8797],
+          zoom: 4,
+          popup: {
+            dockEnabled: true,
+            dockOptions: {
+              buttonEnabled: false,
+              position: "top-left",
+              breakpoint: false
+            },
+            highlightEnabled: true
+          }
+        });
+      }
+      else {
+        view = new SceneView({
+          container: "map-interface",
+          map: new Map({
+            basemap: "osm",
+            ground: "world-elevation",
+            layers: []
+          }),
+          center: [121.7740, 12.8797],
+          zoom: 4,
+          heading: 30,
+          tilt: 60,
+          popup: {
+            dockEnabled: true,
+            dockOptions: {
+              buttonEnabled: false,
+              position: "top-left",
+              breakpoint: false
+            },
+            highlightEnabled: true
+          }
+        });
+      }
 
-      view = new MapView({
-        container: "map-container-2d",
-        map: new Map({
-          basemap: "osm",
-          ground: "world-elevation",
-          layers: []
-        }),
-        center: [121.7740, 12.8797],
-        zoom: 4,
-        heading: 30,
-        tilt: 60,
-        popup: {
-          dockEnabled: true,
-          dockOptions: {
-            buttonEnabled: false,
-            position: "top-left",
-            breakpoint: false
-          },
-          highlightEnabled: true
-        }
+      build_view();
+
+      reactiveUtils.watch(
+        function () {
+          return (view.popup?.selectedFeature);
+        },
+        function (selectedFeature) {
+          if ((selectedFeature) && (view.popup.visible)) {
+            view
+              .when(function () {
+                if (selectedFeature.geometry.extent) { view.goTo(selectedFeature.geometry.extent); }
+              })
+              .catch(function (error) {
+                console.error(error);
+              });
+          }
       });
     }, []);
-
-    React.useEffect(function () {
-      if (view && view.ui.getComponents().length < 3) {
-        build_view();
-      }
-    }, [view]);
 
     return (
       // Note: The parent <div> needs its width and height dimensions to be set into a constant value.
       <div id = "map-container" style = { { width: "100%", height: "100%" } }>
-        <div id = "map-view-switch" onClick = { function () { change_view(); } }>{ viewMode }</div>
-        <div id = "map-container-2d" style = { { width: "100%", height: "100%" } }></div>
-        <div id = "map-container-3d" style = { { width: "100%", height: "100%" } }></div>
+        <div id = "map-switch" onClick = { function () { change_view(); } }>{ viewMode }</div>
+        <div id = "map-interface" style = { { width: "100%", height: "100%" } }></div>
       </div>
     );
   }
 
-  function recenter_map (extent) {
-    reactiveUtils.watch(
-      function () {
-        if (view && extent) {
-          view
-            .when(function () {
-              view.goTo(extent);
-            })
-            .catch(function (error) {
-              console.error(error);
-            });
-        }
-      });     
-  }
-
   function view_layer (module) {
+    setModuleBuffer(module);
+
     reactiveUtils.watch(
       function () {
         if (view && module) {
@@ -3259,6 +3222,7 @@ function MapContextProvider (props) {
               view.map.layers.push(group_road_classification);
               view.map.layers.push(group_volume_of_traffic);
               view.map.layers.push(group_kilometer_posts);
+              view.map.layers.push(layer_roads);
 
               if (module === "summary") {
                 view.map.layers.push(layer_inventory_of_road_slope_structures);
@@ -3280,6 +3244,21 @@ function MapContextProvider (props) {
               if (module === "potential-road-slope-projects"){
                 view.map.layers.push(group_potential_road_slope_projects);
               }
+            })
+            .catch(function (error) {
+              console.error(error);
+            });
+        }
+      });     
+  }
+
+  function recenter_map (extent) {
+    reactiveUtils.watch(
+      function () {
+        if (view && extent) {
+          view
+            .when(function () {
+              view.goTo(extent);
             })
             .catch(function (error) {
               console.error(error);
@@ -3331,7 +3310,6 @@ function MapContextProvider (props) {
 
         layer_inventory_of_road_slopes,
         layer_inventory_of_road_slope_structures,
-        // layer_potential_road_slope_projects,
 
         MapComponent,
 
