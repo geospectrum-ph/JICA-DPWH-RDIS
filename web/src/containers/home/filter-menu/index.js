@@ -27,7 +27,7 @@ export default function FilterMenu () {
   } = React.useContext(MainContext);
   
   const {
-    layer_road_sections,
+    layer_national_road_network,
     layer_road_slopes_and_countermeasures,
 
     recenter_map, close_popup
@@ -101,7 +101,7 @@ export default function FilterMenu () {
         level === 3 ? "REGION = '" + filterL01Selected + "' AND DEO = '" + filterL02Selected + "' AND CONG_DIST = '" + filterL03Selected + "'" :
         "1 = 0";
 
-      layer_road_sections
+      layer_national_road_network
         .queryFeatures({
           where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
           returnGeometry: true,

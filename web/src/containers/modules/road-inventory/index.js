@@ -14,7 +14,7 @@ export default function RoadSlopeInventory () {
   } = React.useContext(MainContext);
 
   const {
-    layer_road_sections,
+    layer_national_road_network,
     layer_road_slopes_and_countermeasures,
     layer_inventory_of_road_slopes,
     layer_inventory_of_road_slope_structures,
