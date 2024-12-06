@@ -42,12 +42,21 @@ function MapContextProvider (props) {
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
   const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/rsm_mobile_ver2/FeatureServer";
 
-  const url_external_noah_storm_surge_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
+  const url_storm_surge_hazard_risks = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
 
   /* Symbology Templates */
 
   const color_black = [0, 0, 0, 1.00];
   const color_white = [255, 255, 255, 1.00];
+
+  const symbol_polygon_reference = {
+    type: "simple-fill",
+    color: [0, 0, 0, 0.10],
+    outline: { 
+      color: [0, 0, 0, 1.00],
+      width: "1px"
+    }
+  }
 
   const symbol_line_reference = {
     type: "simple-line",
@@ -111,6 +120,7 @@ function MapContextProvider (props) {
       label: "National Expressway",
       symbol: symbol_line_reference
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "National Expressway: {XPRES_NAME} ({XPRES_WAY})",
@@ -172,6 +182,7 @@ function MapContextProvider (props) {
       label: "National Road",
       symbol: symbol_line_reference
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "National Road: {SECTION_ID} ({ROAD_NAME})",
@@ -182,7 +193,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_roads = new GroupLayer({
-    title: "Roads",
+    title: "Inventory of Roads",
     layers: [
       layer_national_expressways,
       layer_national_road_network
@@ -239,7 +250,7 @@ function MapContextProvider (props) {
     return ([
       {
         type: "custom",
-        creator: function (target) {
+        creator: function () {
           return (container);
         }
       },
@@ -258,6 +269,7 @@ function MapContextProvider (props) {
       label: "Kilometer Post",
       symbol: symbol_point_reference
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Kilometer Post: {KM_POST}",
@@ -282,44 +294,48 @@ function MapContextProvider (props) {
   });
 
   function content_volume_of_traffic (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Annual Average Daily Traffic (AADT)</b></td>
+            <td>${ target.graphic.attributes.AADT || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Annual Average Daily Traffic (AADT) Year</b></td>
+            <td>${ target.graphic.attributes.YEAR || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr>
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Annual Average Daily Traffic (AADT)</b></td>
-                  <td>${ target.graphic.attributes.AADT || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Annual Average Daily Traffic (AADT) Year</b></td>
-                  <td>${ target.graphic.attributes.YEAR || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -352,10 +368,29 @@ function MapContextProvider (props) {
       });
   }, []);
 
+  const layer_volume_of_traffic_level_00 = new FeatureLayer({
+    title: "Unclassified Volume of Traffic",
+    url: url_volume_of_traffic,
+    definitionExpression: "AADT < 0.00 AND AADT > " + (maxAADT).toFixed(2),
+    renderer: {
+      type: "simple",
+      label: "Unclassified Volume of Traffic",
+      symbol: symbol_line_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Annual Average Daily Traffic (AADT): {AADT}",
+      outFields: ["*"],
+      content: content_volume_of_traffic
+    },
+    visible: true
+  });
+
   const layer_volume_of_traffic_level_01 = new FeatureLayer({
     title: "Level 01 Volume of Traffic",
     url: url_volume_of_traffic,
-    definitionExpression: "AADT > 0.00 AND AADT <= " + (maxAADT * 1 / 7).toFixed(2),
+    definitionExpression: "AADT >= 0.00 AND AADT <= " + (maxAADT * 1 / 7).toFixed(2),
     renderer: {
       type: "simple",
       label: "0.00 to " + (maxAADT * 1 / 7).toFixed(2),
@@ -365,6 +400,7 @@ function MapContextProvider (props) {
         color: [232, 20, 22, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -387,6 +423,7 @@ function MapContextProvider (props) {
         color: [255, 165, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -409,6 +446,7 @@ function MapContextProvider (props) {
         color: [250, 235, 54, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -431,6 +469,7 @@ function MapContextProvider (props) {
         color: [121, 195, 20, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -453,6 +492,7 @@ function MapContextProvider (props) {
         color: [72, 125, 231, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -475,6 +515,7 @@ function MapContextProvider (props) {
         color: [75, 54, 157, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -497,6 +538,7 @@ function MapContextProvider (props) {
         color: [112, 54, 157, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Annual Average Daily Traffic (AADT): {AADT}",
@@ -515,7 +557,8 @@ function MapContextProvider (props) {
       layer_volume_of_traffic_level_04,
       layer_volume_of_traffic_level_03,
       layer_volume_of_traffic_level_02,
-      layer_volume_of_traffic_level_01
+      layer_volume_of_traffic_level_01,
+      layer_volume_of_traffic_level_00
     ],
     visible: true,
     visibilityMode: "independent",
@@ -523,40 +566,44 @@ function MapContextProvider (props) {
   });
 
   function content_road_classification (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Classification</b></td>
+            <td>${ target.graphic.attributes.ROAD_SEC_CLASS || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr>
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-                </tr>
-                <tr>
-                  <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.ROAD_SEC_CLASS || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -575,6 +622,7 @@ function MapContextProvider (props) {
       label: "Unclassified Road",
       symbol: symbol_line_reference
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Road Classification: Unclassified",
@@ -597,6 +645,7 @@ function MapContextProvider (props) {
         color: [255, 0, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Road Classification: {ROAD_SEC_CLASS}",
@@ -619,6 +668,7 @@ function MapContextProvider (props) {
         color: [0, 0, 255, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Road Classification: {ROAD_SEC_CLASS}",
@@ -641,6 +691,7 @@ function MapContextProvider (props) {
         color: [0, 255, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Road Classification: {ROAD_SEC_CLASS}",
@@ -664,40 +715,44 @@ function MapContextProvider (props) {
   });
  
   function content_terrain (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.district_n || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain Type</b></td>
+            <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.district_n || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Terrain Type</b></td>
-                  <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -720,6 +775,7 @@ function MapContextProvider (props) {
         color: color_black
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Terrain Type: Unclassified",
@@ -742,6 +798,7 @@ function MapContextProvider (props) {
         color: [0, 50, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Terrain Type: {terrain_ty}",
@@ -764,6 +821,7 @@ function MapContextProvider (props) {
         color: [0, 150, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Terrain Type: {terrain_ty}",
@@ -786,6 +844,7 @@ function MapContextProvider (props) {
         color: [0, 250, 0, 1.00]
       }
     },
+    labelsVisible: false,
     popupEnabled: true,
     popupTemplate: {
       title: "Terrain Type: {terrain_ty}",
@@ -808,67 +867,281 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
-  // function content_regions (target) {
-  //   return ([
-  //     {
-  //       type: "custom",
-  //       creator: function (target) {
-  //         return (document.createElement("attribute-table").innerHTML = `
-  //           <table cellpadding = "8">
-  //             <tbody>
-  //               <tr style = "background-color: #393939;">
-  //                 <td><b>Region</b></td>
-  //                 <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-  //               </tr>
-  //               <tr style = "background-color: #2d2d2d;">
-  //                 <td><b>Region Name</b></td>
-  //                 <td>${ target.graphic.attributes.VAR_NAME || "No available data" }</td>
-  //               </tr>
-  //             </tbody>
-  //           </table>
-  //         `);
-  //       }
-  //     },
-  //     {
-  //       type: "attachments",
-  //       displayType: "list"
-  //     }
-  //   ]);
-  // }
+  function content_municipalities_cities (target) {
+    const container = document.createElement("div");
 
-  // const layer_regions = new FeatureLayer({
-  //   title: "Regions",
-  //   url: url_regions,
-  //   renderer: {
-  //     type: "simple",
-  //     label: "Region",
-  //     symbol: {
-  //       type: "simple-fill",
-  //       color: [255, 255, 255, 0.10],
-  //       outline: { 
-  //         color: [255, 255, 255, 1.00],
-  //         width: "1px"
-  //       }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Region: {REGION}",
-  //     outFields: ["*"],
-  //     content: content_regions
-  //   },
-  //   visible: true
-  // });
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Province</b></td>
+            <td>${ target.graphic.attributes.PROVINCE || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>${ target.graphic.attributes.CENTERS || "No available data" }</b></td>
+            <td>${ target.graphic.attributes.MUNICIPAL || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
 
-  // const group_regions = new GroupLayer({
-  //   title: "Regions",
-  //   layers: [
-  //     layer_regions
-  //   ],
-  //   visible: true,
-  //   visibilityMode: "independent",
-  //   opacity: 1.00
-  // });
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_municipalities_cities = new FeatureLayer({
+    title: "Municipalities / Cities",
+    url: url_cities,
+    renderer: {
+      type: "simple",
+      label: "Municipality / City",
+      symbol: symbol_polygon_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "{CENTERS}: {MUNICIPAL}",
+      outFields: ["*"],
+      content: content_municipalities_cities
+    },
+    visible: true
+  });
+
+  function content_provinces (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Province</b></td>
+            <td>${ target.graphic.attributes.PROVINCE || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_provinces = new FeatureLayer({
+    title: "Provinces",
+    url: url_provinces,
+    renderer: {
+      type: "simple",
+      label: "Province",
+      symbol: symbol_polygon_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Province: {PROVINCE}",
+      outFields: ["*"],
+      content: content_provinces
+    },
+    visible: true
+  });
+
+  function content_legislative_districts (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_legislative_districts = new FeatureLayer({
+    title: "Legislative Districts",
+    url: url_legislative_districts,
+    renderer: {
+      type: "simple",
+      label: "Legislative District",
+      symbol: symbol_polygon_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Legislative District: {CONG_DIST}",
+      outFields: ["*"],
+      content: content_legislative_districts
+    },
+    visible: true
+  });
+
+  function content_engineering_districts (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_engineering_districts = new FeatureLayer({
+    title: "Engineering Districts",
+    url: url_engineering_districts,
+    renderer: {
+      type: "simple",
+      label: "Engineering District",
+      symbol: symbol_polygon_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Engineering District: {DEO}",
+      outFields: ["*"],
+      content: content_engineering_districts
+    },
+    visible: true
+  });
+
+  function content_regions (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Region Name</b></td>
+            <td>${ target.graphic.attributes.VAR_NAME || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_regions = new FeatureLayer({
+    title: "Regions",
+    url: url_regions,
+    renderer: {
+      type: "simple",
+      label: "Region",
+      symbol: symbol_polygon_reference
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Region: {REGION}",
+      outFields: ["*"],
+      content: content_regions
+    },
+    visible: true
+  });
+
+  const group_administrative_boundaries = new GroupLayer({
+    title: "Administrative Boundaries",
+    layers: [
+      layer_regions,
+      layer_provinces,
+      layer_engineering_districts,
+      layer_legislative_districts,
+      layer_municipalities_cities
+    ],
+    visible: true,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
 
   /* Summary Data */
 
@@ -884,155 +1157,167 @@ function MapContextProvider (props) {
   }
 
   function content_hazard_map (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Classification</b></td>
+            <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain</b></td>
+            <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Hazard Risk</b></td>
+            <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Station Limit</b></td>
+            <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Station Limit</b></td>
+            <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Chainage</b></td>
+            <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Chainage</b></td>
+            <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Length</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Height</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Area</b> (sq. meters)</td>
+            <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Angle / Gradient</b> (degrees)</td>
+            <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Type of Disaster</b></td>
+            <td>${ disaster_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Type Left</b></td>
+            <td>${ target.graphic.attributes.slope_type_left || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Type Right</b></td>
+            <td>${ target.graphic.attributes.slope_type_right || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Survey Side</b></td>
+            <td>${ target.graphic.attributes.survey_side || "No available data" }</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="text-align: center;"><b>Hazard Scores</b></td>
+          </tr>
+          <tr>
+            <td><b>Profile Slope Height Score</b></td>
+            <td>${ target.graphic.attributes.profile_slope_height_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Profile Slope Angle Score</b></td>
+            <td>${ target.graphic.attributes.profile_slope_angle_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Topography G1 Score</b></td>
+            <td>${ target.graphic.attributes.topography_g1_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Topography G2 Score</b></td>
+            <td>${ target.graphic.attributes.topography_g2_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Geological Soil Score</b></td>
+            <td>${ target.graphic.attributes.geological_soil_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Geological Rock Score</b></td>
+            <td>${ target.graphic.attributes.geological_rock_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Geological Slope Score</b></td>
+            <td>${ target.graphic.attributes.geological_slope_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Geological Sediment Score</b></td>
+            <td>${ target.graphic.attributes.geological_sediment_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Surface Vegetation Score</b></td>
+            <td>${ target.graphic.attributes.surface_vegetation_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Surface Soil Score</b></td>
+            <td>${ target.graphic.attributes.surface_soil_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Surface Water Score</b></td>
+            <td>${ target.graphic.attributes.surface_water_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Anomaly Score</b></td>
+            <td>${ target.graphic.attributes.anomaly_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Total Score (A)</b></td>
+            <td>${ target.graphic.attributes.total_score_a || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Total Score (B)</b></td>
+            <td>${ target.graphic.attributes.total_score_b || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Disaster History Score</b></td>
+            <td>${ target.graphic.attributes.disaster_history_score || "0" }</td>
+          </tr>
+          <tr>
+            <td><b>Score (D)</b></td>
+            <td>${ target.graphic.attributes.score_d || "0" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Terrain</b></td>
-                  <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Hazard Risk</b></td>
-                  <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Station Limit</b></td>
-                  <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Station Limit</b></td>
-                  <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Chainage</b></td>
-                  <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Chainage</b></td>
-                  <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Length</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_length || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Height</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_height || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Area</b> (sq. meters)</td>
-                  <td>${ target.graphic.attributes.target_area || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Type of Disaster</b></td>
-                  <td>${ disaster_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Type Left</b></td>
-                  <td>${ target.graphic.attributes.slope_type_left || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Slope Type Right</b></td>
-                  <td>${ target.graphic.attributes.slope_type_right || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Survey Side</b></td>
-                  <td>${ target.graphic.attributes.survey_side || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td colspan="2" style="text-align: center;"><b>Hazard Scores</b></td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Profile Slope Height Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_height_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Profile Slope Angle Score</b></td>
-                  <td>${ target.graphic.attributes.profile_slope_angle_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Topography G1 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g1_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Topography G2 Score</b></td>
-                  <td>${ target.graphic.attributes.topography_g2_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Geological Soil Score</b></td>
-                  <td>${ target.graphic.attributes.geological_soil_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Geological Rock Score</b></td>
-                  <td>${ target.graphic.attributes.geological_rock_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Geological Slope Score</b></td>
-                  <td>${ target.graphic.attributes.geological_slope_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Geological Sediment Score</b></td>
-                  <td>${ target.graphic.attributes.geological_sediment_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Surface Vegetation Score</b></td>
-                  <td>${ target.graphic.attributes.surface_vegetation_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Surface Soil Score</b></td>
-                  <td>${ target.graphic.attributes.surface_soil_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Surface Water Score</b></td>
-                  <td>${ target.graphic.attributes.surface_water_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Anomaly Score</b></td>
-                  <td>${ target.graphic.attributes.anomaly_score || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Total Score (A)</b></td>
-                  <td>${ target.graphic.attributes.total_score_a || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Total Score (B)</b></td>
-                  <td>${ target.graphic.attributes.total_score_b || "0" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Disaster History Score</b></td>
-                  <td>${ target.graphic.attributes.disaster_history_score || "0" }</td>
-                </tr><tr style = "background-color: #393939;">
-                  <td><b>Score (D)</b></td>
-                  <td>${ target.graphic.attributes.score_d || "0" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -1051,11 +1336,11 @@ function MapContextProvider (props) {
       defaultLabel: "Unclassified Risk",
       defaultSymbol: {
         type: "simple-line",
-        width: 1,
-        color: [255, 255, 255, 1.00],
+        width: 4,
+        color: [0, 0, 0, 1.00],
         marker: {
-          style: "x",
-          color: [255, 255, 255, 1.00],
+          style: "cross",
+          color: [0, 0, 0, 1.00],
           placement: "begin-end"
        }
       },
@@ -1065,10 +1350,10 @@ function MapContextProvider (props) {
           label: "Low Risk",
           symbol: {
             type: "simple-line",
-            width: 1,
+            width: 4,
             color: [255, 255, 0, 1.00],
             marker: {
-              style: "x",
+              style: "cross",
               color: [255, 255, 0, 1.00],
               placement: "begin-end"
            }
@@ -1079,10 +1364,10 @@ function MapContextProvider (props) {
           label: "Middle Risk",
           symbol: {
             type: "simple-line",
-            width: 1,
+            width: 4,
             color: [255, 155, 55, 1.00],
             marker: {
-              style: "x",
+              style: "cross",
               color: [255, 155, 55, 1.00],
               placement: "begin-end"
            }
@@ -1093,10 +1378,10 @@ function MapContextProvider (props) {
           label: "High Risk",
           symbol: {
             type: "simple-line",
-            width: 1,
+            width: 4,
             color: [255, 0, 0, 1.00],
             marker: {
-              style: "x",
+              style: "cross",
               color: [255, 0, 0, 1.00],
               placement: "begin-end"
            }
@@ -1114,84 +1399,88 @@ function MapContextProvider (props) {
   });
 
   function content_road_slopes_and_countermeasures (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Classification</b></td>
+            <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain</b></td>
+            <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Hazard Risk</b></td>
+            <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Station Limit</b></td>
+            <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Station Limit</b></td>
+            <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Chainage</b></td>
+            <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Chainage</b></td>
+            <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Length</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Height</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Area</b> (sq. meters)</td>
+            <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Angle / Gradient</b> (degrees)</td>
+            <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Type Right</b></td>
+            <td>${ target.graphic.attributes.rsm_category || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Terrain</b></td>
-                  <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Hazard Risk</b></td>
-                  <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Station Limit</b></td>
-                  <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Station Limit</b></td>
-                  <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Chainage</b></td>
-                  <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Chainage</b></td>
-                  <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Length</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_length || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Height</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_height || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Area</b> (sq. meters)</td>
-                  <td>${ target.graphic.attributes.target_area || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Slope Type Right</b></td>
-                  <td>${ target.graphic.attributes.rsm_category || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -1223,92 +1512,96 @@ function MapContextProvider (props) {
   });
 
   function content_inventory_of_road_slopes (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Classification</b></td>
+            <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain</b></td>
+            <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Volume of Traffic</b> (AADT)</td>
+            <td>${ target.graphic.attributes.aadt || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Station Limit</b></td>
+            <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Station Limit</b></td>
+            <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Chainage</b></td>
+            <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Chainage</b></td>
+            <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Length</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Height</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Area</b> (sq. meters)</td>
+            <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Angle / Gradient</b> (degrees)</td>
+            <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Type of Disaster</b></td>
+            <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>With Slope Disaster Failure?</b></td>
+            <td>${ target.graphic.attributes.past_failure || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Date of Occurence</b></td>
+            <td>${ target.graphic.attributes.date_of_occurence || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Terrain</b></td>
-                  <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Volume of Traffic</b> (AADT)</td>
-                  <td>${ target.graphic.attributes.aadt || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Station Limit</b></td>
-                  <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Station Limit</b></td>
-                  <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Chainage</b></td>
-                  <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Chainage</b></td>
-                  <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Length</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_length || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Height</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_height || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Area</b> (sq. meters)</td>
-                  <td>${ target.graphic.attributes.target_area || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Type of Disaster</b></td>
-                  <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>With Slope Disaster Failure?</b></td>
-                  <td>${ target.graphic.attributes.past_failure || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Date of Occurence</b></td>
-                  <td>${ target.graphic.attributes.date_of_occurence || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -1341,92 +1634,96 @@ function MapContextProvider (props) {
   });
 
   function content_inventory_of_road_slope_structures (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Classification</b></td>
+            <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain</b></td>
+            <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Volume of Traffic</b> (AADT)</td>
+            <td>${ target.graphic.attributes.aadt || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Station Limit</b></td>
+            <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Station Limit</b></td>
+            <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Start Chainage</b></td>
+            <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>End Chainage</b></td>
+            <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Existing Type of Road Slope Structure</b></td>
+            <td>${ target.graphic.attributes.road_slope_structure_type || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Length</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Height</b> (meters)</td>
+            <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Area</b> (sq. meters)</td>
+            <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Slope Angle / Gradient</b> (degrees)</td>
+            <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Type of Disaster</b></td>
+            <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Condition</b></td>
+            <td>${ target.graphic.attributes.road_condition || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
     return ([
       {
         type: "custom",
-        creator: function (target) {
-          return (document.createElement("attribute-table").innerHTML = `
-            <table cellpadding = "8">
-              <tbody>
-                <tr style = "background-color: #393939;">
-                  <td><b>Region</b></td>
-                  <td>${ target.graphic.attributes.region_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Engineering District</b></td>
-                  <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Legislative District</b></td>
-                  <td>${ target.graphic.attributes.district_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Road Classification</b></td>
-                  <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Road Name</b></td>
-                  <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Section ID</b></td>
-                  <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Terrain</b></td>
-                  <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Volume of Traffic</b> (AADT)</td>
-                  <td>${ target.graphic.attributes.aadt || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Station Limit</b></td>
-                  <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Station Limit</b></td>
-                  <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Start Chainage</b></td>
-                  <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>End Chainage</b></td>
-                  <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Existing Type of Road Slope Structure</b></td>
-                  <td>${ target.graphic.attributes.road_slope_structure_type || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Length</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_length || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Height</b> (meters)</td>
-                  <td>${ target.graphic.attributes.road_height || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Area</b> (sq. meters)</td>
-                  <td>${ target.graphic.attributes.target_area || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Slope Angle / Gradient</b> (degrees)</td>
-                  <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #2d2d2d;">
-                  <td><b>Type of Disaster</b></td>
-                  <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
-                </tr>
-                <tr style = "background-color: #393939;">
-                  <td><b>Condition</b></td>
-                  <td>${ target.graphic.attributes.road_condition || "No available data" }</td>
-                </tr>
-              </tbody>
-            </table>
-          `);
+        creator: function () {
+          return (container);
         }
       },
       {
@@ -1460,218 +1757,276 @@ function MapContextProvider (props) {
 
   /* Hazard Map Data */
 
-  // const layer_hazard_map_slope_hazard_risk_low = new FeatureLayer({
-  //   title: "Low Risk",
-  //   url: url_hazard_map,
-  //   definitionExpression: "hazard_risk = 'Low'",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "Low Risk",
-  //     symbol: {
-  //       type: "simple-line",
-  //       width: 1,
-  //       color: [255, 255, 0, 1.00],
-  //       marker: {
-  //         style: "x",
-  //         color: [255, 255, 0, 1.00],
-  //         placement: "begin-end"
-  //      }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Slope Hazard Risk Level: {hazard_risk}",
-  //     outFields: ["*"],
-  //     content: content_hazard_map
-  //   },
-  //   visible: true
-  // });
+  const layer_unclassified_slope_hazard_risk = new FeatureLayer({
+    title: "Unclassified Slope Hazard Risks",
+    url: url_hazard_map,
+    definitionExpression: "hazard_risk <> 'Low' AND hazard_risk <> 'Middle' AND hazard_risk <> 'High'",
+    renderer: {
+      type: "simple",
+      label: "Unclassified Slope Hazard Risk",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+       }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Slope Hazard Risk Level: Unclassified",
+      outFields: ["*"],
+      content: content_hazard_map
+    },
+    visible: true
+  });
 
-  // const layer_hazard_map_slope_hazard_risk_medium = new FeatureLayer({
-  //   title: "Medium Risk",
-  //   url: url_hazard_map,
-  //   definitionExpression: "hazard_risk = 'Middle'",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "Medium Risk",
-  //     symbol: {
-  //       type: "simple-line",
-  //       width: 1,
-  //       color: [255, 155, 55, 1.00],
-  //       marker: {
-  //         style: "x",
-  //         color: [255, 155, 55, 1.00],
-  //         placement: "begin-end"
-  //      }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Slope Hazard Risk Level: {hazard_risk}",
-  //     outFields: ["*"],
-  //     content: content_hazard_map
-  //   },
-  //   visible: true
-  // });
+  const layer_low_slope_hazard_risk = new FeatureLayer({
+    title: "Low Slope Hazard Risks",
+    url: url_hazard_map,
+    definitionExpression: "hazard_risk = 'Low'",
+    renderer: {
+      type: "simple",
+      label: "Low Slope Hazard Risk",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 255, 0, 1.00],
+          placement: "begin-end"
+       }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Slope Hazard Risk Level: {hazard_risk}",
+      outFields: ["*"],
+      content: content_hazard_map
+    },
+    visible: true
+  });
 
-  // const layer_hazard_map_slope_hazard_risk_high = new FeatureLayer({
-  //   title: "High Risk",
-  //   url: url_hazard_map,
-  //   definitionExpression: "hazard_risk = 'High'",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "High Risk",
-  //     symbol: {
-  //       type: "simple-line",
-  //       width: 5,
-  //       color: [255, 0, 0, 1.00],
-  //       marker: {
-  //         style: "square",
-  //         color: [255, 0, 0, 1.00],
-  //         placement: "begin-end"
-  //      }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Slope Hazard Risk Level: {hazard_risk}",
-  //     outFields: ["*"],
-  //     content: content_hazard_map
-  //   },
-  //   visible: true
-  // });
+  const layer_medium_slope_hazard_risk = new FeatureLayer({
+    title: "Medium Slope Hazard Risks",
+    url: url_hazard_map,
+    definitionExpression: "hazard_risk = 'Middle'",
+    renderer: {
+      type: "simple",
+      label: "Medium Slope Hazard Risk",
+      symbol: {
+        type: "simple-line",
+        width: 1,
+        color: [255, 155, 55, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 155, 55, 1.00],
+          placement: "begin-end"
+       }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Slope Hazard Risk Level: {hazard_risk}",
+      outFields: ["*"],
+      content: content_hazard_map
+    },
+    visible: true
+  });
 
-  // const group_hazard_map_slope_hazard_risks = new GroupLayer({
-  //   title: "Slope Hazard Risks",
-  //   layers: [
-  //     layer_hazard_map_slope_hazard_risk_high,
-  //     layer_hazard_map_slope_hazard_risk_medium,
-  //     layer_hazard_map_slope_hazard_risk_low
-  //   ],
-  //   visible: true,
-  //   visibilityMode: "independent",
-  //   opacity: 1.00
-  // });
+  const layer_high_slope_hazard_risk = new FeatureLayer({
+    title: "High Slope Hazard Risks",
+    url: url_hazard_map,
+    definitionExpression: "hazard_risk = 'High'",
+    renderer: {
+      type: "simple",
+      label: "High Slope Hazard Risk",
+      symbol: {
+        type: "simple-line",
+        width: 5,
+        color: [255, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 0, 0, 1.00],
+          placement: "begin-end"
+       }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Slope Hazard Risk Level: {hazard_risk}",
+      outFields: ["*"],
+      content: content_hazard_map
+    },
+    visible: true
+  });
 
-  // function generate_storm_surge (proxy_data) {
-  //   return (
-  //     proxy_data === 1 ? "Low Risk" :
-  //     proxy_data === 2 ? "Medium Risk" :
-  //     proxy_data === 3 ? "High Risk" :
-  //     "No available data"
-  //   );
-  // }
+  const group_slope_hazard_risks = new GroupLayer({
+    title: "Slope Hazard Risks",
+    layers: [
+      layer_high_slope_hazard_risk,
+      layer_medium_slope_hazard_risk,
+      layer_low_slope_hazard_risk,
+      layer_unclassified_slope_hazard_risk
+    ],
+    visible: true,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
 
-  // function content_storm_surge (target) {
-  //   return ([
-  //     {
-  //       type: "custom",
-  //       creator: function (target) {
-  //         return (document.createElement("attribute-table").innerHTML = `
-  //           <table cellpadding = "8">
-  //             <tbody>
-  //               <tr style = "background-color: #393939;">
-  //                 <td><b>Storm Surge Hazard Level</b></td>
-  //                 <td>${ generate_storm_surge(target.graphic.attributes.HAZ) || "No available data" }</td>
-  //               </tr>
-  //             </tbody>
-  //           </table>
-  //         `);
-  //       }
-  //     },
-  //     {
-  //       type: "attachments",
-  //       displayType: "list"
-  //     }
-  //   ]);
-  // }
+  function generate_storm_surge_hazard_risk (proxy_data) {
+    return (
+      proxy_data === 1 ? "Low Risk" :
+      proxy_data === 2 ? "Medium Risk" :
+      proxy_data === 3 ? "High Risk" :
+      "No available data"
+    );
+  }
 
-  // const layer_hazard_map_storm_surge_risk_low = new FeatureLayer({
-  //   title: "Low Risk",
-  //   url: url_storm_surge_map_noah,
-  //   definitionExpression: "HAZ = 1",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "Low Risk",
-  //     symbol: {
-  //       type: "simple-fill",
-  //       color: [255, 255, 0, 1.00],
-  //       outline: { 
-  //         color: [255, 255, 0, 0.50],
-  //         width: "1px"
-  //       }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Storm Surge Hazard Risk Level: {HAZ}",
-  //     outFields: ["*"],
-  //     content: content_storm_surge
-  //   },
-  //   visible: true
-  // });
+  function content_storm_surge_hazard_risks (target) {
+    const container = document.createElement("div");
 
-  // const layer_hazard_map_storm_surge_risk_medium = new FeatureLayer({
-  //   title: "Medium Risk",
-  //   url: url_storm_surge_map_noah,
-  //   definitionExpression: "HAZ = 2",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "Medium Risk",
-  //     symbol: {
-  //       type: "simple-fill",
-  //       color: [255, 155, 55, 1.00],
-  //       outline: { 
-  //         color: [255, 155, 55, 0.50],
-  //         width: "1px"
-  //       }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Storm Surge Hazard Risk Level: {HAZ}",
-  //     outFields: ["*"],
-  //     content: content_storm_surge
-  //   },
-  //   visible: true
-  // });
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Storm Surge Hazard Level</b></td>
+            <td>${ generate_storm_surge_hazard_risk(target.graphic.attributes.HAZ) || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
 
-  // const layer_hazard_map_storm_surge_risk_high = new FeatureLayer({
-  //   title: "High Risk",
-  //   url: url_storm_surge_map_noah,
-  //   definitionExpression: "HAZ = 3",
-  //   renderer: {
-  //     type: "simple",
-  //     label: "High Risk",
-  //     symbol: {
-  //       type: "simple-fill",
-  //       color: [255, 0, 0, 1.00],
-  //       outline: { 
-  //         color: [255, 0, 0, 0.50],
-  //         width: "1px"
-  //       }
-  //     }
-  //   },
-  //   popupEnabled: true,
-  //   popupTemplate: {
-  //     title: "Storm Surge Hazard Risk Level: {HAZ}",
-  //     outFields: ["*"],
-  //     content: content_storm_surge
-  //   },
-  //   visible: true
-  // });
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
 
-  // const group_hazard_map_storm_surge_map_noah = new GroupLayer({
-  //   title: "Storm Surge Hazard Map (NOAH)",
-  //   layers: [
-  //     layer_hazard_map_storm_surge_risk_low,
-  //     layer_hazard_map_storm_surge_risk_medium,
-  //     layer_hazard_map_storm_surge_risk_high
-  //   ],
-  //   visible: true,
-  //   visibilityMode: "independent",
-  //   opacity: 1.00
-  // });
+  const layer_unclassified_storm_surge_hazard_risk = new FeatureLayer({
+    title: "Unclassified Storm Surge Hazard Risks",
+    url: url_storm_surge_hazard_risks,
+    definitionExpression: "HAZ <> 1 AND HAZ <> 2 AND HAZ <> 3",
+    renderer: {
+      type: "simple",
+      label: "Unclassified Storm Surge Hazard Risk",
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 1.00],
+        outline: { 
+          color: [0, 0, 0, 0.50],
+          width: "1px"
+        }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge_hazard_risks
+    },
+    visible: true
+  });
+
+  const layer_low_storm_surge_hazard_risk = new FeatureLayer({
+    title: "Low Storm Surge Hazard Risks",
+    url: url_storm_surge_hazard_risks,
+    definitionExpression: "HAZ = 1",
+    renderer: {
+      type: "simple",
+      label: "Low Storm Surge Hazard Risk",
+      symbol: {
+        type: "simple-fill",
+        color: [255, 255, 0, 1.00],
+        outline: { 
+          color: [255, 255, 0, 0.50],
+          width: "1px"
+        }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge_hazard_risks
+    },
+    visible: true
+  });
+
+  const layer_medium_storm_surge_hazard_risk = new FeatureLayer({
+    title: "Medium Storm Surge Hazard Risks",
+    url: url_storm_surge_hazard_risks,
+    definitionExpression: "HAZ = 2",
+    renderer: {
+      type: "simple",
+      label: "Medium Storm Surge Hazard Risk",
+      symbol: {
+        type: "simple-fill",
+        color: [255, 155, 55, 1.00],
+        outline: { 
+          color: [255, 155, 55, 0.50],
+          width: "1px"
+        }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge_hazard_risks
+    },
+    visible: true
+  });
+
+  const layer_high_storm_surge_hazard_risk = new FeatureLayer({
+    title: "High Storm Surge Hazard Risks",
+    url: url_storm_surge_hazard_risks,
+    definitionExpression: "HAZ = 3",
+    renderer: {
+      type: "simple",
+      label: "High Storm Surge Hazard Risk",
+      symbol: {
+        type: "simple-fill",
+        color: [255, 0, 0, 1.00],
+        outline: { 
+          color: [255, 0, 0, 0.50],
+          width: "1px"
+        }
+      }
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Storm Surge Hazard Risk Level: {HAZ}",
+      outFields: ["*"],
+      content: content_storm_surge_hazard_risks
+    },
+    visible: true
+  });
+
+  const group_storm_surge_hazard_risks = new GroupLayer({
+    title: "Storm Surge Hazard Risks (NOAH)",
+    layers: [
+      layer_high_storm_surge_hazard_risk,
+      layer_medium_storm_surge_hazard_risk,
+      layer_low_storm_surge_hazard_risk,
+      layer_unclassified_storm_surge_hazard_risk
+    ],
+    visible: true,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
 
   /* Inventory of Road Slopes Data */
   
@@ -3319,7 +3674,7 @@ function MapContextProvider (props) {
               }
 
               view.map.layers.push(
-                // group_regions,
+                group_administrative_boundaries,
                 group_terrain,
                 group_road_classification,
                 group_volume_of_traffic,
@@ -3327,15 +3682,15 @@ function MapContextProvider (props) {
                 group_kilometer_posts
               );
 
-              // if (module === "summary") {
-              //   view.map.layers.push(layer_inventory_of_road_slope_structures);
-              //   view.map.layers.push(layer_inventory_of_road_slopes);
-              //   view.map.layers.push(layer_hazard_map);
-              // }
-              // if (module === "hazard-map") {
-              //   view.map.layers.push(group_hazard_map_storm_surge_map_noah);
-              //   view.map.layers.push(group_hazard_map_slope_hazard_risks);
-              // }
+              if (module === "summary") {
+                view.map.layers.push(layer_inventory_of_road_slope_structures);
+                view.map.layers.push(layer_inventory_of_road_slopes);
+                view.map.layers.push(layer_hazard_map);
+              }
+              if (module === "hazard-map") {
+                view.map.layers.push(group_storm_surge_hazard_risks);
+                view.map.layers.push(group_slope_hazard_risks);
+              }
               // if (module === "road-slope-inventory") {
               //   view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);
               //   view.map.layers.push(group_inventory_of_road_slope_structures_type_of_road_slope_structures);
