@@ -47,33 +47,6 @@ function MapContextProvider (props) {
   /* Symbology Templates */
 
   const color_black = [0, 0, 0, 1.00];
-  const color_white = [255, 255, 255, 1.00];
-
-  const symbol_polygon_reference = {
-    type: "simple-fill",
-    color: [0, 0, 0, 0.10],
-    outline: { 
-      color: [0, 0, 0, 1.00],
-      width: "1px"
-    }
-  }
-
-  const symbol_line_reference = {
-    type: "simple-line",
-    width: 1,
-    color: color_black
-  };
-
-  const symbol_point_reference = {
-    type: "simple-marker",
-    size: "8px",
-    color: color_white,
-    outline: {
-      color: color_black,
-      width: "1px"
-    }
-  }
-
   /* Reference Data */
 
   function content_national_expressway (target) {
@@ -118,9 +91,24 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "National Expressway",
-      symbol: symbol_line_reference
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.XPRES_NAME" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "National Expressway: {XPRES_NAME} ({XPRES_WAY})",
@@ -180,9 +168,24 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "National Road",
-      symbol: symbol_line_reference
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.ROAD_NAME" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "National Road: {SECTION_ID} ({ROAD_NAME})",
@@ -199,8 +202,7 @@ function MapContextProvider (props) {
       layer_national_road_network
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   /* Common Data */
@@ -267,9 +269,38 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Kilometer Post",
-      symbol: symbol_point_reference
+      symbol: {
+        type: "simple-marker",
+        style: "square",
+        color: [255, 255, 0, 1.00],
+        outline: {
+          color: color_black,
+          width: 1.00
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: 8, value: 10000000 },
+          { size: 4, value: 100000000 },
+          { size: 2, value: 1000000000 },
+          { size: 1, value: 10000000000 }
+        ]
+      }]  
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.KM_POST" },
+      labelPlacement: "above-center",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Kilometer Post: {KM_POST}",
@@ -285,8 +316,7 @@ function MapContextProvider (props) {
       layer_kilometer_posts
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
  
   const layer_volume_of_traffic = new FeatureLayer({
@@ -375,7 +405,11 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Unclassified Volume of Traffic",
-      symbol: symbol_line_reference
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
+      }
     },
     labelsVisible: false,
     popupEnabled: true,
@@ -396,8 +430,8 @@ function MapContextProvider (props) {
       label: "0.00 to " + (maxAADT * 1 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [232, 20, 22, 1.00]
+        width: 1.00,
+        color: [30, 30, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -419,8 +453,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 1 / 7).toFixed(2) + " to " + (maxAADT * 2 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [255, 165, 0, 1.00]
+        width: 1.00,
+        color: [60, 60, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -442,8 +476,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 2 / 7).toFixed(2) + " to " + (maxAADT * 3 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [250, 235, 54, 1.00]
+        width: 1.00,
+        color: [90, 90, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -465,8 +499,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 3 / 7).toFixed(2) + " to " + (maxAADT * 4 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [121, 195, 20, 1.00]
+        width: 1.00,
+        color: [120, 120, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -488,8 +522,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 4 / 7).toFixed(2) + " to " + (maxAADT * 5 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [72, 125, 231, 1.00]
+        width: 1.00,
+        color: [150, 150, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -511,8 +545,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 5 / 7).toFixed(2) + " to " + (maxAADT * 6 / 7).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [75, 54, 157, 1.00]
+        width: 1.00,
+        color: [180, 180, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -534,8 +568,8 @@ function MapContextProvider (props) {
       label: (maxAADT * 6 / 7).toFixed(2) + " to " + (maxAADT).toFixed(2),
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [112, 54, 157, 1.00]
+        width: 1.00,
+        color: [210, 210, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -561,8 +595,7 @@ function MapContextProvider (props) {
       layer_volume_of_traffic_level_00
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   function content_road_classification (target) {
@@ -620,7 +653,11 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Unclassified Road",
-      symbol: symbol_line_reference
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
+      }
     },
     labelsVisible: false,
     popupEnabled: true,
@@ -641,7 +678,7 @@ function MapContextProvider (props) {
       label: "Primary Road",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [255, 0, 0, 1.00]
       }
     },
@@ -664,7 +701,7 @@ function MapContextProvider (props) {
       label: "Secondary Road",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [0, 0, 255, 1.00]
       }
     },
@@ -687,7 +724,7 @@ function MapContextProvider (props) {
       label: "Tertiary Road",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [0, 255, 0, 1.00]
       }
     },
@@ -710,8 +747,7 @@ function MapContextProvider (props) {
       layer_unclassified_roads
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
  
   function content_terrain (target) {
@@ -771,8 +807,8 @@ function MapContextProvider (props) {
       label: "Unclassified Terrain",
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: color_black
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -794,8 +830,8 @@ function MapContextProvider (props) {
       label: "Flat Terrain",
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [0, 50, 0, 1.00]
+        width: 1.00,
+        color: [0, 60, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -817,8 +853,8 @@ function MapContextProvider (props) {
       label: "Rolling Terrain",
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [0, 150, 0, 1.00]
+        width: 1.00,
+        color: [0, 120, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -840,8 +876,8 @@ function MapContextProvider (props) {
       label: "Mountainous Terrain",
       symbol: {
         type: "simple-line",
-        width: 1,
-        color: [0, 250, 0, 1.00]
+        width: 1.00,
+        color: [0, 180, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -863,8 +899,7 @@ function MapContextProvider (props) {
       layer_unclassified_terrain
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   function content_municipalities_cities (target) {
@@ -917,9 +952,27 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Municipality / City",
-      symbol: symbol_polygon_reference
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 0.10],
+        outline: { 
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.MUNICIPAL" },
+      labelPlacement: "always-horizontal",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "{CENTERS}: {MUNICIPAL}",
@@ -967,9 +1020,27 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Province",
-      symbol: symbol_polygon_reference
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 0.10],
+        outline: { 
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.PROVINCE" },
+      labelPlacement: "always-horizontal",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Province: {PROVINCE}",
@@ -1017,9 +1088,27 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Legislative District",
-      symbol: symbol_polygon_reference
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 0.10],
+        outline: { 
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.CONG_DIST" },
+      labelPlacement: "always-horizontal",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Legislative District: {CONG_DIST}",
@@ -1067,9 +1156,27 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Engineering District",
-      symbol: symbol_polygon_reference
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 0.10],
+        outline: { 
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.DEO" },
+      labelPlacement: "always-horizontal",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Engineering District: {DEO}",
@@ -1117,9 +1224,27 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Region",
-      symbol: symbol_polygon_reference
+      symbol: {
+        type: "simple-fill",
+        color: [0, 0, 0, 0.10],
+        outline: { 
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      }
     },
-    labelsVisible: false,
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.REGION" },
+      labelPlacement: "always-horizontal",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Region: {REGION}",
@@ -1139,8 +1264,7 @@ function MapContextProvider (props) {
       layer_municipalities_cities
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   /* Summary Data */
@@ -1336,10 +1460,10 @@ function MapContextProvider (props) {
       defaultLabel: "Unclassified Risk",
       defaultSymbol: {
         type: "simple-line",
-        width: 4,
+        width: 1.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "square",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
        }
@@ -1350,10 +1474,10 @@ function MapContextProvider (props) {
           label: "Low Risk",
           symbol: {
             type: "simple-line",
-            width: 4,
+            width: 1.00,
             color: [255, 255, 0, 1.00],
             marker: {
-              style: "cross",
+              style: "square",
               color: [255, 255, 0, 1.00],
               placement: "begin-end"
            }
@@ -1364,10 +1488,10 @@ function MapContextProvider (props) {
           label: "Middle Risk",
           symbol: {
             type: "simple-line",
-            width: 4,
+            width: 1.00,
             color: [255, 155, 55, 1.00],
             marker: {
-              style: "cross",
+              style: "square",
               color: [255, 155, 55, 1.00],
               placement: "begin-end"
            }
@@ -1378,10 +1502,10 @@ function MapContextProvider (props) {
           label: "High Risk",
           symbol: {
             type: "simple-line",
-            width: 4,
+            width: 1.00,
             color: [255, 0, 0, 1.00],
             marker: {
-              style: "cross",
+              style: "square",
               color: [255, 0, 0, 1.00],
               placement: "begin-end"
            }
@@ -1389,6 +1513,18 @@ function MapContextProvider (props) {
         }
       ]
     },
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.hazard_risk" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Road Section: {section_id} ({road_name})",
@@ -1498,13 +1634,25 @@ function MapContextProvider (props) {
       label: "Road Slopes and Countermeasures Data",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [255, 255, 255, 1.00]
       }
     },
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.section_id" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
-      title: "Road Section: {SECTION_ID} ({ROAD_NAME})",
+      title: "Road Section: {section_id} ({road_name})",
       outFields: ["*"],
       content: content_road_slopes_and_countermeasures
     },
@@ -1620,10 +1768,22 @@ function MapContextProvider (props) {
       label: "Inventory of Road Slopes",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [255, 0, 0, 1.00]
       }
     },
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.section_id" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Road Section: {section_id} ({road_name})",
@@ -1742,10 +1902,22 @@ function MapContextProvider (props) {
       label: "Inventory of Road Slope Structures",
       symbol: {
         type: "simple-line",
-        width: 1,
+        width: 1.00,
         color: [255, 155, 55, 1.00]
       }
     },
+    labelsVisible: true,
+    labelingInfo: [{
+      labelExpressionInfo: { expression: "$feature.section_id" },
+      labelPlacement: "below-along",
+      symbol: {
+        type: "text",
+        color: [0, 0, 0, 1.00],
+        haloColor: [255, 255, 255, 1.00],
+        haloSize: 1,
+        font: { family: "Avenir Next LT Pro", size: 8 }
+      }
+    }],
     popupEnabled: true,
     popupTemplate: {
       title: "Road Section: {section_id} ({road_name})",
@@ -1874,8 +2046,7 @@ function MapContextProvider (props) {
       layer_unclassified_slope_hazard_risk
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   function generate_storm_surge_hazard_risk (proxy_data) {
@@ -2024,8 +2195,7 @@ function MapContextProvider (props) {
       layer_unclassified_storm_surge_hazard_risk
     ],
     visible: true,
-    visibilityMode: "independent",
-    opacity: 1.00
+    visibilityMode: "independent"
   });
 
   /* Inventory of Road Slopes Data */
@@ -3675,10 +3845,10 @@ function MapContextProvider (props) {
 
               view.map.layers.push(
                 group_administrative_boundaries,
+                group_inventory_of_roads,
                 group_terrain,
                 group_road_classification,
                 group_volume_of_traffic,
-                group_inventory_of_roads,
                 group_kilometer_posts
               );
 
