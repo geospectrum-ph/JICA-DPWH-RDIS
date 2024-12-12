@@ -38,7 +38,7 @@
       padding: var(--space-100);
       border-bottom: solid calc(var(--space-100) / 2) var(--color-orange);
 
-      background-color: var(--color-gray-02);
+      background-color: var(--color-gray-02, rgba(120, 120, 120, 1.00));
 
       font: var(--type-normal-150, normal 400 18px/1 "Outfit", sans-serif);
       color: var(--color-white);    
