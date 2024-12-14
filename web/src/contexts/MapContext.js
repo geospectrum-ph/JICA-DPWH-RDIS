@@ -268,8 +268,8 @@ function MapContextProvider (props) {
       label: "Kilometer Post",
       symbol: {
         type: "simple-marker",
-        style: "square",
-        color: [255, 255, 0, 1.00],
+        style: "circle",
+        color: [255, 255, 255, 1.00],
         outline: {
           color: [0, 0, 0, 1.00],
           width: 1.00
@@ -279,9 +279,9 @@ function MapContextProvider (props) {
         type: "size",
         valueExpression: "$view.scale",
         stops: [
-          { size: 16, value: 9027.977411 }, // Zoom Level: 16
-          { size: 8, value: 144447.638572 }, // Zoom Level: 12
-          { size: 4, value: 2311162.217155 } // Zoom Level: 8
+          { size: 8, value: 9027.977411 }, // Zoom Level: 16
+          { size: 4, value: 144447.638572 }, // Zoom Level: 12
+          { size: 1, value: 2311162.217155 } // Zoom Level: 8
         ]
       }]  
     },
