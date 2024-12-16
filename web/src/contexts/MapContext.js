@@ -1454,7 +1454,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00]
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     labelsVisible: true,
@@ -1579,7 +1584,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00]
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     labelsVisible: true,
@@ -1713,7 +1723,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00]
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     labelsVisible: true,
@@ -2154,7 +2169,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 0, 0, 1.00]
+        color: [255, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2176,7 +2196,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 0, 60, 1.00]
+        color: [210, 0, 60, 1.00],
+        marker: {
+          style: "cross",
+          color: [210, 0, 60, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2198,7 +2223,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 0, 120, 1.00]
+        color: [180, 0, 120, 1.00],
+        marker: {
+          style: "cross",
+          color: [180, 0, 120, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2220,7 +2250,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 0, 150, 1.00]
+        color: [150, 0, 150, 1.00],
+        marker: {
+          style: "cross",
+          color: [150, 0, 150, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2242,7 +2277,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 0, 180, 1.00]
+        color: [120, 0, 180, 1.00],
+        marker: {
+          style: "cross",
+          color: [120, 0, 180, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2264,7 +2304,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 0, 210, 1.00]
+        color: [60, 0, 210, 1.00],
+        marker: {
+          style: "cross",
+          color: [60, 0, 210, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2286,7 +2331,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 255, 1.00]
+        color: [0, 0, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2324,7 +2374,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 255, 1.00]
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2346,7 +2401,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 210, 1.00]
+        color: [0, 255, 210, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 210, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2368,7 +2428,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 180, 1.00]
+        color: [0, 255, 180, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 180, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2390,7 +2455,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 150, 1.00]
+        color: [0, 255, 150, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 150, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2412,7 +2482,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 120, 1.00]
+        color: [0, 255, 120, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 120, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2434,7 +2509,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 90, 1.00]
+        color: [0, 255, 90, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 90, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2456,7 +2536,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 60, 1.00]
+        color: [0, 255, 60, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 60, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2478,7 +2563,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 0, 1.00]
+        color: [0, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2500,7 +2590,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 255, 0, 1.00]
+        color: [60, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [60, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2522,7 +2617,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [90, 255, 0, 1.00]
+        color: [90, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [90, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2544,7 +2644,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 255, 0, 1.00]
+        color: [120, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [120, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2566,7 +2671,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 255, 0, 1.00]
+        color: [150, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [150, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2588,7 +2698,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 255, 0, 1.00]
+        color: [180, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [180, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2610,7 +2725,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 255, 0, 1.00]
+        color: [210, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [210, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2632,7 +2752,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 255, 0, 1.00]
+        color: [255, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2680,7 +2805,12 @@ function MapContextProvider (props) {
         type: "simple-line",
         label: "Road in Good Condition",
         width: 4.00,
-        color: [0, 0, 255, 1.00]
+        color: [0, 0, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2702,7 +2832,12 @@ function MapContextProvider (props) {
         type: "simple-line",
         label: "Road in Fair Condition",
         width: 4.00,
-        color: [0, 255, 0, 1.00]
+        color: [0, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2724,7 +2859,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 255, 0, 1.00]
+        color: [255, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2746,7 +2886,12 @@ function MapContextProvider (props) {
         type: "simple-line",
         label: "Road in Bad Condition",
         width: 4.00,
-        color: [255, 0, 0, 1.00]
+        color: [255, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2781,7 +2926,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 0, 0, 1.00]
+        color: [255, 0, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 0, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2803,7 +2953,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 0, 60, 1.00]
+        color: [210, 0, 60, 1.00],
+        marker: {
+          style: "cross",
+          color: [210, 0, 60, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2825,7 +2980,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 0, 120, 1.00]
+        color: [180, 0, 120, 1.00],
+        marker: {
+          style: "cross",
+          color: [180, 0, 120, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2847,7 +3007,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 0, 150, 1.00]
+        color: [150, 0, 150, 1.00],
+        marker: {
+          style: "cross",
+          color: [150, 0, 150, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2869,7 +3034,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 0, 180, 1.00]
+        color: [120, 0, 180, 1.00],
+        marker: {
+          style: "cross",
+          color: [120, 0, 180, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2891,7 +3061,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 0, 210, 1.00]
+        color: [60, 0, 210, 1.00],
+        marker: {
+          style: "cross",
+          color: [60, 0, 210, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2913,7 +3088,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 255, 1.00]
+        color: [0, 0, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2951,7 +3131,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 255, 1.00]
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2973,7 +3158,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 210, 1.00]
+        color: [0, 255, 210, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 210, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -2995,7 +3185,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 180, 1.00]
+        color: [0, 255, 180, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 180, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3017,7 +3212,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 150, 1.00]
+        color: [0, 255, 150, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 150, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3039,7 +3239,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 120, 1.00]
+        color: [0, 255, 120, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 120, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3061,7 +3266,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 90, 1.00]
+        color: [0, 255, 90, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 90, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3083,7 +3293,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 60, 1.00]
+        color: [0, 255, 60, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 60, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3105,7 +3320,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 0, 1.00]
+        color: [0, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3127,7 +3347,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 255, 0, 1.00]
+        color: [60, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [60, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3149,7 +3374,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [90, 255, 0, 1.00]
+        color: [90, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [90, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3171,7 +3401,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 255, 0, 1.00]
+        color: [120, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [120, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3193,7 +3428,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 255, 0, 1.00]
+        color: [150, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [150, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3215,7 +3455,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 255, 0, 1.00]
+        color: [180, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [180, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3237,7 +3482,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 255, 0, 1.00]
+        color: [210, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [210, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3259,7 +3509,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 255, 0, 1.00]
+        color: [255, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [255, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3307,7 +3562,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 255, 1.00]
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3329,7 +3589,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 255, 1.00]
+        color: [0, 0, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 0, 255, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,
@@ -3351,7 +3616,12 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 0, 1.00]
+        color: [0, 255, 0, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 0, 1.00],
+          placement: "begin-end"
+       }
       }
     },
     popupEnabled: true,

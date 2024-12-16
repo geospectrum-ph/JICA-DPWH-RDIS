@@ -109,7 +109,7 @@ export default function PotentialRoadSlopeProjects () {
             }
 
             return (
-              <div key = { key } className = { "data-container" }>
+              <div key = { key } className = { depth > 0 ? "data-container" : "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
                   <span className = "material-symbols-outlined">{ "keyboard_arrow_down" }</span>
                   <span>{ item[0] }</span>

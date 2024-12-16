@@ -138,7 +138,7 @@ export default function RoadSlopeInventory () {
         .map(function (item, key) {
           if (Object.keys(item[1]).length) {
             return (
-              <div key = { key } className = { "data-container-hidden" }>
+              <div key = { key } className = { depth > 1 ? "data-container" : "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
                   <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                   <span>{ item[0] }</span>
@@ -199,7 +199,7 @@ export default function RoadSlopeInventory () {
               <div className = { "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
                   <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                  <span>{ "Road Condition" }</span>
+                  <span>{ "Road Slope Condition" }</span>
                 </div>
                 <div className = { "data-container-hidden" }>
                   <div onClick = { function (event) { change_visibility(event); } }>
