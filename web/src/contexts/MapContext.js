@@ -283,7 +283,7 @@ function MapContextProvider (props) {
           { size: 4, value: 144447.638572 }, // Zoom Level: 12
           { size: 1, value: 2311162.217155 } // Zoom Level: 8
         ]
-      }]  
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -577,7 +577,7 @@ function MapContextProvider (props) {
   });
 
   const group_volume_of_traffic = new GroupLayer({
-    title: "Volume of Traffic",
+    title: "Annual Average Daily Traffic (AADT)",
     layers: [
       layer_volume_of_traffic_level_07,
       layer_volume_of_traffic_level_06,
@@ -733,7 +733,7 @@ function MapContextProvider (props) {
   });
 
   const group_road_classification = new GroupLayer({
-    title: "Road Classification",
+    title: "Road Section Classifications",
     layers: [
       layer_tertiary_roads,
       layer_secondary_roads,
@@ -1360,8 +1360,12 @@ function MapContextProvider (props) {
             <td><b>Survey Side</b></td>
             <td>${ target.graphic.attributes.survey_side || "No available data" }</td>
           </tr>
+        </tbody>
+      </table>
+      <table className = "attribute-table">
+        <tbody>
           <tr>
-            <td colspan="2" style="text-align: center;"><b>Hazard Scores</b></td>
+            <td colspan = "2" style = "text-align: center;"><b>Hazard Scores</b></td>
           </tr>
           <tr>
             <td><b>Profile Slope Height Score</b></td>
@@ -1456,11 +1460,20 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1586,11 +1599,20 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1719,17 +1741,26 @@ function MapContextProvider (props) {
     definitionExpression: "rsm_category = 'Inventory of Road Slope'",
     renderer: {
       type: "simple",
-      label: "Inventory of Road Slopes",
+      label: "Inventory of Road Slopes Data",
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00],
+        color: [255, 0, 0, 1.00],
         marker: {
-          style: "cross",
-          color: [0, 0, 0, 1.00],
+          style: "x",
+          color: [255, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1858,12 +1889,26 @@ function MapContextProvider (props) {
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures'",
     renderer: {
       type: "simple",
-      label: "Inventory of Road Slope Structures",
+      label: "Inventory of Road Slope Structures Data",
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00]
-      }
+        color: [255, 155, 55, 1.00],
+        marker: {
+          style: "x",
+          color: [255, 155, 55, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1888,121 +1933,157 @@ function MapContextProvider (props) {
 
   /* Hazard Map Data */
 
-  const layer_unclassified_slope_hazard_risk = new FeatureLayer({
-    title: "Unclassified Slope Hazard Risks",
+  const layer_unclassified_road_slope_hazard_risk = new FeatureLayer({
+    title: "Road Sections with Unclassified Road Slope Hazard Risk",
     url: url_hazard_map,
     definitionExpression: "hazard_risk <> 'Low' AND hazard_risk <> 'Middle' AND hazard_risk <> 'High'",
     renderer: {
       type: "simple",
-      label: "Unclassified Slope Hazard Risk",
+      label: "Road Section with Unclassified Road Slope Hazard Risk",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Slope Hazard Risk Level: Unclassified",
+      title: "Road Slope Hazard Risk Level: Unclassified",
       outFields: ["*"],
       content: content_hazard_map
     },
     visible: true
   });
 
-  const layer_low_slope_hazard_risk = new FeatureLayer({
-    title: "Low Slope Hazard Risks",
+  const layer_low_road_slope_hazard_risk = new FeatureLayer({
+    title: "Road Sections with Low Road Slope Hazard Risks",
     url: url_hazard_map,
     definitionExpression: "hazard_risk = 'Low'",
     renderer: {
       type: "simple",
-      label: "Low Slope Hazard Risk",
+      label: "Road Section with Low Road Slope Hazard Risk",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Slope Hazard Risk Level: {hazard_risk}",
+      title: "Road Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
     visible: true
   });
 
-  const layer_medium_slope_hazard_risk = new FeatureLayer({
-    title: "Medium Slope Hazard Risks",
+  const layer_medium_road_slope_hazard_risk = new FeatureLayer({
+    title: "Road Sections with Medium Road Slope Hazard Risks",
     url: url_hazard_map,
     definitionExpression: "hazard_risk = 'Middle'",
     renderer: {
       type: "simple",
-      label: "Medium Slope Hazard Risk",
+      label: "Road Section with Medium Road Slope Hazard Risk",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Slope Hazard Risk Level: {hazard_risk}",
+      title: "Road Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
     visible: true
   });
 
-  const layer_high_slope_hazard_risk = new FeatureLayer({
-    title: "High Slope Hazard Risks",
+  const layer_high_road_slope_hazard_risk = new FeatureLayer({
+    title: "Road Sections with High Road Slope Hazard Risks",
     url: url_hazard_map,
     definitionExpression: "hazard_risk = 'High'",
     renderer: {
       type: "simple",
-      label: "High Slope Hazard Risk",
+      label: "Road Section with High Road Slope Hazard Risk",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
-      title: "Slope Hazard Risk Level: {hazard_risk}",
+      title: "Road Slope Hazard Risk Level: {hazard_risk}",
       outFields: ["*"],
       content: content_hazard_map
     },
     visible: true
   });
 
-  const group_slope_hazard_risks = new GroupLayer({
-    title: "Slope Hazard Risks",
+  const group_road_slope_hazard_risks = new GroupLayer({
+    title: "Road Slope Hazard Risks",
     layers: [
-      layer_high_slope_hazard_risk,
-      layer_medium_slope_hazard_risk,
-      layer_low_slope_hazard_risk,
-      layer_unclassified_slope_hazard_risk
+      layer_high_road_slope_hazard_risk,
+      layer_medium_road_slope_hazard_risk,
+      layer_low_road_slope_hazard_risk,
+      layer_unclassified_road_slope_hazard_risk
     ],
     visible: true,
     visibilityMode: "independent"
@@ -2046,12 +2127,12 @@ function MapContextProvider (props) {
   }
 
   const layer_unclassified_storm_surge_hazard_risk = new FeatureLayer({
-    title: "Unclassified Storm Surge Hazard Risks",
+    title: "Areas with Unclassified Storm Surge Hazard Risks",
     url: url_storm_surge_hazard_risks,
     definitionExpression: "HAZ <> 1 AND HAZ <> 2 AND HAZ <> 3",
     renderer: {
       type: "simple",
-      label: "Unclassified Storm Surge Hazard Risk",
+      label: "Area with Unclassified Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
         color: [0, 0, 0, 1.00],
@@ -2071,12 +2152,12 @@ function MapContextProvider (props) {
   });
 
   const layer_low_storm_surge_hazard_risk = new FeatureLayer({
-    title: "Low Storm Surge Hazard Risks",
+    title: "Areas with Low Storm Surge Hazard Risks",
     url: url_storm_surge_hazard_risks,
     definitionExpression: "HAZ = 1",
     renderer: {
       type: "simple",
-      label: "Low Storm Surge Hazard Risk",
+      label: "Area with Low Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
         color: [0, 255, 0, 1.00],
@@ -2096,12 +2177,12 @@ function MapContextProvider (props) {
   });
 
   const layer_medium_storm_surge_hazard_risk = new FeatureLayer({
-    title: "Medium Storm Surge Hazard Risks",
+    title: "Areas with Medium Storm Surge Hazard Risks",
     url: url_storm_surge_hazard_risks,
     definitionExpression: "HAZ = 2",
     renderer: {
       type: "simple",
-      label: "Medium Storm Surge Hazard Risk",
+      label: "Area with Medium Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
         color: [255, 255, 0, 1.00],
@@ -2121,12 +2202,12 @@ function MapContextProvider (props) {
   });
 
   const layer_high_storm_surge_hazard_risk = new FeatureLayer({
-    title: "High Storm Surge Hazard Risks",
+    title: "Areas with High Storm Surge Hazard Risks",
     url: url_storm_surge_hazard_risks,
     definitionExpression: "HAZ = 3",
     renderer: {
       type: "simple",
-      label: "High Storm Surge Hazard Risk",
+      label: "Area with High Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
         color: [255, 0, 0, 1.00],
@@ -2158,24 +2239,69 @@ function MapContextProvider (props) {
   });
 
   /* Inventory of Road Slopes Data */
+
+  const layer_inventory_of_road_slopes_unclassified_disaster = new FeatureLayer({
+    title: "Road Slopes Affected by an Unclassified Road Slope Disaster",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type <> 'Soil Slope Collapse' AND disaster_type <> 'Rock Slope Collapse/Rock Fall' AND disaster_type <> 'Landslide' AND disaster_type <> 'Road Slip' AND disaster_type <> 'River Erosion' AND disaster_type <> 'Debris Flow' AND disaster_type <> 'Coastal Erosion'",
+    renderer: {
+      type: "simple",
+      label: "Road Slope Affected by an Unclassified Road Slope Disaster",
+      symbol: {
+        type: "simple-line",
+        width: 4.00,
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "x",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
   
   const layer_inventory_of_road_slopes_soil_slope_collapse = new FeatureLayer({
-    title: "Soil Slope Collapse (SSC)",
+    title: "Road Slopes Affected by Soil Slope Collapse (SSC)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Soil Slope Collapse'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Soil Slope Collapse",
+      label: "Road Slope Affected by Soil Slope Collapse",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2187,22 +2313,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_rock_slope_collapse_or_rock_fall = new FeatureLayer({
-    title: "Rock Slope Collapse (RSC) / Rock Fall (RF)",
+    title: "Road Slopes Affected by Rock Slope Collapse (RSC) or Rock Fall (RF)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Rock Slope Collapse or Rock Fall",
+      label: "Road Slope Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [210, 0, 60, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [210, 0, 60, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2214,22 +2349,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_landslide = new FeatureLayer({
-    title: "Landslide (LS)",
+    title: "Road Slopes Affected by Landslide (LS)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Landslide'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Landslide",
+      label: "Road Slope Affected by Landslide",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [180, 0, 120, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [180, 0, 120, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2241,22 +2385,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_road_slip = new FeatureLayer({
-    title: "Road Slip (RS)",
+    title: "Road Slopes Affected by Road Slip (RS)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Road Slip'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Road Slip",
+      label: "Road Slope Affected by Road Slip",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [150, 0, 150, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [150, 0, 150, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2268,22 +2421,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_river_erosion = new FeatureLayer({
-    title: "River Erosion (RE)",
+    title: "Road Slopes Affected by River Erosion (RE)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'River Erosion'",
     renderer: {
       type: "simple",
-      label: "Road Affected by River Erosion",
+      label: "Road Slope Affected by River Erosion",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [120, 0, 180, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [120, 0, 180, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2295,22 +2457,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_debris_flow = new FeatureLayer({
-    title: "Debris Flow (DF)",
+    title: "Road Slopes Affected by Debris Flow (DF)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Debris Flow'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Debris Flow",
+      label: "Road Slope Affected by Debris Flow",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [60, 0, 210, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [60, 0, 210, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2322,22 +2493,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_coastal_erosion = new FeatureLayer({
-    title: "Coastal Erosion (CE)",
+    title: "Road Slopes Affected by Coastal Erosion (CE)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND disaster_type = 'Coastal Erosion'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Coastal Erosion",
+      label: "Road Slope Affected by Coastal Erosion",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2357,20 +2537,21 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slopes_road_slip,
       layer_inventory_of_road_slopes_river_erosion,
       layer_inventory_of_road_slopes_debris_flow,
-      layer_inventory_of_road_slopes_coastal_erosion
+      layer_inventory_of_road_slopes_coastal_erosion,
+      layer_inventory_of_road_slopes_unclassified_disaster
     ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_inventory_of_road_slopes_structure_type_01 = new FeatureLayer({
-    title: "Grouted Riprap",
+  const layer_inventory_of_road_slopes_unclassified_structure_type = new FeatureLayer({
+    title: "Road Slopes with an Unclassified Structure Type",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type <> 'Grouted Riprap' AND road_slope_structure_type <> 'Grouted Riprap with Steel Sheet Pile Foundation' AND road_slope_structure_type <> 'Grouted Riprap with Concrete Sheet Pile Foundation' AND road_slope_structure_type <> 'Rubble Concrete Revetment (Spread Type I)' AND road_slope_structure_type <> 'Stone Masonry' AND road_slope_structure_type <> 'Concrete Slope Protection (Reinforced Concrete Type II)' AND road_slope_structure_type <> 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)' AND road_slope_structure_type <> 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)' AND road_slope_structure_type <> 'Gravity Wall (Type I)' AND road_slope_structure_type <> 'Gabion/Mattress Slope Protection' AND road_slope_structure_type <> 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)' AND road_slope_structure_type <> 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)' AND road_slope_structure_type <> 'Earthfill Dike (Type I)' AND road_slope_structure_type <> 'Boulder Spur Dike (Type II)' AND road_slope_structure_type <> 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap",
+      label: "Road Slope with an Unclassified Structure Type",
       symbol: {
         type: "simple-line",
         width: 4.00,
@@ -2379,8 +2560,53 @@ function MapContextProvider (props) {
           style: "cross",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_inventory_of_road_slopes_structure_type_01 = new FeatureLayer({
+    title: "Road Slopes with Grouted Riprap",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap'",
+    renderer: {
+      type: "simple",
+      label: "Road Slope with Grouted Riprap",
+      symbol: {
+        type: "simple-line",
+        width: 4.00,
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "cross",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2392,22 +2618,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_02 = new FeatureLayer({
-    title: "Grouted Riprap with Steel Sheet Pile Foundation",
+    title: "Road Slopes with Grouted Riprap with Steel Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap with Steel Sheet Pile Foundation'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap with Steel Sheet Pile Foundation",
+      label: "Road Slope with Grouted Riprap with Steel Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 210, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 210, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2419,22 +2654,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_03 = new FeatureLayer({
-    title: "Grouted Riprap with Concrete Sheet Pile Foundation",
+    title: "Road Slopes with Grouted Riprap with Concrete Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Grouted Riprap with Concrete Sheet Pile Foundation'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap with Concrete Sheet Pile Foundation",
+      label: "Road Slope with Grouted Riprap with Concrete Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 180, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 180, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2446,22 +2690,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_04 = new FeatureLayer({
-    title: "Rubble Concrete Revetment (Spread Type I)",
+    title: "Road Slopes with Rubble Concrete Revetment (Spread Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Rubble Concrete Revetment (Spread Type I)'",
     renderer: {
       type: "simple",
-      label: "Rubble Concrete Revetment (Spread Type I)",
+      label: "Road Slope with Rubble Concrete Revetment (Spread Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 150, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 150, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2473,22 +2726,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_05 = new FeatureLayer({
-    title: "Stone Masonry",
+    title: "Road Slopes with Stone Masonry",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Stone Masonry'",
     renderer: {
       type: "simple",
-      label: "Stone Masonry",
+      label: "Road Slope with Stone Masonry",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 120, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 120, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2500,22 +2762,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_06 = new FeatureLayer({
-    title: "Concrete Slope Protection (Reinforced Concrete Type II)",
+    title: "Road Slopes with Concrete Slope Protection (Reinforced Concrete Type II)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Concrete Slope Protection (Reinforced Concrete Type II)'",
     renderer: {
       type: "simple",
-      label: "Concrete Slope Protection (Reinforced Concrete Type II)",
+      label: "Road Slope with Concrete Slope Protection (Reinforced Concrete Type II)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 90, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 90, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2527,22 +2798,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_07 = new FeatureLayer({
-    title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
+    title: "Road Slopes with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)'",
     renderer: {
       type: "simple",
-      label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
+      label: "Road Slope with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 60, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 60, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2554,22 +2834,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_08 = new FeatureLayer({
-    title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
+    title: "Road Slopes with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)'",
     renderer: {
       type: "simple",
-      label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
+      label: "Road Slope with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2581,22 +2870,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_09 = new FeatureLayer({
-    title: "Gravity Wall (Type I)",
+    title: "Road Slopes with Gravity Wall (Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gravity Wall (Type I)'",
     renderer: {
       type: "simple",
-      label: "Gravity Wall (Type I)",
+      label: "Road Slope with Gravity Wall (Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [60, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [60, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2608,22 +2906,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_10 = new FeatureLayer({
-    title: "Gabion / Mattress Slope Protection",
+    title: "Road Slopes with Gabion or Mattress Slope Protection",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gabion/Mattress Slope Protection'",
     renderer: {
       type: "simple",
-      label: "Gabion / Mattress Slope Protection",
+      label: "Road Slope with Gabion or Mattress Slope Protection",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [90, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [90, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2635,22 +2942,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_11 = new FeatureLayer({
-    title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
+    title: "Road Slopes with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)'",
     renderer: {
       type: "simple",
-      label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
+      label: "Road Slope with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [120, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [120, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2662,22 +2978,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_12 = new FeatureLayer({
-    title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
+    title: "Road Slopes with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)'",
     renderer: {
       type: "simple",
-      label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
+      label: "Road Slope with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [150, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [150, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2689,22 +3014,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_13 = new FeatureLayer({
-    title: "Earthfill Dike (Type I)",
+    title: "Road Slopes with Earthfill Dike (Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Earthfill Dike (Type I)'",
     renderer: {
       type: "simple",
-      label: "Earthfill Dike (Type I)",
+      label: "Road Slope with Earthfill Dike (Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [180, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [180, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2716,22 +3050,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_14 = new FeatureLayer({
-    title: "Boulder Spur Dike (Type II)",
+    title: "Road Slopes with Boulder Spur Dike (Type II)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Boulder Spur Dike (Type II)'",
     renderer: {
       type: "simple",
-      label: "Boulder Spur Dike (Type II)",
+      label: "Road Slope with Boulder Spur Dike (Type II)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [210, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [210, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2743,22 +3086,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slopes_structure_type_15 = new FeatureLayer({
-    title: "Gabions Revetment (Pile-Up Type)",
+    title: "Road Slopes with Gabions Revetment (Pile-Up Type)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
-      label: "Gabions Revetment (Pile-Up Type)",
+      label: "Road Slope with Gabions Revetment (Pile-Up Type)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2786,7 +3138,8 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slopes_structure_type_12,
       layer_inventory_of_road_slopes_structure_type_13,
       layer_inventory_of_road_slopes_structure_type_14,
-      layer_inventory_of_road_slopes_structure_type_15
+      layer_inventory_of_road_slopes_structure_type_15,
+      layer_inventory_of_road_slopes_unclassified_structure_type
     ],
     visible: true,
     visibilityMode: "independent",
@@ -2794,24 +3147,69 @@ function MapContextProvider (props) {
   });
 
   /* Inventory of Road Slope Structures Data */
+
+  const layer_inventory_of_road_slope_structures_unclassified_condition = new FeatureLayer({
+    title: "Road Slope Structures in an Unclassified Condition",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition <> 'Good' AND road_condition <> 'Fair' AND road_condition <> 'Poor' AND road_condition <> 'Bad'",
+    renderer: {
+      type: "simple",
+      symbol: {
+        type: "simple-line",
+        label: "Road Slope Structure in an Unclassified Condition",
+        width: 4.00,
+        color: [0, 0, 255, 1.00],
+        marker: {
+          style: "x",
+          color: [0, 0, 255, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slope_structures
+    },
+    visible: true
+  });
   
-  const layer_inventory_of_road_slope_structures_good = new FeatureLayer({
-    title: "Roads in Good Condition",
+  const layer_inventory_of_road_slope_structures_good_condition = new FeatureLayer({
+    title: "Road Slope Structures in Good Condition",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Good'",
     renderer: {
       type: "simple",
       symbol: {
         type: "simple-line",
-        label: "Road in Good Condition",
+        label: "Road Slope Structure in Good Condition",
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2822,23 +3220,32 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_fair = new FeatureLayer({
-    title: "Roads in Fair Condition",
+  const layer_inventory_of_road_slope_structures_fair_condition = new FeatureLayer({
+    title: "Road Slope Structures in Fair Condition",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Fair'",
     renderer: {
       type: "simple",
       symbol: {
         type: "simple-line",
-        label: "Road in Fair Condition",
+        label: "Road Slope Structure in Fair Condition",
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2849,23 +3256,32 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_poor = new FeatureLayer({
-    title: "Roads in Poor Condition",
+  const layer_inventory_of_road_slope_structures_poor_condition = new FeatureLayer({
+    title: "Road Slope Structures in Poor Condition",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Poor'",
     renderer: {
       type: "simple",
-      label: "Road in Poor Condition",
+      label: "Road Slope Structure in Poor Condition",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2876,23 +3292,32 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_inventory_of_road_slope_structures_bad = new FeatureLayer({
-    title: "Roads in Bad Condition",
+  const layer_inventory_of_road_slope_structures_bad_condition = new FeatureLayer({
+    title: "Road Slope Structures in Bad Condition",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_condition = 'Bad'",
     renderer: {
       type: "simple",
       symbol: {
         type: "simple-line",
-        label: "Road in Bad Condition",
+        label: "Road Slope Structure in Bad Condition",
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2904,35 +3329,81 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_road_slope_condition = new GroupLayer({
-    title: "Inventory of Road Slopes - Road Slope Condition",
+    title: "Inventory of Road Slope Structures - Condition of Road Slope Structures",
     layers: [
-      layer_inventory_of_road_slope_structures_bad,
-      layer_inventory_of_road_slope_structures_poor,
-      layer_inventory_of_road_slope_structures_fair,
-      layer_inventory_of_road_slope_structures_good
+      layer_inventory_of_road_slope_structures_bad_condition,
+      layer_inventory_of_road_slope_structures_poor_condition,
+      layer_inventory_of_road_slope_structures_fair_condition,
+      layer_inventory_of_road_slope_structures_good_condition,
+      layer_inventory_of_road_slope_structures_unclassified_condition
     ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
+  const layer_inventory_of_road_slope_structures_unclassified_disaster = new FeatureLayer({
+    title: "Road Slope Structures Affected by an Unclassified Road Slope Disaster",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type <> 'Soil Slope Collapse' AND disaster_type <> 'Rock Slope Collapse/Rock Fall' AND disaster_type <> 'Landslide' AND disaster_type <> 'Road Slip' AND disaster_type <> 'River Erosion' AND disaster_type <> 'Debris Flow' AND disaster_type <> 'Coastal Erosion'",
+    renderer: {
+      type: "simple",
+      label: "Road Slope Structure Affected by an Unclassified Road Slope Disaster",
+      symbol: {
+        type: "simple-line",
+        width: 4.00,
+        color: [0, 0, 0, 1.00],
+        marker: {
+          style: "x",
+          color: [0, 0, 0, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
   const layer_inventory_of_road_slope_structures_soil_slope_collapse = new FeatureLayer({
-    title: "Soil Slope Collapse (SSC)",
+    title: "Road Slope Structure Affected by Soil Slope Collapse (SSC)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Soil Slope Collapse'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Soil Slope Collapse",
+      label: "Road Slope Structure by Soil Slope Collapse",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2944,22 +3415,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_rock_slope_collapse_or_rock_fall = new FeatureLayer({
-    title: "Rock Slope Collapse (RSC) / Rock Fall (RF)",
+    title: "Road Slope Structure Affected by Rock Slope Collapse (RSC) or Rock Fall (RF)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Rock Slope Collapse/Rock Fall'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Rock Slope Collapse or Rock Fall",
+      label: "Road Slope Structure Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [210, 0, 60, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [210, 0, 60, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2971,22 +3451,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_landslide = new FeatureLayer({
-    title: "Landslide (LS)",
+    title: "Road Slope Structure Affected by Landslide (LS)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Landslide'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Landslide",
+      label: "Road Slope Structure Affected by Landslide",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [180, 0, 120, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [180, 0, 120, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2998,22 +3487,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_road_slip = new FeatureLayer({
-    title: "Road Slip (RS)",
+    title: "Road Slope Structure Affected by Road Slip (RS)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Road Slip'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Road Slip",
+      label: "Road Slope Structure Affected by Road Slip",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [150, 0, 150, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [150, 0, 150, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3025,22 +3523,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_river_erosion = new FeatureLayer({
-    title: "River Erosion (RE)",
+    title: "Road Slope Structure Affected by River Erosion (RE)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'River Erosion'",
     renderer: {
       type: "simple",
-      label: "Road Affected by River Erosion",
+      label: "Road Slope Structure Affected by River Erosion",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [120, 0, 180, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [120, 0, 180, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3052,22 +3559,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_debris_flow = new FeatureLayer({
-    title: "Debris Flow (DF)",
+    title: "Road Slope Structure Affected by Debris Flow (DF)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Debris Flow'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Debris Flow",
+      label: "Road Slope Structure Affected by Debris Flow",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [60, 0, 210, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [60, 0, 210, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3079,22 +3595,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_coastal_erosion = new FeatureLayer({
-    title: "Coastal Erosion (CE)",
+    title: "Road Slope Structure Affected by Coastal Erosion (CE)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = 'Coastal Erosion'",
     renderer: {
       type: "simple",
-      label: "Road Affected by Coastal Erosion",
+      label: "Road Slope Structure Affected by Coastal Erosion",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3106,7 +3631,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_type_of_disaster = new GroupLayer({
-    title: "Inventory of Road Slope Structuress - Types of Disaster",
+    title: "Inventory of Road Slope Structures - Types of Disaster",
     layers: [
       layer_inventory_of_road_slope_structures_soil_slope_collapse,
       layer_inventory_of_road_slope_structures_rock_slope_collapse_or_rock_fall,
@@ -3114,20 +3639,21 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slope_structures_road_slip,
       layer_inventory_of_road_slope_structures_river_erosion,
       layer_inventory_of_road_slope_structures_debris_flow,
-      layer_inventory_of_road_slope_structures_coastal_erosion
+      layer_inventory_of_road_slope_structures_coastal_erosion,
+      layer_inventory_of_road_slope_structures_unclassified_disaster
     ],
     visible: true,
     visibilityMode: "independent",
     opacity: 1.00
   });
 
-  const layer_inventory_of_road_slope_structures_structure_type_01 = new FeatureLayer({
-    title: "Grouted Riprap",
+  const layer_inventory_of_road_slope_structures_unclassified_structure_type = new FeatureLayer({
+    title: "Road Slope Structures with an Unclassified Structure Type",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type <> 'Grouted Riprap' AND road_slope_structure_type <> 'Grouted Riprap with Steel Sheet Pile Foundation' AND road_slope_structure_type <> 'Grouted Riprap with Concrete Sheet Pile Foundation' AND road_slope_structure_type <> 'Rubble Concrete Revetment (Spread Type I)' AND road_slope_structure_type <> 'Stone Masonry' AND road_slope_structure_type <> 'Concrete Slope Protection (Reinforced Concrete Type II)' AND road_slope_structure_type <> 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)' AND road_slope_structure_type <> 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)' AND road_slope_structure_type <> 'Gravity Wall (Type I)' AND road_slope_structure_type <> 'Gabion/Mattress Slope Protection' AND road_slope_structure_type <> 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)' AND road_slope_structure_type <> 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)' AND road_slope_structure_type <> 'Earthfill Dike (Type I)' AND road_slope_structure_type <> 'Boulder Spur Dike (Type II)' AND road_slope_structure_type <> 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap",
+      label: "Road Slope Structure with an Unclassified Structure Type",
       symbol: {
         type: "simple-line",
         width: 4.00,
@@ -3136,8 +3662,53 @@ function MapContextProvider (props) {
           style: "cross",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_inventory_of_road_slope_structures_structure_type_01 = new FeatureLayer({
+    title: "Road Slope Structures with Grouted Riprap",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap'",
+    renderer: {
+      type: "simple",
+      label: "Road Slope Structure with Grouted Riprap",
+      symbol: {
+        type: "simple-line",
+        width: 4.00,
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "x",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3149,22 +3720,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_02 = new FeatureLayer({
-    title: "Grouted Riprap with Steel Sheet Pile Foundation",
+    title: "Road Slope Structures with Grouted Riprap with Steel Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap with Steel Sheet Pile Foundation'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap with Steel Sheet Pile Foundation",
+      label: "Road Slope Structure with Grouted Riprap with Steel Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 210, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 210, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3176,22 +3756,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_03 = new FeatureLayer({
-    title: "Grouted Riprap with Concrete Sheet Pile Foundation",
+    title: "Road Slope Structures with Grouted Riprap with Concrete Sheet Pile Foundation",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Grouted Riprap with Concrete Sheet Pile Foundation'",
     renderer: {
       type: "simple",
-      label: "Grouted Riprap with Concrete Sheet Pile Foundation",
+      label: "Road Slope Structure with Grouted Riprap with Concrete Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 180, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 180, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3203,22 +3792,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_04 = new FeatureLayer({
-    title: "Rubble Concrete Revetment (Spread Type I)",
+    title: "Road Slope Structures with Rubble Concrete Revetment (Spread Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Rubble Concrete Revetment (Spread Type I)'",
     renderer: {
       type: "simple",
-      label: "Rubble Concrete Revetment (Spread Type I)",
+      label: "Road Slope Structure with Rubble Concrete Revetment (Spread Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 150, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 150, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3230,22 +3828,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_05 = new FeatureLayer({
-    title: "Stone Masonry",
+    title: "Road Slope Structures with Stone Masonry",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Stone Masonry'",
     renderer: {
       type: "simple",
-      label: "Stone Masonry",
+      label: "Road Slope Structure with Stone Masonry",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 120, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 120, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3257,22 +3864,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_06 = new FeatureLayer({
-    title: "Concrete Slope Protection (Reinforced Concrete Type II)",
+    title: "Road Slope Structures with Concrete Slope Protection (Reinforced Concrete Type II)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Concrete Slope Protection (Reinforced Concrete Type II)'",
     renderer: {
       type: "simple",
-      label: "Concrete Slope Protection (Reinforced Concrete Type II)",
+      label: "Road Slope Structure with Concrete Slope Protection (Reinforced Concrete Type II)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 90, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 90, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3284,22 +3900,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_07 = new FeatureLayer({
-    title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
+    title: "Road Slope Structures with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)'",
     renderer: {
       type: "simple",
-      label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
+      label: "Road Slope Structure with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 60, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 60, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3311,22 +3936,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_08 = new FeatureLayer({
-    title: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
+    title: "Road Slope Structures with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)'",
     renderer: {
       type: "simple",
-      label: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
+      label: "Road Slope Structure with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3338,22 +3972,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_09 = new FeatureLayer({
-    title: "Gravity Wall (Type I)",
+    title: "Road Slope Structures with Gravity Wall (Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gravity Wall (Type I)'",
     renderer: {
       type: "simple",
-      label: "Gravity Wall (Type I)",
+      label: "Road Slope Structure with Gravity Wall (Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [60, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [60, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3365,22 +4008,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_10 = new FeatureLayer({
-    title: "Gabion / Mattress Slope Protection",
+    title: "Road Slope Structures with Gabion or Mattress Slope Protection",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gabion/Mattress Slope Protection'",
     renderer: {
       type: "simple",
-      label: "Gabion / Mattress Slope Protection",
+      label: "Road Slope Structure with Gabion or Mattress Slope Protection",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [90, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [90, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3392,22 +4044,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_11 = new FeatureLayer({
-    title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
+    title: "Road Slope Structures with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)'",
     renderer: {
       type: "simple",
-      label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
+      label: "Road Slope Structure with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [120, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [120, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3419,22 +4080,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_12 = new FeatureLayer({
-    title: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
+    title: "Road Slope Structures with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)'",
     renderer: {
       type: "simple",
-      label: "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
+      label: "Road Slope Structure with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [150, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [150, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3446,22 +4116,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_13 = new FeatureLayer({
-    title: "Earthfill Dike (Type I)",
+    title: "Road Slope Structures with Earthfill Dike (Type I)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Earthfill Dike (Type I)'",
     renderer: {
       type: "simple",
-      label: "Earthfill Dike (Type I)",
+      label: "Road Slope Structure with Earthfill Dike (Type I)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [180, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [180, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3473,22 +4152,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_14 = new FeatureLayer({
-    title: "Boulder Spur Dike (Type II)",
+    title: "Road Slope Structures with Boulder Spur Dike (Type II)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Boulder Spur Dike (Type II)'",
     renderer: {
       type: "simple",
-      label: "Boulder Spur Dike (Type II)",
+      label: "Road Slope Structure with Boulder Spur Dike (Type II)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [210, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [210, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3500,22 +4188,31 @@ function MapContextProvider (props) {
   });
 
   const layer_inventory_of_road_slope_structures_structure_type_15 = new FeatureLayer({
-    title: "Gabions Revetment (Pile-Up Type)",
+    title: "Road Slope Structures with Gabions Revetment (Pile-Up Type)",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = 'Gabions Revetment (Pile-Up Type)'",
     renderer: {
       type: "simple",
-      label: "Gabions Revetment (Pile-Up Type)",
+      label: "Road Slope Structure with Gabions Revetment (Pile-Up Type)",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3527,7 +4224,7 @@ function MapContextProvider (props) {
   });
 
   const group_inventory_of_road_slope_structures_type_of_road_slope_structures = new GroupLayer({
-    title: "Inventory of Road Slope Structuress - Type of Road Slope Structures",
+    title: "Inventory of Road Slope Structures - Type of Road Slope Structures",
     layers: [
       layer_inventory_of_road_slope_structures_structure_type_01,
       layer_inventory_of_road_slope_structures_structure_type_02,
@@ -3543,7 +4240,8 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slope_structures_structure_type_12,
       layer_inventory_of_road_slope_structures_structure_type_13,
       layer_inventory_of_road_slope_structures_structure_type_14,
-      layer_inventory_of_road_slope_structures_structure_type_15
+      layer_inventory_of_road_slope_structures_structure_type_15,
+      layer_inventory_of_road_slope_structures_unclassified_structure_type
     ],
     visible: true,
     visibilityMode: "independent",
@@ -3552,23 +4250,32 @@ function MapContextProvider (props) {
 
   /* Potential Road Slope Projects Data */
 
-  const layer_potential_road_slope_projects_rehabilitation = new FeatureLayer({
-    title: "Rehabilitation / Major Repair",
+  const layer_potential_road_slope_projects_unclassified_projects = new FeatureLayer({
+    title: "Unclassified Potential Road Slope Projects",
     url: url_road_slopes_and_countermeasures,
-    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Rehabilitation'",
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work <> 'Rehabilitation'",
     renderer: {
       type: "simple",
-      label: "Rehabilitation / Major Repair",
+      label: "Unclassified Potential Road Slope Project",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 255, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3579,23 +4286,68 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_potential_road_slope_project_reconstruction = new FeatureLayer({
-    title: "Reconstruction",
+  const layer_potential_road_slope_projects_rehabilitation_projects = new FeatureLayer({
+    title: "Potential Road Slope Rehabilitation or Major Repair Projects",
+    url: url_road_slopes_and_countermeasures,
+    definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Rehabilitation' AND type_of_work <> 'Reconstruction' AND type_of_work <> 'Construction'",
+    renderer: {
+      type: "simple",
+      label: "Potential Road Slope Rehabilitation or Major Repair Project",
+      symbol: {
+        type: "simple-line",
+        width: 4.00,
+        color: [0, 255, 255, 1.00],
+        marker: {
+          style: "x",
+          color: [0, 255, 255, 1.00],
+          placement: "begin-end"
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
+    },
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Road Section: {section_id} ({road_name})",
+      outFields: ["*"],
+      content: content_inventory_of_road_slopes
+    },
+    visible: true
+  });
+
+  const layer_potential_road_slope_project_reconstruction_projects = new FeatureLayer({
+    title: "Potential Road Slope Reconstruction Projects",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Reconstruction'",
     renderer: {
       type: "simple",
-      label: "Reconstruction",
+      label: "Potential Road Slope Reconstruction Project",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3606,23 +4358,32 @@ function MapContextProvider (props) {
     visible: true
   });
 
-  const layer_potential_road_slope_project_construction = new FeatureLayer({
-    title: "Construction",
+  const layer_potential_road_slope_project_construction_projects = new FeatureLayer({
+    title: "Potential Road Slope Construction Projects",
     url: url_road_slopes_and_countermeasures,
     definitionExpression: "rsm_category = 'Inventory of Road Slope' AND type_of_work = 'Construction'",
     renderer: {
       type: "simple",
-      label: "Construction",
+      label: "Potential Road Slope Construction Project",
       symbol: {
         type: "simple-line",
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "cross",
+          style: "x",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
-       }
-      }
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3636,9 +4397,10 @@ function MapContextProvider (props) {
   const group_potential_road_slope_projects = new GroupLayer({
     title: "Potential Road Slope Projects",
     layers: [
-      layer_potential_road_slope_projects_rehabilitation,
-      layer_potential_road_slope_project_reconstruction,
-      layer_potential_road_slope_project_construction
+      layer_potential_road_slope_projects_rehabilitation_projects,
+      layer_potential_road_slope_project_reconstruction_projects,
+      layer_potential_road_slope_project_construction_projects,
+      layer_potential_road_slope_projects_unclassified_projects
     ],
     visible: true,
     visibilityMode: "independent",
@@ -4027,7 +4789,7 @@ function MapContextProvider (props) {
               }
               if (module === "hazard-map") {
                 view.map.layers.push(group_storm_surge_hazard_risks);
-                view.map.layers.push(group_slope_hazard_risks);
+                view.map.layers.push(group_road_slope_hazard_risks);
               }
               if (module === "road-slope-inventory") {
                 view.map.layers.push(group_inventory_of_road_slope_structures_type_of_disaster);

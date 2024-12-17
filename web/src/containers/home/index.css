@@ -231,9 +231,17 @@
     }
 
     .esri-feature-content > * > * {
-      table > * {
-        > :nth-child(odd) {
-          background-color: red;
+      table {
+        width: 100%;
+        
+        > * {
+          > * > * {
+            padding: calc(var(--space-100, 12px) * 1 / 2);
+          }
+  
+          > :nth-child(odd) {
+            background-color: rgba(50, 50, 50, 1.00);
+          }
         }
       }
     }
