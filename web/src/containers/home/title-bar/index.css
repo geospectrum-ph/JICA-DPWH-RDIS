@@ -8,11 +8,11 @@
   height: auto;
 
   box-sizing: border-box;
-  outline: var(--border-black-025, 3px solid rgba(0, 0, 0, 1.00));
+  border: var(--border-100, 2px) solid var(--color-black, rgba(0, 0, 0, 1.00));
 
   background-color: var(--color-white, rgba(255, 255, 255, 1.00));
   
-  font: var(--type-bold-300, normal 800 36px/1 "Outfit", sans-serif);
+  font: var(--type-bold-s36, normal 800 36px/1.25 "Outfit", sans-serif);
   color: var(--color-black, rgba(0, 0, 0, 1.00));
 
   /* Header Container */
@@ -28,16 +28,16 @@
     height: 100%;
 
     box-sizing: border-box;
-    padding: var(--space-100, 12px);
+    padding: var(--space-100, 8px);
     
     /* Logos */
     > :nth-child(1), > :nth-child(2) {
       box-sizing: border-box;
-      padding: 8px;
+      padding: var(--space-100, 8px);
 
       img {
-        width: 32px;
-        height: 32px;   
+        width: calc(var(--space-100, 8px) * 4);
+        height: calc(var(--space-100, 8px) * 4);
       }
     }
 
@@ -52,8 +52,7 @@
       height: 100%;
 
       box-sizing: border-box;
-      padding: 8px;
-
+      padding: var(--space-100, 8px);
 
       pointer-events: none;
     }

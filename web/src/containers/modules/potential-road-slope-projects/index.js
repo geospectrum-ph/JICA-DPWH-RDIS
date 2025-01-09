@@ -175,7 +175,7 @@ export default function PotentialRoadSlopeProjects () {
             <div className = { "data-container" }>
               <div onClick = { function (event) { change_visibility(event); } }>
                 <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                <span>{ "Scope of Work" }</span>
+                <span>{ "Type of Work" }</span>
               </div>
               <div className = { "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>

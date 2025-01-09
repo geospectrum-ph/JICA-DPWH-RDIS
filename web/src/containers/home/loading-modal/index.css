@@ -15,21 +15,21 @@
     place-items: center center;
     place-content: center center;
 
-    width: calc(var(--height-100) * 1.25);
-    height: calc(var(--height-100) * 0.75);
+    width: calc(var(--height-100, 480px) * 1.25);
+    height: calc(var(--height-100, 480px) * 0.75);
 
-    background-color: var(--color-gray-02, rgba(50, 50, 50, 1.00));
+    background-color: var(--color-gray-50, rgba(50, 50, 50, 1.00));
 
     > :nth-child(1) {
       animation: rotate 1.0s linear 0.0s infinite;
 
-      width: calc(var(--height-100) * 0.25);
-      height: calc(var(--height-100) * 0.25);
+      width: calc(var(--height-100, 480px) * 0.25);
+      height: calc(var(--height-100, 480px) * 0.25);
 
       box-sizing: border-box;
-      margin-bottom: calc(var(--space-100) * 2.50);
+      margin-bottom: calc(var(--space-100, 8px) * 2.50);
       border-radius: 50%;
-      padding: calc(var(--space-100) * 0.67);
+      padding: calc(var(--space-100, 8px) * 0.67);
 
       background-color: var(--color-white, rgba(255, 255, 255, 1.00));
       --mask: conic-gradient(var(--color-none, rgba(0, 0, 0, 0.00)), var(--color-black, rgba(0, 0, 0, 1.00))), linear-gradient(var(--color-black, rgba(0, 0, 0, 1.00)) 0 0) content-box;
@@ -40,8 +40,8 @@
     }
 
     > :nth-child(2) {
-      font: var(--type-normal-133, normal 400 16px/1.25 "Outfit", sans-serif);
-      color: rgba(255, 255, 255, 1.00);
+      font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
+      color: var(--color-white, rgba(255, 255, 255, 1.00));
     }
   }
 }

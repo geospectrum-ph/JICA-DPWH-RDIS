@@ -101,7 +101,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -178,7 +178,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -292,7 +292,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -425,7 +425,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [0, 255, 0, 1.00]
+        color: [255, 179, 193, 1.00]
       }
     },
     labelsVisible: false,
@@ -448,7 +448,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [150, 255, 0, 1.00]
+        color: [255, 143, 163, 1.00]
       }
     },
     labelsVisible: false,
@@ -471,7 +471,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [210, 255, 0, 1.00]
+        color: [255, 117, 143, 1.00]
       }
     },
     labelsVisible: false,
@@ -494,7 +494,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [255, 255, 0, 1.00]
+        color: [255, 77, 109, 1.00]
       }
     },
     labelsVisible: false,
@@ -517,7 +517,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [255, 210, 0, 1.00]
+        color: [201, 24, 74, 1.00]
       }
     },
     labelsVisible: false,
@@ -540,7 +540,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [255, 150, 0, 1.00]
+        color: [164, 19, 60, 1.00]
       }
     },
     labelsVisible: false,
@@ -563,7 +563,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [255, 0, 0, 1.00]
+        color: [128, 15, 47, 1.00]
       }
     },
     labelsVisible: false,
@@ -587,6 +587,158 @@ function MapContextProvider (props) {
       layer_volume_of_traffic_level_02,
       layer_volume_of_traffic_level_01,
       layer_volume_of_traffic_level_00
+    ],
+    visible: true,
+    visibilityMode: "independent"
+  });
+ 
+  function content_terrain (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.district_n || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Legislative District</b></td>
+            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Road Name</b></td>
+            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Section ID</b></td>
+            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Terrain Type</b></td>
+            <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const layer_unclassified_terrain = new FeatureLayer({
+    title: "Unclassified Terrain",
+    url: url_terrain,
+    definitionExpression: "terrain_ty <> 'Flat' AND terrain_ty <> 'Rolling' AND terrain_ty <> 'Mountainous'",
+    renderer: {
+      type: "simple",
+      label: "Unclassified Terrain",
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [0, 0, 0, 1.00]
+      }
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: Unclassified",
+      outFields: ["*"],
+      content: content_terrain
+    },
+    visible: true
+  });
+
+  const layer_flat_terrain = new FeatureLayer({
+    title: "Flat Terrain",
+    url: url_terrain,
+    definitionExpression: "terrain_ty = 'Flat'",
+    renderer: {
+      type: "simple",
+      label: "Flat Terrain",
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [144, 169, 85, 1.00]
+      }
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
+    visible: true
+  });
+
+  const layer_rolling_terrain = new FeatureLayer({
+    title: "Rolling Terrain",
+    url: url_terrain,
+    definitionExpression: "terrain_ty = 'Rolling'",
+    renderer: {
+      type: "simple",
+      label: "Rolling Terrain",
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [79, 119, 45, 1.00]
+      }
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
+    visible: true
+  });
+
+  const layer_mountainous_terrain = new FeatureLayer({
+    title: "Mountainous Terrain",
+    url: url_terrain,
+    definitionExpression: "terrain_ty = 'Mountainous'",
+    renderer: {
+      type: "simple",
+      label: "Mountainous Terrain",
+      symbol: {
+        type: "simple-line",
+        width: 1.00,
+        color: [49, 87, 44, 1.00]
+      }
+    },
+    labelsVisible: false,
+    popupEnabled: true,
+    popupTemplate: {
+      title: "Terrain Type: {terrain_ty}",
+      outFields: ["*"],
+      content: content_terrain
+    },
+    visible: true
+  });
+
+  const group_terrain = new GroupLayer({
+    title: "Terrain",
+    layers: [
+      layer_mountainous_terrain,
+      layer_rolling_terrain,
+      layer_flat_terrain,
+      layer_unclassified_terrain
     ],
     visible: true,
     visibilityMode: "independent"
@@ -743,158 +895,6 @@ function MapContextProvider (props) {
     visible: true,
     visibilityMode: "independent"
   });
- 
-  function content_terrain (target) {
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-      <table className = "attribute-table">
-        <tbody>
-          <tr>
-            <td><b>Region</b></td>
-            <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Engineering District</b></td>
-            <td>${ target.graphic.attributes.district_n || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Legislative District</b></td>
-            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Name</b></td>
-            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Section ID</b></td>
-            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Terrain Type</b></td>
-            <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    return ([
-      {
-        type: "custom",
-        creator: function () {
-          return (container);
-        }
-      },
-      {
-        type: "attachments",
-        displayType: "list"
-      }
-    ]);
-  }
-
-  const layer_unclassified_terrain = new FeatureLayer({
-    title: "Unclassified Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty <> 'Flat' AND terrain_ty <> 'Rolling' AND terrain_ty <> 'Mountainous'",
-    renderer: {
-      type: "simple",
-      label: "Unclassified Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [0, 0, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: Unclassified",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_flat_terrain = new FeatureLayer({
-    title: "Flat Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Flat'",
-    renderer: {
-      type: "simple",
-      label: "Flat Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [0, 255, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_rolling_terrain = new FeatureLayer({
-    title: "Rolling Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Rolling'",
-    renderer: {
-      type: "simple",
-      label: "Rolling Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 255, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_mountainous_terrain = new FeatureLayer({
-    title: "Mountainous Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Mountainous'",
-    renderer: {
-      type: "simple",
-      label: "Mountainous Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 0, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const group_terrain = new GroupLayer({
-    title: "Terrain",
-    layers: [
-      layer_mountainous_terrain,
-      layer_rolling_terrain,
-      layer_flat_terrain,
-      layer_unclassified_terrain
-    ],
-    visible: true,
-    visibilityMode: "independent"
-  });
 
   function content_municipalities_cities (target) {
     const container = document.createElement("div");
@@ -948,12 +948,23 @@ function MapContextProvider (props) {
       label: "Municipality / City",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 0.10],
         outline: { 
           color: [0, 0, 0, 1.00],
           width: 1.00
         }
-      }
+      },
+      visualVariables: [
+        {
+          type: "color",
+          valueExpression: "$feature.OBJECTID % 4",
+          stops: [
+            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
+            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
+            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
+            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+          ]
+        }
+      ]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -962,7 +973,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1016,12 +1027,23 @@ function MapContextProvider (props) {
       label: "Province",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 0.10],
         outline: { 
           color: [0, 0, 0, 1.00],
           width: 1.00
         }
-      }
+      },
+      visualVariables: [
+        {
+          type: "color",
+          valueExpression: "$feature.OBJECTID % 4",
+          stops: [
+            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
+            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
+            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
+            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+          ]
+        }
+      ]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1030,7 +1052,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1084,12 +1106,23 @@ function MapContextProvider (props) {
       label: "Legislative District",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 0.10],
         outline: { 
           color: [0, 0, 0, 1.00],
           width: 1.00
         }
-      }
+      },
+      visualVariables: [
+        {
+          type: "color",
+          valueExpression: "$feature.OBJECTID % 4",
+          stops: [
+            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
+            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
+            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
+            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+          ]
+        }
+      ]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1098,7 +1131,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1152,12 +1185,23 @@ function MapContextProvider (props) {
       label: "Engineering District",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 0.10],
         outline: { 
           color: [0, 0, 0, 1.00],
           width: 1.00
         }
-      }
+      },
+      visualVariables: [
+        {
+          type: "color",
+          valueExpression: "$feature.OBJECTID % 4",
+          stops: [
+            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
+            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
+            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
+            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+          ]
+        }
+      ]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1166,7 +1210,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1220,12 +1264,23 @@ function MapContextProvider (props) {
       label: "Region",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 0.10],
         outline: { 
           color: [0, 0, 0, 1.00],
           width: 1.00
         }
-      }
+      },
+      visualVariables: [
+        {
+          type: "color",
+          valueExpression: "$feature.OBJECTID % 4",
+          stops: [
+            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
+            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
+            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
+            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+          ]
+        }
+      ]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1234,7 +1289,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1458,10 +1513,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00],
+        color: [244, 211, 94, 1.00],
         marker: {
-          style: "x",
-          color: [0, 0, 0, 1.00],
+          style: "cross",
+          color: [244, 211, 94, 1.00],
           placement: "begin-end"
         }
       },
@@ -1482,7 +1537,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1597,10 +1652,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 0, 1.00],
+        color: [13, 59, 102, 1.00],
         marker: {
-          style: "x",
-          color: [0, 0, 0, 1.00],
+          style: "cross",
+          color: [13, 59, 102, 1.00],
           placement: "begin-end"
         }
       },
@@ -1621,7 +1676,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1745,10 +1800,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 0, 0, 1.00],
+        color: [249, 87, 56, 1.00],
         marker: {
-          style: "x",
-          color: [255, 0, 0, 1.00],
+          style: "cross",
+          color: [249, 87, 56, 1.00],
           placement: "begin-end"
         }
       },
@@ -1769,7 +1824,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1893,10 +1948,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 155, 55, 1.00],
+        color: [238, 150, 75, 1.00],
         marker: {
-          style: "x",
-          color: [255, 155, 55, 1.00],
+          style: "cross",
+          color: [238, 150, 75, 1.00],
           placement: "begin-end"
         }
       },
@@ -1917,7 +1972,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "text",
         color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 1.00],
+        haloColor: [255, 255, 255, 0.50],
         haloSize: 1,
         font: { family: "Avenir Next LT Pro", size: 8 }
       }
@@ -1945,7 +2000,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
         }
@@ -1979,10 +2034,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 0, 1.00],
+        color: [247, 184, 1, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 0, 1.00],
+          style: "cross",
+          color: [247, 184, 1, 1.00],
           placement: "begin-end"
         }
       },
@@ -2015,10 +2070,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 255, 0, 1.00],
+        color: [241, 135, 1, 1.00],
         marker: {
-          style: "x",
-          color: [255, 255, 0, 1.00],
+          style: "cross",
+          color: [241, 135, 1, 1.00],
           placement: "begin-end"
         }
       },
@@ -2051,10 +2106,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 0, 0, 1.00],
+        color: [243, 91, 4, 1.00],
         marker: {
-          style: "x",
-          color: [255, 0, 0, 1.00],
+          style: "cross",
+          color: [243, 91, 4, 1.00],
           placement: "begin-end"
         }
       },
@@ -2160,9 +2215,9 @@ function MapContextProvider (props) {
       label: "Area with Low Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
-        color: [0, 255, 0, 1.00],
+        color: [130, 192, 204, 1.00],
         outline: { 
-          color: [0, 255, 0, 0.50],
+          color: [130, 192, 204, 0.50],
           width: 1.00
         }
       }
@@ -2185,9 +2240,9 @@ function MapContextProvider (props) {
       label: "Area with Medium Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
-        color: [255, 255, 0, 1.00],
+        color: [72, 159, 181, 1.00],
         outline: { 
-          color: [255, 255, 0, 0.50],
+          color: [72, 159, 181, 0.50],
           width: 1.00
         }
       }
@@ -2210,9 +2265,9 @@ function MapContextProvider (props) {
       label: "Area with High Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
-        color: [255, 0, 0, 1.00],
+        color: [22, 105, 122, 1.00],
         outline: { 
-          color: [255, 0, 0, 0.50],
+          color: [22, 105, 122, 0.50],
           width: 1.00
         }
       }
@@ -2252,7 +2307,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
         }
@@ -2286,10 +2341,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 0, 0, 1.00],
+        color: [249, 65, 68, 1.00],
         marker: {
-          style: "x",
-          color: [255, 0, 0, 1.00],
+          style: "cross",
+          color: [249, 65, 68, 1.00],
           placement: "begin-end"
         }
       },
@@ -2322,10 +2377,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 0, 60, 1.00],
+        color: [243, 114, 44, 1.00],
         marker: {
-          style: "x",
-          color: [210, 0, 60, 1.00],
+          style: "cross",
+          color: [243, 114, 44, 1.00],
           placement: "begin-end"
         }
       },
@@ -2358,10 +2413,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 0, 120, 1.00],
+        color: [248, 150, 30, 1.00],
         marker: {
-          style: "x",
-          color: [180, 0, 120, 1.00],
+          style: "cross",
+          color: [248, 150, 30, 1.00],
           placement: "begin-end"
         }
       },
@@ -2394,10 +2449,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 0, 150, 1.00],
+        color: [249, 199, 79, 1.00],
         marker: {
-          style: "x",
-          color: [150, 0, 150, 1.00],
+          style: "cross",
+          color: [249, 199, 79, 1.00],
           placement: "begin-end"
         }
       },
@@ -2430,10 +2485,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 0, 180, 1.00],
+        color: [144, 190, 109, 1.00],
         marker: {
-          style: "x",
-          color: [120, 0, 180, 1.00],
+          style: "cross",
+          color: [144, 190, 109, 1.00],
           placement: "begin-end"
         }
       },
@@ -2466,10 +2521,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 0, 210, 1.00],
+        color: [67, 170, 139, 1.00],
         marker: {
-          style: "x",
-          color: [60, 0, 210, 1.00],
+          style: "cross",
+          color: [67, 170, 139, 1.00],
           placement: "begin-end"
         }
       },
@@ -2502,10 +2557,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 0, 255, 1.00],
+        color: [87, 117, 144, 1.00],
         marker: {
-          style: "x",
-          color: [0, 0, 255, 1.00],
+          style: "cross",
+          color: [87, 117, 144, 1.00],
           placement: "begin-end"
         }
       },
@@ -2555,10 +2610,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 255, 1.00],
+        color: [0, 0, 0, 1.00],
         marker: {
           style: "cross",
-          color: [0, 255, 255, 1.00],
+          color: [0, 0, 0, 1.00],
           placement: "begin-end"
         }
       },
@@ -2591,10 +2646,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 255, 1.00],
+        color: [244, 67, 54, 1.00],
         marker: {
           style: "cross",
-          color: [0, 255, 255, 1.00],
+          color: [244, 67, 54, 1.00],
           placement: "begin-end"
         }
       },
@@ -2627,10 +2682,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 210, 1.00],
+        color: [232, 30, 99, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 210, 1.00],
+          style: "cross",
+          color: [232, 30, 99, 1.00],
           placement: "begin-end"
         }
       },
@@ -2663,10 +2718,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 180, 1.00],
+        color: [156, 39, 176, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 180, 1.00],
+          style: "cross",
+          color: [156, 39, 176, 1.00],
           placement: "begin-end"
         }
       },
@@ -2699,10 +2754,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 150, 1.00],
+        color: [103, 58, 183, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 150, 1.00],
+          style: "cross",
+          color: [103, 58, 183, 1.00],
           placement: "begin-end"
         }
       },
@@ -2735,10 +2790,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 120, 1.00],
+        color: [63, 81, 181, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 120, 1.00],
+          style: "cross",
+          color: [63, 81, 181, 1.00],
           placement: "begin-end"
         }
       },
@@ -2771,10 +2826,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 90, 1.00],
+        color: [33, 150, 243, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 90, 1.00],
+          style: "cross",
+          color: [33, 150, 243, 1.00],
           placement: "begin-end"
         }
       },
@@ -2807,10 +2862,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 60, 1.00],
+        color: [3, 169, 244, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 60, 1.00],
+          style: "cross",
+          color: [3, 169, 244, 1.00],
           placement: "begin-end"
         }
       },
@@ -2843,10 +2898,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [0, 255, 0, 1.00],
+        color: [0, 188, 212, 1.00],
         marker: {
-          style: "x",
-          color: [0, 255, 0, 1.00],
+          style: "cross",
+          color: [0, 188, 212, 1.00],
           placement: "begin-end"
         }
       },
@@ -2879,10 +2934,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [60, 255, 0, 1.00],
+        color: [0, 150, 136, 1.00],
         marker: {
-          style: "x",
-          color: [60, 255, 0, 1.00],
+          style: "cross",
+          color: [0, 150, 136, 1.00],
           placement: "begin-end"
         }
       },
@@ -2915,10 +2970,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [90, 255, 0, 1.00],
+        color: [76, 175, 80, 1.00],
         marker: {
-          style: "x",
-          color: [90, 255, 0, 1.00],
+          style: "cross",
+          color: [76, 175, 80, 1.00],
           placement: "begin-end"
         }
       },
@@ -2951,10 +3006,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [120, 255, 0, 1.00],
+        color: [139, 195, 74, 1.00],
         marker: {
-          style: "x",
-          color: [120, 255, 0, 1.00],
+          style: "cross",
+          color: [139, 195, 74, 1.00],
           placement: "begin-end"
         }
       },
@@ -2987,10 +3042,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [150, 255, 0, 1.00],
+        color: [205, 220, 57, 1.00],
         marker: {
-          style: "x",
-          color: [150, 255, 0, 1.00],
+          style: "cross",
+          color: [205, 220, 57, 1.00],
           placement: "begin-end"
         }
       },
@@ -3023,10 +3078,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [180, 255, 0, 1.00],
+        color: [255, 235, 59, 1.00],
         marker: {
-          style: "x",
-          color: [180, 255, 0, 1.00],
+          style: "cross",
+          color: [255, 235, 59, 1.00],
           placement: "begin-end"
         }
       },
@@ -3059,10 +3114,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [210, 255, 0, 1.00],
+        color: [255, 193, 7, 1.00],
         marker: {
-          style: "x",
-          color: [210, 255, 0, 1.00],
+          style: "cross",
+          color: [255, 193, 7, 1.00],
           placement: "begin-end"
         }
       },
@@ -3095,10 +3150,10 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 4.00,
-        color: [255, 255, 0, 1.00],
+        color: [255, 152, 0, 1.00],
         marker: {
-          style: "x",
-          color: [255, 255, 0, 1.00],
+          style: "cross",
+          color: [255, 152, 0, 1.00],
           placement: "begin-end"
         }
       },
@@ -3160,7 +3215,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
         }
@@ -3196,7 +3251,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
         }
@@ -3232,7 +3287,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -3268,7 +3323,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -3304,7 +3359,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
         }
@@ -3354,7 +3409,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 0, 1.00],
           placement: "begin-end"
         }
@@ -3390,7 +3445,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [255, 0, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [255, 0, 0, 1.00],
           placement: "begin-end"
         }
@@ -3426,7 +3481,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [210, 0, 60, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [210, 0, 60, 1.00],
           placement: "begin-end"
         }
@@ -3462,7 +3517,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [180, 0, 120, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [180, 0, 120, 1.00],
           placement: "begin-end"
         }
@@ -3498,7 +3553,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [150, 0, 150, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [150, 0, 150, 1.00],
           placement: "begin-end"
         }
@@ -3534,7 +3589,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [120, 0, 180, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [120, 0, 180, 1.00],
           placement: "begin-end"
         }
@@ -3570,7 +3625,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [60, 0, 210, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [60, 0, 210, 1.00],
           placement: "begin-end"
         }
@@ -3606,7 +3661,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
         }
@@ -3695,7 +3750,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
         }
@@ -3731,7 +3786,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 210, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 210, 1.00],
           placement: "begin-end"
         }
@@ -3767,7 +3822,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 180, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 180, 1.00],
           placement: "begin-end"
         }
@@ -3803,7 +3858,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 150, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 150, 1.00],
           placement: "begin-end"
         }
@@ -3839,7 +3894,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 120, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 120, 1.00],
           placement: "begin-end"
         }
@@ -3875,7 +3930,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 90, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 90, 1.00],
           placement: "begin-end"
         }
@@ -3911,7 +3966,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 60, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 60, 1.00],
           placement: "begin-end"
         }
@@ -3947,7 +4002,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -3983,7 +4038,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [60, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [60, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4019,7 +4074,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [90, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [90, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4055,7 +4110,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [120, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [120, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4091,7 +4146,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [150, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [150, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4127,7 +4182,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [180, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [180, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4163,7 +4218,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [210, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [210, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4199,7 +4254,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [255, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [255, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4262,7 +4317,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
         }
@@ -4298,7 +4353,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 255, 1.00],
           placement: "begin-end"
         }
@@ -4334,7 +4389,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 0, 255, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 0, 255, 1.00],
           placement: "begin-end"
         }
@@ -4370,7 +4425,7 @@ function MapContextProvider (props) {
         width: 4.00,
         color: [0, 255, 0, 1.00],
         marker: {
-          style: "x",
+          style: "cross",
           color: [0, 255, 0, 1.00],
           placement: "begin-end"
         }
@@ -4776,8 +4831,8 @@ function MapContextProvider (props) {
               view.map.layers.push(
                 group_administrative_boundaries,
                 group_inventory_of_roads,
-                group_terrain,
                 group_road_classification,
+                group_terrain,
                 group_volume_of_traffic,
                 group_kilometer_posts
               );

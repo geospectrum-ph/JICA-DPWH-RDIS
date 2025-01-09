@@ -8,7 +8,7 @@
   height: 100%;  
 
   box-sizing: border-box;
-  gap: var(--space-100, 12px);
+  gap: var(--space-100, 8px);
 
   pointer-events: none;
   user-select: none;
@@ -53,7 +53,7 @@
     height: 100%;
 
     box-sizing: border-box;
-    gap: var(--space-100, 12px);
+    gap: var(--space-100, 8px);
 
     /* Sidebar / Outlet Container */
     > :nth-child(1) {
@@ -110,7 +110,7 @@
   place-content: center end;
 
   box-sizing: border-box;
-  border: var(--border-100, 3px) solid var(--color-black, rgba(0, 0, 0, 1.00));
+  border: var(--border-100, 2px) solid var(--color-black, rgba(0, 0, 0, 1.00));
 
   #map-switch {
     position: absolute;
@@ -120,8 +120,8 @@
     height: calc(var(--height-100, 480px) / 15);
 
     box-sizing: border-box;
-    margin: var(--space-100, 12px) calc(32px + (var(--space-100, 12px) * 2)) calc(((var(--space-100, 12px) + 1px) * 3) + var(--space-100, 12px)) var(--space-100, 12px);
-    padding: calc(var(--calcite-spacing-xs, --space-100, 12px) + var(--calcite-spacing-px, 0));
+    margin: 0 calc(var(--space-100, 8px) * 6) calc((var(--space-100, 8px) * 5) - 1px) 0;
+    padding: var(--space-100, 8px);
   
     background-color: var(--color-gray-50, rgba(50, 50, 50, 1.00));
 
@@ -135,12 +135,12 @@
     inset: 0 !important;
 
     box-sizing: border-box;
-    margin: var(--space-100, 12px) var(--space-100, 12px) calc(var(--space-100, 12px) + (var(--space-100, 12px) * 2) + (var(--space-100, 12px) * 1.25)) var(--space-100, 12px);
+    margin: var(--space-100, 8px) var(--space-100, 8px) calc((var(--space-100, 8px) * 5) - 1px) var(--space-100, 8px);
 
     .esri-expand {
       > calcite-popover {
         box-sizing: border-box;
-        margin-top: calc(var(--space-100, 12px) * 0.50);
+        margin-top: calc(var(--space-100, 8px) * 0.50);
     
         > .esri-expand__popover-content {
           > .esri-expand__content-container {
@@ -165,12 +165,12 @@
         height: calc(var(--height-100, 480px) / 15);
 
         box-sizing: border-box;
-        padding: calc(var(--calcite-spacing-xs, --space-100, 12px) + var(--calcite-spacing-px, 0));
+        padding: var(--space-100, 8px);
       
-        background-color: var(--calcite-color-foreground-3);
+        background-color: var(--calcite-color-foreground-3, --color-gray-50, rgba(50, 50, 50, 1.00));
 
         font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
-        color: var(--calcite-color-text-2, --color-gray-08, rgba(200, 200, 200, 1.00));
+        color: var(--calcite-color-text-2, --color-gray-200, rgba(200, 200, 200, 1.00));
       }
     }
 
@@ -186,7 +186,7 @@
 
       #widget-search-container {
         box-sizing: border-box;
-        margin-right: var(--space-100, 12px);
+        margin-right: var(--space-100, 8px);
 
         input {
           font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
@@ -201,21 +201,21 @@
           > :nth-child(1) {
             height: calc((var(--height-100, 480px) / 30));
 
-            background-color: rgba(255, 255, 255, 0.50);
+            background-color: var(--color-white-a50, rgba(255, 255, 255, 0.50));
 
             &::before, &::after {
               height: calc((var(--height-100, 480px) / 30));
 
-              border-right: calc(var(--space-100, 12px) * 0.25) solid var(--calcite-color-border-1, --color-black, rgba(0, 0, 0, 1.00));
+              border-right: calc(var(--space-100, 8px) * 0.25) solid var(--calcite-color-border-1, --color-black, rgba(0, 0, 0, 1.00));
             }
           }
 
           > :nth-child(2) {
             box-sizing: border-box;
-            padding: 0 calc(var(--space-100, 12px) * 0.25);
+            padding: 0 calc(var(--space-100, 8px) * 0.25);
 
             > * {
-              font: var(--type-normal-s12, normal 400 12px/1.25 "Outfit", sans-serif);
+              font: var(--type-normal-s10, normal 400 10px/1.25 "Outfit", sans-serif);
               color: var(--calcite-color-background, --color-black, rgba(0, 0, 0, 1.00));
             }
           }
@@ -227,7 +227,7 @@
   .esri-ui-inner-container.esri-ui-manual-container {
     .esri-component.esri-popup {
       box-sizing: border-box;
-      margin: var(--space-100, 12px);
+      margin: var(--space-100, 8px);
     }
 
     .esri-feature-content > * > * {
@@ -236,11 +236,11 @@
         
         > * {
           > * > * {
-            padding: calc(var(--space-100, 12px) * 1 / 2);
+            padding: calc(var(--space-100, 8px) / 2);
           }
   
           > :nth-child(odd) {
-            background-color: rgba(50, 50, 50, 1.00);
+            background-color: var(--color-gray-, rgba(50, 50, 50, 1.00));
           }
         }
       }
@@ -251,7 +251,7 @@
       padding: var(--space-100, 12px);
 
       font: var(--type-normal-s12, normal 400 12px/1.25 "Outfit", sans-serif);
-      color: var(--calcite-color-text-2, --color-gray-08, rgba(200, 200, 200, 1.00));
+      color: var(--calcite-color-text-2, --color-gray-200, rgba(200, 200, 200, 1.00));
     }
   }
 }

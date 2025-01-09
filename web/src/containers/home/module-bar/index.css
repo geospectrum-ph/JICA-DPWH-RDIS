@@ -9,9 +9,9 @@
   height: auto;
 
   box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 1.00);
+  border: var(--border-100, 2px) solid var(--color-black, rgba(0, 0, 0, 1.00));
 
-  background-color: rgba(100, 100, 100, 1.00);
+  background-color: var(--color-gray-100, rgba(100, 100, 100, 1.00));
 
   > * {
     display: flex;
@@ -23,8 +23,8 @@
     height: auto;
   
     box-sizing: border-box;
-    padding: 12px;
-    gap: 12px;
+    padding: var(--space-100, 8px);
+    gap: var(--space-100, 8px);
   
     /* Module Buttons */
     > * {
@@ -37,20 +37,26 @@
       height: 100%;
 
       box-sizing: border-box;
-      outline: 2px solid rgba(255, 255, 255, 1.00);
-      padding: 8px;
+      border-radius: calc(var(--space-100, 8px) / 2);
+      outline: var(--border-100, 2px) solid var(--color-black, rgba(0, 0, 0, 1.00));
+      padding: var(--space-100, 8px) calc(var(--space-100, 8px) * 2);
 
+      background-color: var(--color-white, rgba(255, 255, 255, 1.00));
       cursor: pointer;
 
-      font: normal 400 16px "Outfit", sans-serif;
-      color: rgba(255, 255, 255, 1.00);
+      font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
+      color: var(--color-black, rgba(0, 0, 0, 1.00));
 
       &:hover {    
-        background-color: rgba(225, 125, 25, 1.00);
+        background-color: var(--color-orange, rgba(225, 125, 25, 1.00));
+
+        color: var(--color-white, rgba(255, 255, 255, 1.00));
       }
 
       &.selected {
-        background-color: rgba(225, 125, 25, 1.00);
+        background-color: var(--color-orange, rgba(225, 125, 25, 1.00));
+
+        color: var(--color-white, rgba(255, 255, 255, 1.00));
       }
     }
 
@@ -58,10 +64,10 @@
     > :last-child {
       box-sizing: border-box;
       margin-left: auto;
-      gap: 8px;
+      gap: var(--space-100, 8px);
 
       > :last-child {
-        font-size: 15px;
+        font-size: calc((var(--space-100, 8px) * 2) - 1px);
       }
     }
   }

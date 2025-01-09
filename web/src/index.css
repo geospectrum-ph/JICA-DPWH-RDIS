@@ -86,9 +86,9 @@ html {
   --type-bold-s32: normal 800 32px/1.25 "Outfit", sans-serif;
   --type-bold-s36: normal 800 36px/1.25 "Outfit", sans-serif;
 
-  --space-100: 12px;
+  --space-100: 8px;
   --height-100: 480px;
-  --border-100: 3px;
+  --border-100: 2px;
 }
 
 body {
