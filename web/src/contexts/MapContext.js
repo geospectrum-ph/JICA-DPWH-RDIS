@@ -9,6 +9,7 @@ import MapView from "@arcgis/core/views/MapView.js";
 import SceneView from "@arcgis/core/views/SceneView.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
+import CIMSymbol from "@arcgis/core/symbols/CIMSymbol.js";
 
 import Expand from "@arcgis/core/widgets/Expand.js";
 import Search from "@arcgis/core/widgets/Search.js";
@@ -266,24 +267,443 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Kilometer Post",
-      symbol: {
-        type: "simple-marker",
-        style: "circle",
-        color: [255, 255, 255, 1.00],
-        outline: {
-          color: [0, 0, 0, 1.00],
-          width: 1.00
+      symbol: new CIMSymbol({
+        data: {
+          type: "CIMSymbolReference",
+          symbol: {
+            "type": "CIMPointSymbol",
+            "symbolLayers": [
+              {
+                "type": "CIMVectorMarker",
+                "enable": true,
+                "anchorPointUnits": "Relative",
+                "dominantSizeAxis3D": "Z",
+                "size": 32,
+                "billboardMode3D": "FaceNearPlane",
+                "frame": {
+                  "xmin": 0,
+                  "ymin": 0,
+                  "xmax": 1080,
+                  "ymax": 1080
+                },
+                "markerGraphics": [
+                  {
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "symbol": {
+                      "type": "CIMPointSymbol",
+                      "symbolLayers": [
+                        {
+                          "type": "CIMVectorMarker",
+                          "enable": true,
+                          "anchorPointUnits": "Relative",
+                          "dominantSizeAxis3D": "Z",
+                          "offsetX": 540,
+                          "offsetY": 540,
+                          "size": 1080,
+                          "billboardMode3D": "FaceNearPlane",
+                          "frame": {
+                            "xmin": 0,
+                            "ymin": 0,
+                            "xmax": 1080,
+                            "ymax": 1080
+                          },
+                          "markerGraphics": [
+                            {
+                              "type": "CIMMarkerGraphic",
+                              "geometry": {
+                                "x": 0,
+                                "y": 0
+                              },
+                              "symbol": {
+                                "type": "CIMPointSymbol",
+                                "symbolLayers": [
+                                  {
+                                    "type": "CIMVectorMarker",
+                                    "enable": true,
+                                    "anchorPointUnits": "Relative",
+                                    "dominantSizeAxis3D": "Z",
+                                    "offsetX": 540,
+                                    "offsetY": 540,
+                                    "size": 1080,
+                                    "billboardMode3D": "FaceNearPlane",
+                                    "frame": {
+                                      "xmin": 0,
+                                      "ymin": 0,
+                                      "xmax": 1080,
+                                      "ymax": 1080
+                                    },
+                                    "markerGraphics": [
+                                      {
+                                        "type": "CIMMarkerGraphic",
+                                        "geometry": {
+                                          "rings": [
+                                            [
+                                              [
+                                                675,
+                                                0
+                                              ],
+                                              [
+                                                675,
+                                                1080
+                                              ],
+                                              [
+                                                405,
+                                                1080
+                                              ],
+                                              [
+                                                405,
+                                                0
+                                              ],
+                                              [
+                                                675,
+                                                0
+                                              ]
+                                            ]
+                                          ]
+                                        },
+                                        "symbol": {
+                                          "type": "CIMPolygonSymbol",
+                                          "symbolLayers": [
+                                            {
+                                              "type": "CIMSolidFill",
+                                              "enable": true,
+                                              "color": [
+                                                255,
+                                                222,
+                                                89,
+                                                255
+                                              ]
+                                            }
+                                          ],
+                                          "angleAlignment": "Map"
+                                        }
+                                      },
+                                      {
+                                        "type": "CIMMarkerGraphic",
+                                        "geometry": {
+                                          "rings": [
+                                            [
+                                              [
+                                                405,
+                                                1080
+                                              ],
+                                              [
+                                                675,
+                                                1080
+                                              ],
+                                              [
+                                                675,
+                                                0
+                                              ],
+                                              [
+                                                405,
+                                                0
+                                              ],
+                                              [
+                                                405,
+                                                1080
+                                              ]
+                                            ]
+                                          ]
+                                        },
+                                        "symbol": {
+                                          "type": "CIMPolygonSymbol",
+                                          "symbolLayers": [
+                                            {
+                                              "type": "CIMSolidStroke",
+                                              "enable": true,
+                                              "capStyle": "Butt",
+                                              "joinStyle": "Miter",
+                                              "lineStyle3D": "Strip",
+                                              "miterLimit": 4,
+                                              "width": 32,
+                                              "height3D": 1,
+                                              "anchor3D": "Center",
+                                              "color": [
+                                                0,
+                                                0,
+                                                0,
+                                                255
+                                              ]
+                                            }
+                                          ],
+                                          "angleAlignment": "Map"
+                                        }
+                                      }
+                                    ],
+                                    "scaleSymbolsProportionally": true,
+                                    "respectFrame": true,
+                                    "clippingPath": {
+                                      "type": "CIMClippingPath",
+                                      "clippingType": "Intersect",
+                                      "path": {
+                                        "rings": [
+                                          [
+                                            [
+                                              675,
+                                              0
+                                            ],
+                                            [
+                                              675,
+                                              1080
+                                            ],
+                                            [
+                                              405,
+                                              1080
+                                            ],
+                                            [
+                                              405,
+                                              0
+                                            ],
+                                            [
+                                              675,
+                                              0
+                                            ]
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ],
+                                "haloSize": 1,
+                                "scaleX": 1,
+                                "angleAlignment": "Display"
+                              }
+                            }
+                          ],
+                          "scaleSymbolsProportionally": true,
+                          "respectFrame": true,
+                          "color": [
+                            0,
+                            0,
+                            0,
+                            255
+                          ]
+                        }
+                      ],
+                      "haloSize": 1,
+                      "scaleX": 1,
+                      "angleAlignment": "Display"
+                    }
+                  },
+                  {
+                    "type": "CIMMarkerGraphic",
+                    "geometry": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "symbol": {
+                      "type": "CIMPointSymbol",
+                      "symbolLayers": [
+                        {
+                          "type": "CIMVectorMarker",
+                          "enable": true,
+                          "anchorPointUnits": "Relative",
+                          "dominantSizeAxis3D": "Z",
+                          "offsetX": 540,
+                          "offsetY": 540,
+                          "size": 1080,
+                          "billboardMode3D": "FaceNearPlane",
+                          "frame": {
+                            "xmin": 0,
+                            "ymin": 0,
+                            "xmax": 1080,
+                            "ymax": 1080
+                          },
+                          "markerGraphics": [
+                            {
+                              "type": "CIMMarkerGraphic",
+                              "geometry": {
+                                "x": 0,
+                                "y": 0
+                              },
+                              "symbol": {
+                                "type": "CIMPointSymbol",
+                                "symbolLayers": [
+                                  {
+                                    "type": "CIMVectorMarker",
+                                    "enable": true,
+                                    "anchorPointUnits": "Relative",
+                                    "dominantSizeAxis3D": "Z",
+                                    "offsetX": 540,
+                                    "offsetY": 540,
+                                    "size": 1080,
+                                    "billboardMode3D": "FaceNearPlane",
+                                    "frame": {
+                                      "xmin": 0,
+                                      "ymin": 0,
+                                      "xmax": 1080,
+                                      "ymax": 1080
+                                    },
+                                    "markerGraphics": [
+                                      {
+                                        "type": "CIMMarkerGraphic",
+                                        "geometry": {
+                                          "rings": [
+                                            [
+                                              [
+                                                630,
+                                                45
+                                              ],
+                                              [
+                                                630,
+                                                495
+                                              ],
+                                              [
+                                                450,
+                                                495
+                                              ],
+                                              [
+                                                450,
+                                                45
+                                              ],
+                                              [
+                                                630,
+                                                45
+                                              ]
+                                            ]
+                                          ]
+                                        },
+                                        "symbol": {
+                                          "type": "CIMPolygonSymbol",
+                                          "symbolLayers": [
+                                            {
+                                              "type": "CIMSolidFill",
+                                              "enable": true,
+                                              "color": [
+                                                255,
+                                                189,
+                                                89,
+                                                255
+                                              ]
+                                            }
+                                          ],
+                                          "angleAlignment": "Map"
+                                        }
+                                      }
+                                    ],
+                                    "scaleSymbolsProportionally": true,
+                                    "respectFrame": true,
+                                    "clippingPath": {
+                                      "type": "CIMClippingPath",
+                                      "clippingType": "Intersect",
+                                      "path": {
+                                        "rings": [
+                                          [
+                                            [
+                                              630,
+                                              45
+                                            ],
+                                            [
+                                              630,
+                                              495
+                                            ],
+                                            [
+                                              450,
+                                              495
+                                            ],
+                                            [
+                                              450,
+                                              45
+                                            ],
+                                            [
+                                              630,
+                                              45
+                                            ]
+                                          ]
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ],
+                                "haloSize": 1,
+                                "scaleX": 1,
+                                "angleAlignment": "Display"
+                              }
+                            }
+                          ],
+                          "scaleSymbolsProportionally": true,
+                          "respectFrame": true
+                        }
+                      ],
+                      "haloSize": 1,
+                      "scaleX": 1,
+                      "angleAlignment": "Display"
+                    }
+                  }
+                ],
+                "scaleSymbolsProportionally": true,
+                "respectFrame": true,
+                "clippingPath": {
+                  "type": "CIMClippingPath",
+                  "clippingType": "Intersect",
+                  "path": {
+                    "rings": [
+                      [
+                        [
+                          0,
+                          0
+                        ],
+                        [
+                          1080,
+                          0
+                        ],
+                        [
+                          1080,
+                          1080
+                        ],
+                        [
+                          0,
+                          1080
+                        ],
+                        [
+                          0,
+                          0
+                        ]
+                      ]
+                    ]
+                  }
+                }
+              }
+            ],
+            "animations": []
+          }
         }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: 8, value: 9027.977411 }, // Zoom Level: 16
-          { size: 4, value: 144447.638572 }, // Zoom Level: 12
-          { size: 1, value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+      }),
+      visualVariables: [
+        {
+          type: "size",
+          valueExpression: "$view.scale",
+          stops: [
+            { size: 48, value: 564.248588 }, // Zoom Level: 20
+            { size: 24, value: 9027.977411 }, // Zoom Level: 16
+            { size: 12, value: 144447.638572 }, // Zoom Level: 12
+            { size: 6, value: 2311162.217155 } // Zoom Level: 8
+          ]
+        }
+      ]
+      // symbol: {
+      //   type: "simple-marker",
+      //   style: "circle",
+      //   color: [255, 255, 255, 1.00],
+      //   outline: {
+      //     color: [0, 0, 0, 1.00],
+      //     width: 1.00
+      //   }
+      // },
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: 8, value: 9027.977411 }, // Zoom Level: 16
+      //     { size: 4, value: 144447.638572 }, // Zoom Level: 12
+      //     { size: 1, value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -1995,25 +2415,72 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Unclassified Road Slope Hazard Risk",
-      symbol: {
-        type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 0, 1.00],
-          placement: "begin-end"
+      symbol: new CIMSymbol({
+        data: {
+          type: "CIMSymbolReference",
+          symbol: {
+            "type": "CIMLineSymbol",
+            "symbolLayers": [
+              {
+                "type": "CIMSolidStroke",
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 8,
+                "color": [
+                  0,
+                  0,
+                  0,
+                  255
+                ]
+              },
+              {
+                "type": "CIMSolidStroke",
+                "effects": [
+                  {
+                    "type": "CIMGeometricEffectBuffer",
+                    "size": 2
+                  }
+                ],
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 12,
+                "color": [
+                  0,
+                  0,
+                  0,
+                  150
+                ]
+              }
+            ],
+            "animations": []
+          }
         }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+      }),
+      // symbol: {
+      //   type: "simple-line",
+      //   width: 4.00,
+      //   color: [0, 0, 0, 1.00],
+      //   marker: {
+      //     style: "cross",
+      //     color: [0, 0, 0, 1.00],
+      //     placement: "begin-end"
+      //   }
+      // },
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "32.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "16.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "8.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2031,25 +2498,72 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Low Road Slope Hazard Risk",
-      symbol: {
-        type: "simple-line",
-        width: 4.00,
-        color: [247, 184, 1, 1.00],
-        marker: {
-          style: "cross",
-          color: [247, 184, 1, 1.00],
-          placement: "begin-end"
+      symbol: new CIMSymbol({
+        data: {
+          type: "CIMSymbolReference",
+          symbol: {
+            "type": "CIMLineSymbol",
+            "symbolLayers": [
+              {
+                "type": "CIMSolidStroke",
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 8,
+                "color": [
+                  247,
+                  184,
+                  1,
+                  255
+                ]
+              },
+              {
+                "type": "CIMSolidStroke",
+                "effects": [
+                  {
+                    "type": "CIMGeometricEffectBuffer",
+                    "size": 2
+                  }
+                ],
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 12,
+                "color": [
+                  247,
+                  184,
+                  1,
+                  150
+                ]
+              }
+            ],
+            "animations": []
+          }
         }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+      }),
+      // symbol: {
+      //   type: "simple-line",
+      //   width: 4.00,
+      //   color: [247, 184, 1, 1.00],
+      //   marker: {
+      //     style: "cross",
+      //     color: [247, 184, 1, 1.00],
+      //     placement: "begin-end"
+      //   }
+      // // },
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "32.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "16.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "8.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2067,25 +2581,72 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Medium Road Slope Hazard Risk",
-      symbol: {
-        type: "simple-line",
-        width: 4.00,
-        color: [241, 135, 1, 1.00],
-        marker: {
-          style: "cross",
-          color: [241, 135, 1, 1.00],
-          placement: "begin-end"
+      symbol: new CIMSymbol({
+        data: {
+          type: "CIMSymbolReference",
+          symbol: {
+            "type": "CIMLineSymbol",
+            "symbolLayers": [
+              {
+                "type": "CIMSolidStroke",
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 8,
+                "color": [
+                  241,
+                  135,
+                  1,
+                  255
+                ]
+              },
+              {
+                "type": "CIMSolidStroke",
+                "effects": [
+                  {
+                    "type": "CIMGeometricEffectBuffer",
+                    "size": 2
+                  }
+                ],
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 12,
+                "color": [
+                  241,
+                  135,
+                  1,
+                  150
+                ]
+              }
+            ],
+            "animations": []
+          }
         }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+      }),
+      // symbol: {
+      //   type: "simple-line",
+      //   width: 4.00,
+      //   color: [241, 135, 1, 1.00],
+      //   marker: {
+      //     style: "cross",
+      //     color: [241, 135, 1, 1.00],
+      //     placement: "begin-end"
+      //   }
+      // // },
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "32.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "16.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "8.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2103,25 +2664,72 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with High Road Slope Hazard Risk",
-      symbol: {
-        type: "simple-line",
-        width: 4.00,
-        color: [243, 91, 4, 1.00],
-        marker: {
-          style: "cross",
-          color: [243, 91, 4, 1.00],
-          placement: "begin-end"
+      symbol: new CIMSymbol({
+        data: {
+          type: "CIMSymbolReference",
+          symbol: {
+            "type": "CIMLineSymbol",
+            "symbolLayers": [
+              {
+                "type": "CIMSolidStroke",
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 8,
+                "color": [
+                  243,
+                  91,
+                  4,
+                  255
+                ]
+              },
+              {
+                "type": "CIMSolidStroke",
+                "effects": [
+                  {
+                    "type": "CIMGeometricEffectBuffer",
+                    "size": 2
+                  }
+                ],
+                "enable": true,
+                "capStyle": "Round",
+                "joinStyle": "Round",
+                "lineStyle3D": "Strip",
+                "miterLimit": 0,
+                "width": 12,
+                "color": [
+                  243,
+                  91,
+                  4,
+                  150
+                ]
+              }
+            ],
+            "animations": []
+          }
         }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+      }),
+      // symbol: {
+      //   type: "simple-line",
+      //   width: 4.00,
+      //   color: [243, 91, 4, 1.00],
+      //   marker: {
+      //     style: "cross",
+      //     color: [243, 91, 4, 1.00],
+      //     placement: "begin-end"
+      //   }
+      // },
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "32.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "16.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "8.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
