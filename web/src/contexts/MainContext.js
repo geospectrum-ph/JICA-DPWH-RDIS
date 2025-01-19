@@ -9,38 +9,45 @@ function MainContextProvider (props) {
 
   const [modules, setModules] = React.useState([
     {
-      name: "SUMMARY",
+      name: "Summary",
       path: "summary",
+      logo: "analytics",
       map_visible: true
     },
     {
       name: "Hazard Map",
       path: "hazard-map",
+      logo: "warning",
       map_visible: true
     },
     {
       name: "Road Slope Inventory",
       path: "road-slope-inventory",
+      logo: "list",
       map_visible: true
     },
     {
       name: "Potential Road Slope Projects",
       path: "potential-road-slope-projects",
+      logo: "search_check",
       map_visible: true
     },
     {
       name: "Funded Road Slope Projects",
       path: "funded-road-slope-projects",
+      logo: "local_atm",
       map_visible: true
     },
     {
       name: "Proposal For Funding",
       path: "proposal-for-funding",
+      logo: "approval_delegation",
       map_visible: true
     },
     {
       name: "Reports",
       path: "reports",
+      logo: "content_paste_search",
       map_visible: true
     }
   ]);

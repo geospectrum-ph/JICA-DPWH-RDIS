@@ -1,10 +1,10 @@
-import React from "react";
+import * as React from "react";
 
 import "./index.css";
 
-export default function LoadingModal () {
+export default function LoadingComponent () {
   return (
-    <div id = "loading-modal-container">
+    <div id = "loading-component">
       <div>
         <div/>
         <div>{ "Loading data. Please wait for a few moments. " }</div>

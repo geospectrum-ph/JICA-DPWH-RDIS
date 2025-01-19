@@ -10,7 +10,7 @@ import array_level_01 from "./filter_level_01.json";
 import array_level_02 from "./filter_level_02.json";
 import array_level_03 from "./filter_level_03.json";
 
-export default function FilterMenu () {
+export default function FilterComponent () {
   const {
     dataSource,
     setDataArray,
@@ -292,113 +292,117 @@ export default function FilterMenu () {
   });
 
   return (
-    <div id = "filter-menu-container">
+    <div id = "filter-component">
       <div>
-        <div>{ "Region" }</div>
-        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(1); } }>
-          <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
-          <div>
-            <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
-            {
-              array_level_01 ?
-                array_level_01
-                  .sort(function (base, next) {
-                    if (base.L01_ID && next.L01_ID) {
-                      return (base.L01_ID.localeCompare(next.L01_ID));
-                    }
-                    else {
-                      return (0);
-                    }
-                  })
-                  .map(function (item, index) {
-                    return (
-                      <div key = { index } className = { filterL01Selected && array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME === item.L01_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
-                    );
-                  })
-                :
-                null
-            }
+        <div>
+          <div>{ "Search" }</div>
+          <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(0); } }>
+            <input
+              type = "text"
+              value = { filterL04Selected ? filterL04Selected : "" }
+              onChange = { function (event) { setFilterL04Selected(event.target.value); } }
+              onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }
+            />
           </div>
         </div>
       </div>
       <div>
-        <div>{ "Engineering District" }</div>
-        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(2); } }>
-          <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
-          <div>
-            <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
-            {
-              array_level_02 ?
-                array_level_02
-                  .sort(function (base, next) {
-                    if (base.L02_ID && next.L02_ID) {
-                      return (base.L02_ID.localeCompare(next.L02_ID));
-                    }
-                    else {
-                      return (0);
-                    }
-                  })
-                  .map(function (item, index) {
-                    if (filterL01Selected && filterL01Selected !== item.REGION) {
-                      return (null);
-                    }
-                    else {  
+        <div>
+          <div>{ "Region" }</div>
+          <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(1); } }>
+            <div>{ filterL01Selected ? array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME : "All" }</div>
+            <div>
+              <div onClick = { function () { clear_filter(1); } }>{ "Clear Selection" }</div>
+              {
+                array_level_01 ?
+                  array_level_01
+                    .sort(function (base, next) {
+                      if (base.L01_ID && next.L01_ID) {
+                        return (base.L01_ID.localeCompare(next.L01_ID));
+                      }
+                      else {
+                        return (0);
+                      }
+                    })
+                    .map(function (item, index) {
                       return (
-                        <div key = { index } className = { filterL02Selected && array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME === item.L02_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
+                        <div key = { index } className = { filterL01Selected && array_level_01.find(function (object) { return (object.REGION === filterL01Selected); }).L01_NAME === item.L01_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(1, item); } }>{ item.L01_NAME }</div>
                       );
-                    }
-                  })
-                :
-                null
-            }
+                    })
+                  :
+                  null
+              }
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div>{ "Legislative District" }</div>
-        <div className = { dropdown03Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(3); } }>
-          <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
-          <div>
-            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
-            {
-              array_level_03 ?
-                array_level_03
-                  .sort(function (base, next) {
-                    if (base.L03_ID && next.L03_ID) {
-                      return (base.L03_ID.localeCompare(next.L03_ID));
-                    }
-                    else {
-                      return (0);
-                    }
-                  })
-                  .map(function (item, index) {
-                    if (filterL01Selected && filterL01Selected !== item.REGION) {
-                      return (null);
-                    }
-                    else if (filterL02Selected && filterL02Selected !== item.DEO) {
-                      return (null);
-                    }
-                    else {
-                      return (
-                        <div key = { index } className = { filterL03Selected && array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME === item.L03_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
-                      );
-                    }
-                  })
-                :
-                null
-            }
+        <div>
+          <div>{ "Engineering District" }</div>
+          <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(2); } }>
+            <div>{ filterL02Selected ? array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME : "All" }</div>
+            <div>
+              <div onClick = { function () { clear_filter(2); } }>{ "Clear Selection" }</div>
+              {
+                array_level_02 ?
+                  array_level_02
+                    .sort(function (base, next) {
+                      if (base.L02_ID && next.L02_ID) {
+                        return (base.L02_ID.localeCompare(next.L02_ID));
+                      }
+                      else {
+                        return (0);
+                      }
+                    })
+                    .map(function (item, index) {
+                      if (filterL01Selected && filterL01Selected !== item.REGION) {
+                        return (null);
+                      }
+                      else {  
+                        return (
+                          <div key = { index } className = { filterL02Selected && array_level_02.find(function (object) { return (object.DEO === filterL02Selected); }).L02_NAME === item.L02_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(2, item); } }>{ item.L02_NAME }</div>
+                        );
+                      }
+                    })
+                  :
+                  null
+              }
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div>{ "Search" }</div>
-        <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(0); } }>
-          <input
-            type = "text"
-            value = { filterL04Selected ? filterL04Selected : "" }
-            onChange = { function (event) { setFilterL04Selected(event.target.value); } }
-            onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }
-          />
+        <div>
+          <div>{ "Legislative District" }</div>
+          <div className = { dropdown03Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(3); } }>
+            <div>{ filterL03Selected ? array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME : "All" }</div>
+            <div>
+              <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
+              {
+                array_level_03 ?
+                  array_level_03
+                    .sort(function (base, next) {
+                      if (base.L03_ID && next.L03_ID) {
+                        return (base.L03_ID.localeCompare(next.L03_ID));
+                      }
+                      else {
+                        return (0);
+                      }
+                    })
+                    .map(function (item, index) {
+                      if (filterL01Selected && filterL01Selected !== item.REGION) {
+                        return (null);
+                      }
+                      else if (filterL02Selected && filterL02Selected !== item.DEO) {
+                        return (null);
+                      }
+                      else {
+                        return (
+                          <div key = { index } className = { filterL03Selected && array_level_03.find(function (object) { return (object.CONG_DIST === filterL03Selected); }).L03_NAME === item.L03_NAME ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item.L03_NAME }</div>
+                        );
+                      }
+                    })
+                  :
+                  null
+              }
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -14,10 +14,10 @@
 /src/sampleFiles
 
 
-#data
+# data
 /src/sampleFiles
 
-# misc
+# miscellaneous
 .DS_Store
 .env.local
 .env.development.local

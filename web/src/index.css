@@ -42,13 +42,13 @@ font-* text-* color
 */
 
 html {
-  --default-color-dark: rgba(0, 0, 0, 1.00);
-  --default-color-light: rgba(255, 255, 255, 1.00);
+  --default-color-dark: black;
+  --default-color-light: white;
 
-  --default-color-orange: rgba(225, 125, 25, 1.00);
+  --default-color-accent: orange;
 
   --default-font-family: "Outfit", sans-serif;
-  --default-font-size: 12px;
+  --default-font-size: 16px;
 
   --default-size-small: 1px;
   --default-size-medium: 24px;
