@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 import { MapContext } from "../../../contexts/MapContext";
@@ -275,7 +275,7 @@ export default function FilterComponent () {
   }
 
   window.addEventListener("click", function (event) {   
-    const container = document.getElementById("filter-menu-container");
+    const container = document.getElementById("filter-component");
     
     if (container) {
       if (container.contains(event.target)) {
@@ -293,17 +293,10 @@ export default function FilterComponent () {
 
   return (
     <div id = "filter-component">
-      <div>
+      <div onClick = { function () { click_dropdown(0); } }>
+        <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }/>
         <div>
-          <div>{ "Search" }</div>
-          <div className = { "filter-menu-input" } onClick = { function () { click_dropdown(0); } }>
-            <input
-              type = "text"
-              value = { filterL04Selected ? filterL04Selected : "" }
-              onChange = { function (event) { setFilterL04Selected(event.target.value); } }
-              onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }
-            />
-          </div>
+          <span className = "material-symbols-outlined">{ "search" }</span>
         </div>
       </div>
       <div>

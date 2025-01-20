@@ -12,15 +12,90 @@
   gap: var(--default-size-medium, 24px);
 
   > :nth-child(1) {
+    position: relative;
+
+    display: inline-block;
+
+    width: 100%;
+    height: auto;
+
+    box-sizing: border-box;
+    border-radius: calc(var(--default-size-small, 1px) * 4.00);
+    padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 24px) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+    > input {
+      width: 100%;
+      height: auto;
+
+      border: none;
+
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
     > :nth-child(2) {
-      display: none;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      display: block;
+
+      box-sizing: border-box;
+      padding: calc(var(--default-size-small, 1px) * 4.00);
+
+      cursor: pointer;
+
+      > * {
+        box-sizing: border-box;
+        border-radius: calc(var(--default-size-small, 1px) * 4.00);
+        padding: calc(var(--default-size-small, 1px) * 2.00);
+
+        background-color: var(--default-color-theme, blue);
+
+        font-size: calc(var(--default-size-medium, 24px) * 0.75);
+        
+        color: var(--default-color-light, white);
+      }
     }
   }
 
   > :nth-child(2) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center space-between;
+
+    width: 100%;
+    height: auto;
+
+    box-sizing: border-box;
+    gap: var(--default-size-medium, 24px);
+
     > * {
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: center center;
+      place-content: center center;
+      
+      flex: 1 1 0;
+      height: auto;
+
+      box-sizing: border-box;
+      border-radius: calc(var(--default-size-small, 1px) * 4.00);
+      padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 24px) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
       > :nth-child(2) {
-        display: none;
+        position: relative;
+        top: 0;
+
+        display: block;
+
+        max-height: var(--default-size-large, 480px);
       }
     }
   }

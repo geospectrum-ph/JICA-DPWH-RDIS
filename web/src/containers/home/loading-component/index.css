@@ -1,4 +1,9 @@
 #loading-component {
+  place-items: center center;
+  place-content: center center;
+
+  background-color: red;
+
   > * {
     display: flex;
     flex-flow: column nowrap;

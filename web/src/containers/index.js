@@ -13,6 +13,7 @@ import PotentialRoadSlopeProjects from "./modules/potential-road-slope-projects"
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
 import Reports from "./modules/error";
+import Settings from "./modules/error";
 
 import About from "./modules/error";
 import TermsOfUse from "./modules/error";
@@ -37,6 +38,7 @@ export default function App() {
             <Route path = "funded-road-slope-projects" element = { <FundedRoadSlopeProjects/> }/>
             <Route path = "proposal-for-funding" element = { <ProposalForFunding/> }/>
             <Route path = "reports" element = { <Reports/> }/>
+            <Route path = "settings" element = { <Settings/> }/>
           </Route>
           <Route path = "about" element = { <About/> }/>
           <Route path = "terms-of-use" element = { <TermsOfUse/> }/>

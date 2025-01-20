@@ -14,13 +14,19 @@
   > :nth-child(1) {
     position: absolute;
     right: 0;
-    top: 0;
+    top: var(--default-size-medium, 24px);
     z-index: 100;
 
     width: var(--default-size-medium, 24px);
     height: var(--default-size-medium, 24px);
 
+    border-radius: calc(var(--default-size-small, 1px) * 4.00);
+
+    background-color: var(--default-color-dark, black);
+
     cursor: pointer;
+
+    color: var(--default-color-light, white);
   }
 
   > :nth-child(2) {
@@ -32,13 +38,15 @@
     width: auto;      
     height: 100%;
 
-    gap: calc(var(--default-size-medium, 24px) * 2);
+    gap: calc(var(--default-size-medium, 24px) * 2.00);
 
     > :nth-child(1) {
       display: flex;
       flex-flow: row nowrap;
       place-items: center center;
       place-content: center center;
+
+      max-width: calc(var(--default-size-large) * 0.70);
 
       box-sizing: border-box;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
@@ -47,7 +55,7 @@
 
       background-color: var(--default-color-accent, orange);
 
-      font: bold var(--default-font-size, 16px) var(--default-font-family, "Outfit", sans-serif);
+      font: bold calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
       line-height: var(--default-size-medium, 24px);
       text-transform: uppercase;
 
@@ -63,8 +71,8 @@
         cursor: pointer;
 
         > img {
-          width: var(--default-size-medium, 24px);
-          height: var(--default-size-medium, 24px);
+          width: calc(var(--default-size-medium, 24px) * 2.00);
+          height: calc(var(--default-size-medium, 24px) * 2.00);
         }
       }
     }
@@ -78,28 +86,35 @@
       width: 100%;
       flex: 1 1 0;
 
-      font: normal var(--default-font-size, 16px) var(--default-font-family, "Outfit", sans-serif);
+      font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
 
       > * {
         display: flex;
         flex-flow: row nowrap;
         place-items: center center;
-        place-content: center start;
+        place-content: center center;
 
         width: 100%;
         height: auto;
 
         box-sizing: border-box;
-        border-radius: calc(var(--default-size-small, 1px) * 4.00);
         padding: calc(var(--default-size-medium, 24px) * 0.50);  
-        gap: calc(var(--default-size-medium, 24px) * 0.50);
+        gap: calc(var(--default-size-medium, 24px) * 0.50);  
 
         cursor: pointer;
 
         line-height: var(--default-size-medium, 24px);
 
+        > :nth-child(2) {
+          flex: 1 1 0;
+        }
+
         &:hover, &.selected {
-          background-color: var(--default-color-accent, orange);
+          color: var(--default-color-theme, blue);
+
+          > :nth-child(2) {
+            box-shadow: 0 calc(var(--default-size-small, 1px) * 2.00) var(--default-color-theme, blue);
+          }
         }
       }
     }
@@ -113,19 +128,18 @@
       width: 100%;
       height: auto;
 
-      font: normal var(--default-font-size, 16px) var(--default-font-family, "Outfit", sans-serif);
+      font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
 
       > * {
         display: flex;
         flex-flow: row nowrap;
         place-items: center center;
-        place-content: center start;
+        place-content: center center;
 
         width: 100%;
         height: auto;
 
         box-sizing: border-box;
-        border-radius: calc(var(--default-size-small, 1px) * 4.00);
         padding: calc(var(--default-size-medium, 24px) * 0.50);  
         gap: calc(var(--default-size-medium, 24px) * 0.50);
 
@@ -133,8 +147,16 @@
 
         line-height: var(--default-size-medium, 24px);
 
+        > :nth-child(2) {
+          flex: 1 1 0;
+        }
+
         &:hover {
-          background-color: var(--default-color-accent, orange);
+          color: var(--default-color-theme, blue);
+
+          > :nth-child(2) {
+            box-shadow: 0 calc(var(--default-size-small, 1px) * 2.00) var(--default-color-theme, blue);
+          }
         }
       }
     }

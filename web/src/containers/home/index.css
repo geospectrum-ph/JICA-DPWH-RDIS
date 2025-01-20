@@ -11,12 +11,16 @@
   > :nth-child(1) {
     width: auto;
     height: 100%;
+
+    background-color: var(--default-color-light, white);
   }
 
   /* Outlet */
   > :nth-child(2) {
     width: auto;
     height: 100%;
+
+    background-color: var(--default-color-light, white);
   }
 
   > :nth-child(3) {
@@ -27,6 +31,8 @@
 
     flex: 1 1 0;
     height: 100%;
+
+    background-color: var(--default-color-light, white);
 
     /* Filter Component */
     > :nth-child(1) {
@@ -46,16 +52,12 @@
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 200;
+    z-index: -100;
   
     display: block;
-    place-items: center center;
-    place-content: center center;
-  
+    
     width: 100%;
     height: 100%;
-
-    background-color: red;
   }
 }
 

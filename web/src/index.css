@@ -42,17 +42,17 @@ font-* text-* color
 */
 
 html {
-  --default-color-dark: black;
-  --default-color-light: white;
-
-  --default-color-accent: orange;
-
-  --default-font-family: "Outfit", sans-serif;
-  --default-font-size: 16px;
-
   --default-size-small: 1px;
   --default-size-medium: 24px;
   --default-size-large: 480px;
+
+  --default-font-family: "Outfit", sans-serif;
+  
+  --default-color-dark: black;
+  --default-color-light: white;
+
+  --default-color-theme: blue;
+  --default-color-accent: orange;
 }
 
 body {

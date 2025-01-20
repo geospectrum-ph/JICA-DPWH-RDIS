@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
@@ -62,8 +63,8 @@ export default function MenuComponent () {
       <div className = "toggle-button" onClick = { () => { setMenuComponentExpandedState(!menuComponentExpandedState) } }>
         {
           menuComponentExpandedState ?
-            <span className = "material-symbols-outlined">{ "arrow_circle_left" }</span> :
-            <span className = "material-symbols-outlined">{ "arrow_circle_right" }</span>
+            <span className = "material-symbols-outlined">{ "arrow_left" }</span> :
+            <span className = "material-symbols-outlined">{ "arrow_right" }</span>
         }
       </div>
       <div>
