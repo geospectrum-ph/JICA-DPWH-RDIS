@@ -11,6 +11,8 @@
   padding: var(--default-size-medium, 24px);
   gap: var(--default-size-medium, 24px);
 
+  font: normal calc(var(--default-size-medium, 24px) * 0.50) var(--default-font-family, "Outfit", sans-serif);
+
   > :nth-child(1) {
     position: relative;
 
@@ -31,6 +33,8 @@
       border: none;
 
       cursor: pointer;
+
+      font: normal calc(var(--default-size-medium, 24px) * 0.50) var(--default-font-family, "Outfit", sans-serif);
 
       &:focus-visible {
         outline: none;
@@ -67,7 +71,7 @@
     display: flex;
     flex-flow: row nowrap;
     place-items: center center;
-    place-content: center space-between;
+    place-content: center center;
 
     width: 100%;
     height: auto;
@@ -76,61 +80,72 @@
     gap: var(--default-size-medium, 24px);
 
     > * {
-      display: flex;
-      flex-flow: column nowrap;
-      place-items: center center;
-      place-content: center center;
-      
+      position: relative;
+
+      display: inline-block;
+
       flex: 1 1 0;
       height: auto;
 
       box-sizing: border-box;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
-      padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 24px) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
-      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
 
-      > :nth-child(2) {
-        position: relative;
-        top: 0;
+      > * {
+        width: 100%;
+        height: auto;
+      }
 
-        display: block;
+      > :nth-child(1) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center space-between;
 
-        max-height: var(--default-size-large, 480px);
+        > :nth-child(1) {
+          flex: 1 1 0;
+          height: auto;
+        }
+  
+        > :nth-child(2) {
+          width: auto;
+          height: auto;
+        }
+      }
+
+      &.filter-menu-dropdown-inactive {
+        > :nth-child(2) {
+          display: none;
+        }
+      }
+
+      &.filter-menu-dropdown-active {
+        > :nth-child(2) {
+          position: absolute;
+          left: 0;
+          top: calc(var(--default-size-medium, 24px) * 2.00);
+          z-index: 100;
+
+          display: block;
+
+          box-sizing: border-box;
+          border-radius: calc(var(--default-size-small, 1px) * 4.00);
+          padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+          box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
+        
+          background-color: var(--default-color-light, white);
+        }
       }
     }
-  }
 
   /* Filter Categories */
   /* > * {
-    display: flex;
-    flex-flow: column nowrap;
-    place-items: center center;
-    place-content: center center;
-      
-    width: calc(var(--space-100, 8px) * 24);
-    height: 100%;
+    width: var(--default-size-large, 480px);
+    height: auto;
 
     box-sizing: border-box;
-    outline: var(--border-black-025, 2px solid rgba(0, 0, 0, 1.00));
-
-    /* Label */
-    /* > :nth-child(1) {
-      display: flex;
-      flex-flow: row nowrap;
-      place-items: center center;
-      place-content: center start;
-
-      width: 100%;
-      height: 50%;
-
-      box-sizing: border-box;
-      padding: var(--space-100, 8px);
-
-      background-color: var(--color-gray-100, rgba(100, 100, 100, 1.00));
-
-      font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
-      color: var(--color-white, rgba(255, 255, 255, 1.00));    
-    } */
+    outline: var(--border-black-025, 2px solid rgba(0, 0, 0, 1.00)); */
 
     /* Interactive Components */
     /* > :nth-child(2) {
@@ -143,22 +158,6 @@
       height: 50%;
 
       cursor: pointer;
-    } */
-      
-    /* Input Field */
-    /* > .filter-menu-input > input {
-      width: 100%;
-      height: 100%;
-
-      box-sizing: border-box;
-      border: none;
-      outline: none;
-      padding-block: 0;
-      padding-inline: var(--space-100, 8px);
-
-      font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
-      text-transform: capitalize;
-      color: var(--color-black, rgba(0, 0, 0, 1.00));
     } */
 
     /* Inactive Dropdown Lists */
@@ -196,7 +195,10 @@
     /* > .filter-menu-dropdown-active {
       position: relative;
 
-      display: inline-block; */
+      display: inline-block;
+
+      box-sizing: border-box;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
 
       /* Dropdown Button */
       /* > :nth-child(1) {
@@ -218,7 +220,7 @@
       } */
 
       /* Dropdown Content */
-      /*> :nth-child(2) {
+      /* > :nth-child(2) {
         position: absolute;
         z-index: 100;
   
@@ -235,7 +237,7 @@
         box-shadow: calc(var(--border-100, 2px) * -1) 0 0 0 var(--color-black, rgba(0, 0, 0, 1.00)), 0 calc(var(--border-100, 2px) * 1) 0 0 var(--color-black, rgba(0, 0, 0, 1.00)), calc(var(--border-100, 2px) * 1) 0 0 0 var(--color-black, rgba(0, 0, 0, 1.00));
         padding: 0;
         
-        background-color: var(--color-white, rgba(255, 255, 255, 1.00));
+        background-color: var(--color-white, rgba(255, 255, 255, 1.00)); */
   
         /* Dropdown Item */
         /* > * {
@@ -267,5 +269,7 @@
       }
     }
   } */
+    /* } */
+  }
 }
 
