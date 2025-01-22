@@ -11,7 +11,7 @@
   padding: var(--default-size-medium, 24px);
   gap: var(--default-size-medium, 24px);
 
-  font: normal calc(var(--default-size-medium, 24px) * 0.50) var(--default-font-family, "Outfit", sans-serif);
+  font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
 
   > :nth-child(1) {
     position: relative;
@@ -23,7 +23,7 @@
 
     box-sizing: border-box;
     border-radius: calc(var(--default-size-small, 1px) * 4.00);
-    padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 24px) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+    padding: calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 2.00) calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 0.50);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
     > input {
@@ -34,7 +34,7 @@
 
       cursor: pointer;
 
-      font: normal calc(var(--default-size-medium, 24px) * 0.50) var(--default-font-family, "Outfit", sans-serif);
+      font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
 
       &:focus-visible {
         outline: none;
@@ -49,7 +49,7 @@
       display: block;
 
       box-sizing: border-box;
-      padding: calc(var(--default-size-small, 1px) * 4.00);
+      padding: calc(var(--default-size-medium, 24px) * 0.50);
 
       cursor: pointer;
 
@@ -89,7 +89,7 @@
 
       box-sizing: border-box;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
-      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
+      padding: calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 0.50);
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
 
       > * {
@@ -109,8 +109,10 @@
         }
   
         > :nth-child(2) {
-          width: auto;
-          height: auto;
+          box-sizing: border-box;
+          padding: 0 calc(var(--default-size-medium, 24px) * 0.25);
+
+          font-size: calc(var(--default-size-medium, 24px) * 0.75);
         }
       }
 
@@ -124,10 +126,15 @@
         > :nth-child(2) {
           position: absolute;
           left: 0;
-          top: calc(var(--default-size-medium, 24px) * 2.00);
+          top: calc(var(--default-size-medium, 24px) * 3.50);
           z-index: 100;
 
+          overflow-x: hidden;
+          overflow-y: scroll;
+
           display: block;
+
+          max-height: var(--default-size-large, 480px);
 
           box-sizing: border-box;
           border-radius: calc(var(--default-size-small, 1px) * 4.00);
@@ -135,6 +142,15 @@
           box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
         
           background-color: var(--default-color-light, white);
+
+          > * {
+            box-sizing: border-box;
+            padding: calc(var(--default-size-medium, 24px) * 0.50);
+          }
+
+          :hover, &.filter-menu-item-selected {
+            color: var(--default-color-theme, blue);
+          }
         }
       }
     }

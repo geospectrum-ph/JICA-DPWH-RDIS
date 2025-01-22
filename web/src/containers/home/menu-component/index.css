@@ -20,7 +20,9 @@
     width: var(--default-size-medium, 24px);
     height: var(--default-size-medium, 24px);
 
+    box-sizing: border-box;
     border-radius: calc(var(--default-size-small, 1px) * 4.00);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
     background-color: var(--default-color-dark, black);
 
@@ -50,6 +52,7 @@
 
       box-sizing: border-box;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
       padding: calc(var(--default-size-medium, 24px) * 0.50);
       gap: calc(var(--default-size-medium, 24px) * 0.50);
 
