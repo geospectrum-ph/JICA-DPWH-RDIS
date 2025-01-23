@@ -170,9 +170,9 @@ export default function RoadSlopeInventory () {
             }
 
             return (
-              <div key = { key } className = { "data-container data-container-details"}>
-                <span className = { dataSelected === item[1].attributes.GlobalID ? "selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>
-                  { item[1].attributes.START_LRP && item[1].attributes.END_LRP ? parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) : "No available data." }
+              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { event.stopPropagation(); } }>
+                <span className = { dataSelected === item[1].attributes.globalid ? "selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>
+                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) : "No available data." }
                 </span>
               </div>
             );

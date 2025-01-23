@@ -71,7 +71,7 @@ export default function PotentialRoadSlopeProjects () {
   
             recenter_map(extent);
   
-            setDataSelected(response.features[0].attributes.GlobalID);
+            setDataSelected(response.features[0].attributes.globalid);
   
             open_popup(response.features);
           }
@@ -141,7 +141,7 @@ export default function PotentialRoadSlopeProjects () {
             }
 
             return (
-              <div key = { key } className = { "data-container data-container-details"}>
+              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { event.stopPropagation(); } }>
                 <span className = { dataSelected === item[1].attributes.globalid ? "selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>
                   { parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) }
                 </span>

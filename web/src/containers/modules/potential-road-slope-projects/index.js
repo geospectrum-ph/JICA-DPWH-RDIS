@@ -62,11 +62,11 @@ export default function PotentialRoadSlopeProjects () {
 
     if (toggle_panel.className === "data-container-hidden") {
       toggle_panel.className = "data-container";
-      toggle_icon.innerText = "keyboard_arrow_down";
+      toggle_panel.firstElementChild.className.includes("header") ? toggle_icon.innerText = "remove" : toggle_icon.innerText = "keyboard_arrow_down";
     }
     else {
       toggle_panel.className = "data-container-hidden";
-      toggle_icon.innerText = "keyboard_arrow_right";
+      toggle_panel.firstElementChild.className.includes("header") ? toggle_icon.innerText = "add" : toggle_icon.innerText = "keyboard_arrow_right";
     }
   }
 
@@ -151,9 +151,9 @@ export default function PotentialRoadSlopeProjects () {
             }
 
             return (
-              <div key = { key } className = { "data-container data-container-details"}>
-                <span className = { dataSelected === item[1].attributes.GlobalID ? "selected" : null } onClick = { function () { find_road(item[1].attributes.GlobalID); } }>
-                  { item[1].attributes.START_LRP && item[1].attributes.END_LRP ? parse_limits(item[1].attributes.START_LRP) + " to " + parse_limits(item[1].attributes.END_LRP) : "No available data." }
+              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { event.stopPropagation(); } }>
+                <span className = { dataSelected === item[1].attributes.globalid ? "selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>
+                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) : "No available data." }
                 </span>
               </div>
             );
@@ -173,8 +173,8 @@ export default function PotentialRoadSlopeProjects () {
         dataArray ?
           <div className = "data-array-container">
             <div className = { "data-container" }>
-              <div onClick = { function (event) { change_visibility(event); } }>
-                <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+              <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                <span className = "material-symbols-outlined">{ "add" }</span>
                 <span>{ "Type of Work" }</span>
               </div>
               <div className = { "data-container-hidden" }>

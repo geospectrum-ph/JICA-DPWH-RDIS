@@ -267,443 +267,443 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Kilometer Post",
-      symbol: new CIMSymbol({
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            "type": "CIMPointSymbol",
-            "symbolLayers": [
-              {
-                "type": "CIMVectorMarker",
-                "enable": true,
-                "anchorPointUnits": "Relative",
-                "dominantSizeAxis3D": "Z",
-                "size": 32,
-                "billboardMode3D": "FaceNearPlane",
-                "frame": {
-                  "xmin": 0,
-                  "ymin": 0,
-                  "xmax": 1080,
-                  "ymax": 1080
-                },
-                "markerGraphics": [
-                  {
-                    "type": "CIMMarkerGraphic",
-                    "geometry": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "symbol": {
-                      "type": "CIMPointSymbol",
-                      "symbolLayers": [
-                        {
-                          "type": "CIMVectorMarker",
-                          "enable": true,
-                          "anchorPointUnits": "Relative",
-                          "dominantSizeAxis3D": "Z",
-                          "offsetX": 540,
-                          "offsetY": 540,
-                          "size": 1080,
-                          "billboardMode3D": "FaceNearPlane",
-                          "frame": {
-                            "xmin": 0,
-                            "ymin": 0,
-                            "xmax": 1080,
-                            "ymax": 1080
-                          },
-                          "markerGraphics": [
-                            {
-                              "type": "CIMMarkerGraphic",
-                              "geometry": {
-                                "x": 0,
-                                "y": 0
-                              },
-                              "symbol": {
-                                "type": "CIMPointSymbol",
-                                "symbolLayers": [
-                                  {
-                                    "type": "CIMVectorMarker",
-                                    "enable": true,
-                                    "anchorPointUnits": "Relative",
-                                    "dominantSizeAxis3D": "Z",
-                                    "offsetX": 540,
-                                    "offsetY": 540,
-                                    "size": 1080,
-                                    "billboardMode3D": "FaceNearPlane",
-                                    "frame": {
-                                      "xmin": 0,
-                                      "ymin": 0,
-                                      "xmax": 1080,
-                                      "ymax": 1080
-                                    },
-                                    "markerGraphics": [
-                                      {
-                                        "type": "CIMMarkerGraphic",
-                                        "geometry": {
-                                          "rings": [
-                                            [
-                                              [
-                                                675,
-                                                0
-                                              ],
-                                              [
-                                                675,
-                                                1080
-                                              ],
-                                              [
-                                                405,
-                                                1080
-                                              ],
-                                              [
-                                                405,
-                                                0
-                                              ],
-                                              [
-                                                675,
-                                                0
-                                              ]
-                                            ]
-                                          ]
-                                        },
-                                        "symbol": {
-                                          "type": "CIMPolygonSymbol",
-                                          "symbolLayers": [
-                                            {
-                                              "type": "CIMSolidFill",
-                                              "enable": true,
-                                              "color": [
-                                                255,
-                                                222,
-                                                89,
-                                                255
-                                              ]
-                                            }
-                                          ],
-                                          "angleAlignment": "Map"
-                                        }
-                                      },
-                                      {
-                                        "type": "CIMMarkerGraphic",
-                                        "geometry": {
-                                          "rings": [
-                                            [
-                                              [
-                                                405,
-                                                1080
-                                              ],
-                                              [
-                                                675,
-                                                1080
-                                              ],
-                                              [
-                                                675,
-                                                0
-                                              ],
-                                              [
-                                                405,
-                                                0
-                                              ],
-                                              [
-                                                405,
-                                                1080
-                                              ]
-                                            ]
-                                          ]
-                                        },
-                                        "symbol": {
-                                          "type": "CIMPolygonSymbol",
-                                          "symbolLayers": [
-                                            {
-                                              "type": "CIMSolidStroke",
-                                              "enable": true,
-                                              "capStyle": "Butt",
-                                              "joinStyle": "Miter",
-                                              "lineStyle3D": "Strip",
-                                              "miterLimit": 4,
-                                              "width": 32,
-                                              "height3D": 1,
-                                              "anchor3D": "Center",
-                                              "color": [
-                                                0,
-                                                0,
-                                                0,
-                                                255
-                                              ]
-                                            }
-                                          ],
-                                          "angleAlignment": "Map"
-                                        }
-                                      }
-                                    ],
-                                    "scaleSymbolsProportionally": true,
-                                    "respectFrame": true,
-                                    "clippingPath": {
-                                      "type": "CIMClippingPath",
-                                      "clippingType": "Intersect",
-                                      "path": {
-                                        "rings": [
-                                          [
-                                            [
-                                              675,
-                                              0
-                                            ],
-                                            [
-                                              675,
-                                              1080
-                                            ],
-                                            [
-                                              405,
-                                              1080
-                                            ],
-                                            [
-                                              405,
-                                              0
-                                            ],
-                                            [
-                                              675,
-                                              0
-                                            ]
-                                          ]
-                                        ]
-                                      }
-                                    }
-                                  }
-                                ],
-                                "haloSize": 1,
-                                "scaleX": 1,
-                                "angleAlignment": "Display"
-                              }
-                            }
-                          ],
-                          "scaleSymbolsProportionally": true,
-                          "respectFrame": true,
-                          "color": [
-                            0,
-                            0,
-                            0,
-                            255
-                          ]
-                        }
-                      ],
-                      "haloSize": 1,
-                      "scaleX": 1,
-                      "angleAlignment": "Display"
-                    }
-                  },
-                  {
-                    "type": "CIMMarkerGraphic",
-                    "geometry": {
-                      "x": 0,
-                      "y": 0
-                    },
-                    "symbol": {
-                      "type": "CIMPointSymbol",
-                      "symbolLayers": [
-                        {
-                          "type": "CIMVectorMarker",
-                          "enable": true,
-                          "anchorPointUnits": "Relative",
-                          "dominantSizeAxis3D": "Z",
-                          "offsetX": 540,
-                          "offsetY": 540,
-                          "size": 1080,
-                          "billboardMode3D": "FaceNearPlane",
-                          "frame": {
-                            "xmin": 0,
-                            "ymin": 0,
-                            "xmax": 1080,
-                            "ymax": 1080
-                          },
-                          "markerGraphics": [
-                            {
-                              "type": "CIMMarkerGraphic",
-                              "geometry": {
-                                "x": 0,
-                                "y": 0
-                              },
-                              "symbol": {
-                                "type": "CIMPointSymbol",
-                                "symbolLayers": [
-                                  {
-                                    "type": "CIMVectorMarker",
-                                    "enable": true,
-                                    "anchorPointUnits": "Relative",
-                                    "dominantSizeAxis3D": "Z",
-                                    "offsetX": 540,
-                                    "offsetY": 540,
-                                    "size": 1080,
-                                    "billboardMode3D": "FaceNearPlane",
-                                    "frame": {
-                                      "xmin": 0,
-                                      "ymin": 0,
-                                      "xmax": 1080,
-                                      "ymax": 1080
-                                    },
-                                    "markerGraphics": [
-                                      {
-                                        "type": "CIMMarkerGraphic",
-                                        "geometry": {
-                                          "rings": [
-                                            [
-                                              [
-                                                630,
-                                                45
-                                              ],
-                                              [
-                                                630,
-                                                495
-                                              ],
-                                              [
-                                                450,
-                                                495
-                                              ],
-                                              [
-                                                450,
-                                                45
-                                              ],
-                                              [
-                                                630,
-                                                45
-                                              ]
-                                            ]
-                                          ]
-                                        },
-                                        "symbol": {
-                                          "type": "CIMPolygonSymbol",
-                                          "symbolLayers": [
-                                            {
-                                              "type": "CIMSolidFill",
-                                              "enable": true,
-                                              "color": [
-                                                255,
-                                                189,
-                                                89,
-                                                255
-                                              ]
-                                            }
-                                          ],
-                                          "angleAlignment": "Map"
-                                        }
-                                      }
-                                    ],
-                                    "scaleSymbolsProportionally": true,
-                                    "respectFrame": true,
-                                    "clippingPath": {
-                                      "type": "CIMClippingPath",
-                                      "clippingType": "Intersect",
-                                      "path": {
-                                        "rings": [
-                                          [
-                                            [
-                                              630,
-                                              45
-                                            ],
-                                            [
-                                              630,
-                                              495
-                                            ],
-                                            [
-                                              450,
-                                              495
-                                            ],
-                                            [
-                                              450,
-                                              45
-                                            ],
-                                            [
-                                              630,
-                                              45
-                                            ]
-                                          ]
-                                        ]
-                                      }
-                                    }
-                                  }
-                                ],
-                                "haloSize": 1,
-                                "scaleX": 1,
-                                "angleAlignment": "Display"
-                              }
-                            }
-                          ],
-                          "scaleSymbolsProportionally": true,
-                          "respectFrame": true
-                        }
-                      ],
-                      "haloSize": 1,
-                      "scaleX": 1,
-                      "angleAlignment": "Display"
-                    }
-                  }
-                ],
-                "scaleSymbolsProportionally": true,
-                "respectFrame": true,
-                "clippingPath": {
-                  "type": "CIMClippingPath",
-                  "clippingType": "Intersect",
-                  "path": {
-                    "rings": [
-                      [
-                        [
-                          0,
-                          0
-                        ],
-                        [
-                          1080,
-                          0
-                        ],
-                        [
-                          1080,
-                          1080
-                        ],
-                        [
-                          0,
-                          1080
-                        ],
-                        [
-                          0,
-                          0
-                        ]
-                      ]
-                    ]
-                  }
-                }
-              }
-            ],
-            "animations": []
-          }
-        }
-      }),
-      visualVariables: [
-        {
-          type: "size",
-          valueExpression: "$view.scale",
-          stops: [
-            { size: 48, value: 564.248588 }, // Zoom Level: 20
-            { size: 24, value: 9027.977411 }, // Zoom Level: 16
-            { size: 12, value: 144447.638572 }, // Zoom Level: 12
-            { size: 6, value: 2311162.217155 } // Zoom Level: 8
-          ]
-        }
-      ]
-      // symbol: {
-      //   type: "simple-marker",
-      //   style: "circle",
-      //   color: [255, 255, 255, 1.00],
-      //   outline: {
-      //     color: [0, 0, 0, 1.00],
-      //     width: 1.00
+      // symbol: new CIMSymbol({
+      //   data: {
+      //     type: "CIMSymbolReference",
+      //     symbol: {
+      //       "type": "CIMPointSymbol",
+      //       "symbolLayers": [
+      //         {
+      //           "type": "CIMVectorMarker",
+      //           "enable": true,
+      //           "anchorPointUnits": "Relative",
+      //           "dominantSizeAxis3D": "Z",
+      //           "size": 32,
+      //           "billboardMode3D": "FaceNearPlane",
+      //           "frame": {
+      //             "xmin": 0,
+      //             "ymin": 0,
+      //             "xmax": 1080,
+      //             "ymax": 1080
+      //           },
+      //           "markerGraphics": [
+      //             {
+      //               "type": "CIMMarkerGraphic",
+      //               "geometry": {
+      //                 "x": 0,
+      //                 "y": 0
+      //               },
+      //               "symbol": {
+      //                 "type": "CIMPointSymbol",
+      //                 "symbolLayers": [
+      //                   {
+      //                     "type": "CIMVectorMarker",
+      //                     "enable": true,
+      //                     "anchorPointUnits": "Relative",
+      //                     "dominantSizeAxis3D": "Z",
+      //                     "offsetX": 540,
+      //                     "offsetY": 540,
+      //                     "size": 1080,
+      //                     "billboardMode3D": "FaceNearPlane",
+      //                     "frame": {
+      //                       "xmin": 0,
+      //                       "ymin": 0,
+      //                       "xmax": 1080,
+      //                       "ymax": 1080
+      //                     },
+      //                     "markerGraphics": [
+      //                       {
+      //                         "type": "CIMMarkerGraphic",
+      //                         "geometry": {
+      //                           "x": 0,
+      //                           "y": 0
+      //                         },
+      //                         "symbol": {
+      //                           "type": "CIMPointSymbol",
+      //                           "symbolLayers": [
+      //                             {
+      //                               "type": "CIMVectorMarker",
+      //                               "enable": true,
+      //                               "anchorPointUnits": "Relative",
+      //                               "dominantSizeAxis3D": "Z",
+      //                               "offsetX": 540,
+      //                               "offsetY": 540,
+      //                               "size": 1080,
+      //                               "billboardMode3D": "FaceNearPlane",
+      //                               "frame": {
+      //                                 "xmin": 0,
+      //                                 "ymin": 0,
+      //                                 "xmax": 1080,
+      //                                 "ymax": 1080
+      //                               },
+      //                               "markerGraphics": [
+      //                                 {
+      //                                   "type": "CIMMarkerGraphic",
+      //                                   "geometry": {
+      //                                     "rings": [
+      //                                       [
+      //                                         [
+      //                                           675,
+      //                                           0
+      //                                         ],
+      //                                         [
+      //                                           675,
+      //                                           1080
+      //                                         ],
+      //                                         [
+      //                                           405,
+      //                                           1080
+      //                                         ],
+      //                                         [
+      //                                           405,
+      //                                           0
+      //                                         ],
+      //                                         [
+      //                                           675,
+      //                                           0
+      //                                         ]
+      //                                       ]
+      //                                     ]
+      //                                   },
+      //                                   "symbol": {
+      //                                     "type": "CIMPolygonSymbol",
+      //                                     "symbolLayers": [
+      //                                       {
+      //                                         "type": "CIMSolidFill",
+      //                                         "enable": true,
+      //                                         "color": [
+      //                                           255,
+      //                                           222,
+      //                                           89,
+      //                                           255
+      //                                         ]
+      //                                       }
+      //                                     ],
+      //                                     "angleAlignment": "Map"
+      //                                   }
+      //                                 },
+      //                                 {
+      //                                   "type": "CIMMarkerGraphic",
+      //                                   "geometry": {
+      //                                     "rings": [
+      //                                       [
+      //                                         [
+      //                                           405,
+      //                                           1080
+      //                                         ],
+      //                                         [
+      //                                           675,
+      //                                           1080
+      //                                         ],
+      //                                         [
+      //                                           675,
+      //                                           0
+      //                                         ],
+      //                                         [
+      //                                           405,
+      //                                           0
+      //                                         ],
+      //                                         [
+      //                                           405,
+      //                                           1080
+      //                                         ]
+      //                                       ]
+      //                                     ]
+      //                                   },
+      //                                   "symbol": {
+      //                                     "type": "CIMPolygonSymbol",
+      //                                     "symbolLayers": [
+      //                                       {
+      //                                         "type": "CIMSolidStroke",
+      //                                         "enable": true,
+      //                                         "capStyle": "Butt",
+      //                                         "joinStyle": "Miter",
+      //                                         "lineStyle3D": "Strip",
+      //                                         "miterLimit": 4,
+      //                                         "width": 32,
+      //                                         "height3D": 1,
+      //                                         "anchor3D": "Center",
+      //                                         "color": [
+      //                                           0,
+      //                                           0,
+      //                                           0,
+      //                                           255
+      //                                         ]
+      //                                       }
+      //                                     ],
+      //                                     "angleAlignment": "Map"
+      //                                   }
+      //                                 }
+      //                               ],
+      //                               "scaleSymbolsProportionally": true,
+      //                               "respectFrame": true,
+      //                               "clippingPath": {
+      //                                 "type": "CIMClippingPath",
+      //                                 "clippingType": "Intersect",
+      //                                 "path": {
+      //                                   "rings": [
+      //                                     [
+      //                                       [
+      //                                         675,
+      //                                         0
+      //                                       ],
+      //                                       [
+      //                                         675,
+      //                                         1080
+      //                                       ],
+      //                                       [
+      //                                         405,
+      //                                         1080
+      //                                       ],
+      //                                       [
+      //                                         405,
+      //                                         0
+      //                                       ],
+      //                                       [
+      //                                         675,
+      //                                         0
+      //                                       ]
+      //                                     ]
+      //                                   ]
+      //                                 }
+      //                               }
+      //                             }
+      //                           ],
+      //                           "haloSize": 1,
+      //                           "scaleX": 1,
+      //                           "angleAlignment": "Display"
+      //                         }
+      //                       }
+      //                     ],
+      //                     "scaleSymbolsProportionally": true,
+      //                     "respectFrame": true,
+      //                     "color": [
+      //                       0,
+      //                       0,
+      //                       0,
+      //                       255
+      //                     ]
+      //                   }
+      //                 ],
+      //                 "haloSize": 1,
+      //                 "scaleX": 1,
+      //                 "angleAlignment": "Display"
+      //               }
+      //             },
+      //             {
+      //               "type": "CIMMarkerGraphic",
+      //               "geometry": {
+      //                 "x": 0,
+      //                 "y": 0
+      //               },
+      //               "symbol": {
+      //                 "type": "CIMPointSymbol",
+      //                 "symbolLayers": [
+      //                   {
+      //                     "type": "CIMVectorMarker",
+      //                     "enable": true,
+      //                     "anchorPointUnits": "Relative",
+      //                     "dominantSizeAxis3D": "Z",
+      //                     "offsetX": 540,
+      //                     "offsetY": 540,
+      //                     "size": 1080,
+      //                     "billboardMode3D": "FaceNearPlane",
+      //                     "frame": {
+      //                       "xmin": 0,
+      //                       "ymin": 0,
+      //                       "xmax": 1080,
+      //                       "ymax": 1080
+      //                     },
+      //                     "markerGraphics": [
+      //                       {
+      //                         "type": "CIMMarkerGraphic",
+      //                         "geometry": {
+      //                           "x": 0,
+      //                           "y": 0
+      //                         },
+      //                         "symbol": {
+      //                           "type": "CIMPointSymbol",
+      //                           "symbolLayers": [
+      //                             {
+      //                               "type": "CIMVectorMarker",
+      //                               "enable": true,
+      //                               "anchorPointUnits": "Relative",
+      //                               "dominantSizeAxis3D": "Z",
+      //                               "offsetX": 540,
+      //                               "offsetY": 540,
+      //                               "size": 1080,
+      //                               "billboardMode3D": "FaceNearPlane",
+      //                               "frame": {
+      //                                 "xmin": 0,
+      //                                 "ymin": 0,
+      //                                 "xmax": 1080,
+      //                                 "ymax": 1080
+      //                               },
+      //                               "markerGraphics": [
+      //                                 {
+      //                                   "type": "CIMMarkerGraphic",
+      //                                   "geometry": {
+      //                                     "rings": [
+      //                                       [
+      //                                         [
+      //                                           630,
+      //                                           45
+      //                                         ],
+      //                                         [
+      //                                           630,
+      //                                           495
+      //                                         ],
+      //                                         [
+      //                                           450,
+      //                                           495
+      //                                         ],
+      //                                         [
+      //                                           450,
+      //                                           45
+      //                                         ],
+      //                                         [
+      //                                           630,
+      //                                           45
+      //                                         ]
+      //                                       ]
+      //                                     ]
+      //                                   },
+      //                                   "symbol": {
+      //                                     "type": "CIMPolygonSymbol",
+      //                                     "symbolLayers": [
+      //                                       {
+      //                                         "type": "CIMSolidFill",
+      //                                         "enable": true,
+      //                                         "color": [
+      //                                           255,
+      //                                           189,
+      //                                           89,
+      //                                           255
+      //                                         ]
+      //                                       }
+      //                                     ],
+      //                                     "angleAlignment": "Map"
+      //                                   }
+      //                                 }
+      //                               ],
+      //                               "scaleSymbolsProportionally": true,
+      //                               "respectFrame": true,
+      //                               "clippingPath": {
+      //                                 "type": "CIMClippingPath",
+      //                                 "clippingType": "Intersect",
+      //                                 "path": {
+      //                                   "rings": [
+      //                                     [
+      //                                       [
+      //                                         630,
+      //                                         45
+      //                                       ],
+      //                                       [
+      //                                         630,
+      //                                         495
+      //                                       ],
+      //                                       [
+      //                                         450,
+      //                                         495
+      //                                       ],
+      //                                       [
+      //                                         450,
+      //                                         45
+      //                                       ],
+      //                                       [
+      //                                         630,
+      //                                         45
+      //                                       ]
+      //                                     ]
+      //                                   ]
+      //                                 }
+      //                               }
+      //                             }
+      //                           ],
+      //                           "haloSize": 1,
+      //                           "scaleX": 1,
+      //                           "angleAlignment": "Display"
+      //                         }
+      //                       }
+      //                     ],
+      //                     "scaleSymbolsProportionally": true,
+      //                     "respectFrame": true
+      //                   }
+      //                 ],
+      //                 "haloSize": 1,
+      //                 "scaleX": 1,
+      //                 "angleAlignment": "Display"
+      //               }
+      //             }
+      //           ],
+      //           "scaleSymbolsProportionally": true,
+      //           "respectFrame": true,
+      //           "clippingPath": {
+      //             "type": "CIMClippingPath",
+      //             "clippingType": "Intersect",
+      //             "path": {
+      //               "rings": [
+      //                 [
+      //                   [
+      //                     0,
+      //                     0
+      //                   ],
+      //                   [
+      //                     1080,
+      //                     0
+      //                   ],
+      //                   [
+      //                     1080,
+      //                     1080
+      //                   ],
+      //                   [
+      //                     0,
+      //                     1080
+      //                   ],
+      //                   [
+      //                     0,
+      //                     0
+      //                   ]
+      //                 ]
+      //               ]
+      //             }
+      //           }
+      //         }
+      //       ],
+      //       "animations": []
+      //     }
       //   }
-      // },
-      // visualVariables: [{
-      //   type: "size",
-      //   valueExpression: "$view.scale",
-      //   stops: [
-      //     { size: 8, value: 9027.977411 }, // Zoom Level: 16
-      //     { size: 4, value: 144447.638572 }, // Zoom Level: 12
-      //     { size: 1, value: 2311162.217155 } // Zoom Level: 8
-      //   ]
-      // }]
+      // }),
+      // visualVariables: [
+      //   {
+      //     type: "size",
+      //     valueExpression: "$view.scale",
+      //     stops: [
+      //       { size: 48, value: 564.248588 }, // Zoom Level: 20
+      //       { size: 24, value: 9027.977411 }, // Zoom Level: 16
+      //       { size: 12, value: 144447.638572 }, // Zoom Level: 12
+      //       { size: 6, value: 2311162.217155 } // Zoom Level: 8
+      //     ]
+      //   }
+      // ]
+      symbol: {
+        type: "simple-marker",
+        style: "circle",
+        color: [255, 255, 255, 1.00],
+        outline: {
+          color: [0, 0, 0, 1.00],
+          width: 1.00
+        }
+      },
+      visualVariables: [{
+        type: "size",
+        valueExpression: "$view.scale",
+        stops: [
+          { size: 8, value: 9027.977411 }, // Zoom Level: 16
+          { size: 4, value: 144447.638572 }, // Zoom Level: 12
+          { size: 1, value: 2311162.217155 } // Zoom Level: 8
+        ]
+      }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -822,7 +822,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [0, 0, 0, 1.00]
+        color: [191, 191, 191, 1.00]
       }
     },
     labelsVisible: false,
@@ -1008,7 +1008,7 @@ function MapContextProvider (props) {
       layer_volume_of_traffic_level_01,
       layer_volume_of_traffic_level_00
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent"
   });
  
@@ -1069,8 +1069,8 @@ function MapContextProvider (props) {
       label: "Unclassified Terrain",
       symbol: {
         type: "simple-line",
-        width: 1.00,
-        color: [0, 0, 0, 1.00]
+        width: 2.00,
+        color: [191, 191, 191, 1.00]
       }
     },
     labelsVisible: false,
@@ -1092,8 +1092,8 @@ function MapContextProvider (props) {
       label: "Flat Terrain",
       symbol: {
         type: "simple-line",
-        width: 1.00,
-        color: [144, 169, 85, 1.00]
+        width: 2.00,
+        color: [128, 128, 128, 1.00]
       }
     },
     labelsVisible: false,
@@ -1115,8 +1115,8 @@ function MapContextProvider (props) {
       label: "Rolling Terrain",
       symbol: {
         type: "simple-line",
-        width: 1.00,
-        color: [79, 119, 45, 1.00]
+        width: 2.00,
+        color: [51, 204, 51, 1.00]
       }
     },
     labelsVisible: false,
@@ -1138,8 +1138,8 @@ function MapContextProvider (props) {
       label: "Mountainous Terrain",
       symbol: {
         type: "simple-line",
-        width: 1.00,
-        color: [49, 87, 44, 1.00]
+        width: 2.00,
+        color: [153, 51, 0, 1.00]
       }
     },
     labelsVisible: false,
@@ -1160,7 +1160,7 @@ function MapContextProvider (props) {
       layer_flat_terrain,
       layer_unclassified_terrain
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent"
   });
 
@@ -1222,7 +1222,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [0, 0, 0, 1.00]
+        color: [191, 191, 191, 1.00]
       }
     },
     labelsVisible: false,
@@ -1268,7 +1268,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [0, 0, 255, 1.00]
+        color: [0, 176, 240, 1.00]
       }
     },
     labelsVisible: false,
@@ -1291,7 +1291,7 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         width: 1.00,
-        color: [0, 255, 0, 1.00]
+        color: [0, 176, 80, 1.00]
       }
     },
     labelsVisible: false,
@@ -1312,7 +1312,7 @@ function MapContextProvider (props) {
       layer_primary_roads,
       layer_unclassified_roads
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent"
   });
 
@@ -1732,7 +1732,7 @@ function MapContextProvider (props) {
       layer_legislative_districts,
       layer_municipalities_cities
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent"
   });
 
@@ -1932,23 +1932,25 @@ function MapContextProvider (props) {
       label: "Hazard Map Data",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [244, 211, 94, 1.00],
-        marker: {
-          style: "cross",
-          color: [244, 211, 94, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 6.00,
+        color: [255, 0, 255, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [244, 211, 94, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -2071,23 +2073,25 @@ function MapContextProvider (props) {
       label: "Road Slopes and Countermeasures Data",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [13, 59, 102, 1.00],
-        marker: {
-          style: "cross",
-          color: [13, 59, 102, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [13, 59, 102, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [13, 59, 102, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -2219,23 +2223,25 @@ function MapContextProvider (props) {
       label: "Inventory of Road Slopes Data",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [249, 87, 56, 1.00],
-        marker: {
-          style: "cross",
-          color: [249, 87, 56, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [249, 87, 56, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [249, 87, 56, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -2367,23 +2373,25 @@ function MapContextProvider (props) {
       label: "Inventory of Road Slope Structures Data",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [238, 150, 75, 1.00],
-        marker: {
-          style: "cross",
-          color: [238, 150, 75, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [238, 150, 75, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [238, 150, 75, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     labelsVisible: true,
     labelingInfo: [{
@@ -2415,63 +2423,65 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Unclassified Road Slope Hazard Risk",
-      symbol: new CIMSymbol({
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            "type": "CIMLineSymbol",
-            "symbolLayers": [
-              {
-                "type": "CIMSolidStroke",
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 8,
-                "color": [
-                  0,
-                  0,
-                  0,
-                  255
-                ]
-              },
-              {
-                "type": "CIMSolidStroke",
-                "effects": [
-                  {
-                    "type": "CIMGeometricEffectBuffer",
-                    "size": 2
-                  }
-                ],
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 12,
-                "color": [
-                  0,
-                  0,
-                  0,
-                  150
-                ]
-              }
-            ],
-            "animations": []
-          }
-        }
-      }),
-      // symbol: {
-      //   type: "simple-line",
-      //   width: 4.00,
-      //   color: [0, 0, 0, 1.00],
-      //   marker: {
-      //     style: "cross",
-      //     color: [0, 0, 0, 1.00],
-      //     placement: "begin-end"
+      // symbol: new CIMSymbol({
+      //   data: {
+      //     type: "CIMSymbolReference",
+      //     symbol: {
+      //       "type": "CIMLineSymbol",
+      //       "symbolLayers": [
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 8,
+      //           "color": [
+      //             0,
+      //             0,
+      //             0,
+      //             255
+      //           ]
+      //         },
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "effects": [
+      //             {
+      //               "type": "CIMGeometricEffectBuffer",
+      //               "size": 2
+      //             }
+      //           ],
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 12,
+      //           "color": [
+      //             0,
+      //             0,
+      //             0,
+      //             150
+      //           ]
+      //         }
+      //       ],
+      //       "animations": []
+      //     }
       //   }
-      // },
+      // }),
+      symbol: {
+        type: "simple-line",
+        width: 6.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
       // visualVariables: [{
       //   type: "size",
       //   valueExpression: "$view.scale",
@@ -2498,63 +2508,65 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Low Road Slope Hazard Risk",
-      symbol: new CIMSymbol({
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            "type": "CIMLineSymbol",
-            "symbolLayers": [
-              {
-                "type": "CIMSolidStroke",
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 8,
-                "color": [
-                  247,
-                  184,
-                  1,
-                  255
-                ]
-              },
-              {
-                "type": "CIMSolidStroke",
-                "effects": [
-                  {
-                    "type": "CIMGeometricEffectBuffer",
-                    "size": 2
-                  }
-                ],
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 12,
-                "color": [
-                  247,
-                  184,
-                  1,
-                  150
-                ]
-              }
-            ],
-            "animations": []
-          }
-        }
-      }),
-      // symbol: {
-      //   type: "simple-line",
-      //   width: 4.00,
-      //   color: [247, 184, 1, 1.00],
-      //   marker: {
-      //     style: "cross",
-      //     color: [247, 184, 1, 1.00],
-      //     placement: "begin-end"
+      // symbol: new CIMSymbol({
+      //   data: {
+      //     type: "CIMSymbolReference",
+      //     symbol: {
+      //       "type": "CIMLineSymbol",
+      //       "symbolLayers": [
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 8,
+      //           "color": [
+      //             247,
+      //             184,
+      //             1,
+      //             255
+      //           ]
+      //         },
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "effects": [
+      //             {
+      //               "type": "CIMGeometricEffectBuffer",
+      //               "size": 2
+      //             }
+      //           ],
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 12,
+      //           "color": [
+      //             247,
+      //             184,
+      //             1,
+      //             150
+      //           ]
+      //         }
+      //       ],
+      //       "animations": []
+      //     }
       //   }
-      // // },
+      // }),
+      symbol: {
+        type: "simple-line",
+        width: 6.00,
+        color: [0, 176, 80, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [247, 184, 1, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // },
       // visualVariables: [{
       //   type: "size",
       //   valueExpression: "$view.scale",
@@ -2581,62 +2593,64 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with Medium Road Slope Hazard Risk",
-      symbol: new CIMSymbol({
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            "type": "CIMLineSymbol",
-            "symbolLayers": [
-              {
-                "type": "CIMSolidStroke",
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 8,
-                "color": [
-                  241,
-                  135,
-                  1,
-                  255
-                ]
-              },
-              {
-                "type": "CIMSolidStroke",
-                "effects": [
-                  {
-                    "type": "CIMGeometricEffectBuffer",
-                    "size": 2
-                  }
-                ],
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 12,
-                "color": [
-                  241,
-                  135,
-                  1,
-                  150
-                ]
-              }
-            ],
-            "animations": []
-          }
-        }
-      }),
-      // symbol: {
-      //   type: "simple-line",
-      //   width: 4.00,
-      //   color: [241, 135, 1, 1.00],
-      //   marker: {
-      //     style: "cross",
-      //     color: [241, 135, 1, 1.00],
-      //     placement: "begin-end"
+      // symbol: new CIMSymbol({
+      //   data: {
+      //     type: "CIMSymbolReference",
+      //     symbol: {
+      //       "type": "CIMLineSymbol",
+      //       "symbolLayers": [
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 8,
+      //           "color": [
+      //             241,
+      //             135,
+      //             1,
+      //             255
+      //           ]
+      //         },
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "effects": [
+      //             {
+      //               "type": "CIMGeometricEffectBuffer",
+      //               "size": 2
+      //             }
+      //           ],
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 12,
+      //           "color": [
+      //             241,
+      //             135,
+      //             1,
+      //             150
+      //           ]
+      //         }
+      //       ],
+      //       "animations": []
+      //     }
       //   }
+      // }),
+      symbol: {
+        type: "simple-line",
+        width: 6.00,
+        color: [255, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [241, 135, 1, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
       // // },
       // visualVariables: [{
       //   type: "size",
@@ -2664,63 +2678,64 @@ function MapContextProvider (props) {
     renderer: {
       type: "simple",
       label: "Road Section with High Road Slope Hazard Risk",
-      symbol: new CIMSymbol({
-        data: {
-          type: "CIMSymbolReference",
-          symbol: {
-            "type": "CIMLineSymbol",
-            "symbolLayers": [
-              {
-                "type": "CIMSolidStroke",
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 8,
-                "color": [
-                  243,
-                  91,
-                  4,
-                  255
-                ]
-              },
-              {
-                "type": "CIMSolidStroke",
-                "effects": [
-                  {
-                    "type": "CIMGeometricEffectBuffer",
-                    "size": 2
-                  }
-                ],
-                "enable": true,
-                "capStyle": "Round",
-                "joinStyle": "Round",
-                "lineStyle3D": "Strip",
-                "miterLimit": 0,
-                "width": 12,
-                "color": [
-                  243,
-                  91,
-                  4,
-                  150
-                ]
-              }
-            ],
-            "animations": []
-          }
-        }
-      }),
-      // symbol: {
-      //   type: "simple-line",
-      //   width: 4.00,
-      //   color: [243, 91, 4, 1.00],
-      //   marker: {
-      //     style: "cross",
-      //     color: [243, 91, 4, 1.00],
-      //     placement: "begin-end"
+      // symbol: new CIMSymbol({
+      //   data: {
+      //     type: "CIMSymbolReference",
+      //     symbol: {
+      //       "type": "CIMLineSymbol",
+      //       "symbolLayers": [
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 8,
+      //           "color": [
+      //             243,
+      //             91,
+      //             4,
+      //             255
+      //           ]
+      //         },
+      //         {
+      //           "type": "CIMSolidStroke",
+      //           "effects": [
+      //             {
+      //               "type": "CIMGeometricEffectBuffer",
+      //               "size": 2
+      //             }
+      //           ],
+      //           "enable": true,
+      //           "capStyle": "Round",
+      //           "joinStyle": "Round",
+      //           "lineStyle3D": "Strip",
+      //           "miterLimit": 0,
+      //           "width": 12,
+      //           "color": [
+      //             243,
+      //             91,
+      //             4,
+      //             150
+      //           ]
+      //         }
+      //       ],
+      //       "animations": []
+      //     }
       //   }
-      // },
+      // }),
+      symbol: {
+        type: "simple-line",
+        width: 6.00,
+        color: [255, 0, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [243, 91, 4, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
       // visualVariables: [{
       //   type: "size",
       //   valueExpression: "$view.scale",
@@ -2798,7 +2813,7 @@ function MapContextProvider (props) {
       label: "Area with Unclassified Storm Surge Hazard Risk",
       symbol: {
         type: "simple-fill",
-        color: [0, 0, 0, 1.00],
+        color: [191, 191, 191, 1.00],
         outline: { 
           color: [0, 0, 0, 0.50],
           width: 1.00
@@ -2897,7 +2912,7 @@ function MapContextProvider (props) {
       layer_low_storm_surge_hazard_risk,
       layer_unclassified_storm_surge_hazard_risk
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent"
   });
 
@@ -2912,23 +2927,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by an Unclassified Road Slope Disaster",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2948,23 +2965,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Soil Slope Collapse",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [249, 65, 68, 1.00],
-        marker: {
-          style: "cross",
-          color: [249, 65, 68, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [249, 65, 68, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [249, 65, 68, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -2984,23 +3003,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [243, 114, 44, 1.00],
-        marker: {
-          style: "cross",
-          color: [243, 114, 44, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [243, 114, 44, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [243, 114, 44, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3020,23 +3041,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Landslide",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [248, 150, 30, 1.00],
-        marker: {
-          style: "cross",
-          color: [248, 150, 30, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [248, 150, 30, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [248, 150, 30, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3056,23 +3079,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Road Slip",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [249, 199, 79, 1.00],
-        marker: {
-          style: "cross",
-          color: [249, 199, 79, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [249, 199, 79, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [249, 199, 79, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3092,23 +3117,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by River Erosion",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [144, 190, 109, 1.00],
-        marker: {
-          style: "cross",
-          color: [144, 190, 109, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [144, 190, 109, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [144, 190, 109, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3128,23 +3155,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Debris Flow",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [67, 170, 139, 1.00],
-        marker: {
-          style: "cross",
-          color: [67, 170, 139, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [67, 170, 139, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [67, 170, 139, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3164,23 +3193,25 @@ function MapContextProvider (props) {
       label: "Road Slope Affected by Coastal Erosion",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [87, 117, 144, 1.00],
-        marker: {
-          style: "cross",
-          color: [87, 117, 144, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [87, 117, 144, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [87, 117, 144, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3203,7 +3234,7 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slopes_coastal_erosion,
       layer_inventory_of_road_slopes_unclassified_disaster
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent",
     opacity: 1.00
   });
@@ -3217,23 +3248,25 @@ function MapContextProvider (props) {
       label: "Road Slope with an Unclassified Structure Type",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3253,23 +3286,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Grouted Riprap",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [244, 67, 54, 1.00],
-        marker: {
-          style: "cross",
-          color: [244, 67, 54, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [68, 18, 155, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [244, 67, 54, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3289,23 +3324,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Grouted Riprap with Steel Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [232, 30, 99, 1.00],
-        marker: {
-          style: "cross",
-          color: [232, 30, 99, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [138, 22, 177, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [232, 30, 99, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3325,23 +3362,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Grouted Riprap with Concrete Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [156, 39, 176, 1.00],
-        marker: {
-          style: "cross",
-          color: [156, 39, 176, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [199, 26, 176, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [156, 39, 176, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3361,23 +3400,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Rubble Concrete Revetment (Spread Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [103, 58, 183, 1.00],
-        marker: {
-          style: "cross",
-          color: [103, 58, 183, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [220, 30, 122, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [103, 58, 183, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3397,23 +3438,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Stone Masonry",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [63, 81, 181, 1.00],
-        marker: {
-          style: "cross",
-          color: [63, 81, 181, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [161, 19, 24, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [63, 81, 181, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3433,23 +3476,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Concrete Slope Protection (Reinforced Concrete Type II)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [33, 150, 243, 1.00],
-        marker: {
-          style: "cross",
-          color: [33, 150, 243, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [182, 75, 23, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [33, 150, 243, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3469,23 +3514,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [3, 169, 244, 1.00],
-        marker: {
-          style: "cross",
-          color: [3, 169, 244, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [204, 153, 27, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [3, 169, 244, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3505,23 +3552,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 188, 212, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 188, 212, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [206, 224, 32, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 188, 212, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3541,23 +3590,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Gravity Wall (Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 150, 136, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 150, 136, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [87, 166, 20, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 150, 136, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3577,23 +3628,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Gabion or Mattress Slope Protection",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [76, 175, 80, 1.00],
-        marker: {
-          style: "cross",
-          color: [76, 175, 80, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [36, 188, 24, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [76, 175, 80, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3613,23 +3666,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [139, 195, 74, 1.00],
-        marker: {
-          style: "cross",
-          color: [139, 195, 74, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [28, 209, 84, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [139, 195, 74, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3649,23 +3704,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [205, 220, 57, 1.00],
-        marker: {
-          style: "cross",
-          color: [205, 220, 57, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [38, 225, 167, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [205, 220, 57, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3685,23 +3742,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Earthfill Dike (Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 235, 59, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 235, 59, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [21, 151, 172, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 235, 59, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3721,23 +3780,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Boulder Spur Dike (Type II)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 193, 7, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 193, 7, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [25, 106, 193, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 193, 7, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3757,23 +3818,25 @@ function MapContextProvider (props) {
       label: "Road Slope with Gabions Revetment (Pile-Up Type)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 152, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 152, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [29, 47, 215, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 152, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3804,7 +3867,7 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slopes_structure_type_15,
       layer_inventory_of_road_slopes_unclassified_structure_type
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent",
     opacity: 1.00
   });
@@ -3820,23 +3883,25 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         label: "Road Slope Structure in an Unclassified Condition",
-        width: 4.00,
-        color: [0, 0, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3856,23 +3921,25 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         label: "Road Slope Structure in Good Condition",
-        width: 4.00,
-        color: [0, 0, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [153, 255, 153, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3892,23 +3959,25 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         label: "Road Slope Structure in Fair Condition",
-        width: 4.00,
-        color: [0, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [0, 204, 255, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3928,23 +3997,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure in Poor Condition",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [255, 153, 51, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -3964,23 +4035,25 @@ function MapContextProvider (props) {
       symbol: {
         type: "simple-line",
         label: "Road Slope Structure in Bad Condition",
-        width: 4.00,
-        color: [255, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 0, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [204, 102, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4014,23 +4087,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by an Unclassified Road Slope Disaster",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4050,23 +4125,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure by Soil Slope Collapse",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 0, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 0, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [255, 0, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 0, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4086,23 +4163,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by Rock Slope Collapse or Rock Fall",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [210, 0, 60, 1.00],
-        marker: {
-          style: "cross",
-          color: [210, 0, 60, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [210, 0, 60, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [210, 0, 60, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4122,23 +4201,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by Landslide",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [180, 0, 120, 1.00],
-        marker: {
-          style: "cross",
-          color: [180, 0, 120, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [180, 0, 120, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [180, 0, 120, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4158,23 +4239,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by Road Slip",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [150, 0, 150, 1.00],
-        marker: {
-          style: "cross",
-          color: [150, 0, 150, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [150, 0, 150, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [150, 0, 150, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4194,23 +4277,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by River Erosion",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [120, 0, 180, 1.00],
-        marker: {
-          style: "cross",
-          color: [120, 0, 180, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [120, 0, 180, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [120, 0, 180, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4230,23 +4315,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by Debris Flow",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [60, 0, 210, 1.00],
-        marker: {
-          style: "cross",
-          color: [60, 0, 210, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [60, 0, 210, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [60, 0, 210, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4266,23 +4353,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure Affected by Coastal Erosion",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 0, 255, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4305,7 +4394,7 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slope_structures_coastal_erosion,
       layer_inventory_of_road_slope_structures_unclassified_disaster
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent",
     opacity: 1.00
   });
@@ -4319,23 +4408,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with an Unclassified Structure Type",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4355,23 +4446,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Grouted Riprap",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 255, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4391,23 +4484,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Grouted Riprap with Steel Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 210, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 210, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 210, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 210, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4427,23 +4522,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Grouted Riprap with Concrete Sheet Pile Foundation",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 180, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 180, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 180, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 180, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4463,23 +4560,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Rubble Concrete Revetment (Spread Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 150, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 150, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 150, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 150, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4499,23 +4598,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Stone Masonry",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 120, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 120, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 120, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 120, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4535,23 +4636,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Concrete Slope Protection (Reinforced Concrete Type II)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 90, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 90, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 90, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 90, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4571,23 +4674,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 60, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 60, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 60, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 60, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4607,23 +4712,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [0, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4643,23 +4750,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Gravity Wall (Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [60, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [60, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [60, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [60, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4679,23 +4788,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Gabion or Mattress Slope Protection",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [90, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [90, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [90, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [90, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4715,23 +4826,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [120, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [120, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [120, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [120, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4751,23 +4864,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [150, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [150, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [150, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [150, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4787,23 +4902,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Earthfill Dike (Type I)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [180, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [180, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [180, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [180, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4823,23 +4940,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Boulder Spur Dike (Type II)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [210, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [210, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [210, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [210, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4859,23 +4978,25 @@ function MapContextProvider (props) {
       label: "Road Slope Structure with Gabions Revetment (Pile-Up Type)",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [255, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [255, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 2.00,
+        color: [255, 255, 0, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [255, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4906,7 +5027,7 @@ function MapContextProvider (props) {
       layer_inventory_of_road_slope_structures_structure_type_15,
       layer_inventory_of_road_slope_structures_unclassified_structure_type
     ],
-    visible: true,
+    visible: false,
     visibilityMode: "independent",
     opacity: 1.00
   });
@@ -4922,23 +5043,25 @@ function MapContextProvider (props) {
       label: "Unclassified Potential Road Slope Project",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [191, 191, 191, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4958,23 +5081,25 @@ function MapContextProvider (props) {
       label: "Potential Road Slope Rehabilitation or Major Repair Project",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [255, 217, 102, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -4994,23 +5119,25 @@ function MapContextProvider (props) {
       label: "Potential Road Slope Reconstruction Project",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 0, 255, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 0, 255, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [48, 84, 150, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 0, 255, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
@@ -5030,23 +5157,25 @@ function MapContextProvider (props) {
       label: "Potential Road Slope Construction Project",
       symbol: {
         type: "simple-line",
-        width: 4.00,
-        color: [0, 255, 0, 1.00],
-        marker: {
-          style: "cross",
-          color: [0, 255, 0, 1.00],
-          placement: "begin-end"
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
-          { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
-          { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
+        width: 3.00,
+        color: [112, 48, 160, 1.00]
+        // ,
+        // marker: {
+        //   style: "cross",
+        //   color: [0, 255, 0, 1.00],
+        //   placement: "begin-end"
+        // }
+      }
+      // ,
+      // visualVariables: [{
+      //   type: "size",
+      //   valueExpression: "$view.scale",
+      //   stops: [
+      //     { size: "4.00px", value: 9027.977411 }, // Zoom Level: 16
+      //     { size: "2.00px", value: 144447.638572 }, // Zoom Level: 12
+      //     { size: "1.00px", value: 2311162.217155 } // Zoom Level: 8
+      //   ]
+      // }]
     },
     popupEnabled: true,
     popupTemplate: {
