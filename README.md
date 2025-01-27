@@ -31,7 +31,5 @@ A repository of all the source code for the JICA-DPWH-RDIS project.
     127.0.0.1 api.rdis.local
     127.0.0.1 web.rdis.local
     ```
-
-
+  
 ## Utils
-

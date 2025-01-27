@@ -24,6 +24,7 @@ export default function PotentialRoadSlopeProjects () {
   }, []);
 
   const sublevels = [
+    function ({ attributes }) { return (attributes.road_classification || "Unclassified Roads"); },
     function ({ attributes }) { return (attributes.road_name); },
     function ({ attributes }) { return (attributes.section_id); }
   ];
@@ -45,6 +46,33 @@ export default function PotentialRoadSlopeProjects () {
 
     return (grouped);
   }
+
+  function change_visibility (element) {          
+    const toggle_panel = element.target.tagName === "DIV" ? element.target.parentElement : element.target.parentElement.parentElement;
+    const toggle_icon = element.target.tagName === "DIV" ? element.target.firstElementChild : element.target.parentElement.firstElementChild;
+
+    if (toggle_panel.className === "data-container-hidden") {
+      toggle_panel.className = "data-container";
+      toggle_panel.firstElementChild.className.includes("header") ? toggle_icon.innerText = "remove" : toggle_icon.innerText = "keyboard_arrow_down";
+    }
+    else {
+      toggle_panel.className = "data-container-hidden";
+      toggle_panel.firstElementChild.className.includes("header") ? toggle_icon.innerText = "add" : toggle_icon.innerText = "keyboard_arrow_right";
+    }
+  }
+
+  function changeSelected (element) {
+    const list = document.getElementById("hazard-map-container").getElementsByClassName("data-container-details");
+
+    if (list) {
+      for (let item of list) {
+        if (item.firstElementChild) item.firstElementChild.className = "data-container data-container-details";
+      }
+
+      if (element.target) element.target.className = "data-container data-container-details selected";
+    }
+  }
+
 
   function DataRenderer ({ data, depth }) {
     if (typeof depth === "number") { depth++; }
@@ -70,9 +98,7 @@ export default function PotentialRoadSlopeProjects () {
             });
   
             recenter_map(extent);
-  
-            setDataSelected(response.features[0].attributes.globalid);
-  
+    
             open_popup(response.features);
           }
         })
@@ -94,20 +120,6 @@ export default function PotentialRoadSlopeProjects () {
         })
         .map(function (item, key) {
           if (Object.keys(item[1]).length) {
-            function change_visibility (element) {          
-              const toggle_panel = element.target.tagName === "DIV" ? element.target.parentElement : element.target.parentElement.parentElement;
-              const toggle_icon = element.target.tagName === "DIV" ? element.target.firstElementChild : element.target.parentElement.firstElementChild;
-
-              if (toggle_panel.className === "data-container-hidden") {
-                toggle_panel.className = "data-container";
-                toggle_icon.innerText = "keyboard_arrow_down";
-              }
-              else {
-                toggle_panel.className = "data-container-hidden";
-                toggle_icon.innerText = "keyboard_arrow_right";
-              }
-            }
-
             return (
               <div key = { key } className = { depth > 0 ? "data-container" : "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
@@ -124,12 +136,12 @@ export default function PotentialRoadSlopeProjects () {
                 if (string.includes("-")) {
                   const string_array = string.split(/[-]/);
 
-                  return (string_array[0] + " + (-" + string_array[1] + ")");
+                  return (string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")");
                 }
                 else if (string.includes("+")) {
                   const string_array = string.split(/[+]/);
 
-                  return (string_array[0] + " + " + string_array[1]);
+                  return (string_array[0] + " + " + string_array[1].padStart(3, "0"));
                 }
                 else {
                   return (string);
@@ -141,9 +153,9 @@ export default function PotentialRoadSlopeProjects () {
             }
 
             return (
-              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { event.stopPropagation(); } }>
-                <span className = { dataSelected === item[1].attributes.globalid ? "selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>
-                  { parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) }
+              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { changeSelected(event); } }>
+                <span onClick = { function () { find_road(item[1].attributes.globalid); } }>
+                  { parse_limits(item[1].attributes.start_lrp) + " - " + parse_limits(item[1].attributes.end_lrp) }
                 </span>
               </div>
             );
@@ -161,9 +173,18 @@ export default function PotentialRoadSlopeProjects () {
       </div>
       {
         dataArray ?
-          <div className = "data-array-container">
-            <DataRenderer data = { nest_groups_by(dataArray, sublevels) }/>
-          </div>
+          // <div className = "data-array-container">
+          //   <DataRenderer data = { nest_groups_by(dataArray, sublevels) }/>
+          // </div>
+            <div className = "data-array-container">
+              <div className = { "data-container" }>
+                <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
+                  <span className = "material-symbols-outlined">{ "remove" }</span>
+                  <span>{ "Road Slope Hazard Risk Level" }</span>
+                </div>
+                <DataRenderer data = { nest_groups_by(dataArray, sublevels) }/>
+              </div>
+            </div>
           :
           dataLoading ?
             <div className = "data-array-placeholder">

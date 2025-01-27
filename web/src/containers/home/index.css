@@ -86,11 +86,11 @@
     z-index: 100;
 
     width: auto;
-    height: calc(var(--default-size-large, 480px) / 15);
+    height: calc(var(--default-size-larg, 480px) / 15);
 
     box-sizing: border-box;
-    margin: 0 calc(var(--default-size-medium, 24px) * 2.75) calc(var(--default-size-medium, 24px) * 2.50) 0;
-    padding: var(--space-100, 8px);
+    margin: 0 calc(var(--default-size-mediu, 24px) * 2.25) calc(var(--default-size-medium, 24px) * 4.25) 0;
+    padding: var(--space-10, 8px);
   
     background-color: var(--color-gray-50, rgba(50, 50, 50, 1.00));
 
@@ -104,7 +104,7 @@
     inset: 0 !important;
 
     box-sizing: border-box;
-    margin: var(--default-size-medium, 24px) var(--default-size-medium, 24px) calc(var(--default-size-medium, 24px) * 2.50) var(--default-size-medium, 24px);
+    margin: var(--default-size-medium, 24px) var(--default-size-medium, 24px) calc(var(--default-size-medium, 24px) * 4.25) var(--default-size-medium, 24px);
 
     .esri-expand {
       > calcite-popover {
@@ -196,7 +196,7 @@
   .esri-ui-inner-container.esri-ui-manual-container {
     .esri-component.esri-popup {
       box-sizing: border-box;
-      margin: var(--space-100, 8px);
+      margin: var(--space-100, 12px);
     }
 
     .esri-feature-content > * > * {

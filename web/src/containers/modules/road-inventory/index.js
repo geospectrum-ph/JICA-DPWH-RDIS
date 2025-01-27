@@ -89,6 +89,18 @@ export default function RoadSlopeInventory () {
     }
   }
 
+  function changeSelected (element) {
+    const list = document.getElementById("road-slope-inventory-container").getElementsByClassName("data-container-details");
+
+    if (list) {
+      for (let item of list) {
+        if (item.firstElementChild) item.firstElementChild.className = "data-container data-container-details";
+      }
+
+      if (element.target) element.target.className = "data-container data-container-details selected";
+    }
+  }
+
   function DataRenderer ({ data, depth }) {
     if (typeof depth === "number") { depth++; }
     else { depth = 0; }
@@ -113,9 +125,7 @@ export default function RoadSlopeInventory () {
             });
   
             recenter_map(extent);
-  
-            setDataSelected(response.features[0].attributes.globalid);
-  
+    
             open_popup(response.features);
           }
         })
@@ -153,12 +163,12 @@ export default function RoadSlopeInventory () {
                 if (string.includes("-")) {
                   const string_array = string.split(/[-]/);
 
-                  return (string_array[0] + " + (-" + string_array[1] + ")");
+                  return (string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")");
                 }
                 else if (string.includes("+")) {
                   const string_array = string.split(/[+]/);
 
-                  return (string_array[0] + " + " + string_array[1]);
+                  return (string_array[0] + " + " + string_array[1].padStart(3, "0"));
                 }
                 else {
                   return (string);
@@ -170,9 +180,9 @@ export default function RoadSlopeInventory () {
             }
 
             return (
-              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { event.stopPropagation(); } }>
-                <span className = { dataSelected === item[1].attributes.globalid ? "selected" : null } onClick = { function () { find_road(item[1].attributes.globalid); } }>
-                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes.start_lrp) + " to " + parse_limits(item[1].attributes.end_lrp) : "No available data." }
+              <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { changeSelected(event); } }>
+                <span onClick = { function () { find_road(item[1].attributes.globalid); } }>
+                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes.start_lrp) + " - " + parse_limits(item[1].attributes.end_lrp) : "No available data." }
                 </span>
               </div>
             );
