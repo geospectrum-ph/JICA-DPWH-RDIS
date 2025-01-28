@@ -131,7 +131,7 @@ export default function PotentialRoadSlopeProjects () {
             return (
               <div key = { key } className = { depth > 1 ? "data-container" : "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                  <span className = "material-symbols-outlined">{ depth > 1 ? "keyboard_arrow_down" : "keyboard_arrow_right" }</span>
                   <span>{ item[0] }</span>
                 </div>
                 <DataRenderer data = { item[1] } depth = { depth }/>
@@ -176,37 +176,43 @@ export default function PotentialRoadSlopeProjects () {
     <div id = "potential-road-slope-projects-container">
       <div>
         <div>
-          <span>{ "List of Road Sections" }</span>
+          <span>{ "Potential Road Slope Projects Inventory" }</span>
         </div>
       </div>
       {
         dataArray ?
           <div className = "data-array-container">
             <div className = { "data-container" }>
-              <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                <span className = "material-symbols-outlined">{ "add" }</span>
-                <span>{ "Type of Work" }</span>
+              <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
+                <span className = "material-symbols-outlined">{ "remove" }</span>
+                <span>{ "Road Slope Projects" }</span>
               </div>
               <div className = { "data-container-hidden" }>
-                <div onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                  <span>{ "Rehabilitation / Major Repair" }</span>
+                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                  <span className = "material-symbols-outlined">{ "add" }</span>
+                  <span>{ "Type of Work" }</span>
                 </div>
-                <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Rehabilitation"]), sublevels) }/>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                  <span>{ "Reconstruction" }</span>
+                <div className = { "data-container-hidden" }>
+                  <div onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                    <span>{ "Rehabilitation / Major Repair" }</span>
+                  </div>
+                  <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Rehabilitation"]), sublevels) }/>
                 </div>
-                <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Reconstruction"]), sublevels) }/>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                  <span>{ "Construction" }</span>
+                <div className = { "data-container-hidden" }>
+                  <div onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                    <span>{ "Reconstruction" }</span>
+                  </div>
+                  <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Reconstruction"]), sublevels) }/>
                 </div>
-                <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Construction"]), sublevels) }/>
+                <div className = { "data-container-hidden" }>
+                  <div onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                    <span>{ "Construction" }</span>
+                  </div>
+                  <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Construction"]), sublevels) }/>
+                </div>
               </div>
             </div>
           </div>

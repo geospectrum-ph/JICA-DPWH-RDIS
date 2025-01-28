@@ -150,7 +150,7 @@ export default function RoadSlopeInventory () {
             return (
               <div key = { key } className = { depth > 1 ? "data-container" : "data-container-hidden" }>
                 <div onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                  <span className = "material-symbols-outlined">{ depth > 1 ? "keyboard_arrow_down" : "keyboard_arrow_right" }</span>
                   <span>{ item[0] }</span>
                 </div>
                 <DataRenderer data = { item[1] } depth = { depth }/>

@@ -8,7 +8,6 @@ import { MapContext } from "../../../contexts/MapContext";
 import "./index.css";
 
 export default function Summary () {
-
   const structureTypes = [
     'Grouted Riprap',
     'Grouted Riprap with Steel Sheet Pile Foundation',

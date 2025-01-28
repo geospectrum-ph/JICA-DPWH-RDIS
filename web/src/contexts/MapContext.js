@@ -9,7 +9,6 @@ import MapView from "@arcgis/core/views/MapView.js";
 import SceneView from "@arcgis/core/views/SceneView.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
-import CIMSymbol from "@arcgis/core/symbols/CIMSymbol.js";
 
 import Expand from "@arcgis/core/widgets/Expand.js";
 import Search from "@arcgis/core/widgets/Search.js";
@@ -393,204 +392,53 @@ function MapContextProvider (props) {
     });
   }, []);
 
-  const layer_volume_of_traffic_level_00 = new FeatureLayer({
-    title: "Unclassified Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT < 0.00 OR AADT > " + (maxAADT).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: "Unclassified Volume of Traffic",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [191, 191, 191, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_01 = new FeatureLayer({
-    title: "Level 01 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT >= 0.00 AND AADT <= " + (maxAADT * 1 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: "0.00 to " + (maxAADT * 1 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 179, 193, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_02 = new FeatureLayer({
-    title: "Level 02 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 1 / 7).toFixed(2) + " AND AADT <= " + (maxAADT * 2 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 1 / 7).toFixed(2) + " to " + (maxAADT * 2 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 143, 163, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_03 = new FeatureLayer({
-    title: "Level 03 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 2 / 7).toFixed(2) + " AND AADT <= " + (maxAADT * 3 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 2 / 7).toFixed(2) + " to " + (maxAADT * 3 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 117, 143, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_04 = new FeatureLayer({
-    title: "Level 04 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 3 / 7).toFixed(2) + " AND AADT <= " + (maxAADT * 4 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 3 / 7).toFixed(2) + " to " + (maxAADT * 4 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 77, 109, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_05 = new FeatureLayer({
-    title: "Level 05 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 4 / 7).toFixed(2) + " AND AADT <= " + (maxAADT * 5 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 4 / 7).toFixed(2) + " to " + (maxAADT * 5 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [201, 24, 74, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_06 = new FeatureLayer({
-    title: "Level 06 Volume of Traffic",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 5 / 7).toFixed(2) + " AND AADT <= " + (maxAADT * 6 / 7).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 5 / 7).toFixed(2) + " to " + (maxAADT * 6 / 7).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [164, 19, 60, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
-
-  const layer_volume_of_traffic_level_07 = new FeatureLayer({
-    title: "Level 07 Traffic Volume",
-    url: url_volume_of_traffic,
-    definitionExpression: "AADT > " + (maxAADT * 6 / 7).toFixed(2) + " AND AADT <= " + (maxAADT).toFixed(2),
-    renderer: {
-      type: "simple",
-      label: (maxAADT * 6 / 7).toFixed(2) + " to " + (maxAADT).toFixed(2),
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [128, 15, 47, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Annual Average Daily Traffic (AADT): {AADT}",
-      outFields: ["*"],
-      content: content_volume_of_traffic
-    },
-    visible: true
-  });
+  const array_volume_of_traffic = [
+    ["Unclassified", [191, 191, 191, 1.00]],
+    [7, [128, 15, 47, 1.00]],
+    [6, [164, 19, 60, 1.00]],
+    [5, [201, 24, 74, 1.00]],
+    [4, [255, 77, 109, 1.00]],
+    [3, [255, 117, 143, 1.00]],
+    [2, [255, 143, 163, 1.00]],
+    [1, [255, 179, 193, 1.00]]
+  ];
 
   const group_volume_of_traffic = new GroupLayer({
-    title: "Annual Average Daily Traffic (AADT)",
-    layers: [
-      layer_volume_of_traffic_level_07,
-      layer_volume_of_traffic_level_06,
-      layer_volume_of_traffic_level_05,
-      layer_volume_of_traffic_level_04,
-      layer_volume_of_traffic_level_03,
-      layer_volume_of_traffic_level_02,
-      layer_volume_of_traffic_level_01,
-      layer_volume_of_traffic_level_00
-    ],
+    title:  "Annual Average Daily Traffic (AADT)",
+    layers: array_volume_of_traffic.map(function (category) {
+      return (
+        new FeatureLayer({
+          title: category[0] === "Unclassified" ?
+            "Unclassified Volume of Traffic" :
+            "Level " + category[0].toString().padStart(2, "0") + " Traffic Volume",
+          url: url_terrain,
+          definitionExpression: category[0] === "Unclassified" ?
+            "AADT < 0.00 OR AADT > " + (maxAADT).toFixed(2) :
+            "AADT > " + (maxAADT * category[0] / 7).toFixed(2) + " AND AADT <= " + (maxAADT * (category[0] + 1) / 7).toFixed(2),
+          renderer: {
+            type: "simple",
+            label: category[0] === "Unclassified" ?
+              "Unclassified Volume of Traffic" :
+              (maxAADT * category[0] / 7).toFixed(2) + " to " + (maxAADT * (category[0] + 1) / 7).toFixed(2),
+            symbol: {
+              type: "simple-line",
+              width: 1.00,
+              color: category[1]
+            }
+          },
+          popupEnabled: true,
+          popupTemplate: {
+            title: "Annual Average Daily Traffic (AADT): {AADT}",
+            outFields: ["*"],
+            content: content_volume_of_traffic
+          },
+          visible: true
+        })
+      );
+    }),
     visible: false,
-    visibilityMode: "independent"
+    visibilityMode: "independent",
+    opacity: 1.00
   });
  
   function content_terrain (target) {
@@ -641,108 +489,47 @@ function MapContextProvider (props) {
     ]);
   }
 
-  const layer_unclassified_terrain = new FeatureLayer({
-    title: "Unclassified Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty <> 'Flat' AND terrain_ty <> 'Rolling' AND terrain_ty <> 'Mountainous'",
-    renderer: {
-      type: "simple",
-      label: "Unclassified Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 2.00,
-        color: [191, 191, 191, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: Unclassified",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_flat_terrain = new FeatureLayer({
-    title: "Flat Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Flat'",
-    renderer: {
-      type: "simple",
-      label: "Flat Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 2.00,
-        color: [128, 128, 128, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_rolling_terrain = new FeatureLayer({
-    title: "Rolling Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Rolling'",
-    renderer: {
-      type: "simple",
-      label: "Rolling Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 2.00,
-        color: [51, 204, 51, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
-
-  const layer_mountainous_terrain = new FeatureLayer({
-    title: "Mountainous Terrain",
-    url: url_terrain,
-    definitionExpression: "terrain_ty = 'Mountainous'",
-    renderer: {
-      type: "simple",
-      label: "Mountainous Terrain",
-      symbol: {
-        type: "simple-line",
-        width: 2.00,
-        color: [153, 51, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Terrain Type: {terrain_ty}",
-      outFields: ["*"],
-      content: content_terrain
-    },
-    visible: true
-  });
+  const array_terrain = [
+    ["Unclassified", [191, 191, 191, 1.00]],
+    ["Flat", [128, 128, 128, 1.00]],
+    ["Rolling", [51, 204, 51, 1.00]],
+    ["Mountainous", [153, 51, 0, 1.00]],
+  ];
 
   const group_terrain = new GroupLayer({
     title: "Terrain",
-    layers: [
-      layer_mountainous_terrain,
-      layer_rolling_terrain,
-      layer_flat_terrain,
-      layer_unclassified_terrain
-    ],
+    layers: array_terrain.map(function (category) {
+      return (
+        new FeatureLayer({
+          title: `${category[0]} Roads`,
+          url: url_terrain,
+          definitionExpression: category[0] === "Unclassified" ?
+            array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${category[0]}'`); }).join(" AND ") :
+            `terrain_ty = '${category[0]}'`,
+          renderer: {
+            type: "simple",
+            label: `${category[0]} Terrain`,
+            symbol: {
+              type: "simple-line",
+              width: 2.00,
+              color: category[1]
+            }
+          },
+          popupEnabled: true,
+          popupTemplate: {
+            title: category[0] === "Unclassified" ?
+              "Terrain Type: Unclassified" :
+              "Terrain Type: {terrain_ty}",
+            outFields: ["*"],
+            content: content_terrain
+          },
+          visible: true
+        })
+      );
+    }),
     visible: false,
-    visibilityMode: "independent"
+    visibilityMode: "independent",
+    opacity: 1.00
   });
 
   function content_road_classification (target) {
@@ -793,108 +580,47 @@ function MapContextProvider (props) {
     ]);
   }
 
-  const layer_unclassified_roads = new FeatureLayer({
-    title: "Unclassified Roads",
-    url: url_national_road_network,
-    definitionExpression: "ROAD_SEC_CLASS <> 'Primary' AND ROAD_SEC_CLASS <> 'Secondary' AND ROAD_SEC_CLASS <> 'Tertiary'",
-    renderer: {
-      type: "simple",
-      label: "Unclassified Road",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [191, 191, 191, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Classification: Unclassified",
-      outFields: ["*"],
-      content: content_road_classification
-    },
-    visible: true
-  });
-
-  const layer_primary_roads = new FeatureLayer({
-    title: "Primary Roads",
-    url: url_national_road_network,
-    definitionExpression: "ROAD_SEC_CLASS = 'Primary'",
-    renderer: {
-      type: "simple",
-      label: "Primary Road",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [255, 0, 0, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Classification: {ROAD_SEC_CLASS}",
-      outFields: ["*"],
-      content: content_road_classification
-    },
-    visible: true
-  });
-
-  const layer_secondary_roads = new FeatureLayer({
-    title: "Secondary Roads",
-    url: url_national_road_network,
-    definitionExpression: "ROAD_SEC_CLASS = 'Secondary'",
-    renderer: {
-      type: "simple",
-      label: "Secondary Road",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [0, 176, 240, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Classification: {ROAD_SEC_CLASS}",
-      outFields: ["*"],
-      content: content_road_classification
-    },
-    visible: true
-  });
-
-  const layer_tertiary_roads = new FeatureLayer({
-    title: "Tertiary Roads",
-    url: url_national_road_network,
-    definitionExpression: "ROAD_SEC_CLASS = 'Tertiary'",
-    renderer: {
-      type: "simple",
-      label: "Tertiary Road",
-      symbol: {
-        type: "simple-line",
-        width: 1.00,
-        color: [0, 176, 80, 1.00]
-      }
-    },
-    labelsVisible: false,
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Road Classification: {ROAD_SEC_CLASS}",
-      outFields: ["*"],
-      content: content_road_classification
-    },
-    visible: true
-  });
+  const array_road_classification = [
+    ["Unclassified", [191, 191, 191, 1.00]],
+    ["Tertiary", [0, 176, 80, 1.00]],
+    ["Secondary", [0, 176, 240, 1.00]],
+    ["Primary", [255, 0, 0, 1.00]],
+  ];
 
   const group_road_classification = new GroupLayer({
     title: "Road Section Classifications",
-    layers: [
-      layer_tertiary_roads,
-      layer_secondary_roads,
-      layer_primary_roads,
-      layer_unclassified_roads
-    ],
+    layers: array_road_classification.map(function (category) {
+      return (
+        new FeatureLayer({
+          title: `${category[0]} Roads`,
+          url: url_national_road_network,
+          definitionExpression: category[0] === "Unclassified" ?
+            array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${category[0]}'`); }).join(" AND ") :
+            `ROAD_SEC_CLASS = '${category[0]}'`,
+          renderer: {
+            type: "simple",
+            label: `${category[0]} Road`,
+            symbol: {
+              type: "simple-line",
+              width: 1.00,
+              color: category[1]
+            }
+          },
+          popupEnabled: true,
+          popupTemplate: {
+            title: category[0] === "Unclassified" ?
+              "Road Classification: Unclassified" :
+              "Road Classification: {ROAD_SEC_CLASS}",
+            outFields: ["*"],
+            content: content_road_classification
+          },
+          visible: true
+        })
+      );
+    }),
     visible: false,
-    visibilityMode: "independent"
+    visibilityMode: "independent",
+    opacity: 1.00
   });
 
   function content_municipalities_cities (target) {
@@ -2833,6 +2559,9 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_national_road_network,
+        layer_regions,
+        layer_engineering_districts,
+        layer_legislative_districts,
 
         layer_hazard_map,
         layer_road_slopes_and_countermeasures,

@@ -39,7 +39,6 @@ export default function FilterComponent () {
 
     if (dataSource) {
       const expression =
-        moduleSelected === 0 ? "1 = 0" :
         object ?
           level === 0 ? "1 = 1" :
           level === 1 ? "region_name = '" + object.REGION + "'" :
