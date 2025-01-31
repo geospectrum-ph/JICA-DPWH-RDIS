@@ -8,6 +8,7 @@ import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import SceneView from "@arcgis/core/views/SceneView.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
+import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
 
 import Expand from "@arcgis/core/widgets/Expand.js";
@@ -685,10 +686,10 @@ function MapContextProvider (props) {
           type: "color",
           valueExpression: "$feature.OBJECTID % 4",
           stops: [
-            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
-            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
-            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
-            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
+            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
+            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
+            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
           ]
         }
       ]
@@ -764,10 +765,10 @@ function MapContextProvider (props) {
           type: "color",
           valueExpression: "$feature.OBJECTID % 4",
           stops: [
-            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
-            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
-            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
-            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
+            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
+            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
+            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
           ]
         }
       ]
@@ -843,10 +844,10 @@ function MapContextProvider (props) {
           type: "color",
           valueExpression: "$feature.OBJECTID % 4",
           stops: [
-            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
-            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
-            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
-            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
+            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
+            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
+            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
           ]
         }
       ]
@@ -922,10 +923,10 @@ function MapContextProvider (props) {
           type: "color",
           valueExpression: "$feature.OBJECTID % 4",
           stops: [
-            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
-            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
-            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
-            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
+            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
+            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
+            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
           ]
         }
       ]
@@ -1001,10 +1002,10 @@ function MapContextProvider (props) {
           type: "color",
           valueExpression: "$feature.OBJECTID % 4",
           stops: [
-            { value: 0, color: "rgba(144, 241, 239, 0.50)" },
-            { value: 1, color: "rgba(255, 214, 224, 0.50)" },
-            { value: 2, color: "rgba(255, 239, 159, 0.50)" },
-            { value: 3, color: "rgba(193, 251, 164, 0.50)" }
+            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
+            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
+            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
+            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
           ]
         }
       ]
@@ -2401,7 +2402,7 @@ function MapContextProvider (props) {
               breakpoint: false
             },
             highlightEnabled: true
-          }
+          },
         });
       }
       else {
@@ -2507,6 +2508,225 @@ function MapContextProvider (props) {
       });     
   }
 
+  function focus_map (type, string) {
+    let highlighted_feature;
+
+    group_administrative_boundaries.visible = true;
+
+    for (const layer of group_administrative_boundaries.layers) {
+      layer.visible = false;
+    }
+
+    if (view) {
+      if (type === 1) {
+        view
+          .whenLayerView(layer_regions)
+          .then(function (layerView) {
+            layerView.highlightOptions = {
+              color: "rgba(255, 0, 255, 1.00)",
+              haloOpacity: 1.00,
+              fillOpacity: 0.25
+            };
+
+            layer_regions.visible = true;
+        
+            layer_regions
+              .queryFeatures({
+                where: `REGION = '${string}'`,
+                returnGeometry: true,
+                outFields: ["OBJECTID"]
+              })
+              .then(function (result) {
+                if (highlighted_feature) {
+                  highlighted_feature.remove();
+                }
+
+                const feature = result.features[0];
+
+                highlighted_feature = layerView.highlight(feature);
+
+                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+              });
+          });
+
+        const filter = new FeatureFilter({
+          where: `REGION = '${string}'`
+        });
+
+        if (view?.layerViews?.items?.length > 0) {
+          for (const group of view.layerViews.items) {
+            if (group?.layerViews?.items?.length > 0) {
+              for (const layer of group.layerViews.items) {
+                layer.filter = filter;
+              }
+            }
+          }
+        }
+      }
+      if (type === 2) {
+        view
+          .whenLayerView(layer_engineering_districts)
+          .then(function (layerView) {
+            layerView.highlightOptions = {
+              color: "rgba(255, 0, 255, 1.00)",
+              haloOpacity: 1.00,
+              fillOpacity: 0.25
+            };
+
+            layer_engineering_districts.visible = true;
+        
+            layer_engineering_districts
+              .queryFeatures({
+                where: `DEO = '${string}'`,
+                returnGeometry: true,
+                outFields: ["OBJECTID"]
+              })
+              .then(function (result) {
+                if (highlighted_feature) {
+                  highlighted_feature.remove();
+                }
+
+                const feature = result.features[0];
+
+                highlighted_feature = layerView.highlight(feature);
+
+                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+              });
+          });
+
+        const filter = new FeatureFilter({
+          where: `DEO = '${string}'`
+        });
+
+        if (view?.layerViews?.items?.length > 0) {
+          for (const group of view.layerViews.items) {
+            if (group?.layerViews?.items?.length > 0) {
+              for (const layer of group.layerViews.items) {
+                layer.filter = filter;
+              }
+            }
+          }
+        }
+      }
+      if (type === 3) {
+        view
+          .whenLayerView(layer_legislative_districts)
+          .then(function (layerView) {
+            layerView.highlightOptions = {
+              color: "rgba(255, 0, 255, 1.00)",
+              haloOpacity: 1.00,
+              fillOpacity: 0.25
+            };
+
+            layer_legislative_districts.visible = true;
+        
+            layer_legislative_districts
+              .queryFeatures({
+                where: `CONG_DIST = '${string}'`,
+                returnGeometry: true,
+                outFields: ["OBJECTID"]
+              })
+              .then(function (result) {
+                if (highlighted_feature) {
+                  highlighted_feature.remove();
+                }
+
+                const feature = result.features[0];
+
+                highlighted_feature = layerView.highlight(feature);
+
+                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+              });
+          });
+
+        const filter = new FeatureFilter({
+          where: `CONG_DIST = '${string}'`
+        });
+
+        if (view?.layerViews?.items?.length > 0) {
+          for (const group of view.layerViews.items) {
+            if (group?.layerViews?.items?.length > 0) {
+              for (const layer of group.layerViews.items) {
+                layer.filter = filter;
+              }
+            }
+          }
+        }
+      }
+      if (type === 4) {
+        view
+          .whenLayerView(layer_national_road_network)
+          .then(function (layerView) {
+            layerView.highlightOptions = {
+              color: "rgba(255, 0, 255, 1.00)",
+              haloOpacity: 1.00,
+              fillOpacity: 0.25
+            };
+
+            layer_national_road_network
+              .queryFeatures({
+                where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`,
+                returnGeometry: true,
+                outFields: ["OBJECTID"]
+              })
+              .then(function (result) {
+                if (highlighted_feature) {
+                  highlighted_feature.remove();
+                }
+
+                var extent = result.features[0].geometry.extent;
+
+                result.features.forEach(function(feature) {
+                  extent = extent.union(feature.geometry.extent);
+                });
+
+                if (extent) { view?.goTo(extent); }
+              });
+          });
+
+        const filter = new FeatureFilter({
+          where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`
+        });
+
+        if (view?.layerViews?.items?.length > 0) {
+          for (const group of view.layerViews.items) {
+            if (group?.layerViews?.items?.length > 0) {
+              for (const layer of group.layerViews.items) {
+                layer.filter = filter;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function refocus_map () {
+    group_administrative_boundaries.visible = false;
+
+    for (const layer of group_administrative_boundaries.layers) {
+      layer.visible = false;
+    }
+
+    const filter = new FeatureFilter({
+      where: "1 = 1"
+    });
+
+    if (view?.layerViews?.items?.length > 0) {
+      for (const group of view.layerViews.items) {
+        if (group?.layerViews?.items?.length > 0) {
+          for (const layer of group.layerViews.items) {
+            layer.filter = filter;
+          }
+        }
+      }
+    }
+
+    if (layer_national_road_network.fullExtent) {
+      view?.goTo(layer_national_road_network.fullExtent);
+    }
+  }
+
   function recenter_map (extent) {
     reactiveUtils.watch(
       function () {
@@ -2540,7 +2760,7 @@ function MapContextProvider (props) {
       });     
   }
 
-  function close_popup() {
+  function close_popup () {
     reactiveUtils.watch(
       function () {
         if (view) {
@@ -2571,7 +2791,7 @@ function MapContextProvider (props) {
 
         MapComponent,
 
-        view_layer, recenter_map, open_popup, close_popup
+        view_layer, focus_map, refocus_map, recenter_map, open_popup, close_popup
       } 
     }>
       { props.children }

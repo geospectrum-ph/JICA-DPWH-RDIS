@@ -27,7 +27,7 @@ export default function FilterComponent () {
 
     layer_road_slopes_and_countermeasures,
 
-    recenter_map, close_popup
+    focus_map, refocus_map, close_popup
   } = React.useContext(MapContext);
 
   const [filterArray, setFilterArray] = React.useState([]);
@@ -119,7 +119,7 @@ export default function FilterComponent () {
     setDataArray(null);
     setDataLoading(true);
 
-    if (dataSource) {
+    if (dataSource) {   
       const expression =
         object ?
           level === 0 ? "1 = 1" :
@@ -133,7 +133,7 @@ export default function FilterComponent () {
         level === 2 ? "deo_name = '" + filterL02Selected + "'" :
         level === 3 ? "district_name = '" + filterL03Selected + "'" :
         "1 = 0";
-
+              
       dataSource
         .queryFeatures({
           where: expression || "1 = 0",
@@ -148,16 +148,40 @@ export default function FilterComponent () {
               extent = extent.union(feature.geometry.extent);
             });
 
-            recenter_map(extent);
-
             setDataArray(response.features);
 
             setDataLoading(false);
           }
           else {
-            setDataLoading(false);
-
-            setDataArray(null);
+            dataSource
+              .queryFeatures({
+                where: "1 = 1",
+                returnGeometry: true,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response && response.features && response.features.length > 0) {
+                  var extent = response.features[0].geometry.extent;
+      
+                  response.features.forEach(function(feature) {
+                    extent = extent.union(feature.geometry.extent);
+                  });
+            
+                  setDataArray(response.features);
+      
+                  setDataLoading(false);
+                }
+                else {
+                  setDataLoading(false);
+      
+                  setDataArray(null);
+                }
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+      
+                console.log(error);
+              });
           }
         })
         .catch(function (error) {
@@ -204,8 +228,6 @@ export default function FilterComponent () {
                     response.features.forEach(function(feature) {
                       extent = extent.union(feature.geometry.extent);
                     });
-        
-                    recenter_map(extent);
                   }
                 })
                 .catch(function (error) {
@@ -218,8 +240,6 @@ export default function FilterComponent () {
               response.features.forEach(function(feature) {
                 extent = extent.union(feature.geometry.extent);
               });
-  
-              recenter_map(extent);
             }
             
             setDataArray(response.features);
@@ -227,9 +247,35 @@ export default function FilterComponent () {
             setDataLoading(false);
           }
           else {
-            setDataLoading(false);
+            layer_national_road_network
+              .queryFeatures({
+                where: "1 = 1",
+                returnGeometry: true,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response && response.features && response.features.length > 0) {
+                  var extent = response.features[0].geometry.extent;
+      
+                  response.features.forEach(function(feature) {
+                    extent = extent.union(feature.geometry.extent);
+                  });
 
-            setDataArray(null);
+                  setDataArray(response.features);
+      
+                  setDataLoading(false);
+                }
+                else {
+                  setDataLoading(false);
+      
+                  setDataArray(null);
+                }
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+      
+                console.log(error);
+              });
           }
         })
         .catch(function (error) {
@@ -241,6 +287,8 @@ export default function FilterComponent () {
   }
 
   function clear_filter (type) {
+    refocus_map();
+    
     if (type === 1) {
       setFilterL01Selected(null);
       setFilterL02Selected(null);
@@ -284,6 +332,8 @@ export default function FilterComponent () {
   
   function select_filter (type, string) {
     close_popup();
+
+    focus_map(type, string);
 
     if (type === 1) {
       const object = filterArray.find(function (item) { return (item.REGION === string); });
@@ -381,7 +431,7 @@ export default function FilterComponent () {
   return (
     <div id = "filter-component">
       <div onClick = { function () { click_dropdown(0); } }>
-        <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, { "query": filterL04Selected }); } } }/>
+        <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterL04Selected); } } }/>
         <div>
           <span className = "material-symbols-outlined">{ "search" }</span>
         </div>
@@ -421,6 +471,9 @@ export default function FilterComponent () {
                         <div key = { index } className = { filterL01Selected && filterL01Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(1, item); } }>{ item }</div>
                       );
                     }
+                    else {
+                      return (null);
+                    }
                   })
                 :
                 null
@@ -452,6 +505,9 @@ export default function FilterComponent () {
                       return (
                         <div key = { index } className = { filterL02Selected && filterL02Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(2, item); } }>{ item }</div>
                       );
+                    }
+                    else {
+                      return (null);
                     }
                   })
                 :
@@ -492,6 +548,9 @@ export default function FilterComponent () {
                       return (
                         <div key = { index } className = { filterL03Selected && filterL03Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item }</div>
                       );
+                    }
+                    else {
+                      return (null);
                     }
                   })
                 :
