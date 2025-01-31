@@ -20,7 +20,7 @@
     width: auto;
     height: 100%;
 
-    background-color: var(--default-color-light, white);
+    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
   }
 
   /* Outlet */
@@ -28,7 +28,7 @@
     width: auto;
     height: 100%;
 
-    background-color: var(--default-color-light, white);
+    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
   }
 
   > :nth-child(3) {
@@ -40,7 +40,7 @@
     flex: 1 1 0;
     height: 100%;
 
-    background-color: var(--default-color-light, white);
+    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
     /* Filter Component */
     > :nth-child(1) {
@@ -85,35 +85,39 @@
     position: absolute;
     z-index: 100;
 
-    width: auto;
-    height: calc(var(--default-size-larg, 480px) / 15);
+    display: flex;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    width: 32px;
+    height: 32px;
 
     box-sizing: border-box;
-    margin: 0 calc(var(--default-size-mediu, 24px) * 2.25) calc(var(--default-size-medium, 24px) * 4.25) 0;
-    padding: var(--space-10, 8px);
+    margin: 0 calc((var(--default-size-medium, 12px) * 8.00 / 3.00) + 32px) calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + 39px) 0;
   
-    background-color: var(--color-gray-50, rgba(50, 50, 50, 1.00));
+    background-color: rgba(36, 36, 36, 1.00);
 
     cursor: pointer;
 
-    font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
-    color: var(--color-gray-200, rgba(200, 200, 200, 1.00));
+    font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
+    color: rgba(159, 159, 159, 1.00);
   }
 
   .esri-ui-inner-container.esri-ui-corner-container {
     inset: 0 !important;
 
     box-sizing: border-box;
-    margin: var(--default-size-medium, 24px) var(--default-size-medium, 24px) calc(var(--default-size-medium, 24px) * 4.25) var(--default-size-medium, 24px);
+    margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 24px) * 4.00 / 3.00 ) + 39px) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
     .esri-expand {
       > calcite-popover {
         box-sizing: border-box;
-        margin-top: calc(var(--space-100, 8px) * 0.50);
+        margin-top: calc(var(--default-size-medium, 12px) * 0.50);
     
         > .esri-expand__popover-content {
           > .esri-expand__content-container {
-            max-height: var(--height-100, 480px);
+            max-height: var(--default-size-large, 360px);
 
             > .esri-widget {
               max-height: 100%;
@@ -131,15 +135,15 @@
         place-content: center center;
 
         width: auto;
-        height: calc(var(--height-100, 480px) / 15);
+        height: 32px;
 
         box-sizing: border-box;
-        padding: var(--space-100, 8px);
+        padding: 0 calc(var(--default-size-medium, 12px) * 0.75);
       
-        background-color: var(--calcite-color-foreground-3, --color-gray-50, rgba(50, 50, 50, 1.00));
+        background-color: rgba(36, 36, 36, 1.00);
 
-        font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
-        color: var(--calcite-color-text-2, --color-gray-200, rgba(200, 200, 200, 1.00));
+        font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
+        color: rgba(159, 159, 159, 1.00);
       }
     }
 
@@ -150,16 +154,19 @@
       place-content: center center;
 
       > :not(:first-child) {
-        border-right: solid 1px var(--calcite-color-border-1, --color-black, rgba(0, 0, 0, 1.00));
+        border-right: solid 1px rgba(85, 85, 85, 1.00);
       }
 
       #widget-search-container {
         box-sizing: border-box;
-        margin-right: var(--space-100, 8px);
+        margin-right: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
         input {
-          font: var(--type-normal-s14, normal 400 14px/1.25 "Outfit", sans-serif);
-          color: var(--calcite-color-text-1, --color-white, rgba(255, 255, 255, 1.00));
+          box-sizing: border-box;
+          padding: 0 calc(var(--default-size-medium, 12px) * 0.75);
+
+          font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
+          color: rgba(159, 159, 159, 1.00);
         }
       }
     }
@@ -170,22 +177,23 @@
           > :nth-child(1) {
             height: calc((var(--height-100, 480px) / 30));
 
-            background-color: var(--color-white-a50, rgba(255, 255, 255, 0.50));
+            background-color: rgba(255, 255, 255, 0.50);
 
             &::before, &::after {
-              height: calc((var(--height-100, 480px) / 30));
+              height: calc(var(--default-size-medium) * 4.00 / 3.00);
 
-              border-right: calc(var(--space-100, 8px) * 0.25) solid var(--calcite-color-border-1, --color-black, rgba(0, 0, 0, 1.00));
+              border-right: calc(var(--default-size-small, 1px) * 2.00) solid rgba(36, 36, 36, 1.00);
             }
           }
 
           > :nth-child(2) {
             box-sizing: border-box;
-            padding: 0 calc(var(--space-100, 8px) * 0.25);
+            padding: 0 calc(var(--default-size-medium, 12px) * 0.25);
+  
 
             > * {
-              font: var(--type-normal-s10, normal 400 10px/1.25 "Outfit", sans-serif);
-              color: var(--calcite-color-background, --color-black, rgba(0, 0, 0, 1.00));
+              font: normal calc(var(--default-size-medium) * 0.75) var(--default-font-family, "Outfit", sans-serif);
+              color: rgba(36, 36, 36, 1.00);
             }
           }
         }
@@ -196,7 +204,7 @@
   .esri-ui-inner-container.esri-ui-manual-container {
     .esri-component.esri-popup {
       box-sizing: border-box;
-      margin: var(--space-100, 12px);
+      margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
     }
 
     .esri-feature-content > * > * {
@@ -205,11 +213,11 @@
         
         > * {
           > * > * {
-            padding: calc(var(--space-100, 8px) / 2);
+            padding: calc(var(--default-size-small, 1px) * 4.00);
           }
   
           > :nth-child(odd) {
-            background-color: var(--color-gray-, rgba(50, 50, 50, 1.00));
+            background-color: rgba(85, 85, 85, 1.00);
           }
         }
       }
@@ -217,10 +225,10 @@
 
     .esri-attribution {
       box-sizing: border-box;
-      padding: var(--space-100, 12px);
+      padding: var(--default-size-medium, 12px);
 
-      font: var(--type-normal-s12, normal 400 12px/1.25 "Outfit", sans-serif);
-      color: var(--calcite-color-text-2, --color-gray-200, rgba(200, 200, 200, 1.00));
+      font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
+      color: rgba(159, 159, 159, 1.00);
     }
   }
 }

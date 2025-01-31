@@ -8,23 +8,30 @@
   place-content: center center;
   
   box-sizing: border-box;
-  padding: var(--default-size-medium, 24px);
-  gap: var(--default-size-medium, 24px);
+  padding: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
+  gap: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
-  font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
+  background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
+
+  font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
 
   > :nth-child(1) {
     position: relative;
 
     display: inline-block;
+    place-items: center stretch;
+    place-content: center center;
 
     width: 100%;
-    height: auto;
+    height: 36px;
 
     box-sizing: border-box;
     border-radius: calc(var(--default-size-small, 1px) * 4.00);
-    padding: calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 2.00) calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 0.50);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    padding: calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50) + 36px) calc((var(--default-size-medium, 12px) * 0.50) + 4px) calc(var(--default-size-medium, 12px) * 0.50);
+    box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+
+    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
     > input {
       width: 100%;
@@ -34,7 +41,8 @@
 
       cursor: pointer;
 
-      font: normal calc(var(--default-size-medium, 24px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
+      font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+      color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
 
       &:focus-visible {
         outline: none;
@@ -49,20 +57,20 @@
       display: block;
 
       box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 24px) * 0.50);
+      padding: calc(var(--default-size-medium, 12px) * 0.50) calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50) + 4px) calc(var(--default-size-medium, 12px) * 0.50);
 
       cursor: pointer;
 
       > * {
         box-sizing: border-box;
         border-radius: calc(var(--default-size-small, 1px) * 4.00);
-        padding: calc(var(--default-size-small, 1px) * 2.00);
+        padding: calc(var(--default-size-medium, 12px) * 0.50);
 
-        background-color: var(--default-color-theme, blue);
+        background-color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
 
-        font-size: calc(var(--default-size-medium, 24px) * 0.75);
+        font-size: calc(var(--default-size-medium, 12px) * 0.75);
         
-        color: var(--default-color-light, white);
+        color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
       }
     }
   }
@@ -77,20 +85,26 @@
     height: auto;
 
     box-sizing: border-box;
-    gap: var(--default-size-medium, 24px);
+    gap: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
+
+    background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
 
     > * {
       position: relative;
 
       display: inline-block;
+      place-items: center stretch;
+      place-content: center center;
 
       flex: 1 1 0;
-      height: auto;
+      height: 36px;
 
       box-sizing: border-box;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
-      padding: calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 24px) * 0.50) calc(var(--default-size-medium, 24px) * 0.50);
+      padding: calc(var(--default-size-medium, 12px) * 0.25) calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50) + 4px) calc(var(--default-size-medium, 12px) * 0.75);
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
+
+      background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
       > * {
         width: 100%;
@@ -126,7 +140,7 @@
         > :nth-child(2) {
           position: absolute;
           left: 0;
-          top: calc(var(--default-size-medium, 24px) * 3.50);
+          top: calc((var(--default-size-medium, 24px) * 4.00 / 3.00) + 36px);
           z-index: 100;
 
           overflow-x: hidden;
@@ -134,158 +148,26 @@
 
           display: block;
 
-          max-height: var(--default-size-large, 480px);
+          max-height: var(--default-size-large, 360px);
 
           box-sizing: border-box;
           border-radius: calc(var(--default-size-small, 1px) * 4.00);
           padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-small, 1px) * 8.00) calc(var(--default-size-small, 1px) * 4.00);
-          box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
+          box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;  
         
-          background-color: var(--default-color-light, white);
+          background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
           > * {
             box-sizing: border-box;
-            padding: calc(var(--default-size-medium, 24px) * 0.50);
+            padding: calc(var(--default-size-medium, 12px) * 0.50);
           }
 
           :hover, &.filter-menu-item-selected {
-            color: var(--default-color-theme, blue);
+            color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
           }
         }
       }
     }
-
-  /* Filter Categories */
-  /* > * {
-    width: var(--default-size-large, 480px);
-    height: auto;
-
-    box-sizing: border-box;
-    outline: var(--border-black-025, 2px solid rgba(0, 0, 0, 1.00)); */
-
-    /* Interactive Components */
-    /* > :nth-child(2) {
-      display: flex;
-      flex-flow: row nowrap;
-      place-items: center center;
-      place-content: center start;
-
-      width: 100%;
-      height: 50%;
-
-      cursor: pointer;
-    } */
-
-    /* Inactive Dropdown Lists */
-    /* > .filter-menu-dropdown-inactive {
-      position: relative;
-
-      display: inline-block; */
-
-      /* Dropdown Button */
-      /* > :nth-child(1) {
-        overflow: clip clip;
-        white-space: nowrap;
-  
-        width: 100%;
-        height: 100%;
-  
-        box-sizing: border-box;
-        padding: var(--space-100, 8px);
-  
-        background-color: var(--color-white, rgba(255, 255, 255, 1.00));
-  
-        font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
-        text-transform: capitalize;
-        text-overflow: ellipsis;
-        color: var(--color-black, rgba(0, 0, 0, 1.00));
-      } */
-
-      /* Dropdown Content */
-      /* > :nth-child(2) {
-        display: none;
-      }
-    } */
-
-    /* Active Dropdown Lists */
-    /* > .filter-menu-dropdown-active {
-      position: relative;
-
-      display: inline-block;
-
-      box-sizing: border-box;
-      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
-
-      /* Dropdown Button */
-      /* > :nth-child(1) {
-        overflow: clip clip;
-        white-space: nowrap;
-  
-        width: 100%;
-        height: 100%;
-  
-        box-sizing: border-box;
-        padding: var(--space-100, 8px);
-  
-        background-color: var(--color-white, rgba(255, 255, 255, 1.00));
-  
-        font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
-        text-transform: capitalize;
-        text-overflow: ellipsis;
-        color: var(--color-black, rgba(0, 0, 0, 1.00));
-      } */
-
-      /* Dropdown Content */
-      /* > :nth-child(2) {
-        position: absolute;
-        z-index: 100;
-  
-        display: inline-block;
-  
-        overflow: hidden auto;
-    
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        max-height: var(--height-100, 480px);
-  
-        box-sizing: border-box;
-        box-shadow: calc(var(--border-100, 2px) * -1) 0 0 0 var(--color-black, rgba(0, 0, 0, 1.00)), 0 calc(var(--border-100, 2px) * 1) 0 0 var(--color-black, rgba(0, 0, 0, 1.00)), calc(var(--border-100, 2px) * 1) 0 0 0 var(--color-black, rgba(0, 0, 0, 1.00));
-        padding: 0;
-        
-        background-color: var(--color-white, rgba(255, 255, 255, 1.00)); */
-  
-        /* Dropdown Item */
-        /* > * {
-          overflow: clip clip;
-          white-space: wrap;
-  
-          width: 100%;
-          height: auto;
-  
-          box-sizing: border-box;
-          border: var(--space-100, 8px) solid transparent;
-  
-          font: var(--type-normal-s16, normal 400 16px/1.25 "Outfit", sans-serif);
-          text-transform: capitalize;
-          color: var(--color-black, rgba(0, 0, 0, 1.00));
-  
-          &.filter-menu-item-selected {
-            background-color: var(--color-orange, rgba(225, 125, 25, 1.00));
-  
-            color: var(--color-white, rgba(255, 255, 255, 1.00));
-          }
-  
-          &:hover {
-            background-color: var(--color-orange, rgba(225, 125, 25, 1.00));
-  
-            color: var(--color-white, rgba(255, 255, 255, 1.00));
-          }
-        }
-      }
-    }
-  } */
-    /* } */
   }
 }
 

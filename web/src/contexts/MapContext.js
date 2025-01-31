@@ -2522,12 +2522,6 @@ function MapContextProvider (props) {
         view
           .whenLayerView(layer_regions)
           .then(function (layerView) {
-            layerView.highlightOptions = {
-              color: "rgba(255, 0, 255, 1.00)",
-              haloOpacity: 1.00,
-              fillOpacity: 0.25
-            };
-
             layer_regions.visible = true;
         
             layer_regions
@@ -2567,12 +2561,6 @@ function MapContextProvider (props) {
         view
           .whenLayerView(layer_engineering_districts)
           .then(function (layerView) {
-            layerView.highlightOptions = {
-              color: "rgba(255, 0, 255, 1.00)",
-              haloOpacity: 1.00,
-              fillOpacity: 0.25
-            };
-
             layer_engineering_districts.visible = true;
         
             layer_engineering_districts
@@ -2612,12 +2600,6 @@ function MapContextProvider (props) {
         view
           .whenLayerView(layer_legislative_districts)
           .then(function (layerView) {
-            layerView.highlightOptions = {
-              color: "rgba(255, 0, 255, 1.00)",
-              haloOpacity: 1.00,
-              fillOpacity: 0.25
-            };
-
             layer_legislative_districts.visible = true;
         
             layer_legislative_districts
@@ -2657,12 +2639,6 @@ function MapContextProvider (props) {
         view
           .whenLayerView(layer_national_road_network)
           .then(function (layerView) {
-            layerView.highlightOptions = {
-              color: "rgba(255, 0, 255, 1.00)",
-              haloOpacity: 1.00,
-              fillOpacity: 0.25
-            };
-
             layer_national_road_network
               .queryFeatures({
                 where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`,
