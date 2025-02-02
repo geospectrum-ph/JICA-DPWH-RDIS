@@ -8,6 +8,19 @@ import { MapContext } from "../../../contexts/MapContext";
 import "./index.css";
 
 export default function Summary () {
+  const {
+    filteredRoadInventory, totalRoadInventory,
+    filteredRoadSlopeInventory, totalRoadSlopeInventory,
+
+    filteredNERoadSlopeStructures, totalNERoadSlopeStructures,
+    filteredERoadSlopeStructures, totalERoadSlopeStructures,
+
+    arrayHM01,
+
+    arrayRSS01, arrayRSS02, arrayRSS03,
+    arrayRS01, arrayRS02
+  } = React.useContext(MainContext);
+
   const structureTypes = [
     'Grouted Riprap',
     'Grouted Riprap with Steel Sheet Pile Foundation',
@@ -53,170 +66,220 @@ export default function Summary () {
     }
   ]
 
-  // return (
-  //   <div id = 'summary-container'>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Total Number of Existing Inventory"}</div>
-  //       <div>
-  //         <span className="material-symbols-outlined" id = 'summary-icons'>
-  //           warning
-  //         </span>
-  //         <div>
-  //           <div>{"Good"}&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Fair"}&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Poor"}&nbsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Bad"}&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Total"}&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Total Number of Road Slope Inventory by Hazard Level"}</div>
-  //       <div>
-  //         {/* <span class="material-symbols-outlined" id = 'summary-icons'>
-  //           warning
-  //         </span> */}
-  //         <div/>
-  //         <div>
-  //           <div>
-  //             <span className="material-symbols-outlined" id='hazard-high'>
-  //               horizontal_rule
-  //             </span>
-  //             {"High"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
-  //           </div>
-  //           <div>
-  //             <span className="material-symbols-outlined" id='hazard-middle'>
-  //               horizontal_rule
-  //             </span>
-  //             {"Middle"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
-  //           </div>
-  //           <div>
-  //             <span className="material-symbols-outlined" id='hazard-low'>
-  //               horizontal_rule
-  //             </span>
-  //             {"Low"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}
-  //           </div>
-  //           <div>
-  //             <span className="material-symbols-outlined" id='hazard-none'>
-  //               horizontal_rule
-  //             </span>
-  //             {"Non-evaluated"}&emsp;&emsp;{"0000"}
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Total Number of Sections by Road Terrain"}</div>
-  //       <div>
-  //         {/* <span class="material-symbols-outlined" id = 'summary-icons'>
-  //           warning
-  //         </span> */}
-  //         <div/>
-  //         <div>
-  //           <div>{"Flat"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Rolling"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Mountainous"}&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Non-evaluated"}&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Total"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Total Number of Non-existing Road Slope Inventory"}</div>
-  //       <div>
-  //         <span className="material-symbols-outlined" id = 'summary-icons'>
-  //           warning
-  //         </span>
-  //         <div>
-  //           <div>{"Construction"}&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Reconstruction"}&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Rehab/Repair"}&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Total"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"Priority"}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{"0000"}</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Total Number of Type of Road Slope Structure by Condition"}</div>
-  //       <div>
-  //         <table>
-  //           <tbody>
-  //           <tr>
-  //             <th>Particular</th>
-  //             <th>Good</th>
-  //             <th>Fair</th>
-  //             <th>Poor</th>
-  //             <th>Bad</th>
-  //           </tr>
-  //           {structureTypes.map((type, index) => {
-  //             return <tr key = {index}>
-  //               <td>{type}</td>
-  //               <td>0</td>
-  //               <td>0</td>
-  //               <td>0</td>
-  //               <td>0</td>
-  //             </tr>
-  //           })}
-  //           </tbody>
-  //         </table>
-  //       </div>
-  //     </div>
-  //     <div id = 'summary-blocks'>
-  //       <div>{"Road Slope Status"}</div>
-  //       <div>
-  //         <PieChart width={100} height={100}>
-  //           <Pie data={sampleData} 
-  //             dataKey="value"
-  //             nameKey="name" 
-  //             cx="50%" cy="50%" 
-  //             labelLine={false}
-  //             label={renderCustomizedLabel}
-  //             outerRadius={35} 
-  //             fill="#8884d8" >
-  //             {sampleData.map((entry, index) => (
-  //               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-  //             ))}  
-  //             </Pie>
-  //         </PieChart>
-  //         <div>
-  //           <div>{"No. of existing"}&emsp;&emsp;&emsp;{"0000"}</div>
-  //           <div>{"No. of non-existing"}&emsp;{"0000"}</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
-
   return (
-    <div>
-      {/* <div>
-        <div>{ "Road Slope Inventory by Road Condition" }</div>
-        <div></div>
+    <div id = "summary-container">
+      <div>
+        <span>{ "Summary" }</span>
       </div>
       <div>
-        <div>{ "Road Slope Inventory by Road Terrain" }</div>
-        <div></div>
+        <div className = "summary-section">
+          <div className = "summary-header-row">
+            <div></div>
+            <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+            <div className = "summary-column-header"><span>{ "Total" }</span></div>
+          </div>
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Road Inventory" }</span></div>
+            <div><span>{ filteredRoadInventory }</span></div>
+            <div><span>{ totalRoadInventory }</span></div>
+          </div>
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>
+            <div><span>{ filteredRoadSlopeInventory }</span></div>
+            <div><span>{ totalRoadSlopeInventory }</span></div>
+          </div>
+        </div>
+        <div className = "summary-section">
+          <div className = "summary-header-row">
+            <div></div>
+            <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+            <div className = "summary-column-header"><span>{ "Total" }</span></div>
+          </div>
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Structures" }</span></div>
+            <div><span>{ filteredNERoadSlopeStructures }</span></div>
+            <div><span>{ totalNERoadSlopeStructures }</span></div>
+          </div>
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Existing Road Slope Structures" }</span></div>
+            <div><span>{ filteredERoadSlopeStructures }</span></div>
+            <div><span>{ totalERoadSlopeStructures }</span></div>
+          </div>
+        </div>
+        <div className = "summary-section">
+          <div className = "summary-section-header"><span>{ "Hazard Map Module" }</span></div>
+          <div className = "summary-section-subheader"><span>{ "Road Slope Hazard Risk Levels" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayHM01?.length > 0 ?
+                  arrayHM01.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph">
+              <PieChart width = { 100 } height = { 100 }>
+                <Pie
+                  data = { sampleData }
+                  dataKey = "value"
+                  nameKey = "name" 
+                  cx = "50%" cy = "50%" 
+                  labelLine = { false }
+                  label = { renderCustomizedLabel }
+                  outerRadius = { 35 }
+                  fill = "#8884d8"
+                >
+                  {
+                    sampleData.map(function (entry, index) {
+                      return (
+                        <Cell key = { `cell-${ index }`} fill = { COLORS[index % COLORS.length] }/>
+                      );
+                    })
+                  }  
+                </Pie>
+              </PieChart>
+            </div>
+          </div>
+        </div>
+        <div className = "summary-section">
+          <div className = "summary-section-header"><span>{ "Road Slope Inventory Module" }</span></div>
+          <div className = "summary-section-header"><span>{ "Road Slope Structures" }</span></div>
+          <div className = "summary-section-subheader"><span>{ "Condition of Road Slope Structures" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayRSS01?.length > 0 ?
+                  arrayRSS01.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph"></div>
+          </div>
+          <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Road Slope Structures" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayRSS02?.length > 0 ?
+                  arrayRSS02.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph"></div>
+          </div>
+          <div className = "summary-section-subheader"><span>{ "Type of Existing Road Slope Structures" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayRSS03?.length > 0 ?
+                  arrayRSS03.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph"></div>
+          </div>
+          <div className = "summary-section-header"><span>{ "Road Slopes" }</span></div>
+          <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Road Slopes" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayRS01?.length > 0 ?
+                  arrayRS01.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph"></div>
+          </div>
+          <div className = "summary-section-subheader"><span>{ "Type of Non-Existing Road Slope Structures" }</span></div>
+          <div>
+            <div className = "summary-details">
+              <div className = "summary-header-row">
+                <div></div>
+                <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                <div className = "summary-column-header"><span>{ "Total" }</span></div>
+              </div>
+              {
+                arrayRS02?.length > 0 ?
+                  arrayRS02.map(function (item) {
+                    return (
+                      <div className = "summary-row">
+                        <div className = "summary-row-header"><span>{ item.category }</span></div>
+                        <div><span>{ item.filtered }</span></div>
+                        <div><span>{ item.total }</span></div>
+                      </div>
+                    );
+                  })
+                  : null
+              }
+            </div>
+            <div className = "summary-graph"></div>
+          </div>
+        </div>
       </div>
-      <div>
-        <div>{ "Road Slope Inventory by Hazard Level" }</div>
-        <div></div>
-      </div>
-      <div>
-        <div>{ "Road Slope Inventory by Project" }</div>
-        <div></div>
-      </div>
-      <div>
-        <div>{ "Road Slope Structure Inventory" }</div>
-        <div></div>
-      </div>
-      <div>
-        <div>{ "Road Slope Status" }</div>
-        <div></div>
-      </div>
-      <div>
-        <div></div>
-        <div></div>
-      </div> */}
     </div>
   );
 }

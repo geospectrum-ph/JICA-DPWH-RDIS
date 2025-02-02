@@ -384,8 +384,11 @@ function MapContextProvider (props) {
       ]
     })
     .then(function (response) {
-      if (response && response.features.length > 0) {
+      if (response?.features?.length > 0) {
         setMaxAADT(response.features[0].attributes.AADT_max);
+      }
+      else {
+        setMaxAADT(0);
       }
     })
     .catch(function (error) {
@@ -671,29 +674,6 @@ function MapContextProvider (props) {
   const layer_municipalities_cities = new FeatureLayer({
     title: "Municipalities / Cities",
     url: url_cities,
-    renderer: {
-      type: "simple",
-      label: "Municipality / City",
-      symbol: {
-        type: "simple-fill",
-        outline: { 
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [
-        {
-          type: "color",
-          valueExpression: "$feature.OBJECTID % 4",
-          stops: [
-            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
-            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
-            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
-            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
-          ]
-        }
-      ]
-    },
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.MUNICIPAL" },
@@ -714,6 +694,49 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  React.useEffect(function () {
+    layer_municipalities_cities
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.MUNICIPAL,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)"
+              }
+            });
+          });
+  
+          layer_municipalities_cities.renderer = {
+            type: "unique-value",
+            field: "MUNICIPAL",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, []);
 
   function content_provinces (target) {
     const container = document.createElement("div");
@@ -750,29 +773,6 @@ function MapContextProvider (props) {
   const layer_provinces = new FeatureLayer({
     title: "Provinces",
     url: url_provinces,
-    renderer: {
-      type: "simple",
-      label: "Province",
-      symbol: {
-        type: "simple-fill",
-        outline: { 
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [
-        {
-          type: "color",
-          valueExpression: "$feature.OBJECTID % 4",
-          stops: [
-            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
-            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
-            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
-            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
-          ]
-        }
-      ]
-    },
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.PROVINCE" },
@@ -793,6 +793,49 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  React.useEffect(function () {
+    layer_provinces
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.PROVINCE,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)"
+              }
+            });
+          });
+  
+          layer_provinces.renderer = {
+            type: "unique-value",
+            field: "PROVINCE",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, []);
 
   function content_legislative_districts (target) {
     const container = document.createElement("div");
@@ -829,29 +872,6 @@ function MapContextProvider (props) {
   const layer_legislative_districts = new FeatureLayer({
     title: "Legislative Districts",
     url: url_legislative_districts,
-    renderer: {
-      type: "simple",
-      label: "Legislative District",
-      symbol: {
-        type: "simple-fill",
-        outline: { 
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [
-        {
-          type: "color",
-          valueExpression: "$feature.OBJECTID % 4",
-          stops: [
-            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
-            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
-            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
-            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
-          ]
-        }
-      ]
-    },
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.CONG_DIST" },
@@ -872,6 +892,49 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  React.useEffect(function () {
+    layer_legislative_districts
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.CONG_DIST,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)"
+              }
+            });
+          });
+  
+          layer_legislative_districts.renderer = {
+            type: "unique-value",
+            field: "CONG_DIST",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, []);
 
   function content_engineering_districts (target) {
     const container = document.createElement("div");
@@ -908,29 +971,6 @@ function MapContextProvider (props) {
   const layer_engineering_districts = new FeatureLayer({
     title: "Engineering Districts",
     url: url_engineering_districts,
-    renderer: {
-      type: "simple",
-      label: "Engineering District",
-      symbol: {
-        type: "simple-fill",
-        outline: { 
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [
-        {
-          type: "color",
-          valueExpression: "$feature.OBJECTID % 4",
-          stops: [
-            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
-            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
-            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
-            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
-          ]
-        }
-      ]
-    },
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.DEO" },
@@ -951,6 +991,49 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  React.useEffect(function () {
+    layer_engineering_districts
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.DEO,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)"
+              }
+            });
+          });
+  
+          layer_engineering_districts.renderer = {
+            type: "unique-value",
+            field: "DEO",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, []);
 
   function content_regions (target) {
     const container = document.createElement("div");
@@ -987,29 +1070,6 @@ function MapContextProvider (props) {
   const layer_regions = new FeatureLayer({
     title: "Regions",
     url: url_regions,
-    renderer: {
-      type: "simple",
-      label: "Region",
-      symbol: {
-        type: "simple-fill",
-        outline: { 
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [
-        {
-          type: "color",
-          valueExpression: "$feature.OBJECTID % 4",
-          stops: [
-            { value: 0, color: "rgba(246, 214, 214, 1.00)" },
-            { value: 1, color: "rgba(246, 247, 196, 1.00)" },
-            { value: 2, color: "rgba(161, 238, 189, 1.00)" },
-            { value: 3, color: "rgba(123, 211, 234, 1.00)" }
-          ]
-        }
-      ]
-    },
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.REGION" },
@@ -1030,6 +1090,49 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  React.useEffect(function () {
+    layer_regions
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.REGION,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)"
+              }
+            });
+          });
+  
+          layer_regions.renderer = {
+            type: "unique-value",
+            field: "REGION",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [0, 0, 0, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          }
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+  }, []);
 
   const group_administrative_boundaries = new GroupLayer({
     title: "Administrative Boundaries",
@@ -2199,7 +2302,7 @@ function MapContextProvider (props) {
 
         await item.layer.when();
 
-        if (item.children.items.length === 0) {
+        if (item?.children?.items?.length === 0) {
           item.actionsSections = [[
             {
               title: "Export data",
@@ -2439,7 +2542,7 @@ function MapContextProvider (props) {
           if ((selectedFeature) && (view.popup.visible)) {
             view
               .when(function () {
-                if (selectedFeature.geometry.extent) { view.goTo(selectedFeature.geometry.extent); }
+                if (selectedFeature.geometry?.extent) { view.goTo(selectedFeature.geometry.extent); }
               })
               .catch(function (error) {
                 console.error(error);
@@ -2530,16 +2633,20 @@ function MapContextProvider (props) {
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
-              .then(function (result) {
+              .then(function (response) {
                 if (highlighted_feature) {
                   highlighted_feature.remove();
                 }
 
-                const feature = result.features[0];
+                if (response?.features?.length > 0) {
+                  const feature = response.features[0];
 
-                highlighted_feature = layerView.highlight(feature);
-
-                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+                  highlighted_feature = layerView.highlight(feature);
+  
+                  if (feature.geometry?.extent) {
+                    view.goTo(feature.geometry.extent);
+                  }
+                }
               });
           });
 
@@ -2547,7 +2654,7 @@ function MapContextProvider (props) {
           where: `REGION = '${string}'`
         });
 
-        if (view?.layerViews?.items?.length > 0) {
+        if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
@@ -2569,16 +2676,20 @@ function MapContextProvider (props) {
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
-              .then(function (result) {
+              .then(function (response) {
                 if (highlighted_feature) {
                   highlighted_feature.remove();
                 }
 
-                const feature = result.features[0];
+                if (response?.features?.length > 0) {
+                  const feature = response.features[0];
 
-                highlighted_feature = layerView.highlight(feature);
-
-                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+                  highlighted_feature = layerView.highlight(feature);
+  
+                  if (feature.geometry?.extent) {
+                    view.goTo(feature.geometry.extent);
+                  }
+                }
               });
           });
 
@@ -2586,7 +2697,7 @@ function MapContextProvider (props) {
           where: `DEO = '${string}'`
         });
 
-        if (view?.layerViews?.items?.length > 0) {
+        if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
@@ -2608,16 +2719,20 @@ function MapContextProvider (props) {
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
-              .then(function (result) {
+              .then(function (response) {
                 if (highlighted_feature) {
                   highlighted_feature.remove();
                 }
 
-                const feature = result.features[0];
+                if (response?.features?.length > 0) {
+                  const feature = response.features[0];
 
-                highlighted_feature = layerView.highlight(feature);
-
-                if (feature?.geometry?.extent) { view?.goTo(feature.geometry.extent); }
+                  highlighted_feature = layerView.highlight(feature);
+  
+                  if (feature.geometry?.extent) {
+                    view.goTo(feature.geometry.extent);
+                  }
+                }
               });
           });
 
@@ -2625,7 +2740,7 @@ function MapContextProvider (props) {
           where: `CONG_DIST = '${string}'`
         });
 
-        if (view?.layerViews?.items?.length > 0) {
+        if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
@@ -2645,18 +2760,20 @@ function MapContextProvider (props) {
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
-              .then(function (result) {
+              .then(function (response) {
                 if (highlighted_feature) {
                   highlighted_feature.remove();
                 }
 
-                var extent = result.features[0].geometry.extent;
+                if (response?.features?.length > 0) {
+                  const feature = response.features[0];
 
-                result.features.forEach(function(feature) {
-                  extent = extent.union(feature.geometry.extent);
-                });
-
-                if (extent) { view?.goTo(extent); }
+                  highlighted_feature = layerView.highlight(feature);
+  
+                  if (feature.geometry?.extent) {
+                    view.goTo(feature.geometry.extent);
+                  }
+                }
               });
           });
 
@@ -2664,7 +2781,7 @@ function MapContextProvider (props) {
           where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`
         });
 
-        if (view?.layerViews?.items?.length > 0) {
+        if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
@@ -2688,7 +2805,7 @@ function MapContextProvider (props) {
       where: "1 = 1"
     });
 
-    if (view?.layerViews?.items?.length > 0) {
+    if (view.layerViews?.items?.length > 0) {
       for (const group of view.layerViews.items) {
         if (group?.layerViews?.items?.length > 0) {
           for (const layer of group.layerViews.items) {
@@ -2699,7 +2816,7 @@ function MapContextProvider (props) {
     }
 
     if (layer_national_road_network.fullExtent) {
-      view?.goTo(layer_national_road_network.fullExtent);
+      view.goTo(layer_national_road_network.fullExtent);
     }
   }
 

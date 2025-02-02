@@ -25,12 +25,12 @@ export default function FilterComponent () {
     layer_national_road_network,
     layer_engineering_districts,
 
-    layer_road_slopes_and_countermeasures,
-
     focus_map, refocus_map, close_popup
   } = React.useContext(MapContext);
 
   const [filterArray, setFilterArray] = React.useState([]);
+
+  /* Sets the working array of object references for the filter component. */
 
   React.useEffect(function () {
     layer_engineering_districts
@@ -40,7 +40,7 @@ export default function FilterComponent () {
         outFields: ["*"]
       })
       .then(function (response) {
-        if (response && response.features && response.features.length > 0) {
+        if (response?.features?.length > 0) {
           for (const feature of response.features) {
             const buffer_array = filterArray;
 
@@ -49,17 +49,17 @@ export default function FilterComponent () {
             const orders_array = orders_string[1].split(/[\s,&]+/);
 
             for (const item of orders_array) {
-              const new_entry = string_array[1] + "(" + item + " DISTRICT)";
+              const feature_attribute_district = string_array[1] + "(" + item + " DISTRICT)";
 
               const match_array = buffer_array.filter(function (item) {
-                return (item.REGION === feature.attributes.REGION && item.DEO === feature.attributes.DEO && item.CONG_DIST === new_entry);
+                return (item.REGION === feature.attributes.REGION && item.DEO === feature.attributes.DEO && item.CONG_DIST === feature_attribute_district);
               });
 
               if (match_array.length === 0 && item !== "to") {
                 buffer_array.push({
                   "REGION": feature.attributes.REGION,
                   "DEO": feature.attributes.DEO,
-                  "CONG_DIST": new_entry
+                  "CONG_DIST": feature_attribute_district
                 });
               }
             }
@@ -72,14 +72,13 @@ export default function FilterComponent () {
         console.log(error);
       });
   }, []);
-
-  const values = new Map([["I", 1], ["V", 5], ["X", 10]]);
   
   function parseRomanToInteger (string) {
+    let values = new Map([["I", 1], ["V", 5], ["X", 10]]);
     let result = 0, current, previous = 0;
 
-    for (const char of string.split("").reverse()) {
-      current = values.get(char);
+    for (const character of string.split("").reverse()) {
+      current = values.get(character);
 
       if (current >= previous) {
         result += current;
@@ -115,25 +114,54 @@ export default function FilterComponent () {
     }
   }
 
-  function query_features (level, object) {
+  function query_all () {
     setDataArray(null);
     setDataLoading(true);
 
-    if (dataSource) {   
-      const expression =
-        object ?
-          level === 0 ? "1 = 1" :
-          level === 1 ? "region_name = '" + object.REGION + "'" :
-          level === 2 ? "deo_name = '" + object.DEO + "'" :
-          level === 3 ? "district_name = '" + object.CONG_DIST + "'" :
-          level === 4 ? "road_id LIKE '%" + object + "%' OR road_name LIKE '%" + object + "%' OR section_id LIKE '%" + object + "%'" || "1 = 0" :
-          "1 = 0" :
-        level === 0 ? "1 = 1" :
-        level === 1 ? "region_name = '" + filterL01Selected + "'" :
-        level === 2 ? "deo_name = '" + filterL02Selected + "'" :
-        level === 3 ? "district_name = '" + filterL03Selected + "'" :
-        "1 = 0";
-              
+    layer_national_road_network
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          var extent = response.features[0].geometry.extent;
+
+          response.features.forEach(function(feature) {
+            extent = extent.union(feature.geometry.extent);
+          });
+    
+          setDataArray(response.features);
+
+          setDataLoading(false);
+        }
+        else {
+          setDataLoading(false);
+
+          setDataArray(null);
+        }
+      })
+      .catch(function (error) {
+        setDataLoading(false);
+
+        console.log(error);
+      });
+  }
+
+  function query_features (level, object) {
+    const expression =
+      level === 0 ? "1 = 1" :
+      level === 1 ? `region_name = '${ object?.REGION || filterL01Selected }'` :
+      level === 2 ? `region_name = '${ object?.REGION || filterL01Selected }' AND deo_name = '${ object?.DEO || filterL02Selected }'` :
+      level === 3 ? `region_name = '${ object?.REGION || filterL01Selected }' AND deo_name = '${ object?.DEO || filterL02Selected }' AND district_name = '${ object?.CONG_DIST || filterL03Selected }'` :
+      level === 4 ? `road_id LIKE '%${ object?.QUERY || filterL04Selected }%' OR road_name LIKE '%${ object?.QUERY || filterL04Selected }%' OR section_id LIKE '%${ object?.QUERY || filterL04Selected }%'` :
+      "1 = 0";
+    
+    if (dataSource) {
+      setDataArray(null);
+      setDataLoading(true);
+
       dataSource
         .queryFeatures({
           where: expression || "1 = 0",
@@ -141,7 +169,7 @@ export default function FilterComponent () {
           outFields: ["*"]
         })
         .then(function (response) {
-          if (response && response.features && response.features.length > 0) {
+          if (response?.features?.length > 0) {
             var extent = response.features[0].geometry.extent;
 
             response.features.forEach(function(feature) {
@@ -153,35 +181,7 @@ export default function FilterComponent () {
             setDataLoading(false);
           }
           else {
-            dataSource
-              .queryFeatures({
-                where: "1 = 1",
-                returnGeometry: true,
-                outFields: ["*"]
-              })
-              .then(function (response) {
-                if (response && response.features && response.features.length > 0) {
-                  var extent = response.features[0].geometry.extent;
-      
-                  response.features.forEach(function(feature) {
-                    extent = extent.union(feature.geometry.extent);
-                  });
-            
-                  setDataArray(response.features);
-      
-                  setDataLoading(false);
-                }
-                else {
-                  setDataLoading(false);
-      
-                  setDataArray(null);
-                }
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-      
-                console.log(error);
-              });
+            query_all();
           }
         })
         .catch(function (error) {
@@ -191,98 +191,7 @@ export default function FilterComponent () {
         });
     }
     else {
-      const expression =
-        moduleSelected === 0 ? "1 = 0" :
-        object ?
-          level === 0 ? "1 = 1" :
-          level === 1 ? "REGION = '" + object.REGION + "'" :
-          level === 2 ? "DEO = '" + object.DEO + "'" :
-          level === 3 ? "CONG_DIST = '" + object.CONG_DIST + "'" :
-          level === 4 ? "ROAD_ID LIKE '%" + object + "%' OR ROAD_NAME LIKE '%" + object + "%' OR SECTION_ID LIKE '%" + object + "%'" || "1 = 0" :
-          "1 = 0" :
-        level === 0 ? "1 = 1" :
-        level === 1 ? "REGION = '" + filterL01Selected + "'" :
-        level === 2 ? "DEO = '" + filterL02Selected + "'" :
-        level === 3 ? "CONG_DIST = '" + filterL03Selected + "'" :
-        "1 = 0";
-
-      layer_national_road_network
-        .queryFeatures({
-          where: moduleSelected === 0 ? "1 = 0" : expression || "1 = 0",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response && response.features && response.features.length > 0) {
-            if (moduleSelected === 2 || moduleSelected === 3) {
-              layer_road_slopes_and_countermeasures
-                .queryFeatures({
-                  where: "1 = 1",
-                  returnGeometry: true,
-                  outFields: ["*"]
-                })
-                .then(function (response) {
-                  if (response && response.features.length > 0) {
-                    var extent = response.features[0].geometry.extent;
-
-                    response.features.forEach(function(feature) {
-                      extent = extent.union(feature.geometry.extent);
-                    });
-                  }
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-            }
-            else {
-              var extent = response.features[0].geometry.extent;
-
-              response.features.forEach(function(feature) {
-                extent = extent.union(feature.geometry.extent);
-              });
-            }
-            
-            setDataArray(response.features);
-
-            setDataLoading(false);
-          }
-          else {
-            layer_national_road_network
-              .queryFeatures({
-                where: "1 = 1",
-                returnGeometry: true,
-                outFields: ["*"]
-              })
-              .then(function (response) {
-                if (response && response.features && response.features.length > 0) {
-                  var extent = response.features[0].geometry.extent;
-      
-                  response.features.forEach(function(feature) {
-                    extent = extent.union(feature.geometry.extent);
-                  });
-
-                  setDataArray(response.features);
-      
-                  setDataLoading(false);
-                }
-                else {
-                  setDataLoading(false);
-      
-                  setDataArray(null);
-                }
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-      
-                console.log(error);
-              });
-          }
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-
-          console.log(error);
-        });
+      query_all();
     }
   }
 
@@ -336,9 +245,11 @@ export default function FilterComponent () {
     focus_map(type, string);
 
     if (type === 1) {
-      const object = filterArray.find(function (item) { return (item.REGION === string); });
+      const object = {
+        "REGION": string
+      }
 
-      setFilterL01Selected(object.REGION);
+      setFilterL01Selected(string);
       setFilterL02Selected(null);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
@@ -346,47 +257,47 @@ export default function FilterComponent () {
       query_features(1, object);
     }
     if (type === 2) {
-      const object = filterArray.find(function (item) { return (item.DEO === string); });
+      const object = {
+        "REGION": filterL01Selected,
+        "DEO": string
+      }
 
-      if (!filterL01Selected) setFilterL01Selected(object.REGION);
-      setFilterL02Selected(object.DEO);
+      setFilterL02Selected(string);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
       query_features(2, object);
     }
     if (type === 3) {
-      const object = filterArray.find(function (item) { return (item.CONG_DIST === string); });
+      const object = {
+        "REGION": filterL01Selected,
+        "DEO": filterL02Selected,
+        "CONG_DIST": string
+      }
 
-      if (!filterL01Selected) setFilterL01Selected(object.REGION);
-      if (!filterL02Selected) setFilterL02Selected(object.DEO);
-      setFilterL03Selected(object.CONG_DIST);
+      setFilterL03Selected(string);
       setFilterL04Selected(null);
 
       query_features(3, object);
     }
     if (type === 4) {
+      const object = {
+        "QUERY": string
+      }
+
       clear_filter(4);
 
-      query_features(4, string);
+      query_features(4, object);
     }
 
     setDataSelected(null);
   }
 
   React.useEffect(function () {
-    if (filterL03Selected) {
-      clear_filter(4);
-    }
-    else if (filterL02Selected) {
-      clear_filter(3);
-    }
-    else if (filterL01Selected) {
-      clear_filter(2);
-    }
-    else {
-      clear_filter(1);
-    }
+    setFilterL01Selected(null);
+    setFilterL02Selected(null);
+    setFilterL03Selected(null);
+    setFilterL04Selected(null);
   }, [moduleSelected]);
 
   const [dropdownActive, setDropdownActive] = React.useState(false);

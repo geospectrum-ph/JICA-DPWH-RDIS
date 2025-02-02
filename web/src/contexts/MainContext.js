@@ -61,6 +61,27 @@ function MainContextProvider (props) {
 
   const [dataSelected, setDataSelected] = React.useState(null);
 
+  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(null);
+  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(null);
+
+  const [totalRoadInventory, setTotalRoadInventory] = React.useState(null);
+  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(null);
+
+  const [filteredNERoadSlopeStructures, setFilteredNERoadSlopeStructures] = React.useState(null);
+  const [filteredERoadSlopeStructures, setFilteredERoadSlopeStructures] = React.useState(null);
+
+  const [totalNERoadSlopeStructures, setTotalNERoadSlopeStructures] = React.useState(null);
+  const [totalERoadSlopeStructures, setTotalERoadSlopeStructures] = React.useState(null);
+
+  const [arrayHM01, setArrayHM01] = React.useState(null);
+
+  const [arrayRSS01, setArrayRSS01] = React.useState(null);
+  const [arrayRSS02, setArrayRSS02] = React.useState(null);
+  const [arrayRSS03, setArrayRSS03] = React.useState(null);
+
+  const [arrayRS01, setArrayRS01] = React.useState(null);
+  const [arrayRS02, setArrayRS02] = React.useState(null);
+
   return (
     <MainContext.Provider value = {
       {
@@ -76,7 +97,18 @@ function MainContextProvider (props) {
         filterL03Selected, setFilterL03Selected, 
         filterL04Selected, setFilterL04Selected,
 
-        dataSelected, setDataSelected
+        dataSelected, setDataSelected,
+
+        filteredRoadInventory, setFilteredRoadInventory, totalRoadInventory, setTotalRoadInventory,
+        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory, totalRoadSlopeInventory, setTotalRoadSlopeInventory,
+      
+        filteredNERoadSlopeStructures, setFilteredNERoadSlopeStructures, totalNERoadSlopeStructures, setTotalNERoadSlopeStructures,
+        filteredERoadSlopeStructures, setFilteredERoadSlopeStructures, totalERoadSlopeStructures, setTotalERoadSlopeStructures,
+      
+        arrayHM01, setArrayHM01,
+      
+        arrayRSS01, setArrayRSS01, arrayRSS02, setArrayRSS02, arrayRSS03, setArrayRSS03,
+        arrayRS01, setArrayRS01, arrayRS02, setArrayRS02
       }
     }>
       { props.children }

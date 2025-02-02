@@ -1,78 +1,171 @@
 #summary-container {
   display: flex;
-  gap: 5px;
-  flex-flow: row wrap;
-  place-items: center center;
-  place-content: start center;
+  flex-flow: column nowrap;
+  place-items: stretch center;
+  place-content: center start;
 
   overflow: hidden hidden;
 
-  width: 720px;
+  width: var(--default-size-large, 360px);
   height: 100%;
 
   box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 1.00);
-}
+  padding: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
+  gap: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
 
-#summary-blocks {
-  width: 350px;
+  background-color: var(--default-color-background-tertiary, rgba(232, 241, 255));
 
-  > :nth-child(1){
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
-    padding-inline: 40px;
-
-    height: 50px;
-
-    background-color: rgba(100, 100, 100, 1.00);
-    color: rgba(255, 255, 255, 1.00);
-  }
-
-  
-  > :nth-child(2){
-    display: flex;
-    gap: 20px;
-    flex-flow: row nowrap;
-    align-items: center;
-    vertical-align: middle;
-
-    padding-inline: 10px;
-    padding-block: 5px;
+  > :nth-child(1) {
+    display: grid;
     
-    height: 175px;
-    overflow-y: auto;
+    flex: auto 1 auto;
 
-    > :nth-child(2){
+    width: auto;
+    height: auto;
+
+    font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+
+    /* Title */
+    > :nth-child(1) {
+      width: 100%;
+      height: 36px;
+
       display: flex;
       flex-flow: column nowrap;
+      place-items: stretch center;
+      place-content: center center;
+      
+      box-sizing: border-box;
+      padding: var(--default-size-medium, 12px);
+
+      text-transform: uppercase;
     }
   }
-}
 
-table {
-  height: 175px;
-  overflow-y: auto;
-}
+  > :nth-child(2) {
+    display: flex;
+    flex-flow: column nowrap;
+    place-items: stretch center;
+    place-content: center center;
 
-#summary-icons {
-  font-size: 90px;
-}
+    box-sizing: border-box;
+    gap: var(--default-size-medium, 12px);
 
-#hazard-high {
-  color: red
-}
+    font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
 
-#hazard-middle {
-  color: orange
-}
+    .summary-section {
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: stretch center;
+      place-content: center center;
 
-#hazard-low {
-  color: green
-}
+      box-sizing: border-box;
+      border-radius: calc(var(--default-size-small, 1px) * 4.00);
+      padding: calc(var(--default-size-medium, 12px) * 0.50);
+      box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+  
+      background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
-#hazard-none {
-  color: gray
+      > :not(:last-child) {
+        border-bottom: solid var(--default-size-small, 1px) var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+      }
+
+      > .summary-header-row {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: stretch center;
+        place-content: center center;
+
+        > :nth-child(1) {
+          flex: 3 1 0;
+          height: auto;
+        }
+
+        > :nth-child(2), > :nth-child(3) {
+          flex: 1 1 0;
+          height: auto;
+
+          text-align: center;
+        }
+      }
+
+      > .summary-row {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: stretch center;
+        place-content: center center;
+
+        > :nth-child(1) {
+          flex: 3 1 0;
+          height: auto;
+
+          font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+        }
+
+        > :nth-child(2), > :nth-child(3) {
+          flex: 1 1 0;
+          height: auto;
+        }
+      }
+    }
+
+    .summary-section:has(> div > .summary-details) {
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: stretch center;
+      place-content: center center;
+
+      > .summary-section-header {
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+      }
+
+      > .summary-section-subheader {
+        font-style: italic;
+      }
+
+      > div:has(> .summary-details) {
+        display: flex;
+        flex-flow: row nowrap;
+        place-items: stretch center;
+        place-content: center center;
+
+        .summary-details {
+          display: flex;
+          flex-flow: column nowrap;
+          place-items: stretch center;
+          place-content: center start;
+          
+          flex: 3 1 0;
+          height: auto;
+          
+          > * {
+            display: flex;
+            flex-flow: row nowrap;
+            place-items: stretch center;
+            place-content: center center;
+
+            > * {
+              flex: 1 1 0;
+              height: auto;
+            }
+          }
+
+          > :nth-child(1) {
+            > :not(:first-child) {
+              text-align: center;
+            }
+          }
+        }
+  
+        .summary-graph {
+          flex: 2 1 0;
+          height: auto;
+        }
+      }
+    }
+  }
 }
