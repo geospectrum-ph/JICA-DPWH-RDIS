@@ -2650,15 +2650,24 @@ function MapContextProvider (props) {
               });
           });
 
-        const filter = new FeatureFilter({
+        const filter_upper = new FeatureFilter({
           where: `REGION = '${string}'`
+        });
+
+        const filter_lower = new FeatureFilter({
+          where: `region_name = '${string}'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                layer.filter = filter;
+                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                  layer.filter = filter_lower;
+                }
+                else {
+                  layer.filter = filter_upper;
+                }
               }
             }
           }
@@ -2693,15 +2702,24 @@ function MapContextProvider (props) {
               });
           });
 
-        const filter = new FeatureFilter({
+        const filter_upper = new FeatureFilter({
           where: `DEO = '${string}'`
         });
+
+        const filter_lower = new FeatureFilter({
+          where: `deo_name = '${string}'`
+        })
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                layer.filter = filter;
+                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                  layer.filter = filter_lower;
+                }
+                else {
+                  layer.filter = filter_upper;
+                }
               }
             }
           }
@@ -2736,15 +2754,24 @@ function MapContextProvider (props) {
               });
           });
 
-        const filter = new FeatureFilter({
+        const filter_upper = new FeatureFilter({
           where: `CONG_DIST = '${string}'`
+        });
+
+        const filter_lower = new FeatureFilter({
+          where: `district_name = '${string}'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                layer.filter = filter;
+                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                  layer.filter = filter_lower;
+                }
+                else {
+                  layer.filter = filter_upper;
+                }
               }
             }
           }
@@ -2765,27 +2792,36 @@ function MapContextProvider (props) {
                   highlighted_feature.remove();
                 }
 
-                if (response?.features?.length > 0) {
-                  const feature = response.features[0];
+                if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+                  var extent = response.features[0].geometry.extent;
 
-                  highlighted_feature = layerView.highlight(feature);
+                  response.features.forEach(function(feature) {
+                    extent = extent.union(feature.geometry.extent);
+                  });
   
-                  if (feature.geometry?.extent) {
-                    view.goTo(feature.geometry.extent);
-                  }
+                  view.goTo(extent);
                 }
               });
           });
 
-        const filter = new FeatureFilter({
+        const filter_upper = new FeatureFilter({
           where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`
+        });
+
+        const filter_lower = new FeatureFilter({
+          where: `road_id LIKE '%${string}%' OR road_name LIKE '%${string}%' OR section_id LIKE '%${string}%'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                layer.filter = filter;
+                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                  layer.filter = filter_lower;
+                }
+                else {
+                  layer.filter = filter_upper;
+                }
               }
             }
           }

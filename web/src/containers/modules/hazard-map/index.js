@@ -8,7 +8,7 @@ import "./index.css";
 export default function PotentialRoadSlopeProjects () {
   const {
     dataArray,
-    dataLoading
+    dataLoading, setDataLoading
   } = React.useContext(MainContext);
 
   const {
@@ -89,6 +89,8 @@ export default function PotentialRoadSlopeProjects () {
     function find_road (value) {
       const expression = "globalid = '" + value + "'";
   
+      setDataLoading(true);
+
       layer_hazard_map
         .queryFeatures({
           where: expression || "1 = 0",
@@ -110,7 +112,12 @@ export default function PotentialRoadSlopeProjects () {
             open_popup(response.features);
           }
         })
+        .then(function () {
+          setDataLoading(false);
+        })
         .catch(function (error) {
+          setDataLoading(false);
+          
           console.log(error);
         });
     }

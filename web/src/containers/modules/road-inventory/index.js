@@ -8,7 +8,7 @@ import "./index.css";
 export default function RoadSlopeInventory () {
   const {
     dataArray,
-    dataLoading
+    dataLoading, setDataLoading
   } = React.useContext(MainContext);
 
   const {
@@ -102,6 +102,8 @@ export default function RoadSlopeInventory () {
 
     function find_road (value) {
       const expression = "globalid = '" + value + "'";
+
+      setDataLoading(true);
   
       layer_road_slopes_and_countermeasures
         .queryFeatures({
@@ -124,7 +126,12 @@ export default function RoadSlopeInventory () {
             open_popup(response.features);
           }
         })
+        .then(function () {
+          setDataLoading(false);
+        })
         .catch(function (error) {
+          setDataLoading(false);
+          
           console.log(error);
         });
     }

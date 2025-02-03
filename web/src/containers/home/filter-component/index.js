@@ -9,7 +9,7 @@ export default function FilterComponent () {
   const {
     dataSource, setDataSource,
     setDataArray,
-    setDataLoading,
+    dataLoading, setDataLoading,
 
     moduleSelected,
 
@@ -19,7 +19,6 @@ export default function FilterComponent () {
     filterL04Selected, setFilterL04Selected,
 
     setFilteredRoadInventory, setTotalRoadInventory,
-    filteredRoadSlopeInventory, totalRoadSlopeInventory,
     setFilteredRoadSlopeInventory, setTotalRoadSlopeInventory,
   
     setFilteredNERoadSlopeStructures, setTotalNERoadSlopeStructures,
@@ -409,7 +408,15 @@ export default function FilterComponent () {
     }
   ];
 
+  const [dataLoader01, setDataLoader01] = React.useState(false);
+  const [dataLoader02, setDataLoader02] = React.useState(false);
+  const [dataLoader03, setDataLoader03] = React.useState(false);
+
   function initialize_summary () {
+    setDataLoading(true);
+
+    setDataLoader01(true);
+
     layer_national_road_network
       .queryFeatures({
         where: "1 = 1",
@@ -430,9 +437,16 @@ export default function FilterComponent () {
           setFilteredRoadInventory(0);
         }
       })
+      .then(function () {
+        setDataLoader01(false);
+      })
       .catch(function (error) {
+        setDataLoader01(false);
+
         console.log(error);
       });
+
+    setDataLoader02(true);
 
     layer_road_slopes_and_countermeasures
       .queryFeatures({
@@ -566,9 +580,16 @@ export default function FilterComponent () {
           setFilteredERoadSlopeStructures(0);
         }
       })
+      .then(function () {
+        setDataLoader02(false);
+      })
       .catch(function (error) {
+        setDataLoader02(false);
+
         console.log(error);
       });
+
+    setDataLoader03(true);
 
     layer_hazard_map
       .queryFeatures({
@@ -602,14 +623,27 @@ export default function FilterComponent () {
           setArrayHM01(arrayHM01Buffer_);
         }
       })
+      .then(function () {
+        setDataLoader03(false);
+      })
       .catch(function (error) {
+        setDataLoader03(false);
+
         console.log(error);
       });
   }
 
-  function filter_summary (level, object) {
-    let counterRoadInventory = 0;
+  React.useEffect(function () {
+    initialize_summary();
+  }, []);
 
+  React.useEffect(function () {
+    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03) {
+      setDataLoading(false);
+    }
+  }, [dataLoader01, dataLoader02, dataLoader03]);
+
+  function filter_summary (level, object) {
     setFilteredRoadInventory(
       dataSourceBuffer01
         .filter(function (feature) {
@@ -623,7 +657,7 @@ export default function FilterComponent () {
             return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO && feature.attributes.CONG_DIST === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.ROAD_ID === object.QUERY && feature.attributes.ROAD_NAME === object.QUERY && feature.attributes.SECTION_ID === object.QUERY);
+            return (feature.attributes.ROAD_ID.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.ROAD_NAME.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.SECTION_ID.toLowerCase().includes(object.QUERY.toLowerCase()));
           }
         })
         .length
@@ -653,7 +687,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id === object.QUERY && feature.attributes.road_name === object.QUERY && feature.attributes.section_id === object.QUERY);
+            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY.toLowerCase()));
           }
         })
     ) {
@@ -768,7 +802,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id === object.QUERY && feature.attributes.road_name === object.QUERY && feature.attributes.section_id === object.QUERY);
+            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY.toLowerCase()));
           }
         })
     ) {
@@ -794,7 +828,7 @@ export default function FilterComponent () {
   /* Sets the working arrays of object references for the filter component. */
 
   React.useEffect(function () {
-    initialize_summary();
+    setDataLoading(true);
 
     layer_engineering_districts
       .queryFeatures({
@@ -831,7 +865,12 @@ export default function FilterComponent () {
           }
         }
       })
+      .then(function () {
+        setDataLoading(false);
+      })
       .catch(function (error) {
+        setDataLoading(false);
+
         console.log(error);
       });
   }, []);
@@ -893,7 +932,7 @@ export default function FilterComponent () {
           return (data.attributes.region_name === (object?.REGION || filterL01Selected) && data.attributes.deo_name === (object?.DEO || filterL02Selected) && data.attributes.district_name === (object?.CONG_DIST || filterL03Selected));
         }
         else if (level === 4) {
-          return (data.attributes.road_id.includes(object?.QUERY || filterL04Selected) || data.attributes.road_name.includes(object?.QUERY || filterL04Selected) || data.attributes.section_id.includes(object?.QUERY || filterL04Selected));
+          return (data.attributes.road_id.toLowerCase().includes(object?.QUERY.toLowerCase()) || data.attributes.road_name.toLowerCase().includes(object?.QUERY.toLowerCase()) || data.attributes.section_id.toLowerCase().includes(object?.QUERY.toLowerCase()));
         }
         else {
           return (null);
@@ -907,7 +946,7 @@ export default function FilterComponent () {
   function clear_filter (type) {
     refocus_map();
 
-    if (moduleSelected === 0 && !filterL04Selected) { initialize_summary(); }
+    if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) { initialize_summary(); }
     
     if (type === 1) {
       setFilterL01Selected(null);
@@ -922,7 +961,7 @@ export default function FilterComponent () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-     if (filterL01Selected) {  
+      if (filterL01Selected) {  
         query_features(1, null);
       }
       else {  
@@ -965,35 +1004,38 @@ export default function FilterComponent () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-      if (moduleSelected === 0) { filter_summary(1, object); }
+      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(1, object); }
 
       query_features(1, object);
     }
     if (type === 2) {
       const object = {
-        "REGION": filterL01Selected,
+        "REGION": filterL01Selected ? filterL01Selected : filterArray[filterArray.map(function (object) { return (object.DEO); }).indexOf(string)].REGION,
         "DEO": string
       }
 
+      if (!filterL01Selected) { setFilterL01Selected(filterArray[filterArray.map(function (object) { return (object.DEO); }).indexOf(string)].REGION); }
       setFilterL02Selected(string);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
-      if (moduleSelected === 0) { filter_summary(2, object); }
+      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(2, object); }
 
       query_features(2, object);
     }
     if (type === 3) {
       const object = {
-        "REGION": filterL01Selected,
-        "DEO": filterL02Selected,
+        "REGION": filterL01Selected ? filterL01Selected : filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].REGION,
+        "DEO": filterL02Selected ? filterL02Selected : filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].DEO,
         "CONG_DIST": string
       }
 
+      if (!filterL01Selected) { setFilterL01Selected(filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].REGION); }
+      if (!filterL02Selected) { setFilterL02Selected(filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].DEO); }
       setFilterL03Selected(string);
       setFilterL04Selected(null);
 
-      if (moduleSelected === 0) { filter_summary(3, object); }
+      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(3, object); }
 
       query_features(3, object);
     }
@@ -1004,7 +1046,7 @@ export default function FilterComponent () {
 
       clear_filter(4);
 
-      if (moduleSelected === 0) { filter_summary(4, object); }
+      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(4, object); }
 
       query_features(4, object);
     }
@@ -1018,6 +1060,7 @@ export default function FilterComponent () {
 
     switch (moduleSelected) {
       case 1:
+        setDataLoading(true);
         layer_hazard_map
           .queryFeatures({
             where: "1 = 1",
@@ -1039,12 +1082,18 @@ export default function FilterComponent () {
               setDataArray(null);
             }
           })
+          .then(function () {
+            setDataLoading(false);
+          })
           .catch(function (error) {
+            setDataLoading(false);
+
             console.log(error);
           });
         break;
       case 2:
       case 3:
+        setDataLoading(true);
         layer_road_slopes_and_countermeasures
           .queryFeatures({
             where: "1 = 1",
@@ -1066,7 +1115,12 @@ export default function FilterComponent () {
               setDataArray(null);
             }
           })
+          .then(function () {
+            setDataLoading(false);
+          })
           .catch(function (error) {
+            setDataLoading(false);
+            
             console.log(error);
           });
         break;

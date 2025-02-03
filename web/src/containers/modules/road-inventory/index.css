@@ -21,7 +21,7 @@
     height: auto;
       
     box-sizing: border-box;
-    padding: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
+    padding: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
     font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
     color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
@@ -58,7 +58,7 @@
       place-content: center start;
   
       box-sizing: border-box;
-      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 24px) * 4.00 / 3.00) calc((var(--default-size-medium, 24px) * 4.00 / 3.00) + (var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
+      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + (var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
       gap: var(--default-size-medium, 12px);
   
       font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
@@ -203,7 +203,7 @@
       height: auto;
   
       box-sizing: border-box;
-      padding: 0 var(--default-size-medium, 12px) var(--default-size-medium, 12px) var(--default-size-medium, 12px);
+      padding: 0 calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
   
       font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
       color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));

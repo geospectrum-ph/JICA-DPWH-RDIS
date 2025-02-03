@@ -124,9 +124,9 @@
   
         > :nth-child(2) {
           box-sizing: border-box;
-          padding: 0 calc(var(--default-size-medium, 24px) * 0.25);
+          padding: 0 calc(var(--default-size-medium, 12px) * 0.25);
 
-          font-size: calc(var(--default-size-medium, 24px) * 0.75);
+          font-size: calc(var(--default-size-medium, 12px) * 0.75);
         }
       }
 
@@ -140,7 +140,7 @@
         > :nth-child(2) {
           position: absolute;
           left: 0;
-          top: calc((var(--default-size-medium, 24px) * 4.00 / 3.00) + 36px);
+          top: calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + 36px);
           z-index: 100;
 
           overflow-x: hidden;

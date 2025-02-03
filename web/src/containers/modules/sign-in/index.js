@@ -15,7 +15,6 @@ export default function SignInPage () {
         <div>
           <div>
             <img src = { logo_DPWH } alt = "DPWH Logo"/>
-            <img src = { logo_BP } alt = "Bagong Pilipinas Logo"/>
           </div>
           <div>
             <span>{ "ROAD DISASTER INVENTORY SYSTEM (RDIS)" }</span>

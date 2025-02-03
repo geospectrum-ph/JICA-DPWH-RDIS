@@ -108,7 +108,7 @@
     inset: 0 !important;
 
     box-sizing: border-box;
-    margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 24px) * 4.00 / 3.00 ) + 39px) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
+    margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 12px) * 4.00 / 3.00 ) + 39px) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
     .esri-expand {
       > calcite-popover {
