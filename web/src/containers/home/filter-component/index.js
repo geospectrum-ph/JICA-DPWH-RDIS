@@ -7,7 +7,7 @@ import "./index.css";
 
 export default function FilterComponent () {
   const {
-    dataSource,
+    dataSource, setDataSource,
     setDataArray,
     setDataLoading,
 
@@ -18,21 +18,784 @@ export default function FilterComponent () {
     filterL03Selected, setFilterL03Selected,
     filterL04Selected, setFilterL04Selected,
 
-    setDataSelected
+    setFilteredRoadInventory, setTotalRoadInventory,
+    filteredRoadSlopeInventory, totalRoadSlopeInventory,
+    setFilteredRoadSlopeInventory, setTotalRoadSlopeInventory,
+  
+    setFilteredNERoadSlopeStructures, setTotalNERoadSlopeStructures,
+    setFilteredERoadSlopeStructures, setTotalERoadSlopeStructures,
+  
+    setArrayHM01,
+  
+    setArrayRSS01, setArrayRSS02, setArrayRSS03,
+    setArrayRS01, setArrayRS02
   } = React.useContext(MainContext);
   
   const {
     layer_national_road_network,
     layer_engineering_districts,
 
+    layer_hazard_map,
+    layer_road_slopes_and_countermeasures,
+
     focus_map, refocus_map, close_popup
   } = React.useContext(MapContext);
 
   const [filterArray, setFilterArray] = React.useState([]);
 
-  /* Sets the working array of object references for the filter component. */
+  /* Sets the values of summary variables. */
+
+  const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null);
+  const [dataSourceBuffer02, setDataSourceBuffer02] = React.useState(null);
+  const [dataSourceBuffer03, setDataSourceBuffer03] = React.useState(null);
+
+  const arrayRSS01Buffer = [
+    {
+      name: "Good",
+      total: 0,
+      filtered: 0,
+      color: "rgba(153, 255, 153, 1.00)"
+    },
+    {
+      name: "Fair",
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 204, 255, 1.00)"
+    },
+    {
+      name: "Poor",
+      total: 0,
+      filtered: 0,
+      color: "rgba(255, 153, 51, 1.00)"
+    },
+    {
+      name: "Bad",
+      total: 0,
+      filtered: 0,
+      color: "rgba(204, 102, 0, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    }
+  ];
+
+  const arrayRSS02Buffer = [
+    {
+      name: "Soil Slope Collapse",
+      total: 0,
+      filtered: 0,
+      color: "rgba(255, 0, 0, 1.00)"
+    }, 
+    {
+      name: "Rock Slope Collapse/Rock Fall",
+      total: 0,
+      filtered: 0,
+      color: "rgba(210, 0, 60, 1.00)"
+    },
+    {
+      name: "Landslide",
+      total: 0,
+      filtered: 0,
+      color: "rgba(180, 0, 120, 1.00)"
+    },
+    {
+      name: "Road Slip",
+      total: 0,
+      filtered: 0,
+      color: "rgba(150, 0, 150, 1.00)"
+    },
+    {
+      name: "River Erosion",
+      total: 0,
+      filtered: 0,
+      color: "rgba(120, 0, 180, 1.00)"
+    },
+    {
+      name: "Debris Flow",
+      total: 0,
+      filtered: 0,
+      color: "rgba(60, 0, 210, 1.00)"
+    },
+    {
+      name: "Coastal Erosion",
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 0, 255, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    } 
+  ];
+
+  const arrayRSS03Buffer = [
+    {
+      name: "Grouted Riprap", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 255, 1.00)"
+    },
+    {
+      name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 210, 1.00)"
+    },
+    {
+      name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 180, 1.00)"
+    },
+    {
+      name: "Rubble Concrete Revetment (Spread Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 150, 1.00)"
+    },
+    {
+      name: "Stone Masonry", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 120, 1.00)"
+    },
+    {
+      name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 90, 1.00)"
+    },
+    {
+      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 60, 1.00)"
+    },
+    {
+      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(0, 255, 0, 1.00)"
+    },
+    {
+      name: "Gravity Wall (Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(60, 255, 0, 1.00)"
+    },
+    {
+      name: "Gabion/Mattress Slope Protection", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(90, 255, 0, 1.00)"
+    },
+    {
+      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(120, 255, 0, 1.00)"
+    },
+    {
+      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(150, 255, 0, 1.00)"
+    },
+    {
+      name: "Earthfill Dike (Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(180, 255, 0, 1.00)"
+    },
+    {
+      name: "Boulder Spur Dike (Type II)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(210, 255, 0, 1.00)"
+    },
+    {
+      name: "Gabions Revetment (Pile-Up Type)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(255, 255, 0, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    }
+  ];
+
+  const arrayRS01Buffer = [
+    {
+      name: "Soil Slope Collapse",
+      total: 0,
+      filtered: 0,
+      color: "rgba(249, 65, 68, 1.00)"
+    }, 
+    {
+      name: "Rock Slope Collapse/Rock Fall",
+      total: 0,
+      filtered: 0,
+      color: "rgba(243, 114, 44, 1.00)"
+    },
+    {
+      name: "Landslide",
+      total: 0,
+      filtered: 0,
+      color: "rgba(248, 150, 30, 1.00)"
+    },
+    {
+      name: "Road Slip",
+      total: 0,
+      filtered: 0,
+      color: "rgba(249, 199, 79, 1.00)"
+    },
+    {
+      name: "River Erosion",
+      total: 0,
+      filtered: 0,
+      color: "rgba(144, 190, 109, 1.00)"
+    },
+    {
+      name: "Debris Flow",
+      total: 0,
+      filtered: 0,
+      color: "rgba(67, 170, 139, 1.00)"
+    },
+    {
+      name: "Coastal Erosion",
+      total: 0,
+      filtered: 0,
+      color: "rgba(87, 117, 144, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    } 
+  ];
+
+  const arrayRS02Buffer = [
+    {
+      name: "Grouted Riprap", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(138, 22, 177, 1.00)"
+    },
+    {
+      name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(138, 22, 177, 1.00)"
+    },
+    {
+      name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(199, 26, 176, 1.00)"
+    },
+    {
+      name: "Rubble Concrete Revetment (Spread Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(220, 30, 122, 1.00)"
+    },
+    {
+      name: "Stone Masonry", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(161, 19, 24, 1.00)"
+    },
+    {
+      name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(182, 75, 23, 1.00)"
+    },
+    {
+      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(204, 153, 27, 1.00)"
+    },
+    {
+      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(206, 224, 32, 1.00)"
+    },
+    {
+      name: "Gravity Wall (Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(87, 166, 20, 1.00)"
+    },
+    {
+      name: "Gabion/Mattress Slope Protection", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(36, 188, 24, 1.00)"
+    },
+    {
+      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(28, 209, 84, 1.00)"
+    },
+    {
+      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(38, 225, 167, 1.00)"
+    },
+    {
+      name: "Earthfill Dike (Type I)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(21, 151, 172, 1.00)"
+    },
+    {
+      name: "Boulder Spur Dike (Type II)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(25, 106, 193, 1.00)"
+    },
+    {
+      name: "Gabions Revetment (Pile-Up Type)", 
+      total: 0,
+      filtered: 0,
+      color: "rgba(29, 47, 215, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    }
+  ];
+
+  const arrayHM01Buffer = [
+    {
+      name: "High",
+      total: 0,
+      filtered: 0,
+      color: "rgba(255, 0, 0, 1.00)"
+    },
+    {
+      name: "Middle",
+      total: 0,
+      filtered: 0,
+      color: "rgba(255, 255, 0, 1.00)"
+    },
+    {
+      name: "Low",
+      total: 0,
+      filtered: 0, 
+      color: "rgba(0, 176, 80, 1.00)"
+    },
+    {
+      name: "Unclassified",
+      total: 0,
+      filtered: 0,
+      color: "rgba(191, 191, 191, 1.00)"
+    }
+  ];
+
+  function initialize_summary () {
+    layer_national_road_network
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features) {
+          setDataSourceBuffer01(response.features);
+
+          setTotalRoadInventory(response.features.length);
+
+          setFilteredRoadInventory(response.features.length);
+        }
+        else {
+          setTotalRoadInventory(0);
+
+          setFilteredRoadInventory(0);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    layer_road_slopes_and_countermeasures
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features) {
+          setDataSourceBuffer02(response.features);
+
+          setTotalRoadSlopeInventory(response.features.length);
+
+          setFilteredRoadSlopeInventory(response.features.length);
+
+          let RSSCounter = 0;
+          let RSCounter = 0;
+
+          let arrayRSS01Buffer_ = arrayRSS01Buffer;
+          let arrayRSS02Buffer_ = arrayRSS02Buffer;
+          let arrayRSS03Buffer_ = arrayRSS03Buffer;
+          let arrayRS01Buffer_ = arrayRS01Buffer;
+          let arrayRS02Buffer_ = arrayRS02Buffer;
+
+          for (const feature of response.features) {
+            if (feature.attributes.rsm_category === "Inventory of Road Slope Structures") {
+              RSSCounter++;
+              
+              if (arrayRSS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
+                let index = arrayRSS01Buffer_.length - 1;
+                let value = arrayRSS01Buffer_[index].total;
+
+                arrayRSS01Buffer_[index].total = value + 1;
+                arrayRSS01Buffer_[index].filtered = value + 1;
+              }
+              else {
+                let index = arrayRSS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
+                let value = arrayRSS01Buffer_[index].total;
+
+                arrayRSS01Buffer_[index].total = value + 1;
+                arrayRSS01Buffer_[index].filtered = value + 1;
+              }
+
+              if (arrayRSS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
+                let index = arrayRSS02Buffer_.length - 1;
+                let value = arrayRSS02Buffer_[index].total;
+
+                arrayRSS02Buffer_[index].total = value + 1;
+                arrayRSS02Buffer_[index].filtered = value + 1;
+              }
+              else {
+                let index = arrayRSS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
+                let value = arrayRSS02Buffer_[index].total;
+
+                arrayRSS02Buffer_[index].total = value + 1;
+                arrayRSS02Buffer_[index].filtered = value + 1;
+              }
+
+              if (arrayRSS03Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
+                let index = arrayRSS03Buffer_.length - 1;
+                let value = arrayRSS03Buffer_[index].total;
+
+                arrayRSS03Buffer_[index].total = value + 1;
+                arrayRSS03Buffer_[index].filtered = value + 1;
+              }
+              else {
+                let index = arrayRSS03Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
+                let value = arrayRSS03Buffer_[index].total;
+
+                arrayRSS03Buffer_[index].total = value + 1;
+                arrayRSS03Buffer_[index].filtered = value + 1;
+              }
+            }
+            else if (feature.attributes.rsm_category === "Inventory of Road Slope") {
+              RSCounter++;
+
+              if (arrayRS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
+                let index = arrayRS01Buffer_.length - 1;
+                let value = arrayRS01Buffer_[index].total;
+
+                arrayRS01Buffer_[index].total = value + 1;
+                arrayRS01Buffer_[index].filtered = value + 1;
+              }
+              else {
+                let index = arrayRS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
+                let value = arrayRS01Buffer_[index].total;
+
+                arrayRS01Buffer_[index].total = value + 1;
+                arrayRS01Buffer_[index].filtered = value + 1;
+              }
+
+              if (arrayRS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
+                let index = arrayRS02Buffer_.length - 1;
+                let value = arrayRS02Buffer_[index].total;
+
+                arrayRS02Buffer_[index].total = value + 1;
+                arrayRS02Buffer_[index].filtered = value + 1;
+              }
+              else {
+                let index = arrayRS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
+                let value = arrayRS02Buffer_[index].total;
+
+                arrayRS02Buffer_[index].total = value + 1;
+                arrayRS02Buffer_[index].filtered = value + 1;
+              }
+            }
+          }
+
+          setTotalNERoadSlopeStructures(RSCounter);
+          setTotalERoadSlopeStructures(RSSCounter);
+
+          setFilteredNERoadSlopeStructures(RSCounter);
+          setFilteredERoadSlopeStructures(RSSCounter);
+
+          setArrayRSS01(arrayRSS01Buffer_);
+          setArrayRSS02(arrayRSS02Buffer_);
+          setArrayRSS03(arrayRSS03Buffer_);
+
+          setArrayRS01(arrayRS01Buffer_);
+          setArrayRS02(arrayRS02Buffer_);
+        }
+        else {
+          setTotalRoadSlopeInventory(0);
+
+          setTotalNERoadSlopeStructures(0);
+          setTotalERoadSlopeStructures(0);
+
+          setFilteredRoadSlopeInventory(0);
+
+          setFilteredNERoadSlopeStructures(0);
+          setFilteredERoadSlopeStructures(0);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    layer_hazard_map
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features) {
+          setDataSourceBuffer03(response.features);
+
+          let arrayHM01Buffer_ = arrayHM01Buffer;
+
+          for (const feature of response.features) {
+            if (arrayHM01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
+              let index = arrayHM01Buffer_.length - 1;
+              let value = arrayHM01Buffer_[index].total;
+
+              arrayHM01Buffer_[index].total = value + 1;
+              arrayHM01Buffer_[index].filtered = value + 1;
+            }
+            else {
+              let index = arrayHM01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk);
+              let value = arrayHM01Buffer_[index].total;
+
+              arrayHM01Buffer_[index].total = value + 1;
+              arrayHM01Buffer_[index].filtered = value + 1;
+            }
+          }
+
+          setArrayHM01(arrayHM01Buffer_);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  function filter_summary (level, object) {
+    let counterRoadInventory = 0;
+
+    setFilteredRoadInventory(
+      dataSourceBuffer01
+        .filter(function (feature) {
+          if (level === 1) {
+            return (feature.attributes.REGION === object.REGION);
+          }
+          else if (level === 2) {
+            return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO);
+          }
+          else if (level === 3) {
+            return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO && feature.attributes.CONG_DIST === object.CONG_DIST);
+          }
+          else if (level === 4 ) {
+            return (feature.attributes.ROAD_ID === object.QUERY && feature.attributes.ROAD_NAME === object.QUERY && feature.attributes.SECTION_ID === object.QUERY);
+          }
+        })
+        .length
+    );
+
+    let counterRoadSlopeInventory = 0;
+
+    let counterNERoadSlopeStructures = 0;
+    let counterERoadSlopeStructures = 0;
+
+    let arrayRSS01Buffer_ = arrayRSS01Buffer;
+    let arrayRSS02Buffer_ = arrayRSS02Buffer;
+    let arrayRSS03Buffer_ = arrayRSS03Buffer;
+    let arrayRS01Buffer_ = arrayRS01Buffer;
+    let arrayRS02Buffer_ = arrayRS02Buffer;
+
+    for (const feature of 
+      dataSourceBuffer02
+        .filter(function (feature) {
+          if (level === 1) {
+            return (feature.attributes.region_name === object.REGION);
+          }
+          else if (level === 2) {
+            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO);
+          }
+          else if (level === 3) {
+            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
+          }
+          else if (level === 4 ) {
+            return (feature.attributes.road_id === object.QUERY && feature.attributes.road_name === object.QUERY && feature.attributes.section_id === object.QUERY);
+          }
+        })
+    ) {
+      counterRoadSlopeInventory++;
+
+      if (feature.attributes.rsm_category === "Inventory of Road Slope Structures") {
+        counterERoadSlopeStructures++;
+
+        if (arrayRSS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
+          let index = arrayRSS01Buffer_.length - 1;
+          let value = arrayRSS01Buffer_[index].total;
+
+          arrayRSS01Buffer_[index].total = value + 1;
+          arrayRSS01Buffer_[index].filtered = value + 1;
+        }
+        else {
+          let index = arrayRSS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
+          let value = arrayRSS01Buffer_[index].total;
+
+          arrayRSS01Buffer_[index].total = value + 1;
+          arrayRSS01Buffer_[index].filtered = value + 1;
+        }
+
+        if (arrayRSS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
+          let index = arrayRSS02Buffer_.length - 1;
+          let value = arrayRSS02Buffer_[index].total;
+
+          arrayRSS02Buffer_[index].total = value + 1;
+          arrayRSS02Buffer_[index].filtered = value + 1;
+        }
+        else {
+          let index = arrayRSS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
+          let value = arrayRSS02Buffer_[index].total;
+
+          arrayRSS02Buffer_[index].total = value + 1;
+          arrayRSS02Buffer_[index].filtered = value + 1;
+        }
+
+        if (arrayRSS03Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
+          let index = arrayRSS03Buffer_.length - 1;
+          let value = arrayRSS03Buffer_[index].total;
+
+          arrayRSS03Buffer_[index].total = value + 1;
+          arrayRSS03Buffer_[index].filtered = value + 1;
+        }
+        else {
+          let index = arrayRSS03Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
+          let value = arrayRSS03Buffer_[index].total;
+
+          arrayRSS03Buffer_[index].total = value + 1;
+          arrayRSS03Buffer_[index].filtered = value + 1;
+        }
+      }
+      else if (feature.attributes.rsm_category === "Inventory of Road Slope") {
+        counterNERoadSlopeStructures++;
+
+        if (arrayRS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
+          let index = arrayRS01Buffer_.length - 1;
+          let value = arrayRS01Buffer_[index].total;
+
+          arrayRS01Buffer_[index].total = value + 1;
+          arrayRS01Buffer_[index].filtered = value + 1;
+        }
+        else {
+          let index = arrayRS01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
+          let value = arrayRS01Buffer_[index].total;
+
+          arrayRS01Buffer_[index].total = value + 1;
+          arrayRS01Buffer_[index].filtered = value + 1;
+        }
+
+        if (arrayRS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
+          let index = arrayRS02Buffer_.length - 1;
+          let value = arrayRS02Buffer_[index].total;
+
+          arrayRS02Buffer_[index].total = value + 1;
+          arrayRS02Buffer_[index].filtered = value + 1;
+        }
+        else {
+          let index = arrayRS02Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
+          let value = arrayRS02Buffer_[index].total;
+
+          arrayRS02Buffer_[index].total = value + 1;
+          arrayRS02Buffer_[index].filtered = value + 1;
+        }
+      }
+    }
+
+    setFilteredRoadSlopeInventory(counterRoadSlopeInventory);
+
+    setFilteredNERoadSlopeStructures(counterNERoadSlopeStructures);
+    setFilteredERoadSlopeStructures(counterERoadSlopeStructures);
+
+    setArrayRSS01(arrayRSS01Buffer_);
+    setArrayRSS02(arrayRSS02Buffer_);
+    setArrayRSS03(arrayRSS03Buffer_);
+    setArrayRS01(arrayRS01Buffer_);
+    setArrayRS02(arrayRS02Buffer_);
+
+    let arrayHM01Buffer_ = arrayHM01Buffer;
+
+    for (const feature of 
+      dataSourceBuffer03
+        .filter(function (feature) {
+          if (level === 1) {
+            return (feature.attributes.region_name === object.REGION);
+          }
+          else if (level === 2) {
+            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO);
+          }
+          else if (level === 3) {
+            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
+          }
+          else if (level === 4 ) {
+            return (feature.attributes.road_id === object.QUERY && feature.attributes.road_name === object.QUERY && feature.attributes.section_id === object.QUERY);
+          }
+        })
+    ) {
+      if (arrayHM01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
+        let index = arrayHM01Buffer_.length - 1;
+        let value = arrayHM01Buffer_[index].total;
+
+        arrayHM01Buffer_[index].total = value + 1;
+        arrayHM01Buffer_[index].filtered = value + 1;
+      }
+      else {
+        let index = arrayHM01Buffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk);
+        let value = arrayHM01Buffer_[index].total;
+
+        arrayHM01Buffer_[index].total = value + 1;
+        arrayHM01Buffer_[index].filtered = value + 1;
+      }
+    }
+
+    setArrayHM01(arrayHM01Buffer_);
+  }
+
+  /* Sets the working arrays of object references for the filter component. */
 
   React.useEffect(function () {
+    initialize_summary();
+
     layer_engineering_districts
       .queryFeatures({
         where: "1 = 1",
@@ -114,89 +877,37 @@ export default function FilterComponent () {
     }
   }
 
-  function query_all () {
-    setDataArray(null);
-    setDataLoading(true);
-
-    layer_national_road_network
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          var extent = response.features[0].geometry.extent;
-
-          response.features.forEach(function(feature) {
-            extent = extent.union(feature.geometry.extent);
-          });
-    
-          setDataArray(response.features);
-
-          setDataLoading(false);
+  function query_features (level, object) {
+    if (dataSource) {
+      const data_buffer = dataSource.filter(function (data) {
+        if (level === 0) {
+          return (data);
+        }
+        else if (level === 1) {
+          return (data.attributes.region_name === (object?.REGION || filterL01Selected));
+        }
+        else if (level === 2) {
+          return (data.attributes.region_name === (object?.REGION || filterL01Selected) && data.attributes.deo_name === (object?.DEO || filterL02Selected));
+        }
+        else if (level === 3) {
+          return (data.attributes.region_name === (object?.REGION || filterL01Selected) && data.attributes.deo_name === (object?.DEO || filterL02Selected) && data.attributes.district_name === (object?.CONG_DIST || filterL03Selected));
+        }
+        else if (level === 4) {
+          return (data.attributes.road_id.includes(object?.QUERY || filterL04Selected) || data.attributes.road_name.includes(object?.QUERY || filterL04Selected) || data.attributes.section_id.includes(object?.QUERY || filterL04Selected));
         }
         else {
-          setDataLoading(false);
-
-          setDataArray(null);
+          return (null);
         }
-      })
-      .catch(function (error) {
-        setDataLoading(false);
-
-        console.log(error);
       });
-  }
 
-  function query_features (level, object) {
-    const expression =
-      level === 0 ? "1 = 1" :
-      level === 1 ? `region_name = '${ object?.REGION || filterL01Selected }'` :
-      level === 2 ? `region_name = '${ object?.REGION || filterL01Selected }' AND deo_name = '${ object?.DEO || filterL02Selected }'` :
-      level === 3 ? `region_name = '${ object?.REGION || filterL01Selected }' AND deo_name = '${ object?.DEO || filterL02Selected }' AND district_name = '${ object?.CONG_DIST || filterL03Selected }'` :
-      level === 4 ? `road_id LIKE '%${ object?.QUERY || filterL04Selected }%' OR road_name LIKE '%${ object?.QUERY || filterL04Selected }%' OR section_id LIKE '%${ object?.QUERY || filterL04Selected }%'` :
-      "1 = 0";
-    
-    if (dataSource) {
-      setDataArray(null);
-      setDataLoading(true);
-
-      dataSource
-        .queryFeatures({
-          where: expression || "1 = 0",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            var extent = response.features[0].geometry.extent;
-
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
-
-            setDataArray(response.features);
-
-            setDataLoading(false);
-          }
-          else {
-            query_all();
-          }
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-
-          console.log(error);
-        });
-    }
-    else {
-      query_all();
+      setDataArray(data_buffer);
     }
   }
 
   function clear_filter (type) {
     refocus_map();
+
+    if (moduleSelected === 0 && !filterL04Selected) { initialize_summary(); }
     
     if (type === 1) {
       setFilterL01Selected(null);
@@ -254,6 +965,8 @@ export default function FilterComponent () {
       setFilterL03Selected(null);
       setFilterL04Selected(null);
 
+      if (moduleSelected === 0) { filter_summary(1, object); }
+
       query_features(1, object);
     }
     if (type === 2) {
@@ -265,6 +978,8 @@ export default function FilterComponent () {
       setFilterL02Selected(string);
       setFilterL03Selected(null);
       setFilterL04Selected(null);
+
+      if (moduleSelected === 0) { filter_summary(2, object); }
 
       query_features(2, object);
     }
@@ -278,6 +993,8 @@ export default function FilterComponent () {
       setFilterL03Selected(string);
       setFilterL04Selected(null);
 
+      if (moduleSelected === 0) { filter_summary(3, object); }
+
       query_features(3, object);
     }
     if (type === 4) {
@@ -287,10 +1004,10 @@ export default function FilterComponent () {
 
       clear_filter(4);
 
+      if (moduleSelected === 0) { filter_summary(4, object); }
+
       query_features(4, object);
     }
-
-    setDataSelected(null);
   }
 
   React.useEffect(function () {
@@ -298,6 +1015,67 @@ export default function FilterComponent () {
     setFilterL02Selected(null);
     setFilterL03Selected(null);
     setFilterL04Selected(null);
+
+    switch (moduleSelected) {
+      case 1:
+        layer_hazard_map
+          .queryFeatures({
+            where: "1 = 1",
+            returnGeometry: true,
+            outFields: ["*"]
+          })
+          .then(function (response) {
+            if (response?.features?.length > 0) {
+              var extent = response.features[0].geometry.extent;
+
+              response.features.forEach(function(feature) {
+                extent = extent.union(feature.geometry.extent);
+              });
+
+              setDataSource(response.features);
+              setDataArray(response.features);
+            }
+            else {
+              setDataArray(null);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        break;
+      case 2:
+      case 3:
+        layer_road_slopes_and_countermeasures
+          .queryFeatures({
+            where: "1 = 1",
+            returnGeometry: true,
+            outFields: ["*"]
+          })
+          .then(function (response) {
+            if (response?.features?.length > 0) {
+              var extent = response.features[0].geometry.extent;
+
+              response.features.forEach(function(feature) {
+                extent = extent.union(feature.geometry.extent);
+              });
+
+              setDataSource(response.features);
+              setDataArray(response.features);
+            }
+            else {
+              setDataArray(null);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        break;
+      case 0:
+      default:
+        setDataSource(null);
+        setDataArray(null);
+        break;
+    }
   }, [moduleSelected]);
 
   const [dropdownActive, setDropdownActive] = React.useState(false);

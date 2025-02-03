@@ -8,16 +8,11 @@ import "./index.css";
 export default function RoadSlopeInventory () {
   const {
     dataArray,
-    dataLoading,
-
-    dataSelected, setDataSelected
+    dataLoading
   } = React.useContext(MainContext);
 
   const {
-    layer_national_road_network,
     layer_road_slopes_and_countermeasures,
-    layer_inventory_of_road_slopes,
-    layer_inventory_of_road_slope_structures,
 
     view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
@@ -198,398 +193,400 @@ export default function RoadSlopeInventory () {
           <span>{ "Road Slope Inventory" }</span>
         </div>
       </div>
-      {
-        dataArray ?
-          <div className = "data-array-container">
-            <div className = { "data-container" }>
-              <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
-                <span className = "material-symbols-outlined">{ "remove" }</span>
-                <span>{ "Road Slope Structures" }</span>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "add" }</span>
-                  <span>{ "Road Slope Condition" }</span>
+      <div>
+        {
+          dataArray ?
+            <div className = "data-array-container">
+              <div className = { "data-container" }>
+                <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
+                  <span className = "material-symbols-outlined">{ "remove" }</span>
+                  <span>{ "Road Slope Structures" }</span>
                 </div>
                 <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Good" }</span>
+                  <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "add" }</span>
+                    <span>{ "Road Slope Condition" }</span>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Good"]), sublevels) }/>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Good" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Good"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Fair" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Fair"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Poor" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Poor"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Bad" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Bad"]), sublevels) }/>
+                  </div>
                 </div>
                 <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Fair" }</span>
+                  <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "add" }</span>
+                    <span>{ "Type of Disasters" }</span>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Fair"]), sublevels) }/>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Soil Slope Collapse (SSC)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Soil Slope Collapse"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Landslide (LS)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Landslide"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Road Slip (RS)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Road Slip"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "River Erosion (RE)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "River Erosion"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Debris Flow (DF)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Debris Flow"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Coastal Erosion (CE)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Coastal Erosion"]), sublevels) }/>
+                  </div>
                 </div>
                 <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Poor" }</span>
+                  <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "add" }</span>
+                    <span>{ "Type of Road Slope Structures" }</span>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Poor"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Bad" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Bad"]), sublevels) }/>
-                </div>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "add" }</span>
-                  <span>{ "Type of Disasters" }</span>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Soil Slope Collapse (SSC)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap with Steel Sheet Pile Foundation" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap with Steel Sheet Pile Foundation"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Soil Slope Collapse"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap with Concrete Sheet Pile Foundation" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap with Concrete Sheet Pile Foundation"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Landslide (LS)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Rubble Concrete Revetment (Spread Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Rubble Concrete Revetment (Spread Type I)"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Stone Masonry" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Stone Masonry"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Landslide"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Road Slip (RS)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Concrete Slope Protection (Reinforced Concrete Type II)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Concrete Slope Protection (Reinforced Concrete Type II)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Road Slip"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "River Erosion (RE)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "River Erosion"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Debris Flow (DF)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Debris Flow"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Coastal Erosion (CE)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Gravity Wall (Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gravity Wall (Type I)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Coastal Erosion"]), sublevels) }/>
-                </div>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "add" }</span>
-                  <span>{ "Type of Road Slope Structures" }</span>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Gabion / Mattress Slope Protection" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gabion/Mattress Slope Protection"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap with Steel Sheet Pile Foundation" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap with Steel Sheet Pile Foundation"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap with Concrete Sheet Pile Foundation" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Earthfill Dike (Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Earthfill Dike (Type I)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Grouted Riprap with Concrete Sheet Pile Foundation"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Rubble Concrete Revetment (Spread Type I)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Boulder Spur Dike (Type II)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Boulder Spur Dike (Type II)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Rubble Concrete Revetment (Spread Type I)"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Stone Masonry" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "BGabions Revetment (Pile-Up Type)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Stone Masonry"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Concrete Slope Protection (Reinforced Concrete Type II)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Concrete Slope Protection (Reinforced Concrete Type II)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Gravity Wall (Type I)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gravity Wall (Type I)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Gabion / Mattress Slope Protection" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gabion/Mattress Slope Protection"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Earthfill Dike (Type I)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Earthfill Dike (Type I)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Boulder Spur Dike (Type II)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Boulder Spur Dike (Type II)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "BGabions Revetment (Pile-Up Type)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
-                </div>
-              </div>
-            </div>
-            <div className = { "data-container" }>
-              <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
-                <span className = "material-symbols-outlined">{ "remove" }</span>
-                <span>{ "Road Slopes" }</span>
-              </div>
-              <div className = { "data-container-hidden" }>
-                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "add" }</span>
-                  <span>{ "Type of Disasters" }</span>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Soil Slope Collapse (SSC)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Soil Slope Collapse"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Landslide (LS)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Landslide"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Road Slip (RS)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Road Slip"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "River Erosion (RE)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "River Erosion"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Debris Flow (DF)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Debris Flow"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Coastal Erosion (CE)" }</span>
-                  </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Coastal Erosion"]), sublevels) }/>
                 </div>
               </div>
-              <div className = { "data-container-hidden" }>
-                <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
-                  <span className = "material-symbols-outlined">{ "add" }</span>
-                  <span>{ "Type of Road Slope Structures" }</span>
+              <div className = { "data-container" }>
+                <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
+                  <span className = "material-symbols-outlined">{ "remove" }</span>
+                  <span>{ "Road Slopes" }</span>
                 </div>
                 <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap" }</span>
+                  <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "add" }</span>
+                    <span>{ "Type of Disasters" }</span>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap"]), sublevels) }/>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Soil Slope Collapse (SSC)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Soil Slope Collapse"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Landslide (LS)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Landslide"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Road Slip (RS)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Road Slip"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "River Erosion (RE)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "River Erosion"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Debris Flow (DF)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Debris Flow"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Coastal Erosion (CE)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Coastal Erosion"]), sublevels) }/>
+                  </div>
                 </div>
                 <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap with Steel Sheet Pile Foundation" }</span>
+                  <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
+                    <span className = "material-symbols-outlined">{ "add" }</span>
+                    <span>{ "Type of Road Slope Structures" }</span>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap with Steel Sheet Pile Foundation"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Grouted Riprap with Concrete Sheet Pile Foundation" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap with Concrete Sheet Pile Foundation"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Rubble Concrete Revetment (Spread Type I)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap with Steel Sheet Pile Foundation" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap with Steel Sheet Pile Foundation"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Rubble Concrete Revetment (Spread Type I)"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Stone Masonry" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Grouted Riprap with Concrete Sheet Pile Foundation" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Grouted Riprap with Concrete Sheet Pile Foundation"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Stone Masonry"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Concrete Slope Protection (Reinforced Concrete Type II)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Rubble Concrete Revetment (Spread Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Rubble Concrete Revetment (Spread Type I)"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Stone Masonry" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Stone Masonry"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Concrete Slope Protection (Reinforced Concrete Type II)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Concrete Slope Protection (Reinforced Concrete Type II)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Concrete Slope Protection (Reinforced Concrete Type II)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Gravity Wall (Type I)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gravity Wall (Type I)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Gabion / Mattress Slope Protection" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Gravity Wall (Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gravity Wall (Type I)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gabion/Mattress Slope Protection"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Gabion / Mattress Slope Protection" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gabion/Mattress Slope Protection"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)"]), sublevels) }/>
-                </div>                
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Hydroseeding)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)"]), sublevels) }/>
+                  </div>                
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Bio-Engineering Solutions (Coco-Net, Coco-Log, & Vetiver Grass)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Earthfill Dike (Type I)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Earthfill Dike (Type I)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Earthfill Dike (Type I)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Earthfill Dike (Type I)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "Boulder Spur Dike (Type II)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Boulder Spur Dike (Type II)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Boulder Spur Dike (Type II)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Boulder Spur Dike (Type II)"]), sublevels) }/>
-                </div>
-                <div className = { "data-container-hidden" }>
-                  <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
-                    <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                    <span>{ "BGabions Revetment (Pile-Up Type)" }</span>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "BGabions Revetment (Pile-Up Type)" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
                   </div>
-                  <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
                 </div>
               </div>
-            </div>
-          </div>
-          :
-          dataLoading ?
-            <div className = "data-array-placeholder">
-              <span>{ "Loading data..." }</span>
             </div>
             :
-            <div className = "data-array-placeholder">
-              <span>{ "No available data." }</span>
-            </div>
-      }
+            dataLoading ?
+              <div className = "data-array-placeholder">
+                <span>{ "Loading data..." }</span>
+              </div>
+              :
+              <div className = "data-array-placeholder">
+                <span>{ "No available data." }</span>
+              </div>
+        }
+      </div>
     </div>
   );
 }

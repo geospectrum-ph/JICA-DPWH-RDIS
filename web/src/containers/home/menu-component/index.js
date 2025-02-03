@@ -13,8 +13,6 @@ export default function MenuComponent () {
   const navigate = useNavigate();
   
   const {
-    setDataSource,
-
     modules,
     moduleSelected, setModuleSelected,
 
@@ -22,29 +20,12 @@ export default function MenuComponent () {
   } = React.useContext(MainContext);
 
   const {
-    layer_hazard_map,
-    layer_road_slopes_and_countermeasures,
-
     view_layer, close_popup
   } = React.useContext(MapContext);
 
   function set_module (index) {
     close_popup();
     
-    setDataSelected(null);
-
-    switch (index) {
-      case 1:
-        setDataSource(layer_hazard_map);
-        break;
-      case 2:
-        setDataSource(layer_road_slopes_and_countermeasures);
-        break;
-      default:
-        setDataSource(layer_road_slopes_and_countermeasures);
-        break;
-    }
-
     setModuleSelected(index);
 
     navigate(`/home/${modules[index].path}`);

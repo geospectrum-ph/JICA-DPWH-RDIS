@@ -9,10 +9,6 @@
   width: var(--default-size-large, 360px);
   height: 100%;
 
-  box-sizing: border-box;
-  padding: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
-  gap: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
-
   background-color: var(--default-color-background-tertiary, rgba(232, 241, 255));
 
   /* Data Array Header */
@@ -23,6 +19,9 @@
 
     width: auto;
     height: auto;
+      
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
 
     font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
     color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
@@ -44,167 +43,171 @@
     }
   }
 
-  > .data-array-container {
+  > :nth-child(2) {
     overflow: hidden auto;
 
-    display: flex;
-    flex-flow: column nowrap;
-    place-items: stretch center;
-    place-content: center start;
-
     width: 100%;
-    height: 100%;
+    flex: 1 1 0;
 
-    box-sizing: border-box;
-    padding: 0 calc(var(--default-size-medium, 12px) * 0.50) calc(var(--default-size-medium, 12px) * 0.50) calc(var(--default-size-medium, 12px) * 0.50);
-    gap: var(--default-size-medium, 12px);
-
-    font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-
-    .data-container {
-      display: grid;
-
-      pointer-events: none;
-      
-      /* Header */
-      > :nth-child(1) {
-        display: flex;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center start;
-
-        box-sizing: border-box;
-        gap: calc(var(--default-size-medium, 12px) * 0.50);
+    > .data-array-container {
+      overflow: hidden auto;
+  
+      display: flex;
+      flex-flow: column nowrap;
+      place-items: stretch center;
+      place-content: center start;
+  
+      box-sizing: border-box;
+      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 24px) * 4.00 / 3.00) calc((var(--default-size-medium, 24px) * 4.00 / 3.00) + (var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 24px) * 4.00 / 3.00);
+      gap: var(--default-size-medium, 12px);
+  
+      font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+      color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+  
+      .data-container {
+        display: grid;
+  
+        pointer-events: none;
         
-        pointer-events: all;
-        cursor: pointer;
-
+        /* Header */
         > :nth-child(1) {
-          width: auto;
-          height: auto;
-        }
-
-        > :nth-child(2) {
-          flex: 1 1 0;
-          height: auto;
-        }
-      }
-
-      /* Inner Items */
-      > :not(:first-child) {
-        box-sizing: border-box;
-        padding: calc(var(--default-size-medium, 12px) * 0.50) 0 0 var(--default-size-medium, 12px);
-      }
-
-      /* Last Item */
-      &.data-container-details { 
-        > * {
+          display: flex;
+          flex-flow: row nowrap;
+          place-items: center center;
+          place-content: center start;
+  
           box-sizing: border-box;
-          padding: calc(var(--default-size-medium, 12px) * 0.50) 0 0 calc(var(--default-size-medium, 12px) * 2.50);
+          gap: calc(var(--default-size-medium, 12px) * 0.50);
           
           pointer-events: all;
           cursor: pointer;
-
-          font-weight: bold;
-
-          &:hover {    
-            color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+  
+          > :nth-child(1) {
+            width: auto;
+            height: auto;
           }
   
-          &.selected {
-            color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+          > :nth-child(2) {
+            flex: 1 1 0;
+            height: auto;
+          }
+        }
+  
+        /* Inner Items */
+        > :not(:first-child) {
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 0.50) 0 0 var(--default-size-medium, 12px);
+        }
+  
+        /* Last Item */
+        &.data-container-details { 
+          > * {
+            box-sizing: border-box;
+            padding: calc(var(--default-size-medium, 12px) * 0.50) 0 0 calc(var(--default-size-medium, 12px) * 2.50);
+            
+            pointer-events: all;
+            cursor: pointer;
+  
+            font-weight: bold;
+  
+            &:hover {    
+              color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+            }
+    
+            &.selected {
+              color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+            }
           }
         }
       }
-    }
-
-    .data-container-hidden {
-      display: grid;
-
-      pointer-events: none;
-      
-      /* Header */
-      > :nth-child(1) {
-        display: flex;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center start;
-
-        box-sizing: border-box;
-        gap: calc(var(--default-size-medium, 12px) * 0.50);
+  
+      .data-container-hidden {
+        display: grid;
+  
+        pointer-events: none;
         
-        pointer-events: all;
-        cursor: pointer;
-
+        /* Header */
         > :nth-child(1) {
-          width: auto;
-          height: auto;
+          display: flex;
+          flex-flow: row nowrap;
+          place-items: center center;
+          place-content: center start;
+  
+          box-sizing: border-box;
+          gap: calc(var(--default-size-medium, 12px) * 0.50);
+          
+          pointer-events: all;
+          cursor: pointer;
+  
+          > :nth-child(1) {
+            width: auto;
+            height: auto;
+          }
+  
+          > :nth-child(2) {
+            flex: 1 1 0;
+            height: auto;
+          }
         }
-
-        > :nth-child(2) {
-          flex: 1 1 0;
-          height: auto;
+  
+        /* Inner Items */
+        > :not(:first-child) {
+          display: none;
         }
       }
-
-      /* Inner Items */
-      > :not(:first-child) {
-        display: none;
+  
+      .inventory-section-header {
+        box-sizing: border-box;
+        margin: 0 0 calc(var(--default-size-medium, 12px) * 0.50) 0;
+        border-radius: calc(var(--default-size-small, 1px) * 4.00);
+        padding: calc(var(--default-size-medium, 12px) * 0.50);
+        box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+  
+        background-color: rgba(210, 210, 210, 1.00);
+  
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
       }
-    }
-
-    .inventory-section-header {
-      box-sizing: border-box;
-      margin: 0 0 calc(var(--default-size-medium, 12px) * 0.50) 0;
-      border-radius: calc(var(--default-size-small, 1px) * 4.00);
-      padding: calc(var(--default-size-medium, 12px) * 0.50);
-      box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
-
-      background-color: rgba(210, 210, 210, 1.00);
-
-      font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-    }
-
-    .inventory-section-subheader {
-      box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 12px) * 0.50) 0;
-
-      font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-    }
-
-    *:has(> .inventory-section-data) {
-      box-sizing: border-box;
-      margin-left: var(--default-size-medium, 12px);
-      border-left: solid var(--default-size-small, 1px) var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-    }
-
-    .inventory-section-data {
-      position: relative;
-
-      display: inline-grid;
-      
-      > :nth-child(2) {
+  
+      .inventory-section-subheader {
         box-sizing: border-box;
         padding: calc(var(--default-size-medium, 12px) * 0.50) 0;
+  
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+      }
+  
+      *:has(> .inventory-section-data) {
+        box-sizing: border-box;
+        margin-left: var(--default-size-medium, 12px);
+        border-left: solid var(--default-size-small, 1px) var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+      }
+  
+      .inventory-section-data {
+        position: relative;
+  
+        display: inline-grid;
+        
+        > :nth-child(2) {
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 0.50) 0;
+        }
       }
     }
-  }
-
-  > .data-array-placeholder {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: start center;
-    place-content: center stretch;
-
-    width: 100%;
-    height: auto;
-
-    box-sizing: border-box;
-    padding: 0 var(--default-size-medium, 12px) var(--default-size-medium, 12px) var(--default-size-medium, 12px);
-
-    font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+  
+    > .data-array-placeholder {
+      display: flex;
+      flex-flow: row nowrap;
+      place-items: start center;
+      place-content: center stretch;
+  
+      width: 100%;
+      height: auto;
+  
+      box-sizing: border-box;
+      padding: 0 var(--default-size-medium, 12px) var(--default-size-medium, 12px) var(--default-size-medium, 12px);
+  
+      font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+      color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+    }
   }
 }
 
