@@ -4,6 +4,8 @@
   place-items: stretch center;
   place-content: center start;
 
+  overflow: hidden hidden;
+
   width: var(--default-size-large, 360px);
   height: 100%;
 

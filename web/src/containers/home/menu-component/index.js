@@ -14,9 +14,7 @@ export default function MenuComponent () {
   
   const {
     modules,
-    moduleSelected, setModuleSelected,
-
-    setDataSelected
+    moduleSelected, setModuleSelected
   } = React.useContext(MainContext);
 
   const {
