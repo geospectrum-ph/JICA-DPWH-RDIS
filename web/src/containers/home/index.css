@@ -210,10 +210,13 @@
     .esri-feature-content > * > * {
       table {
         width: 100%;
+        height: auto;
+
+        font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
         
         > * {
           > * > * {
-            padding: calc(var(--default-size-small, 1px) * 4.00);
+            padding: calc(var(--default-size-medium, 12px) * 0.50);
           }
   
           > :nth-child(odd) {

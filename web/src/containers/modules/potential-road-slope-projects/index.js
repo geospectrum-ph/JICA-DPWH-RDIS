@@ -223,21 +223,21 @@ export default function PotentialRoadSlopeProjects () {
                     <span>{ "Type of Work" }</span>
                   </div>
                   <div className = { "data-container-hidden" }>
-                    <div onClick = { function (event) { change_visibility(event); } }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Rehabilitation / Major Repair" }</span>
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Rehabilitation"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
-                    <div onClick = { function (event) { change_visibility(event); } }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Reconstruction" }</span>
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Reconstruction"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
-                    <div onClick = { function (event) { change_visibility(event); } }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Construction" }</span>
                     </div>
