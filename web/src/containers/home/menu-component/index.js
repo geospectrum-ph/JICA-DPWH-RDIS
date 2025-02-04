@@ -47,7 +47,7 @@ export default function MenuComponent () {
         }
       </div>
       <div>
-        <div>
+        <div onClick = { () => { setMenuComponentExpandedState(!menuComponentExpandedState) } }>
           <a><img src = { logo_DPWH } alt = "DPWH Logo"/></a>
           { menuComponentExpandedState ? <span>{ "Road Disaster Information System" }</span> : null }
         </div>
