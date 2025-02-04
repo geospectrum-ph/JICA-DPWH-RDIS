@@ -71,6 +71,8 @@
       line-height: var(--default-size-medium, 12px);
       text-transform: uppercase;
 
+      cursor: pointer;
+
       > a {
         display: flex;
         flex-flow: row nowrap;
@@ -79,8 +81,6 @@
 
         width: auto;
         height: auto;
-
-        cursor: pointer;
 
         > img {
           width: calc(var(--default-size-medium, 12px) * 2.00);

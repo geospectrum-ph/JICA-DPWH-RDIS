@@ -1175,7 +1175,7 @@ export default function FilterComponent () {
     <div id = "filter-component">
       <div onClick = { function () { click_dropdown(0); } }>
         <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterL04Selected); } } }/>
-        <div>
+        <div onClick = { function () { select_filter(4, filterL04Selected); } }>
           <span className = "material-symbols-outlined">{ "search" }</span>
         </div>
       </div>

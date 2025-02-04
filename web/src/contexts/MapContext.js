@@ -2064,7 +2064,7 @@ function MapContextProvider (props) {
       return (
         new FeatureLayer({
           title: `${category[0]} Road Sections`,
-          url: url_calamities,
+          url: url_station_limit_situation,
           definitionExpression: category[0] === "Unclassified" ?
             array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station <> '${category[0]}'`); }).join(" AND ") :
             `situation_note_station = '${category[0]}'`,
