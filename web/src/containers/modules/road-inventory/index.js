@@ -153,31 +153,62 @@ export default function RoadSlopeInventory () {
             )
           }
           else {
-            function parse_limits (string) {
-              if (string) {
-                if (string.includes("-")) {
-                  const string_array = string.split(/[-]/);
-
-                  return (string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")");
+            function parse_limits (attributes) {
+              let start, end;
+              if (isNaN(attributes.start_lrp)) {
+                if (attributes.start_lrp.includes("-")) {
+                  const string_array = attributes.start_lrp.split(/[-]/);
+                  start = string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")";
                 }
-                else if (string.includes("+")) {
-                  const string_array = string.split(/[+]/);
-
-                  return (string_array[0] + " + " + string_array[1].padStart(3, "0"));
+                else if (attributes.start_lrp.includes("+")) {
+                  const string_array = attributes.start_lrp.split(/[+]/);
+                  start = string_array[0] + " + " + string_array[1].padStart(3, "0");
                 }
                 else {
-                  return (string);
-                }                              
+                  start = attributes.start_lrp;
+                }
               }
               else {
-                return (null);
+                if (attributes.start_chainage) {
+                  attributes.start_chainage < 0 ?
+                  start = "K" + attributes.start_lrp.toString().split(".")[0].padStart(4, "0") + " + (" + attributes.start_chainage.toString().split(".")[0].padStart(3, "0") + ")" :
+                  start = "K" + attributes.start_lrp.toString().split(".")[0].padStart(4, "0") + " + " + attributes.start_chainage.toString().split(".")[0].padStart(3, "0");
+                }
+                else {
+                  start = "K" + attributes.start_lrp.toString().split(".")[0].padStart(4, "0") + " + 000";
+                }
               }
+              if (isNaN(attributes.end_lrp)) {
+                if (attributes.end_lrp.includes("-")) {
+                  const string_array = attributes.end_lrp.split(/[-]/);
+                  end = string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")";
+                }
+                else if (attributes.end_lrp.includes("+")) {
+                  const string_array = attributes.end_lrp.split(/[+]/);
+                  end = string_array[0] + " + " + string_array[1].padStart(3, "0");
+                }
+                else {
+                  end = attributes.end_lrp;
+                }
+              }
+              else {
+                if (attributes.end_chainage) {
+                  attributes.end_chainage < 0 ?
+                    end = "K" + attributes.end_lrp.toString().split(".")[0].padStart(4, "0") + " + (" + attributes.end_chainage.toString().split(".")[0].padStart(3, "0") + ")" :
+                    end = "K" + attributes.end_lrp.toString().split(".")[0].padStart(4, "0") + " + " + attributes.end_chainage.toString().split(".")[0].padStart(3, "0");
+                }
+                else {
+                  end = "K" + attributes.end_lrp.toString().split(".")[0].padStart(4, "0") + " + 000";
+                }
+              }
+
+              return(start + " - " + end);
             }
 
             return (
               <div key = { key } className = { "data-container data-container-details"} onClick = { function (event) { changeSelected(event); } }>
                 <span onClick = { function () { find_road(item[1].attributes.globalid); } }>
-                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes.start_lrp) + " - " + parse_limits(item[1].attributes.end_lrp) : "No available data." }
+                  { item[1].attributes.start_lrp && item[1].attributes.end_lrp ? parse_limits(item[1].attributes) : "No available data." }
                 </span>
               </div>
             );
