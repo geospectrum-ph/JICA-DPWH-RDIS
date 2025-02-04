@@ -24,8 +24,6 @@ export default function Summary () {
 
   function renderCustomizedLabel ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-
-    console.log(midAngle);
     
     const x = percent === 1 ? radius + 20 : (cx + radius * Math.cos(-midAngle * RADIAN)) - ( midAngle < 180 ? 5 : 0 );
     const y = cy + radius * Math.sin(-midAngle * RADIAN);

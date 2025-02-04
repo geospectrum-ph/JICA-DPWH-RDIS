@@ -40,6 +40,9 @@ function MapContextProvider (props) {
   const url_provinces = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_Province/MapServer/0";
   const url_cities = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_City_Municipality/MapServer/0";
 
+  const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0";
+  const url_station_limit_situation = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1";
+
   const url_hazard_map = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
   const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/rsm_mobile_ver2/FeatureServer";
 
@@ -1887,6 +1890,223 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  function content_calamities (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Region</b></td>
+            <td>${ target.graphic.attributes.region_note || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Engineering District</b></td>
+            <td>${ target.graphic.attributes.deoname_note || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Calamity</b> (AADT)</td>
+            <td>${ target.graphic.attributes.calamity_note || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><bCause of Calamity</b></td>
+            <td>${ target.graphic.attributes.rain || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Name of Typhoon</b></td>
+            <td>${ target.graphic.attributes.typhoonname || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Magnitude of Earthquake</b></td>
+            <td>${ target.graphic.attributes.magnitude || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Name of Volcano</b></td>
+            <td>${ target.graphic.attributes.volcano || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Infrastructure Type</b></td>
+            <td>${ target.graphic.attributes.infra_type || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Infrastructure ID</td>
+            <td>${ target.graphic.attributes.SID || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const array_calamities = [
+    ["Unclassified", [191, 191, 191, 1.00]],
+    ["Volcanic Eruption", [153, 255, 153, 1.00]],
+    ["Super Typhoon (ST)", [87, 117, 144, 1.00]],
+    ["Earthquake", [67, 170, 139, 1.00]],
+    ["Severe Tropical Storm (STS)", [144, 190, 109, 1.00]],
+    ["Tropical Depression (TD)", [249, 199, 79, 1.00]],
+    ["Continuous Rain", [248, 150, 30, 1.00]],
+    ["Tropical Storm (TS)", [243, 114, 44, 1.00]],
+    ["Typhoon (TY)", [249, 65, 68, 1.00]]
+  ];
+
+  const group_calamities = new GroupLayer({
+    title: "Calamities (DISIRE)",
+    layers: array_calamities.map(function (category) {
+      return (
+        new FeatureLayer({
+          title: `${category[0]} Records`,
+          url: url_calamities,
+          definitionExpression: category[0] === "Unclassified" ?
+            array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note <> '${category[0]}'`); }).join(" AND ") :
+            `calamity_note = '${category[0]}'`,
+          renderer: {
+            type: "simple",
+            label: `${category[0]} Record`,
+            symbol: {
+              type: "simple-marker",
+              style: "circle",
+              color: category[1],
+              outline: {
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            visualVariables: [{
+              type: "size",
+              valueExpression: "$view.scale",
+              stops: [
+                { size: 8, value: 9027.977411 }, // Zoom Level: 16
+                { size: 4, value: 144447.638572 }, // Zoom Level: 12
+                { size: 1, value: 2311162.217155 } // Zoom Level: 8
+              ]
+            }]
+          },
+          popupEnabled: true,
+          popupTemplate: {
+            title: category[0] === "Unclassified" ?
+              "Calamity: Unclassified" :
+              "Calamity: {calamity_note}",
+            outFields: ["*"],
+            content: content_calamities
+          },
+          visible: true
+        })
+      );
+    }),
+    visible: false,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
+
+  function content_station_limit_situation (target) {
+    const container = document.createElement("div");
+
+    container.innerHTML = `
+      <table className = "attribute-table">
+        <tbody>
+          <tr>
+            <td><b>Station Limit</b></td>
+            <td>${ target.graphic.attributes.Station_Limit || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Station Limit Situation</b></td>
+            <td>${ target.graphic.attributes.situation_note_station || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Area Affected</b></td>
+            <td>${ target.graphic.attributes.area_concat || "No available data" }</td>
+          </tr>
+          <tr>
+            <td><b>Actions Taken</b></td>
+            <td>${ target.graphic.attributes.actionstaken_concat || "No available data" }</td>
+          </tr>
+        </tbody>
+      </table>
+    `;
+
+    return ([
+      {
+        type: "custom",
+        creator: function () {
+          return (container);
+        }
+      },
+      {
+        type: "attachments",
+        displayType: "list"
+      }
+    ]);
+  }
+
+  const array_station_limit_situation = [
+    ["Unclassified", [191, 191, 191, 1.00]],
+    ["Not Passable", [255, 153, 51, 1.00]],
+    ["Limited Access (Passable)", [0, 204, 255, 1.00]],
+    ["Passable", [153, 255, 153, 1.00]]
+  ];
+
+  const group_station_limit_situation = new GroupLayer({
+    title: "Situation of Station Limits (DISIRE)",
+    layers: array_station_limit_situation.map(function (category) {
+      return (
+        new FeatureLayer({
+          title: `${category[0]} Road Sections`,
+          url: url_calamities,
+          definitionExpression: category[0] === "Unclassified" ?
+            array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station <> '${category[0]}'`); }).join(" AND ") :
+            `situation_note_station = '${category[0]}'`,
+          renderer: {
+            type: "simple",
+            label: `${category[0]} Road Section`,
+            symbol: {
+              type: "simple-marker",
+              style: "circle",
+              color: category[1],
+              outline: {
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            visualVariables: [{
+              type: "size",
+              valueExpression: "$view.scale",
+              stops: [
+                { size: 8, value: 9027.977411 }, // Zoom Level: 16
+                { size: 4, value: 144447.638572 }, // Zoom Level: 12
+                { size: 1, value: 2311162.217155 } // Zoom Level: 8
+              ]
+            }]
+          },
+          popupEnabled: true,
+          popupTemplate: {
+            title: category[0] === "Unclassified" ?
+              "Station Limit Situation: Unclassified" :
+              "Station Limit Situation: {situation_note_station}",
+            outFields: ["*"],
+            content: content_station_limit_situation
+          },
+          visible: true
+        })
+      );
+    }),
+    visible: false,
+    visibilityMode: "independent",
+    opacity: 1.00
+  });
+
   /* Inventory of Road Slope Structures Data */
 
   const array_inventory_of_road_slope_structures_road_slope_condition = [
@@ -2588,6 +2808,9 @@ function MapContextProvider (props) {
                 view.map.layers.push(layer_hazard_map);
               }
               if (module === "hazard-map") {
+                view.map.layers.push(group_calamities);
+                view.map.layers.push(group_station_limit_situation);
+
                 view.map.layers.push(group_storm_surge_hazard_risks);
                 view.map.layers.push(group_road_slope_hazard_risks);
               }

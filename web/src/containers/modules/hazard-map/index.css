@@ -29,7 +29,7 @@
     /* Title */
     > :nth-child(1) {
       width: 100%;
-      height: 36px;
+      height: calc(var(--default-size-medium, 12px) * 3.00);
 
       display: flex;
       flex-flow: column nowrap;
@@ -56,10 +56,9 @@
       flex-flow: column nowrap;
       place-items: stretch center;
       place-content: center start;
-  
+
       box-sizing: border-box;
-      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + (var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
-      gap: var(--default-size-medium, 12px);
+      padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
   
       font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
       color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
@@ -76,12 +75,6 @@
           place-items: center center;
           place-content: center start;
 
-          width: 100%;
-          height: 36px;
-  
-          box-sizing: border-box;
-          gap: calc(var(--default-size-medium, 12px) * 0.50);
-          
           pointer-events: all;
           cursor: pointer;
   
@@ -95,7 +88,6 @@
             height: var(--default-size-medium, 12px);
 
             box-sizing: border-box;
-            margin: 0 0 0 calc(var(--default-size-small, 1px) * 4.00);
             border-radius: calc(var(--default-size-small, 1px) * 4.00);
 
             background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
@@ -114,20 +106,20 @@
         /* Inner Items */
         > :not(:first-child) {
           box-sizing: border-box;
-          padding: 0 0 0 var(--default-size-medium, 12px);
+          margin-left: var(--default-size-medium, 12px);
         }
   
         /* Last Item */
-        &.data-container-details { 
+        &.data-container-details {
           > * {
             box-sizing: border-box;
-            padding: calc(var(--default-size-medium, 12px) * 0.50) 0 0 calc(var(--default-size-medium, 12px) * 2.50);
-            
+            margin: calc(var(--default-size-small, 1px) * 4.00) 0 calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 12px) * 2.50);
+
             pointer-events: all;
             cursor: pointer;
-  
+
             font-weight: bold;
-  
+    
             &:hover {    
               color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
             }
@@ -151,12 +143,6 @@
           place-items: center center;
           place-content: center start;
 
-          width: 100%;
-          height: 36px;
-  
-          box-sizing: border-box;
-          gap: calc(var(--default-size-medium, 12px) * 0.50);
-          
           pointer-events: all;
           cursor: pointer;
   
@@ -170,7 +156,6 @@
             height: var(--default-size-medium, 12px);
 
             box-sizing: border-box;
-            margin: 0 0 0 calc(var(--default-size-small, 1px) * 4.00);
             border-radius: calc(var(--default-size-small, 1px) * 4.00);
 
             background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
@@ -191,13 +176,24 @@
           display: none;
         }
       }
+
+      > .data-container {
+        box-sizing: border-box;
+        margin: 0 0 var(--default-size-medium, 12px) 0;
+      }
   
       .inventory-section-header {
         box-sizing: border-box;
-        margin: 0 0 calc(var(--default-size-medium, 12px) * 0.50) 0;
         border-radius: calc(var(--default-size-small, 1px) * 4.00);
-        padding: calc(var(--default-size-medium, 12px) * 0.50);
         box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+
+        width: 100%;
+        height: calc(var(--default-size-medium, 12px) * 3.00);
+
+        box-sizing: border-box;
+        margin: 0 0 var(--default-size-medium, 12px) 0;
+        padding: calc(var(--default-size-medium, 12px) * 0.75);
+        gap: calc(var(--default-size-medium, 12px) * 0.75);
   
         background-color: rgba(210, 210, 210, 1.00);
   
@@ -206,14 +202,14 @@
   
       .inventory-section-subheader {
         box-sizing: border-box;
-        padding: calc(var(--default-size-medium, 12px) * 0.50) 0;
-  
+        padding: calc(var(--default-size-medium, 12px) * 0.50);
+        gap: calc(var(--default-size-medium, 12px) * 0.75);
+
         font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
       }
   
-      *:has(> .inventory-section-data) {
+      *:has(> .inventory-section-subheader) > :not(:first-child) {
         box-sizing: border-box;
-        margin-left: calc(var(--default-size-medium, 12px) * 5.00 / 6.00);
         border-left: solid var(--default-size-small, 1px) rgba(210, 210, 210, 1.00);
       }
   
@@ -221,11 +217,10 @@
         position: relative;
   
         display: inline-grid;
-        
-        > :nth-child(2) {
-          box-sizing: border-box;
-          padding: calc(var(--default-size-medium, 12px) * 0.50) 0;
-        }
+
+        box-sizing: border-box;
+        padding: calc(var(--default-size-small, 1px) * 4.00) calc(var(--default-size-medium, 12px) * 0.75);
+        gap: calc(var(--default-size-medium, 12px) * 0.75);
       }
     }
   
@@ -237,9 +232,9 @@
   
       width: 100%;
       height: auto;
-  
+
       box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 8.00 / 3.00) calc(var(--default-size-medium, 12px) * 8.00 / 3.00) calc(var(--default-size-medium, 12px) * 8.00 / 3.00);
+      padding: 0 calc(var(--default-size-medium, 12px) * 8.00 / 3.00);
   
       font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
       color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));

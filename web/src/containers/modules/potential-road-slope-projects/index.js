@@ -128,7 +128,7 @@ export default function PotentialRoadSlopeProjects () {
           if (Object.keys(item[1]).length) {
             return (
               <div key = { key } className = { depth > 1 ? "data-container" : "data-container-hidden" }>
-                <div onClick = { function (event) { change_visibility(event); } }>
+                <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                   <span className = "material-symbols-outlined">{ depth > 1 ? "keyboard_arrow_down" : "keyboard_arrow_right" }</span>
                   <span>{ item[0] }</span>
                 </div>
