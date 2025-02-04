@@ -13,9 +13,9 @@
 
   > :nth-child(1) {
     position: absolute;
-    right: 0;
-    top: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
-    z-index: 100;
+    right: calc(var(--default-size-medium, 12px) * 1.00);
+    top: calc(var(--default-size-medium, 12px) * 3.50);
+    z-index: 500;
 
     display: flex;
     flex-flow: column nowrap;

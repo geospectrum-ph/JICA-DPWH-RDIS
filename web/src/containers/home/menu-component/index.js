@@ -48,7 +48,7 @@ export default function MenuComponent () {
       </div>
       <div>
         <div>
-          <a href = "https://www.dpwh.gov.ph/dpwh/" target = "_blank" rel = "noreferrer"><img src = { logo_DPWH } alt = "DPWH Logo"/></a>
+          <a><img src = { logo_DPWH } alt = "DPWH Logo"/></a>
           { menuComponentExpandedState ? <span>{ "Road Disaster Information System" }</span> : null }
         </div>
         <div>

@@ -22,13 +22,16 @@ export default function Summary () {
 
   const RADIAN = Math.PI / 180;
 
-  function renderCustomizedLabel ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) {
+  function renderCustomizedLabel ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+
+    console.log(midAngle);
+    
+    const x = percent === 1 ? radius + 20 : (cx + radius * Math.cos(-midAngle * RADIAN)) - ( midAngle < 180 ? 5 : 0 );
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
-      <text x = { x } y = { y } textAnchor = { x > cx ? "start" : "end" } dominantBaseline = "central">
+      <text x = { x } y = { y } dominantBaseline = "central">
         { `${ (percent * 100).toFixed(0) }%` }
       </text>
     );

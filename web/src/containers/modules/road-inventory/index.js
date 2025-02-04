@@ -102,8 +102,6 @@ export default function RoadSlopeInventory () {
 
     function find_road (value) {
       const expression = "globalid = '" + value + "'";
-
-      setDataLoading(true);
   
       layer_road_slopes_and_countermeasures
         .queryFeatures({
@@ -126,12 +124,7 @@ export default function RoadSlopeInventory () {
             open_popup(response.features);
           }
         })
-        .then(function () {
-          setDataLoading(false);
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-          
+        .catch(function (error) {          
           console.log(error);
         });
     }
