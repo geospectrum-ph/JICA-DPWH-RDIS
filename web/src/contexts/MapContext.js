@@ -1951,7 +1951,7 @@ function MapContextProvider (props) {
   }
 
   const array_calamities = [
-    ["Unclassified", [191, 191, 191, 1.00]],
+    // ["Unclassified", [191, 191, 191, 1.00]],
     ["Volcanic Eruption", [153, 255, 153, 1.00]],
     ["Super Typhoon (ST)", [87, 117, 144, 1.00]],
     ["Earthquake", [67, 170, 139, 1.00]],
@@ -1969,9 +1969,10 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: `${category[0]} Records`,
           url: url_calamities,
-          definitionExpression: category[0] === "Unclassified" ?
-            array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note <> '${category[0]}'`); }).join(" AND ") :
-            `calamity_note = '${category[0]}'`,
+          // definitionExpression: category[0] === "Unclassified" ?
+          //   array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note <> '${category[0]}'`); }).join(" AND ") :
+          //   `calamity_note = '${category[0]}'`,
+          definitionExpression: `calamity_note = '${category[0]}'`,
           renderer: {
             type: "simple",
             label: `${category[0]} Record`,
@@ -1996,9 +1997,10 @@ function MapContextProvider (props) {
           },
           popupEnabled: true,
           popupTemplate: {
-            title: category[0] === "Unclassified" ?
-              "Calamity: Unclassified" :
-              "Calamity: {calamity_note}",
+            // title: category[0] === "Unclassified" ?
+            //   "Calamity: Unclassified" :
+            //   "Calamity: {calamity_note}",
+            title: "Calamity: {calamity_note}",
             outFields: ["*"],
             content: content_calamities
           },
@@ -2052,7 +2054,7 @@ function MapContextProvider (props) {
   }
 
   const array_station_limit_situation = [
-    ["Unclassified", [191, 191, 191, 1.00]],
+    // ["Unclassified", [191, 191, 191, 1.00]],
     ["Not Passable", [255, 153, 51, 1.00]],
     ["Limited Access (Passable)", [0, 204, 255, 1.00]],
     ["Passable", [153, 255, 153, 1.00]]
@@ -2068,6 +2070,7 @@ function MapContextProvider (props) {
           definitionExpression: category[0] === "Unclassified" ?
             array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station <> '${category[0]}'`); }).join(" AND ") :
             `situation_note_station = '${category[0]}'`,
+          definitionExpression: `situation_note_station = '${category[0]}'`,
           renderer: {
             type: "simple",
             label: `${category[0]} Road Section`,
@@ -2092,9 +2095,10 @@ function MapContextProvider (props) {
           },
           popupEnabled: true,
           popupTemplate: {
-            title: category[0] === "Unclassified" ?
-              "Station Limit Situation: Unclassified" :
-              "Station Limit Situation: {situation_note_station}",
+            // title: category[0] === "Unclassified" ?
+            //   "Station Limit Situation: Unclassified" :
+            //   "Station Limit Situation: {situation_note_station}",
+            title: "Station Limit Situation: {situation_note_station}",
             outFields: ["*"],
             content: content_station_limit_situation
           },
