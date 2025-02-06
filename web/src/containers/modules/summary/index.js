@@ -8,16 +8,26 @@ import "./index.css";
 
 export default function Summary () {
   const {
-    filteredRoadInventory, totalRoadInventory,
-    filteredRoadSlopeInventory, totalRoadSlopeInventory,
+    filteredRoadInventory,
+    totalRoadInventory,
 
-    filteredNERoadSlopeStructures, totalNERoadSlopeStructures,
-    filteredERoadSlopeStructures, totalERoadSlopeStructures,
+    filteredRoadSlopeInventory,
+    totalRoadSlopeInventory,
+
+    filteredERoadSlopeStructures,
+    totalERoadSlopeStructures,
+
+    filteredNERoadSlopeStructures,
+    totalNERoadSlopeStructures,
 
     arrayHM01,
 
-    arrayRSS01, arrayRSS02, arrayRSS03,
-    arrayRS01, arrayRS02
+    arrayRSS01,
+    arrayRSS02,
+    arrayRSS03,
+
+    arrayRS01,
+    arrayRS02
   } = React.useContext(MainContext);
 
   const RADIAN = Math.PI / 180;
@@ -25,7 +35,7 @@ export default function Summary () {
   function renderCustomizedLabel ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     
-    const x = percent === 1 ? radius + 20 : (cx + radius * Math.cos(-midAngle * RADIAN)) - ( midAngle < 180 ? 5 : 0 );
+    const x = percent === 1 ? radius + 20 : (cx + radius * Math.cos(-midAngle * RADIAN)) - (midAngle < 180 ? 5 : 0);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     return (
@@ -108,7 +118,7 @@ export default function Summary () {
                   arrayHM01 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayHM01 ? arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayHM01 ?
                             arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -133,7 +143,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayHM01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
@@ -185,7 +195,7 @@ export default function Summary () {
                   arrayRSS01 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayRSS01 ? arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayRSS01 ?
                             arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -210,7 +220,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayRSS01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
@@ -258,7 +268,7 @@ export default function Summary () {
                   arrayRSS02 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayRSS02 ? arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayRSS02 ?
                             arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -283,7 +293,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayRSS02.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
@@ -331,7 +341,7 @@ export default function Summary () {
                   arrayRSS03 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayRSS03 ? arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayRSS03 ?
                             arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -356,7 +366,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayRSS03.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
@@ -405,7 +415,7 @@ export default function Summary () {
                   arrayRS01 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayRS01 ? arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayRS01 ?
                             arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -430,7 +440,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayRS01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
@@ -478,7 +488,7 @@ export default function Summary () {
                   arrayRS02 ?
                     <BarChart width = { 200 } height = { 100 } data = { arrayRS02 ? arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "#8884d8" maxBarSize = { 8 }>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
                           arrayRS02 ?
                             arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
@@ -503,7 +513,7 @@ export default function Summary () {
                         labelLine = { false }
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
-                        fill = "#8884d8"
+                        fill = "white"
                         blendStroke = { arrayRS02.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {

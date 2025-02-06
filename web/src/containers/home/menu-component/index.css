@@ -9,8 +9,9 @@
   box-sizing: border-box;
   padding: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
-  background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
+  /* Toggle Button */
   > :nth-child(1) {
     position: absolute;
     right: calc(var(--default-size-medium, 12px) * 1.00);
@@ -26,11 +27,10 @@
     height: var(--default-size-medium, 12px);
 
     box-sizing: border-box;
-    border-radius: calc(var(--default-size-small, 1px) * 4.00);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+    border-radius: calc(var(--default-size-small, 1px) * 4.00);
 
-    background-color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-
+    background: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
     cursor: pointer;
 
     > * {
@@ -48,8 +48,10 @@
     width: auto;      
     height: 100%;
 
+    box-sizing: border-box;
     gap: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
+    /* Menu Header */
     > :nth-child(1) {
       display: flex;
       flex-flow: row nowrap;
@@ -59,19 +61,18 @@
       width: 100%;
 
       box-sizing: border-box;
-      border-radius: calc(var(--default-size-small, 1px) * 4.00);
       box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+      border-radius: calc(var(--default-size-small, 1px) * 4.00);
       padding: calc(var(--default-size-medium, 12px) * 0.50);
       gap: calc(var(--default-size-medium, 12px) * 0.50);
 
-      background-color: var(--default-color-accent-light, rgba(255, 183, 0, 1.00));
+      background: var(--default-color-accent-light, rgba(255, 183, 0, 1.00));
+      cursor: pointer;
 
       font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-      color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-      line-height: var(--default-size-medium, 12px);
       text-transform: uppercase;
-
-      cursor: pointer;
+      line-height: var(--default-size-medium, 12px);
+      color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
 
       > a {
         display: flex;
@@ -89,6 +90,7 @@
       }
     }
 
+    /* Module Buttons */
     > :nth-child(2) {
       display: flex;
       flex-flow: column nowrap;
@@ -128,6 +130,7 @@
       }
     }
 
+    /* Menu Footer */
     > :nth-child(3) {
       display: flex;
       flex-flow: column nowrap;

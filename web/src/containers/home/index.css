@@ -1,16 +1,20 @@
-#home-container {
-  width: 100%;
-  height: 100%;  
-  
+#home-container {  
   display: flex;
   flex-flow: row nowrap;
   place-items: center stretch;
   place-content: center center;
 
-  pointer-events: none;
-  user-select: none;
+  width: 100%;
+  height: 100%;
 
-  &.home-container-interactive {
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+
+  &:has(> :nth-child(4).loading-modal-active) {
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &:has(> :nth-child(4).loading-modal-hidden) {
     pointer-events: all;
     user-select: auto;
   }
@@ -19,16 +23,12 @@
   > :nth-child(1) {
     width: auto;
     height: 100%;
-
-    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
   }
 
   /* Outlet */
   > :nth-child(2) {
     width: auto;
     height: 100%;
-
-    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
   }
 
   > :nth-child(3) {
@@ -39,8 +39,6 @@
 
     flex: 1 1 0;
     height: 100%;
-
-    background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
     /* Filter Component */
     > :nth-child(1) {
@@ -76,45 +74,25 @@
 }
 
 #map-container {
+  --default-size: 32px;
+  --default-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.30);
+
   display: flex;
   flex-flow: column nowrap;
   place-items: end center;
   place-content: center end;
 
-  #map-switch {
-    position: absolute;
-    z-index: 100;
-
-    display: flex;
-    flex-flow: column nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    width: 32px;
-    height: 32px;
-
-    box-sizing: border-box;
-    margin: 0 calc((var(--default-size-medium, 12px) * 8.00 / 3.00) + 32px) calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + 39px) 0;
-  
-    background-color: rgba(36, 36, 36, 1.00);
-
-    cursor: pointer;
-
-    font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
-    color: rgba(159, 159, 159, 1.00);
-  }
-
   .esri-ui-inner-container.esri-ui-corner-container {
     inset: 0 !important;
 
     box-sizing: border-box;
-    margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 12px) * 4.00 / 3.00 ) + 39px) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
+    margin: calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc(var(--default-size-medium, 12px) * 4.00 / 3.00) calc((var(--default-size-medium, 12px) * 4.00 / 3.00 ) + var(--default-size, 32px) + calc(var(--default-size-medium, 12px) * 0.50)) calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
     .esri-expand {
       > calcite-popover {
         box-sizing: border-box;
-        margin-top: calc(var(--default-size-medium, 12px) * 0.50);
-    
+        margin-top: calc(var(--default-size-medium, 12px) * 0.75);
+        
         > .esri-expand__popover-content {
           > .esri-expand__content-container {
             max-height: var(--default-size-large, 360px);
@@ -135,15 +113,16 @@
         place-content: center center;
 
         width: auto;
-        height: 32px;
+        height: var(--default-size, 32px);
 
         box-sizing: border-box;
+        box-shadow: var(--default-box-shadow, 0 1px 2px rgba(0, 0, 0, 0.30));
         padding: 0 calc(var(--default-size-medium, 12px) * 0.75);
       
-        background-color: rgba(36, 36, 36, 1.00);
+        background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
-        font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
-        color: rgba(159, 159, 159, 1.00);
+        font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
       }
     }
 
@@ -154,51 +133,111 @@
       place-content: center center;
 
       > :not(:first-child) {
-        border-right: solid 1px rgba(85, 85, 85, 1.00);
+        border-right: solid 1px var(--calcite-color-border-3, rgba(223, 223, 223, 1.00));
       }
 
       #widget-search-container {
         box-sizing: border-box;
         margin-right: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
 
+        background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+        
+        * {
+          font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+        }
+
         input {
           box-sizing: border-box;
           padding: 0 calc(var(--default-size-medium, 12px) * 0.75);
-
-          font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
-          color: rgba(159, 159, 159, 1.00);
         }
+      }
+
+      #expand-legend-container {
+        .esri-legend__layer {
+          font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+        }
+      }
+
+      #expand-layer-list-container {
+        .esri-layer-list__item-content, .esri-layer-list__filter-no-results > * > * {
+          font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+        }
+      }
+
+      #expand-basemap-gallery-container {
+        .esri-basemap-gallery__item-content {
+          font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+        }
+      }
+
+      #expand-editor-container {
+        .esri-editor__panel-content > * {
+          font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+        }
+      }
+
+      #expand-print-container {
+        font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
       }
     }
 
     .esri-ui-bottom-left.esri-ui-corner {
       #widget-scale-container {
-        > * {   
+        > * {
           > :nth-child(1) {
-            height: calc((var(--height-100, 480px) / 30));
+            height: calc((var(--default-size-medium, 12px) * 4.00 / 3.00));
 
-            background-color: rgba(255, 255, 255, 0.50);
+            box-sizing: border-box;
+            box-shadow: var(--default-box-shadow, 0 1px 2px rgba(0, 0, 0, 0.30));
+
+            background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
             &::before, &::after {
-              height: calc(var(--default-size-medium) * 4.00 / 3.00);
-
-              border-right: calc(var(--default-size-small, 1px) * 2.00) solid rgba(36, 36, 36, 1.00);
+              height: calc((var(--default-size-medium, 12px) * 4.00 / 3.00));
             }
           }
 
           > :nth-child(2) {
             box-sizing: border-box;
-            padding: 0 calc(var(--default-size-medium, 12px) * 0.25);
-  
+            padding: calc(var(--default-size-small, 1px) * 2.00) calc(var(--default-size-medium, 12px) * 0.50);
 
             > * {
-              font: normal calc(var(--default-size-medium) * 0.75) var(--default-font-family, "Outfit", sans-serif);
-              color: rgba(36, 36, 36, 1.00);
+              font: normal calc(var(--default-size-medium, 12px) * 0.75) var(--default-font-family, "Outfit", sans-serif);
+              color: var(--calcite-ui-icon-color, var(--calcite-color-text-3, rgba(106, 106, 106, 1.00)));
             }
           }
         }
       }
     }
+  }
+
+  #map-switch {
+    position: absolute;
+    z-index: 100;
+
+    display: flex;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    width: var(--default-size, 32px);
+    height: var(--default-size, 32px);
+
+    box-sizing: border-box;
+    box-shadow: var(--default-box-shadow, 0 1px 2px rgba(0, 0, 0, 0.30));
+    margin: 0 calc((var(--default-size-medium, 12px) * 8.00 / 3.00) + var(--default-size, 32px)) calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + var(--default-size, 32px) + calc(var(--default-size-medium, 12px) * 0.50)) 0;
+  
+    background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+    cursor: pointer;
+
+    font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+    color: var(--calcite-ui-icon-color, var(--calcite-color-text-3, rgba(106, 106, 106, 1.00)));
   }
 
   .esri-ui-inner-container.esri-ui-manual-container {
@@ -215,12 +254,16 @@
         font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
         
         > * {
+          > :nth-child(odd) {
+            background: var(--calcite-color-foreground-3, rgba(234, 234, 234, 1.00));
+          }
+
           > * > * {
             padding: calc(var(--default-size-medium, 12px) * 0.50);
           }
   
-          > :nth-child(odd) {
-            background-color: rgba(85, 85, 85, 1.00);
+          > * > :nth-child(2) {
+            text-transform: capitalize;
           }
         }
       }
@@ -230,8 +273,15 @@
       box-sizing: border-box;
       padding: var(--default-size-medium, 12px);
 
-      font: normal var(--default-size-medium) var(--default-font-family, "Outfit", sans-serif);
-      color: rgba(159, 159, 159, 1.00);
+      > :nth-child(1) {
+        font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+      }
+
+      > :nth-child(2) {
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+      }
     }
   }
 }

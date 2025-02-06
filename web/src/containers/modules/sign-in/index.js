@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import logo_DPWH from "../../../assets/logos/logo_DPWH.png";
-import logo_BP from "../../../assets/logos/logo_BP.png";
+import logo_DPWH from "../../../assets/logo.png";
 
 import "./index.css";
 

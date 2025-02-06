@@ -13,7 +13,6 @@ import "./index.css";
 
 function HomePage () {
   const {
-    dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
@@ -22,14 +21,24 @@ function HomePage () {
   } = React.useContext(MapContext);
 
   return (
-    <div id = "home-container" className = { dataLoading ? null : "home-container-interactive" }>
-      <div><MenuComponent/></div>
-      <div><Outlet/></div>
+    <div id = "home-container">
       <div>
-        <div><FilterComponent/></div>
-        <div><MapComponent/></div>
+        <MenuComponent/>
       </div>
-      <div className = { !dataArray && dataLoading ? "loading-modal-active" : "loading-modal-hidden" }><LoadingComponent/></div>
+      <div>
+        <Outlet/>
+      </div>
+      <div>
+        <div>
+          <FilterComponent/>
+        </div>
+        <div>
+          <MapComponent/>
+        </div>
+      </div>
+      <div className = { dataLoading ? "loading-modal-active" : "loading-modal-hidden" }>
+        <LoadingComponent/>
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { MainContext } from "../../../contexts/MainContext";
 import { MapContext } from "../../../contexts/MapContext";
 
-import logo_DPWH from "../../../assets/logos/logo_DPWH.png";
+import logo_DPWH from "../../../assets/logo.png";
 
 import "./index.css";
 
@@ -26,7 +26,7 @@ export default function MenuComponent () {
     
     setModuleSelected(index);
 
-    navigate(`/home/${modules[index].path}`);
+    navigate(`/home/${modules[index].name.toLowerCase().split(" ").join("-")}`);
   }
 
   React.useEffect(function () {

@@ -18,16 +18,26 @@ export default function FilterComponent () {
     filterL03Selected, setFilterL03Selected,
     filterL04Selected, setFilterL04Selected,
 
-    setFilteredRoadInventory, setTotalRoadInventory,
-    setFilteredRoadSlopeInventory, setTotalRoadSlopeInventory,
+    setFilteredRoadInventory,
+    setTotalRoadInventory,
+
+    setFilteredRoadSlopeInventory,
+    setTotalRoadSlopeInventory,
+
+    setFilteredERoadSlopeStructures,
+    setTotalERoadSlopeStructures,
   
-    setFilteredNERoadSlopeStructures, setTotalNERoadSlopeStructures,
-    setFilteredERoadSlopeStructures, setTotalERoadSlopeStructures,
+    setFilteredNERoadSlopeStructures,
+    setTotalNERoadSlopeStructures,
   
     setArrayHM01,
   
-    setArrayRSS01, setArrayRSS02, setArrayRSS03,
-    setArrayRS01, setArrayRS02
+    setArrayRSS01,
+    setArrayRSS02,
+    setArrayRSS03,
+
+    setArrayRS01,
+    setArrayRS02
   } = React.useContext(MainContext);
   
   const {
@@ -865,12 +875,7 @@ export default function FilterComponent () {
           }
         }
       })
-      .then(function () {
-        setDataLoading(false);
-      })
       .catch(function (error) {
-        setDataLoading(false);
-
         console.log(error);
       });
   }, []);
@@ -897,22 +902,38 @@ export default function FilterComponent () {
 
   function parseOrdinalStringToNumericalString (string) {
     switch (string) {
-      case "FIRST":  return ("01");
-      case "SECOND": return ("02");
-      case "THIRD": return ("03");
-      case "FOURTH": return ("04");
-      case "FIFTH": return ("05");
-      case "SIXTH": return ("06");
-      case "SEVENTH": return ("07");
-      case "EIGHTH": return ("08");
-      case "NINTH": return ("09");
-      case "TENTH": return ("10");
-      case "ELEVENTH": return ("11");
-      case "TWELFTH": return ("12");
-      case "THIRTEENTH": return ("13");
-      case "FOURTEENTH": return ("14");
-      case "FIFTEENTH": return ("15");
-      default: return (string);
+      case "FIRST": 
+        return ("01");
+      case "SECOND":
+        return ("02");
+      case "THIRD":
+        return ("03");
+      case "FOURTH":
+        return ("04");
+      case "FIFTH":
+        return ("05");
+      case "SIXTH":
+        return ("06");
+      case "SEVENTH":
+        return ("07");
+      case "EIGHTH":
+        return ("08");
+      case "NINTH":
+        return ("09");
+      case "TENTH":
+        return ("10");
+      case "ELEVENTH":
+        return ("11");
+      case "TWELFTH":
+        return ("12");
+      case "THIRTEENTH":
+        return ("13");
+      case "FOURTEENTH":
+        return ("14");
+      case "FIFTEENTH":
+        return ("15");
+      default:
+        return (string);
     }
   }
 
@@ -946,7 +967,9 @@ export default function FilterComponent () {
   function clear_filter (type) {
     refocus_map();
 
-    if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) { initialize_summary(); }
+    if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) {
+      initialize_summary();
+    }
     
     if (type === 1) {
       setFilterL01Selected(null);

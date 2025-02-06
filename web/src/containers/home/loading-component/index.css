@@ -7,35 +7,41 @@
   width: 100%;
   height: 100%;
 
-  background-color: rgba(43, 43, 43, 0.75);
+  background: var(--calcite-modal-scrim-background, rgba(0, 0, 0, 0.85));
 
   > * {
+    --calcite-modal-height-auto: 297px;
+    --calcite-modal-animation: appear 0.33s cubic-bezier(0.215, 0.44, 0.42, 0.88) 0.00s 1;
+
     display: flex;
     flex-flow: column nowrap;
     place-items: center center;
     place-content: center center;
 
-    width: 512px;
-    height: 297px;
+    animation: var(--calcite-modal-animation, appear 0.33s cubic-bezier(0.215, 0.44, 0.42, 0.88) 0.00s 1);
+
+    width: var(--calcite-modal-width, 32rem);
+    height: var(--calcite-modal-height-auto, 297px);
 
     box-sizing: border-box;
     border-radius: calc(var(--default-size-small, 1px) * 4.00);
 
-    background-color: rgba(43, 43, 43, 1.00);
+    background: var(--calcite-color-foreground-1, rgba(255, 255, 255, 1.00));
 
     > :nth-child(1) {
       animation: rotate 1.00s linear 0.00s infinite;
 
-      width: calc(var(--default-size-large, 360px) * 0.25);
-      height: calc(var(--default-size-large, 360px) * 0.25);
+      width: calc(var(--default-size-large, 360px) / 3.00);
+      height: calc(var(--default-size-large, 360px) / 3.00);
 
       box-sizing: border-box;
-      margin-bottom: calc(var(--default-size-medium, 12px) * 2.50);
       border-radius: 50%;
+      margin-bottom: calc(var(--default-size-medium, 12px) * 2.50);
       padding: var(--default-size-medium, 12px);
 
-      background-color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
-      --mask: conic-gradient(var(--color-none, rgba(0, 0, 0, 0.00)), var(--color-black, rgba(0, 0, 0, 1.00))), linear-gradient(var(--color-black, rgba(0, 0, 0, 1.00)) 0 0) content-box;
+      --mask: conic-gradient(var(--calcite-color-transparent, rgba(0, 0, 0, 0.00)), var(--calcite-color-text-1, rgba(21, 21, 21, 1.00))), linear-gradient(var(--calcite-color-text-1, rgba(21, 21, 21, 1.00)) 0 0) content-box;
+
+      background: var(--calcite-color-text-1, rgba(21, 21, 21, 1.00));
       -webkit-mask: var(--mask);
       mask: var(--mask);
       -webkit-mask-composite: source-out;
@@ -43,8 +49,8 @@
     }
 
     > :nth-child(2) {
-      font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-      color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+      font: normal calc(var(--default-size-medium, 12px) * 4.00 / 3.00) var(--default-font-family, "Outfit", sans-serif);
+      color: var(--calcite-color-text-2, rgba(74, 74, 74, 1.00));
     }
   }
 }
@@ -55,5 +61,17 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes appear {
+  from {
+    translate: 0 var(--default-size-medium, 12px);
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    opacity: 1;
   }
 }

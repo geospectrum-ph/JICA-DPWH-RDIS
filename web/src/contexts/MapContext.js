@@ -3,6 +3,7 @@ import * as React from "react";
 import esriConfig from "@arcgis/core/config.js";
 
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
+import * as query from "@arcgis/core/rest/query.js";
 
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
@@ -38,7 +39,7 @@ function MapContextProvider (props) {
   const url_engineering_districts = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_Engineering/MapServer/0";
   const url_legislative_districts = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_Congressional/MapServer/0";
   const url_provinces = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_Province/MapServer/0";
-  const url_cities = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_City_Municipality/MapServer/0";
+  const url_municipalities_cities = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_City_Municipality/MapServer/0";
 
   const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0";
   const url_station_limit_situation = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1";
@@ -630,6 +631,218 @@ function MapContextProvider (props) {
     opacity: 1.00
   });
 
+  let defaultRenderer = {
+    type: "simple",
+    symbol: {
+      type: "simple-fill",
+      color: [191, 191, 191, 0.50],
+      outline: { 
+        color: [0, 0, 0, 1.00],
+        width: 1.00
+      }
+    }
+  };
+
+  const [rendererMunicipalitiesCities, setRendererMunicipalitiesCities] = React.useState(defaultRenderer);
+  const [rendererProvinces, setRendererProvinces] = React.useState(defaultRenderer);
+  const [rendererLegislativeDistricts, setRendererLegislativeDistricts] = React.useState(defaultRenderer);
+  const [rendererEngineeringDistricts, setRendererEngineeringDistricts] = React.useState(defaultRenderer);
+  const [rendererRegions, setRendererRegions] = React.useState(defaultRenderer);
+
+  React.useEffect(function () {
+    new FeatureLayer({
+      url: url_municipalities_cities
+    })
+    .queryFeatures({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      if (response?.features?.length > 0) {
+        const array = response.features.map(function (feature) {
+          return ({
+            value: feature.attributes.MUNICIPAL,
+            symbol: {
+              type: "simple-fill",
+              color:
+                feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                "rgba(123, 211, 234, 1.00)",
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            }
+          });
+        });
+
+        setRendererMunicipalitiesCities({
+          type: "unique-value",
+          field: "MUNICIPAL",
+          defaultLabel: "Others",
+          defaultSymbol: {
+            type: "simple-fill",
+            color: [191, 191, 191, 0.50],
+            outline: { 
+              color: [0, 0, 0, 1.00],
+              width: 1.00
+            }
+          },
+          uniqueValueInfos: array
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    new FeatureLayer({
+      url: url_legislative_districts
+    })
+    .queryFeatures({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      if (response?.features?.length > 0) {
+        const array = response.features.map(function (feature) {
+          return ({
+            value: feature.attributes.CONG_DIST,
+            symbol: {
+              type: "simple-fill",
+              color:
+                feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                "rgba(123, 211, 234, 1.00)",
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            }
+          });
+        });
+
+        setRendererLegislativeDistricts({
+          type: "unique-value",
+          field: "CONG_DIST",
+          defaultLabel: "Others",
+          defaultSymbol: {
+            type: "simple-fill",
+            color: [191, 191, 191, 0.50],
+            outline: { 
+              color: [0, 0, 0, 1.00],
+              width: 1.00
+            }
+          },
+          uniqueValueInfos: array
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+      
+    new FeatureLayer({
+      url: url_engineering_districts
+    })
+    .queryFeatures({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      if (response?.features?.length > 0) {
+        const array = response.features.map(function (feature) {
+          return ({
+            value: feature.attributes.DEO,
+            symbol: {
+              type: "simple-fill",
+              color:
+                feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                "rgba(123, 211, 234, 1.00)",
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            }
+          });
+        });
+
+        setRendererEngineeringDistricts({
+          type: "unique-value",
+          field: "DEO",
+          defaultLabel: "Others",
+          defaultSymbol: {
+            type: "simple-fill",
+            color: [191, 191, 191, 0.50],
+            outline: { 
+              color: [0, 0, 0, 1.00],
+              width: 1.00
+            }
+          },
+          uniqueValueInfos: array
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    new FeatureLayer({
+      url: url_regions
+    })
+    .queryFeatures({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      if (response?.features?.length > 0) {
+        const array = response.features.map(function (feature) {
+          return ({
+            value: feature.attributes.REGION,
+            symbol: {
+              type: "simple-fill",
+              color:
+                feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                "rgba(123, 211, 234, 1.00)",
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            }
+          });
+        });
+
+        setRendererRegions({
+          type: "unique-value",
+          field: "REGION",
+          defaultLabel: "Others",
+          defaultSymbol: {
+            type: "simple-fill",
+            color: [191, 191, 191, 0.50],
+            outline: { 
+              color: [0, 0, 0, 1.00],
+              width: 1.00
+            }
+          },
+          uniqueValueInfos: array
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }, []);
+
   function content_municipalities_cities (target) {
     const container = document.createElement("div");
 
@@ -676,7 +889,8 @@ function MapContextProvider (props) {
 
   const layer_municipalities_cities = new FeatureLayer({
     title: "Municipalities / Cities",
-    url: url_cities,
+    url: url_municipalities_cities,
+    renderer: rendererMunicipalitiesCities,
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.MUNICIPAL" },
@@ -697,49 +911,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  React.useEffect(function () {
-    layer_municipalities_cities
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.MUNICIPAL,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)"
-              }
-            });
-          });
-  
-          layer_municipalities_cities.renderer = {
-            type: "unique-value",
-            field: "MUNICIPAL",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [0, 0, 0, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
 
   function content_provinces (target) {
     const container = document.createElement("div");
@@ -776,6 +947,7 @@ function MapContextProvider (props) {
   const layer_provinces = new FeatureLayer({
     title: "Provinces",
     url: url_provinces,
+    renderer: rendererProvinces,
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.PROVINCE" },
@@ -796,49 +968,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  React.useEffect(function () {
-    layer_provinces
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.PROVINCE,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)"
-              }
-            });
-          });
-  
-          layer_provinces.renderer = {
-            type: "unique-value",
-            field: "PROVINCE",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [0, 0, 0, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
 
   function content_legislative_districts (target) {
     const container = document.createElement("div");
@@ -875,6 +1004,7 @@ function MapContextProvider (props) {
   const layer_legislative_districts = new FeatureLayer({
     title: "Legislative Districts",
     url: url_legislative_districts,
+    renderer: rendererLegislativeDistricts,
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.CONG_DIST" },
@@ -895,49 +1025,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  React.useEffect(function () {
-    layer_legislative_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.CONG_DIST,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)"
-              }
-            });
-          });
-  
-          layer_legislative_districts.renderer = {
-            type: "unique-value",
-            field: "CONG_DIST",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [0, 0, 0, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
 
   function content_engineering_districts (target) {
     const container = document.createElement("div");
@@ -974,6 +1061,7 @@ function MapContextProvider (props) {
   const layer_engineering_districts = new FeatureLayer({
     title: "Engineering Districts",
     url: url_engineering_districts,
+    renderer: rendererEngineeringDistricts,
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.DEO" },
@@ -994,49 +1082,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  React.useEffect(function () {
-    layer_engineering_districts
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.DEO,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)"
-              }
-            });
-          });
-  
-          layer_engineering_districts.renderer = {
-            type: "unique-value",
-            field: "DEO",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [0, 0, 0, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
 
   function content_regions (target) {
     const container = document.createElement("div");
@@ -1073,6 +1118,7 @@ function MapContextProvider (props) {
   const layer_regions = new FeatureLayer({
     title: "Regions",
     url: url_regions,
+    renderer: rendererRegions,
     labelsVisible: true,
     labelingInfo: [{
       labelExpressionInfo: { expression: "$feature.REGION" },
@@ -1093,49 +1139,6 @@ function MapContextProvider (props) {
     },
     visible: true
   });
-
-  React.useEffect(function () {
-    layer_regions
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.REGION,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)"
-              }
-            });
-          });
-  
-          layer_regions.renderer = {
-            type: "unique-value",
-            field: "REGION",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [0, 0, 0, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          }
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-  }, []);
 
   const group_administrative_boundaries = new GroupLayer({
     title: "Administrative Boundaries",
@@ -1442,7 +1445,7 @@ function MapContextProvider (props) {
             <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
           </tr>
           <tr>
-            <td><b>Slope Type Right</b></td>
+            <td><b>RSM Category</b></td>
             <td>${ target.graphic.attributes.rsm_category || "No available data" }</td>
           </tr>
         </tbody>
@@ -1951,7 +1954,7 @@ function MapContextProvider (props) {
   }
 
   const array_calamities = [
-    // ["Unclassified", [191, 191, 191, 1.00]],
+    ["Unclassified", [191, 191, 191, 1.00]],
     ["Volcanic Eruption", [153, 255, 153, 1.00]],
     ["Super Typhoon (ST)", [87, 117, 144, 1.00]],
     ["Earthquake", [67, 170, 139, 1.00]],
@@ -1969,9 +1972,9 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: `${category[0]} Records`,
           url: url_calamities,
-          // definitionExpression: category[0] === "Unclassified" ?
-          //   array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note <> '${category[0]}'`); }).join(" AND ") :
-          //   `calamity_note = '${category[0]}'`,
+          definitionExpression: category[0] === "Unclassified" ?
+            array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note != '${category[0]}'`); }).join(" AND ") :
+            `calamity_note = '${category[0]}'`,
           definitionExpression: `calamity_note = '${category[0]}'`,
           renderer: {
             type: "simple",
@@ -1997,9 +2000,9 @@ function MapContextProvider (props) {
           },
           popupEnabled: true,
           popupTemplate: {
-            // title: category[0] === "Unclassified" ?
-            //   "Calamity: Unclassified" :
-            //   "Calamity: {calamity_note}",
+            title: category[0] === "Unclassified" ?
+              "Calamity: Unclassified" :
+              "Calamity: {calamity_note}",
             title: "Calamity: {calamity_note}",
             outFields: ["*"],
             content: content_calamities
@@ -2054,7 +2057,7 @@ function MapContextProvider (props) {
   }
 
   const array_station_limit_situation = [
-    // ["Unclassified", [191, 191, 191, 1.00]],
+    ["Unclassified", [191, 191, 191, 1.00]],
     ["Not Passable", [255, 153, 51, 1.00]],
     ["Limited Access (Passable)", [0, 204, 255, 1.00]],
     ["Passable", [153, 255, 153, 1.00]]
@@ -2068,7 +2071,7 @@ function MapContextProvider (props) {
           title: `${category[0]} Road Sections`,
           url: url_station_limit_situation,
           definitionExpression: category[0] === "Unclassified" ?
-            array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station <> '${category[0]}'`); }).join(" AND ") :
+            array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station != '${category[0]}'`); }).join(" AND ") :
             `situation_note_station = '${category[0]}'`,
           definitionExpression: `situation_note_station = '${category[0]}'`,
           renderer: {
@@ -2095,9 +2098,9 @@ function MapContextProvider (props) {
           },
           popupEnabled: true,
           popupTemplate: {
-            // title: category[0] === "Unclassified" ?
-            //   "Station Limit Situation: Unclassified" :
-            //   "Station Limit Situation: {situation_note_station}",
+            title: category[0] === "Unclassified" ?
+              "Station Limit Situation: Unclassified" :
+              "Station Limit Situation: {situation_note_station}",
             title: "Station Limit Situation: {situation_note_station}",
             outFields: ["*"],
             content: content_station_limit_situation
