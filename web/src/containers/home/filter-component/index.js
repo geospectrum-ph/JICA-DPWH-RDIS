@@ -96,43 +96,43 @@ export default function FilterComponent () {
       name: "Soil Slope Collapse",
       total: 0,
       filtered: 0,
-      color: "rgba(255, 0, 0, 1.00)"
+      color: "rgba(249, 65, 68, 1.00)"
     }, 
     {
       name: "Rock Slope Collapse/Rock Fall",
       total: 0,
       filtered: 0,
-      color: "rgba(210, 0, 60, 1.00)"
+      color: "rgba(243, 114, 44, 1.00)"
     },
     {
       name: "Landslide",
       total: 0,
       filtered: 0,
-      color: "rgba(180, 0, 120, 1.00)"
+      color: "rgba(248, 150, 30, 1.00)"
     },
     {
       name: "Road Slip",
       total: 0,
       filtered: 0,
-      color: "rgba(150, 0, 150, 1.00)"
+      color: "rgba(249, 199, 79, 1.00)"
     },
     {
       name: "River Erosion",
       total: 0,
       filtered: 0,
-      color: "rgba(120, 0, 180, 1.00)"
+      color: "rgba(144, 190, 109, 1.00)"
     },
     {
       name: "Debris Flow",
       total: 0,
       filtered: 0,
-      color: "rgba(60, 0, 210, 1.00)"
+      color: "rgba(67, 170, 139, 1.00)"
     },
     {
       name: "Coastal Erosion",
       total: 0,
       filtered: 0,
-      color: "rgba(0, 0, 255, 1.00)"
+      color: "rgba(87, 117, 144, 1.00)"
     },
     {
       name: "Unclassified",
@@ -147,91 +147,91 @@ export default function FilterComponent () {
       name: "Grouted Riprap", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 255, 1.00)"
+      color: "rgba(138, 22, 177, 1.00)"
     },
     {
       name: "Grouted Riprap with Steel Sheet Pile Foundation", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 210, 1.00)"
+      color: "rgba(138, 22, 177, 1.00)"
     },
     {
       name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 180, 1.00)"
+      color: "rgba(199, 26, 176, 1.00)"
     },
     {
       name: "Rubble Concrete Revetment (Spread Type I)", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 150, 1.00)"
+      color: "rgba(220, 30, 122, 1.00)"
     },
     {
       name: "Stone Masonry", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 120, 1.00)"
+      color: "rgba(161, 19, 24, 1.00)"
     },
     {
       name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 90, 1.00)"
+      color: "rgba(182, 75, 23, 1.00)"
     },
     {
       name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 60, 1.00)"
+      color: "rgba(204, 153, 27, 1.00)"
     },
     {
       name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
       total: 0,
       filtered: 0,
-      color: "rgba(0, 255, 0, 1.00)"
+      color: "rgba(206, 224, 32, 1.00)"
     },
     {
       name: "Gravity Wall (Type I)", 
       total: 0,
       filtered: 0,
-      color: "rgba(60, 255, 0, 1.00)"
+      color: "rgba(87, 166, 20, 1.00)"
     },
     {
       name: "Gabion/Mattress Slope Protection", 
       total: 0,
       filtered: 0,
-      color: "rgba(90, 255, 0, 1.00)"
+      color: "rgba(36, 188, 24, 1.00)"
     },
     {
       name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
       total: 0,
       filtered: 0,
-      color: "rgba(120, 255, 0, 1.00)"
+      color: "rgba(28, 209, 84, 1.00)"
     },
     {
       name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
       total: 0,
       filtered: 0,
-      color: "rgba(150, 255, 0, 1.00)"
+      color: "rgba(38, 225, 167, 1.00)"
     },
     {
       name: "Earthfill Dike (Type I)", 
       total: 0,
       filtered: 0,
-      color: "rgba(180, 255, 0, 1.00)"
+      color: "rgba(21, 151, 172, 1.00)"
     },
     {
       name: "Boulder Spur Dike (Type II)", 
       total: 0,
       filtered: 0,
-      color: "rgba(210, 255, 0, 1.00)"
+      color: "rgba(25, 106, 193, 1.00)"
     },
     {
       name: "Gabions Revetment (Pile-Up Type)", 
       total: 0,
       filtered: 0,
-      color: "rgba(255, 255, 0, 1.00)"
+      color: "rgba(29, 47, 215, 1.00)"
     },
     {
       name: "Unclassified",

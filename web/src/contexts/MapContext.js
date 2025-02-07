@@ -3,7 +3,6 @@ import * as React from "react";
 import esriConfig from "@arcgis/core/config.js";
 
 import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
-import * as query from "@arcgis/core/rest/query.js";
 
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
@@ -19,7 +18,7 @@ import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import Editor from "@arcgis/core/widgets/Editor.js";
-
+import Attachments from "@arcgis/core/widgets/Attachments.js";
 import Print from "@arcgis/core/widgets/Print.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 
@@ -650,6 +649,20 @@ function MapContextProvider (props) {
   const [rendererRegions, setRendererRegions] = React.useState(defaultRenderer);
 
   React.useEffect(function () {
+    String.prototype.toProperCase = function () {
+      return (this.replace(/\w\S*/g, function (text) {
+        if (text.toLowerCase() === "of" || text.toLowerCase() === "na" || text.toLowerCase() === "ng" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
+          return (text.toLowerCase());
+        }
+        else if (text.includes("-")) {
+          return (text.toLowerCase().split("-").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join("-"));
+        }
+        else {
+          return (text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
+        }
+      }));
+    };
+
     new FeatureLayer({
       url: url_municipalities_cities
     })
@@ -663,6 +676,7 @@ function MapContextProvider (props) {
         const array = response.features.map(function (feature) {
           return ({
             value: feature.attributes.MUNICIPAL,
+            label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ feature.attributes.PROVINCE.toProperCase() }`,
             symbol: {
               type: "simple-fill",
               color:
@@ -699,6 +713,55 @@ function MapContextProvider (props) {
     });
 
     new FeatureLayer({
+      url: url_provinces
+    })
+    .queryFeatures({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      if (response?.features?.length > 0) {
+        const array = response.features.map(function (feature) {
+          return ({
+            value: feature.attributes.PROVINCE,
+            label: `${ feature.attributes.PROVINCE.toProperCase() }`,
+            symbol: {
+              type: "simple-fill",
+              color:
+                feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                "rgba(123, 211, 234, 1.00)",
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            }
+          });
+        });
+
+        setRendererProvinces({
+          type: "unique-value",
+          field: "PROVINCE",
+          defaultLabel: "Others",
+          defaultSymbol: {
+            type: "simple-fill",
+            color: [191, 191, 191, 0.50],
+            outline: { 
+              color: [0, 0, 0, 1.00],
+              width: 1.00
+            }
+          },
+          uniqueValueInfos: array
+        });
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    new FeatureLayer({
       url: url_legislative_districts
     })
     .queryFeatures({
@@ -711,6 +774,7 @@ function MapContextProvider (props) {
         const array = response.features.map(function (feature) {
           return ({
             value: feature.attributes.CONG_DIST,
+            label: `${ feature.attributes.CONG_DIST.toProperCase() }`,
             symbol: {
               type: "simple-fill",
               color:
@@ -759,6 +823,7 @@ function MapContextProvider (props) {
         const array = response.features.map(function (feature) {
           return ({
             value: feature.attributes.DEO,
+            label: `${ feature.attributes.DEO.toProperCase() }`,
             symbol: {
               type: "simple-fill",
               color:
@@ -807,6 +872,7 @@ function MapContextProvider (props) {
         const array = response.features.map(function (feature) {
           return ({
             value: feature.attributes.REGION,
+            label: `${ feature.attributes.REGION === " " ? "Bangsamoro Autonomous Region in Muslim Mindanao" : feature.attributes.REGION }`,
             symbol: {
               type: "simple-fill",
               color:
@@ -1144,9 +1210,9 @@ function MapContextProvider (props) {
     title: "Administrative Boundaries",
     layers: [
       layer_regions,
-      layer_provinces,
       layer_engineering_districts,
       layer_legislative_districts,
+      layer_provinces,
       layer_municipalities_cities
     ],
     visible: false,
@@ -1498,6 +1564,151 @@ function MapContextProvider (props) {
     },
     visible: true
   });
+
+  
+  React.useEffect(function () {
+    new FeatureLayer({
+      url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer/0"
+    })
+    .queryAttachments({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      let retrieved_attachments = response;
+      let retrieved_keys = Object.keys(retrieved_attachments);
+
+      layer_hazard_map
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(async function (response) {
+          if (response.features?.length > 0) {
+            for (const feature of response.features) {
+              let index = retrieved_keys.find(function (key) { return (retrieved_attachments[key][0].parentGlobalId === feature.attributes.globalid); });
+
+              if (index) {
+                let attachments_array = retrieved_attachments[index];
+
+                layer_hazard_map
+                  .queryAttachments({
+                    where: `globalid = '${ feature.attributes.globalid }'`,
+                    returnGeometry: false,
+                    outFields: ["*"]
+                  })
+                  .then(async function (response) {
+                    let existing_attachments = response;
+                    let key = Object.keys(existing_attachments)[0];
+                    let working_array = existing_attachments[key]?.length > 0 ? existing_attachments[key].map(function (item) { return (item.name); }) : [];
+
+                    for (const attachment of attachments_array) {
+                      if (working_array.indexOf(attachment.name) < 0) {
+                        const form = new FormData();
+      
+                        var image = await fetch(attachment.url);
+                        var blob = await image.blob();
+                        var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
+      
+                        form.append("file", file);
+                        form.append("f", "json");
+      
+                        layer_hazard_map
+                          .addAttachment(feature, form)
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+                      }
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              }
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    new FeatureLayer({
+      url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/0"
+    })
+    .queryAttachments({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      let retrieved_attachments = response;
+      let retrieved_keys = Object.keys(retrieved_attachments);
+
+      layer_road_slopes_and_countermeasures
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(async function (response) {
+          if (response.features?.length > 0) {
+            for (const feature of response.features) {
+              let index = retrieved_keys.find(function (key) { return (retrieved_attachments[key][0].parentGlobalId === feature.attributes.globalid); });
+
+              if (index) {
+                let attachments_array = retrieved_attachments[index];
+
+                layer_road_slopes_and_countermeasures
+                  .queryAttachments({
+                    where: `globalid = '${ feature.attributes.globalid }'`,
+                    returnGeometry: false,
+                    outFields: ["*"]
+                  })
+                  .then(async function (response) {
+                    let existing_attachments = response;
+                    let key = Object.keys(existing_attachments)[0];
+                    let working_array = existing_attachments[key]?.length > 0 ? existing_attachments[key].map(function (item) { return (item.name); }) : [];
+
+                    for (const attachment of attachments_array) {
+                      if (working_array.indexOf(attachment.name) < 0) {
+                        const form = new FormData();
+      
+                        var image = await fetch(attachment.url);
+                        var blob = await image.blob();
+                        var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
+      
+                        form.append("file", file);
+                        form.append("f", "json");
+      
+                        layer_road_slopes_and_countermeasures
+                          .addAttachment(feature, form)
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+                      }
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              }
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }, []);
 
   function content_inventory_of_road_slopes (target) {
     const container = document.createElement("div");
@@ -2164,13 +2375,13 @@ function MapContextProvider (props) {
 
   const array_inventory_of_road_slope_structures_type_of_disaster = [
     ["Unclassified", [191, 191, 191, 1.00]],
-    ["Coastal Erosion", [0, 0, 255, 1.00]],
-    ["Debris Flow", [60, 0, 210, 1.00]],
-    ["River Erosion", [120, 0, 180, 1.00]],
-    ["Road Slip", [150, 0, 150, 1.00]],
-    ["Landslide", [180, 0, 120, 1.00]],
-    ["Rock Slope Collapse/Rock Fall", [210, 0, 60, 1.00]],
-    ["Soil Slope Collapse", [255, 0, 0, 1.00]]    
+    ["Coastal Erosion", [87, 117, 144, 1.00]],
+    ["Debris Flow", [67, 170, 139, 1.00]],
+    ["River Erosion", [144, 190, 109, 1.00]],
+    ["Road Slip", [249, 199, 79, 1.00]],
+    ["Landslide", [248, 150, 30, 1.00]],
+    ["Rock Slope Collapse/Rock Fall", [243, 114, 44, 1.00]],
+    ["Soil Slope Collapse", [249, 65, 68, 1.00]]  
   ];
 
   const group_inventory_of_road_slope_structures_type_of_disaster = new GroupLayer({
@@ -2217,21 +2428,21 @@ function MapContextProvider (props) {
 
   const array_inventory_of_road_slope_structures_type_of_road_slope_structures = [
     ["Unclassified", [191, 191, 191, 1.00]],
-    ["Gabions Revetment (Pile-Up Type)", [255, 255, 0, 1.00]],
-    ["Boulder Spur Dike (Type II)", [210, 255, 0, 1.00]],
-    ["Earthfill Dike (Type I)", [180, 255, 0, 1.00]],
-    ["Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", [150, 255, 0, 1.00]],
-    ["Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", [120, 255, 0, 1.00]],
-    ["Gabion/Mattress Slope Protection", [90, 255, 0, 1.00]],
-    ["Gravity Wall (Type I)", [60, 255, 0, 1.00]],
-    ["Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", [0, 255, 0, 1.00]],
-    ["Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", [0, 255, 60, 1.00]],
-    ["Concrete Slope Protection (Reinforced Concrete Type II)", [0, 255, 90, 1.00]],
-    ["Stone Masonry", [0, 255, 120, 1.00]],
-    ["Rubble Concrete Revetment (Spread Type I)", [0, 255, 150, 1.00]],
-    ["Grouted Riprap with Concrete Sheet Pile Foundation", [0, 255, 180, 1.00]],
-    ["Grouted Riprap with Steel Sheet Pile Foundation", [0, 255, 210, 1.00]],
-    ["Grouted Riprap", [0, 255, 255, 1.00]]
+    ["Gabions Revetment (Pile-Up Type)", [29, 47, 215, 1.00]],
+    ["Boulder Spur Dike (Type II)", [25, 106, 193, 1.00]],
+    ["Earthfill Dike (Type I)", [21, 151, 172, 1.00]],
+    ["Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", [38, 225, 167, 1.00]],
+    ["Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", [28, 209, 84, 1.00]],
+    ["Gabion/Mattress Slope Protection", [36, 188, 24, 1.00]],
+    ["Gravity Wall (Type I)", [87, 166, 20, 1.00]],
+    ["Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", [206, 224, 32, 1.00]],
+    ["Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", [204, 153, 27, 1.00]],
+    ["Concrete Slope Protection (Reinforced Concrete Type II)", [182, 75, 23, 1.00]],
+    ["Stone Masonry", [161, 19, 24, 1.00]],
+    ["Rubble Concrete Revetment (Spread Type I)", [220, 30, 122, 1.00]],
+    ["Grouted Riprap with Concrete Sheet Pile Foundation", [199, 26, 176, 1.00]],
+    ["Grouted Riprap with Steel Sheet Pile Foundation", [138, 22, 177, 1.00]],
+    ["Grouted Riprap", [138, 22, 177, 1.00]]
   ];
 
   const group_inventory_of_road_slope_structures_type_of_road_slope_structures = new GroupLayer({
@@ -2661,6 +2872,33 @@ function MapContextProvider (props) {
       index: 5
     });
 
+    const widget_attachments_container = document.createElement("div");
+
+    widget_attachments_container.id = "widget-attachments-container";
+
+    const widget_attachments = new Attachments({
+      view: view,
+      container: widget_attachments_container
+    });
+
+    const expand_attachments_container = document.createElement("div");
+
+    expand_attachments_container.id = "expand-attachments-container";
+
+    const expand_attachments = new Expand({
+      view: view,
+      group: "widgets",
+      container: expand_attachments_container,
+      content: widget_attachments,
+      placement: "bottom-end",
+      autoCollapse: true
+    });
+
+    view.ui.add(expand_attachments, {
+      position: "top-right",
+      index: 6
+    });
+
     const widget_print_container = document.createElement("div");
 
     widget_print_container.id = "widget-print-container";
@@ -2685,7 +2923,7 @@ function MapContextProvider (props) {
 
     view.ui.add(expand_print, {
       position: "top-right",
-      index: 6
+      index: 7
     });
 
     if (viewMode === "3D") {
@@ -2859,7 +3097,7 @@ function MapContextProvider (props) {
         
             layer_regions
               .queryFeatures({
-                where: `REGION = '${string}'`,
+                where: string === "Bangsamoro Autonomous Region in Muslim Mindanao" ? "REGION = 'Region X'" : `REGION = '${string}'`,
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })

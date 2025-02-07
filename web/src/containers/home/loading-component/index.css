@@ -26,7 +26,7 @@
     box-sizing: border-box;
     border-radius: calc(var(--default-size-small, 1px) * 4.00);
 
-    background: var(--calcite-color-foreground-1, rgba(255, 255, 255, 1.00));
+    background: var(--calcite-color-brand, rgba(0, 122, 194, 1.00));
 
     > :nth-child(1) {
       animation: rotate 1.00s linear 0.00s infinite;
@@ -39,9 +39,9 @@
       margin-bottom: calc(var(--default-size-medium, 12px) * 2.50);
       padding: var(--default-size-medium, 12px);
 
-      --mask: conic-gradient(var(--calcite-color-transparent, rgba(0, 0, 0, 0.00)), var(--calcite-color-text-1, rgba(21, 21, 21, 1.00))), linear-gradient(var(--calcite-color-text-1, rgba(21, 21, 21, 1.00)) 0 0) content-box;
+      --mask: conic-gradient(var(--calcite-color-transparent, rgba(0, 0, 0, 0.00)), var(--calcite-color-text-inverse, rgba(255, 255, 255, 1.00))), linear-gradient(var(--calcite-color-text-1, var(--calcite-color-text-inverse, rgba(255, 255, 255, 1.00))) 0 0) content-box;
 
-      background: var(--calcite-color-text-1, rgba(21, 21, 21, 1.00));
+      background: var(--calcite-color-text-inverse, rgba(255, 255, 255, 1.00));
       -webkit-mask: var(--mask);
       mask: var(--mask);
       -webkit-mask-composite: source-out;
@@ -50,7 +50,7 @@
 
     > :nth-child(2) {
       font: normal calc(var(--default-size-medium, 12px) * 4.00 / 3.00) var(--default-font-family, "Outfit", sans-serif);
-      color: var(--calcite-color-text-2, rgba(74, 74, 74, 1.00));
+      color: var(--calcite-color-text-inverse, rgba(255, 255, 255, 1.00));
     }
   }
 }
