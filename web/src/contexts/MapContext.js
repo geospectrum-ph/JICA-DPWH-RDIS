@@ -1568,7 +1568,7 @@ function MapContextProvider (props) {
   
   React.useEffect(function () {
     new FeatureLayer({
-      url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer/0"
+      url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0"
     })
     .queryAttachments({
       where: "1 = 1",
