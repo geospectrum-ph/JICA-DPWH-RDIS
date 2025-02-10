@@ -8,7 +8,7 @@ import "./index.css";
 export default function RoadSlopeInventory () {
   const {
     dataArray,
-    dataLoading, setDataLoading
+    dataLoading
   } = React.useContext(MainContext);
 
   const {
@@ -89,10 +89,14 @@ export default function RoadSlopeInventory () {
 
     if (list) {
       for (let item of list) {
-        if (item.firstElementChild) item.firstElementChild.className = "data-container data-container-details";
+        if (item.firstElementChild) {
+          item.firstElementChild.className = "data-container data-container-details";
+        }
       }
 
-      if (element.target) element.target.className = "data-container data-container-details selected";
+      if (element.target) {
+        element.target.className = "data-container data-container-details selected";
+      }
     }
   }
 

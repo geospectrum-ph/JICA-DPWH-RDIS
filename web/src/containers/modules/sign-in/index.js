@@ -1,7 +1,8 @@
 import * as React from "react";
+
 import { useNavigate } from "react-router-dom";
 
-import logo_DPWH from "../../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 
 import "./index.css";
 
@@ -13,7 +14,7 @@ export default function SignInPage () {
       <div>
         <div>
           <div>
-            <img src = { logo_DPWH } alt = "DPWH Logo"/>
+            <img src = { logo } alt = "DPWH Logo"/>
           </div>
           <div>
             <span>{ "ROAD DISASTER INVENTORY SYSTEM" }</span>

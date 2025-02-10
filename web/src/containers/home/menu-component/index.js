@@ -26,7 +26,7 @@ export default function MenuComponent () {
     
     setModuleSelected(index);
 
-    navigate(`/home/${modules[index].name.toLowerCase().split(" ").join("-")}`);
+    navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
   }
 
   React.useEffect(function () {
@@ -39,7 +39,7 @@ export default function MenuComponent () {
 
   return (
     <div id = "menu-component">
-      <div className = "toggle-button" onClick = { () => { setMenuComponentExpandedState(!menuComponentExpandedState) } }>
+      <div className = "toggle-button" onClick = { function () { setMenuComponentExpandedState(!menuComponentExpandedState); } }>
         {
           menuComponentExpandedState ?
             <span className = "material-symbols-outlined">{ "arrow_left" }</span> :
@@ -47,7 +47,7 @@ export default function MenuComponent () {
         }
       </div>
       <div>
-        <div onClick = { () => { setMenuComponentExpandedState(!menuComponentExpandedState) } }>
+        <div onClick = { function () { setMenuComponentExpandedState(!menuComponentExpandedState); } }>
           <a><img src = { logo_DPWH } alt = "DPWH Logo"/></a>
           { menuComponentExpandedState ? <span>{ "Road Disaster Information System" }</span> : null }
         </div>

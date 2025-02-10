@@ -81,7 +81,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -158,7 +158,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -259,7 +259,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -366,7 +366,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -387,7 +387,7 @@ function MapContextProvider (props) {
       ]
     })
     .then(function (response) {
-      if (response?.features?.length > 0) {
+      if (response?.features?.length > 0 && response.features[0]?.attributes.AADT_max) {
         setMaxAADT(response.features[0].attributes.AADT_max);
       }
       else {
@@ -491,7 +491,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -508,14 +508,14 @@ function MapContextProvider (props) {
     layers: array_terrain.map(function (category) {
       return (
         new FeatureLayer({
-          title: `${category[0]} Roads`,
+          title: `${ category[0] } Roads`,
           url: url_terrain,
           definitionExpression: category[0] === "Unclassified" ?
-            array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${category[0]}'`); }).join(" AND ") :
-            `terrain_ty = '${category[0]}'`,
+            array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${ category[0] }'`); }).join(" AND ") :
+            `terrain_ty = '${ category[0] }'`,
           renderer: {
             type: "simple",
-            label: `${category[0]} Terrain`,
+            label: `${ category[0] } Terrain`,
             symbol: {
               type: "simple-line",
               width: 2.00,
@@ -582,7 +582,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -599,14 +599,14 @@ function MapContextProvider (props) {
     layers: array_road_classification.map(function (category) {
       return (
         new FeatureLayer({
-          title: `${category[0]} Roads`,
+          title: `${ category[0] } Roads`,
           url: url_national_road_network,
           definitionExpression: category[0] === "Unclassified" ?
-            array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${category[0]}'`); }).join(" AND ") :
-            `ROAD_SEC_CLASS = '${category[0]}'`,
+            array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${ category[0] }'`); }).join(" AND ") :
+            `ROAD_SEC_CLASS = '${ category[0] }'`,
           renderer: {
             type: "simple",
-            label: `${category[0]} Road`,
+            label: `${ category[0] } Road`,
             symbol: {
               type: "simple-line",
               width: 1.00,
@@ -650,12 +650,18 @@ function MapContextProvider (props) {
 
   React.useEffect(function () {
     String.prototype.toProperCase = function () {
-      return (this.replace(/\w\S*/g, function (text) {
-        if (text.toLowerCase() === "of" || text.toLowerCase() === "na" || text.toLowerCase() === "ng" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
+      return (this.replace(/\w+\S|.\s/g, function (text) {
+        if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
           return (text.toLowerCase());
         }
         else if (text.includes("-")) {
           return (text.toLowerCase().split("-").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join("-"));
+        }
+        else if (text.includes(" & ")) {
+          return (text.toLowerCase().split(" & ").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
+        }
+        else if (text.includes("&")) {
+          return (text.toLowerCase().split("&").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
         }
         else {
           return (text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
@@ -948,7 +954,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1005,7 +1011,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1062,7 +1068,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1119,7 +1125,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1176,7 +1182,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1402,7 +1408,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1527,7 +1533,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1805,7 +1811,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1939,7 +1945,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -1992,14 +1998,14 @@ function MapContextProvider (props) {
     layers: array_road_slope_hazard_risks.map(function (category) {
       return (
         new FeatureLayer({
-          title: `Road Sections with ${category[0]} Road Slope Hazard Risk`,
+          title: `Road Sections with ${ category[0] } Road Slope Hazard Risk`,
           url: url_hazard_map,
           definitionExpression: category[0] === "Unclassified" ?
-            array_road_slope_hazard_risks.map(function (category) { return (category[0] === "Unclassified" ? null : `hazard_risk <> '${category[0]}'`); }).join(" AND ") :
-            `hazard_risk = '${category[0]}'`,
+            array_road_slope_hazard_risks.map(function (category) { return (category[0] === "Unclassified" ? null : `hazard_risk <> '${ category[0] }'`); }).join(" AND ") :
+            `hazard_risk = '${ category[0] }'`,
           renderer: {
             type: "simple",
-            label: `Road Section with ${category[0]} Road Slope Hazard Risk`,
+            label: `Road Section with ${ category[0] } Road Slope Hazard Risk`,
             symbol: {
               type: "simple-line",
               width: 6.00,
@@ -2055,7 +2061,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -2072,12 +2078,12 @@ function MapContextProvider (props) {
     layers: array_storm_surge_hazard_risks.map(function (category) {
       return (
         new FeatureLayer({
-          title: `Areas with ${category[0]} Storm Hazard Risk`,
+          title: `Areas with ${ category[0] } Storm Hazard Risk`,
           url: url_storm_surge_hazard_risks,
           definitionExpression: category[1],
           renderer: {
             type: "simple",
-            label: `Area with ${category[0]} Storm Surge Hazard Risk`,
+            label: `Area with ${ category[0] } Storm Surge Hazard Risk`,
             symbol: {
               type: "simple-fill",
               color: category[2],
@@ -2159,7 +2165,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -2181,15 +2187,15 @@ function MapContextProvider (props) {
     layers: array_calamities.map(function (category) {
       return (
         new FeatureLayer({
-          title: `${category[0]} Records`,
+          title: `${ category[0] } Records`,
           url: url_calamities,
           definitionExpression: category[0] === "Unclassified" ?
-            array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note != '${category[0]}'`); }).join(" AND ") :
-            `calamity_note = '${category[0]}'`,
-          definitionExpression: `calamity_note = '${category[0]}'`,
+            array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note != '${ category[0]}'` ); }).join(" AND ") :
+            `calamity_note = '${ category[0] }'`,
+          definitionExpression: `calamity_note = '${ category[0] }'`,
           renderer: {
             type: "simple",
-            label: `${category[0]} Record`,
+            label: `${ category[0] } Record`,
             symbol: {
               type: "simple-marker",
               style: "circle",
@@ -2262,7 +2268,7 @@ function MapContextProvider (props) {
       },
       {
         type: "attachments",
-        displayType: "list"
+        displayType: "auto"
       }
     ]);
   }
@@ -2279,15 +2285,15 @@ function MapContextProvider (props) {
     layers: array_station_limit_situation.map(function (category) {
       return (
         new FeatureLayer({
-          title: `${category[0]} Road Sections`,
+          title: `${ category[0] } Road Sections`,
           url: url_station_limit_situation,
           definitionExpression: category[0] === "Unclassified" ?
-            array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station != '${category[0]}'`); }).join(" AND ") :
-            `situation_note_station = '${category[0]}'`,
-          definitionExpression: `situation_note_station = '${category[0]}'`,
+            array_station_limit_situation.map(function (category) { return (category[0] === "Unclassified" ? null : `situation_note_station != '${ category[0] }'`); }).join(" AND ") :
+            `situation_note_station = '${ category[0] }'`,
+          definitionExpression: `situation_note_station = '${ category[0] }'`,
           renderer: {
             type: "simple",
-            label: `${category[0]} Road Section`,
+            label: `${ category[0] } Road Section`,
             symbol: {
               type: "simple-marker",
               style: "circle",
@@ -2342,16 +2348,16 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: category[0] === "Unclassified" ?
             "Road Slope Structure in an Unclassified Condition" :
-            `Road Slope Structure in ${category[0]} Condition`,
+            `Road Slope Structure in ${ category[0] } Condition`,
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_condition <> '${category[0]}'`); }).join(" AND ") :
-            `rsm_category = 'Inventory of Road Slope Structures' AND road_condition = '${category[0]}'`,
+            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_condition <> '${ category[0] }'`); }).join(" AND ") :
+            `rsm_category = 'Inventory of Road Slope Structures' AND road_condition = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
               "Road Slope Structure in an Unclassified Condition" :
-              `Road Slope Structure in ${category[0]} Condition`,
+              `Road Slope Structure in ${ category[0] } Condition`,
             symbol: {
               type: "simple-line",
               width: 3.00,
@@ -2396,8 +2402,8 @@ function MapContextProvider (props) {
               "Road Slope Structure Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${category[0]}'`); }).join(" AND ") :
-            `rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = '${category[0]}'`,
+            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${ category[0] }'`); }).join(" AND ") :
+            `rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
@@ -2452,16 +2458,16 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: category[0] === "Unclassified" ?
             "Road Slope Structure with an Unclassified Road Slope Structure Type" :
-            `Road Slope Structure with ${category[0]}`,
+            `Road Slope Structure with ${ category[0] }`,
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_type_of_road_slope_structures.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${category[0]}'`); }).join(" AND ") :
-            `rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = '${category[0]}'`,
+            "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_structures_type_of_road_slope_structures.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${ category[0] }'`); }).join(" AND ") :
+            `rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
               "Road Slope Structure with an Unclassified Road Slope Structure Type" :
-              `Road Slope Structure with ${category[0]}`,
+              `Road Slope Structure with ${ category[0] }`,
             symbol: {
               type: "simple-line",
               width: 2.00,
@@ -2508,8 +2514,8 @@ function MapContextProvider (props) {
               "Road Slope Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${category[0]}'`); }).join(" AND ") :
-            `rsm_category = 'Inventory of Road Slope' AND disaster_type = '${category[0]}'`,
+            "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${ category[0] }'`); }).join(" AND ") :
+            `rsm_category = 'Inventory of Road Slope' AND disaster_type = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
@@ -2564,16 +2570,16 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: category[0] === "Unclassified" ?
             "Road Slope with an Unclassified Road Slope Structure Type" :
-            `Road Slope with ${category[0]}`,
+            `Road Slope with ${ category[0] }`,
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_road_slope_structures.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${category[0]}'`); }).join(" AND ") :
-            `rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = '${category[0]}'`,
+            "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_road_slope_structures.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${ category[0] }'`); }).join(" AND ") :
+            `rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
               "Road Slope with an Unclassified Road Slope Structure Type" :
-              `Road Slope with ${category[0]}`,
+              `Road Slope with ${ category[0] }`,
             symbol: {
               type: "simple-line",
               width: 2.00,
@@ -2611,18 +2617,18 @@ function MapContextProvider (props) {
         new FeatureLayer({
           title: category[0] === "Unclassified" ?
             "Unclassified Potential Road Slope Project" :
-            `Potential Road Slope ${category[0]} Project`,
+            `Potential Road Slope ${ category[0] } Project`,
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work <> '${category[0]}'`); }).join(" AND ") :
+            "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work <> '${ category[0] }'`); }).join(" AND ") :
             category[0] === "Rehabilitation or Major Repair" ? 
               "rsm_category = 'Inventory of Road Slope' AND type_of_work <> 'Reconstruction' AND type_of_work <> 'Construction'" :
-              `rsm_category = 'Inventory of Road Slope' AND type_of_work = '${category[0]}'`,
+              `rsm_category = 'Inventory of Road Slope' AND type_of_work = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
               "Unclassified Potential Road Slope Project" :
-              `Potential Road Slope ${category[0]} Project`,
+              `Potential Road Slope ${ category[0] } Project`,
             symbol: {
               type: "simple-line",
               width: 3.00,
@@ -2789,7 +2795,7 @@ function MapContextProvider (props) {
             outFields: ["*"]
           })
           .then(function (response) {
-            save_file(event.item.title.replace(/ /g,"_") + ".json", response.features);
+            save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
           })
           .catch(function (error) {
             console.log(error);
@@ -3007,7 +3013,9 @@ function MapContextProvider (props) {
           if ((selectedFeature) && (view.popup.visible)) {
             view
               .when(function () {
-                if (selectedFeature.geometry?.extent) { view.goTo(selectedFeature.geometry.extent); }
+                if (selectedFeature.geometry?.extent) {
+                  view.goTo(selectedFeature.geometry.extent);
+                }
               })
               .catch(function (error) {
                 console.error(error);
@@ -3097,7 +3105,7 @@ function MapContextProvider (props) {
         
             layer_regions
               .queryFeatures({
-                where: string === "Bangsamoro Autonomous Region in Muslim Mindanao" ? "REGION = 'Region X'" : `REGION = '${string}'`,
+                where: string === "Bangsamoro Autonomous Region in Muslim Mindanao" ? "REGION = 'Region X'" : `REGION = '${ string }'`,
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
@@ -3119,18 +3127,18 @@ function MapContextProvider (props) {
           });
 
         const filter_upper = new FeatureFilter({
-          where: `REGION = '${string}'`
+          where: `REGION = '${ string }'`
         });
 
         const filter_lower = new FeatureFilter({
-          where: `region_name = '${string}'`
+          where: `region_name = '${ string }'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
                   layer.filter = filter_lower;
                 }
                 else {
@@ -3149,7 +3157,7 @@ function MapContextProvider (props) {
         
             layer_engineering_districts
               .queryFeatures({
-                where: `DEO = '${string}'`,
+                where: `DEO = '${ string }'`,
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
@@ -3171,18 +3179,18 @@ function MapContextProvider (props) {
           });
 
         const filter_upper = new FeatureFilter({
-          where: `DEO = '${string}'`
+          where: `DEO = '${ string }'`
         });
 
         const filter_lower = new FeatureFilter({
-          where: `deo_name = '${string}'`
+          where: `deo_name = '${ string }'`
         })
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
                   layer.filter = filter_lower;
                 }
                 else {
@@ -3201,7 +3209,7 @@ function MapContextProvider (props) {
         
             layer_legislative_districts
               .queryFeatures({
-                where: `CONG_DIST = '${string}'`,
+                where: `CONG_DIST = '${ string }'`,
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
@@ -3223,18 +3231,18 @@ function MapContextProvider (props) {
           });
 
         const filter_upper = new FeatureFilter({
-          where: `CONG_DIST = '${string}'`
+          where: `CONG_DIST = '${ string }'`
         });
 
         const filter_lower = new FeatureFilter({
-          where: `district_name = '${string}'`
+          where: `district_name = '${ string }'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
                   layer.filter = filter_lower;
                 }
                 else {
@@ -3248,10 +3256,10 @@ function MapContextProvider (props) {
       if (type === 4) {
         view
           .whenLayerView(layer_national_road_network)
-          .then(function (layerView) {
+          .then(function () {
             layer_national_road_network
               .queryFeatures({
-                where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`,
+                where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`,
                 returnGeometry: true,
                 outFields: ["OBJECTID"]
               })
@@ -3273,18 +3281,18 @@ function MapContextProvider (props) {
           });
 
         const filter_upper = new FeatureFilter({
-          where: `ROAD_ID LIKE '%${string}%' OR ROAD_NAME LIKE '%${string}%' OR SECTION_ID LIKE '%${string}%'`
+          where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`
         });
 
         const filter_lower = new FeatureFilter({
-          where: `road_id LIKE '%${string}%' OR road_name LIKE '%${string}%' OR section_id LIKE '%${string}%'`
+          where: `road_id LIKE '%${ string }%' OR road_name LIKE '%${ string }%' OR section_id LIKE '%${ string }%'`
         });
 
         if (view.layerViews?.items?.length > 0) {
           for (const group of view.layerViews.items) {
             if (group?.layerViews?.items?.length > 0) {
               for (const layer of group.layerViews.items) {
-                if (layer.layer.fields.map(function (field) { return (field.name) }).indexOf("REGION") < 0) {
+                if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
                   layer.filter = filter_lower;
                 }
                 else {

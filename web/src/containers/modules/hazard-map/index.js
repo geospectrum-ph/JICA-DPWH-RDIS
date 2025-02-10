@@ -74,10 +74,14 @@ export default function PotentialRoadSlopeProjects () {
 
     if (list) {
       for (let item of list) {
-        if (item.firstElementChild) item.firstElementChild.className = "data-container data-container-details";
+        if (item.firstElementChild) {
+          item.firstElementChild.className = "data-container data-container-details";
+        }
       }
 
-      if (element.target) element.target.className = "data-container data-container-details selected";
+      if (element.target) {
+        element.target.className = "data-container data-container-details selected";
+      }
     }
   }
 
