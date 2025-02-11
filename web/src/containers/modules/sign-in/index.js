@@ -45,9 +45,18 @@ export default function SignInPage () {
           <span><a href = "/#" target = "_blank" rel = "noreferrer">{ "Support" }</a></span>
         </div>
         <div>
-          <span>{ "RDIS © 2024" }</span>
+          <span>{ "RDIS © 2025" }</span>
         </div>
       </div>
     </div>
-  )
+  );
+
+  // return (
+  //   <div id = "login-container">
+  //     <div>
+  //       <img src = { logo } alt = "DPWH Logo"/>
+  //       <span>{ "Road Disaster Information System" }</span>
+  //     </div>
+  //   </div>
+  // );
 }

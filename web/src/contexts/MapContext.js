@@ -2878,33 +2878,6 @@ function MapContextProvider (props) {
       index: 5
     });
 
-    const widget_attachments_container = document.createElement("div");
-
-    widget_attachments_container.id = "widget-attachments-container";
-
-    const widget_attachments = new Attachments({
-      view: view,
-      container: widget_attachments_container
-    });
-
-    const expand_attachments_container = document.createElement("div");
-
-    expand_attachments_container.id = "expand-attachments-container";
-
-    const expand_attachments = new Expand({
-      view: view,
-      group: "widgets",
-      container: expand_attachments_container,
-      content: widget_attachments,
-      placement: "bottom-end",
-      autoCollapse: true
-    });
-
-    view.ui.add(expand_attachments, {
-      position: "top-right",
-      index: 6
-    });
-
     const widget_print_container = document.createElement("div");
 
     widget_print_container.id = "widget-print-container";
@@ -2929,7 +2902,7 @@ function MapContextProvider (props) {
 
     view.ui.add(expand_print, {
       position: "top-right",
-      index: 7
+      index: 6
     });
 
     if (viewMode === "3D") {
