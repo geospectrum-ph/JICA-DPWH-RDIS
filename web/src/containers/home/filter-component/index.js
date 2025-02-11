@@ -667,7 +667,7 @@ export default function FilterComponent () {
             return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO && feature.attributes.CONG_DIST === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.ROAD_ID.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.ROAD_NAME.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.SECTION_ID.toLowerCase().includes(object.QUERY.toLowerCase()));
+            return (feature.attributes.ROAD_ID.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.ROAD_NAME.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.SECTION_ID.toLowerCase().includes(object.QUERY?.toLowerCase()));
           }
         })
         .length
@@ -697,7 +697,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY.toLowerCase()));
+            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY?.toLowerCase()));
           }
         })
     ) {
@@ -812,7 +812,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY.toLowerCase()));
+            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY?.toLowerCase()));
           }
         })
     ) {
@@ -953,7 +953,7 @@ export default function FilterComponent () {
           return (data.attributes.region_name === (object?.REGION || filterL01Selected) && data.attributes.deo_name === (object?.DEO || filterL02Selected) && data.attributes.district_name === (object?.CONG_DIST || filterL03Selected));
         }
         else if (level === 4) {
-          return (data.attributes.road_id.toLowerCase().includes(object?.QUERY.toLowerCase()) || data.attributes.road_name.toLowerCase().includes(object?.QUERY.toLowerCase()) || data.attributes.section_id.toLowerCase().includes(object?.QUERY.toLowerCase()));
+          return (data.attributes.road_id.toLowerCase().includes(object?.QUERY?.toLowerCase()) || data.attributes.road_name.toLowerCase().includes(object?.QUERY?.toLowerCase()) || data.attributes.section_id.toLowerCase().includes(object?.QUERY?.toLowerCase()));
         }
         else {
           return (null);
