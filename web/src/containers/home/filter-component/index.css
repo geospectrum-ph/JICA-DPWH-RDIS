@@ -56,13 +56,15 @@
 
       display: block;
 
-      place-items: center center;
-      place-content: center center;
-
       box-sizing: border-box;
       padding: calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50)) calc((var(--default-size-medium, 12px) * 0.50) + calc(var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 12px) * 0.50);
 
       > * {
+        display: flex;
+        flex-flow: column nowrap;
+        place-items: center center;
+        place-content: center center;
+
         box-sizing: border-box;
         border-radius: calc(var(--default-size-small, 1px) * 4.00);
         padding: calc(var(--default-size-small, 1px) * 4.00);
