@@ -20,7 +20,7 @@
     position: relative;
 
     display: inline-block;
-    place-items: center stretch;
+    place-items: center center;
     place-content: center center;
 
     width: 100%;
@@ -55,6 +55,9 @@
       top: 0;
 
       display: block;
+
+      place-items: center center;
+      place-content: center center;
 
       box-sizing: border-box;
       padding: calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50)) calc((var(--default-size-medium, 12px) * 0.50) + calc(var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 12px) * 0.50);
