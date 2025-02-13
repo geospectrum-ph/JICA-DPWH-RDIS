@@ -2983,7 +2983,7 @@ function MapContextProvider (props) {
           return (view.popup?.selectedFeature);
         },
         function (selectedFeature) {
-          if ((selectedFeature) && (view.popup.visible)) {
+          if (selectedFeature && !view.loading && view.popup.visible) {
             view
               .when(function () {
                 if (selectedFeature.geometry?.extent) {
@@ -3011,7 +3011,7 @@ function MapContextProvider (props) {
 
     reactiveUtils.watch(
       function () {
-        if (view && module) {
+        if (view && !view.loading && module) {
           view
             .when(function () {
               while (view.map.layers.length > 0) {
@@ -3308,7 +3308,7 @@ function MapContextProvider (props) {
   function recenter_map (extent) {
     reactiveUtils.watch(
       function () {
-        if (view && extent) {
+        if (view && !view.loading && extent) {
           view
             .when(function () {
               view.goTo(extent);
@@ -3323,7 +3323,7 @@ function MapContextProvider (props) {
   function open_popup (features) {
     reactiveUtils.watch(
       function () {
-        if (view && features) {
+        if (view && !view.loading && features) {
           view
             .when(function () {
               view.openPopup({
@@ -3341,7 +3341,7 @@ function MapContextProvider (props) {
   function close_popup () {
     reactiveUtils.watch(
       function () {
-        if (view) {
+        if (view && !view.loading) {
           view
             .when(function () {
               view.popup.visible = false;
