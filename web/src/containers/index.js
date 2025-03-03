@@ -12,7 +12,7 @@ import RoadSlopeInventory from "./modules/road-inventory";
 import PotentialRoadSlopeProjects from "./modules/potential-road-slope-projects";
 import FundedRoadSlopeProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
-import Reports from "./modules/error";
+import Reports from "./modules/reports";
 import Settings from "./modules/error";
 
 import About from "./modules/error";
