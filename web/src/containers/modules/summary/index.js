@@ -3,6 +3,7 @@ import * as React from "react";
 import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
+import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
@@ -29,6 +30,14 @@ export default function Summary () {
     arrayRS01,
     arrayRS02
   } = React.useContext(MainContext);
+
+    const {
+      view_layer
+    } = React.useContext(MapContext);
+
+  React.useEffect(function () {
+    view_layer("summary");
+  }, []);
 
   const RADIAN = Math.PI / 180;
 

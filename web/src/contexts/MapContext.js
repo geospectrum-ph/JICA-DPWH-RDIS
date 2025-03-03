@@ -18,7 +18,6 @@ import Legend from "@arcgis/core/widgets/Legend.js";
 import LayerList from "@arcgis/core/widgets/LayerList.js";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery.js";
 import Editor from "@arcgis/core/widgets/Editor.js";
-import Attachments from "@arcgis/core/widgets/Attachments.js";
 import Print from "@arcgis/core/widgets/Print.js";
 import ScaleBar from "@arcgis/core/widgets/ScaleBar.js";
 
@@ -2979,7 +2978,7 @@ function MapContextProvider (props) {
       build_view();
 
       reactiveUtils.watch(
-        function () {
+        function () {                    
           return (view.popup?.selectedFeature);
         },
         function (selectedFeature) {
