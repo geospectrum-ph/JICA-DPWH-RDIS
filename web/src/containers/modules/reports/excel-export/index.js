@@ -1,39 +1,47 @@
-import React from 'react';
-import ExcelJS from 'exceljs';
-import { saveAs } from 'file-saver';
+import React from "react";
 
-import './index.css'
+import ExcelJS from "exceljs";
 
-export default function ExcelExport({data, fileName}) {
+import { saveAs } from "file-saver";
+
+import "./index.css";
+
+export default function ExcelExport({ data, fileName }) {
   const exportToExcel = async(e) => {
     e.preventDefault();
-    try{
+
+    try {
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Sheet 1')
+      const worksheet = workbook.addWorksheet("Sheet 1");
 
-      worksheet.columns = Object.keys(data[0]).map((key) => ({
-        header: key,
-        key: key,
-        width: 20
-      }))
+      worksheet.columns = Object
+        .keys(data[0])
+        .map(function (key) {
+          return ({
+            header: key,
+            key: key,
+            width: 20
+          });
+        });
 
-      data.forEach((item) => {
-        worksheet.addRow(item)
-      })
+      data.forEach(function (item) {
+        worksheet.addRow(item);
+      });
+
       const buffer = await workbook.xlsx.writeBuffer();
 
-      // Save the Excel file
       saveAs(new Blob([buffer]), `${fileName}.xlsx`);
-    } catch (error) {
-      console.error('Error exporting data to Excel:', error);
+    }
+    catch (error) {
+      console.error("Error exporting data to Excel: ", error);
     }
     
   };
 
 
   return (
-    <div>
-      <button class='export-button' onClick={exportToExcel}>Export {fileName} to Excel</button>
+    <div className = "export-button-container">
+      <button className = "export-button" onClick = { exportToExcel }>Export { fileName } to Excel</button>
     </div>
   );
 }

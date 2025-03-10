@@ -17,7 +17,7 @@ export default function SignInPage () {
             <img src = { logo } alt = "DPWH Logo"/>
           </div>
           <div>
-            <span>{ "ROAD DISASTER INVENTORY SYSTEM" }</span>
+            <span>{ "ROAD DISASTER INFORMATION SYSTEM" }</span>
           </div>
         </div>
         <div>
