@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { MainContext } from "../../../contexts/MainContext";
 import { MapContext } from "../../../contexts/MapContext";
 
-import logo_DPWH from "../../../assets/logo.png";
+import logo_DPWH from "../../../assets/logo_dpwh.png";
 
 import "./index.css";
 
@@ -48,7 +48,9 @@ export default function MenuComponent () {
       </div>
       <div>
         <div onClick = { function () { setMenuComponentExpandedState(!menuComponentExpandedState); } }>
-          <a><img src = { logo_DPWH } alt = "DPWH Logo"/></a>
+          <div>
+            <img src = { logo_DPWH } alt = "DPWH Logo"/>
+          </div>
           { menuComponentExpandedState ? <span>{ "Road Disaster Information System" }</span> : null }
         </div>
         <div>

@@ -43,13 +43,12 @@
         place-content: center end;
       
         width: 100%;
-        height: 50%;
+        height: 60%;
 
         box-sizing: border-box;
         gap: calc(var(--default-size-medium, 12px) * 2.00);
 
         img {
-          width: calc(var(--default-size-medium, 12px) * 8.00);
           height: calc(var(--default-size-medium, 12px) * 8.00);
         }
       }
@@ -64,7 +63,7 @@
         animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
         width: 100%;
-        height: 50%;
+        height: 40%;
 
         font: normal 800 calc(var(--default-size-medium, 12px) * 6.00) "Outfit", sans-serif;
         color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));

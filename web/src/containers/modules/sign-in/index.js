@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import logo from "../../../assets/logo.png";
+import logo_DPWH from "../../../assets/logo_dpwh.png";
+import logo_JICA from "../../../assets/logo_jica.png";
 
 import "./index.css";
 
@@ -14,7 +15,8 @@ export default function SignInPage () {
       <div>
         <div>
           <div>
-            <img src = { logo } alt = "DPWH Logo"/>
+            <img src = { logo_DPWH } alt = "DPWH Logo"/>
+            <img src = { logo_JICA } alt = "JICA Logo"/>
           </div>
           <div>
             <span>{ "ROAD DISASTER INFORMATION SYSTEM" }</span>

@@ -74,7 +74,7 @@
       line-height: var(--default-size-medium, 12px);
       color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
 
-      > a {
+      > * {
         display: flex;
         flex-flow: row nowrap;
         place-items: center center;
