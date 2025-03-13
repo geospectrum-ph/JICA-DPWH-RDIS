@@ -35,7 +35,7 @@ export default function MenuComponent () {
     view_layer("summary");
   }, []);
 
-  const [menuComponentExpandedState, setMenuComponentExpandedState] = React.useState(false);
+  const [menuComponentExpandedState, setMenuComponentExpandedState] = React.useState(true);
 
   return (
     <div id = "menu-component">

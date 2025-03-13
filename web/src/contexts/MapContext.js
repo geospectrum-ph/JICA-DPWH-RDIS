@@ -7,6 +7,8 @@ import * as reactiveUtils from "@arcgis/core/core/reactiveUtils.js";
 import Map from "@arcgis/core/Map.js";
 import MapView from "@arcgis/core/views/MapView.js";
 import SceneView from "@arcgis/core/views/SceneView.js";
+import Extent from "@arcgis/core/geometry/Extent.js";
+import SpatialReference from "@arcgis/core/geometry/SpatialReference.js";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import FeatureFilter from "@arcgis/core/layers/support/FeatureFilter.js";
 import GroupLayer from "@arcgis/core/layers/GroupLayer.js";
@@ -3297,10 +3299,6 @@ function MapContextProvider (props) {
           }
         }
       }
-    }
-
-    if (layer_national_road_network.fullExtent) {
-      view.goTo(layer_national_road_network.fullExtent);
     }
   }
 
