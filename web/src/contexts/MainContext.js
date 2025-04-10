@@ -52,6 +52,8 @@ function MainContextProvider (props) {
   const [filterL02Selected, setFilterL02Selected] = React.useState(null);
   const [filterL03Selected, setFilterL03Selected] = React.useState(null);
   const [filterL04Selected, setFilterL04Selected] = React.useState(null);
+  const [filterL05Selected, setFilterL05Selected] = React.useState(null);
+
 
   const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(null);
   const [totalRoadInventory, setTotalRoadInventory] = React.useState(null);
@@ -89,6 +91,7 @@ function MainContextProvider (props) {
         filterL02Selected, setFilterL02Selected,
         filterL03Selected, setFilterL03Selected, 
         filterL04Selected, setFilterL04Selected,
+        filterL05Selected, setFilterL05Selected,
 
         filteredRoadInventory, setFilteredRoadInventory,
         totalRoadInventory, setTotalRoadInventory,

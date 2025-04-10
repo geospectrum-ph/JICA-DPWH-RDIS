@@ -17,6 +17,7 @@ export default function FilterComponent () {
     filterL02Selected, setFilterL02Selected,
     filterL03Selected, setFilterL03Selected,
     filterL04Selected, setFilterL04Selected,
+    filterL05Selected, setFilterL05Selected,
 
     setFilteredRoadInventory,
     setTotalRoadInventory,
@@ -1196,10 +1197,56 @@ export default function FilterComponent () {
 
   return (
     <div id = "filter-component">
-      <div onClick = { function () { click_dropdown(0); } }>
-        <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterL04Selected); } } }/>
-        <div onClick = { function () { select_filter(4, filterL04Selected); } }>
-          <span className = "material-symbols-outlined">{ "search" }</span>
+      <div>
+        <div onClick = { function () { click_dropdown(0); } }>
+          <input type = "text" placeholder = "Search" value = { filterL04Selected ? filterL04Selected : "" } onChange = { function (event) { setFilterL04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterL04Selected); } } }/>
+          <div onClick = { function () { select_filter(4, filterL04Selected); } }>
+            <span className = "material-symbols-outlined">{ "search" }</span>
+          </div>
+        </div>
+        <div className = { "filter-menu-dropdown-inactive" }>
+        {/* <div className = { dropdown03Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(3); } }> */}
+          <div>
+            <div>{ filterL05Selected || "Year" }</div>
+            <div>
+              <span className = "material-symbols-outlined">{ dropdown03Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
+            </div>
+          </div>
+          <div>
+            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
+            {
+              filterArray && filterArray.length > 0 ?
+                [...new Set(filterArray.map(function (item) { if (filterL01Selected && filterL01Selected !== item.REGION) { return (null); } else if (filterL02Selected && filterL02Selected !== item.DEO) { return (null); } else { return (item.CONG_DIST); } }))]
+                  .sort(function (base, next) {
+                    if (base && next) {
+                      const base_string_array = /^(.*) ?\((.*)\)$/.exec(base);
+                      const base_order_string = /^(.*) DISTRICT$/.exec(base_string_array[2]);
+                      const base_parsed = base_string_array[1] + " (" + parseOrdinalStringToNumericalString(base_order_string[1]) + " DISTRICT)";
+
+                      const next_string_array = /^(.*) ?\((.*)\)$/.exec(next);
+                      const next_order_string = /^(.*) DISTRICT$/.exec(next_string_array[2]);
+                      const next_parsed = next_string_array[1] + " (" + parseOrdinalStringToNumericalString(next_order_string[1]) + " DISTRICT)";
+
+                      return (base_parsed.localeCompare(next_parsed));
+                    }
+                    else {
+                      return (0);
+                    }
+                  })
+                  .map(function (item, index) {
+                    if (item !== null) {
+                      return (
+                        <div key = { index } className = { filterL03Selected && filterL03Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item }</div>
+                      );
+                    }
+                    else {
+                      return (null);
+                    }
+                  })
+                :
+                null
+            }
+          </div>
         </div>
       </div>
       <div id = "filter-container">
