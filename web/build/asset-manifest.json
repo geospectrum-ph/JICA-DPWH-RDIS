@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.5ca406ea.css",
-    "main.js": "/static/js/main.d1c3fb4b.js",
+    "main.js": "/static/js/main.f660dc22.js",
     "static/js/239.174f5d86.chunk.js": "/static/js/239.174f5d86.chunk.js",
     "static/js/623.e78ac1c1.chunk.js": "/static/js/623.e78ac1c1.chunk.js",
     "static/js/1145.692c0f1f.chunk.js": "/static/js/1145.692c0f1f.chunk.js",
@@ -483,7 +483,7 @@
     "static/media/logo_jica.png": "/static/media/logo_jica.c17aadde187a01cb501e.png",
     "index.html": "/index.html",
     "main.5ca406ea.css.map": "/static/css/main.5ca406ea.css.map",
-    "main.d1c3fb4b.js.map": "/static/js/main.d1c3fb4b.js.map",
+    "main.f660dc22.js.map": "/static/js/main.f660dc22.js.map",
     "239.174f5d86.chunk.js.map": "/static/js/239.174f5d86.chunk.js.map",
     "623.e78ac1c1.chunk.js.map": "/static/js/623.e78ac1c1.chunk.js.map",
     "1145.692c0f1f.chunk.js.map": "/static/js/1145.692c0f1f.chunk.js.map",
@@ -908,6 +908,6 @@
   },
   "entrypoints": [
     "static/css/main.5ca406ea.css",
-    "static/js/main.d1c3fb4b.js"
+    "static/js/main.f660dc22.js"
   ]
 }

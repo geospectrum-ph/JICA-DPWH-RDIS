@@ -1574,76 +1574,76 @@ function MapContextProvider (props) {
 
   
   React.useEffect(function () {
-    // new FeatureLayer({
-    //   url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0"
-    // })
-    // .queryAttachments({
-    //   where: "1 = 1",
-    //   returnGeometry: false,
-    //   outFields: ["*"]
-    // })
-    // .then(function (response) {
-    //   let retrieved_attachments = response;
-    //   let retrieved_keys = Object.keys(retrieved_attachments);
+    new FeatureLayer({
+      url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0"
+    })
+    .queryAttachments({
+      where: "1 = 1",
+      returnGeometry: false,
+      outFields: ["*"]
+    })
+    .then(function (response) {
+      let retrieved_attachments = response;
+      let retrieved_keys = Object.keys(retrieved_attachments);
 
-    //   layer_hazard_map
-    //     .queryFeatures({
-    //       where: "1 = 1",
-    //       returnGeometry: false,
-    //       outFields: ["*"]
-    //     })
-    //     .then(async function (response) {
-    //       if (response.features?.length > 0) {
-    //         for (const feature of response.features) {
-    //           let index = retrieved_keys.find(function (key) { return (retrieved_attachments[key][0].parentGlobalId === feature.attributes.globalid); });
+      layer_hazard_map
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(async function (response) {
+          if (response.features?.length > 0) {
+            for (const feature of response.features) {
+              let index = retrieved_keys.find(function (key) { return (retrieved_attachments[key][0].parentGlobalId === feature.attributes.globalid); });
 
-    //           if (index) {
-    //             let attachments_array = retrieved_attachments[index];
+              if (index) {
+                let attachments_array = retrieved_attachments[index];
 
-    //             layer_hazard_map
-    //               .queryAttachments({
-    //                 where: `globalid = '${ feature.attributes.globalid }'`,
-    //                 returnGeometry: false,
-    //                 outFields: ["*"]
-    //               })
-    //               .then(async function (response) {
-    //                 let existing_attachments = response;
-    //                 let key = Object.keys(existing_attachments)[0];
-    //                 let working_array = existing_attachments[key]?.length > 0 ? existing_attachments[key].map(function (item) { return (item.name); }) : [];
+                layer_hazard_map
+                  .queryAttachments({
+                    where: `globalid = '${ feature.attributes.globalid }'`,
+                    returnGeometry: false,
+                    outFields: ["*"]
+                  })
+                  .then(async function (response) {
+                    let existing_attachments = response;
+                    let key = Object.keys(existing_attachments)[0];
+                    let working_array = existing_attachments[key]?.length > 0 ? existing_attachments[key].map(function (item) { return (item.name); }) : [];
 
-    //                 for (const attachment of attachments_array) {
-    //                   if (working_array.indexOf(attachment.name) < 0) {
-    //                     const form = new FormData();
+                    for (const attachment of attachments_array) {
+                      if (working_array.indexOf(attachment.name) < 0) {
+                        const form = new FormData();
       
-    //                     var image = await fetch(attachment.url);
-    //                     var blob = await image.blob();
-    //                     var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
+                        var image = await fetch(attachment.url);
+                        var blob = await image.blob();
+                        var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
       
-    //                     form.append("file", file);
-    //                     form.append("f", "json");
+                        form.append("file", file);
+                        form.append("f", "json");
       
-    //                     layer_hazard_map
-    //                       .addAttachment(feature, form)
-    //                       .catch(function (error) {
-    //                         console.log(error);
-    //                       });
-    //                   }
-    //                 }
-    //               })
-    //               .catch(function (error) {
-    //                 console.log(error);
-    //               });
-    //           }
-    //         }
-    //       }
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+                        layer_hazard_map
+                          .addAttachment(feature, form)
+                          .catch(function (error) {
+                            console.log(error);
+                          });
+                      }
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+              }
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
     new FeatureLayer({
       url: "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/0"
