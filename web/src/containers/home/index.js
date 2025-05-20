@@ -13,7 +13,8 @@ import "./index.css";
 
 function HomePage () {
   const {
-    dataLoading
+    dataLoading,
+    menuComponentOpen
   } = React.useContext(MainContext);
 
   const {
@@ -25,7 +26,7 @@ function HomePage () {
       <div>
         <MenuComponent/>
       </div>
-      <div>
+      <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
         <Outlet/>
       </div>
       <div>
@@ -36,7 +37,7 @@ function HomePage () {
           <MapComponent/>
         </div>
       </div>
-      <div className = { dataLoading ? "loading-modal-active" : "loading-modal-hidden" }>
+      <div className = { dataLoading ? "loading-component-visible" : "loading-component-hidden" }>
         <LoadingComponent/>
       </div>
     </div>

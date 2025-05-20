@@ -27,8 +27,16 @@
 
   /* Outlet */
   > :nth-child(2) {
-    width: auto;
-    height: 100%;
+    &.outlet-hidden {
+      display: none;
+    }
+
+    &.outlet-visible {
+      display: flex;
+
+      width: auto;
+      height: 100%;
+    }
   }
 
   > :nth-child(3) {
@@ -63,11 +71,11 @@
     width: 100%;
     height: 100%;
 
-    &.loading-modal-active {
+    &.loading-component-visible {
       display: block;
     }
 
-    &.loading-modal-hidden {
+    &.loading-component-hidden {
       display: none;
     }
   }

@@ -7,20 +7,18 @@
   width: 100%;
   height: 100%;
 
-  /* background-image: url("../../../assets/background.svg");
-  background-size: cover; */
-
   /* Main Interface */
   > :nth-child(1) {
     display: flex;
     flex-flow: column nowrap;
     place-items: center center;
-    place-content: center flex-start;
+    place-content: center center;
   
     flex: 1 1 auto;
 
-    width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 4.00);
+    gap: calc(var(--default-size-medium, 12px) * 4.00);
 
     /* Title Container */
     > :nth-child(1) {
@@ -28,25 +26,16 @@
       flex-flow: column nowrap;
       place-content: center center;
       place-items: center center;
-    
-      width: 100%;
-      height: 50%;
-
-      box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 12px) * 4.00);
 
       /* Logo Container */
       > :nth-child(1) {
         display: flex;
         flex-flow: row nowrap;
-        place-items: start center;
-        place-content: center end;
-      
-        width: 100%;
-        height: 60%;
+        place-items: center center;
+        place-content: center center;
 
         box-sizing: border-box;
-        gap: calc(var(--default-size-medium, 12px) * 2.00);
+        padding: calc(var(--default-size-medium, 12px) * 4.00);
 
         img {
           height: calc(var(--default-size-medium, 12px) * 8.00);
@@ -56,23 +45,43 @@
       /* Title */
       > :nth-child(2) {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: column nowrap;
         place-items: center center;
         place-content: center center;
 
-        animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+        box-sizing: border-box;
+        gap: calc(var(--default-size-medium, 12px) * 1.00);
 
-        width: 100%;
-        height: 40%;
+        > :nth-child(1) {
+          display: flex;
+          flex-flow: row nowrap;
+          place-content: center center;
+          place-items: center center;
 
-        font: normal 800 calc(var(--default-size-medium, 12px) * 6.00) "Outfit", sans-serif;
-        color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-        text-align: center;
-      }
+          animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+          
+          box-sizing: border-box;
+          gap: calc(var(--default-size-medium, 12px) * 0.50);
 
-      @media screen and (orientation: portrait) {
+          font: normal 600 calc(var(--default-size-medium, 12px) * 2.00) "Outfit", sans-serif;
+          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+          text-align: center;
+        }
+
         > :nth-child(2) {
-          font: normal 800 calc(var(--default-size-medium, 12px) * 3.00) "Outfit", sans-serif;
+          display: flex;
+          flex-flow: row nowrap;
+          place-content: center center;
+          place-items: center center;
+
+          animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.5s;
+          
+          box-sizing: border-box;
+          gap: calc(var(--default-size-medium, 12px) * 1.50);
+
+          font: normal 800 calc(var(--default-size-medium, 12px) * 6.00) "Outfit", sans-serif;
+          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+          text-align: center;
         }
       }
     }
@@ -83,12 +92,6 @@
       flex-flow: column nowrap;
       place-items: center center;
       place-content: center flex-start;
-      
-      width: 100%;
-      height: 50%;
-
-      box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 12px) * 2.00);
 
       /* Input Fields */
       > :nth-child(1), > :nth-child(2) {
@@ -115,7 +118,7 @@
           width: calc(var(--default-size-large, 360px) * 0.25);
           height: auto;
   
-          font: normal 400 calc(var(--default-size-medium, 12px) * 1.50) "Outfit", sans-serif;
+          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
         }
   
         input {
@@ -126,7 +129,7 @@
           border-radius: calc(var(--default-size-small, 1px) * 4.00);
           padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 12px);
   
-          font: normal 400 calc(var(--default-size-medium, 12px) * 1.50) "Outfit", sans-serif;
+          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
           color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
         }
       }
@@ -137,19 +140,14 @@
         flex-flow: row nowrap;
         place-items: center center;
         place-content: center center;
-  
+
         box-sizing: border-box;
-        padding: var(--default-size-medium, 12px);
-  
+        padding: calc(var(--default-size-medium, 12px) * 2.00);
+
         > span {
-          box-sizing: border-box;
-          margin: var(--default-size-medium, 12px);
-          border-radius: calc(var(--default-size-small, 1px) * 4.00);
-          padding: var(--default-size-medium, 12px);
-  
           cursor: pointer;
   
-          font-weight: bold;
+          font: normal 600 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
           text-align: center;
   
           &:hover {
@@ -203,6 +201,7 @@
         height: 100%;
 
         > a {
+          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
           text-decoration: none;
           color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
@@ -227,6 +226,100 @@
 
       box-sizing: border-box;
       padding: calc(var(--default-size-medium, 12px) * 2.00);
+
+      font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+    }
+  }
+
+  @media screen and (max-width: 1496px) {
+    > :nth-child(1) {
+      > :nth-child(1) {
+        > :nth-child(2) {
+          > :nth-child(2) {
+            display: flex;
+            flex-flow: column nowrap;
+            place-content: center center;
+            place-items: center center;
+
+            box-sizing: border-box;
+            gap: 0;
+          }
+        }
+      }
+    }
+  }
+
+    @media screen and (max-width: 1066px) {
+    > :nth-child(1) {
+      > :nth-child(1) {
+        > :nth-child(2) {
+          > :nth-child(1) {
+            display: flex;
+            flex-flow: column nowrap;
+            place-content: center center;
+            place-items: center center;
+
+            box-sizing: border-box;
+            gap: 0;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 905px) {
+    > :nth-child(1) {
+      > :nth-child(1) {
+        > :nth-child(2) {
+          > :nth-child(1) {
+            display: flex;
+            flex-flow: row nowrap;
+            place-content: center center;
+            place-items: center center;
+
+            box-sizing: border-box;
+            gap: calc(var(--default-size-medium, 12px) * 0.25);
+
+            font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+          }
+
+          > :nth-child(2) {
+            font: normal 800 calc(var(--default-size-medium, 12px) * 4.00) "Outfit", sans-serif;
+          }
+        }
+      }
+
+      > :nth-child(2) {
+        > :nth-child(1), > :nth-child(2) {
+          label {
+            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+          }
+  
+          input {
+            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+          }
+        }
+
+        > :nth-child(3) {
+          > span {
+            font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+          }
+        }
+      }
+    }
+
+    > :nth-child(2) {
+      > :nth-child(1) {
+        > :nth-child(odd) {
+          > a {
+            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+          }
+        }
+      }
+
+      > :nth-child(2) {
+        font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+      }
     }
   }
 }
@@ -241,44 +334,3 @@
     transform: translate(0px, 0px);
   }
 }
-
-/* #login-container {
-  display: flex;
-  flex-flow: column nowrap;
-  place-content: center center;
-  place-items: center center;
-
-  width: 100%;
-  height: 100%;
-
-  > :nth-child(1) {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    box-sizing: border-box;
-    box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;  
-    border-radius: calc(var(--default-size-small, 1px) * 4.00);
-    padding: calc(var(--default-size-medium, 12px) * 2.00);
-    gap: calc(var(--default-size-medium, 12px) * 2.00);
-
-    img {
-      width: calc(var(--default-size-medium, 12px) * 4.50);
-      height: calc(var(--default-size-medium, 12px) * 4.50);
-    }
-  
-    > :nth-child(2) {
-      display: flex;
-      flex-flow: column nowrap;
-      place-items: center center;
-      place-content: center center;
-  
-      width: auto;
-      height: auto;
-  
-      font: 800 calc(var(--default-size-medium, 12px) * 4.00) var(--default-font-family, "Outfit", sans-serif);
-      text-transform: uppercase;
-    }
-  }
-} */

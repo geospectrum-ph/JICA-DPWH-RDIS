@@ -3,7 +3,6 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import logo_DPWH from "../../../assets/logo_dpwh.png";
-import logo_JICA from "../../../assets/logo_jica.png";
 
 import "./index.css";
 
@@ -16,10 +15,16 @@ export default function SignInPage () {
         <div>
           <div>
             <img src = { logo_DPWH } alt = "DPWH Logo"/>
-            <img src = { logo_JICA } alt = "JICA Logo"/>
           </div>
           <div>
-            <span>{ "ROAD DISASTER INFORMATION SYSTEM" }</span>
+            <div>
+              <span>{ "Project for Road Disaster Preventions and" }</span>
+              <span>{ "Other Countermeasures on Mountainous Roads" }</span>
+            </div>
+            <div>
+              <span>{ "ROAD DISASTER" }</span>
+              <span>{ "INFORMATION SYSTEM" }</span>
+            </div>
           </div>
         </div>
         <div>
@@ -38,13 +43,13 @@ export default function SignInPage () {
       </div>
       <div>
         <div>
-          <span><a href = "/#" target = "_blank" rel = "noreferrer">{ "Terms" }</a></span>
+          <span><a href = "/#" target = "_blank" rel = "noopener noreferrer">{ "Terms" }</a></span>
           <span>{ "•" }</span>
-          <span><a href = "/#" target = "_blank" rel = "noreferrer">{ "Privacy" }</a></span>
+          <span><a href = "/#" target = "_blank" rel = "noopener noreferrer">{ "Privacy" }</a></span>
           <span>{ "•" }</span>
-          <span><a href = "/#" target = "_blank" rel = "noreferrer">{ "Documentation" }</a></span>
+          <span><a href = "/#" target = "_blank" rel = "noopener noreferrer">{ "Documentation" }</a></span>
           <span>{ "•" }</span>
-          <span><a href = "/#" target = "_blank" rel = "noreferrer">{ "Support" }</a></span>
+          <span><a href = "mailto:dpwhitsd@dpwh.gov.ph" target = "_blank" rel = "noopener noreferrer">{ "Support" }</a></span>
         </div>
         <div>
           <span>{ "RDIS © 2025" }</span>
@@ -52,13 +57,4 @@ export default function SignInPage () {
       </div>
     </div>
   );
-
-  // return (
-  //   <div id = "login-container">
-  //     <div>
-  //       <img src = { logo } alt = "DPWH Logo"/>
-  //       <span>{ "Road Disaster Information System" }</span>
-  //     </div>
-  //   </div>
-  // );
 }

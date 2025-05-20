@@ -5,7 +5,7 @@ import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
-export default function PotentialRoadSlopeProjects () {
+export default function RoadSlopeHazards () {
   const {
     dataArray,
     dataLoading

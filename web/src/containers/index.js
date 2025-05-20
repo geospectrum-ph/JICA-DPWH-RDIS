@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import { Routes, Route } from "react-router-dom";
 
 import SignIn from "./modules/sign-in";
@@ -7,10 +5,10 @@ import SignIn from "./modules/sign-in";
 import Home from "./home";
 
 import Summary from "./modules/summary";
-import HazardMap from "./modules/hazard-map";
-import RoadSlopeInventory from "./modules/road-inventory";
-import PotentialRoadSlopeProjects from "./modules/potential-road-slope-projects";
-import FundedRoadSlopeProjects from "./modules/error";
+import RoadSlopeHazards from "./modules/road-slope-hazards";
+import RoadSlopeInventory from "./modules/road-slope-inventory";
+import PotentialRoadSlopeProtectionProjects from "./modules/potential-road-slope-protection-projects";
+import FundedRoadSlopeProtectionProjects from "./modules/error";
 import ProposalForFunding from "./modules/error";
 import Reports from "./modules/reports";
 import Settings from "./modules/error";
@@ -32,10 +30,10 @@ export default function App() {
           <Route index element = { <SignIn/> }/>
           <Route path = "home" element = { <Home/> }>
             <Route path = "summary" element = { <Summary/> }/>
-            <Route path = "hazard-map" element = { <HazardMap/> }/>
+            <Route path = "road-slope-hazards" element = { <RoadSlopeHazards/> }/>
             <Route path = "road-slope-inventory" element = { <RoadSlopeInventory/> }/>
-            <Route path = "potential-road-slope-projects" element = { <PotentialRoadSlopeProjects/> }/>
-            <Route path = "funded-road-slope-projects" element = { <FundedRoadSlopeProjects/> }/>
+            <Route path = "potential-road-slope-protection-projects" element = { <PotentialRoadSlopeProtectionProjects/> }/>
+            <Route path = "funded-road-slope-protection-projects" element = { <FundedRoadSlopeProtectionProjects/> }/>
             <Route path = "proposal-for-funding" element = { <ProposalForFunding/> }/>
             <Route path = "reports" element = { <Reports/> }/>
             <Route path = "settings" element = { <Settings/> }/>

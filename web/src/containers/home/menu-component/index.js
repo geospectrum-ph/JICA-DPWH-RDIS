@@ -13,6 +13,7 @@ export default function MenuComponent () {
   const navigate = useNavigate();
   
   const {
+    menuComponentOpen, setMenuComponentOpen,
     modules,
     moduleSelected, setModuleSelected
   } = React.useContext(MainContext);
@@ -35,23 +36,21 @@ export default function MenuComponent () {
     view_layer("summary");
   }, []);
 
-  const [menuComponentExpandedState, setMenuComponentExpandedState] = React.useState(true);
-
   return (
-    <div id = "menu-component">
-      <div className = "toggle-button" onClick = { function () { setMenuComponentExpandedState(!menuComponentExpandedState); } }>
+    <div id = "menu-component" className = { menuComponentOpen ? "menu-component-open" : "menu-component-closed" }>
+      <div className = "toggle-button" onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
         {
-          menuComponentExpandedState ?
+          menuComponentOpen ?
             <span className = "material-symbols-outlined">{ "arrow_left" }</span> :
             <span className = "material-symbols-outlined">{ "arrow_right" }</span>
         }
       </div>
       <div>
-        <div onClick = { function () { setMenuComponentExpandedState(!menuComponentExpandedState); } }>
+        <div onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
           <div>
             <img src = { logo_DPWH } alt = "DPWH Logo"/>
           </div>
-          { menuComponentExpandedState ? <span>{ "Road Disaster Information System" }</span> : null }
+          { menuComponentOpen ? <span>{ "Road Disaster Information System" }</span> : null }
         </div>
         <div>
           {
@@ -59,7 +58,7 @@ export default function MenuComponent () {
               return (
                 <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
                   <span className = "material-symbols-outlined">{ module.logo }</span>
-                  { menuComponentExpandedState ? <span>{ module.name }</span> : null }
+                  { menuComponentOpen ? <span>{ module.name }</span> : null }
                 </div>
               );
             })
@@ -68,11 +67,11 @@ export default function MenuComponent () {
         <div>
           <div>
             <span className = "material-symbols-outlined">{ "settings" }</span>
-            { menuComponentExpandedState ? <span>{ "Settings" }</span> : null }
+            { menuComponentOpen ? <span>{ "Settings" }</span> : null }
           </div>
           <div onClick = { function () { navigate("/"); } }>
             <span className = "material-symbols-outlined">{ "move_item" }</span>
-            { menuComponentExpandedState ? <span>{ "Log Out" }</span> : null }
+            { menuComponentOpen ? <span>{ "Log Out" }</span> : null }
           </div>
         </div>
       </div>
