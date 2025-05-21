@@ -12,7 +12,7 @@ export default function RoadSlopeHazards () {
   } = React.useContext(MainContext);
 
   const {
-    layer_hazard_map,
+    layer_road_slope_hazards,
 
     view_layer, recenter_map, open_popup, close_popup
   } = React.useContext(MapContext);
@@ -92,7 +92,7 @@ export default function RoadSlopeHazards () {
     function find_road (value) {
       const expression = "globalid = '" + value + "'";
   
-      layer_hazard_map
+      layer_road_slope_hazards
         .queryFeatures({
           where: expression || "1 = 0",
           returnGeometry: true,
