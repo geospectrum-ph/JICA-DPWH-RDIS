@@ -87,6 +87,11 @@
           width: calc(var(--default-size-medium, 12px) * 2.00);
           height: calc(var(--default-size-medium, 12px) * 2.00);
         }
+
+        &.title-container {
+          width: 354px;
+          height: auto;
+        }
       }
     }
 

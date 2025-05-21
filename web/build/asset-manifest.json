@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.5ca406ea.css",
-    "main.js": "/static/js/main.f660dc22.js",
+    "main.css": "/static/css/main.7341e8ef.css",
+    "main.js": "/static/js/main.db396cb4.js",
     "static/js/239.174f5d86.chunk.js": "/static/js/239.174f5d86.chunk.js",
     "static/js/623.e78ac1c1.chunk.js": "/static/js/623.e78ac1c1.chunk.js",
     "static/js/1145.692c0f1f.chunk.js": "/static/js/1145.692c0f1f.chunk.js",
@@ -480,10 +480,9 @@
     "static/js/7356.9dedd75a.chunk.js": "/static/js/7356.9dedd75a.chunk.js",
     "static/js/9031.bd515136.chunk.js": "/static/js/9031.bd515136.chunk.js",
     "static/media/logo_dpwh.png": "/static/media/logo_dpwh.05d7de4a1413dc7632c3.png",
-    "static/media/logo_jica.png": "/static/media/logo_jica.c17aadde187a01cb501e.png",
     "index.html": "/index.html",
-    "main.5ca406ea.css.map": "/static/css/main.5ca406ea.css.map",
-    "main.f660dc22.js.map": "/static/js/main.f660dc22.js.map",
+    "main.7341e8ef.css.map": "/static/css/main.7341e8ef.css.map",
+    "main.db396cb4.js.map": "/static/js/main.db396cb4.js.map",
     "239.174f5d86.chunk.js.map": "/static/js/239.174f5d86.chunk.js.map",
     "623.e78ac1c1.chunk.js.map": "/static/js/623.e78ac1c1.chunk.js.map",
     "1145.692c0f1f.chunk.js.map": "/static/js/1145.692c0f1f.chunk.js.map",
@@ -907,7 +906,7 @@
     "9031.bd515136.chunk.js.map": "/static/js/9031.bd515136.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5ca406ea.css",
-    "static/js/main.f660dc22.js"
+    "static/css/main.7341e8ef.css",
+    "static/js/main.db396cb4.js"
   ]
 }

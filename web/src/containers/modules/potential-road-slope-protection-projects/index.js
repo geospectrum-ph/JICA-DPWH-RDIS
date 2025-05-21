@@ -18,7 +18,7 @@ export default function PotentialRoadSlopeProtectionProjects () {
   } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("potential-road-slope-projects");
+    view_layer("potential-road-slope-protection-projects");
   }, []);
 
   const sublevels = [
@@ -69,7 +69,7 @@ export default function PotentialRoadSlopeProtectionProjects () {
   }
 
   function changeSelected (element) {
-    const list = document.getElementById("potential-road-slope-projects-container").getElementsByClassName("data-container-details");
+    const list = document.getElementById("potential-road-slope-protection-projects-container").getElementsByClassName("data-container-details");
 
     if (list) {
       for (let item of list) {
@@ -198,10 +198,10 @@ export default function PotentialRoadSlopeProtectionProjects () {
   }
 
   return (
-    <div id = "potential-road-slope-projects-container">
+    <div id = "potential-road-slope-protection-projects-container">
       <div>
         <div>
-          <span>{ "Potential Road Slope Projects Inventory" }</span>
+          <span>{ "Potential Road Slope Protection Projects Inventory" }</span>
         </div>
       </div>
       <div>
@@ -211,12 +211,12 @@ export default function PotentialRoadSlopeProtectionProjects () {
               <div className = { "data-container" }>
                 <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
                   <span className = "material-symbols-outlined">{ "remove" }</span>
-                  <span>{ "Road Slope Projects" }</span>
+                  <span>{ "Road Slope Protection Projects" }</span>
                 </div>
                 <div className = { "data-container-hidden" }>
                   <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
                     <span className = "material-symbols-outlined">{ "add" }</span>
-                    <span>{ "Type of Work" }</span>
+                    <span>{ "Types of Work" }</span>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>

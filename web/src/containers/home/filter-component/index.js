@@ -13,32 +13,32 @@ export default function FilterComponent () {
 
     moduleSelected,
 
+    setArrayRoadSlopeHazards,
+    
+    setArrayRoadSlopesTypeOfDisaster,
+    setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
+    
+    setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
+    setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
+    setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
+
     filterLevel01Selected, setFilterLevel01Selected,
     filterLevel02Selected, setFilterLevel02Selected,
     filterLevel03Selected, setFilterLevel03Selected,
     filterLevel04Selected, setFilterLevel04Selected,
     filterLevel05Selected, setFilterLevel05Selected,
 
-    setFilteredRoadInventory,
     setTotalRoadInventory,
+    setFilteredRoadInventory,
 
-    setFilteredRoadSlopeInventory,
     setTotalRoadSlopeInventory,
+    setFilteredRoadSlopeInventory,
 
-    setFilteredExistingRoadSlopeProtectionStructures,
     setTotalExistingRoadSlopeProtectionStructures,
+    setFilteredExistingRoadSlopeProtectionStructures,
   
-    setFilteredNonExistingRoadSlopeProtectionStructures,
     setTotalNonExistingRoadSlopeProtectionStructures,
-  
-    setArrayRoadSlopeHazards,
-    
-    setArrayRoadSlopesTypeOfDisaster,
-    setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
-    
-    setArrayRoadSlopeProtectionStructuresRoadSlopeCondition,
-    setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
-    setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure
+    setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
   
   const {
@@ -236,7 +236,7 @@ export default function FilterComponent () {
     }
   ];
 
-  const arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer = [
+  const arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer = [
     {
       name: "Good",
       total: 0,
@@ -438,12 +438,12 @@ export default function FilterComponent () {
         if (response?.features) {
           setDataSourceBuffer01(response.features);
 
-          setFilteredRoadInventory(response.features.length);
           setTotalRoadInventory(response.features.length);
+          setFilteredRoadInventory(response.features.length);
         }
         else {
-          setFilteredRoadInventory(0);
           setTotalRoadInventory(0);
+          setFilteredRoadInventory(0);
         }
       })
       .then(function () {
@@ -517,7 +517,7 @@ export default function FilterComponent () {
           let arrayRoadSlopesTypeOfDisasterBuffer_ = arrayRoadSlopesTypeOfDisasterBuffer;
           let arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer;
 
-          let arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_ = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer;
+          let arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
 
@@ -559,19 +559,19 @@ export default function FilterComponent () {
             else if (feature.attributes.rsm_category === "Inventory of Road Slope Structures") {
               roadSlopeProtectionStructuresCounter++;
               
-              if (arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
-                let index = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.length - 1;
-                let value = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total;
+              if (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
+                let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.length - 1;
+                let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
 
-                arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total = value + 1;
-                arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].filtered = value + 1;
+                arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
+                arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
               }
               else {
-                let index = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
-                let value = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total;
+                let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
+                let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
 
-                arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total = value + 1;
-                arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].filtered = value + 1;
+                arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
+                arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
               }
 
               if (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
@@ -606,18 +606,18 @@ export default function FilterComponent () {
             }
           }
 
-          setTotalNonExistingRoadSlopeProtectionStructures(roadSlopesCounter);
           setTotalExistingRoadSlopeProtectionStructures(roadSlopeProtectionStructuresCounter);
-
-          setFilteredNonExistingRoadSlopeProtectionStructures(roadSlopesCounter);
           setFilteredExistingRoadSlopeProtectionStructures(roadSlopeProtectionStructuresCounter);
 
-          setArrayRoadSlopeProtectionStructuresRoadSlopeCondition(arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_);
-          setArrayRoadSlopeProtectionStructuresTypeOfDisaster(arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_);
-          setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
+          setTotalNonExistingRoadSlopeProtectionStructures(roadSlopesCounter);
+          setFilteredNonExistingRoadSlopeProtectionStructures(roadSlopesCounter);
 
           setArrayRoadSlopesTypeOfDisaster(arrayRoadSlopesTypeOfDisasterBuffer_);
           setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure(arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_);
+
+          setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_);
+          setArrayRoadSlopeProtectionStructuresTypeOfDisaster(arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_);
+          setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
         }
         else {
           setTotalRoadSlopeInventory(0);
@@ -718,7 +718,7 @@ export default function FilterComponent () {
     let arrayRoadSlopesTypeOfDisasterBuffer_ = arrayRoadSlopesTypeOfDisasterBuffer;
     let arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer;
 
-    let arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_ = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer;
+    let arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer;
     let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
     let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
     
@@ -777,19 +777,19 @@ export default function FilterComponent () {
       else if (feature.attributes.rsm_category === "Inventory of Road Slope Structures") {
         counterExistingRoadSlopeProtectionStructures++;
 
-        if (arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
-          let index = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.length - 1;
-          let value = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total;
+        if (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
+          let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.length - 1;
+          let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
 
-          arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].filtered = value + 1;
+          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
+          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
         }
         else {
-          let index = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
-          let value = arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total;
+          let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
+          let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
 
-          arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_[index].filtered = value + 1;
+          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
+          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
         }
 
         if (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
@@ -829,7 +829,7 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures(counterNonExistingRoadSlopeProtectionStructures);
     setFilteredExistingRoadSlopeProtectionStructures(counterExistingRoadSlopeProtectionStructures);
 
-    setArrayRoadSlopeProtectionStructuresRoadSlopeCondition(arrayRoadSlopeProtectionStructuresRoadSlopeConditionBuffer_);
+    setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_);
     setArrayRoadSlopeProtectionStructuresTypeOfDisaster(arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_);
     setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
     setArrayRoadSlopesTypeOfDisaster(arrayRoadSlopesTypeOfDisasterBuffer_);

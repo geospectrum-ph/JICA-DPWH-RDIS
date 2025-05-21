@@ -14,6 +14,7 @@ export default function MenuComponent () {
   
   const {
     menuComponentOpen, setMenuComponentOpen,
+
     modules,
     moduleSelected, setModuleSelected
   } = React.useContext(MainContext);
@@ -28,6 +29,8 @@ export default function MenuComponent () {
     setModuleSelected(index);
 
     navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
+
+    setMenuComponentOpen(!menuComponentOpen);
   }
 
   React.useEffect(function () {
@@ -50,13 +53,13 @@ export default function MenuComponent () {
           <div>
             <img src = { logo_DPWH } alt = "DPWH Logo"/>
           </div>
-          { menuComponentOpen ? <span>{ "Road Disaster Information System" }</span> : null }
+          { menuComponentOpen ? <span className = "title-container">{ "Road Disaster Information System" }</span> : null }
         </div>
         <div>
           {
             modules?.map(function (module, index) {
               return (
-                <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { set_module(index); } }>
+                <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { menuComponentOpen ? set_module(index) : setMenuComponentOpen(!menuComponentOpen) } }>
                   <span className = "material-symbols-outlined">{ module.logo }</span>
                   { menuComponentOpen ? <span>{ module.name }</span> : null }
                 </div>

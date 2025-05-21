@@ -1,4 +1,4 @@
-#hazard-map-container {
+#road-slope-hazards-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: stretch center;

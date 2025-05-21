@@ -9,26 +9,26 @@ import "./index.css";
 
 export default function Summary () {
   const {
-    filteredRoadInventory,
+    arrayRoadSlopeHazards,
+
+    arrayRoadSlopesTypeOfDisaster,
+    arrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
+        
+    arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
+    arrayRoadSlopeProtectionStructuresTypeOfDisaster,
+    arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
+
     totalRoadInventory,
+    filteredRoadInventory,
 
-    filteredRoadSlopeInventory,
     totalRoadSlopeInventory,
+    filteredRoadSlopeInventory,
 
-    filteredERoadSlopeStructures,
-    totalERoadSlopeStructures,
+    totalExistingRoadSlopeProtectionStructures,
+    filteredExistingRoadSlopeProtectionStructures,
 
-    filteredNERoadSlopeStructures,
-    totalNERoadSlopeStructures,
-
-    arrayHM01,
-
-    arrayRSS01,
-    arrayRSS02,
-    arrayRSS03,
-
-    arrayRS01,
-    arrayRS02
+    totalNonExistingRoadSlopeProtectionStructures,
+    filteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
 
     const {
@@ -85,19 +85,19 @@ export default function Summary () {
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
             <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Structures" }</span></div>
-              <div><span>{ filteredNERoadSlopeStructures }</span></div>
-              <div><span>{ totalNERoadSlopeStructures }</span></div>
+              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
             </div>
             <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Existing Road Slope Structures" }</span></div>
-              <div><span>{ filteredERoadSlopeStructures }</span></div>
-              <div><span>{ totalERoadSlopeStructures }</span></div>
+              <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
             </div>
           </div>
           <div className = "summary-section">
-            <div className = "summary-section-header"><span>{ "Hazard Map Module" }</span></div>
-            <div className = "summary-section-subheader"><span>{ "Road Slope Hazard Risk Levels" }</span></div>
+            <div className = "summary-section-header"><span>{ "Road Slope Hazards" }</span></div>
+            <div className = "summary-section-subheader"><span>{ "Road Slope Hazard Level" }</span></div>
             <div>
               <div className = "summary-details">
                 <div className = "summary-header-row">
@@ -106,8 +106,8 @@ export default function Summary () {
                   <div className = "summary-column-header"><span>{ "Total" }</span></div>
                 </div>
                 {
-                  arrayHM01?.length > 0 ?
-                    arrayHM01.map(function (item, index) {
+                  arrayRoadSlopeHazards?.length > 0 ?
+                    arrayRoadSlopeHazards.map(function (item, index) {
                       return (
                         <div key = { index } className = "summary-row">
                           <div className = "summary-row-header">
@@ -124,13 +124,13 @@ export default function Summary () {
               </div>
               <div className = "summary-graph">
                 {
-                  arrayHM01 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayHM01 ? arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                  arrayRoadSlopeHazards ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopeHazards ? arrayRoadSlopeHazards.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
                       <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
-                          arrayHM01 ?
-                            arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopeHazards ?
+                            arrayRoadSlopeHazards.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
@@ -142,10 +142,10 @@ export default function Summary () {
                     : null
                 }
                 {
-                  arrayHM01 ?
+                  arrayRoadSlopeHazards ?
                     <PieChart width = { 100 } height = { 100 }>
                       <Pie
-                        data = { arrayHM01 ? arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        data = { arrayRoadSlopeHazards ? arrayRoadSlopeHazards.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
                         dataKey = "value"
                         nameKey = "name" 
                         cx = "50%" cy = "50%" 
@@ -153,11 +153,11 @@ export default function Summary () {
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
                         fill = "white"
-                        blendStroke = { arrayHM01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                        blendStroke = { arrayRoadSlopeHazards.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
-                          arrayHM01 ?
-                            arrayHM01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopeHazards ?
+                            arrayRoadSlopeHazards.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
@@ -173,226 +173,6 @@ export default function Summary () {
           </div>
           <div className = "summary-section">
             <div className = "summary-section-header"><span>{ "Road Slope Inventory Module" }</span></div>
-            <div className = "summary-section-header"><span>{ "Road Slope Structures" }</span></div>
-            <div className = "summary-section-subheader"><span>{ "Condition of Road Slope Structures" }</span></div>
-            <div>
-              <div className = "summary-details">
-                <div className = "summary-header-row">
-                  <div></div>
-                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
-                </div>
-                {
-                  arrayRSS01?.length > 0 ?
-                    arrayRSS01.map(function (item, index) {
-                      return (
-                        <div key = { index } className = "summary-row">
-                          <div className = "summary-row-header">
-                            <div style = { { background: item.color } }/>
-                            <span>{ item.name }</span>
-                          </div>
-                          <div><span>{ item.filtered }</span></div>
-                          <div><span>{ item.total }</span></div>
-                        </div>
-                      );
-                    })
-                    : null
-                }
-              </div>
-              <div className = "summary-graph">
-                {
-                  arrayRSS01 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayRSS01 ? arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
-                      <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
-                        {
-                          arrayRSS01 ?
-                            arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        } 
-                      </Bar>
-                    </BarChart>
-                    : null
-                }
-                {
-                  arrayRSS01 ?
-                    <PieChart width = { 100 } height = { 100 }>
-                      <Pie
-                        data = { arrayRSS01 ? arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
-                        dataKey = "value"
-                        nameKey = "name" 
-                        cx = "50%" cy = "50%" 
-                        labelLine = { false }
-                        label = { renderCustomizedLabel }
-                        outerRadius = { 40 }
-                        fill = "white"
-                        blendStroke = { arrayRSS01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
-                      >
-                        {
-                          arrayRSS01 ?
-                            arrayRSS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        }  
-                      </Pie>
-                    </PieChart>
-                    : null
-                }
-              </div>
-            </div>
-            <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Road Slope Structures" }</span></div>
-            <div>
-              <div className = "summary-details">
-                <div className = "summary-header-row">
-                  <div></div>
-                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
-                </div>
-                {
-                  arrayRSS02?.length > 0 ?
-                    arrayRSS02.map(function (item, index) {
-                      return (
-                        <div key = { index } className = "summary-row">
-                          <div className = "summary-row-header">
-                            <div style = { { background: item.color } }/>
-                            <span>{ item.name }</span>
-                          </div>
-                          <div><span>{ item.filtered }</span></div>
-                          <div><span>{ item.total }</span></div>
-                        </div>
-                      );
-                    })
-                    : null
-                }
-              </div>
-              <div className = "summary-graph">
-                {
-                  arrayRSS02 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayRSS02 ? arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
-                      <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
-                        {
-                          arrayRSS02 ?
-                            arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        } 
-                      </Bar>
-                    </BarChart>
-                    : null
-                }
-                {
-                  arrayRSS02 ?
-                    <PieChart width = { 100 } height = { 100 }>
-                      <Pie
-                        data = { arrayRSS02 ? arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
-                        dataKey = "value"
-                        nameKey = "name" 
-                        cx = "50%" cy = "50%" 
-                        labelLine = { false }
-                        label = { renderCustomizedLabel }
-                        outerRadius = { 40 }
-                        fill = "white"
-                        blendStroke = { arrayRSS02.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
-                      >
-                        {
-                          arrayRSS02 ?
-                            arrayRSS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        }  
-                      </Pie>
-                    </PieChart>
-                    : null
-                }
-              </div>
-            </div>
-            <div className = "summary-section-subheader"><span>{ "Type of Existing Road Slope Structures" }</span></div>
-            <div>
-              <div className = "summary-details">
-                <div className = "summary-header-row">
-                  <div></div>
-                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
-                </div>
-                {
-                  arrayRSS03?.length > 0 ?
-                    arrayRSS03.map(function (item, index) {
-                      return (
-                        <div key = { index } className = "summary-row">
-                          <div className = "summary-row-header">
-                            <div style = { { background: item.color } }/>
-                            <span>{ item.name }</span>
-                          </div>
-                          <div><span>{ item.filtered }</span></div>
-                          <div><span>{ item.total }</span></div>
-                        </div>
-                      );
-                    })
-                    : null
-                }
-              </div>
-              <div className = "summary-graph">
-                {
-                  arrayRSS03 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayRSS03 ? arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
-                      <CartesianGrid strokeDasharray = "2 2"/>
-                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
-                        {
-                          arrayRSS03 ?
-                            arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        } 
-                      </Bar>
-                    </BarChart>
-                    : null
-                }
-                {
-                  arrayRSS03 ?
-                    <PieChart width = { 100 } height = { 100 }>
-                      <Pie
-                        data = { arrayRSS03 ? arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
-                        dataKey = "value"
-                        nameKey = "name" 
-                        cx = "50%" cy = "50%" 
-                        labelLine = { false }
-                        label = { renderCustomizedLabel }
-                        outerRadius = { 40 }
-                        fill = "white"
-                        blendStroke = { arrayRSS03.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
-                      >
-                        {
-                          arrayRSS03 ?
-                            arrayRSS03.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
-                              return (
-                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
-                              );
-                            })
-                            : null
-                        }  
-                      </Pie>
-                    </PieChart>
-                    : null
-                }
-              </div>
-            </div>
             <div className = "summary-section-header"><span>{ "Road Slopes" }</span></div>
             <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Road Slopes" }</span></div>
             <div>
@@ -403,8 +183,8 @@ export default function Summary () {
                   <div className = "summary-column-header"><span>{ "Total" }</span></div>
                 </div>
                 {
-                  arrayRS01?.length > 0 ?
-                    arrayRS01.map(function (item, index) {
+                  arrayRoadSlopesTypeOfDisaster?.length > 0 ?
+                    arrayRoadSlopesTypeOfDisaster.map(function (item, index) {
                       return (
                         <div key = { index } className = "summary-row">
                           <div className = "summary-row-header">
@@ -421,13 +201,13 @@ export default function Summary () {
               </div>
               <div className = "summary-graph">
                 {
-                  arrayRS01 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayRS01 ? arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                  arrayRoadSlopesTypeOfDisaster ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopesTypeOfDisaster ? arrayRoadSlopesTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
                       <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
-                          arrayRS01 ?
-                            arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopesTypeOfDisaster ?
+                            arrayRoadSlopesTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
@@ -439,10 +219,10 @@ export default function Summary () {
                     : null
                 }
                 {
-                  arrayRS01 ?
+                  arrayRoadSlopesTypeOfDisaster ?
                     <PieChart width = { 100 } height = { 100 }>
                       <Pie
-                        data = { arrayRS01 ? arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        data = { arrayRoadSlopesTypeOfDisaster ? arrayRoadSlopesTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
                         dataKey = "value"
                         nameKey = "name" 
                         cx = "50%" cy = "50%" 
@@ -450,11 +230,11 @@ export default function Summary () {
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
                         fill = "white"
-                        blendStroke = { arrayRS01.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                        blendStroke = { arrayRoadSlopesTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
-                          arrayRS01 ?
-                            arrayRS01.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopesTypeOfDisaster ?
+                            arrayRoadSlopesTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
@@ -467,7 +247,7 @@ export default function Summary () {
                 }
               </div>
             </div>
-            <div className = "summary-section-subheader"><span>{ "Type of Non-Existing Road Slope Structures" }</span></div>
+            <div className = "summary-section-subheader"><span>{ "Type of Non-Existing Road Slope Protection Structures" }</span></div>
             <div>
               <div className = "summary-details">
                 <div className = "summary-header-row">
@@ -476,8 +256,8 @@ export default function Summary () {
                   <div className = "summary-column-header"><span>{ "Total" }</span></div>
                 </div>
                 {
-                  arrayRS02?.length > 0 ?
-                    arrayRS02.map(function (item, index) {
+                  arrayRoadSlopesTypeOfRoadSlopeProtectionStructure?.length > 0 ?
+                    arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.map(function (item, index) {
                       return (
                         <div key = { index } className = "summary-row">
                           <div className = "summary-row-header">
@@ -494,13 +274,13 @@ export default function Summary () {
               </div>
               <div className = "summary-graph">
                 {
-                  arrayRS02 ?
-                    <BarChart width = { 200 } height = { 100 } data = { arrayRS02 ? arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                  arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ? arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
                       <CartesianGrid strokeDasharray = "2 2"/>
                       <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
                         {
-                          arrayRS02 ?
-                            arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
@@ -512,10 +292,10 @@ export default function Summary () {
                     : null
                 }
                 {
-                  arrayRS02 ?
+                  arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ?
                     <PieChart width = { 100 } height = { 100 }>
                       <Pie
-                        data = { arrayRS02 ? arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        data = { arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ? arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
                         dataKey = "value"
                         nameKey = "name" 
                         cx = "50%" cy = "50%" 
@@ -523,11 +303,231 @@ export default function Summary () {
                         label = { renderCustomizedLabel }
                         outerRadius = { 40 }
                         fill = "white"
-                        blendStroke = { arrayRS02.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                        blendStroke = { arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
                       >
                         {
-                          arrayRS02 ?
-                            arrayRS02.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                          arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        }  
+                      </Pie>
+                    </PieChart>
+                    : null
+                }
+              </div>
+            </div>
+            <div className = "summary-section-header"><span>{ "Road Slope Structures" }</span></div>
+            <div className = "summary-section-subheader"><span>{ "Condition of Existing Road Slope Protection Structures" }</span></div>
+            <div>
+              <div className = "summary-details">
+                <div className = "summary-header-row">
+                  <div></div>
+                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
+                </div>
+                {
+                  arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure?.length > 0 ?
+                    arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.map(function (item, index) {
+                      return (
+                        <div key = { index } className = "summary-row">
+                          <div className = "summary-row-header">
+                            <div style = { { background: item.color } }/>
+                            <span>{ item.name }</span>
+                          </div>
+                          <div><span>{ item.filtered }</span></div>
+                          <div><span>{ item.total }</span></div>
+                        </div>
+                      );
+                    })
+                    : null
+                }
+              </div>
+              <div className = "summary-graph">
+                {
+                  arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ? arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                      <CartesianGrid strokeDasharray = "2 2"/>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
+                        {
+                          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        } 
+                      </Bar>
+                    </BarChart>
+                    : null
+                }
+                {
+                  arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ?
+                    <PieChart width = { 100 } height = { 100 }>
+                      <Pie
+                        data = { arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ? arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        dataKey = "value"
+                        nameKey = "name" 
+                        cx = "50%" cy = "50%" 
+                        labelLine = { false }
+                        label = { renderCustomizedLabel }
+                        outerRadius = { 40 }
+                        fill = "white"
+                        blendStroke = { arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                      >
+                        {
+                          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        }  
+                      </Pie>
+                    </PieChart>
+                    : null
+                }
+              </div>
+            </div>
+            <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Existing Road Slope Protection Structures" }</span></div>
+            <div>
+              <div className = "summary-details">
+                <div className = "summary-header-row">
+                  <div></div>
+                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
+                </div>
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfDisaster?.length > 0 ?
+                    arrayRoadSlopeProtectionStructuresTypeOfDisaster.map(function (item, index) {
+                      return (
+                        <div key = { index } className = "summary-row">
+                          <div className = "summary-row-header">
+                            <div style = { { background: item.color } }/>
+                            <span>{ item.name }</span>
+                          </div>
+                          <div><span>{ item.filtered }</span></div>
+                          <div><span>{ item.total }</span></div>
+                        </div>
+                      );
+                    })
+                    : null
+                }
+              </div>
+              <div className = "summary-graph">
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfDisaster ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopeProtectionStructuresTypeOfDisaster ? arrayRoadSlopeProtectionStructuresTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                      <CartesianGrid strokeDasharray = "2 2"/>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
+                        {
+                          arrayRoadSlopeProtectionStructuresTypeOfDisaster ?
+                            arrayRoadSlopeProtectionStructuresTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        } 
+                      </Bar>
+                    </BarChart>
+                    : null
+                }
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfDisaster ?
+                    <PieChart width = { 100 } height = { 100 }>
+                      <Pie
+                        data = { arrayRoadSlopeProtectionStructuresTypeOfDisaster ? arrayRoadSlopeProtectionStructuresTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        dataKey = "value"
+                        nameKey = "name" 
+                        cx = "50%" cy = "50%" 
+                        labelLine = { false }
+                        label = { renderCustomizedLabel }
+                        outerRadius = { 40 }
+                        fill = "white"
+                        blendStroke = { arrayRoadSlopeProtectionStructuresTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                      >
+                        {
+                          arrayRoadSlopeProtectionStructuresTypeOfDisaster ?
+                            arrayRoadSlopeProtectionStructuresTypeOfDisaster.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        }  
+                      </Pie>
+                    </PieChart>
+                    : null
+                }
+              </div>
+            </div>
+            <div className = "summary-section-subheader"><span>{ "Type of Existing Road Slope Protection Structures" }</span></div>
+            <div>
+              <div className = "summary-details">
+                <div className = "summary-header-row">
+                  <div></div>
+                  <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+                  <div className = "summary-column-header"><span>{ "Total" }</span></div>
+                </div>
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure?.length > 0 ?
+                    arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.map(function (item, index) {
+                      return (
+                        <div key = { index } className = "summary-row">
+                          <div className = "summary-row-header">
+                            <div style = { { background: item.color } }/>
+                            <span>{ item.name }</span>
+                          </div>
+                          <div><span>{ item.filtered }</span></div>
+                          <div><span>{ item.total }</span></div>
+                        </div>
+                      );
+                    })
+                    : null
+                }
+              </div>
+              <div className = "summary-graph">
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ?
+                    <BarChart width = { 200 } height = { 100 } data = { arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ? arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }>
+                      <CartesianGrid strokeDasharray = "2 2"/>
+                      <Bar dataKey = "value" fill = "white" maxBarSize = { 8 }>
+                        {
+                          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
+                              return (
+                                <Cell key = { `cell-${ index }` } fill = { item.color }/>
+                              );
+                            })
+                            : null
+                        } 
+                      </Bar>
+                    </BarChart>
+                    : null
+                }
+                {
+                  arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ?
+                    <PieChart width = { 100 } height = { 100 }>
+                      <Pie
+                        data = { arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ? arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item) { return ({ "name": item.name, "value": item.filtered }); }) : null }
+                        dataKey = "value"
+                        nameKey = "name" 
+                        cx = "50%" cy = "50%" 
+                        labelLine = { false }
+                        label = { renderCustomizedLabel }
+                        outerRadius = { 40 }
+                        fill = "white"
+                        blendStroke = { arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).length > 1 ? false : true }
+                      >
+                        {
+                          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ?
+                            arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.filter(function (item) { return (item.filtered > 0); }).map(function (item, index) {
                               return (
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );

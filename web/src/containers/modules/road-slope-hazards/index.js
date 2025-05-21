@@ -199,10 +199,10 @@ export default function RoadSlopeHazards () {
   }
 
   return (
-    <div id = "hazard-map-container">
+    <div id = "road-slope-hazards-container">
       <div>
         <div>
-          <span>{ "Hazard Survey Inventory" }</span>
+          <span>{ "Road Slope Hazards Inventory" }</span>
         </div>
       </div>
       <div>
@@ -217,7 +217,7 @@ export default function RoadSlopeHazards () {
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "add" }</span>
-                      <span>{ "Risk Level" }</span>
+                      <span>{ "Levels of Road Slope Hazard" }</span>
                     </div>
                     <div className = { "data-container-hidden" }>
                       <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>

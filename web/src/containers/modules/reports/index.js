@@ -8,16 +8,15 @@ import "./index.css";
 
 export default function Reports() {
   const {
-    layer_hazard_map,
+    layer_road_slope_hazards,
     layer_road_slopes_and_countermeasures
   } = React.useContext(MapContext);
 
-  const [arrayHM, setArrayHM] = React.useState([])
-  const [arrayRSM, setArrayRSM] = React.useState([])
-
+  const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
+  const [arrayRoadSlopesAndCountermeasures, setArrayRoadSlopesAndCountermeasures] = React.useState([]);
 
   React.useEffect(function () {
-    layer_hazard_map
+    layer_road_slope_hazards
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
@@ -25,11 +24,11 @@ export default function Reports() {
       })
       .then(function (response) {
         if (response?.features) {
-          let arrayHMBuffer = [];
+          let arrayRoadSlopeHazardsBuffer = [];
 
           for (const feature of response.features) {
-            arrayHMBuffer = [...arrayHMBuffer, JSON.parse(JSON.stringify(feature.attributes))];
-            setArrayHM([...arrayHMBuffer]);
+            arrayRoadSlopeHazardsBuffer = [...arrayRoadSlopeHazardsBuffer, JSON.parse(JSON.stringify(feature.attributes))];
+            setArrayRoadSlopeHazards([...arrayRoadSlopeHazardsBuffer]);
           }
         }
       })
@@ -42,24 +41,24 @@ export default function Reports() {
       })
       .then(function (response) {
         if (response?.features) {
-          let arrayRSMBuffer = [];
+          let arrayRoadSlopesAndCountermeasuresBuffer = [];
 
           for (const feature of response.features) {
-            arrayRSMBuffer = [...arrayRSMBuffer, JSON.parse(JSON.stringify(feature.attributes))];
-            setArrayRSM([...arrayRSMBuffer]);
+            arrayRoadSlopesAndCountermeasuresBuffer = [...arrayRoadSlopesAndCountermeasuresBuffer, JSON.parse(JSON.stringify(feature.attributes))];
+            setArrayRoadSlopesAndCountermeasures([...arrayRoadSlopesAndCountermeasuresBuffer]);
           }
         }
       })
   }, []);
 
   return (
-    <div id = "report-container">
+    <div id = "reports-container">
       <div>
         <span>{ "Reports" }</span>
       </div>
       <div >
-        <ExcelExport data = { arrayHM } fileName = "Hazard Map"/>
-        <ExcelExport data = { arrayRSM } fileName = "Road Slope Inventory"/>
+        <ExcelExport data = { arrayRoadSlopeHazards } fileName = "Road Slope Hazards"/>
+        <ExcelExport data = { arrayRoadSlopesAndCountermeasures } fileName = "Road Slope Inventory"/>
       </div>
     </div>
   );

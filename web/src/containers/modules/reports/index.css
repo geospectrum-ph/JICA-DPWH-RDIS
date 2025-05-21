@@ -1,4 +1,4 @@
-#report-container {
+#reports-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: stretch center;

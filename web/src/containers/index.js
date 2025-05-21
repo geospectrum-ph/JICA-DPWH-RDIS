@@ -8,7 +8,7 @@ import Summary from "./modules/summary";
 import RoadSlopeHazards from "./modules/road-slope-hazards";
 import RoadSlopeInventory from "./modules/road-slope-inventory";
 import PotentialRoadSlopeProtectionProjects from "./modules/potential-road-slope-protection-projects";
-import FundedRoadSlopeProtectionProjects from "./modules/error";
+import FundedRoadSlopeProtectionProjects from "./modules/funded-road-slope-protection-projects";
 import ProposalForFunding from "./modules/error";
 import Reports from "./modules/reports";
 import Settings from "./modules/error";

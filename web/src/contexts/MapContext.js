@@ -37,13 +37,13 @@ function MapContextProvider (props) {
   const url_provinces = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_Province/MapServer/0";
   const url_municipalities_cities = "https://apps2.dpwh.gov.ph/server/rest/services/DPWH_Public/Admin_Boundaries_City_Municipality/MapServer/0";
 
-  const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0";
-  const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1";
-
   const url_road_slope_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/hazard_map_ver4/FeatureServer";
   const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/rsm_mobile_ver2/FeatureServer";
 
   const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
+  
+  const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0";
+  const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1";
 
   /* Reference Data */
 
@@ -1377,19 +1377,19 @@ function MapContextProvider (props) {
             <td>${ target.graphic.attributes.anomaly_score || "0" }</td>
           </tr>
           <tr>
-            <td><b>Total Score (A)</b></td>
+            <td><b>Hazard Score Based on Causes of Road Slope Failure (A)</b></td>
             <td>${ target.graphic.attributes.total_score_a || "0" }</td>
           </tr>
           <tr>
-            <td><b>Total Score (B)</b></td>
+            <td><b>Hazard Score Based on Countermeasures Data (B)</b></td>
             <td>${ target.graphic.attributes.total_score_b || "0" }</td>
           </tr>
           <tr>
-            <td><b>Disaster History Score</b></td>
+            <td><b>Hazard Score Based on History of Disasters (C)</b></td>
             <td>${ target.graphic.attributes.disaster_history_score || "0" }</td>
           </tr>
           <tr>
-            <td><b>Hazard Score (D)</b></td>
+            <td><b>Road Slope Hazard Score (D)</b></td>
             <td>${ target.graphic.attributes.score_d || "0" }</td>
           </tr>
         </tbody>
@@ -1901,7 +1901,7 @@ function MapContextProvider (props) {
             <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
           </tr>
           <tr>
-            <td><b>Existing Type of Road Slope Protection Structure</b></td>
+            <td><b>Type of Existing Road Slope Protection Structure</b></td>
             <td>${ target.graphic.attributes.road_slope_structure_type || "No available data" }</td>
           </tr>
           <tr>
@@ -1925,7 +1925,7 @@ function MapContextProvider (props) {
             <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
           </tr>
           <tr>
-            <td><b>Condition</b></td>
+            <td><b>Condition Of Road Slope Protection Structure</b></td>
             <td>${ target.graphic.attributes.road_condition || "No available data" }</td>
           </tr>
         </tbody>
@@ -2183,7 +2183,7 @@ function MapContextProvider (props) {
     layers: array_calamities.map(function (category) {
       return (
         new FeatureLayer({
-          title: `${ category[0] } Records`,
+          title: `Record of ${ category[0] } Calamity`,
           url: url_calamities,
           definitionExpression: category[0] === "Unclassified" ?
             array_calamities.map(function (category) { return (category[0] === "Unclassified" ? null : `calamity_note != '${ category[0]}'` ); }).join(" AND ") :
@@ -2341,7 +2341,7 @@ function MapContextProvider (props) {
   ];
 
   const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
-    title: "Inventory of Road Slopes - Types of Disaster",
+    title: "Inventory of Road Slopes - Type of Disaster",
     layers: array_inventory_of_road_slopes_type_of_disaster.map(function (category) {
       return (
         new FeatureLayer({
@@ -2402,7 +2402,7 @@ function MapContextProvider (props) {
   ];
 
   const group_inventory_of_road_slopes_type_of_road_slope_protection_structure = new GroupLayer({
-    title: "Inventory of Road Slopes - Type of Road Slope Protection Structures",
+    title: "Inventory of Road Slopes - Type of Road Slope Protection Structure",
     layers: array_inventory_of_road_slopes_type_of_road_slope_protection_structure.map(function (category) {
       return (
         new FeatureLayer({
@@ -2450,7 +2450,7 @@ function MapContextProvider (props) {
   ];
 
   const group_inventory_of_road_slope_protection_structures_road_slope_condition = new GroupLayer({
-    title: "Inventory of Road Slope Protection Structures - Condition of Road Slope Protection Structures",
+    title: "Inventory of Road Slope Protection Structures - Condition of Road Slope Protection Structure",
     layers: array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) {
       return (
         new FeatureLayer({
@@ -2499,7 +2499,7 @@ function MapContextProvider (props) {
   ];
 
   const group_inventory_of_road_slope_protection_structures_type_of_disaster = new GroupLayer({
-    title: "Inventory of Road Slope Protection Structures - Types of Disaster",
+    title: "Inventory of Road Slope Protection Structures - Type of Disaster",
     layers: array_inventory_of_road_slope_protection_structures_type_of_disaster.map(function (category) {
       return (
         new FeatureLayer({
@@ -2560,7 +2560,7 @@ function MapContextProvider (props) {
   ];
 
   const group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure = new GroupLayer({
-    title: "Inventory of Road Slopes - Type of Road Slope Protection Structures",
+    title: "Inventory of Road Slopes - Type of Road Slope Protection Structure",
     layers: array_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.map(function (category) {
       return (
         new FeatureLayer({
@@ -2599,31 +2599,31 @@ function MapContextProvider (props) {
   
   /* Potential Road Slope Projects Data */
 
-  const array_potential_road_slope_projects = [
+  const array_potential_road_slope_protection_projects = [
     ["Unclassified", [191, 191, 191, 1.00]],
     ["Construction", [112, 48, 160, 1.00]],
     ["Reconstruction", [48, 84, 150, 1.00]],
     ["Rehabilitation or Major Repair", [255, 217, 102, 1.00]]
   ];
 
-  const group_potential_road_slope_projects = new GroupLayer({
-    title: "Potential Road Slope Projects",
-    layers: array_potential_road_slope_projects.map(function (category) {
+  const group_potential_road_slope_protection_projects = new GroupLayer({
+    title: "Potential Road Slope Protection Projects",
+    layers: array_potential_road_slope_protection_projects.map(function (category) {
       return (
         new FeatureLayer({
           title: category[0] === "Unclassified" ?
-            "Unclassified Potential Road Slope Project" :
+            "Unclassified Potential Road Slope Protection Project" :
             `Potential Road Slope ${ category[0] } Project`,
           url: url_road_slopes_and_countermeasures,
           definitionExpression: category[0] === "Unclassified" ?
-            "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work <> '${ category[0] }'`); }).join(" AND ") :
+            "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_protection_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work <> '${ category[0] }'`); }).join(" AND ") :
             category[0] === "Rehabilitation or Major Repair" ? 
               "rsm_category = 'Inventory of Road Slope' AND type_of_work <> 'Reconstruction' AND type_of_work <> 'Construction'" :
               `rsm_category = 'Inventory of Road Slope' AND type_of_work = '${ category[0] }'`,
           renderer: {
             type: "simple",
             label: category[0] === "Unclassified" ?
-              "Unclassified Potential Road Slope Project" :
+              "Unclassified Potential Road Slope Protection Project" :
               `Potential Road Slope ${ category[0] } Project`,
             symbol: {
               type: "simple-line",
@@ -3044,8 +3044,8 @@ function MapContextProvider (props) {
                 view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_protection_structure);
                 view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
               }
-              if (module === "potential-road-slope-projects"){
-                view.map.layers.push(group_potential_road_slope_projects);
+              if (module === "potential-road-slope-protection-projects"){
+                view.map.layers.push(group_potential_road_slope_protection_projects);
               }
             })
             .catch(function (error) {

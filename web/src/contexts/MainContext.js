@@ -49,34 +49,34 @@ function MainContextProvider (props) {
   
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
-  const [filterLevel00Selected, setFilterLevel00Selected] = React.useState(null);
-  const [filterLevel01Selected, setFilterLevel01Selected] = React.useState(null);
-  const [filterLevel02Selected, setFilterLevel02Selected] = React.useState(null);
-  const [filterLevel03Selected, setFilterLevel03Selected] = React.useState(null);
-  const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null);
-  const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null);
-
-  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(null);
-  const [totalRoadInventory, setTotalRoadInventory] = React.useState(null);
-
-  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(null);
-  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(null);
-
-  const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(null);
-  const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(null);
-
-  const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(null);
-  const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(null);
-
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState(null);
 
   const [arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster] = React.useState(null);
   const [arrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure] = React.useState(null);
 
-  const [arrayRoadSlopeProtectionStructuresRoadSlopeCondition, setArrayRoadSlopeProtectionStructuresRoadSlopeCondition] = React.useState(null);
+  const [arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure] = React.useState(null);
   const [arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster] = React.useState(null);
   const [arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure] = React.useState(null);
 
+  const [filterLevel00Selected, setFilterLevel00Selected] = React.useState(null);
+  const [filterLevel01Selected, setFilterLevel01Selected] = React.useState(null); // Filter by region.
+  const [filterLevel02Selected, setFilterLevel02Selected] = React.useState(null); // Filter by district engineering office.
+  const [filterLevel03Selected, setFilterLevel03Selected] = React.useState(null); // Filter by congressional district.
+  const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
+  const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null); // Filter by year.
+
+  const [totalRoadInventory, setTotalRoadInventory] = React.useState(null);
+  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(null);
+
+  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(null);
+  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(null);
+
+  const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(null);
+  const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(null);
+
+  const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(null);
+  const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(null);
+  
   return (
     <MainContext.Provider value = {
       {
@@ -89,6 +89,15 @@ function MainContextProvider (props) {
         modules, setModules,
         moduleSelected, setModuleSelected,
 
+        arrayRoadSlopeHazards, setArrayRoadSlopeHazards,
+        
+        arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster,
+        arrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
+        
+        arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
+        arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
+        arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
+
         filterLevel00Selected, setFilterLevel00Selected,
         filterLevel01Selected, setFilterLevel01Selected,
         filterLevel02Selected, setFilterLevel02Selected,
@@ -96,26 +105,17 @@ function MainContextProvider (props) {
         filterLevel04Selected, setFilterLevel04Selected,
         filterLevel05Selected, setFilterLevel05Selected,
 
-        filteredRoadInventory, setFilteredRoadInventory,
         totalRoadInventory, setTotalRoadInventory,
+        filteredRoadInventory, setFilteredRoadInventory,
         
-        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
         totalRoadSlopeInventory, setTotalRoadSlopeInventory,
+        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
 
-        filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,
         totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures,
-      
-        filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures,
+        filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,
+
         totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures,
-      
-        arrayRoadSlopeHazards, setArrayRoadSlopeHazards,
-        
-        arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster,
-        arrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
-        
-        arrayRoadSlopeProtectionStructuresRoadSlopeCondition, setArrayRoadSlopeProtectionStructuresRoadSlopeCondition,
-        arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
-        arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure
+        filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures
       }
     }>
       { props.children }
