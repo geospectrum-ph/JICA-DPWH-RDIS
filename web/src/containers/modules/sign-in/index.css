@@ -58,7 +58,7 @@
           place-content: center center;
           place-items: center center;
 
-          animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+          /* animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s; */
           
           box-sizing: border-box;
           gap: calc(var(--default-size-medium, 12px) * 0.50);
@@ -74,7 +74,7 @@
           place-content: center center;
           place-items: center center;
 
-          animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.5s;
+          animation: fade-in 1.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
           
           box-sizing: border-box;
           gap: calc(var(--default-size-medium, 12px) * 1.50);
