@@ -18,7 +18,7 @@ export default function RoadSlopeHazards () {
   } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("hazard-map");
+    view_layer("road-slope-hazards");
   }, []);
 
   const sublevels = [
