@@ -1242,6 +1242,10 @@ function MapContextProvider (props) {
       <table className = "attribute-table">
         <tbody>
           <tr>
+            <td><b>Surveyor</b></td>
+            <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+          </tr>
+          <tr>
             <td><b>Region</b></td>
             <td>${ target.graphic.attributes.region_name || "No available data" }</td>
           </tr>
