@@ -28,8 +28,11 @@ export default function FilterComponent () {
     filterLevel04Selected, setFilterLevel04Selected,
     filterLevel05Selected, setFilterLevel05Selected,
 
-    setTotalRoadInventory,
-    setFilteredRoadInventory,
+    setTotalRoadInventoryA,
+    setFilteredRoadInventoryA,
+
+    setTotalRoadInventoryB,
+    setFilteredRoadInventoryB,
 
     setTotalRoadSlopeInventory,
     setFilteredRoadSlopeInventory,
@@ -43,6 +46,7 @@ export default function FilterComponent () {
   
   const {
     layer_national_road_network,
+    layer_national_expressways,
     layer_engineering_districts,
 
     layer_road_slope_hazards,
@@ -422,6 +426,7 @@ export default function FilterComponent () {
   const [dataLoader01, setDataLoader01] = React.useState(false);
   const [dataLoader02, setDataLoader02] = React.useState(false);
   const [dataLoader03, setDataLoader03] = React.useState(false);
+  const [dataLoader04, setDataLoader04] = React.useState(false);
 
   function initialize_summary () {
     setDataLoading(true);
@@ -438,12 +443,12 @@ export default function FilterComponent () {
         if (response?.features) {
           setDataSourceBuffer01(response.features);
 
-          setTotalRoadInventory(response.features.length);
-          setFilteredRoadInventory(response.features.length);
+          setTotalRoadInventoryA(response.features.length);
+          setFilteredRoadInventoryA(response.features.length);
         }
         else {
-          setTotalRoadInventory(0);
-          setFilteredRoadInventory(0);
+          setTotalRoadInventoryA(0);
+          setFilteredRoadInventoryA(0);
         }
       })
       .then(function () {
@@ -455,7 +460,37 @@ export default function FilterComponent () {
         console.log(error);
       });
 
+      
     setDataLoader02(true);
+
+    layer_national_expressways
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features) {
+          setDataSourceBuffer01(response.features);
+
+          setTotalRoadInventoryB(response.features.length);
+          setFilteredRoadInventoryB(response.features.length);
+        }
+        else {
+          setTotalRoadInventoryB(0);
+          setFilteredRoadInventoryB(0);
+        }
+      })
+      .then(function () {
+        setDataLoader02(false);
+      })
+      .catch(function (error) {
+        setDataLoader02(false);
+
+        console.log(error);
+      });
+
+    setDataLoader03(true);
 
     layer_road_slope_hazards
       .queryFeatures({
@@ -490,10 +525,10 @@ export default function FilterComponent () {
         }
       })
       .then(function () {
-        setDataLoader03(false);
+        setDataLoader04(false);
       })
       .catch(function (error) {
-        setDataLoader03(false);
+        setDataLoader04(false);
 
         console.log(error);
       });
@@ -632,15 +667,15 @@ export default function FilterComponent () {
         }
       })
       .then(function () {
-        setDataLoader02(false);
+        setDataLoader03(false);
       })
       .catch(function (error) {
-        setDataLoader02(false);
+        setDataLoader03(false);
 
         console.log(error);
       });
 
-    setDataLoader03(true);
+    setDataLoader04(true);
   }
 
   React.useEffect(function () {
@@ -648,10 +683,10 @@ export default function FilterComponent () {
   }, []);
 
   React.useEffect(function () {
-    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03) {
+    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03 && !dataLoader04) {
       setDataLoading(false);
     }
-  }, [dataLoader01, dataLoader02, dataLoader03]);
+  }, [dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
 
   function filter_summary (level, object) {
     setFilteredRoadInventory(

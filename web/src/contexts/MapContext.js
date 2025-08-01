@@ -3352,6 +3352,7 @@ function MapContextProvider (props) {
     <MapContext.Provider value = {
       {
         layer_national_road_network,
+        layer_national_expressways,
         layer_regions,
         layer_engineering_districts,
         layer_legislative_districts,

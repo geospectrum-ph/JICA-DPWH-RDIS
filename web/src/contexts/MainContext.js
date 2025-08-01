@@ -65,8 +65,11 @@ function MainContextProvider (props) {
   const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
   const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null); // Filter by year.
 
-  const [totalRoadInventory, setTotalRoadInventory] = React.useState(null);
-  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(null);
+  const [totalRoadInventoryA, setTotalRoadInventoryA] = React.useState(null);
+  const [filteredRoadInventoryA, setFilteredRoadInventoryA] = React.useState(null);
+
+  const [totalRoadInventoryB, setTotalRoadInventoryB] = React.useState(null);
+  const [filteredRoadInventoryB, setFilteredRoadInventoryB] = React.useState(null);
 
   const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(null);
   const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(null);
@@ -105,8 +108,11 @@ function MainContextProvider (props) {
         filterLevel04Selected, setFilterLevel04Selected,
         filterLevel05Selected, setFilterLevel05Selected,
 
-        totalRoadInventory, setTotalRoadInventory,
-        filteredRoadInventory, setFilteredRoadInventory,
+        totalRoadInventoryA, setTotalRoadInventoryA,
+        filteredRoadInventoryA, setFilteredRoadInventoryA,
+
+        totalRoadInventoryB, setTotalRoadInventoryB,
+        filteredRoadInventoryB, setFilteredRoadInventoryB,
         
         totalRoadSlopeInventory, setTotalRoadSlopeInventory,
         filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
