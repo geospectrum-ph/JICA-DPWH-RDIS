@@ -3,9 +3,11 @@ import * as React from "react";
 import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
+
+import { ViewLayer } from "../../../contexts/MapComponent";
 
 export default function Summary () {
   const {
@@ -31,12 +33,12 @@ export default function Summary () {
     filteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
 
-    const {
-      view_layer
-    } = React.useContext(MapContext);
+  // const {
+  //   ViewLayer
+  // } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("summary");
+    ViewLayer("summary");
   }, []);
 
   const RADIAN = Math.PI / 180;

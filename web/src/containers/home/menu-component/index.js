@@ -3,11 +3,13 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import logo_DPWH from "../../../assets/logo_dpwh.png";
 
 import "./index.css";
+
+import { ClosePopup, ViewLayer } from "../../../contexts/MapComponent";
 
 export default function MenuComponent () {
   const navigate = useNavigate();
@@ -19,12 +21,12 @@ export default function MenuComponent () {
     moduleSelected, setModuleSelected
   } = React.useContext(MainContext);
 
-  const {
-    view_layer, close_popup
-  } = React.useContext(MapContext);
+  // const {
+  //   ViewLayer, ClosePopup
+  // } = React.useContext(MapContext);
 
   function set_module (index) {
-    close_popup();
+    ClosePopup();
     
     setModuleSelected(index);
 
@@ -36,7 +38,7 @@ export default function MenuComponent () {
   React.useEffect(function () {
     set_module(0);
 
-    view_layer("summary");
+    ViewLayer("summary");
   }, []);
 
   return (

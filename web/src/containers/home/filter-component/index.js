@@ -1,9 +1,11 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
+
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, RefocusMap, ClosePopup, FocusMap } from "../../../contexts/MapComponent";
 
 export default function FilterComponent () {
   const {
@@ -44,16 +46,16 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
   
-  const {
-    layer_national_road_network,
-    layer_national_expressways,
-    layer_engineering_districts,
+  // const {
+  //   layer_national_road_network,
+  //   layer_national_expressways,
+  //   layer_engineering_districts,
 
-    layer_road_slope_hazards,
-    layer_road_slopes_and_countermeasures,
+  //   layer_road_slope_hazards,
+  //   layer_road_slopes_and_countermeasures,
 
-    focus_map, refocus_map, close_popup
-  } = React.useContext(MapContext);
+  //   FocusMap, RefocusMap, ClosePopup
+  // } = React.useContext(MapContext);
 
   const [filterArray, setFilterArray] = React.useState([]);
 
@@ -689,7 +691,7 @@ export default function FilterComponent () {
   }, [dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
 
   function filter_summary (level, object) {
-    setFilteredRoadInventory(
+    setFilteredRoadInventoryA(
       dataSourceBuffer01
         .filter(function (feature) {
           if (level === 1) {
@@ -1001,7 +1003,7 @@ export default function FilterComponent () {
   }
 
   function clear_filter (type) {
-    refocus_map();
+    RefocusMap();
 
     if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) {
       initialize_summary();
@@ -1049,9 +1051,9 @@ export default function FilterComponent () {
   }
   
   function select_filter (type, string) {
-    close_popup();
+    ClosePopup();
 
-    focus_map(type, string);
+    FocusMap(type, string);
 
     if (type === 1) {
       const object = {

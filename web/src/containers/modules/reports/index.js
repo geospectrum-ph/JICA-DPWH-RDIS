@@ -2,15 +2,17 @@ import * as React from "react";
 
 import ExcelExport from "./excel-export";
 
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
+import { MapComponent } from "../../../contexts/MapComponent";
+
 export default function Reports() {
-  const {
-    layer_road_slope_hazards,
-    layer_road_slopes_and_countermeasures
-  } = React.useContext(MapContext);
+  // const {
+  //   layer_road_slope_hazards,
+  //   layer_road_slopes_and_countermeasures
+  // } = React.useContext(MapContext);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
   const [arrayRoadSlopesAndCountermeasures, setArrayRoadSlopesAndCountermeasures] = React.useState([]);

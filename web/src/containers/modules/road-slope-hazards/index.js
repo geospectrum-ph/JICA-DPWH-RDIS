@@ -1,9 +1,11 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
+
+import { ViewLayer, layer_road_slope_hazards, ClosePopup, RecenterMap, OpenPopup } from "../../../contexts/MapComponent";
 
 export default function RoadSlopeHazards () {
   const {
@@ -11,14 +13,14 @@ export default function RoadSlopeHazards () {
     dataLoading
   } = React.useContext(MainContext);
 
-  const {
-    layer_road_slope_hazards,
+  // const {
+  //   layer_road_slope_hazards,
 
-    view_layer, recenter_map, open_popup, close_popup
-  } = React.useContext(MapContext);
+  //   ViewLayer, RecenterMap, OpenPopup, ClosePopup
+  // } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("road-slope-hazards");
+    ViewLayer("road-slope-hazards");
   }, []);
 
   const sublevels = [
@@ -27,7 +29,7 @@ export default function RoadSlopeHazards () {
     function ({ attributes }) { return (attributes.section_id); }
   ];
 
-  const hazard_risk_level_array = ["Low", "Medium", "High"];
+  const hazard_risk_level_array = ["Low", "Middle", "High"];
 
   function filter_data_hazard_risk_level (array, filters) {
     return (
@@ -70,7 +72,8 @@ export default function RoadSlopeHazards () {
   }
 
   function changeSelected (element) {
-    const list = document.getElementById("hazard-map-container").getElementsByClassName("data-container-details");
+    const container = document.getElementById("hazard-map-container");
+    const list = container ? container.getElementsByClassName("data-container-details") : null;
 
     if (list) {
       for (let item of list) {
@@ -100,7 +103,7 @@ export default function RoadSlopeHazards () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            close_popup();
+            ClosePopup();
   
             var extent = response.features[0].geometry.extent;
   
@@ -108,9 +111,9 @@ export default function RoadSlopeHazards () {
               extent = extent.union(feature.geometry.extent);
             });
   
-            recenter_map(extent);
+            RecenterMap(extent);
     
-            open_popup(response.features);
+            OpenPopup(response.features);
           }
         })
         .catch(function (error) {
@@ -229,7 +232,7 @@ export default function RoadSlopeHazards () {
                     <div className = { "data-container-hidden" }>
                       <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                         <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                        <span>{ "Medium" }</span>
+                        <span>{ "Middle" }</span>
                       </div>
                       <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataArray, [1]), sublevels) }/>
                     </div>

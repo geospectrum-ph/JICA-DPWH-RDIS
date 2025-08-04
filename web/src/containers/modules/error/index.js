@@ -1,16 +1,18 @@
 import * as React from "react";
 
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
 
+import { ViewLayer } from "../../../contexts/MapComponent";
+
 export default function ErrorPage() {
-  const {
-    view_layer
-  } = React.useContext(MapContext);
+  // const {
+  //   ViewLayer
+  // } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("error");
+    ViewLayer("error");
   }, []);
 
   return (null);

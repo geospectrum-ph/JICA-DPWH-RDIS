@@ -1,9 +1,11 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-import { MapContext } from "../../../contexts/MapContext";
+// import { MapContext } from "../../../contexts/MapContext";
 
 import "./index.css";
+
+import { ViewLayer, layer_road_slopes_and_countermeasures, ClosePopup, RecenterMap, OpenPopup } from "../../../contexts/MapComponent";
 
 export default function PotentialRoadSlopeProtectionProjects () {
   const {
@@ -11,14 +13,14 @@ export default function PotentialRoadSlopeProtectionProjects () {
     dataLoading
   } = React.useContext(MainContext);
 
-  const {
-    layer_road_slopes_and_countermeasures,
+  // const {
+  //   layer_road_slopes_and_countermeasures,
 
-    recenter_map, view_layer, open_popup, close_popup
-  } = React.useContext(MapContext);
+  //   RecenterMap, ViewLayer, OpenPopup, ClosePopup
+  // } = React.useContext(MapContext);
 
   React.useEffect(function () {
-    view_layer("potential-road-slope-protection-projects");
+    ViewLayer("potential-road-slope-protection-projects");
   }, []);
 
   const sublevels = [
@@ -69,7 +71,8 @@ export default function PotentialRoadSlopeProtectionProjects () {
   }
 
   function changeSelected (element) {
-    const list = document.getElementById("potential-road-slope-protection-projects-container").getElementsByClassName("data-container-details");
+    const container = document.getElementById("potential-road-slope-protection-projects-container");
+    const list = container ? container.getElementsByClassName("data-container-details") : null;
 
     if (list) {
       for (let item of list) {
@@ -99,7 +102,7 @@ export default function PotentialRoadSlopeProtectionProjects () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            close_popup();
+            ClosePopup();
   
             var extent = response.features[0].geometry.extent;
   
@@ -107,9 +110,9 @@ export default function PotentialRoadSlopeProtectionProjects () {
               extent = extent.union(feature.geometry.extent);
             });
   
-            recenter_map(extent);
+            RecenterMap(extent);
     
-            open_popup(response.features);
+            OpenPopup(response.features);
           }
         })
         .catch(function (error) {
