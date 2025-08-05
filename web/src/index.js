@@ -5,7 +5,6 @@ import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 
 import MainContextProvider from "./contexts/MainContext";
-// import MapContextProvider from "./contexts/MapContext";
 
 import App from "./containers";
 
@@ -19,9 +18,7 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <MainContextProvider>
-        {/* <MapContextProvider> */}
-          <App/>
-        {/* </MapContextProvider> */}
+        <App/>
       </MainContextProvider>
     </React.StrictMode>
   </BrowserRouter>

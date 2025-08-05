@@ -1,11 +1,10 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-// import { MapContext } from "../../../contexts/MapContext";
+
+import { view_layer, layer_road_slopes_and_countermeasures, close_popup, recenter_map, open_popup } from "../../home/map-component";
 
 import "./index.css";
-
-import { ViewLayer, layer_road_slopes_and_countermeasures, ClosePopup, RecenterMap, OpenPopup } from "../../../contexts/MapComponent";
 
 export default function RoadSlopeInventory () {
   const {
@@ -13,14 +12,8 @@ export default function RoadSlopeInventory () {
     dataLoading
   } = React.useContext(MainContext);
 
-  // const {
-  //   layer_road_slopes_and_countermeasures,
-
-  //   ViewLayer, RecenterMap, OpenPopup, ClosePopup
-  // } = React.useContext(MapContext);
-
   React.useEffect(function () {
-    ViewLayer("road-slope-inventory");
+    view_layer("road-slope-inventory");
   }, []);
 
   const sublevels = [
@@ -118,7 +111,7 @@ export default function RoadSlopeInventory () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            ClosePopup();
+            close_popup();
   
             var extent = response.features[0].geometry.extent;
   
@@ -126,9 +119,9 @@ export default function RoadSlopeInventory () {
               extent = extent.union(feature.geometry.extent);
             });
   
-            RecenterMap(extent);
+            recenter_map(extent);
     
-            OpenPopup(response.features);
+            open_popup(response.features);
           }
         })
         .catch(function (error) {          

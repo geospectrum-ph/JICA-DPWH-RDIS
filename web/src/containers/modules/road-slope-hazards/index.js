@@ -1,11 +1,10 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-// import { MapContext } from "../../../contexts/MapContext";
+
+import { view_layer, layer_road_slope_hazards, close_popup, recenter_map, open_popup } from "../../home/map-component";
 
 import "./index.css";
-
-import { ViewLayer, layer_road_slope_hazards, ClosePopup, RecenterMap, OpenPopup } from "../../../contexts/MapComponent";
 
 export default function RoadSlopeHazards () {
   const {
@@ -13,14 +12,8 @@ export default function RoadSlopeHazards () {
     dataLoading
   } = React.useContext(MainContext);
 
-  // const {
-  //   layer_road_slope_hazards,
-
-  //   ViewLayer, RecenterMap, OpenPopup, ClosePopup
-  // } = React.useContext(MapContext);
-
   React.useEffect(function () {
-    ViewLayer("road-slope-hazards");
+    view_layer("road-slope-hazards");
   }, []);
 
   const sublevels = [
@@ -103,7 +96,7 @@ export default function RoadSlopeHazards () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            ClosePopup();
+            close_popup();
   
             var extent = response.features[0].geometry.extent;
   
@@ -111,9 +104,9 @@ export default function RoadSlopeHazards () {
               extent = extent.union(feature.geometry.extent);
             });
   
-            RecenterMap(extent);
+            recenter_map(extent);
     
-            OpenPopup(response.features);
+            open_popup(response.features);
           }
         })
         .catch(function (error) {

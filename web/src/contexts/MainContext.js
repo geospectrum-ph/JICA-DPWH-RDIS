@@ -79,7 +79,7 @@ function MainContextProvider (props) {
 
   const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(null);
   const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(null);
-  
+
   return (
     <MainContext.Provider value = {
       {
@@ -121,7 +121,7 @@ function MainContextProvider (props) {
         filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,
 
         totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures,
-        filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures
+        filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures,
       }
     }>
       { props.children }

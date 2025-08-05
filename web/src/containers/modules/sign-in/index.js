@@ -2,13 +2,58 @@ import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
 
+import esriId from "@arcgis/core/identity/IdentityManager.js";
+
 import logo_DPWH from "../../../assets/logo_dpwh.png";
 
 import "./index.css";
 
 export default function SignInPage () {
   const navigate = useNavigate();
- 
+
+  async function authenticate(username, password) {
+    const portalUrl = "https://www.arcgis.com";      
+    const server = portalUrl + "/sharing/rest";
+    const tokenServiceUrl = server + "/generateToken";
+    
+    const serverInfo = {
+      tokenServiceUrl
+    };
+    
+    const userInfo = {
+      username,
+      password
+    };
+    
+    esriId
+      .generateToken(serverInfo, userInfo)
+      .then(function (tokenInfo) {
+        sessionStorage.clear();
+        sessionStorage.setItem("token", tokenInfo);
+
+        esriId
+          .registerToken({
+            ...tokenInfo,
+            server
+          });
+      })
+      .then(function () {
+        navigate("/home/summary");
+      })
+      .catch(function (error) {
+        alert(error);
+
+        navigate("/");
+      });
+  }
+
+  const [usernameBuffer, setUsernameBuffer] = React.useState("");
+  const [passwordBuffer, setPasswordBuffer] = React.useState("");
+
+  function handleSignIn () {
+    authenticate(usernameBuffer, passwordBuffer);
+  }
+
   return (
     <div id = "login-container">
       <div>
@@ -30,13 +75,13 @@ export default function SignInPage () {
         <div>
           <div>
             <label htmlFor = "sign-in-username"><span>{ "Username" }</span></label>
-            <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" onChange = { function (event) { localStorage.setItem("username", event.target.value); } } required/>
+            <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" value = { usernameBuffer } onChange = { function (event) { setUsernameBuffer(event.target.value); } } required/>
           </div>
           <div>
-            <label htmlFor = "sign-in-password"><span className = "type-body">Password</span></label>
-            <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" onChange = { function (event) { localStorage.setItem("password", event.target.value); } } required/>
+            <label htmlFor = "sign-in-password"><span className = "type-body">{ "Password" }</span></label>
+            <input id = "sign-in-password" name = "password" type = "password" minLength = "8" maxLength = "24" placeholder = "Password" value = { passwordBuffer } onChange = { function (event) { setPasswordBuffer(event.target.value); } } required/>
           </div>
-          <div onClick = { function () { navigate(`/home/summary`); } }>
+          <div onClick = { function () { handleSignIn(); } }>
             <span>{ "SIGN IN" }</span>
           </div>
         </div>

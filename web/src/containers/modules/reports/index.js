@@ -6,7 +6,7 @@ import ExcelExport from "./excel-export";
 
 import "./index.css";
 
-import { MapComponent } from "../../../contexts/MapComponent";
+import { layer_road_slope_hazards, layer_road_slopes_and_countermeasures } from "../../home/map-component";
 
 export default function Reports() {
   // const {

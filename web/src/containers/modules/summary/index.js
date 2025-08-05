@@ -3,11 +3,10 @@ import * as React from "react";
 import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
-// import { MapContext } from "../../../contexts/MapContext";
+
+import { view_layer } from "../../home/map-component";
 
 import "./index.css";
-
-import { ViewLayer } from "../../../contexts/MapComponent";
 
 export default function Summary () {
   const {
@@ -20,8 +19,10 @@ export default function Summary () {
     arrayRoadSlopeProtectionStructuresTypeOfDisaster,
     arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
 
-    totalRoadInventory,
-    filteredRoadInventory,
+    totalRoadInventoryA,
+    totalRoadInventoryB,
+    filteredRoadInventoryA,
+    filteredRoadInventoryB,
 
     totalRoadSlopeInventory,
     filteredRoadSlopeInventory,
@@ -33,12 +34,8 @@ export default function Summary () {
     filteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
 
-  // const {
-  //   ViewLayer
-  // } = React.useContext(MapContext);
-
   React.useEffect(function () {
-    ViewLayer("summary");
+    view_layer("summary");
   }, []);
 
   const RADIAN = Math.PI / 180;
@@ -71,8 +68,8 @@ export default function Summary () {
             </div>
             <div className = "summary-row">
               <div className = "summary-row-header"><span>{ "Road Inventory" }</span></div>
-              <div><span>{ filteredRoadInventory }</span></div>
-              <div><span>{ totalRoadInventory }</span></div>
+              <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
+              <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
             </div>
             <div className = "summary-row">
               <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>

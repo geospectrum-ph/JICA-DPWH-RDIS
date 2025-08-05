@@ -1,11 +1,10 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-// import { MapContext } from "../../../contexts/MapContext";
+
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, refocus_map, close_popup, focus_map } from "../map-component";
 
 import "./index.css";
-
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, RefocusMap, ClosePopup, FocusMap } from "../../../contexts/MapComponent";
 
 export default function FilterComponent () {
   const {
@@ -46,17 +45,6 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
   
-  // const {
-  //   layer_national_road_network,
-  //   layer_national_expressways,
-  //   layer_engineering_districts,
-
-  //   layer_road_slope_hazards,
-  //   layer_road_slopes_and_countermeasures,
-
-  //   FocusMap, RefocusMap, ClosePopup
-  // } = React.useContext(MapContext);
-
   const [filterArray, setFilterArray] = React.useState([]);
 
   /* Sets the values of summary variables. */
@@ -1003,7 +991,7 @@ export default function FilterComponent () {
   }
 
   function clear_filter (type) {
-    RefocusMap();
+    refocus_map();
 
     if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) {
       initialize_summary();
@@ -1051,9 +1039,9 @@ export default function FilterComponent () {
   }
   
   function select_filter (type, string) {
-    ClosePopup();
+    close_popup();
 
-    FocusMap(type, string);
+    focus_map(type, string);
 
     if (type === 1) {
       const object = {

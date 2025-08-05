@@ -1,11 +1,10 @@
 import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
-// import { MapContext } from "../../../contexts/MapContext";
+
+import { view_layer, layer_road_slopes_and_countermeasures, close_popup, recenter_map, open_popup } from "../../home/map-component";
 
 import "./index.css";
-
-import { ViewLayer, layer_road_slopes_and_countermeasures, ClosePopup, RecenterMap, OpenPopup } from "../../../contexts/MapComponent";
 
 export default function PotentialRoadSlopeProtectionProjects () {
   const {
@@ -13,14 +12,8 @@ export default function PotentialRoadSlopeProtectionProjects () {
     dataLoading
   } = React.useContext(MainContext);
 
-  // const {
-  //   layer_road_slopes_and_countermeasures,
-
-  //   RecenterMap, ViewLayer, OpenPopup, ClosePopup
-  // } = React.useContext(MapContext);
-
   React.useEffect(function () {
-    ViewLayer("funded-road-slope-protection-projects");
+    view_layer("funded-road-slope-protection-projects");
   }, []);
 
   const sublevels = [
@@ -102,7 +95,7 @@ export default function PotentialRoadSlopeProtectionProjects () {
         })
         .then(function (response) {
           if (response && response.features && response.features.length > 0) {
-            ClosePopup();
+            close_popup();
   
             var extent = response.features[0].geometry.extent;
   
@@ -110,9 +103,9 @@ export default function PotentialRoadSlopeProtectionProjects () {
               extent = extent.union(feature.geometry.extent);
             });
   
-            RecenterMap(extent);
+            recenter_map(extent);
     
-            OpenPopup(response.features);
+            open_popup(response.features);
           }
         })
         .catch(function (error) {
