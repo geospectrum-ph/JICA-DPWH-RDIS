@@ -27,6 +27,9 @@ export default function Summary () {
     totalRoadSlopeInventory,
     filteredRoadSlopeInventory,
 
+    totalRoadSlopeHazardsInventory,
+    filteredRoadSlopeHazardsInventory,
+
     totalExistingRoadSlopeProtectionStructures,
     filteredExistingRoadSlopeProtectionStructures,
 
@@ -75,6 +78,18 @@ export default function Summary () {
               <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>
               <div><span>{ filteredRoadSlopeInventory }</span></div>
               <div><span>{ totalRoadSlopeInventory }</span></div>
+            </div>
+          </div>
+          <div className = "summary-section">
+            <div className = "summary-header-row">
+              <div></div>
+              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+              <div className = "summary-column-header"><span>{ "Total" }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Road Slope Hazards Inventory" }</span></div>
+              <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
+              <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
             </div>
           </div>
           <div className = "summary-section">

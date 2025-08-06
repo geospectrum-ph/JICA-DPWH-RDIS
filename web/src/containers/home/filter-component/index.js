@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, refocus_map, close_popup, focus_map } from "../map-component";
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map } from "../map-component";
 
 import "./index.css";
 
@@ -447,10 +447,12 @@ export default function FilterComponent () {
       .catch(function (error) {
         setDataLoader01(false);
 
+        setTotalRoadInventoryA(0);
+        setFilteredRoadInventoryA(0);
+
         console.log(error);
       });
 
-      
     setDataLoader02(true);
 
     layer_national_expressways
@@ -476,6 +478,9 @@ export default function FilterComponent () {
       })
       .catch(function (error) {
         setDataLoader02(false);
+
+        setTotalRoadInventoryB(0);
+        setFilteredRoadInventoryB(0);
 
         console.log(error);
       });
@@ -545,7 +550,6 @@ export default function FilterComponent () {
           let arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
-
 
           for (const feature of response.features) {
             if (feature.attributes.rsm_category === "Inventory of Road Slope") {
@@ -645,15 +649,14 @@ export default function FilterComponent () {
           setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
         }
         else {
+          setFilteredRoadSlopeInventory(0);
           setTotalRoadSlopeInventory(0);
 
-          setTotalNonExistingRoadSlopeProtectionStructures(0);
           setTotalExistingRoadSlopeProtectionStructures(0);
-
-          setFilteredRoadSlopeInventory(0);
-
-          setFilteredNonExistingRoadSlopeProtectionStructures(0);
           setFilteredExistingRoadSlopeProtectionStructures(0);
+
+          setTotalNonExistingRoadSlopeProtectionStructures(0);
+          setFilteredNonExistingRoadSlopeProtectionStructures(0);
         }
       })
       .then(function () {
@@ -661,6 +664,15 @@ export default function FilterComponent () {
       })
       .catch(function (error) {
         setDataLoader03(false);
+
+        setFilteredRoadSlopeInventory(0);
+        setTotalRoadSlopeInventory(0);
+
+        setTotalExistingRoadSlopeProtectionStructures(0);
+        setFilteredExistingRoadSlopeProtectionStructures(0);
+
+        setTotalNonExistingRoadSlopeProtectionStructures(0);
+        setFilteredNonExistingRoadSlopeProtectionStructures(0);
 
         console.log(error);
       });
@@ -697,6 +709,8 @@ export default function FilterComponent () {
         })
         .length
     );
+
+    setFilteredRoadInventoryB(0);
 
     let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
 
@@ -990,9 +1004,7 @@ export default function FilterComponent () {
     }
   }
 
-  function clear_filter (type) {
-    refocus_map();
-
+  function clear_filter (type) {    
     if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) {
       initialize_summary();
     }
@@ -1106,6 +1118,8 @@ export default function FilterComponent () {
     setFilterLevel02Selected(null);
     setFilterLevel03Selected(null);
     setFilterLevel04Selected(null);
+
+    focus_map(5, null);
 
     switch (moduleSelected) {
       case 1:

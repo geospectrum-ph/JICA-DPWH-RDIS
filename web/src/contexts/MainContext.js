@@ -65,20 +65,23 @@ function MainContextProvider (props) {
   const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
   const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null); // Filter by year.
 
-  const [totalRoadInventoryA, setTotalRoadInventoryA] = React.useState(null);
-  const [filteredRoadInventoryA, setFilteredRoadInventoryA] = React.useState(null);
+  const [totalRoadInventoryA, setTotalRoadInventoryA] = React.useState(0);
+  const [filteredRoadInventoryA, setFilteredRoadInventoryA] = React.useState(0);
 
-  const [totalRoadInventoryB, setTotalRoadInventoryB] = React.useState(null);
-  const [filteredRoadInventoryB, setFilteredRoadInventoryB] = React.useState(null);
+  const [totalRoadInventoryB, setTotalRoadInventoryB] = React.useState(0);
+  const [filteredRoadInventoryB, setFilteredRoadInventoryB] = React.useState(0);
 
-  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(null);
-  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(null);
+  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(0);
+  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(0);
 
-  const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(null);
-  const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(null);
+  const [totalRoadSlopeHazardsInventory, setTotalRoadSlopeInventory] = React.useState(0);
+  const [filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeInventory] = React.useState(0);
 
-  const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(null);
-  const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(null);
+  const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(0);
+  const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(0);
+
+  const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(0);
+  const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(0);
 
   return (
     <MainContext.Provider value = {

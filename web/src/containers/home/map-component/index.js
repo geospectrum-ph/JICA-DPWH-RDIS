@@ -2825,27 +2825,31 @@ export function focus_map (type, string) {
         }
       }
     }
-  }
-}
+    if (type === 5) {
+      view
+        .whenLayerView(layer_national_road_network)
+        .then(function () {
+          layer_national_road_network
+            .queryFeatures({
+              where: `1 = 1`,
+              returnGeometry: true,
+            })
+            .then(function (response) {
+              if (highlighted_feature) {
+                highlighted_feature.remove();
+              }
 
-export function refocus_map () {
-  group_administrative_boundaries.visible = false;
+              if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+                var extent = response.features[0].geometry.extent;
 
-  for (const layer of group_administrative_boundaries.layers) {
-    layer.visible = false;
-  }
+                response.features.forEach(function(feature) {
+                  extent = extent.union(feature.geometry.extent);
+                });
 
-  const filter = new FeatureFilter({
-    where: "1 = 1"
-  });
-
-  if (view.layerViews?.items?.length > 0) {
-    for (const group of view.layerViews.items) {
-      if (group?.layerViews?.items?.length > 0) {
-        for (const layer of group.layerViews.items) {
-          layer.filter = filter;
-        }
-      }
+                view.goTo(extent);
+              }
+            });
+        });
     }
   }
 }
