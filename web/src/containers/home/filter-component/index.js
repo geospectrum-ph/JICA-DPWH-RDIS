@@ -38,6 +38,9 @@ export default function FilterComponent () {
     setTotalRoadSlopeInventory,
     setFilteredRoadSlopeInventory,
 
+    setTotalRoadSlopeHazardsInventory,
+    setFilteredRoadSlopeHazardsInventory,
+
     setTotalExistingRoadSlopeProtectionStructures,
     setFilteredExistingRoadSlopeProtectionStructures,
   
@@ -88,7 +91,7 @@ export default function FilterComponent () {
       color: "rgba(249, 65, 68, 1.00)"
     }, 
     {
-      name: "Rock Slope Collapse/Rock Fall",
+      name: "Rock Slope Collapse or Rock Fall",
       total: 0,
       filtered: 0,
       color: "rgba(243, 114, 44, 1.00)"
@@ -271,7 +274,7 @@ export default function FilterComponent () {
       color: "rgba(249, 65, 68, 1.00)"
     }, 
     {
-      name: "Rock Slope Collapse/Rock Fall",
+      name: "Rock Slope Collapse or Rock Fall",
       total: 0,
       filtered: 0,
       color: "rgba(243, 114, 44, 1.00)"
@@ -497,6 +500,9 @@ export default function FilterComponent () {
         if (response?.features) {
           setDataSourceBuffer03(response.features);
 
+          setFilteredRoadSlopeHazardsInventory(response.features.length);
+          setTotalRoadSlopeHazardsInventory(response.features.length);
+
           let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
 
           for (const feature of response.features) {
@@ -518,12 +524,19 @@ export default function FilterComponent () {
 
           setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer_);
         }
+        else {
+          setFilteredRoadSlopeHazardsInventory(0);
+          setTotalRoadSlopeHazardsInventory(0);
+        }
       })
       .then(function () {
         setDataLoader04(false);
       })
       .catch(function (error) {
         setDataLoader04(false);
+        
+        setFilteredRoadSlopeHazardsInventory(0);
+        setTotalRoadSlopeHazardsInventory(0);
 
         console.log(error);
       });

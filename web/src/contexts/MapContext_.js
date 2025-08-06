@@ -2340,7 +2340,7 @@ function MapContextProvider (props) {
     ["River Erosion", [144, 190, 109, 1.00]],
     ["Road Slip", [249, 199, 79, 1.00]],
     ["Landslide", [248, 150, 30, 1.00]],
-    ["Rock Slope Collapse/Rock Fall", [243, 114, 44, 1.00]],
+    ["Rock Slope Collapse or Rock Fall", [243, 114, 44, 1.00]],
     ["Soil Slope Collapse", [249, 65, 68, 1.00]]
   ];
 
@@ -2498,7 +2498,7 @@ function MapContextProvider (props) {
     ["River Erosion", [144, 190, 109, 1.00]],
     ["Road Slip", [249, 199, 79, 1.00]],
     ["Landslide", [248, 150, 30, 1.00]],
-    ["Rock Slope Collapse/Rock Fall", [243, 114, 44, 1.00]],
+    ["Rock Slope Collapse or Rock Fall", [243, 114, 44, 1.00]],
     ["Soil Slope Collapse", [249, 65, 68, 1.00]]  
   ];
 

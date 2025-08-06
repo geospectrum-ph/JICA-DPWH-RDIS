@@ -74,8 +74,8 @@ function MainContextProvider (props) {
   const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(0);
   const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(0);
 
-  const [totalRoadSlopeHazardsInventory, setTotalRoadSlopeInventory] = React.useState(0);
-  const [filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeInventory] = React.useState(0);
+  const [totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory] = React.useState(0);
+  const [filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory] = React.useState(0);
 
   const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(0);
   const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(0);
@@ -119,6 +119,9 @@ function MainContextProvider (props) {
         
         totalRoadSlopeInventory, setTotalRoadSlopeInventory,
         filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
+
+        totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory,
+        filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory,
 
         totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures,
         filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,

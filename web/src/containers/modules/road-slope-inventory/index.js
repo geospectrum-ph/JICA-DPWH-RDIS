@@ -240,9 +240,9 @@ export default function RoadSlopeInventory () {
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                      <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
+                      <span>{ "Rock Slope Collapse (RSC) or Rock Fall (RF)" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Rock Slope Collapse or Rock Fall"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
@@ -446,9 +446,9 @@ export default function RoadSlopeInventory () {
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
-                      <span>{ "Rock Slope Collapse (RSC) / Rock Fall (RF)" }</span>
+                      <span>{ "Rock Slope Collapse (RSC) or Rock Fall (RF)" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Rock Slope Collapse/Rock Fall"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Rock Slope Collapse or Rock Fall"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>

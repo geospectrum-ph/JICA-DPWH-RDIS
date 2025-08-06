@@ -1490,7 +1490,7 @@ const array_inventory_of_road_slopes_type_of_disaster = [
   ["River Erosion", [144, 190, 109, 1.00]],
   ["Road Slip", [249, 199, 79, 1.00]],
   ["Landslide", [248, 150, 30, 1.00]],
-  ["Rock Slope Collapse/Rock Fall", [243, 114, 44, 1.00]],
+  ["Rock Slope Collapse or Rock Fall", [243, 114, 44, 1.00]],
   ["Soil Slope Collapse", [249, 65, 68, 1.00]]
 ];
 
@@ -1648,7 +1648,7 @@ const array_inventory_of_road_slope_protection_structures_type_of_disaster = [
   ["River Erosion", [144, 190, 109, 1.00]],
   ["Road Slip", [249, 199, 79, 1.00]],
   ["Landslide", [248, 150, 30, 1.00]],
-  ["Rock Slope Collapse/Rock Fall", [243, 114, 44, 1.00]],
+  ["Rock Slope Collapse or Rock Fall", [243, 114, 44, 1.00]],
   ["Soil Slope Collapse", [249, 65, 68, 1.00]]  
 ];
 
@@ -2826,30 +2826,30 @@ export function focus_map (type, string) {
       }
     }
     if (type === 5) {
-      view
-        .whenLayerView(layer_national_road_network)
-        .then(function () {
-          layer_national_road_network
-            .queryFeatures({
-              where: `1 = 1`,
-              returnGeometry: true,
-            })
-            .then(function (response) {
-              if (highlighted_feature) {
-                highlighted_feature.remove();
-              }
+      // view
+      //   .whenLayerView(layer_national_road_network)
+      //   .then(function () {
+      //     layer_national_road_network
+      //       .queryFeatures({
+      //         where: `1 = 1`,
+      //         returnGeometry: true,
+      //       })
+      //       .then(function (response) {
+      //         if (highlighted_feature) {
+      //           highlighted_feature.remove();
+      //         }
 
-              if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-                var extent = response.features[0].geometry.extent;
+      //         if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+      //           var extent = response.features[0].geometry.extent;
 
-                response.features.forEach(function(feature) {
-                  extent = extent.union(feature.geometry.extent);
-                });
+      //           response.features.forEach(function(feature) {
+      //             extent = extent.union(feature.geometry.extent);
+      //           });
 
-                view.goTo(extent);
-              }
-            });
-        });
+      //           view.goTo(extent);
+      //         }
+      //       });
+      //   });
     }
   }
 }
