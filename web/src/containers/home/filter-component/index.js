@@ -725,6 +725,8 @@ export default function FilterComponent () {
 
     setFilteredRoadInventoryB(0);
 
+    let counterRoadSlopeHazardsInventory = 0;
+
     let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
 
     for (const feature of 
@@ -744,6 +746,8 @@ export default function FilterComponent () {
           }
         })
     ) {
+      counterRoadSlopeHazardsInventory++;
+
       if (arrayRoadSlopeHazardsBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
         let index = arrayRoadSlopeHazardsBuffer_.length - 1;
         let value = arrayRoadSlopeHazardsBuffer_[index].total;
@@ -759,6 +763,8 @@ export default function FilterComponent () {
         arrayRoadSlopeHazardsBuffer_[index].filtered = value + 1;
       }
     }
+
+    setFilteredRoadSlopeHazardsInventory(counterRoadSlopeHazardsInventory);
 
     setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer_);
 
