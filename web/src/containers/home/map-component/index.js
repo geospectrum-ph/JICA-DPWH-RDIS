@@ -2825,31 +2825,36 @@ export function focus_map (type, string) {
         }
       }
     }
-    if (type === 5) {
-      // view
-      //   .whenLayerView(layer_national_road_network)
-      //   .then(function () {
-      //     layer_national_road_network
-      //       .queryFeatures({
-      //         where: `1 = 1`,
-      //         returnGeometry: true,
-      //       })
-      //       .then(function (response) {
-      //         if (highlighted_feature) {
-      //           highlighted_feature.remove();
-      //         }
+    if (type === 5) {{
+      if (view.layerViews?.items?.length > 0) {
+        for (const group of view.layerViews.items) {
+          if (group?.layerViews?.items?.length > 0) {
+            for (const layer of group.layerViews.items) {
+              layer.filter = new FeatureFilter({
+                where: `1 = 1`
+              });
+            }
+          }
+        }
+      }
 
-      //         if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-      //           var extent = response.features[0].geometry.extent;
+      layer_national_road_network
+        .queryFeatures({
+          where: `1 = 1`,
+          returnGeometry: true,
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+            var extent = response.features[0].geometry.extent;
 
-      //           response.features.forEach(function(feature) {
-      //             extent = extent.union(feature.geometry.extent);
-      //           });
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
 
-      //           view.goTo(extent);
-      //         }
-      //       });
-      //   });
+            view.goTo(extent);
+          }
+        });
+      }
     }
   }
 }

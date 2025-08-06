@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map } from "../map-component";
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer } from "../map-component";
 
 import "./index.css";
 
@@ -466,8 +466,6 @@ export default function FilterComponent () {
       })
       .then(function (response) {
         if (response?.features) {
-          setDataSourceBuffer01(response.features);
-
           setTotalRoadInventoryB(response.features.length);
           setFilteredRoadInventoryB(response.features.length);
         }
@@ -704,6 +702,8 @@ export default function FilterComponent () {
   }, [dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
 
   function filter_summary (level, object) {
+    // console.log(dataSourceBuffer01);
+
     setFilteredRoadInventoryA(
       dataSourceBuffer01
         .filter(function (feature) {
@@ -717,7 +717,7 @@ export default function FilterComponent () {
             return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO && feature.attributes.CONG_DIST === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.ROAD_ID.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.ROAD_NAME.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.SECTION_ID.toLowerCase().includes(object.QUERY?.toLowerCase()));
+            return (feature.attributes.ROAD_ID?.includes(object.QUERY) || feature.attributes.ROAD_NAME?.includes(object.QUERY) || feature.attributes.SECTION_ID?.includes(object.QUERY));
           }
         })
         .length
@@ -742,7 +742,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY?.toLowerCase()));
+            return (feature.attributes.road_id?.includes(object.QUERY) || feature.attributes.road_name?.includes(object.QUERY) || feature.attributes.section_id?.includes(object.QUERY));
           }
         })
     ) {
@@ -793,7 +793,7 @@ export default function FilterComponent () {
             return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
           }
           else if (level === 4 ) {
-            return (feature.attributes.road_id.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.road_name.toLowerCase().includes(object.QUERY?.toLowerCase()) || feature.attributes.section_id.toLowerCase().includes(object.QUERY?.toLowerCase()));
+            return (feature.attributes.road_id?.includes(object.QUERY) || feature.attributes.road_name?.includes(object.QUERY) || feature.attributes.section_id?.includes(object.QUERY));
           }
         })
     ) {
@@ -1012,7 +1012,7 @@ export default function FilterComponent () {
           return (data.attributes.region_name === (object?.REGION || filterLevel01Selected) && data.attributes.deo_name === (object?.DEO || filterLevel02Selected) && data.attributes.district_name === (object?.CONG_DIST || filterLevel03Selected));
         }
         else if (level === 4) {
-          return (data.attributes.road_id.toLowerCase().includes(object?.QUERY?.toLowerCase()) || data.attributes.road_name.toLowerCase().includes(object?.QUERY?.toLowerCase()) || data.attributes.section_id.toLowerCase().includes(object?.QUERY?.toLowerCase()));
+          return (data.attributes.road_id?.includes(object?.QUERY) || data.attributes.road_name?.includes(object?.QUERY) || data.attributes.section_id?.includes(object?.QUERY));
         }
         else {
           return (null);
@@ -1023,11 +1023,7 @@ export default function FilterComponent () {
     }
   }
 
-  function clear_filter (type) {    
-    if (!dataSourceBuffer01 && !dataSourceBuffer02 && !dataSourceBuffer03) {
-      initialize_summary();
-    }
-    
+  function clear_filter (type) {      
     if (type === 1) {
       setFilterLevel01Selected(null);
       setFilterLevel02Selected(null);
@@ -1035,6 +1031,10 @@ export default function FilterComponent () {
       setFilterLevel04Selected(null);
 
       query_features(0, null);
+
+      initialize_summary();
+
+      focus_map(5, null);
     }
     if (type === 2) {
       setFilterLevel02Selected(null);
@@ -1046,6 +1046,8 @@ export default function FilterComponent () {
       }
       else {  
         query_features(0, null);
+
+        focus_map(5, null);
       }
     }
     if (type === 3) {
@@ -1060,12 +1062,21 @@ export default function FilterComponent () {
       }
       else {  
         query_features(0, null);
+
+        focus_map(5, null);
       }
     }
     if (type === 4) {
       setFilterLevel01Selected(null);
       setFilterLevel02Selected(null);
       setFilterLevel03Selected(null);
+
+      if (filterLevel04Selected) {
+        query_features(4, null)
+      }
+      else {
+        focus_map(5, null);
+      }
     }
   }
   
@@ -1120,15 +1131,20 @@ export default function FilterComponent () {
       query_features(3, object);
     }
     if (type === 4) {
-      const object = {
-        "QUERY": string
+      if (string === "") {
+        clear_filter(1);
       }
+      else {
+        const object = {
+          "QUERY": string
+        }
 
-      clear_filter(4);
+        clear_filter(4);
 
-      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(4, object); }
+        if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(4, object); }
 
-      query_features(4, object);
+        query_features(4, object);
+      }
     }
   }
 
