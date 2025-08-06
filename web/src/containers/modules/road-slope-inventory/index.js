@@ -24,27 +24,54 @@ export default function RoadSlopeInventory () {
   ];
 
   function filter_data_road_condition (array, filters) {
-    return (
-      array.filter(function (item) {
-        return (item.attributes.rsm_category === filters[0] && item.attributes.road_condition === filters[1]);
-      })
-    );
+    if (filters[1]) {
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && item.attributes.road_condition === filters[1]);
+        })
+      );
+    }
+    else {      
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && !item.attributes.road_condition);
+        })
+      );
+    }
   }
 
   function filter_data_disaster_type (array, filters) {
-    return (
-      array.filter(function (item) {
-        return (item.attributes.rsm_category === filters[0] && item.attributes.disaster_type === filters[1]);
-      })
-    );
+    if (filters[1]) {
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && item.attributes.disaster_type === filters[1]);
+        })
+      );
+    }
+    else {
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && !item.attributes.disaster_type);
+        })
+      );
+    }
   }
 
   function filter_data_structure_type (array, filters) {
-    return (
-      array.filter(function (item) {
-        return (item.attributes.rsm_category === filters[0] && item.attributes.structure_type === filters[1]);
-      })
-    );
+    if (filters[1]) {
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && item.attributes.structure_type === filters[1]);
+        })
+      );
+    }
+    else {
+      return (
+        array.filter(function (item) {
+          return (item.attributes.rsm_category === filters[0] && item.attributes.structure_type === filters[1]);
+        })
+      );
+    }
   }
 
   function nest_groups_by (array, properties) {
@@ -279,6 +306,13 @@ export default function RoadSlopeInventory () {
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", "Coastal Erosion"]), sublevels) }/>
                   </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Unclassified" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope", ""]), sublevels) }/>
+                  </div>
                 </div>
                 <div className = { "data-container-hidden" }>
                   <div className = "inventory-section-subheader" onClick = { function (event) { change_visibility(event); } }>
@@ -390,6 +424,13 @@ export default function RoadSlopeInventory () {
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
                   </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Unclassified" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope", null]), sublevels) }/>
+                  </div>
                 </div>
               </div>
               <div className = { "data-container" }>
@@ -429,6 +470,13 @@ export default function RoadSlopeInventory () {
                       <span>{ "Bad" }</span>
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", "Bad"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Unclassified" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataArray, ["Inventory of Road Slope Structures", null]), sublevels) }/>
                   </div>
                 </div>
                 <div className = { "data-container-hidden" }>
@@ -484,6 +532,13 @@ export default function RoadSlopeInventory () {
                       <span>{ "Coastal Erosion (CE)" }</span>
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", "Coastal Erosion"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Unclassified" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_disaster_type(dataArray, ["Inventory of Road Slope Structures", null]), sublevels) }/>
                   </div>
                 </div>
                 <div className = { "data-container-hidden" }>
@@ -595,6 +650,13 @@ export default function RoadSlopeInventory () {
                       <span>{ "Gabions Revetment (Pile-Up Type)" }</span>
                     </div>
                     <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", "Gabions Revetment (Pile-Up Type)"]), sublevels) }/>
+                  </div>
+                  <div className = { "data-container-hidden" }>
+                    <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
+                      <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
+                      <span>{ "Unclassified" }</span>
+                    </div>
+                    <DataRenderer data = { nest_groups_by(filter_data_structure_type(dataArray, ["Inventory of Road Slope Structures", null]), sublevels) }/>
                   </div>
                 </div>
               </div>

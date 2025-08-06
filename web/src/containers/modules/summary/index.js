@@ -74,11 +74,6 @@ export default function Summary () {
               <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
               <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
             </div>
-            <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>
-              <div><span>{ filteredRoadSlopeInventory }</span></div>
-              <div><span>{ totalRoadSlopeInventory }</span></div>
-            </div>
           </div>
           <div className = "summary-section">
             <div className = "summary-header-row">
@@ -90,23 +85,6 @@ export default function Summary () {
               <div className = "summary-row-header"><span>{ "Road Slope Hazards Inventory" }</span></div>
               <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
               <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
-            </div>
-          </div>
-          <div className = "summary-section">
-            <div className = "summary-header-row">
-              <div></div>
-              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-              <div className = "summary-column-header"><span>{ "Total" }</span></div>
-            </div>
-            <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
-              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
-              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
-            </div>
-            <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
-              <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
-              <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
             </div>
           </div>
           <div className = "summary-section">
@@ -183,6 +161,35 @@ export default function Summary () {
                     : null
                 }
               </div>
+            </div>
+          </div>
+          <div className = "summary-section">
+            <div className = "summary-header-row">
+              <div></div>
+              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+              <div className = "summary-column-header"><span>{ "Total" }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>
+              <div><span>{ filteredRoadSlopeInventory }</span></div>
+              <div><span>{ totalRoadSlopeInventory }</span></div>
+            </div>
+          </div>
+          <div className = "summary-section">
+            <div className = "summary-header-row">
+              <div></div>
+              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+              <div className = "summary-column-header"><span>{ "Total" }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
             </div>
           </div>
           <div className = "summary-section">
