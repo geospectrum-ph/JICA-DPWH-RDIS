@@ -64,25 +64,27 @@ export default function Summary () {
       <div>
         <div>
           <div className = "summary-section">
+            <div className = "summary-section-header"><span>{ "Road Inventory" }</span></div>
             <div className = "summary-header-row">
               <div></div>
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
             <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Road Inventory" }</span></div>
+              <div className = "summary-row-header"><span>{ "Number of Road Sections" }</span></div>
               <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
               <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
             </div>
           </div>
           <div className = "summary-section">
+            <div className = "summary-section-header"><span>{ "Road Slope Hazards Inventory" }</span></div>
             <div className = "summary-header-row">
               <div></div>
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
             <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Road Slope Hazards Inventory" }</span></div>
+              <div className = "summary-row-header"><span>{ "Number of Road Slope Hazard Records" }</span></div>
               <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
               <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
             </div>
@@ -164,22 +166,16 @@ export default function Summary () {
             </div>
           </div>
           <div className = "summary-section">
+            <div className = "summary-section-header"><span>{ "Road Slope Inventory" }</span></div>
             <div className = "summary-header-row">
               <div></div>
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
             <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Road Slope Inventory" }</span></div>
+              <div className = "summary-row-header"><span>{ "Number of Road Slope Records" }</span></div>
               <div><span>{ filteredRoadSlopeInventory }</span></div>
               <div><span>{ totalRoadSlopeInventory }</span></div>
-            </div>
-          </div>
-          <div className = "summary-section">
-            <div className = "summary-header-row">
-              <div></div>
-              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-              <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
             <div className = "summary-row">
               <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
@@ -193,7 +189,6 @@ export default function Summary () {
             </div>
           </div>
           <div className = "summary-section">
-            <div className = "summary-section-header"><span>{ "Road Slope Inventory Module" }</span></div>
             <div className = "summary-section-header"><span>{ "Road Slopes" }</span></div>
             <div className = "summary-section-subheader"><span>{ "Type of Disasters affecting Road Slopes" }</span></div>
             <div>
@@ -341,7 +336,9 @@ export default function Summary () {
                 }
               </div>
             </div>
-            <div className = "summary-section-header"><span>{ "Road Slope Structures" }</span></div>
+          </div>
+          <div className = "summary-section">
+            <div className = "summary-section-header"><span>{ "Road Slope Protection Structures" }</span></div>
             <div className = "summary-section-subheader"><span>{ "Condition of Existing Road Slope Protection Structures" }</span></div>
             <div>
               <div className = "summary-details">

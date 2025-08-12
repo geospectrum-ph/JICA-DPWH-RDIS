@@ -9,7 +9,14 @@ import "./index.css";
 export default function RoadSlopeInventory () {
   const {
     dataArray,
-    dataLoading
+    dataLoading,
+
+    filteredRoadSlopeInventory,
+    totalRoadSlopeInventory,
+    filteredExistingRoadSlopeProtectionStructures,
+    totalExistingRoadSlopeProtectionStructures,
+    filteredNonExistingRoadSlopeProtectionStructures,
+    totalNonExistingRoadSlopeProtectionStructures,
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
@@ -244,6 +251,31 @@ export default function RoadSlopeInventory () {
         </div>
       </div>
       <div>
+        <div>
+          <div className = "summary-section">
+            <div className = "summary-section-header"><span>{ "Summary" }</span></div>
+            <div className = "summary-header-row">
+              <div></div>
+              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+              <div className = "summary-column-header"><span>{ "Total" }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Number of Road Slope Records" }</span></div>
+              <div><span>{ filteredRoadSlopeInventory }</span></div>
+              <div><span>{ totalRoadSlopeInventory }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
+            </div>
+            <div className = "summary-row">
+              <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
+            </div>
+          </div>
+        </div>
         {
           dataArray ?
             <div className = "data-array-container">
