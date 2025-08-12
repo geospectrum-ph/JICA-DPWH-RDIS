@@ -152,7 +152,7 @@ export default function RoadSlopeInventory () {
           }
         })
         .catch(function (error) {          
-          console.log(error);
+          // console.log(error);
         });
     }
     

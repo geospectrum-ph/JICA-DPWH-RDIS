@@ -453,7 +453,7 @@ export default function FilterComponent () {
         setTotalRoadInventoryA(0);
         setFilteredRoadInventoryA(0);
 
-        console.log(error);
+        // console.log(error);
       });
 
     setDataLoader02(true);
@@ -483,7 +483,7 @@ export default function FilterComponent () {
         setTotalRoadInventoryB(0);
         setFilteredRoadInventoryB(0);
 
-        console.log(error);
+        // console.log(error);
       });
 
     setDataLoader03(true);
@@ -536,7 +536,7 @@ export default function FilterComponent () {
         setFilteredRoadSlopeHazardsInventory(0);
         setTotalRoadSlopeHazardsInventory(0);
 
-        console.log(error);
+        // console.log(error);
       });
 
     layer_road_slopes_and_countermeasures
@@ -685,7 +685,7 @@ export default function FilterComponent () {
         setTotalNonExistingRoadSlopeProtectionStructures(0);
         setFilteredNonExistingRoadSlopeProtectionStructures(0);
 
-        console.log(error);
+        // console.log(error);
       });
 
     setDataLoader04(true);
@@ -935,7 +935,7 @@ export default function FilterComponent () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   }, []);
   
@@ -1186,7 +1186,7 @@ export default function FilterComponent () {
           .catch(function (error) {
             setDataLoading(false);
 
-            console.log(error);
+            // console.log(error);
           });
         break;
       case 2:
@@ -1219,7 +1219,7 @@ export default function FilterComponent () {
           .catch(function (error) {
             setDataLoading(false);
             
-            console.log(error);
+            // console.log(error);
           });
         break;
       case 0:

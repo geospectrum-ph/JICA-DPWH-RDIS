@@ -392,7 +392,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
   }, []);
 
@@ -712,7 +712,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 
     new FeatureLayer({
@@ -761,7 +761,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 
     new FeatureLayer({
@@ -810,7 +810,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
       
     new FeatureLayer({
@@ -859,7 +859,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 
     new FeatureLayer({
@@ -908,7 +908,7 @@ function MapContextProvider (props) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
   }, []);
 
@@ -1624,24 +1624,24 @@ function MapContextProvider (props) {
                         layer_road_slope_hazards
                           .addAttachment(feature, form)
                           .catch(function (error) {
-                            console.log(error);
+                            // console.log(error);
                           });
                       }
                     }
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    // console.log(error);
                   });
               }
             }
           }
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
 
     new FeatureLayer({
@@ -1695,24 +1695,24 @@ function MapContextProvider (props) {
                         layer_road_slopes_and_countermeasures
                           .addAttachment(feature, form)
                           .catch(function (error) {
-                            console.log(error);
+                            // console.log(error);
                           });
                       }
                     }
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    // console.log(error);
                   });
               }
             }
           }
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
     })
     .catch(function (error) {
-      console.log(error);
+      // console.log(error);
     });
   }, []);
 
@@ -2798,7 +2798,7 @@ function MapContextProvider (props) {
             save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
           })
           .catch(function (error) {
-            console.log(error);
+            // console.log(error);
           });
       }
     });

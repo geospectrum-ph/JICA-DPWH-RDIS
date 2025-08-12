@@ -1935,7 +1935,7 @@ function build_view(viewMode) {
           save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
     }
   });

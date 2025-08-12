@@ -87,7 +87,7 @@ function HomePage () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
 
     layer_provinces
@@ -134,7 +134,7 @@ function HomePage () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
 
     layer_legislative_districts
@@ -181,7 +181,7 @@ function HomePage () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
       
     layer_engineering_districts
@@ -228,7 +228,7 @@ function HomePage () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
 
     layer_regions
@@ -275,7 +275,7 @@ function HomePage () {
         }
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
 
     // For rendering feature layer photos.

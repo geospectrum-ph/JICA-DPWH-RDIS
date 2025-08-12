@@ -110,7 +110,7 @@ export default function RoadSlopeHazards () {
           }
         })
         .catch(function (error) {
-          console.log(error);
+          // console.log(error);
         });
     }
 
