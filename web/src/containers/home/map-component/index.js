@@ -1551,7 +1551,7 @@ const array_inventory_of_road_slopes_type_of_road_slope_protection_structure = [
   ["Stone Masonry", [161, 19, 24, 1.00]],
   ["Rubble Concrete Revetment (Spread Type I)", [220, 30, 122, 1.00]],
   ["Grouted Riprap with Concrete Sheet Pile Foundation", [199, 26, 176, 1.00]],
-  ["Grouted Riprap with Steel Sheet Pile Foundation", [138, 22, 177, 1.00]],
+  ["Grouted Riprap with Steel Sheet Pile Foundation", [156, 22, 177, 1.00]],
   ["Grouted Riprap", [138, 22, 177, 1.00]]
 ];
 
@@ -1709,7 +1709,7 @@ const array_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
   ["Stone Masonry", [161, 19, 24, 1.00]],
   ["Rubble Concrete Revetment (Spread Type I)", [220, 30, 122, 1.00]],
   ["Grouted Riprap with Concrete Sheet Pile Foundation", [199, 26, 176, 1.00]],
-  ["Grouted Riprap with Steel Sheet Pile Foundation", [138, 22, 177, 1.00]],
+  ["Grouted Riprap with Steel Sheet Pile Foundation", [156, 22, 177, 1.00]],
   ["Grouted Riprap", [138, 22, 177, 1.00]]
 ];
 
