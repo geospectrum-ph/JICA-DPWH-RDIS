@@ -294,6 +294,7 @@ function HomePage () {
     })
     .then(function (response) {
       let retrieved_attachments = response;
+      console.log(retrieved_attachments);
       let retrieved_keys = Object.keys(retrieved_attachments);
 
       layer_road_slope_hazards
