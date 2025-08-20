@@ -1384,7 +1384,7 @@ const group_calamities = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1476,7 +1476,7 @@ const group_situational_reports = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1531,7 +1531,7 @@ const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1588,7 +1588,7 @@ const group_inventory_of_road_slopes_type_of_road_slope_protection_structure = n
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1689,7 +1689,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_disaster = new
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1746,7 +1746,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -2591,6 +2591,9 @@ export function view_layer (module) {
               view.map.layers.push(group_road_slope_hazards);
             }
             if (module === "road-slope-inventory") {
+              view.map.layers.push(group_situational_reports);
+              view.map.layers.push(group_calamities);
+              
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_disaster);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_road_slope_condition);
