@@ -1291,7 +1291,7 @@ const group_storm_surge_hazards = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1408,7 +1408,7 @@ const group_calamities = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1500,7 +1500,7 @@ const group_situational_reports = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1555,7 +1555,7 @@ const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1612,7 +1612,7 @@ const group_inventory_of_road_slopes_type_of_road_slope_protection_structure = n
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1713,7 +1713,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_disaster = new
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
@@ -1770,7 +1770,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
       })
     );
   }),
-  visible: false,
+  visible: true,
   visibilityMode: "independent",
   opacity: 1.00
 });
