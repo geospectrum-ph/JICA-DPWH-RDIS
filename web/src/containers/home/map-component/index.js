@@ -525,6 +525,30 @@ const group_administrative_boundaries = new GroupLayer({
 });
 
 /* Summary Data */
+  function parse_limit (property) {
+    let value;
+
+    if (isNaN(property)) {
+      if (property.includes("-")) {
+        const string_array = property.split(/[-]/);
+
+        value = string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")";
+      }
+      else if (property.includes("+")) {
+        const string_array = property.split(/[+]/);
+
+        value = string_array[0] + " + " + string_array[1].padStart(3, "0");
+      }
+      else {
+        value = property;
+      }
+    }
+    else {
+      value = property;
+    }
+
+    return(value);
+  }
 
 const disaster_codes = {
   "disaster_ssc": "Soil Slope Collapse",
@@ -581,11 +605,11 @@ function content_road_slope_hazards (target) {
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
@@ -793,11 +817,11 @@ function content_road_slopes_and_countermeasures (target) {
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
@@ -918,11 +942,11 @@ function content_inventory_of_road_slopes (target) {
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
@@ -1052,11 +1076,11 @@ function content_inventory_of_road_slope_protection_structures (target) {
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ target.graphic.attributes.start_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ target.graphic.attributes.end_lrp || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
