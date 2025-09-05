@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
+  console.log(req.body)
   const hashedPassword = await bcrypt.hash(req.body.password, 16);
   // Create a User object
   const userInfo = {
@@ -14,8 +15,10 @@ exports.register = async (req, res) => {
     password: hashedPassword,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
-    role: req.body.role || 'reader',
-    region: req.body.region
+    position: req.body.position,
+    role_access: req.body.role_access || 'guest',
+    deo_id: req.body.deo_id,
+    ro_id: req.body.ro_id
   };
   // Save a User in the database
   try{
@@ -33,7 +36,7 @@ exports.login = async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(401).json({ message: 'Invalid password' });
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '12h' });
-    res.json({ message: 'Logged in successfully', token });
+    res.json({ message: 'Logged in successfully', token, user });
   } catch (error) {
     res.status(500).json({ message: 'Error logging in', error: error.message });
   }

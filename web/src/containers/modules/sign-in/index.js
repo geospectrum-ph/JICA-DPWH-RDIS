@@ -30,7 +30,7 @@ export default function SignInPage () {
       .then(function (tokenInfo) {
         sessionStorage.clear();
         sessionStorage.setItem("token", tokenInfo);
-
+        console.log(tokenInfo)
         esriId
           .registerToken({
             ...tokenInfo,
