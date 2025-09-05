@@ -40,13 +40,25 @@
   }
 
   > :nth-child(3) {
-    display: flex;
+    /* display: flex; */
     flex-flow: column nowrap;
     place-items: center center;
     place-content: center center;
 
     flex: 1 1 0;
     height: 100%;
+
+    &.map-hidden {
+      > * {
+        display: none;
+      }
+    }
+
+    &.map-visible {
+      > * {
+        display: initial;
+      }
+    }
 
     /* Filter Component */
     > :nth-child(1) {

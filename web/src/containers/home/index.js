@@ -17,7 +17,9 @@ import "./index.css";
 function HomePage () {
   const {
     dataLoading,
-    menuComponentOpen
+    menuComponentOpen,
+    modules,
+    moduleSelected,
   } = React.useContext(MainContext);
 
   String.prototype.toProperCase = function () {
@@ -436,7 +438,7 @@ function HomePage () {
       <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
         <Outlet/>
       </div>
-      <div>
+      <div className = { moduleSelected === (modules.length - 1) ? "map-hidden" : "map-visible" }>
         <div>
           <FilterComponent/>
         </div>

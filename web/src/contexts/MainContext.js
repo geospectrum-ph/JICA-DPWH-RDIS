@@ -44,6 +44,11 @@ function MainContextProvider (props) {
       name: "Reports",
       logo: "content_paste_search",
       map_visible: true
+    },
+    {
+      name: "Settings",
+      logo: "settings",
+      map_visible: false
     }
   ]);
   

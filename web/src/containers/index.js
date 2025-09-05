@@ -11,7 +11,7 @@ import PotentialRoadSlopeProtectionProjects from "./modules/potential-road-slope
 import FundedRoadSlopeProtectionProjects from "./modules/funded-road-slope-protection-projects";
 import ProposalForFunding from "./modules/error";
 import Reports from "./modules/reports";
-import Settings from "./modules/error";
+import Settings from "./modules/settings";
 
 import About from "./modules/error";
 import TermsOfUse from "./modules/error";
