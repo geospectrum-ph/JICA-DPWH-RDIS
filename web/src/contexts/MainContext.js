@@ -3,9 +3,11 @@ import * as React from "react";
 export const MainContext = React.createContext();
 
 function MainContextProvider (props) {
-  const [dataSource, setDataSource] = React.useState(null);
-  const [dataArray, setDataArray] = React.useState(null);
-  const [dataLoading, setDataLoading] = React.useState(false);
+  // For token handling.
+
+  const [token, setToken] = React.useState(null);
+
+  // For module switch handling.
 
   const [menuComponentOpen, setMenuComponentOpen] = React.useState(false);
 
@@ -49,6 +51,14 @@ function MainContextProvider (props) {
   
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
+  // For data rendering.
+  
+  const [dataSource, setDataSource] = React.useState(null);
+  const [dataArray, setDataArray] = React.useState(null);
+  const [dataLoading, setDataLoading] = React.useState(false);
+
+  // For storing data on the browser.
+
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState(null);
 
   const [arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster] = React.useState(null);
@@ -58,12 +68,16 @@ function MainContextProvider (props) {
   const [arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster] = React.useState(null);
   const [arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure] = React.useState(null);
 
+  // For data filtering.
+
   const [filterLevel00Selected, setFilterLevel00Selected] = React.useState(null);
   const [filterLevel01Selected, setFilterLevel01Selected] = React.useState(null); // Filter by region.
   const [filterLevel02Selected, setFilterLevel02Selected] = React.useState(null); // Filter by district engineering office.
   const [filterLevel03Selected, setFilterLevel03Selected] = React.useState(null); // Filter by congressional district.
   const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
   const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null); // Filter by year.
+
+  // For summary data.
 
   const [totalRoadInventoryA, setTotalRoadInventoryA] = React.useState(0);
   const [filteredRoadInventoryA, setFilteredRoadInventoryA] = React.useState(0);
@@ -86,14 +100,17 @@ function MainContextProvider (props) {
   return (
     <MainContext.Provider value = {
       {
-        dataSource, setDataSource,
-        dataArray, setDataArray,
-        dataLoading, setDataLoading,
+        token, setToken,
 
         menuComponentOpen, setMenuComponentOpen,
 
         modules, setModules,
+
         moduleSelected, setModuleSelected,
+
+        dataSource, setDataSource,
+        dataArray, setDataArray,
+        dataLoading, setDataLoading,
 
         arrayRoadSlopeHazards, setArrayRoadSlopeHazards,
         

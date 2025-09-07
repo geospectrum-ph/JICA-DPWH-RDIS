@@ -24,9 +24,9 @@ export default function MenuComponent () {
   function set_module (index) {
     close_popup();
     
-    setModuleSelected(index);
+    // setModuleSelected(index);
 
-    navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
+    // navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
 
     setMenuComponentOpen(!menuComponentOpen);
   }
@@ -34,7 +34,7 @@ export default function MenuComponent () {
   React.useEffect(function () {
     set_module(0);
 
-    view_layer("summary");
+    // view_layer("summary");
   }, []);
 
   return (
