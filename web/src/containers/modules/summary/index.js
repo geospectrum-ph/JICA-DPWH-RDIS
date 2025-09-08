@@ -75,6 +75,9 @@ export default function Summary () {
               <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
               <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
             </div>
+            <div className = "summary-note">
+              <span>{ "The total number of road sections based on the national road network and national expressways data from the RBIA." }</span>
+            </div>
           </div>
           <div className = "summary-section">
             <div className = "summary-section-header"><span>{ "Road Slope Hazards Inventory" }</span></div>
@@ -87,6 +90,9 @@ export default function Summary () {
               <div className = "summary-row-header"><span>{ "Number of Road Slope Hazard Records" }</span></div>
               <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
               <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
+            </div>
+            <div className = "summary-note">
+              <span>{ "The total number of active road slope hazard records from RDIS RSH." }</span>
             </div>
           </div>
           <div className = "summary-section">
@@ -186,6 +192,9 @@ export default function Summary () {
               <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
               <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
               <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
+            </div>
+            <div className = "summary-note">
+              <span>{ "The total number of active road slope records from RDIS RSMS." }</span>
             </div>
           </div>
           <div className = "summary-section">

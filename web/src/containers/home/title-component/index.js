@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { MainContext } from "../../../contexts/MainContext";
 
 
@@ -8,18 +10,9 @@ import logo_DPWH from "../../../assets/logo_dpwh.png";
 import "./index.css";
 
 export default function TitleComponent () {
-  const {
-    dataArray,
-    dataLoading,
-    dataTimestamp,
+  const navigate = useNavigate();
 
-    filteredRoadSlopeInventory,
-    totalRoadSlopeInventory,
-    filteredExistingRoadSlopeProtectionStructures,
-    totalExistingRoadSlopeProtectionStructures,
-    filteredNonExistingRoadSlopeProtectionStructures,
-    totalNonExistingRoadSlopeProtectionStructures,
-  } = React.useContext(MainContext);
+  const { dataTimestamp } = React.useContext(MainContext);
 
   return (
     <div id = "title-component">
@@ -31,8 +24,9 @@ export default function TitleComponent () {
           <span className = "title-container">{ "Road Disaster Information System" }</span>
         </div>
       </div>
-      <div>
-        <span>{ "Last Updated: " + (dataTimestamp ? dataTimestamp : "") }</span>
+      <div onClick = { function () { navigate(0); } }>
+        <span>{ "Last Updated: " }</span>
+        <span><b>{ dataTimestamp ? dataTimestamp.slice(4, 34) : "" }</b></span>
       </div>
     </div>
   );

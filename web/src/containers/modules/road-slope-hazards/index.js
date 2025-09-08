@@ -203,23 +203,23 @@ export default function RoadSlopeHazards () {
         <div>
           <span>{ "Road Slope Hazards Inventory" }</span>
         </div>
-      </div>
-      <div>       
-        <div>
-          <div className = "summary-section">
-            <div className = "summary-section-header"><span>{ "Summary" }</span></div>
-            <div className = "summary-header-row">
-              <div></div>
-              <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
-              <div className = "summary-column-header"><span>{ "Total" }</span></div>
-            </div>
-            <div className = "summary-row">
-              <div className = "summary-row-header"><span>{ "Number of Road Slope Hazard Records" }</span></div>
-              <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
-              <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
-            </div>
+      </div>       
+      <div>
+        <div className = "summary-section">
+          <div className = "summary-section-header"><span>{ "Summary" }</span></div>
+          <div className = "summary-header-row">
+            <div></div>
+            <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
+            <div className = "summary-column-header"><span>{ "Total" }</span></div>
           </div>
-        </div> 
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Number of Road Slope Hazard Records" }</span></div>
+            <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
+            <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
+          </div>
+        </div>
+      </div> 
+      <div>
         {
           dataArray ?
               <div className = "data-array-container">

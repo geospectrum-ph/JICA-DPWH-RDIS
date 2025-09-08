@@ -15,9 +15,7 @@ import MenuComponent from "../menu-component";
 import "./index.css";
 
 function HomeComponent () {
-  const {
-    menuComponentOpen
-  } = React.useContext(MainContext);
+  const { menuComponentOpen } = React.useContext(MainContext);
 
   String.prototype.toProperCase = function () {
     return (this.replace(/\w+\S|.\s/g, function (text) {
@@ -438,10 +436,12 @@ function HomeComponent () {
       </div>
       <div>
         <div>
-          <MenuComponent/>
-        </div>
-        <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
-          <Outlet/>
+          <div>
+            <MenuComponent/>
+          </div>
+          <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
+            <Outlet/>
+          </div>
         </div>
         <div>
           <MapComponent/>

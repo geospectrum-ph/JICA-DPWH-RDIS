@@ -1,22 +1,22 @@
-#potential-road-slope-protection-projects-container {
+#funded-road-slope-protection-projects-container {
   display: flex;
   flex-flow: column nowrap;
   place-items: stretch center;
   place-content: center start;
 
-  overflow: hidden hidden;
+  overflow: hidden;
 
-  width: var(--default-size-large, 360px);
+  width: calc((var(--default-size-large, 360px) * 1.25) - (var(--default-size-medium, 12px) * 6.00));
   height: 100%;
 
   background: var(--default-color-background-tertiary, rgba(232, 241, 255));
 
   /* Data Array Header */
   > :nth-child(1) {
-    display: grid;
-    
-    flex: auto 1 auto;
+    display: flex;
 
+    flex: 0 0 0;
+    
     width: auto;
     height: auto;
       
@@ -47,7 +47,8 @@
     overflow: hidden auto;
 
     width: 100%;
-    flex: 1 1 0;
+    height: 0;
+    flex: 1 1 auto;
 
     > .data-array-container {
       overflow: hidden auto;

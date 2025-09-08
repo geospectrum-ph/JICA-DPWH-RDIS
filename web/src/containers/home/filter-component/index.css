@@ -17,13 +17,14 @@
   color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
 
   > :nth-child(1) {
+    width: 100%;
+    height: auto;
+
     display: flex;
+    flex: 0 0 0;
     flex-flow: row nowrap;
     place-items: center center;
     place-content: center center;
-
-    width: 100%;
-    height: auto;
 
     box-sizing: border-box;
     gap: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
@@ -31,13 +32,14 @@
     > :nth-child(1) {
       position: relative;
 
-      display: inline-block;
-      place-items: center center;
-      place-content: center center;
-  
       width: 100%;
       height: calc(var(--default-size-medium, 12px) * 3.00);
-  
+
+      display: inline-block;
+      flex: 1 1 auto;
+      place-items: center center;
+      place-content: center center;
+
       box-sizing: border-box;
       box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
       border-radius: calc(var(--default-size-small, 1px) * 4.00);
@@ -90,12 +92,13 @@
     > :nth-child(2) {
       position: relative;
 
-      display: inline-block;
-      place-items: center stretch;
-      place-content: center center;
-
       width: auto;
       height: calc(var(--default-size-medium, 12px) * 3.00);
+
+      display: inline-block;
+      flex: 0 0 0;
+      place-items: center stretch;
+      place-content: center center;
 
       box-sizing: border-box;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
@@ -175,13 +178,14 @@
   }
 
   > :nth-child(2) {
+    width: 100%;
+    height: auto;
+
     display: flex;
+    flex: 0 0 0;
     flex-flow: row nowrap;
     place-items: center center;
     place-content: center center;
-
-    width: 100%;
-    height: auto;
 
     box-sizing: border-box;
     gap: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);
@@ -190,14 +194,14 @@
 
     > * {
       position: relative;
-
-      display: inline-block;
-      place-items: center stretch;
-      place-content: center center;
-
-      flex: 1 1 0;
+      
       max-width: calc(100% / 3.00);
       height: calc(var(--default-size-medium, 12px) * 3.00);
+
+      display: inline-block;
+      flex: 1 1 0;
+      place-items: center stretch;
+      place-content: center center;
 
       box-sizing: border-box;
       box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;  
@@ -249,12 +253,12 @@
           top: calc((var(--default-size-medium, 12px) * 4.00 / 3.00) + calc(var(--default-size-medium, 12px) * 3.00));
           z-index: 100;
 
+          max-height: var(--default-size-large, 360px);
+
           display: block;
 
           overflow-x: hidden;
           overflow-y: scroll;
-
-          max-height: var(--default-size-large, 360px);
 
           box-sizing: border-box;
           box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;  
