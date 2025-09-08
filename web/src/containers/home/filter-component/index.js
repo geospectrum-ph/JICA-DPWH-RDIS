@@ -11,6 +11,7 @@ export default function FilterComponent () {
     dataSource, setDataSource,
     setDataArray,
     dataLoading, setDataLoading,
+    dataTimestamp, setDataTimestamp,
 
     moduleSelected,
 
@@ -698,6 +699,8 @@ export default function FilterComponent () {
   React.useEffect(function () {
     if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03 && !dataLoader04) {
       setDataLoading(false);
+
+      setDataTimestamp(new Date().toString());
     }
   }, [dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
 
@@ -1182,9 +1185,13 @@ export default function FilterComponent () {
           })
           .then(function () {
             setDataLoading(false);
+
+            setDataTimestamp(new Date().toString());
           })
           .catch(function (error) {
             setDataLoading(false);
+
+            setDataTimestamp(null);
 
             // console.log(error);
           });
@@ -1215,9 +1222,13 @@ export default function FilterComponent () {
           })
           .then(function () {
             setDataLoading(false);
+
+            setDataTimestamp(new Date().toString());
           })
           .catch(function (error) {
             setDataLoading(false);
+
+            setDataTimestamp(null);
             
             // console.log(error);
           });

@@ -1,11 +1,11 @@
 #filter-component {
+  width: 100%;
+  height: auto;
+
   display: flex;
   flex-flow: column nowrap;
   place-items: center stretch;
   place-content: center center;
-
-  width: 100%;
-  height: auto;
   
   box-sizing: border-box;
   padding: calc(var(--default-size-medium, 12px) * 4.00 / 3.00);

@@ -57,6 +57,8 @@ function MainContextProvider (props) {
   const [dataArray, setDataArray] = React.useState(null);
   const [dataLoading, setDataLoading] = React.useState(false);
 
+  const [dataTimestamp, setDataTimestamp] = React.useState(null);
+
   // For storing data on the browser.
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState(null);
@@ -111,6 +113,8 @@ function MainContextProvider (props) {
         dataSource, setDataSource,
         dataArray, setDataArray,
         dataLoading, setDataLoading,
+        
+        dataTimestamp, setDataTimestamp,
 
         arrayRoadSlopeHazards, setArrayRoadSlopeHazards,
         

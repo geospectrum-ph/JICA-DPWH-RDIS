@@ -40,18 +40,18 @@ export default function MenuComponent () {
   return (
     <div id = "menu-component" className = { menuComponentOpen ? "menu-component-open" : "menu-component-closed" }>
       <div className = "toggle-button" onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
-        {
+        {/* {
           menuComponentOpen ?
             <span className = "material-symbols-outlined">{ "arrow_left" }</span> :
             <span className = "material-symbols-outlined">{ "arrow_right" }</span>
-        }
+        } */}
       </div>
       <div>
         <div onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
-          <div>
+          {/* <div>
             <img src = { logo_DPWH } alt = "DPWH Logo"/>
           </div>
-          { menuComponentOpen ? <span className = "title-container">{ "Road Disaster Information System" }</span> : null }
+          { menuComponentOpen ? <span className = "title-container">{ "Road Disaster Information System" }</span> : null } */}
         </div>
         <div>
           {

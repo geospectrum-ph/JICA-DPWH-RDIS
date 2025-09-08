@@ -22,7 +22,7 @@ import Error from "./modules/error";
 
 import "./index.css"
 
-export default function App() {  
+export default function App () {  
   return (
     <div id = "app-container">
       <Routes>

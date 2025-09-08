@@ -8,15 +8,14 @@ import { MainContext } from "../../../contexts/MainContext";
 
 import { MapComponent, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_municipalities_cities, layer_provinces, layer_legislative_districts, layer_engineering_districts, layer_regions } from "../map-component";
 
-import MenuComponent from "../menu-component";
+import TitleComponent from "../title-component";
 import FilterComponent from "../filter-component";
-import LoadingComponent from "../loading-component";
+import MenuComponent from "../menu-component";
 
 import "./index.css";
 
 function HomeComponent () {
   const {
-    dataLoading,
     menuComponentOpen
   } = React.useContext(MainContext);
 
@@ -427,24 +426,27 @@ function HomeComponent () {
     });
   }, []);
 
-
   return (
-    <div id = "home-container">
+    <div id = "home-component">
       <div>
-        <MenuComponent/>
-      </div>
-      <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
-        <Outlet/>
+        <div>
+          <TitleComponent/>
+        </div>
+        <div>
+          <FilterComponent/>
+        </div>
       </div>
       <div>
         <div>
-          <FilterComponent/>
+          <MenuComponent/>
+        </div>
+        <div className = { menuComponentOpen ? "outlet-hidden" : "outlet-visible" }>
+          <Outlet/>
         </div>
         <div>
           <MapComponent/>
         </div>
       </div>
-
     </div>
   );
 }

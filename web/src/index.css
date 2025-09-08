@@ -16,6 +16,9 @@ https://9elements.com/css-rule-order/
 > Generated Content
 content
 
+> Dimensions
+width height min-width min-height max-width max-height
+
 > Position and Layout
 position-* z-index top bottom left right float clear
 
@@ -29,7 +32,7 @@ overflow-* clip-*
 animation-* transition-*
 
 > Box Model
-width height margin-* outline-* border-* box-* padding-*
+margin-* outline-* border-* box-* padding-*
 
 > Background
 background-* cursor
@@ -64,13 +67,12 @@ body {
   width: 100vw;
   height: 100vh;
   
-  display: block;
-
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 
-  overflow: hidden;
+  cursor: default;
+  user-select: none;
 
   font-family: var(--default-font-family, "Outfit", sans-serif);
 }
@@ -78,6 +80,4 @@ body {
 #root {
   width: 100%;
   height: 100%;
-  
-  user-select: none;
 }

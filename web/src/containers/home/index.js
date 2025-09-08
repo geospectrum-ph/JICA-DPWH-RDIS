@@ -23,26 +23,6 @@ function HomePage () {
     dataLoading, setDataLoading,
   } = React.useContext(MainContext);
 
-  String.prototype.toProperCase = function () {
-    return (this.replace(/\w+\S|.\s/g, function (text) {
-      if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
-        return (text.toLowerCase());
-      }
-      else if (text.includes("-")) {
-        return (text.toLowerCase().split("-").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join("-"));
-      }
-      else if (text.includes(" & ")) {
-        return (text.toLowerCase().split(" & ").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
-      }
-      else if (text.includes("&")) {
-        return (text.toLowerCase().split("&").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
-      }
-      else {
-        return (text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
-      }
-    }));
-  };
-  
   async function handleAuthentication (username, password) {
     const portalUrl = "https://www.arcgis.com";      
     const server = portalUrl + "/sharing/rest";
@@ -66,15 +46,9 @@ function HomePage () {
             server
           });
                 
-        setDataLoading(false);
-
         setToken(tokenInfo);
       })
       .catch(function (error) {
-        alert(error);
-
-        setDataLoading(false);
-
         setToken(null);
 
         navigate("/");
@@ -89,7 +63,6 @@ function HomePage () {
 
     if (String(username).length > 0 && String(username).length > 0)  {
       handleAuthentication(username, password);
-      console.log("test");
     }
     else {
       setDataLoading(false);
