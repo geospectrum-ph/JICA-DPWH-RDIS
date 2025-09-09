@@ -1824,7 +1824,8 @@ const group_potential_road_slope_protection_projects = new GroupLayer({
   opacity: 1.00
 });
 
-var view;
+var view = null;
+var highlights = [];
 
 function build_view(viewMode) {
   const widget_info_container = document.createElement("div");
@@ -2633,9 +2634,15 @@ export function view_layer (module) {
     });     
 }
 
-export function focus_map (type, string) {
-  let highlighted_feature;
+export async function focus_map (type, string) {
+        var features = [];
 
+  if (highlights.length > 0) {
+    highlights.forEach(function (highlight) {
+      highlight.remove();
+    });
+  }
+  
   group_administrative_boundaries.visible = true;
 
   for (const layer of group_administrative_boundaries.layers) {
@@ -2643,7 +2650,43 @@ export function focus_map (type, string) {
   }
 
   if (view) {
+    if (type === 0) {
+      /* This removes all filters from all layers on the map. */
+
+      if (view.layerViews?.items?.length > 0) {
+        for (const group of view.layerViews.items) {
+          if (group?.layerViews?.items?.length > 0) {
+            for (const layer of group.layerViews.items) {
+              layer.filter = new FeatureFilter({
+                where: `1 = 1`
+              });
+            }
+          }
+        }
+      }
+
+      /* This removes all highlighted features and resets the extent of the map to the extent of the national road network. */
+
+      layer_national_road_network
+        .queryFeatures({
+          where: `1 = 1`,
+          returnGeometry: true,
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+            var extent = response.features[0].geometry.extent;
+
+            response.features.forEach(function(feature) {
+              extent = extent.union(feature.geometry.extent);
+            });
+
+            view.goTo(extent);
+          }
+        });
+    }
     if (type === 1) {
+      /* This highlights a single selected region and sets the extent of the map to its extent. */
+
       view
         .whenLayerView(layer_regions)
         .then(function (layerView) {
@@ -2656,14 +2699,10 @@ export function focus_map (type, string) {
               outFields: ["OBJECTID"]
             })
             .then(function (response) {
-              if (highlighted_feature) {
-                highlighted_feature.remove();
-              }
+              layerView.highlight(response.features);
 
               if (response?.features?.length > 0) {
                 const feature = response.features[0];
-
-                highlighted_feature = layerView.highlight(feature);
 
                 if (feature.geometry?.extent) {
                   view.goTo(feature.geometry.extent);
@@ -2672,12 +2711,14 @@ export function focus_map (type, string) {
             });
         });
 
+      /* This filters the layers of the map according to the single selected region. */
+
       const filter_upper = new FeatureFilter({
         where: `REGION = '${ string }'`
       });
 
       const filter_lower = new FeatureFilter({
-        where: `region_name = '${ string }'`
+        where: `region_name = '${ string }'` 
       });
 
       if (view.layerViews?.items?.length > 0) {
@@ -2696,6 +2737,8 @@ export function focus_map (type, string) {
       }
     }
     if (type === 2) {
+      /* This highlights a single selected engineering district and sets the extent of the map to its extent. */
+
       view
         .whenLayerView(layer_engineering_districts)
         .then(function (layerView) {
@@ -2708,14 +2751,10 @@ export function focus_map (type, string) {
               outFields: ["OBJECTID"]
             })
             .then(function (response) {
-              if (highlighted_feature) {
-                highlighted_feature.remove();
-              }
+              layerView.highlight(response.features);
 
               if (response?.features?.length > 0) {
                 const feature = response.features[0];
-
-                highlighted_feature = layerView.highlight(feature);
 
                 if (feature.geometry?.extent) {
                   view.goTo(feature.geometry.extent);
@@ -2723,6 +2762,8 @@ export function focus_map (type, string) {
               }
             });
         });
+
+      /* This filters the layers of the map according to the single selected engineering district. */
 
       const filter_upper = new FeatureFilter({
         where: `DEO = '${ string }'`
@@ -2748,6 +2789,8 @@ export function focus_map (type, string) {
       }
     }
     if (type === 3) {
+      /* This highlights a single selected legislative district and sets the extent of the map to its extent. */
+
       view
         .whenLayerView(layer_legislative_districts)
         .then(function (layerView) {
@@ -2760,14 +2803,10 @@ export function focus_map (type, string) {
               outFields: ["OBJECTID"]
             })
             .then(function (response) {
-              if (highlighted_feature) {
-                highlighted_feature.remove();
-              }
+              layerView.highlight(response.features);
 
               if (response?.features?.length > 0) {
                 const feature = response.features[0];
-
-                highlighted_feature = layerView.highlight(feature);
 
                 if (feature.geometry?.extent) {
                   view.goTo(feature.geometry.extent);
@@ -2775,6 +2814,8 @@ export function focus_map (type, string) {
               }
             });
         });
+
+      /* This filters the layers of the map according to the single selected legislative district. */
 
       const filter_upper = new FeatureFilter({
         where: `CONG_DIST = '${ string }'`
@@ -2800,93 +2841,84 @@ export function focus_map (type, string) {
       }
     }
     if (type === 4) {
-      view
-        .whenLayerView(layer_national_road_network)
-        .then(function (layerView) {
-          layer_national_road_network
-            .queryFeatures({
-              where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`,
-              returnGeometry: true,
-              outFields: ["OBJECTID"]
-            })
-            .then(function (response) {
-              if (highlighted_feature) {
-                highlighted_feature.remove();
-              }
+    
+        /* This highlights all features of all layers on the map which match the provided keyword phrase and sets the extent of the map to its extent. */
 
-              if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-                var extent = response.features[0].geometry.extent;
+        if (view.layerViews?.items?.length > 0) {
+          
+          for (const group of view.layerViews.items) {
+            if (group?.layerViews?.items?.length > 0) {
+              for (const layer of group.layerViews.items) {
+                let attributes = ["REGION", "DEO", "CONG_DIST", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
 
-                highlighted_feature = response.features
-                  .map(function (feature) {
-                    layerView.highlight(feature);
-                  });
+                let query =
+                  attributes
+                    .filter(function (attribute) {
+                      return (layer.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                    })
+                    .map(function (attribute) {
+                      return (`${ attribute } LIKE '%${ string }%'`);
+                    })
+                    .join(" OR ");
 
-                response.features.forEach(function(feature) {
-                  extent = extent.union(feature.geometry.extent);
-                });
 
-                view.goTo(extent);
-              }
-            });
-        });
+                  layer.layer
+                    .queryFeatures({
+                      where: query.length > 0 ? query : "1 = 0",
+                      returnGeometry: true,
+                      outFields: ["*"]
+                    })
+                    .then(function (response) {
+                      features.push(...response.features);
 
-      const filter_upper = new FeatureFilter({
-        where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`
-      });
-
-      const filter_lower = new FeatureFilter({
-        where: `road_id LIKE '%${ string }%' OR road_name LIKE '%${ string }%' OR section_id LIKE '%${ string }%'`
-      });
-
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
-                layer.filter = filter_lower;
-              }
-              else {
-                layer.filter = filter_upper;
+                      view
+                        .whenLayerView(layer.layer)
+                        .then(function (layerView) {
+                          highlights.push(layerView.highlight(response.features));
+                        });
+                    });
+                // }
               }
             }
           }
+          
         }
-      }
-    }
-    if (type === 5) {{
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              layer.filter = new FeatureFilter({
-                where: `1 = 1`
-              });
-            }
-          }
-        }
-      }
 
-      layer_national_road_network
-        .queryFeatures({
-          where: `1 = 1`,
-          returnGeometry: true,
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-            var extent = response.features[0].geometry.extent;
+      
+      // view
+      //   .whenLayerView(layer_national_road_network)
+      //   .then(function (layerView) {
+      //     layer_national_road_network
+      //       .queryFeatures({
+      //         where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`,
+      //         returnGeometry: true,
+      //         outFields: ["OBJECTID"]
+      //       })
+      //       .then(function (response) {
+      //         if (highlighted_feature) {
+      //           highlighted_feature.remove();
+      //         }
 
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
+      //         if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
+      //           var extent = response.features[0].geometry.extent;
 
-            view.goTo(extent);
-          }
-        });
-      }
+      //               layerView.highlight(response.features.map(function (feature) {
+      //                 return (feature.attributes.OBJECTID);
+      //               }));
+
+
+      //           response.features.forEach(function(feature) {
+      //             extent = extent.union(feature.geometry.extent);
+      //           });
+
+      //           view.goTo(extent);
+      //         }
+      //       });
+      //   });
     }
   }
 }
+
 
 export function recenter_map (extent) {
   reactiveUtils.watch(

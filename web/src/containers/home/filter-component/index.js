@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer } from "../map-component";
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer, check_features } from "../map-component";
 
 import "./index.css";
 
@@ -49,8 +49,6 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
   
-  const [filterArray, setFilterArray] = React.useState([]);
-
   /* Sets the values of summary variables. */
 
   const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null);
@@ -434,7 +432,10 @@ export default function FilterComponent () {
         outFields: ["*"]
       })
       .then(function (response) {
+        setDataLoader01(false);
+        
         if (response?.features) {
+
           setDataSourceBuffer01(response.features);
 
           setTotalRoadInventoryA(response.features.length);
@@ -444,9 +445,6 @@ export default function FilterComponent () {
           setTotalRoadInventoryA(0);
           setFilteredRoadInventoryA(0);
         }
-      })
-      .then(function () {
-        setDataLoader01(false);
       })
       .catch(function (error) {
         setDataLoader01(false);
@@ -466,6 +464,8 @@ export default function FilterComponent () {
         outFields: ["*"]
       })
       .then(function (response) {
+        setDataLoader02(false);
+
         if (response?.features) {
           setTotalRoadInventoryB(response.features.length);
           setFilteredRoadInventoryB(response.features.length);
@@ -476,7 +476,6 @@ export default function FilterComponent () {
         }
       })
       .then(function () {
-        setDataLoader02(false);
       })
       .catch(function (error) {
         setDataLoader02(false);
@@ -496,7 +495,7 @@ export default function FilterComponent () {
         outFields: ["*"]
       })
       .then(function (response) {
-        if (response?.features) {
+        if (response?.features) {          
           setDataSourceBuffer03(response.features);
 
           setFilteredRoadSlopeHazardsInventory(response.features.length);
@@ -899,6 +898,8 @@ export default function FilterComponent () {
 
   /* Sets the working arrays of object references for the filter component. */
 
+  const [filterArray, setFilterArray] = React.useState([]);
+
   React.useEffect(function () {
     setDataLoading(true);
 
@@ -942,6 +943,8 @@ export default function FilterComponent () {
       });
   }, []);
   
+  /* Parsing functions. */
+
   function parseRomanToInteger (string) {
     let values = new Map([["I", 1], ["V", 5], ["X", 10]]);
     let result = 0, current, previous = 0;
@@ -1037,7 +1040,7 @@ export default function FilterComponent () {
 
       initialize_summary();
 
-      focus_map(5, null);
+      focus_map(0, null);
     }
     if (type === 2) {
       setFilterLevel02Selected(null);
@@ -1050,7 +1053,7 @@ export default function FilterComponent () {
       else {  
         query_features(0, null);
 
-        focus_map(5, null);
+        focus_map(0, null);
       }
     }
     if (type === 3) {
@@ -1066,7 +1069,7 @@ export default function FilterComponent () {
       else {  
         query_features(0, null);
 
-        focus_map(5, null);
+        focus_map(0, null);
       }
     }
     if (type === 4) {
@@ -1078,15 +1081,16 @@ export default function FilterComponent () {
         query_features(4, null)
       }
       else {
-        focus_map(5, null);
+        focus_map(0, null);
       }
     }
   }
   
-  function select_filter (type, string) {
+  async function select_filter (type, string) {
     close_popup();
 
     focus_map(type, string);
+
 
     if (type === 1) {
       const object = {
@@ -1157,7 +1161,7 @@ export default function FilterComponent () {
     setFilterLevel03Selected(null);
     setFilterLevel04Selected(null);
 
-    focus_map(5, null);
+    focus_map(0, null);
 
     switch (moduleSelected) {
       case 1:
