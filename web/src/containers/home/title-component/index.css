@@ -43,13 +43,13 @@
     color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
 
     > * {
+      width: auto;
+      height: auto;
+
       display: flex;
       flex-flow: row nowrap;
       place-items: center center;
       place-content: center center;
-
-      width: auto;
-      height: auto;
 
       > img {
         width: calc(var(--default-size-medium, 12px) * 2.00);
@@ -82,13 +82,13 @@
     color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
 
     > * {
+      width: auto;
+      height: auto;
+
       display: flex;
       flex-flow: row nowrap;
       place-items: center center;
       place-content: center center;
-
-      width: auto;
-      height: auto;
     }
   }
 }
