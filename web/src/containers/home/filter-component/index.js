@@ -1089,8 +1089,7 @@ export default function FilterComponent () {
   async function select_filter (type, string) {
     close_popup();
 
-    focus_map(type, string);
-
+    console.log(focus_map(type, string));
 
     if (type === 1) {
       const object = {

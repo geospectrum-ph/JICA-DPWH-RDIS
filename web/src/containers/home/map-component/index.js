@@ -2635,7 +2635,7 @@ export function view_layer (module) {
 }
 
 export async function focus_map (type, string) {
-        var features = [];
+  var features = [];
 
   if (highlights.length > 0) {
     highlights.forEach(function (highlight) {
@@ -2840,81 +2840,46 @@ export async function focus_map (type, string) {
         }
       }
     }
-    if (type === 4) {
-    
-        /* This highlights all features of all layers on the map which match the provided keyword phrase and sets the extent of the map to its extent. */
+    if (type === 4) {    
+      /* This highlights all features of all layers on the map which match the provided keyword phrase. */
 
-        if (view.layerViews?.items?.length > 0) {
-          
-          for (const group of view.layerViews.items) {
-            if (group?.layerViews?.items?.length > 0) {
-              for (const layer of group.layerViews.items) {
-                let attributes = ["REGION", "DEO", "CONG_DIST", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
+      let attributes = ["REGION", "DEO", "CONG_DIST", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
 
-                let query =
-                  attributes
-                    .filter(function (attribute) {
-                      return (layer.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
-                    })
-                    .map(function (attribute) {
-                      return (`${ attribute } LIKE '%${ string }%'`);
-                    })
-                    .join(" OR ");
+      var extent = null;
 
+      if (view.layerViews?.items?.length > 0) {
+        for (const group of view.layerViews.items) {
+          if (group?.layerViews?.items?.length > 0) {
+            for (const layer of group.layerViews.items) {
+              let query =
+                attributes
+                  .filter(function (attribute) {
+                    return (layer.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                  })
+                  .map(function (attribute) {
+                    return (`${ attribute } LIKE '%${ string }%'`);
+                  })
+                  .join(" OR ");
 
-                  layer.layer
-                    .queryFeatures({
-                      where: query.length > 0 ? query : "1 = 0",
-                      returnGeometry: true,
-                      outFields: ["*"]
-                    })
-                    .then(function (response) {
-                      features.push(...response.features);
-
-                      view
-                        .whenLayerView(layer.layer)
-                        .then(function (layerView) {
-                          highlights.push(layerView.highlight(response.features));
-                        });
-                    });
-                // }
-              }
+              layer.layer
+                .queryFeatures({
+                  where: query.length > 0 ? query : "1 = 0",
+                  returnGeometry: false,
+                  outFields: ["*"]
+                })
+                .then(function (response) {
+                  if (response?.features?.length > 0) {
+                    view
+                      .whenLayerView(layer.layer)
+                      .then(function (layerView) {
+                        highlights.push(layerView.highlight(response.features));
+                      });
+                  }
+                });
             }
           }
-          
         }
-
-      
-      // view
-      //   .whenLayerView(layer_national_road_network)
-      //   .then(function (layerView) {
-      //     layer_national_road_network
-      //       .queryFeatures({
-      //         where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`,
-      //         returnGeometry: true,
-      //         outFields: ["OBJECTID"]
-      //       })
-      //       .then(function (response) {
-      //         if (highlighted_feature) {
-      //           highlighted_feature.remove();
-      //         }
-
-      //         if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-      //           var extent = response.features[0].geometry.extent;
-
-      //               layerView.highlight(response.features.map(function (feature) {
-      //                 return (feature.attributes.OBJECTID);
-      //               }));
-
-
-      //           response.features.forEach(function(feature) {
-      //             extent = extent.union(feature.geometry.extent);
-      //           });
-
-      //           view.goTo(extent);
-      //         }
-      //       });
-      //   });
+      }
     }
   }
 }
