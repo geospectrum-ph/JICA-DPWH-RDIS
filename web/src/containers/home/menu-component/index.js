@@ -24,9 +24,9 @@ export default function MenuComponent () {
   function set_module (index) {
     close_popup();
     
-    // setModuleSelected(index);
+    setModuleSelected(index);
 
-    // navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
+    navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
 
     setMenuComponentOpen(!menuComponentOpen);
   }
@@ -34,25 +34,19 @@ export default function MenuComponent () {
   React.useEffect(function () {
     set_module(0);
 
-    // view_layer("summary");
+    view_layer("summary");
   }, []);
 
   return (
-    <div id = "menu-component" className = { menuComponentOpen ? "menu-component-open" : "menu-component-closed" }>
+    <div id = "menu-component" className = { menuComponentOpen ? "menu-component-open" : "menu-component-closed" } onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
       <div className = "toggle-button" onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
-        {/* {
+        {
           menuComponentOpen ?
             <span className = "material-symbols-outlined">{ "arrow_left" }</span> :
             <span className = "material-symbols-outlined">{ "arrow_right" }</span>
-        } */}
+        }
       </div>
       <div>
-        <div onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
-          {/* <div>
-            <img src = { logo_DPWH } alt = "DPWH Logo"/>
-          </div>
-          { menuComponentOpen ? <span className = "title-container">{ "Road Disaster Information System" }</span> : null } */}
-        </div>
         <div>
           {
             modules?.map(function (module, index) {

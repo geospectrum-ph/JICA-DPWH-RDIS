@@ -2802,7 +2802,7 @@ export function focus_map (type, string) {
     if (type === 4) {
       view
         .whenLayerView(layer_national_road_network)
-        .then(function () {
+        .then(function (layerView) {
           layer_national_road_network
             .queryFeatures({
               where: `ROAD_ID LIKE '%${ string }%' OR ROAD_NAME LIKE '%${ string }%' OR SECTION_ID LIKE '%${ string }%'`,
@@ -2816,6 +2816,11 @@ export function focus_map (type, string) {
 
               if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
                 var extent = response.features[0].geometry.extent;
+
+                highlighted_feature = response.features
+                  .map(function (feature) {
+                    layerView.highlight(feature);
+                  });
 
                 response.features.forEach(function(feature) {
                   extent = extent.union(feature.geometry.extent);

@@ -4,10 +4,11 @@
   place-items: stretch center;
   place-content: center start;
 
-  overflow: hidden hidden;
+  overflow: hidden;
 
-  width: var(--default-size-large, 360px);
+  width: calc((var(--default-size-large, 360px) * 1.25) - (var(--default-size-medium, 12px) * 6.00));
   height: 100%;
+
 
   background: var(--default-color-background-tertiary, rgba(232, 241, 255));
 

@@ -22,7 +22,7 @@
     padding: calc(var(--default-size-medium, 12px) * 2.00);
     gap: calc(var(--default-size-medium, 12px) * 2.00);
     
-    background-color: #0066cc;
+    background-color: var(--default-color-accent-dark, rgba(0, 102, 204, 1.00));
     background-image:
       linear-gradient(
         rgba(255, 255, 255, 0.20) 2px,

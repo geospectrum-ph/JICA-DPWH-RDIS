@@ -20,10 +20,7 @@ import "./index.css";
 function HomePage () {
   const navigate = useNavigate();
   
-  const {
-    token, setToken, 
-    dataLoading, setDataLoading,
-  } = React.useContext(MainContext);
+  const { token, setToken, dataLoading, setDataLoading } = React.useContext(MainContext);
 
   async function handleAuthentication (username, password) {
     const portalUrl = "https://www.arcgis.com";      
