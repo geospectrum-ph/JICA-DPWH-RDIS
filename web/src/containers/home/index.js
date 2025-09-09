@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import axios from 'axios';
+
 import { useNavigate } from "react-router-dom";
 
 // import axios from "axios";
@@ -47,6 +49,9 @@ function HomePage () {
           });
                 
         setToken(tokenInfo);
+
+        axios.post("http://localhost:1433/users/login", userInfo)
+        .then((res) => console.log(res.data.user)) //user info from SQL
       })
       .catch(function (error) {
         setToken(null);

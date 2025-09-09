@@ -59,7 +59,7 @@ export default function SignInPage () {
         <form onSubmit = { function (event) { handleSignIn(event); } }>
           <div>
             <label htmlFor = "sign-in-username"><span>{ "Username" }</span></label>
-            <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" value = { usernameBuffer } onChange = { function (event) { setUsernameBuffer(event.target.value); } } autoComplete = "true" required/>
+            <input id = "sign-in-username" name = "username" type = "text" autoComplete = "true" minLength = "8" maxLength = "24" placeholder = "Username" value = { usernameBuffer } onChange = { function (event) { setUsernameBuffer(event.target.value); } } required/>
           </div>
           <div>
             <label htmlFor = "sign-in-password"><span className = "type-body">{ "Password" }</span></label>
