@@ -39,8 +39,8 @@ const url_road_slopes_and_countermeasures = "https://services1.arcgis.com/IwZZTM
 
 const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Storm_Surge_Hazard_Map/FeatureServer";
 
-const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0";
-const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1";
+const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0"; // Returns an error on access, as of 09/2025.
+const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1"; // Returns an error on access, as of 09/2025.
 
 /* Reference Data */
 
@@ -2164,7 +2164,7 @@ export function MapComponent () {
               }
             })
             .catch(function (error) {
-              console.error(error);
+              // console.error(error);
             });
         }
     });
@@ -2628,262 +2628,355 @@ export function view_layer (module) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });     
 }
 
-export async function focus_map (type, string) {
-  var features = [];
+export function focus_map (type, string) {
+  /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
     highlights.forEach(function (highlight) {
       highlight.remove();
     });
   }
+
+  /* This resets the visibility of the administrative boundaries group of the map. */
   
   group_administrative_boundaries.visible = true;
 
   for (const layer of group_administrative_boundaries.layers) {
     layer.visible = false;
   }
+  
+  /* This checks for the user access level. */
+
+  // let CREDENTIALS = sessionStorage.getItem("CREDENTIALS");
+
+  // const parameters =
+  //   CREDENTIALS.REGION_ID ? [["REGION", "region_name"], [CREDENTIALS.REGION_ID]] :
+  //   CREDENTIALS.DEO_ID ? [["DEO", "deo_name"], [CREDENTIALS.DEO_ID]] :
+  //   CREDENTIALS.CONG_DIST_ID ? [["CONG_DIST", "district_name"], [CREDENTIALS.CONG_DIST_ID]] :
+  //     []; // Otherwise, no restricting parameters.
 
   if (view) {
     if (type === 0) {
-      /* This removes all filters from all layers on the map. */
+      /* This resets the filter of the map. */
 
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              layer.filter = new FeatureFilter({
-                where: `1 = 1`
-              });
-            }
-          }
-        }
-      }
+      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
 
-      /* This removes all highlighted features and resets the extent of the map to the extent of the national road network. */
+      layers
+        .forEach(function (layer) {
+          view
+            .whenLayerView(layer)
+            .then(function (layerView) {
+              layerView
+                .filter =
+                  new FeatureFilter({
+                    where:
+                      // parameters.length < 0 ?
+                        "1 = 1"
+                        // :
+                        // parameters[0]
+                        //   .map(function (parameter) {
+                        //     return (`${ parameter } = ${ parameters[1] }`);
+                        //   })
+                  });
+            });
+        });
+        
+      /* This resets the extent of the map. */
 
-      layer_national_road_network
-        .queryFeatures({
-          where: `1 = 1`,
+      let reference_layer =
+        // CREDENTIALS.REGION_ID ? layer_regions :
+        // CREDENTIALS.DEO_ID ? layer_engineering_districts :
+        // CREDENTIALS.CONG_DIST_ID ? layer_legislative_districts :
+          layer_national_road_network;
+
+      reference_layer
+        .queryExtent({
+          where: "1 = 1",
           returnGeometry: true,
+          outFields: ["*"]
         })
         .then(function (response) {
-          if (response?.features?.length > 0 && response.features[0].geometry?.extent) {
-            var extent = response.features[0].geometry.extent;
-
-            response.features.forEach(function(feature) {
-              extent = extent.union(feature.geometry.extent);
-            });
-
-            view.goTo(extent);
+          if (response?.extent) {
+            view.goTo(response.extent);
           }
         });
     }
-    if (type === 1) {
-      /* This highlights a single selected region and sets the extent of the map to its extent. */
+    else if (type === 1) { // Disabled if the user does not have the appropriate access level.
+      /* This sets the filter of the map. */
 
-      view
-        .whenLayerView(layer_regions)
-        .then(function (layerView) {
-          layer_regions.visible = true;
-      
-          layer_regions
-            .queryFeatures({
-              where: string === "Bangsamoro Autonomous Region in Muslim Mindanao" ? "REGION = 'Region X'" : `REGION = '${ string }'`,
-              returnGeometry: true,
-              outFields: ["OBJECTID"]
-            })
-            .then(function (response) {
-              layerView.highlight(response.features);
+      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
+            
+      const attributes = ["REGION", "region_name"];
 
-              if (response?.features?.length > 0) {
-                const feature = response.features[0];
-
-                if (feature.geometry?.extent) {
-                  view.goTo(feature.geometry.extent);
-                }
-              }
+      layers
+        .forEach(function (layer) {
+          view
+            .whenLayerView(layer)
+            .then(function (layerView) {
+              layerView.filter =
+                new FeatureFilter({
+                  where:
+                    attributes
+                      .filter(function (attribute) {
+                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                      })
+                      .map(function (attribute) {
+                        return (`${ attribute } = '${ string }'`);
+                      })
+                      .join(" OR ")
+                });
             });
         });
 
-      /* This filters the layers of the map according to the single selected region. */
+      /* This highlights the region on the map which match the provided keyword phrase. */
 
-      const filter_upper = new FeatureFilter({
-        where: `REGION = '${ string }'`
-      });
+      layer_regions.visible = true;
 
-      const filter_lower = new FeatureFilter({
-        where: `region_name = '${ string }'` 
-      });
-
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
-                layer.filter = filter_lower;
-              }
-              else {
-                layer.filter = filter_upper;
-              }
-            }
+      layer_regions
+        .queryFeatures({
+          where: `REGION = '${ string }'`,
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0) {
+            view
+              .whenLayerView(layer_regions)
+              .then(function (layerView) {
+                highlights.push(layerView.highlight(response.features[0]));
+              });
           }
-        }
-      }
-    }
-    if (type === 2) {
-      /* This highlights a single selected engineering district and sets the extent of the map to its extent. */
-
-      view
-        .whenLayerView(layer_engineering_districts)
-        .then(function (layerView) {
-          layer_engineering_districts.visible = true;
-      
-          layer_engineering_districts
-            .queryFeatures({
-              where: `DEO = '${ string }'`,
-              returnGeometry: true,
-              outFields: ["OBJECTID"]
-            })
-            .then(function (response) {
-              layerView.highlight(response.features);
-
-              if (response?.features?.length > 0) {
-                const feature = response.features[0];
-
-                if (feature.geometry?.extent) {
-                  view.goTo(feature.geometry.extent);
-                }
-              }
-            });
         });
 
-      /* This filters the layers of the map according to the single selected engineering district. */
+      /* This sets the extent of the map according to the selected region. */
 
-      const filter_upper = new FeatureFilter({
-        where: `DEO = '${ string }'`
-      });
-
-      const filter_lower = new FeatureFilter({
-        where: `deo_name = '${ string }'`
-      })
-
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
-                layer.filter = filter_lower;
-              }
-              else {
-                layer.filter = filter_upper;
-              }
-            }
+      layer_regions
+        .queryExtent({
+          where: `REGION = '${ string }'`,
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.extent) {
+            view.goTo(response.extent);
           }
-        }
-      }
+        });
     }
-    if (type === 3) {
-      /* This highlights a single selected legislative district and sets the extent of the map to its extent. */
+    else if (type === 2) { // Disabled if the user does not have the appropriate access level.
+      /* This sets the filter of the map. */
 
-      view
-        .whenLayerView(layer_legislative_districts)
-        .then(function (layerView) {
-          layer_legislative_districts.visible = true;
-      
-          layer_legislative_districts
-            .queryFeatures({
-              where: `CONG_DIST = '${ string }'`,
-              returnGeometry: true,
-              outFields: ["OBJECTID"]
-            })
-            .then(function (response) {
-              layerView.highlight(response.features);
+      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
+            
+      const attributes = ["DEO", "deo_name"];
 
-              if (response?.features?.length > 0) {
-                const feature = response.features[0];
-
-                if (feature.geometry?.extent) {
-                  view.goTo(feature.geometry.extent);
-                }
-              }
+      layers
+        .forEach(function (layer) {
+          view
+            .whenLayerView(layer)
+            .then(function (layerView) {
+              layerView.filter =
+                new FeatureFilter({
+                  where:
+                    attributes
+                      .filter(function (attribute) {
+                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                      })
+                      .map(function (attribute) {
+                        return (`${ attribute } = '${ string }'`);
+                      })
+                      .join(" OR ")
+                });
             });
         });
+        
+      /* This highlights the engineering district on the map which match the provided keyword phrase. */
 
-      /* This filters the layers of the map according to the single selected legislative district. */
+      layer_engineering_districts.visible = true;
 
-      const filter_upper = new FeatureFilter({
-        where: `CONG_DIST = '${ string }'`
-      });
-
-      const filter_lower = new FeatureFilter({
-        where: `district_name = '${ string }'`
-      });
-
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
-              if (layer.layer.fields.map(function (field) { return (field.name); }).indexOf("REGION") < 0) {
-                layer.filter = filter_lower;
-              }
-              else {
-                layer.filter = filter_upper;
-              }
-            }
+      layer_engineering_districts
+        .queryFeatures({
+          where: `DEO = '${ string }'`,
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0) {
+            view
+              .whenLayerView(layer_engineering_districts)
+              .then(function (layerView) {
+                highlights.push(layerView.highlight(response.features[0]));
+              });
           }
-        }
-      }
+        });
+
+      /* This sets the extent of the map according to the selected engineering district. */
+
+      layer_engineering_districts
+        .queryExtent({
+          where: `DEO = '${ string }'`,
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.extent) {
+            view.goTo(response.extent);
+          }
+        });
     }
-    if (type === 4) {    
-      /* This highlights all features of all layers on the map which match the provided keyword phrase. */
+    else if (type === 3) { // Disabled if the user does not have the appropriate access level.
+      /* This sets the filter of the map. */
 
-      let attributes = ["REGION", "DEO", "CONG_DIST", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
+      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
+            
+      const attributes = ["CONG_DIST", "district_name"];
 
-      var extent = null;
+      layers
+        .forEach(function (layer) {
+          view
+            .whenLayerView(layer)
+            .then(function (layerView) {
+              layerView.filter =
+                new FeatureFilter({
+                  where:
+                    attributes
+                      .filter(function (attribute) {
+                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                      })
+                      .map(function (attribute) {
+                        return (`${ attribute } = '${ string }'`);
+                      })
+                      .join(" OR ")
+                });
+            });
+        });
+        
+      /* This highlights the region on the map which match the provided keyword phrase. */
 
-      if (view.layerViews?.items?.length > 0) {
-        for (const group of view.layerViews.items) {
-          if (group?.layerViews?.items?.length > 0) {
-            for (const layer of group.layerViews.items) {
+      layer_legislative_districts.visible = true;
+
+      layer_legislative_districts
+        .queryFeatures({
+          where: `CONG_DIST = '${ string }'`,
+          returnGeometry: false,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0) {
+            view
+              .whenLayerView(layer_legislative_districts)
+              .then(function (layerView) {
+                highlights.push(layerView.highlight(response.features[0]));
+              });
+          }
+        });
+
+      /* This sets the extent of the map according to the selected region. */
+
+      layer_legislative_districts
+        .queryExtent({
+          where: `CONG_DIST = '${ string }'`,
+          returnGeometry: true,
+          outFields: ["*"]
+        })
+        .then(function (response) {
+          if (response?.extent) {
+            view.goTo(response.extent);
+          }
+        });
+    }
+    else if (type > 3) {  
+      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
+
+      const attributes = ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
+
+      Promise
+        .all(
+          layers
+            .map(function (layer) {
+              /* This resets the filter of the map. */
+
+              view
+                .whenLayerView(layer)
+                .then(function (layerView) {
+                  layerView.filter = new FeatureFilter({ where: "1 = 1" });
+                });
+
               let query =
                 attributes
                   .filter(function (attribute) {
-                    return (layer.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                    return (string && layer.fields.map(function (field) { return (field.name); }).includes(attribute));
                   })
                   .map(function (attribute) {
                     return (`${ attribute } LIKE '%${ string }%'`);
                   })
                   .join(" OR ");
 
-              layer.layer
+              // When appropriate, extend query with:
+              // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+
+              /* This highlights all features of all layers on the map which match the provided keyword phrase. */
+
+              layer
                 .queryFeatures({
-                  where: query.length > 0 ? query : "1 = 0",
+                  where: string && query.length > 0 ? query : "1 = 0",
                   returnGeometry: false,
                   outFields: ["*"]
                 })
                 .then(function (response) {
                   if (response?.features?.length > 0) {
                     view
-                      .whenLayerView(layer.layer)
-                      .then(function (layerView) {
+                      .whenLayerView(layer)
+                      .then(function (layerView) {                        
                         highlights.push(layerView.highlight(response.features));
                       });
                   }
                 });
-            }
+
+              // When appropriate, change query to:
+              // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+              
+              return (
+                layer
+                  .queryExtent({
+                    where: string ? query.length > 0 ? query : "1 = 0" : "1 = 1",
+                    returnGeometry: true,
+                    outFields: ["*"]
+                  })
+                  .then(function (response) {
+                    return (response.extent);
+                  })
+              );
+            })
+        )
+        .then(function (raw_extent_array) {
+          /* This sets the extent of the map according to the highlighted features. */
+
+          let extent_array = 
+            raw_extent_array
+              .filter(function (item) {
+                return (item);
+              });
+
+          if (extent_array.length > 0) {
+            var extent = extent_array[0];
+
+            extent_array
+              .forEach(function (new_extent) {
+                extent = extent.union(new_extent);
+              });
+
+            view.goTo(extent);
           }
-        }
-      }
+        });
     }
   }
 }
-
 
 export function recenter_map (extent) {
   reactiveUtils.watch(
@@ -2894,7 +2987,7 @@ export function recenter_map (extent) {
             view.goTo(extent);
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });     
@@ -2912,7 +3005,7 @@ export function open_popup (features) {
             });
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });     
@@ -2927,7 +3020,7 @@ export function close_popup () {
             view.popup.visible = false;
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });    
