@@ -73,14 +73,13 @@
     place-items: stretch center;
     place-content: center center;
 
-    /* Map Component */
     > :nth-child(1) {
       width: 100%;
       height: 100%;
 
       flex: 1 1 auto;
       flex-flow: column nowrap;
-      place-items: center stretch;
+      place-items: stretch center;
       place-content: center center;
 
       &.map-visible {
@@ -91,13 +90,15 @@
         display: none;
       }
 
+      /* Filter Component */
       > :nth-child(1) {
         width: 100%;
         height: auto;
 
         flex: 0 0 0;
       }
-      
+
+      /* Map Component */
       > :nth-child(2) {
         width: 100%;
         height: 100%;
