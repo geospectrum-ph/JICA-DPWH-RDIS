@@ -937,12 +937,323 @@ export default function FilterComponent () {
             setFilterArray(buffer_array);
           }
         }
+
+        setDataLoading(false);
       })
       .catch(function (error) {
+        setDataLoading(false);
+
         // console.log(error);
       });
   }, []);
+
+  function query_features (type, string) {
+    if (dataSource) {
+      const data_buffer = dataSource.filter(function (data) {
+        if (type === 1) {
+          return (data.attributes.region_name === (string || filterLevel01Selected));
+        }
+        else if (type === 2) {
+          return (data.attributes.deo_name === (string || filterLevel02Selected));
+        }
+        else if (type === 3) {
+          return (data.attributes.district_name === (string || filterLevel03Selected));
+        }
+        else if (type === 4) {
+          return (data.attributes.road_id?.includes(string || filterLevel04Selected) || data.attributes.road_name?.includes(string || filterLevel04Selected) || data.attributes.section_id?.includes(string || filterLevel04Selected));
+        }
+        else {
+          return (null);
+        }
+      });
+
+      setDataArray(data_buffer);
+    }
+  }
+
+  /* Filter handlers. */
+
+  function clear_filter (type) {    
+    setDataLoading(true);
+
+    if (type === 1) {
+      setFilterLevel01Selected(null);
+      setFilterLevel02Selected(null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+    if (type === 2) {
+      setFilterLevel02Selected(null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(1, [layer_regions], ["REGION", "region_name"], filterLevel01Selected)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+    if (type === 3) {
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], filterLevel02Selected)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+
+    query_features(type - 1, null);
+  }
   
+  function select_filter (type, string) {
+    close_popup();
+
+    setDataLoading(true);
+
+    if (type === 1) {
+      setFilterLevel01Selected(string);
+      setFilterLevel02Selected(null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(1, [layer_regions], ["REGION", "region_name"], string)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+    if (type === 2) {
+      let object_index =
+        filterArray
+          .map(function (object) {
+            return (object.DEO);
+          })
+          .indexOf(string);
+
+      setFilterLevel01Selected(filterArray[object_index].REGION);
+      setFilterLevel02Selected(string);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], string)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+    if (type === 3) {
+      let object_index =
+        filterArray
+          .map(function (object) {
+            return (object.CONG_DIST);
+          })
+          .indexOf(string);
+
+      setFilterLevel01Selected(filterArray[object_index].REGION);
+      setFilterLevel02Selected(filterArray[object_index].DEO);
+      setFilterLevel03Selected(string);
+      setFilterLevel04Selected(null);
+
+      focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string)
+        .then(function (response) {
+          setDataLoading(false);
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
+    }
+    if (type === 4) {
+      setFilterLevel01Selected(null);
+      setFilterLevel02Selected(null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(string);
+
+      if (string.length > 0) {
+        focus_map(4, [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], string)
+          .then(function (response) {
+            setDataLoading(false);
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+      }
+      else {
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+          .then(function (response) {
+            setDataLoading(false);
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+      }
+    }
+
+    query_features(type, string);
+  }
+
+  React.useEffect(function () {
+    close_popup();
+
+    /* When a user access level is defined, keep the selected filter level values... */
+    setFilterLevel01Selected(null);
+    setFilterLevel02Selected(null);
+    setFilterLevel03Selected(null);
+    setFilterLevel04Selected(null);
+
+    /* ...and do not refocus the map. */
+    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
+
+    /* Change data source. */
+    switch (moduleSelected) {
+
+      case 1:
+
+        setDataLoading(true);
+
+        layer_road_slope_hazards
+          .queryFeatures({
+            where: "1 = 1", /* Change to appropriate filter when necessary. */
+            returnGeometry: true,
+            outFields: ["*"]
+          })
+          .then(function (response) {
+            if (response?.features?.length > 0) {
+              setDataSource(response.features);
+              setDataArray(response.features);
+            }
+            else {
+              setDataSource(null);
+              setDataArray(null);
+            }
+          })
+          .then(function () {
+            setDataLoading(false);
+
+            setDataTimestamp(new Date().toString());
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+
+            setDataTimestamp(null);
+
+            // console.log(error);
+          });
+
+        break;
+
+      case 2:
+
+      case 3:
+
+        setDataLoading(true);
+
+        layer_road_slopes_and_countermeasures
+          .queryFeatures({
+            where: "1 = 1",
+            returnGeometry: true,
+            outFields: ["*"]
+          })
+          .then(function (response) {
+            if (response?.features?.length > 0) {
+              var extent = response.features[0].geometry.extent;
+
+              response.features.forEach(function(feature) {
+                extent = extent.union(feature.geometry.extent);
+              });
+
+              setDataSource(response.features);
+              setDataArray(response.features);
+            }
+            else {
+              setDataSource(null);
+              setDataArray(null);
+            }
+          })
+          .then(function () {
+            setDataLoading(false);
+
+            setDataTimestamp(new Date().toString());
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+
+            setDataTimestamp(null);
+            
+            // console.log(error);
+          });
+
+        break;
+
+      case 0:
+
+      default:
+
+        setDataSource(null);
+        setDataArray(null);
+
+        break;
+    }
+  }, [moduleSelected]);
+
+  /* Dropdown handlers. */
+
+  const [dropdownActive, setDropdownActive] = React.useState(false);
+  const [dropdown01Active, setDropdown01Active] = React.useState(false);
+  const [dropdown02Active, setDropdown02Active] = React.useState(false);
+  const [dropdown03Active, setDropdown03Active] = React.useState(false);
+
+  function click_dropdown (index) {
+    setDropdown01Active(false);
+    setDropdown02Active(false);
+    setDropdown03Active(false);
+
+    if (index === 0 || dropdownActive === index) {
+      setDropdownActive(0);
+    }
+    else {
+      if (index === 1) { setDropdown01Active(true); }
+      if (index === 2) { setDropdown02Active(true); }
+      if (index === 3) { setDropdown03Active(true); }
+
+      setDropdownActive(index);
+    }
+  }
+
+  window.addEventListener("click", function (event) {   
+    const container = document.getElementById("filter-component");
+    
+    if (container) {
+      if (container.contains(event.target)) {
+        return (null);
+      }
+      else {
+        setDropdown01Active(false);
+        setDropdown02Active(false);
+        setDropdown03Active(false);
+  
+        setDropdownActive(0);
+      }
+    }
+  });
+
   /* Parsing functions. */
 
   function parseRomanToInteger (string) {
@@ -1001,312 +1312,6 @@ export default function FilterComponent () {
         return (string);
     }
   }
-
-  function query_features (level, object) {
-    if (dataSource) {
-      const data_buffer = dataSource.filter(function (data) {
-        if (level === 0) {
-          return (data);
-        }
-        else if (level === 1) {
-          return (data.attributes.region_name === (object?.REGION || filterLevel01Selected));
-        }
-        else if (level === 2) {
-          return (data.attributes.region_name === (object?.REGION || filterLevel01Selected) && data.attributes.deo_name === (object?.DEO || filterLevel02Selected));
-        }
-        else if (level === 3) {
-          return (data.attributes.region_name === (object?.REGION || filterLevel01Selected) && data.attributes.deo_name === (object?.DEO || filterLevel02Selected) && data.attributes.district_name === (object?.CONG_DIST || filterLevel03Selected));
-        }
-        else if (level === 4) {
-          return (data.attributes.road_id?.includes(object?.QUERY) || data.attributes.road_name?.includes(object?.QUERY) || data.attributes.section_id?.includes(object?.QUERY));
-        }
-        else {
-          return (null);
-        }
-      });
-
-      setDataArray(data_buffer);
-    }
-  }
-
-  function clear_filter (type) {      
-    if (type === 1) {
-      setFilterLevel01Selected(null);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
-
-      query_features(0, null);
-
-      initialize_summary();
-
-      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
-    }
-    if (type === 2) {
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
-
-      if (filterLevel01Selected) {  
-        query_features(1, null);
-      }
-      else {  
-        query_features(0, null);
-
-        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
-      }
-    }
-    if (type === 3) {
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
-
-      if (filterLevel02Selected) {  
-        query_features(2, null);
-      }
-      else if (filterLevel01Selected) {  
-        query_features(1, null);
-      }
-      else {  
-        query_features(0, null);
-
-        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
-      }
-    }
-    if (type === 4) {
-      setFilterLevel01Selected(null);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-
-      if (filterLevel04Selected) {
-        query_features(4, null)
-      }
-      else {
-        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
-      }
-    }
-  }
-  
-  async function select_filter (type, string) {
-    close_popup();
-
-    focus_map(
-      type,
-      type === 1 ?
-        [layer_regions]
-        :
-      type === 2 ?
-        [layer_engineering_districts]
-        :
-      type === 3 ?
-        [layer_legislative_districts]
-        :
-        [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways],
-      type === 1 ?
-        ["REGION", "region_name"]
-        :
-      type === 2 ?
-        ["DEO", "deo_name"]
-        :
-      type === 3 ?
-        ["CONG_DIST", "district_name"]
-        :
-        ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"],
-      string
-    );
-
-    if (type === 1) {
-      const object = {
-        "REGION": string
-      }
-
-      setFilterLevel01Selected(string);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
-
-      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(1, object); }
-
-      query_features(1, object);
-    }
-    if (type === 2) {
-      const object = {
-        "REGION": filterLevel01Selected ? filterLevel01Selected : filterArray[filterArray.map(function (object) { return (object.DEO); }).indexOf(string)].REGION,
-        "DEO": string
-      }
-
-      if (!filterLevel01Selected) { setFilterLevel01Selected(filterArray[filterArray.map(function (object) { return (object.DEO); }).indexOf(string)].REGION); }
-      setFilterLevel02Selected(string);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
-
-      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(2, object); }
-
-      query_features(2, object);
-    }
-    if (type === 3) {
-      const object = {
-        "REGION": filterLevel01Selected ? filterLevel01Selected : filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].REGION,
-        "DEO": filterLevel02Selected ? filterLevel02Selected : filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].DEO,
-        "CONG_DIST": string
-      }
-
-      if (!filterLevel01Selected) { setFilterLevel01Selected(filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].REGION); }
-      if (!filterLevel02Selected) { setFilterLevel02Selected(filterArray[filterArray.map(function (object) { return (object.CONG_DIST); }).indexOf(string)].DEO); }
-      setFilterLevel03Selected(string);
-      setFilterLevel04Selected(null);
-
-      if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(3, object); }
-
-      query_features(3, object);
-    }
-    if (type === 4) {
-      if (string === "") {
-        clear_filter(1);
-      }
-      else {
-        const object = {
-          "QUERY": string
-        }
-
-        clear_filter(4);
-
-        if (moduleSelected === 0 && dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) { filter_summary(4, object); }
-
-        query_features(4, object);
-      }
-    }
-  }
-
-  React.useEffect(function () {
-    /* When a user access level is defined, keep the selected filter level values... */
-    setFilterLevel01Selected(null);
-    setFilterLevel02Selected(null);
-    setFilterLevel03Selected(null);
-    setFilterLevel04Selected(null);
-
-    /* ...and do not refocus the map. */
-    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
-
-    switch (moduleSelected) {
-      case 1:
-        setDataLoading(true);
-
-        layer_road_slope_hazards
-          .queryFeatures({
-            where: "1 = 1", /* Change to appropriate filter when necessary. */
-            returnGeometry: true,
-            outFields: ["*"]
-          })
-          .then(function (response) {
-            if (response?.features?.length > 0) {
-              setDataSource(response.features);
-              setDataArray(response.features);
-            }
-            else {
-              setDataSource(null);
-              setDataArray(null);
-            }
-          })
-          .then(function () {
-            setDataLoading(false);
-
-            setDataTimestamp(new Date().toString());
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-
-            setDataTimestamp(null);
-
-            // console.log(error);
-          });
-
-        break;
-
-      case 2:
-      case 3:
-
-        setDataLoading(true);
-
-        layer_road_slopes_and_countermeasures
-          .queryFeatures({
-            where: "1 = 1",
-            returnGeometry: true,
-            outFields: ["*"]
-          })
-          .then(function (response) {
-            if (response?.features?.length > 0) {
-              var extent = response.features[0].geometry.extent;
-
-              response.features.forEach(function(feature) {
-                extent = extent.union(feature.geometry.extent);
-              });
-
-              setDataSource(response.features);
-              setDataArray(response.features);
-            }
-            else {
-              setDataArray(null);
-            }
-          })
-          .then(function () {
-            setDataLoading(false);
-
-            setDataTimestamp(new Date().toString());
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-
-            setDataTimestamp(null);
-            
-            // console.log(error);
-          });
-        break;
-      case 0:
-      default:
-        setDataSource(null);
-        setDataArray(null);
-        break;
-    }
-  }, [moduleSelected]);
-
-  const [dropdownActive, setDropdownActive] = React.useState(false);
-  const [dropdown01Active, setDropdown01Active] = React.useState(false);
-  const [dropdown02Active, setDropdown02Active] = React.useState(false);
-  const [dropdown03Active, setDropdown03Active] = React.useState(false);
-
-  function click_dropdown (index) {
-    setDropdown01Active(false);
-    setDropdown02Active(false);
-    setDropdown03Active(false);
-
-    if (index === 0 || dropdownActive === index) {
-      setDropdownActive(0);
-    }
-    else {
-      if (index === 1) { setDropdown01Active(true); }
-      if (index === 2) { setDropdown02Active(true); }
-      if (index === 3) { setDropdown03Active(true); }
-
-      setDropdownActive(index);
-    }
-  }
-
-  window.addEventListener("click", function (event) {   
-    const container = document.getElementById("filter-component");
-    
-    if (container) {
-      if (container.contains(event.target)) {
-        return (null);
-      }
-      else {
-        setDropdown01Active(false);
-        setDropdown02Active(false);
-        setDropdown03Active(false);
-  
-        setDropdownActive(0);
-      }
-    }
-  });
 
   return (
     <div id = "filter-component">

@@ -2695,146 +2695,154 @@ export function focus_map (type, reference_layers, attributes, string) {
           });
       });
 
-    Promise
-      .all(
-        reference_layers
-          .map(function (layer) {
-            let query =
-              type > 0 ?
-                attributes
-                  .filter(function (attribute) {
-                    return (layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+    return (
+      Promise
+        .all(
+          reference_layers
+            .map(function (layer) {
+              let query =
+                type > 0 ?
+                  attributes
+                    .filter(function (attribute) {
+                      return (layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                    })
+                    .map(function (attribute) {
+                      if (type < 4) {
+                        return (`${ attribute } = '${ string }'`);
+                      }
+                      else {
+                        return (`${ attribute } LIKE '%${ string }%'`);
+                      }
+                    })
+                    .join(" OR ")
+                  :
+                  "1 = 1";
+
+              // When appropriate, extend query with:
+              // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+
+              /* This highlights all features of all layers on the map which match the provided keyword phrase. */
+
+              if (type > 0) {
+                layer
+                  .queryFeatures({
+                    where: query.length > 0 ? query : "1 = 0",
+                    returnGeometry: false,
+                    outFields: ["*"]
                   })
-                  .map(function (attribute) {
-                    if (type < 4) {
-                      return (`${ attribute } = '${ string }'`);
-                    }
-                    else {
-                      return (`${ attribute } LIKE '%${ string }%'`);
+                  .then(function (response) {
+                    if (response?.features?.length > 0) {
+                      view
+                        .whenLayerView(layer)
+                        .then(function (layerView) {                        
+                          highlights.push(layerView.highlight(response.features));
+
+                          if (type < 4) {
+                            layer.visible = true;
+                            view.map.reorder(layer, 0);
+                          }
+                        })
+                        .catch(function (error) {
+                          // console.error(error);
+                        });
                     }
                   })
-                  .join(" OR ")
-                :
-                "1 = 1";
-
-            // When appropriate, extend query with:
-            // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-
-            /* This highlights all features of all layers on the map which match the provided keyword phrase. */
-
-            if (type > 0) {
-              layer
-                .queryFeatures({
-                  where: query.length > 0 ? query : "1 = 0",
-                  returnGeometry: false,
-                  outFields: ["*"]
-                })
-                .then(function (response) {
-                  if (response?.features?.length > 0) {
-                    view
-                      .whenLayerView(layer)
-                      .then(function (layerView) {                        
-                        highlights.push(layerView.highlight(response.features));
-
-                        if (type < 4) {
-                          layer.visible = true;
-                          view.map.reorder(layer, 0);
-                        }
-                      })
-                      .catch(function (error) {
-                        // console.error(error);
-                      });
-                  }
-                })
-                .catch(function (error) {
-                  // console.error(error);
-                });
-            }
-
-            // When appropriate, change query to:
-            // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-            
-            return (
-              layer
-                .queryExtent({
-                  where: query?.length > 0 ? query : "1 = 0",
-                  returnGeometry: true,
-                  outFields: ["*"]
-                })
-                .then(function (response) {
-                  return (response.extent);
-                })
-            );
-          })
-      )
-      .then(function (raw_extent_array) {
-        /* This sets the extent of the map according to the highlighted features. */
-
-        let extent_array = 
-          raw_extent_array
-            .filter(function (item) {
-              return (item);
-            });
-
-        if (extent_array.length > 0) {
-          var extent = extent_array[0];
-
-          extent_array
-            .forEach(function (new_extent) {
-              extent = extent.union(new_extent);
-            });
-
-          view.goTo(extent.expand(1.25));
-        }
-        else {
-          Promise
-            .all(
-              [layer_national_road_network, layer_national_expressways]
-                .map(function (layer) {
-                  // When appropriate, change query to:
-                  // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-                  
-                  return (
-                    layer
-                      .queryExtent({
-                        where: "1 = 1",
-                        returnGeometry: true,
-                        outFields: ["*"]
-                      })
-                      .then(function (response) {
-                        return (response.extent);
-                      })
-                  );
-                })
-            )
-            .then(function (raw_extent_array) {
-              /* This sets the extent of the map according to the highlighted features. */
-
-              let extent_array = 
-                raw_extent_array
-                  .filter(function (item) {
-                    return (item);
+                  .catch(function (error) {
+                    // console.error(error);
                   });
-
-              if (extent_array.length > 0) {
-                var extent = extent_array[0];
-
-                extent_array
-                  .forEach(function (new_extent) {
-                    extent = extent.union(new_extent);
-                  });
-
-                view.goTo(extent.expand(1.25));
               }
+
+              // When appropriate, change query to:
+              // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+              
+              return (
+                layer
+                  .queryExtent({
+                    where: query?.length > 0 ? query : "1 = 0",
+                    returnGeometry: true,
+                    outFields: ["*"]
+                  })
+                  .then(function (response) {
+                    return (response.extent);
+                  })
+              );
             })
-            .catch(function (error) {
-              // console.error(error);
-            });
-        }
-      })
-      .catch(function (error) {
-        // console.error(error);
-      });
+        )
+        .then(function (raw_extent_array) {
+          /* This sets the extent of the map according to the highlighted features. */
+
+          let extent_array = 
+            raw_extent_array
+              .filter(function (item) {
+                return (item);
+              });
+
+          if (extent_array.length > 0) {
+            var extent = extent_array[0];
+
+            extent_array
+              .forEach(function (new_extent) {
+                extent = extent.union(new_extent);
+              });
+
+            view.goTo(extent.expand(1.25));
+          }
+          else {
+            Promise
+              .all(
+                [layer_national_road_network, layer_national_expressways]
+                  .map(function (layer) {
+                    // When appropriate, change query to:
+                    // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+                    
+                    return (
+                      layer
+                        .queryExtent({
+                          where: "1 = 1",
+                          returnGeometry: true,
+                          outFields: ["*"]
+                        })
+                        .then(function (response) {
+                          return (response.extent);
+                        })
+                    );
+                  })
+              )
+              .then(function (raw_extent_array) {
+                /* This sets the extent of the map according to the highlighted features. */
+
+                let extent_array = 
+                  raw_extent_array
+                    .filter(function (item) {
+                      return (item);
+                    });
+
+                if (extent_array.length > 0) {
+                  var extent = extent_array[0];
+
+                  extent_array
+                    .forEach(function (new_extent) {
+                      extent = extent.union(new_extent);
+                    });
+
+                  view.goTo(extent.expand(1.25));
+                }
+              })
+              .catch(function (error) {
+                // console.error(error);
+              });
+          }
+
+          return (null);
+        })
+        .catch(function (error) {
+          return (null);
+          // console.error(error);
+        })
+    );
+  }
+  else {
+    return (null);
   }
 }
 
