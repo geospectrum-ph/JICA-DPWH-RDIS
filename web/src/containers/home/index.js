@@ -47,8 +47,8 @@ function HomePage () {
                 
         setToken(tokenInfo);
 
-        // axios.post("http://localhost:1433/users/login", userInfo)
-        // .then((res) => console.log(res.data.user)) //user info from SQL
+        axios.post("http://localhost:1433/users/login", userInfo)
+        .then((res) => console.log(res.data.user)) //user info from SQL
       })
       .catch(function (error) {
         setToken(null);

@@ -37,6 +37,12 @@ export default function MenuComponent () {
     view_layer("summary");
   }, []);
 
+  function handleExit () {
+    navigate("/");
+
+    sessionStorage.clear();
+  }
+
   return (
     <div id = "menu-component" className = { menuComponentOpen ? "menu-component-open" : "menu-component-closed" } onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
       <div className = "toggle-button" onClick = { function () { setMenuComponentOpen(!menuComponentOpen); } }>
@@ -49,22 +55,26 @@ export default function MenuComponent () {
       <div>
         <div>
           {
-            modules?.map(function (module, index) {
-              return (
-                <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { menuComponentOpen ? set_module(index) : setMenuComponentOpen(!menuComponentOpen) } }>
-                  <span className = "material-symbols-outlined">{ module.logo }</span>
-                  { menuComponentOpen ? <span>{ module.name }</span> : null }
-                </div>
-              );
-            })
+            modules
+              .filter(function (module, index) {
+                return (index < modules.length - 1);
+              })
+              .map(function (module, index) {
+                return (
+                  <div key = { index } className = { moduleSelected === index ? "selected" : null } onClick = { function () { menuComponentOpen ? set_module(index) : setMenuComponentOpen(!menuComponentOpen) } }>
+                    <span className = "material-symbols-outlined">{ module.logo }</span>
+                    { menuComponentOpen ? <span>{ module.name }</span> : null }
+                  </div>
+                );
+              })
           }
         </div>
         <div>
-          <div>
+          <div className = { moduleSelected === modules.length - 1 ? "selected" : null } onClick = { function () { menuComponentOpen ? set_module(modules.length - 1) : setMenuComponentOpen(!menuComponentOpen) } }>
             <span className = "material-symbols-outlined">{ "settings" }</span>
             { menuComponentOpen ? <span>{ "Settings" }</span> : null }
           </div>
-          <div onClick = { function () { navigate("/"); } }>
+          <div onClick = { function () { handleExit(); } }>
             <span className = "material-symbols-outlined">{ "move_item" }</span>
             { menuComponentOpen ? <span>{ "Log Out" }</span> : null }
           </div>

@@ -11,11 +11,12 @@ import { MapComponent, layer_road_slope_hazards, layer_road_slopes_and_counterme
 import TitleComponent from "../title-component";
 import FilterComponent from "../filter-component";
 import MenuComponent from "../menu-component";
+import AdminComponent from "../admin-component";
 
 import "./index.css";
 
 function HomeComponent () {
-  const { menuComponentOpen } = React.useContext(MainContext);
+  const { modules, moduleSelected, menuComponentOpen } = React.useContext(MainContext);
 
   String.prototype.toProperCase = function () {
     return (this.replace(/\w+\S|.\s/g, function (text) {
@@ -431,11 +432,6 @@ function HomeComponent () {
           <TitleComponent/>
         </div>
         <div>
-          <FilterComponent/>
-        </div>
-      </div>
-      <div>
-        <div>
           <div>
             <MenuComponent/>
           </div>
@@ -443,8 +439,18 @@ function HomeComponent () {
             <Outlet/>
           </div>
         </div>
-        <div>
-          <MapComponent/>
+      </div>
+      <div>
+        <div className = { modules[moduleSelected].map_visible ? "map-visible" : "map-hidden" }>
+          <div>
+            <FilterComponent/>
+          </div>
+          <div>
+            <MapComponent/>
+          </div>
+        </div>
+        <div className = { modules[moduleSelected].map_visible ? "admin-hidden" : "admin-visible" }>
+          <AdminComponent/>
         </div>
       </div>
     </div>

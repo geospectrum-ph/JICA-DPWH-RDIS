@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer, check_features } from "../map-component";
+import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer, check_features, layer_regions, layer_legislative_districts } from "../map-component";
 
 import "./index.css";
 
@@ -1040,7 +1040,7 @@ export default function FilterComponent () {
 
       initialize_summary();
 
-      focus_map(0, null);
+      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
     }
     if (type === 2) {
       setFilterLevel02Selected(null);
@@ -1053,7 +1053,7 @@ export default function FilterComponent () {
       else {  
         query_features(0, null);
 
-        focus_map(0, null);
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
       }
     }
     if (type === 3) {
@@ -1069,7 +1069,7 @@ export default function FilterComponent () {
       else {  
         query_features(0, null);
 
-        focus_map(0, null);
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
       }
     }
     if (type === 4) {
@@ -1081,7 +1081,7 @@ export default function FilterComponent () {
         query_features(4, null)
       }
       else {
-        focus_map(0, null);
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
       }
     }
   }
@@ -1089,7 +1089,30 @@ export default function FilterComponent () {
   async function select_filter (type, string) {
     close_popup();
 
-    focus_map(type, string);
+    focus_map(
+      type,
+      type === 1 ?
+        [layer_regions]
+        :
+      type === 2 ?
+        [layer_engineering_districts]
+        :
+      type === 3 ?
+        [layer_legislative_districts]
+        :
+        [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways],
+      type === 1 ?
+        ["REGION", "region_name"]
+        :
+      type === 2 ?
+        ["DEO", "deo_name"]
+        :
+      type === 3 ?
+        ["CONG_DIST", "district_name"]
+        :
+        ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"],
+      string
+    );
 
     if (type === 1) {
       const object = {
@@ -1160,7 +1183,7 @@ export default function FilterComponent () {
     setFilterLevel03Selected(null);
     setFilterLevel04Selected(null);
 
-    focus_map(0, null);
+    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
 
     switch (moduleSelected) {
       case 1:

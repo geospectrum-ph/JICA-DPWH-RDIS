@@ -2160,7 +2160,7 @@ export function MapComponent () {
           view
             .when(function () {
               if (selectedFeature.geometry?.extent) {
-                view.goTo(selectedFeature.geometry.extent);
+                view.goTo(selectedFeature.geometry.extent.expand(1.25));
               }
             })
             .catch(function (error) {
@@ -2283,7 +2283,7 @@ export function view_layer (module) {
       outFields: ["*"],
       content: content_kilometer_posts
     },
-    visible: true
+    visible: false
   });
 
   const group_kilometer_posts = new GroupLayer({
@@ -2634,7 +2634,7 @@ export function view_layer (module) {
     });     
 }
 
-export function focus_map (type, string) {
+export function focus_map (type, reference_layers, attributes, string) {
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
@@ -2661,270 +2661,71 @@ export function focus_map (type, string) {
   //   CREDENTIALS.CONG_DIST_ID ? [["CONG_DIST", "district_name"], [CREDENTIALS.CONG_DIST_ID]] :
   //     []; // Otherwise, no restricting parameters.
 
-  if (view) {
-    if (type === 0) {
-      /* This resets the filter of the map. */
+  if (view) {    
+    /* This resets the filter of the map. */
 
-      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
+    view.map.allLayers.items
+      .filter(function (item) {
+        return (item.hasOwnProperty("fields"));
+      })
+      .forEach(function (layer) {
+        let filter =
+          type > 0 && type < 4 ?
+            attributes
+              .filter(function (attribute) {
+                return (layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+              })
+              .map(function (attribute) {
+                return (`${ attribute } = '${ string }'`);
+              })
+              .join(" OR ")
+            :
+            "1 = 1";
 
-      layers
-        .forEach(function (layer) {
-          view
-            .whenLayerView(layer)
-            .then(function (layerView) {
-              layerView
-                .filter =
-                  new FeatureFilter({
-                    where:
-                      // parameters.length < 0 ?
-                        "1 = 1"
-                        // :
-                        // parameters[0]
-                        //   .map(function (parameter) {
-                        //     return (`${ parameter } = ${ parameters[1] }`);
-                        //   })
-                  });
-            });
-        });
-        
-      /* This resets the extent of the map. */
-
-      let reference_layer =
-        // CREDENTIALS.REGION_ID ? layer_regions :
-        // CREDENTIALS.DEO_ID ? layer_engineering_districts :
-        // CREDENTIALS.CONG_DIST_ID ? layer_legislative_districts :
-          layer_national_road_network;
-
-      reference_layer
-        .queryExtent({
-          where: "1 = 1",
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.extent) {
-            view.goTo(response.extent);
-          }
-        });
-    }
-    else if (type === 1) { // Disabled if the user does not have the appropriate access level.
-      /* This sets the filter of the map. */
-
-      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
-            
-      const attributes = ["REGION", "region_name"];
-
-      layers
-        .forEach(function (layer) {
-          view
-            .whenLayerView(layer)
-            .then(function (layerView) {
-              layerView.filter =
-                new FeatureFilter({
-                  where:
-                    attributes
-                      .filter(function (attribute) {
-                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
-                      })
-                      .map(function (attribute) {
-                        return (`${ attribute } = '${ string }'`);
-                      })
-                      .join(" OR ")
-                });
-            });
-        });
-
-      /* This highlights the region on the map which match the provided keyword phrase. */
-
-      layer_regions.visible = true;
-
-      layer_regions
-        .queryFeatures({
-          where: `REGION = '${ string }'`,
-          returnGeometry: false,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            view
-              .whenLayerView(layer_regions)
-              .then(function (layerView) {
-                highlights.push(layerView.highlight(response.features[0]));
+        view
+          .whenLayerView(layer)
+          .then(function (layerView) {
+            layerView.filter =
+              new FeatureFilter({
+                where: filter.length > 0 ? filter : "1 = 0"
               });
-          }
-        });
+          })
+          .catch(function (error) {
+            // console.error(error);
+          });
+      });
 
-      /* This sets the extent of the map according to the selected region. */
-
-      layer_regions
-        .queryExtent({
-          where: `REGION = '${ string }'`,
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.extent) {
-            view.goTo(response.extent);
-          }
-        });
-    }
-    else if (type === 2) { // Disabled if the user does not have the appropriate access level.
-      /* This sets the filter of the map. */
-
-      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
-            
-      const attributes = ["DEO", "deo_name"];
-
-      layers
-        .forEach(function (layer) {
-          view
-            .whenLayerView(layer)
-            .then(function (layerView) {
-              layerView.filter =
-                new FeatureFilter({
-                  where:
-                    attributes
-                      .filter(function (attribute) {
-                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
-                      })
-                      .map(function (attribute) {
-                        return (`${ attribute } = '${ string }'`);
-                      })
-                      .join(" OR ")
-                });
-            });
-        });
-        
-      /* This highlights the engineering district on the map which match the provided keyword phrase. */
-
-      layer_engineering_districts.visible = true;
-
-      layer_engineering_districts
-        .queryFeatures({
-          where: `DEO = '${ string }'`,
-          returnGeometry: false,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            view
-              .whenLayerView(layer_engineering_districts)
-              .then(function (layerView) {
-                highlights.push(layerView.highlight(response.features[0]));
-              });
-          }
-        });
-
-      /* This sets the extent of the map according to the selected engineering district. */
-
-      layer_engineering_districts
-        .queryExtent({
-          where: `DEO = '${ string }'`,
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.extent) {
-            view.goTo(response.extent);
-          }
-        });
-    }
-    else if (type === 3) { // Disabled if the user does not have the appropriate access level.
-      /* This sets the filter of the map. */
-
-      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
-            
-      const attributes = ["CONG_DIST", "district_name"];
-
-      layers
-        .forEach(function (layer) {
-          view
-            .whenLayerView(layer)
-            .then(function (layerView) {
-              layerView.filter =
-                new FeatureFilter({
-                  where:
-                    attributes
-                      .filter(function (attribute) {
-                        return (layerView.layer.fields.map(function (field) { return (field.name); }).includes(attribute));
-                      })
-                      .map(function (attribute) {
-                        return (`${ attribute } = '${ string }'`);
-                      })
-                      .join(" OR ")
-                });
-            });
-        });
-        
-      /* This highlights the region on the map which match the provided keyword phrase. */
-
-      layer_legislative_districts.visible = true;
-
-      layer_legislative_districts
-        .queryFeatures({
-          where: `CONG_DIST = '${ string }'`,
-          returnGeometry: false,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            view
-              .whenLayerView(layer_legislative_districts)
-              .then(function (layerView) {
-                highlights.push(layerView.highlight(response.features[0]));
-              });
-          }
-        });
-
-      /* This sets the extent of the map according to the selected region. */
-
-      layer_legislative_districts
-        .queryExtent({
-          where: `CONG_DIST = '${ string }'`,
-          returnGeometry: true,
-          outFields: ["*"]
-        })
-        .then(function (response) {
-          if (response?.extent) {
-            view.goTo(response.extent);
-          }
-        });
-    }
-    else if (type > 3) {  
-      const layers = view?.map?.allLayers?.items.filter(function (item) { return (item.hasOwnProperty("fields")); });
-
-      const attributes = ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"];
-
-      Promise
-        .all(
-          layers
-            .map(function (layer) {
-              /* This resets the filter of the map. */
-
-              view
-                .whenLayerView(layer)
-                .then(function (layerView) {
-                  layerView.filter = new FeatureFilter({ where: "1 = 1" });
-                });
-
-              let query =
+    Promise
+      .all(
+        reference_layers
+          .map(function (layer) {
+            let query =
+              type > 0 ?
                 attributes
                   .filter(function (attribute) {
-                    return (string && layer.fields.map(function (field) { return (field.name); }).includes(attribute));
+                    return (layer.fields.map(function (field) { return (field.name); }).includes(attribute));
                   })
                   .map(function (attribute) {
-                    return (`${ attribute } LIKE '%${ string }%'`);
+                    if (type < 4) {
+                      return (`${ attribute } = '${ string }'`);
+                    }
+                    else {
+                      return (`${ attribute } LIKE '%${ string }%'`);
+                    }
                   })
-                  .join(" OR ");
+                  .join(" OR ")
+                :
+                "1 = 1";
 
-              // When appropriate, extend query with:
-              // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+            // When appropriate, extend query with:
+            // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
 
-              /* This highlights all features of all layers on the map which match the provided keyword phrase. */
+            /* This highlights all features of all layers on the map which match the provided keyword phrase. */
 
+            if (type > 0) {
               layer
                 .queryFeatures({
-                  where: string && query.length > 0 ? query : "1 = 0",
+                  where: query.length > 0 ? query : "1 = 0",
                   returnGeometry: false,
                   outFields: ["*"]
                 })
@@ -2934,47 +2735,105 @@ export function focus_map (type, string) {
                       .whenLayerView(layer)
                       .then(function (layerView) {                        
                         highlights.push(layerView.highlight(response.features));
+
+                        if (type < 4) {
+                          layer.visible = true;
+                        }
+                      })
+                      .catch(function (error) {
+                        // console.error(error);
                       });
                   }
+                })
+                .catch(function (error) {
+                  // console.error(error);
                 });
+            }
 
-              // When appropriate, change query to:
-              // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-              
-              return (
-                layer
-                  .queryExtent({
-                    where: string ? query.length > 0 ? query : "1 = 0" : "1 = 1",
-                    returnGeometry: true,
-                    outFields: ["*"]
-                  })
-                  .then(function (response) {
-                    return (response.extent);
-                  })
-              );
+            // When appropriate, change query to:
+            // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+            
+            return (
+              layer
+                .queryExtent({
+                  where: query?.length > 0 ? query : "1 = 0",
+                  returnGeometry: true,
+                  outFields: ["*"]
+                })
+                .then(function (response) {
+                  return (response.extent);
+                })
+            );
+          })
+      )
+      .then(function (raw_extent_array) {
+        /* This sets the extent of the map according to the highlighted features. */
+
+        let extent_array = 
+          raw_extent_array
+            .filter(function (item) {
+              return (item);
+            });
+
+        if (extent_array.length > 0) {
+          var extent = extent_array[0];
+
+          extent_array
+            .forEach(function (new_extent) {
+              extent = extent.union(new_extent);
+            });
+
+          view.goTo(extent.expand(1.25));
+        }
+        else {
+          Promise
+            .all(
+              [layer_national_road_network, layer_national_expressways]
+                .map(function (layer) {
+                  // When appropriate, change query to:
+                  // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
+                  
+                  return (
+                    layer
+                      .queryExtent({
+                        where: "1 = 1",
+                        returnGeometry: true,
+                        outFields: ["*"]
+                      })
+                      .then(function (response) {
+                        return (response.extent);
+                      })
+                  );
+                })
+            )
+            .then(function (raw_extent_array) {
+              /* This sets the extent of the map according to the highlighted features. */
+
+              let extent_array = 
+                raw_extent_array
+                  .filter(function (item) {
+                    return (item);
+                  });
+
+              if (extent_array.length > 0) {
+                var extent = extent_array[0];
+
+                extent_array
+                  .forEach(function (new_extent) {
+                    extent = extent.union(new_extent);
+                  });
+
+                view.goTo(extent.expand(1.25));
+              }
             })
-        )
-        .then(function (raw_extent_array) {
-          /* This sets the extent of the map according to the highlighted features. */
-
-          let extent_array = 
-            raw_extent_array
-              .filter(function (item) {
-                return (item);
-              });
-
-          if (extent_array.length > 0) {
-            var extent = extent_array[0];
-
-            extent_array
-              .forEach(function (new_extent) {
-                extent = extent.union(new_extent);
-              });
-
-            view.goTo(extent);
-          }
-        });
-    }
+            .catch(function (error) {
+              // console.error(error);
+            });
+        }
+      })
+      .catch(function (error) {
+        // console.error(error);
+      });
   }
 }
 
@@ -2984,7 +2843,7 @@ export function recenter_map (extent) {
       if (view && !view.loading && extent) {
         view
           .when(function () {
-            view.goTo(extent);
+            view.goTo(extent.expand(1.25));
           })
           .catch(function (error) {
             // console.error(error);

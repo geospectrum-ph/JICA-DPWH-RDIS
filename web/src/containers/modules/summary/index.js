@@ -4,7 +4,7 @@ import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { view_layer } from "../../home/map-component";
+import { focus_map, layer_inventory_of_road_slope_protection_structures, layer_inventory_of_road_slopes, layer_national_expressways, layer_national_road_network, layer_road_slope_hazards, view_layer } from "../../home/map-component";
 
 import "./index.css";
 
@@ -70,7 +70,7 @@ export default function Summary () {
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
-            <div className = "summary-row">
+            <div className = "summary-row summary-interactive" onClick = { function () { focus_map(0, [layer_national_road_network, layer_national_expressways], null, null); } }>
               <div className = "summary-row-header"><span>{ "Number of Road Sections" }</span></div>
               <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
               <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
@@ -86,7 +86,7 @@ export default function Summary () {
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
-            <div className = "summary-row">
+            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slopes], null, null); } }>
               <div className = "summary-row-header"><span>{ "Number of Road Slope Hazard Records" }</span></div>
               <div><span>{ filteredRoadSlopeHazardsInventory }</span></div>
               <div><span>{ totalRoadSlopeHazardsInventory }</span></div>
@@ -109,7 +109,7 @@ export default function Summary () {
                   arrayRoadSlopeHazards?.length > 0 ?
                     arrayRoadSlopeHazards.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_road_slope_hazards], ["hazard_risk"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
@@ -178,17 +178,17 @@ export default function Summary () {
               <div className = "summary-column-header"><span>{ "Filtered" }</span></div>
               <div className = "summary-column-header"><span>{ "Total" }</span></div>
             </div>
-            <div className = "summary-row">
+            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slopes], null, null); } }>
               <div className = "summary-row-header"><span>{ "Number of Road Slope Records" }</span></div>
               <div><span>{ filteredRoadSlopeInventory }</span></div>
               <div><span>{ totalRoadSlopeInventory }</span></div>
             </div>
-            <div className = "summary-row">
+            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slope_protection_structures], null, null); } }>
               <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
               <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
               <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
             </div>
-            <div className = "summary-row">
+            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slope_protection_structures], null, null); } }>
               <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
               <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
               <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
@@ -211,7 +211,7 @@ export default function Summary () {
                   arrayRoadSlopesTypeOfDisaster?.length > 0 ?
                     arrayRoadSlopesTypeOfDisaster.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slopes], ["disaster_type"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
@@ -284,7 +284,7 @@ export default function Summary () {
                   arrayRoadSlopesTypeOfRoadSlopeProtectionStructure?.length > 0 ?
                     arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["road_slope_structure_type"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
@@ -360,7 +360,7 @@ export default function Summary () {
                   arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure?.length > 0 ?
                     arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["road_condition"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
@@ -433,7 +433,7 @@ export default function Summary () {
                   arrayRoadSlopeProtectionStructuresTypeOfDisaster?.length > 0 ?
                     arrayRoadSlopeProtectionStructuresTypeOfDisaster.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["disaster_type"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
@@ -506,7 +506,7 @@ export default function Summary () {
                   arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure?.length > 0 ?
                     arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row">
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["road_slope_structure_type"], item.name); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
