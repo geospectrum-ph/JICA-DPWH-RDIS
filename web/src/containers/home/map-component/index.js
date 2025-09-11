@@ -2738,6 +2738,7 @@ export function focus_map (type, reference_layers, attributes, string) {
 
                         if (type < 4) {
                           layer.visible = true;
+                          view.map.reorder(layer, 0);
                         }
                       })
                       .catch(function (error) {

@@ -6,10 +6,7 @@ import { MainContext } from "../../../contexts/MainContext";
 
 import { close_popup, view_layer } from "../map-component";
 
-import logo_DPWH from "../../../assets/logo_dpwh.png";
-
 import "./index.css";
-
 
 export default function MenuComponent () {
   const navigate = useNavigate();

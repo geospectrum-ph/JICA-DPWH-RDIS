@@ -6,7 +6,7 @@ import { view_layer, layer_road_slopes_and_countermeasures, close_popup, recente
 
 import "./index.css";
 
-export default function PotentialRoadSlopeProtectionProjects () {
+export default function FundedRoadSlopeProtectionProjects () {
   const {
     dataArray,
     dataLoading

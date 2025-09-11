@@ -1,18 +1,57 @@
 import * as React from "react";
 
-import ExcelExport from "./excel-export";
+import ExcelJS from "exceljs";
 
-// import { MapContext } from "../../../contexts/MapContext";
+import { saveAs } from "file-saver";
+
+import { view_layer, layer_road_slope_hazards, layer_road_slopes_and_countermeasures } from "../../home/map-component";
 
 import "./index.css";
 
-import { layer_road_slope_hazards, layer_road_slopes_and_countermeasures } from "../../home/map-component";
+function ExcelExport({ data, fileName }) {
+  async function exportToExcel (event) {
+    event.preventDefault();
+
+    try {
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sheet 1");
+
+      worksheet.columns = Object
+        .keys(data[0])
+        .map(function (key) {
+          return ({
+            header: key,
+            key: key,
+            width: 20
+          });
+        });
+
+      data
+        .forEach(function (item) {
+          worksheet
+            .addRow(item);
+        });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+
+      saveAs(new Blob([buffer]), `${fileName}.xlsx`);
+    }
+    catch (error) {
+      // console.log(error);
+    }
+  };
+
+  return (
+    <div className = "export-button-container">
+      <button className = "export-button" onClick = { function (event) { exportToExcel(event); } }>{ `Export ${ fileName } to Excel` }</button>
+    </div>
+  );
+}
 
 export default function Reports() {
-  // const {
-  //   layer_road_slope_hazards,
-  //   layer_road_slopes_and_countermeasures
-  // } = React.useContext(MapContext);
+  React.useEffect(function () {
+    view_layer("reports");
+  }, []);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
   const [arrayRoadSlopesAndCountermeasures, setArrayRoadSlopesAndCountermeasures] = React.useState([]);

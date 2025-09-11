@@ -2,13 +2,9 @@ import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-// import axios from "axios";
-
 import logo_DPWH from "../../../assets/logo_dpwh.png";
 
 import "./index.css";
-
-// const URL = process.env.NODE_ENV === "production" ? process.env.PROD_URL : process.env.DEV_URL;
 
 export default function SignInPage () {
   const navigate = useNavigate();
@@ -19,25 +15,10 @@ export default function SignInPage () {
   async function handleSignIn (event) {
     event.preventDefault();
 
-    // await axios
-    //   .post(
-    //     URL + "/api/user/tokenize",
-    //     {
-    //       username: usernameBuffer,
-    //       password: passwordBuffer,
-    //     },
-    //   )
-    //   .then(function (response) {
-        sessionStorage.setItem("username", usernameBuffer);
-        sessionStorage.setItem("password", passwordBuffer);
+    sessionStorage.setItem("username", usernameBuffer);
+    sessionStorage.setItem("password", passwordBuffer);
 
-        // sessionStorage.setItem("token", response.data);
-
-        navigate("/home");
-      // })
-      // .catch(function (error) {
-      //   navigate("/");
-      // });
+    navigate("/home");
   }
 
   return (

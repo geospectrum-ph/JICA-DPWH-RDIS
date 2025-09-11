@@ -119,7 +119,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -135,11 +136,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopeHazards ?
@@ -162,11 +165,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>
@@ -221,7 +226,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -237,11 +243,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopesTypeOfDisaster ?
@@ -264,11 +272,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>
@@ -294,7 +304,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -310,11 +321,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopesTypeOfRoadSlopeProtectionStructure ?
@@ -337,11 +350,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>
@@ -370,7 +385,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -390,7 +406,8 @@ export default function Summary () {
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure ?
@@ -413,11 +430,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>
@@ -443,7 +462,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -463,7 +483,8 @@ export default function Summary () {
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopeProtectionStructuresTypeOfDisaster ?
@@ -486,11 +507,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>
@@ -516,7 +539,8 @@ export default function Summary () {
                         </div>
                       );
                     })
-                    : null
+                    :
+                    null
                 }
               </div>
               <div className = "summary-graph">
@@ -532,11 +556,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         } 
                       </Bar>
                     </BarChart>
-                    : null
+                    :
+                    null
                 }
                 {
                   arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure ?
@@ -559,11 +585,13 @@ export default function Summary () {
                                 <Cell key = { `cell-${ index }` } fill = { item.color }/>
                               );
                             })
-                            : null
+                            :
+                            null
                         }  
                       </Pie>
                     </PieChart>
-                    : null
+                    :
+                    null
                 }
               </div>
             </div>

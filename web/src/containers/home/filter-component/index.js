@@ -1178,34 +1178,32 @@ export default function FilterComponent () {
   }
 
   React.useEffect(function () {
+    /* When a user access level is defined, keep the selected filter level values... */
     setFilterLevel01Selected(null);
     setFilterLevel02Selected(null);
     setFilterLevel03Selected(null);
     setFilterLevel04Selected(null);
 
+    /* ...and do not refocus the map. */
     focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
 
     switch (moduleSelected) {
       case 1:
         setDataLoading(true);
+
         layer_road_slope_hazards
           .queryFeatures({
-            where: "1 = 1",
+            where: "1 = 1", /* Change to appropriate filter when necessary. */
             returnGeometry: true,
             outFields: ["*"]
           })
           .then(function (response) {
             if (response?.features?.length > 0) {
-              var extent = response.features[0].geometry.extent;
-
-              response.features.forEach(function(feature) {
-                extent = extent.union(feature.geometry.extent);
-              });
-
               setDataSource(response.features);
               setDataArray(response.features);
             }
             else {
+              setDataSource(null);
               setDataArray(null);
             }
           })
@@ -1221,10 +1219,14 @@ export default function FilterComponent () {
 
             // console.log(error);
           });
+
         break;
+
       case 2:
       case 3:
+
         setDataLoading(true);
+
         layer_road_slopes_and_countermeasures
           .queryFeatures({
             where: "1 = 1",
