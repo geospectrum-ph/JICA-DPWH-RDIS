@@ -2,7 +2,13 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { view_layer, layer_road_slope_hazards, close_popup, recenter_map, open_popup } from "../../home/map-component";
+import {
+  view_layer,
+  layer_road_slope_hazards,
+  close_popup,
+  open_popup,
+  recenter_map
+} from "../../home/map-component";
 
 import "./index.css";
 
@@ -11,8 +17,8 @@ export default function RoadSlopeHazards () {
     dataArray,
     dataLoading,
 
-    filteredRoadSlopeHazardsInventory,
     totalRoadSlopeHazardsInventory,
+    filteredRoadSlopeHazardsInventory
   } = React.useContext(MainContext);
 
   React.useEffect(function () {

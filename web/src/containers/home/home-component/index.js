@@ -6,7 +6,16 @@ import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { MapComponent, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_municipalities_cities, layer_provinces, layer_legislative_districts, layer_engineering_districts, layer_regions } from "../map-component";
+import {
+  MapComponent,
+  layer_regions,
+  layer_provinces,
+  layer_engineering_districts,
+  layer_legislative_districts,
+  layer_municipalities_cities,
+  layer_road_slope_hazards,
+  layer_road_slopes_and_countermeasures
+} from "../map-component";
 
 import TitleComponent from "../title-component";
 import FilterComponent from "../filter-component";
@@ -16,7 +25,12 @@ import AdminComponent from "../admin-component";
 import "./index.css";
 
 function HomeComponent () {
-  const { modules, moduleSelected, menuComponentOpen } = React.useContext(MainContext);
+  const {
+    menuComponentOpen,
+
+    modules,
+    moduleSelected
+  } = React.useContext(MainContext);
 
   String.prototype.toProperCase = function () {
     return (this.replace(/\w+\S|.\s/g, function (text) {
@@ -40,53 +54,6 @@ function HomeComponent () {
 
   React.useEffect(function () {
     // For rendering administrative boundaries.
-
-    layer_municipalities_cities
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          const array = response.features.map(function (feature) {
-            return ({
-              value: feature.attributes.MUNICIPAL,
-              label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ feature.attributes.PROVINCE.toProperCase() }`,
-              symbol: {
-                type: "simple-fill",
-                color:
-                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
-                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
-                  "rgba(123, 211, 234, 1.00)",
-                outline: { 
-                  color: [0, 0, 0, 1.00],
-                  width: 1.00
-                }
-              }
-            });
-          });
-
-          layer_municipalities_cities.renderer = {
-            type: "unique-value",
-            field: "MUNICIPAL",
-            defaultLabel: "Others",
-            defaultSymbol: {
-              type: "simple-fill",
-              color: [191, 191, 191, 0.50],
-              outline: { 
-                color: [0, 0, 0, 1.00],
-                width: 1.00
-              }
-            },
-            uniqueValueInfos: array
-          };
-        }
-      })
-      .catch(function (error) {
-        // console.log(error);
-      });
 
     layer_provinces
       .queryFeatures({
@@ -135,7 +102,7 @@ function HomeComponent () {
         // console.log(error);
       });
 
-    layer_legislative_districts
+    layer_regions
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
@@ -145,8 +112,8 @@ function HomeComponent () {
         if (response?.features?.length > 0) {
           const array = response.features.map(function (feature) {
             return ({
-              value: feature.attributes.CONG_DIST,
-              label: `${ feature.attributes.CONG_DIST.toProperCase() }`,
+              value: feature.attributes.REGION,
+              label: `${ feature.attributes.REGION === " " ? "Bangsamoro Autonomous Region in Muslim Mindanao" : feature.attributes.REGION }`,
               symbol: {
                 type: "simple-fill",
                 color:
@@ -162,9 +129,9 @@ function HomeComponent () {
             });
           });
 
-          layer_legislative_districts.renderer = {
+          layer_regions.renderer = {
             type: "unique-value",
-            field: "CONG_DIST",
+            field: "REGION",
             defaultLabel: "Others",
             defaultSymbol: {
               type: "simple-fill",
@@ -229,7 +196,7 @@ function HomeComponent () {
         // console.log(error);
       });
 
-    layer_regions
+    layer_legislative_districts
       .queryFeatures({
         where: "1 = 1",
         returnGeometry: false,
@@ -239,8 +206,8 @@ function HomeComponent () {
         if (response?.features?.length > 0) {
           const array = response.features.map(function (feature) {
             return ({
-              value: feature.attributes.REGION,
-              label: `${ feature.attributes.REGION === " " ? "Bangsamoro Autonomous Region in Muslim Mindanao" : feature.attributes.REGION }`,
+              value: feature.attributes.CONG_DIST,
+              label: `${ feature.attributes.CONG_DIST.toProperCase() }`,
               symbol: {
                 type: "simple-fill",
                 color:
@@ -256,9 +223,56 @@ function HomeComponent () {
             });
           });
 
-          layer_regions.renderer = {
+          layer_legislative_districts.renderer = {
             type: "unique-value",
-            field: "REGION",
+            field: "CONG_DIST",
+            defaultLabel: "Others",
+            defaultSymbol: {
+              type: "simple-fill",
+              color: [191, 191, 191, 0.50],
+              outline: { 
+                color: [0, 0, 0, 1.00],
+                width: 1.00
+              }
+            },
+            uniqueValueInfos: array
+          };
+        }
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+      
+    layer_municipalities_cities
+      .queryFeatures({
+        where: "1 = 1",
+        returnGeometry: false,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          const array = response.features.map(function (feature) {
+            return ({
+              value: feature.attributes.MUNICIPAL,
+              label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ feature.attributes.PROVINCE.toProperCase() }`,
+              symbol: {
+                type: "simple-fill",
+                color:
+                  feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                  feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                  "rgba(123, 211, 234, 1.00)",
+                outline: { 
+                  color: [0, 0, 0, 1.00],
+                  width: 1.00
+                }
+              }
+            });
+          });
+
+          layer_municipalities_cities.renderer = {
+            type: "unique-value",
+            field: "MUNICIPAL",
             defaultLabel: "Others",
             defaultSymbol: {
               type: "simple-fill",

@@ -4,7 +4,11 @@ import ExcelJS from "exceljs";
 
 import { saveAs } from "file-saver";
 
-import { view_layer, layer_road_slope_hazards, layer_road_slopes_and_countermeasures } from "../../home/map-component";
+import {
+  view_layer,
+  layer_road_slope_hazards,
+  layer_road_slopes_and_countermeasures
+} from "../../home/map-component";
 
 import "./index.css";
 

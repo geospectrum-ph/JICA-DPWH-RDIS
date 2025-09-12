@@ -2,7 +2,17 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { layer_national_road_network, layer_national_expressways, layer_road_slope_hazards, layer_road_slopes_and_countermeasures, layer_engineering_districts, close_popup, focus_map, view_layer, check_features, layer_regions, layer_legislative_districts } from "../map-component";
+import {
+  layer_national_road_network,
+  layer_national_expressways,
+  layer_regions,
+  layer_legislative_districts,
+  layer_engineering_districts,
+  layer_road_slope_hazards,
+  layer_road_slopes_and_countermeasures,
+  close_popup,
+  focus_map,
+} from "../map-component";
 
 import "./index.css";
 
@@ -11,17 +21,23 @@ export default function FilterComponent () {
     dataSource, setDataSource,
     setDataArray,
     dataLoading, setDataLoading,
-    dataTimestamp, setDataTimestamp,
+    setDataTimestamp,
 
     moduleSelected,
 
+    arrayRoadSlopeHazards,
     setArrayRoadSlopeHazards,
     
+    arrayRoadSlopesTypeOfDisaster,
     setArrayRoadSlopesTypeOfDisaster,
+    arrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
     setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
     
+    arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
     setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
+    arrayRoadSlopeProtectionStructuresTypeOfDisaster,
     setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
+    arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
     setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
 
     filterLevel01Selected, setFilterLevel01Selected,
@@ -30,17 +46,14 @@ export default function FilterComponent () {
     filterLevel04Selected, setFilterLevel04Selected,
     filterLevel05Selected, setFilterLevel05Selected,
 
-    setTotalRoadInventoryA,
-    setFilteredRoadInventoryA,
-
-    setTotalRoadInventoryB,
-    setFilteredRoadInventoryB,
-
-    setTotalRoadSlopeInventory,
-    setFilteredRoadSlopeInventory,
+    setTotalRoadInventory,
+    setFilteredRoadInventory,
 
     setTotalRoadSlopeHazardsInventory,
     setFilteredRoadSlopeHazardsInventory,
+
+    setTotalRoadSlopeInventory,
+    setFilteredRoadSlopeInventory,
 
     setTotalExistingRoadSlopeProtectionStructures,
     setFilteredExistingRoadSlopeProtectionStructures,
@@ -49,11 +62,11 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
   
-  /* Sets the values of summary variables. */
+  /* Sets the initial values of the data source buffers and the summary variables. */
 
-  const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null);
-  const [dataSourceBuffer02, setDataSourceBuffer02] = React.useState(null);
-  const [dataSourceBuffer03, setDataSourceBuffer03] = React.useState(null);
+  const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null); // layer_national_road_network + layer_national_expressways
+  const [dataSourceBuffer02, setDataSourceBuffer02] = React.useState(null); // layer_road_slope_hazards
+  const [dataSourceBuffer03, setDataSourceBuffer03] = React.useState(null); // layer_road_slopes_and_countermeasures
   
   const arrayRoadSlopeHazardsBuffer = [
     {
@@ -418,7 +431,14 @@ export default function FilterComponent () {
   const [dataLoader01, setDataLoader01] = React.useState(false);
   const [dataLoader02, setDataLoader02] = React.useState(false);
   const [dataLoader03, setDataLoader03] = React.useState(false);
-  const [dataLoader04, setDataLoader04] = React.useState(false);
+
+  React.useEffect(function () {
+    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03) {
+      setDataLoading(false);
+
+      setDataTimestamp(new Date().toString());
+    }
+  }, [dataLoader01, dataLoader02, dataLoader03]);
 
   function initialize_summary () {
     setDataLoading(true);
@@ -431,62 +451,46 @@ export default function FilterComponent () {
         returnGeometry: false,
         outFields: ["*"]
       })
-      .then(function (response) {
-        setDataLoader01(false);
-        
-        if (response?.features) {
+      .then(function (response_national_road_network) {
+        layer_national_expressways
+          .queryFeatures({
+            where: "1 = 1",
+            returnGeometry: false,
+            outFields: ["*"]
+          })
+          .then(function (response_national_expressways) {
+            if (response_national_road_network?.features && response_national_expressways?.features) {
+              setDataSourceBuffer01([...response_national_road_network.features, ...response_national_expressways.features]);
 
-          setDataSourceBuffer01(response.features);
+              setTotalRoadInventory(response_national_road_network.features.length + response_national_expressways.features.length);
+              setFilteredRoadInventory(response_national_road_network.features.length + response_national_expressways.features.length);
+            }
+            else {
+              setTotalRoadInventory(0);
+              setFilteredRoadInventory(0);
+            }
 
-          setTotalRoadInventoryA(response.features.length);
-          setFilteredRoadInventoryA(response.features.length);
-        }
-        else {
-          setTotalRoadInventoryA(0);
-          setFilteredRoadInventoryA(0);
-        }
+            setDataLoader01(false);
+          })
+          .catch(function (error) {
+            setTotalRoadInventory(0);
+            setFilteredRoadInventory(0);
+
+            setDataLoader01(false);
+
+            // console.log(error);
+          });
       })
       .catch(function (error) {
-        setDataLoader01(false);
+        setTotalRoadInventory(0);
+        setFilteredRoadInventory(0);
 
-        setTotalRoadInventoryA(0);
-        setFilteredRoadInventoryA(0);
+        setDataLoader01(false);
 
         // console.log(error);
       });
 
     setDataLoader02(true);
-
-    layer_national_expressways
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setDataLoader02(false);
-
-        if (response?.features) {
-          setTotalRoadInventoryB(response.features.length);
-          setFilteredRoadInventoryB(response.features.length);
-        }
-        else {
-          setTotalRoadInventoryB(0);
-          setFilteredRoadInventoryB(0);
-        }
-      })
-      .then(function () {
-      })
-      .catch(function (error) {
-        setDataLoader02(false);
-
-        setTotalRoadInventoryB(0);
-        setFilteredRoadInventoryB(0);
-
-        // console.log(error);
-      });
-
-    setDataLoader03(true);
 
     layer_road_slope_hazards
       .queryFeatures({
@@ -496,7 +500,7 @@ export default function FilterComponent () {
       })
       .then(function (response) {
         if (response?.features) {          
-          setDataSourceBuffer03(response.features);
+          setDataSourceBuffer02(response.features);
 
           setFilteredRoadSlopeHazardsInventory(response.features.length);
           setTotalRoadSlopeHazardsInventory(response.features.length);
@@ -526,18 +530,19 @@ export default function FilterComponent () {
           setFilteredRoadSlopeHazardsInventory(0);
           setTotalRoadSlopeHazardsInventory(0);
         }
+
+        setDataLoader02(false);
       })
-      .then(function () {
-        setDataLoader04(false);
-      })
-      .catch(function (error) {
-        setDataLoader04(false);
-        
+      .catch(function (error) {        
         setFilteredRoadSlopeHazardsInventory(0);
         setTotalRoadSlopeHazardsInventory(0);
 
+        setDataLoader02(false);
+
         // console.log(error);
       });
+
+    setDataLoader03(true);
 
     layer_road_slopes_and_countermeasures
       .queryFeatures({
@@ -547,7 +552,7 @@ export default function FilterComponent () {
       })
       .then(function (response) {
         if (response?.features) {
-          setDataSourceBuffer02(response.features);
+          setDataSourceBuffer03(response.features);
 
           setFilteredRoadSlopeInventory(response.features.length);
           setTotalRoadSlopeInventory(response.features.length);
@@ -669,13 +674,10 @@ export default function FilterComponent () {
           setTotalNonExistingRoadSlopeProtectionStructures(0);
           setFilteredNonExistingRoadSlopeProtectionStructures(0);
         }
-      })
-      .then(function () {
+
         setDataLoader03(false);
       })
       .catch(function (error) {
-        setDataLoader03(false);
-
         setFilteredRoadSlopeInventory(0);
         setTotalRoadSlopeInventory(0);
 
@@ -685,215 +687,10 @@ export default function FilterComponent () {
         setTotalNonExistingRoadSlopeProtectionStructures(0);
         setFilteredNonExistingRoadSlopeProtectionStructures(0);
 
+        setDataLoader03(false);
+
         // console.log(error);
       });
-
-    setDataLoader04(true);
-  }
-
-  React.useEffect(function () {
-    initialize_summary();
-  }, []);
-
-  React.useEffect(function () {
-    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03 && !dataLoader04) {
-      setDataLoading(false);
-
-      setDataTimestamp(new Date().toString());
-    }
-  }, [dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
-
-  function filter_summary (level, object) {
-    // console.log(dataSourceBuffer01);
-
-    setFilteredRoadInventoryA(
-      dataSourceBuffer01
-        .filter(function (feature) {
-          if (level === 1) {
-            return (feature.attributes.REGION === object.REGION);
-          }
-          else if (level === 2) {
-            return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO);
-          }
-          else if (level === 3) {
-            return (feature.attributes.REGION === object.REGION && feature.attributes.DEO === object.DEO && feature.attributes.CONG_DIST === object.CONG_DIST);
-          }
-          else if (level === 4 ) {
-            return (feature.attributes.ROAD_ID?.includes(object.QUERY) || feature.attributes.ROAD_NAME?.includes(object.QUERY) || feature.attributes.SECTION_ID?.includes(object.QUERY));
-          }
-        })
-        .length
-    );
-
-    setFilteredRoadInventoryB(0);
-
-    let counterRoadSlopeHazardsInventory = 0;
-
-    let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
-
-    for (const feature of 
-      dataSourceBuffer03
-        .filter(function (feature) {
-          if (level === 1) {
-            return (feature.attributes.region_name === object.REGION);
-          }
-          else if (level === 2) {
-            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO);
-          }
-          else if (level === 3) {
-            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
-          }
-          else if (level === 4 ) {
-            return (feature.attributes.road_id?.includes(object.QUERY) || feature.attributes.road_name?.includes(object.QUERY) || feature.attributes.section_id?.includes(object.QUERY));
-          }
-        })
-    ) {
-      counterRoadSlopeHazardsInventory++;
-
-      if (arrayRoadSlopeHazardsBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
-        let index = arrayRoadSlopeHazardsBuffer_.length - 1;
-        let value = arrayRoadSlopeHazardsBuffer_[index].total;
-
-        arrayRoadSlopeHazardsBuffer_[index].total = value + 1;
-        arrayRoadSlopeHazardsBuffer_[index].filtered = value + 1;
-      }
-      else {
-        let index = arrayRoadSlopeHazardsBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk);
-        let value = arrayRoadSlopeHazardsBuffer_[index].total;
-
-        arrayRoadSlopeHazardsBuffer_[index].total = value + 1;
-        arrayRoadSlopeHazardsBuffer_[index].filtered = value + 1;
-      }
-    }
-
-    setFilteredRoadSlopeHazardsInventory(counterRoadSlopeHazardsInventory);
-
-    setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer_);
-
-    let counterRoadSlopeInventory = 0;
-
-    let counterNonExistingRoadSlopeProtectionStructures = 0;
-    let counterExistingRoadSlopeProtectionStructures = 0;
-
-    let arrayRoadSlopesTypeOfDisasterBuffer_ = arrayRoadSlopesTypeOfDisasterBuffer;
-    let arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer;
-
-    let arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer;
-    let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
-    let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
-    
-    for (const feature of 
-      dataSourceBuffer02
-        .filter(function (feature) {
-          if (level === 1) {
-            return (feature.attributes.region_name === object.REGION);
-          }
-          else if (level === 2) {
-            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO);
-          }
-          else if (level === 3) {
-            return (feature.attributes.region_name === object.REGION && feature.attributes.deo_name === object.DEO && feature.attributes.district_name === object.CONG_DIST);
-          }
-          else if (level === 4 ) {
-            return (feature.attributes.road_id?.includes(object.QUERY) || feature.attributes.road_name?.includes(object.QUERY) || feature.attributes.section_id?.includes(object.QUERY));
-          }
-        })
-    ) {
-      counterRoadSlopeInventory++;
-
-      if (feature.attributes.rsm_category === "Inventory of Road Slope") {
-        counterNonExistingRoadSlopeProtectionStructures++;
-
-        if (arrayRoadSlopesTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
-          let index = arrayRoadSlopesTypeOfDisasterBuffer_.length - 1;
-          let value = arrayRoadSlopesTypeOfDisasterBuffer_[index].total;
-
-          arrayRoadSlopesTypeOfDisasterBuffer_[index].total = value + 1;
-          arrayRoadSlopesTypeOfDisasterBuffer_[index].filtered = value + 1;
-        }
-        else {
-          let index = arrayRoadSlopesTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
-          let value = arrayRoadSlopesTypeOfDisasterBuffer_[index].total;
-
-          arrayRoadSlopesTypeOfDisasterBuffer_[index].total = value + 1;
-          arrayRoadSlopesTypeOfDisasterBuffer_[index].filtered = value + 1;
-        }
-
-        if (arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
-          let index = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_.length - 1;
-          let value = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-        else {
-          let index = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
-          let value = arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-      }
-      else if (feature.attributes.rsm_category === "Inventory of Road Slope Structures") {
-        counterExistingRoadSlopeProtectionStructures++;
-
-        if (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition) < 0) {
-          let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.length - 1;
-          let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-        else {
-          let index = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_condition);
-          let value = arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-
-        if (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type) < 0) {
-          let index = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_.length - 1;
-          let value = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].filtered = value + 1;
-        }
-        else {
-          let index = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.disaster_type);
-          let value = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_[index].filtered = value + 1;
-        }
-
-        if (arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0) {
-          let index = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_.length - 1;
-          let value = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-        else {
-          let index = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.road_slope_structure_type);
-          let value = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].total;
-
-          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].total = value + 1;
-          arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_[index].filtered = value + 1;
-        }
-      }
-    }
-
-    setFilteredRoadSlopeInventory(counterRoadSlopeInventory);
-
-    setFilteredNonExistingRoadSlopeProtectionStructures(counterNonExistingRoadSlopeProtectionStructures);
-    setFilteredExistingRoadSlopeProtectionStructures(counterExistingRoadSlopeProtectionStructures);
-
-    setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_);
-    setArrayRoadSlopeProtectionStructuresTypeOfDisaster(arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_);
-    setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
-    setArrayRoadSlopesTypeOfDisaster(arrayRoadSlopesTypeOfDisasterBuffer_);
-    setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure(arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_);
   }
 
   /* Sets the working arrays of object references for the filter component. */
@@ -926,11 +723,12 @@ export default function FilterComponent () {
               });
 
               if (match_array.length === 0 && item !== "to") {
-                buffer_array.push({
-                  "REGION": feature.attributes.REGION,
-                  "DEO": feature.attributes.DEO,
-                  "CONG_DIST": feature_attribute_district
-                });
+                buffer_array
+                  .push({
+                    "REGION": feature.attributes.REGION,
+                    "DEO": feature.attributes.DEO,
+                    "CONG_DIST": feature_attribute_district
+                  });
               }
             }
 
@@ -945,30 +743,330 @@ export default function FilterComponent () {
 
         // console.log(error);
       });
+    
+    initialize_summary();
   }, []);
+
+  /* Sets the values of the summary variables based on selected filters per module. */
+
+  function filter_summary (type, string) {
+    let filteredRoadInventoryBuffer =
+      dataSourceBuffer01
+        .filter(function (data) {
+          if (type === 0) {
+            return (data);
+          }
+          if (type === 1) {
+            return (
+              (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+            );
+          }
+          else if (type === 2) {
+            return (
+              (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+            );
+          }
+          else if (type === 3) {
+            return (
+              (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+            );
+          }
+          else if (type === 4) {
+            return (
+              (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+            );
+          }
+          else {
+            return (false);
+          }
+        });
+
+    setFilteredRoadInventory(filteredRoadInventoryBuffer.length);
+
+    let filteredRoadSlopeHazardsInventoryBuffer =
+      dataSourceBuffer02
+        .filter(function (data) {
+          if (type === 0) {
+            return (data);
+          }
+          if (type === 1) {
+            return (
+              (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+            );
+          }
+          else if (type === 2) {
+            return (
+              (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+            );
+          }
+          else if (type === 3) {
+            return (
+              (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+            );
+          }
+          else if (type === 4) {
+            return (
+              (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+            );
+          }
+          else {
+            return (false);
+          }
+        });
+
+    setFilteredRoadSlopeHazardsInventory(filteredRoadSlopeHazardsInventoryBuffer.length);
+
+    let filteredRoadSlopeInventoryBuffer =
+      dataSourceBuffer03
+        .filter(function (data) {
+          if (type === 0) {
+            return (data);
+          }
+          if (type === 1) {
+            return (
+              (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+            );
+          }
+          else if (type === 2) {
+            return (
+              (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+            );
+          }
+          else if (type === 3) {
+            return (
+              (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+            );
+          }
+          else if (type === 4) {
+            return (
+              (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+            );
+          }
+          else {
+            return (false);
+          }
+        });
+
+    setFilteredRoadSlopeInventory(filteredRoadSlopeInventoryBuffer.length);
+
+    let filteredNonExistingRoadSlopeProtectionStructuresBuffer =
+      filteredRoadSlopeInventoryBuffer
+        .filter(function (data) {
+          return (Object(data.attributes).hasOwnProperty("rsm_category") && data.attributes.rsm_category === "Inventory of Road Slope");
+        });
+
+    setFilteredNonExistingRoadSlopeProtectionStructures(filteredNonExistingRoadSlopeProtectionStructuresBuffer.length);
+
+    let filteredExistingRoadSlopeProtectionStructuresBuffer =
+      filteredRoadSlopeInventoryBuffer
+        .filter(function (data) {
+          return (Object(data.attributes).hasOwnProperty("rsm_category") && data.attributes.rsm_category === "Inventory of Road Slope Structures");
+        });
+
+    setFilteredExistingRoadSlopeProtectionStructures(filteredExistingRoadSlopeProtectionStructuresBuffer.length);
+
+    let arrayRoadSlopeHazardsBuffer_ =
+      arrayRoadSlopeHazardsBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopeHazards[index],
+            filtered:
+              filteredRoadSlopeHazardsInventoryBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopeHazards.length - 1) {
+                    return (feature.attributes.hazard_risk === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopeHazardsBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.hazard_risk) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer_);
+
+    let arrayRoadSlopesTypeOfDisasterBuffer_ =
+      arrayRoadSlopesTypeOfDisasterBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopesTypeOfDisaster[index],
+            filtered:
+              filteredNonExistingRoadSlopeProtectionStructuresBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopesTypeOfDisaster.length - 1) {
+                    return (feature.attributes.disaster_type === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopesTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopesTypeOfDisaster(arrayRoadSlopesTypeOfDisasterBuffer_);
+
+    let arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_ =
+      arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopesTypeOfRoadSlopeProtectionStructure[index],
+            filtered:
+              filteredNonExistingRoadSlopeProtectionStructuresBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.length - 1) {
+                    return (feature.attributes.road_slope_structure_type === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure(arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer_);
+
+    let arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_ =
+      arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure[index],
+            filtered:
+              filteredExistingRoadSlopeProtectionStructuresBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.length - 1) {
+                    return (feature.attributes.road_slope_structure_type === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer_);
+
+    let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ =
+      arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopeProtectionStructuresTypeOfDisaster[index],
+            filtered:
+              filteredExistingRoadSlopeProtectionStructuresBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopeProtectionStructuresTypeOfDisaster.length - 1) {
+                    return (feature.attributes.road_condition === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_condition) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopeProtectionStructuresTypeOfDisaster(arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_);
+
+    let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ =
+      arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer
+        .map(function (item, index) {
+          return ({
+            ...arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure[index],
+            filtered:
+              filteredExistingRoadSlopeProtectionStructuresBuffer
+                .filter(function (feature) {
+                  if (index < arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.length - 1) {
+                    return (feature.attributes.disaster_type === item.name);
+                  }
+                  else {
+                    return (arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
+                  }
+                })
+                .length
+          });
+        });
+
+    setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
+  }
+
+  /* Sets the working dataset for the output component. */
 
   function query_features (type, string) {
     if (dataSource) {
-      const data_buffer = dataSource.filter(function (data) {
-        if (type === 1) {
-          return (data.attributes.region_name === (string || filterLevel01Selected));
-        }
-        else if (type === 2) {
-          return (data.attributes.deo_name === (string || filterLevel02Selected));
-        }
-        else if (type === 3) {
-          return (data.attributes.district_name === (string || filterLevel03Selected));
-        }
-        else if (type === 4) {
-          return (data.attributes.road_id?.includes(string || filterLevel04Selected) || data.attributes.road_name?.includes(string || filterLevel04Selected) || data.attributes.section_id?.includes(string || filterLevel04Selected));
-        }
-        else {
-          return (null);
-        }
-      });
+      const data_buffer =
+        dataSource
+          .filter(function (data) {
+            if (type === 0) {
+              return (data);
+            }
+            if (type === 1) {
+              return (
+                (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+              );
+            }
+            else if (type === 2) {
+              return (
+                (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+              );
+            }
+            else if (type === 3) {
+              return (
+                (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+                (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+              );
+            }
+            else if (type === 4) {
+              return (
+                (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+              );
+            }
+            else {
+              return (false);
+            }
+          });
 
       setDataArray(data_buffer);
     }
+
+    if (dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) {
+      filter_summary(type, string);
+    }
+    
+    setDataLoading(false);
   }
 
   /* Filter handlers. */
@@ -984,32 +1082,29 @@ export default function FilterComponent () {
 
       focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
         });
     }
-    if (type === 2) {
+    else if (type === 2) {
       setFilterLevel02Selected(null);
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
       focus_map(1, [layer_regions], ["REGION", "region_name"], filterLevel01Selected)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
         });
     }
-    if (type === 3) {
+    else if (type === 3) {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
       focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], filterLevel02Selected)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
@@ -1020,9 +1115,9 @@ export default function FilterComponent () {
   }
   
   function select_filter (type, string) {
-    close_popup();
-
     setDataLoading(true);
+
+    close_popup();
 
     if (type === 1) {
       setFilterLevel01Selected(string);
@@ -1032,13 +1127,12 @@ export default function FilterComponent () {
 
       focus_map(1, [layer_regions], ["REGION", "region_name"], string)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
         });
     }
-    if (type === 2) {
+    else if (type === 2) {
       let object_index =
         filterArray
           .map(function (object) {
@@ -1053,13 +1147,12 @@ export default function FilterComponent () {
 
       focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], string)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
         });
     }
-    if (type === 3) {
+    else if (type === 3) {
       let object_index =
         filterArray
           .map(function (object) {
@@ -1074,13 +1167,12 @@ export default function FilterComponent () {
 
       focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string)
         .then(function (response) {
-          setDataLoading(false);
         })
         .catch(function (error) {
           setDataLoading(false);
         });
     }
-    if (type === 4) {
+    else if (type === 4) {
       setFilterLevel01Selected(null);
       setFilterLevel02Selected(null);
       setFilterLevel03Selected(null);
@@ -1089,7 +1181,6 @@ export default function FilterComponent () {
       if (string.length > 0) {
         focus_map(4, [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], string)
           .then(function (response) {
-            setDataLoading(false);
           })
           .catch(function (error) {
             setDataLoading(false);
@@ -1098,7 +1189,6 @@ export default function FilterComponent () {
       else {
         focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
           .then(function (response) {
-            setDataLoading(false);
           })
           .catch(function (error) {
             setDataLoading(false);
@@ -1109,7 +1199,40 @@ export default function FilterComponent () {
     query_features(type, string);
   }
 
+  /* Module selection handler. */
+
+  function setSource (layer) {
+    layer
+      .queryFeatures({
+        where: "1 = 1", /* Change to appropriate filter when necessary. */
+        returnGeometry: true,
+        outFields: ["*"]
+      })
+      .then(function (response) {
+        if (response?.features?.length > 0) {
+          setDataSource(response.features);
+          setDataArray(response.features);
+        }
+        else {
+          setDataSource(null);
+          setDataArray(null);
+        }
+      })
+      .then(function () {
+        setDataTimestamp(new Date().toString());
+      })
+      .catch(function (error) {
+        setDataLoading(false);
+        
+        setDataTimestamp(null);
+
+        // console.log(error);
+      });
+  }
+
   React.useEffect(function () {
+    setDataLoading(true);
+
     close_popup();
 
     /* When a user access level is defined, keep the selected filter level values... */
@@ -1119,98 +1242,27 @@ export default function FilterComponent () {
     setFilterLevel04Selected(null);
 
     /* ...and do not refocus the map. */
-    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null);
+    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+      .then(function (response) {
+      })
+      .catch(function (error) {
+        setDataLoading(false);
+      });
 
     /* Change data source. */
-    switch (moduleSelected) {
 
-      case 1:
-
-        setDataLoading(true);
-
-        layer_road_slope_hazards
-          .queryFeatures({
-            where: "1 = 1", /* Change to appropriate filter when necessary. */
-            returnGeometry: true,
-            outFields: ["*"]
-          })
-          .then(function (response) {
-            if (response?.features?.length > 0) {
-              setDataSource(response.features);
-              setDataArray(response.features);
-            }
-            else {
-              setDataSource(null);
-              setDataArray(null);
-            }
-          })
-          .then(function () {
-            setDataLoading(false);
-
-            setDataTimestamp(new Date().toString());
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-
-            setDataTimestamp(null);
-
-            // console.log(error);
-          });
-
-        break;
-
-      case 2:
-
-      case 3:
-
-        setDataLoading(true);
-
-        layer_road_slopes_and_countermeasures
-          .queryFeatures({
-            where: "1 = 1",
-            returnGeometry: true,
-            outFields: ["*"]
-          })
-          .then(function (response) {
-            if (response?.features?.length > 0) {
-              var extent = response.features[0].geometry.extent;
-
-              response.features.forEach(function(feature) {
-                extent = extent.union(feature.geometry.extent);
-              });
-
-              setDataSource(response.features);
-              setDataArray(response.features);
-            }
-            else {
-              setDataSource(null);
-              setDataArray(null);
-            }
-          })
-          .then(function () {
-            setDataLoading(false);
-
-            setDataTimestamp(new Date().toString());
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-
-            setDataTimestamp(null);
-            
-            // console.log(error);
-          });
-
-        break;
-
-      case 0:
-
-      default:
-
-        setDataSource(null);
-        setDataArray(null);
-
-        break;
+    if (moduleSelected === 1) {
+      setSource(layer_road_slope_hazards);
     }
+    else if (moduleSelected === 2 || moduleSelected === 3) {
+      setSource(layer_road_slopes_and_countermeasures);
+    }
+    else {
+      setDataSource(null);
+      setDataArray(null);
+    }
+
+    query_features(0, null);
   }, [moduleSelected]);
 
   /* Dropdown handlers. */
@@ -1230,8 +1282,8 @@ export default function FilterComponent () {
     }
     else {
       if (index === 1) { setDropdown01Active(true); }
-      if (index === 2) { setDropdown02Active(true); }
-      if (index === 3) { setDropdown03Active(true); }
+      else if (index === 2) { setDropdown02Active(true); }
+      else if (index === 3) { setDropdown03Active(true); }
 
       setDropdownActive(index);
     }

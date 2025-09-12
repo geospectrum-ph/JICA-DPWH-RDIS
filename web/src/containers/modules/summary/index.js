@@ -4,7 +4,15 @@ import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { focus_map, layer_inventory_of_road_slope_protection_structures, layer_inventory_of_road_slopes, layer_national_expressways, layer_national_road_network, layer_road_slope_hazards, view_layer } from "../../home/map-component";
+import {
+  view_layer,
+  layer_national_road_network,
+  layer_national_expressways,
+  layer_road_slope_hazards,
+  layer_inventory_of_road_slope_protection_structures,
+  layer_inventory_of_road_slopes,
+  focus_map
+} from "../../home/map-component";
 
 import "./index.css";
 
@@ -19,16 +27,14 @@ export default function Summary () {
     arrayRoadSlopeProtectionStructuresTypeOfDisaster,
     arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
 
-    totalRoadInventoryA,
-    totalRoadInventoryB,
-    filteredRoadInventoryA,
-    filteredRoadInventoryB,
-
-    totalRoadSlopeInventory,
-    filteredRoadSlopeInventory,
+    totalRoadInventory,
+    filteredRoadInventory,
 
     totalRoadSlopeHazardsInventory,
     filteredRoadSlopeHazardsInventory,
+
+    totalRoadSlopeInventory,
+    filteredRoadSlopeInventory,
 
     totalExistingRoadSlopeProtectionStructures,
     filteredExistingRoadSlopeProtectionStructures,
@@ -72,8 +78,8 @@ export default function Summary () {
             </div>
             <div className = "summary-row summary-interactive" onClick = { function () { focus_map(0, [layer_national_road_network, layer_national_expressways], null, null); } }>
               <div className = "summary-row-header"><span>{ "Number of Road Sections" }</span></div>
-              <div><span>{ filteredRoadInventoryA + filteredRoadInventoryB }</span></div>
-              <div><span>{ totalRoadInventoryA + totalRoadInventoryB }</span></div>
+              <div><span>{ filteredRoadInventory }</span></div>
+              <div><span>{ totalRoadInventory }</span></div>
             </div>
             <div className = "summary-note">
               <span>{ "The total number of road sections based on the national road network and national expressways data from the RBIA." }</span>
@@ -189,14 +195,14 @@ export default function Summary () {
               <div><span>{ totalRoadSlopeInventory }</span></div>
             </div>
             <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slope_protection_structures], null, null); } }>
-              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
-              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
-              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
-            </div>
-            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slope_protection_structures], null, null); } }>
               <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
               <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
               <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
+            </div>
+            <div className = "summary-row" onClick = { function () { focus_map(0, [layer_inventory_of_road_slope_protection_structures], null, null); } }>
+              <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
+              <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
+              <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
             </div>
             <div className = "summary-note">
               <span>{ "The total number of active road slope records from RDIS RSMS." }</span>

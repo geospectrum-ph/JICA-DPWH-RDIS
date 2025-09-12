@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { close_popup, view_layer } from "../map-component";
+import {
+  view_layer,
+  close_popup
+} from "../map-component";
 
 import "./index.css";
 
@@ -12,10 +15,12 @@ export default function MenuComponent () {
   const navigate = useNavigate();
   
   const {
-    menuComponentOpen, setMenuComponentOpen,
+    menuComponentOpen,
+    setMenuComponentOpen,
 
     modules,
-    moduleSelected, setModuleSelected
+    moduleSelected,
+    setModuleSelected
   } = React.useContext(MainContext);
 
   function set_module (index) {

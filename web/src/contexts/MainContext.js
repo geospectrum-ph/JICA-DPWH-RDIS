@@ -87,17 +87,14 @@ function MainContextProvider (props) {
 
   // For summary data.
 
-  const [totalRoadInventoryA, setTotalRoadInventoryA] = React.useState(0);
-  const [filteredRoadInventoryA, setFilteredRoadInventoryA] = React.useState(0);
-
-  const [totalRoadInventoryB, setTotalRoadInventoryB] = React.useState(0);
-  const [filteredRoadInventoryB, setFilteredRoadInventoryB] = React.useState(0);
-
-  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(0);
-  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(0);
+  const [totalRoadInventory, setTotalRoadInventory] = React.useState(0);
+  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(0);
 
   const [totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory] = React.useState(0);
   const [filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory] = React.useState(0);
+
+  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(0);
+  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(0);
 
   const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(0);
   const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(0);
@@ -138,17 +135,14 @@ function MainContextProvider (props) {
         filterLevel04Selected, setFilterLevel04Selected,
         filterLevel05Selected, setFilterLevel05Selected,
 
-        totalRoadInventoryA, setTotalRoadInventoryA,
-        filteredRoadInventoryA, setFilteredRoadInventoryA,
-
-        totalRoadInventoryB, setTotalRoadInventoryB,
-        filteredRoadInventoryB, setFilteredRoadInventoryB,
-        
-        totalRoadSlopeInventory, setTotalRoadSlopeInventory,
-        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
+        totalRoadInventory, setTotalRoadInventory,
+        filteredRoadInventory, setFilteredRoadInventory,
 
         totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory,
         filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory,
+        
+        totalRoadSlopeInventory, setTotalRoadSlopeInventory,
+        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
 
         totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures,
         filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,

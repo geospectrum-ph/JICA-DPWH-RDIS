@@ -1825,7 +1825,6 @@ const group_potential_road_slope_protection_projects = new GroupLayer({
 });
 
 var view = null;
-var highlights = [];
 
 function build_view(viewMode) {
   const widget_info_container = document.createElement("div");
@@ -2608,14 +2607,14 @@ export function view_layer (module) {
 
               view.map.layers.push(layer_road_slope_hazards);
             }
-            if (module === "road-slope-hazards") {
+            else if (module === "road-slope-hazards") {
               view.map.layers.push(group_situational_reports);
               view.map.layers.push(group_calamities);
 
               view.map.layers.push(group_storm_surge_hazards);
               view.map.layers.push(group_road_slope_hazards);
             }
-            if (module === "road-slope-inventory") {
+            else if (module === "road-slope-inventory") {
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_disaster);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_road_slope_condition);
@@ -2623,7 +2622,7 @@ export function view_layer (module) {
               view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_protection_structure);
               view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
             }
-            if (module === "potential-road-slope-protection-projects"){
+            else if (module === "potential-road-slope-protection-projects"){
               view.map.layers.push(group_potential_road_slope_protection_projects);
             }
           })
@@ -2634,7 +2633,9 @@ export function view_layer (module) {
     });     
 }
 
-export function focus_map (type, reference_layers, attributes, string) {
+var highlights = [];
+
+export async function focus_map (type, reference_layers, attributes, string) {
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
@@ -2846,19 +2847,19 @@ export function focus_map (type, reference_layers, attributes, string) {
   }
 }
 
-export function recenter_map (extent) {
+export function close_popup () {
   reactiveUtils.watch(
     function () {
-      if (view && !view.loading && extent) {
+      if (view && !view.loading) {
         view
           .when(function () {
-            view.goTo(extent.expand(1.25));
+            view.popup.visible = false;
           })
           .catch(function (error) {
             // console.error(error);
           });
       }
-    });     
+    });    
 }
 
 export function open_popup (features) {
@@ -2879,17 +2880,17 @@ export function open_popup (features) {
     });     
 }
 
-export function close_popup () {
+export function recenter_map (extent) {
   reactiveUtils.watch(
     function () {
-      if (view && !view.loading) {
+      if (view && !view.loading && extent) {
         view
           .when(function () {
-            view.popup.visible = false;
+            view.goTo(extent.expand(1.25));
           })
           .catch(function (error) {
             // console.error(error);
           });
       }
-    });    
+    });     
 }

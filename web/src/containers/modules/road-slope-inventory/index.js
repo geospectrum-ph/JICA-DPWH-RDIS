@@ -2,7 +2,13 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { view_layer, layer_road_slopes_and_countermeasures, close_popup, recenter_map, open_popup } from "../../home/map-component";
+import {
+  view_layer,
+  layer_road_slopes_and_countermeasures,
+  close_popup,
+  open_popup,
+  recenter_map
+} from "../../home/map-component";
 
 import "./index.css";
 
@@ -11,12 +17,14 @@ export default function RoadSlopeInventory () {
     dataArray,
     dataLoading,
 
-    filteredRoadSlopeInventory,
     totalRoadSlopeInventory,
-    filteredExistingRoadSlopeProtectionStructures,
-    totalExistingRoadSlopeProtectionStructures,
-    filteredNonExistingRoadSlopeProtectionStructures,
+    filteredRoadSlopeInventory,
+
     totalNonExistingRoadSlopeProtectionStructures,
+    filteredNonExistingRoadSlopeProtectionStructures,
+
+    totalExistingRoadSlopeProtectionStructures,
+    filteredExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
@@ -264,14 +272,14 @@ export default function RoadSlopeInventory () {
             <div><span>{ totalRoadSlopeInventory }</span></div>
           </div>
           <div className = "summary-row">
-            <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
-            <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
-            <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
-          </div>
-          <div className = "summary-row">
             <div className = "summary-row-header"><span>{ "Non-Existing Road Slope Protection Structures" }</span></div>
             <div><span>{ filteredNonExistingRoadSlopeProtectionStructures }</span></div>
             <div><span>{ totalNonExistingRoadSlopeProtectionStructures }</span></div>
+          </div>
+          <div className = "summary-row">
+            <div className = "summary-row-header"><span>{ "Existing Road Slope Protection Structures" }</span></div>
+            <div><span>{ filteredExistingRoadSlopeProtectionStructures }</span></div>
+            <div><span>{ totalExistingRoadSlopeProtectionStructures }</span></div>
           </div>
         </div>
       </div>
