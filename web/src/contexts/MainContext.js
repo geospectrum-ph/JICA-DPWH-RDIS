@@ -83,7 +83,7 @@ function MainContextProvider (props) {
   const [filterLevel02Selected, setFilterLevel02Selected] = React.useState(null); // Filter by district engineering office.
   const [filterLevel03Selected, setFilterLevel03Selected] = React.useState(null); // Filter by congressional district.
   const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
-  const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(null); // Filter by year.
+  const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(new Date().getFullYear()); // Filter by year.
 
   // For summary data.
 

@@ -91,12 +91,12 @@
 
     > :nth-child(2) {
       position: relative;
-
-      width: auto;
+      
+      width: 120px;
       height: calc(var(--default-size-medium, 12px) * 3.00);
 
       display: inline-block;
-      flex: 0 0 0;
+      flex: 0 0 120px;
       place-items: center stretch;
       place-content: center center;
 

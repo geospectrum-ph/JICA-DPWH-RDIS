@@ -572,6 +572,10 @@ function content_road_slope_hazards (target) {
           <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
         </tr>
         <tr>
+          <td><b>Survey Date</b></td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+        </tr>
+        <tr>
           <td><b>Region</b></td>
           <td>${ target.graphic.attributes.region_name || "No available data" }</td>
         </tr>
@@ -784,6 +788,10 @@ function content_road_slopes_and_countermeasures (target) {
           <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
         </tr>
         <tr>
+          <td><b>Survey Date</b></td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+        </tr>
+        <tr>
           <td><b>Region</b></td>
           <td>${ target.graphic.attributes.region_name || "No available data" }</td>
         </tr>
@@ -908,6 +916,14 @@ function content_inventory_of_road_slopes (target) {
   container.innerHTML = `
     <table className = "attribute-table">
       <tbody>
+        <tr>
+          <td><b>Surveyor</b></td>
+          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Survey Date</b></td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4) || "No available data" }</td>
+        </tr>
         <tr>
           <td><b>Region</b></td>
           <td>${ target.graphic.attributes.region_name || "No available data" }</td>
@@ -1042,6 +1058,14 @@ function content_inventory_of_road_slope_protection_structures (target) {
   container.innerHTML = `
     <table className = "attribute-table">
       <tbody>
+        <tr>
+          <td><b>Surveyor</b></td>
+          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Survey Date</b></td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+        </tr>
         <tr>
           <td><b>Region</b></td>
           <td>${ target.graphic.attributes.region_name || "No available data" }</td>
@@ -1296,65 +1320,65 @@ const group_storm_surge_hazards = new GroupLayer({
   opacity: 1.00
 });
 
-function content_calamities (target) {
-  const container = document.createElement("div");
+// function content_calamities (target) {
+//   const container = document.createElement("div");
 
-  container.innerHTML = `
-    <table className = "attribute-table">
-      <tbody>
-        <tr>
-          <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_note || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deoname_note || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Calamity</b> (AADT)</td>
-          <td>${ target.graphic.attributes.calamity_note || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><bCause of Calamity</b></td>
-          <td>${ target.graphic.attributes.rain || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Name of Typhoon</b></td>
-          <td>${ target.graphic.attributes.typhoonname || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Magnitude of Earthquake</b></td>
-          <td>${ target.graphic.attributes.magnitude || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Name of Volcano</b></td>
-          <td>${ target.graphic.attributes.volcano || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Infrastructure Type</b></td>
-          <td>${ target.graphic.attributes.infra_type || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Infrastructure ID</td>
-          <td>${ target.graphic.attributes.SID || "No available data" }</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
+//   container.innerHTML = `
+//     <table className = "attribute-table">
+//       <tbody>
+//         <tr>
+//           <td><b>Region</b></td>
+//           <td>${ target.graphic.attributes.region_note || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Engineering District</b></td>
+//           <td>${ target.graphic.attributes.deoname_note || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Calamity</b> (AADT)</td>
+//           <td>${ target.graphic.attributes.calamity_note || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><bCause of Calamity</b></td>
+//           <td>${ target.graphic.attributes.rain || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Name of Typhoon</b></td>
+//           <td>${ target.graphic.attributes.typhoonname || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Magnitude of Earthquake</b></td>
+//           <td>${ target.graphic.attributes.magnitude || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Name of Volcano</b></td>
+//           <td>${ target.graphic.attributes.volcano || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Infrastructure Type</b></td>
+//           <td>${ target.graphic.attributes.infra_type || "No available data" }</td>
+//         </tr>
+//         <tr>
+//           <td><b>Infrastructure ID</td>
+//           <td>${ target.graphic.attributes.SID || "No available data" }</td>
+//         </tr>
+//       </tbody>
+//     </table>
+//   `;
 
-  return ([
-    {
-      type: "custom",
-      creator: function () {
-        return (container);
-      }
-    },
-    {
-      type: "attachments",
-      displayType: "auto"
-    }
-  ]);
-}
+//   return ([
+//     {
+//       type: "custom",
+//       creator: function () {
+//         return (container);
+//       }
+//     },
+//     {
+//       type: "attachments",
+//       displayType: "auto"
+//     }
+//   ]);
+// }
 
 // const array_calamities = [
 //   ["Unclassified", [191, 191, 191, 1.00]],
@@ -2635,7 +2659,7 @@ export function view_layer (module) {
 
 var highlights = [];
 
-export async function focus_map (type, reference_layers, attributes, string) {
+export async function focus_map (type, reference_layers, attributes, string, year) {
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {

@@ -502,12 +502,12 @@ export default function FilterComponent () {
         if (response?.features) {          
           setDataSourceBuffer02(response.features);
 
-          setFilteredRoadSlopeHazardsInventory(response.features.length);
-          setTotalRoadSlopeHazardsInventory(response.features.length);
+          setFilteredRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
+          setTotalRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
 
           let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
 
-          for (const feature of response.features) {
+          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); })) {
             if (arrayRoadSlopeHazardsBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
               let index = arrayRoadSlopeHazardsBuffer_.length - 1;
               let value = arrayRoadSlopeHazardsBuffer_[index].total;
@@ -554,8 +554,8 @@ export default function FilterComponent () {
         if (response?.features) {
           setDataSourceBuffer03(response.features);
 
-          setFilteredRoadSlopeInventory(response.features.length);
-          setTotalRoadSlopeInventory(response.features.length);
+          setFilteredRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
+          setTotalRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
 
           let roadSlopesCounter = 0;
           let roadSlopeProtectionStructuresCounter = 0;
@@ -567,7 +567,7 @@ export default function FilterComponent () {
           let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
 
-          for (const feature of response.features) {
+          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); })) {
             if (feature.attributes.rsm_category === "Inventory of Road Slope") {
               roadSlopesCounter++;
 
@@ -753,7 +753,7 @@ export default function FilterComponent () {
     let filteredRoadInventoryBuffer =
       dataSourceBuffer01
         .filter(function (data) {
-          if (type === 0) {
+          if (type === 0 || type === 5) {
             return (data);
           }
           if (type === 1) {
@@ -794,35 +794,41 @@ export default function FilterComponent () {
     let filteredRoadSlopeHazardsInventoryBuffer =
       dataSourceBuffer02
         .filter(function (data) {
-          if (type === 0) {
-            return (data);
+          if (type === 0 || type === 5) {
+            return (
+              Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (string || new Date().getFullYear())
+            );
           }
           if (type === 1) {
             return (
-              (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
-              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected)))
             );
           }
           else if (type === 2) {
             return (
-              (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
-              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected)))
             );
           }
           else if (type === 3) {
             return (
-              (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
-              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected)))
             );
           }
           else if (type === 4) {
             return (
-              (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
-              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected)))
             );
           }
           else {
@@ -832,38 +838,48 @@ export default function FilterComponent () {
 
     setFilteredRoadSlopeHazardsInventory(filteredRoadSlopeHazardsInventoryBuffer.length);
 
+    if (type === 0 || type === 5) { 
+      setTotalRoadSlopeHazardsInventory(filteredRoadSlopeHazardsInventoryBuffer.length);
+    }
+
     let filteredRoadSlopeInventoryBuffer =
       dataSourceBuffer03
         .filter(function (data) {
-          if (type === 0) {
-            return (data);
+          if (type === 0 || type === 5) {
+            return (
+              Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (string || new Date().getFullYear())
+            );
           }
           if (type === 1) {
             return (
-              (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
-              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+              (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected)))
             );
           }
           else if (type === 2) {
             return (
-              (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
-              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+              (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected)))
             );
           }
           else if (type === 3) {
             return (
-              (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
-              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+              (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected)))
             );
           }
           else if (type === 4) {
             return (
-              (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+              (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+              ((Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
               (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
-              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+              (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected)))
             );
           }
           else {
@@ -873,6 +889,10 @@ export default function FilterComponent () {
 
     setFilteredRoadSlopeInventory(filteredRoadSlopeInventoryBuffer.length);
 
+    if (type === 0 || type === 5) { 
+      setTotalRoadSlopeInventory(filteredRoadSlopeInventoryBuffer.length);
+    }
+
     let filteredNonExistingRoadSlopeProtectionStructuresBuffer =
       filteredRoadSlopeInventoryBuffer
         .filter(function (data) {
@@ -881,6 +901,10 @@ export default function FilterComponent () {
 
     setFilteredNonExistingRoadSlopeProtectionStructures(filteredNonExistingRoadSlopeProtectionStructuresBuffer.length);
 
+    if (type === 0 || type === 5) { 
+      setTotalNonExistingRoadSlopeProtectionStructures(filteredNonExistingRoadSlopeProtectionStructuresBuffer.length);
+    }
+
     let filteredExistingRoadSlopeProtectionStructuresBuffer =
       filteredRoadSlopeInventoryBuffer
         .filter(function (data) {
@@ -888,6 +912,10 @@ export default function FilterComponent () {
         });
 
     setFilteredExistingRoadSlopeProtectionStructures(filteredExistingRoadSlopeProtectionStructuresBuffer.length);
+
+    if (type === 0 || type === 5) { 
+      setTotalExistingRoadSlopeProtectionStructures(filteredExistingRoadSlopeProtectionStructuresBuffer.length);
+    }
 
     let arrayRoadSlopeHazardsBuffer_ =
       arrayRoadSlopeHazardsBuffer
@@ -904,7 +932,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopeHazardsBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.hazard_risk) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredRoadSlopeHazardsInventoryBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopeHazards.length - 1) {
+                      return (feature.attributes.hazard_risk === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopeHazardsBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.hazard_risk) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopeHazards[index].total
           });
         });
 
@@ -925,7 +967,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopesTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredNonExistingRoadSlopeProtectionStructuresBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopesTypeOfDisaster.length - 1) {
+                      return (feature.attributes.disaster_type === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopesTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopesTypeOfDisaster[index].total
           });
         });
 
@@ -946,7 +1002,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredNonExistingRoadSlopeProtectionStructuresBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopesTypeOfRoadSlopeProtectionStructure.length - 1) {
+                      return (feature.attributes.road_slope_structure_type === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopesTypeOfRoadSlopeProtectionStructure[index].total
           });
         });
 
@@ -967,7 +1037,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredExistingRoadSlopeProtectionStructuresBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.length - 1) {
+                      return (feature.attributes.road_slope_structure_type === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_structure_type) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure[index].total
           });
         });
 
@@ -988,7 +1072,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_condition) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredExistingRoadSlopeProtectionStructuresBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopeProtectionStructuresTypeOfDisaster.length - 1) {
+                      return (feature.attributes.road_condition === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_condition) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopeProtectionStructuresTypeOfDisaster[index].total
           });
         });
 
@@ -1009,7 +1107,21 @@ export default function FilterComponent () {
                     return (arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
                   }
                 })
-                .length
+                .length,
+            total:
+              type === 0 || type === 5 ?
+                filteredExistingRoadSlopeProtectionStructuresBuffer
+                  .filter(function (feature) {
+                    if (index < arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure.length - 1) {
+                      return (feature.attributes.disaster_type === item.name);
+                    }
+                    else {
+                      return (arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.disaster_type) < 0);
+                    }
+                  })
+                  .length
+                :
+                arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure[index].total
           });
         });
 
@@ -1023,35 +1135,41 @@ export default function FilterComponent () {
       const data_buffer =
         dataSource
           .filter(function (data) {
-            if (type === 0) {
-              return (data);
+            if (type === 0 || type === 5) {
+              return (
+                Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (string || new Date().getFullYear())
+              );
             }
             if (type === 1) {
               return (
-                (Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
-                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected))
+                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
+                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected)))
               );
             }
             else if (type === 2) {
               return (
-                (Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
-                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected))
+                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
+                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected)))
               );
             }
             else if (type === 3) {
               return (
-                (Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
-                (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected))
+                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+                ((Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
+                (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected)))
               );
             }
             else if (type === 4) {
               return (
-                (Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
+                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
+                ((Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
                 (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
                 (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
                 (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
                 (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected))
+                (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected)))
               );
             }
             else {
@@ -1080,7 +1198,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
-      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1092,7 +1210,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
-      focus_map(1, [layer_regions], ["REGION", "region_name"], filterLevel01Selected)
+      focus_map(1, [layer_regions], ["REGION", "region_name"], filterLevel01Selected, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1103,7 +1221,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
-      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], filterLevel02Selected)
+      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], filterLevel02Selected, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1125,7 +1243,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
-      focus_map(1, [layer_regions], ["REGION", "region_name"], string)
+      focus_map(1, [layer_regions], ["REGION", "region_name"], string, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1145,7 +1263,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(null);
       setFilterLevel04Selected(null);
 
-      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], string)
+      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], string, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1165,7 +1283,7 @@ export default function FilterComponent () {
       setFilterLevel03Selected(string);
       setFilterLevel04Selected(null);
 
-      focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string)
+      focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
@@ -1179,7 +1297,7 @@ export default function FilterComponent () {
       setFilterLevel04Selected(string);
 
       if (string.length > 0) {
-        focus_map(4, [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], string)
+        focus_map(4, [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], string, filterLevel05Selected)
           .then(function (response) {
           })
           .catch(function (error) {
@@ -1187,13 +1305,27 @@ export default function FilterComponent () {
           });
       }
       else {
-        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
           .then(function (response) {
           })
           .catch(function (error) {
             setDataLoading(false);
           });
       }
+    }
+    else if (type === 5) {
+      setFilterLevel01Selected(null);
+      setFilterLevel02Selected(null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+      setFilterLevel05Selected(string);
+
+      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+        });
     }
 
     query_features(type, string);
@@ -1230,19 +1362,133 @@ export default function FilterComponent () {
       });
   }
 
+  const [yearArray, setYearArray] = React.useState(null);
+
+  function setYears (module) {
+    if (module === 0) {
+      layer_road_slope_hazards
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["survey_date"]
+        })
+        .then(function (response_road_slope_hazards) {
+          layer_road_slopes_and_countermeasures
+            .queryFeatures({
+              where: "1 = 1",
+              returnGeometry: false,
+              outFields: ["survey_date"]
+            })
+            .then(function (response_road_slopes_and_countermeasures) {
+              if (response_road_slope_hazards?.features?.length > 0 || response_road_slopes_and_countermeasures?.features?.length > 0) {
+                setYearArray(
+                  [
+                    ...new Set(
+                      [...response_road_slope_hazards.features, ...response_road_slopes_and_countermeasures.features]
+                        .filter(function (item) {
+                          return (!isNaN(item.attributes.survey_date));
+                        })
+                        .map(function (item) {
+                          return (new Date(item.attributes.survey_date).getFullYear());
+                        })
+                      )
+                  ]
+                );
+              }
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+
+              // console.log(error);
+            });
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+
+          // console.log(error);
+        });
+    }
+    else if (module === 1) {
+      layer_road_slope_hazards
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["survey_date"]
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0) {
+            setYearArray(
+              [
+                ...new Set(
+                  response.features
+                    .filter(function (item) {
+                      return (!isNaN(item.attributes.survey_date));
+                    })
+                    .map(function (item) {
+                      return (new Date(item.attributes.survey_date).getFullYear());
+                    })
+                  )
+              ]
+            );
+          }
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+
+          // console.log(error);
+        });
+    }
+    else if (module === 2 || module === 3) {
+      layer_road_slopes_and_countermeasures
+        .queryFeatures({
+          where: "1 = 1",
+          returnGeometry: false,
+          outFields: ["survey_date"]
+        })
+        .then(function (response) {
+          if (response?.features?.length > 0) {
+            setYearArray(
+              [
+                ...new Set(
+                  response.features
+                    .filter(function (item) {
+                      return (!isNaN(item.attributes.survey_date));
+                    })
+                    .map(function (item) {
+                      return (new Date(item.attributes.survey_date).getFullYear());
+                    })
+                  )
+              ]
+            );
+          }
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+
+          // console.log(error);
+        });
+    }
+    else {
+      setYearArray([new Date().getFullYear()]);
+    }
+  }
+
   React.useEffect(function () {
     setDataLoading(true);
 
     close_popup();
+
+    setYears(moduleSelected);
 
     /* When a user access level is defined, keep the selected filter level values... */
     setFilterLevel01Selected(null);
     setFilterLevel02Selected(null);
     setFilterLevel03Selected(null);
     setFilterLevel04Selected(null);
+    setFilterLevel05Selected(new Date().getFullYear());
 
     /* ...and do not refocus the map. */
-    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null)
+    focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
       .then(function (response) {
       })
       .catch(function (error) {
@@ -1271,11 +1517,15 @@ export default function FilterComponent () {
   const [dropdown01Active, setDropdown01Active] = React.useState(false);
   const [dropdown02Active, setDropdown02Active] = React.useState(false);
   const [dropdown03Active, setDropdown03Active] = React.useState(false);
+  const [dropdown04Active, setDropdown04Active] = React.useState(false);
+  const [dropdown05Active, setDropdown05Active] = React.useState(false);
 
   function click_dropdown (index) {
     setDropdown01Active(false);
     setDropdown02Active(false);
     setDropdown03Active(false);
+    setDropdown04Active(false);
+    setDropdown05Active(false);
 
     if (index === 0 || dropdownActive === index) {
       setDropdownActive(0);
@@ -1284,6 +1534,8 @@ export default function FilterComponent () {
       if (index === 1) { setDropdown01Active(true); }
       else if (index === 2) { setDropdown02Active(true); }
       else if (index === 3) { setDropdown03Active(true); }
+      else if (index === 4) { setDropdown04Active(true); }
+      else if (index === 5) { setDropdown05Active(true); }
 
       setDropdownActive(index);
     }
@@ -1300,6 +1552,8 @@ export default function FilterComponent () {
         setDropdown01Active(false);
         setDropdown02Active(false);
         setDropdown03Active(false);
+        setDropdown04Active(false);
+        setDropdown05Active(false);
   
         setDropdownActive(0);
       }
@@ -1374,39 +1628,21 @@ export default function FilterComponent () {
             <span className = "material-symbols-outlined">{ "search" }</span>
           </div>
         </div>
-        <div className = { "filter-menu-dropdown-inactive" }>
-        {/* <div className = { dropdown03Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(3); } }> */}
+        <div className = { dropdown05Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(5); } }>
           <div>
             <div>{ filterLevel05Selected || "Year" }</div>
             <div>
-              <span className = "material-symbols-outlined">{ dropdown03Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
+              <span className = "material-symbols-outlined">{ dropdown04Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
           </div>
           <div>
-            <div onClick = { function () { clear_filter(3); } }>{ "Clear Selection" }</div>
             {
-              filterArray && filterArray.length > 0 ?
-                [...new Set(filterArray.map(function (item) { if (filterLevel01Selected && filterLevel01Selected !== item.REGION) { return (null); } else if (filterLevel02Selected && filterLevel02Selected !== item.DEO) { return (null); } else { return (item.CONG_DIST); } }))]
-                  .sort(function (base, next) {
-                    if (base && next) {
-                      const base_string_array = /^(.*) ?\((.*)\)$/.exec(base);
-                      const base_order_string = /^(.*) DISTRICT$/.exec(base_string_array[2]);
-                      const base_parsed = base_string_array[1] + " (" + parseOrdinalStringToNumericalString(base_order_string[1]) + " DISTRICT)";
-
-                      const next_string_array = /^(.*) ?\((.*)\)$/.exec(next);
-                      const next_order_string = /^(.*) DISTRICT$/.exec(next_string_array[2]);
-                      const next_parsed = next_string_array[1] + " (" + parseOrdinalStringToNumericalString(next_order_string[1]) + " DISTRICT)";
-
-                      return (base_parsed.localeCompare(next_parsed));
-                    }
-                    else {
-                      return (0);
-                    }
-                  })
+              yearArray?.length > 0 ?
+                yearArray
                   .map(function (item, index) {
                     if (item !== null) {
                       return (
-                        <div key = { index } className = { filterLevel03Selected && filterLevel03Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item }</div>
+                        <div key = { index } className = { filterLevel05Selected && filterLevel05Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(5, item); } }>{ item }</div>
                       );
                     }
                     else {
