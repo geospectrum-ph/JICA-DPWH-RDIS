@@ -61,6 +61,11 @@ export default function FilterComponent () {
     setTotalNonExistingRoadSlopeProtectionStructures,
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
+
+  const [userAccess, setUserAccess] = React.useState({
+    ro: null,
+    deo: null,
+  });
   
   /* Sets the initial values of the data source buffers and the summary variables. */
 
@@ -700,9 +705,21 @@ export default function FilterComponent () {
   React.useEffect(function () {
     setDataLoading(true);
 
+    setUserAccess({
+      // ro_id: null,
+      ro: "Cordillera Administrative Region",
+      // ro_id: null,
+      // deo_id: null,
+      deo: null,
+      // deo_id: "Cebu City District Engineering Office",
+    });
+
     layer_engineering_districts
       .queryFeatures({
-        where: "1 = 1",
+        where:
+          userAccess.deo ? `deo_name = '${ userAccess.deo }' AND region_name = '${ userAccess.ro }'` :
+          userAccess.ro ? `region = '${ userAccess.ro }'` :
+          "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -1656,9 +1673,9 @@ export default function FilterComponent () {
         </div>
       </div>
       <div id = "filter-container">
-        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(1); } }>
+        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!userAccess.ro && !userAccess.deo) { click_dropdown(1); } } }>
           <div>
-            <div>{ filterLevel01Selected || "Region" }</div>
+            <div>{ userAccess.ro || filterLevel01Selected || "Region" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown01Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
@@ -1699,9 +1716,9 @@ export default function FilterComponent () {
             }
           </div>
         </div>
-        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(2); } }>
+        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!userAccess.deo) { click_dropdown(2); } } }>
           <div>
-            <div>{ filterLevel02Selected || "District Engineering Office" }</div>
+            <div>{ userAccess.deo || filterLevel02Selected || "District Engineering Office" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown02Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
