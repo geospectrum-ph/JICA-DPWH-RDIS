@@ -1,0 +1,142 @@
+#menu-component {
+  position: relative;
+
+  width: auto;
+  height: 100%;
+
+  display: flex;
+  flex-flow: column nowrap;
+  place-items: center center;
+  place-content: center flex-start;
+
+  box-sizing: border-box;
+  padding: calc(var(--default-size-medium, 12px) * 1.00);
+
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+  cursor: pointer;
+
+  > :nth-child(1) {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: column nowrap;
+    place-items: flex-start center;
+    place-content: center center;
+
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 1.00);
+  }
+
+  > :nth-child(2) {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center flex-start;
+
+    > :nth-child(1) {
+      width: auto;
+      height: 100%;
+
+      display: flex;
+      flex: 1 1 auto;
+      flex-flow: column nowrap;
+      place-items: center center;
+      place-content: center flex-start;
+
+      > * {
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        flex: 0 0 0;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center flex-start;
+
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+
+        > :nth-child(1) {
+          width: auto;
+          height: auto;
+
+          display: flex;
+          flex: 0 0 0;
+          flex-flow: column nowrap;
+          place-items: center center;
+          place-content: center center;
+
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 1.00);
+        }
+
+        > :nth-child(2) {
+          width: calc((var(--default-size-large, 360px) * 1.25) - (var(--default-size-medium, 12px) * 6.00));
+
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        &:hover, &.selected {
+          color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+        }
+      }
+    }
+    
+    > :nth-child(2) {
+      width: 100%;
+      height: auto;
+
+      display: flex;
+      flex: 0 0 0;
+      flex-flow: column nowrap;
+      place-items: center center;
+      place-content: center flex-start;
+
+      > * {
+        width: 100%;
+        height: auto;
+
+        display: flex;
+        flex: 0 0 0;
+        flex-flow: row nowrap;
+        place-items: center center;
+        place-content: center flex-start;
+
+        font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+        
+        > :nth-child(1) {
+          width: auto;
+          height: auto;
+
+          display: flex;
+          flex: 0 0 0;
+          flex-flow: column nowrap;
+          place-items: center center;
+          place-content: center center;
+
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 1.00);
+        }
+
+        > :nth-child(2) {
+          width: calc((var(--default-size-large, 360px) * 1.25) - (var(--default-size-medium, 12px) * 6.00));
+
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        &:hover, &.selected {
+          color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+        }
+      }
+    }
+  }
+}

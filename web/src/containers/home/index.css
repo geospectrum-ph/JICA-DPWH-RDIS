@@ -1,132 +1,46 @@
-#home-container {
-  display: flex;
+#home-container { 
+  width: 100%;
+  height: 100%;
 
-  flex-flow: column nowrap;
-  place-items: center center;
+  display: flex;
+  flex-flow: row nowrap;
+  place-items: center stretch;
   place-content: center center;
 
-  width: 100vw;
-  height: 100vh;
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
-  /* Title Bar */
-  > :nth-child(1) { 
-    flex: auto 1 auto;
-
-    width: 100%;
-    height: auto;
+  &:has(> :nth-child(4).loading-modal-active) {
+    pointer-events: none;
+    user-select: none;
   }
 
-  /* Module Bar */
+  &:has(> :nth-child(4).loading-modal-hidden) {
+    pointer-events: all;
+    user-select: auto;
+  }
+
+  /* Home Component */
+  > :nth-child(1) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Loading Component */
   > :nth-child(2) {
-    flex: auto 1 auto;
-
-    width: 100%;
-    height: auto;
-  }
-
-  /* Workspace */
-  > :nth-child(3) {
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center center;
-    place-content: center center;
-
-    overflow: hidden hidden;
-
-    flex: 1 1 auto;
-
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 500;
+      
     width: 100%;
     height: 100%;
 
-    /* Sidebar */
-    > :nth-child(1) {
-      display: flex;
-      flex-flow: column nowrap;
-      place-items: center center;
-      place-content: center center;
-  
-      overflow: hidden hidden;
-
-      width: 360px;
-      min-width: 360px;
-      height: 100%;
-      max-height: 100%;
-
-      /* Module Title */
-      > :nth-child(1) {
-        display: flex;
-        flex-flow: column nowrap;
-        place-items: start center;
-        place-content: center center;
-
-        flex: auto 1 auto;
-
-        width: 100%;
-        height: auto;
-
-        border-bottom: 6px solid rgba(225, 125, 25, 1.00);
-        box-sizing: border-box;
-        padding: 12px;
-
-        background-color: rgba(0, 0, 0, 1.00);
-
-        font: normal 400 12px "Outfit", sans-serif;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 1.00);
-      }
-
-      /* Filter Menu */
-      > :nth-child(2) {
-        flex: auto 1 auto;
-
-        width: 100%;
-        height: auto;
-      }
+    &.loading-component-visible {
+      display: block;
     }
 
-    /* Map */
-    > :nth-child(2) {
-      width: 100%;
-      height: 100%;
-
-      flex: 1 1 auto;
-    }
-
-    &.map-dashboard {
-      /* Sidebar */
-      > :nth-child(1) {
-        width: 50%;
-
-        /* Filter Menu */
-        > :nth-child(2) {
-          display: none;
-        }
-      }
-
-      /* Map */
-      > :nth-child(2) {
-        width: 50%;
-      }
-    }
-
-    &.map-hidden {
-      /* Sidebar */
-      > :nth-child(1) {
-        width: 100%;
-
-        /* Filter Menu */
-        > :nth-child(2) {
-          display: none;
-        }
-      }
-
-      /* Map */
-      > :nth-child(2) {
-        opacity: 0;
-
-        width: 100vw;
-        height: 100vh;
-      }
+    &.loading-component-hidden {
+      display: none;
     }
   }
 }

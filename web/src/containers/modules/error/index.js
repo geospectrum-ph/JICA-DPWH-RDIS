@@ -1,11 +1,13 @@
 import * as React from "react";
 
+import { view_layer } from "../../home/map-component";
+
 import "./index.css";
 
 export default function ErrorPage() {
-  return (
-    <div id = "error-container">
-      { "PAGE NOT FOUND!" }
-    </div>
-  )
+  React.useEffect(function () {
+    view_layer("error");
+  }, []);
+
+  return (null);
 }

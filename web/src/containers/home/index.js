@@ -1,103 +1,96 @@
 import * as React from "react";
 
-import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+// import axios from "axios";
+
+import esriId from "@arcgis/core/identity/IdentityManager.js";
 
 import { MainContext } from "../../contexts/MainContext";
-import { MapContext } from "../../contexts/MapContext";
 
-import TitleBar from "../components/title-bar";
-import ModuleBar from "../components/module-bar";
-import FilterMenu from "../components/filter-menu";
+import HomeComponent from "./home-component";
+import LoadingComponent from "./loading-component";
 
 import "./index.css";
 
+// const URL = process.env.NODE_ENV === "production" ? process.env.PROD_URL : process.env.DEV_URL;
+
 function HomePage () {
+  const navigate = useNavigate();
+  
   const {
-    setRoadInventory, setHazardMap, setRoadClosures,
-    modules, moduleSelected
+    token,
+    setToken,
+
+    dataLoading,
+    setDataLoading
   } = React.useContext(MainContext);
 
-  const {
-    layer_road_inventory, layer_hazard_map, layer_road_closures,
-    MapComponent
-  } = React.useContext(MapContext);
+  async function handleAuthentication (username, password) {
+    const portalUrl = "https://www.arcgis.com";      
+    const server = portalUrl + "/sharing/rest";
+    const tokenServiceUrl = server + "/generateToken";
+    
+    const serverInfo = {
+      tokenServiceUrl
+    };
+    
+    const userInfo = {
+      username,
+      password
+    };
+    
+    esriId
+      .generateToken(serverInfo, userInfo)
+      .then(function (tokenInfo) {        
+        esriId
+          .registerToken({
+            ...tokenInfo,
+            server
+          });
+                
+        setToken(tokenInfo);
 
-  function query_road_inventory () {
-    layer_road_inventory
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setRoadInventory(response.features);
+        // axios
+        //   .post("http://localhost:1433/users/login", userInfo)
+        //   .then(function (response) {
+        //     console.table(response.data.user);
+
+        //     sessionStorage.setItem("token", response.data.user);
+        //   });
       })
       .catch(function (error) {
         console.log(error);
-      });
-  }
 
-  function query_hazard_map () {
-    layer_hazard_map
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setHazardMap(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
+        setToken(null);
 
-  function query_road_closures () {
-    layer_road_closures
-      .queryFeatures({
-        where: "1 = 1",
-        returnGeometry: false,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        setRoadClosures(response.features);
-      })
-      .catch(function (error) {
-        console.log(error);
+        navigate("/");
       });
   }
 
   React.useEffect(function () {
-    query_road_inventory();
-    query_hazard_map();
-    query_road_closures();
-  }, []);
+    setDataLoading(true);
 
-  function set_class (index) {
-    if (index === 0) {
-      return ("map-dashboard");
-    }
-    else if (!modules[index].map_visible) {
-      return ("map-hidden");
+    let username = sessionStorage.getItem("username");
+    let password = sessionStorage.getItem("password");
+
+    if (String(username).length > 0 && String(username).length > 0)  {
+      handleAuthentication(username, password);
     }
     else {
-      return (null);
+      setDataLoading(false);
+
+      navigate("/");
     }
-  }
+  }, []);
 
   return (
     <div id = "home-container">
-      <TitleBar/>
-      <ModuleBar/>
-      <div className = { set_class(moduleSelected) }>
-        <div>
-          <div>{ modules[moduleSelected].name }</div>
-          <FilterMenu/>
-          <Outlet/>
-        </div>
-        <div >
-          <MapComponent/>
-        </div>
+      <div>
+        { Boolean(token) ? <HomeComponent/> : null }
+      </div>
+      <div className = { dataLoading || !(Boolean(token)) ? "loading-component-visible" : "loading-component-hidden" }>
+        <LoadingComponent/>
       </div>
     </div>
   );

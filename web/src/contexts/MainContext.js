@@ -1,92 +1,154 @@
-import React from "react";
+import * as React from "react";
 
 export const MainContext = React.createContext();
 
 function MainContextProvider (props) {
+  // For token handling.
+
+  const [token, setToken] = React.useState(null);
+
+  // For module switch handling.
+
+  const [menuComponentOpen, setMenuComponentOpen] = React.useState(false);
+
   const [modules, setModules] = React.useState([
     {
-      name: "DASHBOARD",
-      path: "dashboard",
+      name: "Summary",
+      logo: "analytics",
       map_visible: true
     },
     {
-      name: "Road Inventory",
-      path: "road-inventory",
+      name: "Road Slope Hazards",
+      logo: "warning",
       map_visible: true
     },
     {
-      name: "Road Slopes and Countermeasures",
-      path: "road-slope-and-countermeasures",
+      name: "Road Slope Inventory",
+      logo: "list",
       map_visible: true
     },
     {
-      name: "Hazard Map",
-      path: "hazard-map",
+      name: "Potential Road Slope Protection Projects",
+      logo: "search_check",
       map_visible: true
     },
     {
-      name: "Road Closures",
-      path: "road-closures",
+      name: "Funded Road Slope Protection Projects",
+      logo: "local_atm",
       map_visible: true
     },
     {
-      name: "Projects",
-      path: "projects",
+      name: "Proposal For Funding",
+      logo: "approval_delegation",
       map_visible: true
     },
     {
-      name: "Status Reports",
-      path: "status-reports",
-      map_visible: false
+      name: "Reports",
+      logo: "content_paste_search",
+      map_visible: true
     },
+    
     {
-      name: "User Management",
-      path: "user-management",
+      name: "Settings",
+      logo: "settings",
       map_visible: false
     }
   ]);
   
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
-  const [regions, setRegions] = React.useState(null);
-  const [regionSelected, setRegionSelected] = React.useState("");
+  // For data rendering.
+  
+  const [dataSource, setDataSource] = React.useState(null);
+  const [dataArray, setDataArray] = React.useState(null);
+  const [dataLoading, setDataLoading] = React.useState(false);
 
-  const [congressionalDistricts, setCongressionalDistricts] = React.useState(null);
-  const [congressionalDistrictSelected, setCongressionalDistrictSelected] = React.useState("");
+  const [dataTimestamp, setDataTimestamp] = React.useState(null);
 
-  const [engineeringDistricts, setEngineeringDistricts] = React.useState(null);
-  const [engineeringDistrictSelected, setEngineeringDistrictSelected] = React.useState("");
+  // For storing data on the browser.
 
-  const [roadInventory, setRoadInventory] = React.useState(null);
-  const [hazardMap, setHazardMap] = React.useState(null);
-  const [roadClosures, setRoadClosures] = React.useState(null);
+  const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState(null);
 
-  function clear_selected () {
-    setRegionSelected("");
-    setCongressionalDistrictSelected("");
-    setEngineeringDistrictSelected("");
-  }
+  const [arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster] = React.useState(null);
+  const [arrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure] = React.useState(null);
+
+  const [arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure] = React.useState(null);
+  const [arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster] = React.useState(null);
+  const [arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure] = React.useState(null);
+
+  // For data filtering.
+
+  const [filterLevel00Selected, setFilterLevel00Selected] = React.useState(null);
+  const [filterLevel01Selected, setFilterLevel01Selected] = React.useState(null); // Filter by region.
+  const [filterLevel02Selected, setFilterLevel02Selected] = React.useState(null); // Filter by district engineering office.
+  const [filterLevel03Selected, setFilterLevel03Selected] = React.useState(null); // Filter by congressional district.
+  const [filterLevel04Selected, setFilterLevel04Selected] = React.useState(null); // Filter by searching keywords.
+  const [filterLevel05Selected, setFilterLevel05Selected] = React.useState(new Date().getFullYear()); // Filter by year.
+
+  // For summary data.
+
+  const [totalRoadInventory, setTotalRoadInventory] = React.useState(0);
+  const [filteredRoadInventory, setFilteredRoadInventory] = React.useState(0);
+
+  const [totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory] = React.useState(0);
+  const [filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory] = React.useState(0);
+
+  const [totalRoadSlopeInventory, setTotalRoadSlopeInventory] = React.useState(0);
+  const [filteredRoadSlopeInventory, setFilteredRoadSlopeInventory] = React.useState(0);
+
+  const [totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures] = React.useState(0);
+  const [filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures] = React.useState(0);
+
+  const [totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures] = React.useState(0);
+  const [filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures] = React.useState(0);
 
   return (
     <MainContext.Provider value = {
       {
+        token, setToken,
+
+        menuComponentOpen, setMenuComponentOpen,
+
         modules, setModules,
+
         moduleSelected, setModuleSelected,
 
-        regions, setRegions,
-        regionSelected, setRegionSelected,
-
-        congressionalDistricts, setCongressionalDistricts,
-        congressionalDistrictSelected, setCongressionalDistrictSelected,
-
-        engineeringDistricts, setEngineeringDistricts,
-        engineeringDistrictSelected, setEngineeringDistrictSelected, 
-
-        roadInventory, setRoadInventory,
-        hazardMap, setHazardMap,
-        roadClosures, setRoadClosures,
+        dataSource, setDataSource,
+        dataArray, setDataArray,
+        dataLoading, setDataLoading,
         
-        clear_selected
+        dataTimestamp, setDataTimestamp,
+
+        arrayRoadSlopeHazards, setArrayRoadSlopeHazards,
+        
+        arrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfDisaster,
+        arrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure,
+        
+        arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure,
+        arrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfDisaster,
+        arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure,
+
+        filterLevel00Selected, setFilterLevel00Selected,
+        filterLevel01Selected, setFilterLevel01Selected,
+        filterLevel02Selected, setFilterLevel02Selected,
+        filterLevel03Selected, setFilterLevel03Selected, 
+        filterLevel04Selected, setFilterLevel04Selected,
+        filterLevel05Selected, setFilterLevel05Selected,
+
+        totalRoadInventory, setTotalRoadInventory,
+        filteredRoadInventory, setFilteredRoadInventory,
+
+        totalRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory,
+        filteredRoadSlopeHazardsInventory, setFilteredRoadSlopeHazardsInventory,
+        
+        totalRoadSlopeInventory, setTotalRoadSlopeInventory,
+        filteredRoadSlopeInventory, setFilteredRoadSlopeInventory,
+
+        totalExistingRoadSlopeProtectionStructures, setTotalExistingRoadSlopeProtectionStructures,
+        filteredExistingRoadSlopeProtectionStructures, setFilteredExistingRoadSlopeProtectionStructures,
+
+        totalNonExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures,
+        filteredNonExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures,
       }
     }>
       { props.children }

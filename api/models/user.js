@@ -26,11 +26,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    role: {
-      type: DataTypes.ENUM('reader', 'editor', 'admin'),
-      defaultValue: 'reader'
+    position: {
+      type: DataTypes.STRING,
+      allowNull: false      
     },
-    region: {
+    role_access: {
+      type: DataTypes.ENUM('admin', 'ro', 'deo'),
+      defaultValue: 'admim'
+    },
+    ro_id: {
+      type: DataTypes.STRING,
+      allowNull: false      
+    },
+    deo_id: {
       type: DataTypes.STRING,
       allowNull: false      
     }
