@@ -18,6 +18,9 @@ import "./index.css";
 
 export default function FilterComponent () {
   const {
+    regionDefault,
+    engineeringDistrictDefault,
+
     dataSource, setDataSource,
     setDataArray,
     dataLoading, setDataLoading,
@@ -62,11 +65,6 @@ export default function FilterComponent () {
     setFilteredNonExistingRoadSlopeProtectionStructures
   } = React.useContext(MainContext);
 
-  const [userAccess, setUserAccess] = React.useState({
-    ro: null,
-    deo: null,
-  });
-  
   /* Sets the initial values of the data source buffers and the summary variables. */
 
   const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null); // layer_national_road_network + layer_national_expressways
@@ -499,7 +497,10 @@ export default function FilterComponent () {
 
     layer_road_slope_hazards
       .queryFeatures({
-        where: "1 = 1",
+        where:
+          engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+          regionDefault ? `region_name = '${ regionDefault }'` :
+          "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -551,7 +552,10 @@ export default function FilterComponent () {
 
     layer_road_slopes_and_countermeasures
       .queryFeatures({
-        where: "1 = 1",
+        where:
+          engineeringDistrictDefault ? `region_name = '${ engineeringDistrictDefault }' AND deo_name = '${ regionDefault }'` :
+          regionDefault ? `region_name = '${ regionDefault }'` :
+          "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -705,20 +709,11 @@ export default function FilterComponent () {
   React.useEffect(function () {
     setDataLoading(true);
 
-    setUserAccess({
-      // ro_id: null,
-      ro: "Cordillera Administrative Region",
-      // ro_id: null,
-      // deo_id: null,
-      deo: null,
-      // deo_id: "Cebu City District Engineering Office",
-    });
-
     layer_engineering_districts
       .queryFeatures({
         where:
-          userAccess.deo ? `deo_name = '${ userAccess.deo }' AND region_name = '${ userAccess.ro }'` :
-          userAccess.ro ? `region = '${ userAccess.ro }'` :
+          engineeringDistrictDefault ? `REGION = '${ regionDefault }' AND DEO = '${ engineeringDistrictDefault }'` :
+          regionDefault ? `REGION = '${ regionDefault }'` :
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -1353,7 +1348,10 @@ export default function FilterComponent () {
   function setSource (layer) {
     layer
       .queryFeatures({
-        where: "1 = 1", /* Change to appropriate filter when necessary. */
+        where:
+          engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+          regionDefault ? `region_name = '${ regionDefault }'` :
+          "1 = 1",
         returnGeometry: true,
         outFields: ["*"]
       })
@@ -1385,14 +1383,20 @@ export default function FilterComponent () {
     if (module === 0) {
       layer_road_slope_hazards
         .queryFeatures({
-          where: "1 = 1",
+          where:
+            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+            regionDefault ? `region_name = '${ regionDefault }'` :
+            "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
         })
         .then(function (response_road_slope_hazards) {
           layer_road_slopes_and_countermeasures
             .queryFeatures({
-              where: "1 = 1",
+              where:
+                engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+                regionDefault ? `region_name = '${ regionDefault }'` :
+                "1 = 1",
               returnGeometry: false,
               outFields: ["survey_date"]
             })
@@ -1428,7 +1432,10 @@ export default function FilterComponent () {
     else if (module === 1) {
       layer_road_slope_hazards
         .queryFeatures({
-          where: "1 = 1",
+          where:
+            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+            regionDefault ? `region_name = '${ regionDefault }'` :
+            "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
         })
@@ -1458,7 +1465,10 @@ export default function FilterComponent () {
     else if (module === 2 || module === 3) {
       layer_road_slopes_and_countermeasures
         .queryFeatures({
-          where: "1 = 1",
+          where:
+            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
+            regionDefault ? `region_name = '${ regionDefault }'` :
+            "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
         })
@@ -1673,9 +1683,9 @@ export default function FilterComponent () {
         </div>
       </div>
       <div id = "filter-container">
-        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!userAccess.ro && !userAccess.deo) { click_dropdown(1); } } }>
+        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!regionDefault && !engineeringDistrictDefault) { click_dropdown(1); } } }>
           <div>
-            <div>{ userAccess.ro || filterLevel01Selected || "Region" }</div>
+            <div>{ regionDefault || filterLevel01Selected || "Region" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown01Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
@@ -1716,9 +1726,9 @@ export default function FilterComponent () {
             }
           </div>
         </div>
-        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!userAccess.deo) { click_dropdown(2); } } }>
+        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!engineeringDistrictDefault) { click_dropdown(2); } } }>
           <div>
-            <div>{ userAccess.deo || filterLevel02Selected || "District Engineering Office" }</div>
+            <div>{ engineeringDistrictDefault || filterLevel02Selected || "District Engineering Office" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown02Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>

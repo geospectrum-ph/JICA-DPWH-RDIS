@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('admin', 'ro', 'deo'),
       defaultValue: 'admim'
     },
-    ro_id: {
+    ro: {
       type: DataTypes.STRING,
       allowNull: false      
     },
-    deo_id: {
+    deo: {
       type: DataTypes.STRING,
       allowNull: false      
     }

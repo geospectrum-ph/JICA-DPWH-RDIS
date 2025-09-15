@@ -7,6 +7,9 @@ function MainContextProvider (props) {
 
   const [token, setToken] = React.useState(null);
 
+  const [regionDefault, setRegionDefault] = React.useState(null);
+  const [engineeringDistrictDefault, setEngineeringDistrictDefault] = React.useState(null);
+
   // For module switch handling.
 
   const [menuComponentOpen, setMenuComponentOpen] = React.useState(false);
@@ -106,6 +109,9 @@ function MainContextProvider (props) {
     <MainContext.Provider value = {
       {
         token, setToken,
+
+        regionDefault, setRegionDefault,
+        engineeringDistrictDefault, setEngineeringDistrictDefault,
 
         menuComponentOpen, setMenuComponentOpen,
 

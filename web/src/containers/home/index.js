@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-// import axios from "axios";
+import axios from "axios";
 
 import esriId from "@arcgis/core/identity/IdentityManager.js";
 
@@ -21,6 +21,9 @@ function HomePage () {
   const {
     token,
     setToken,
+
+    setRegionDefault,
+    setEngineeringDistrictDefault,
 
     dataLoading,
     setDataLoading
@@ -42,22 +45,21 @@ function HomePage () {
     
     esriId
       .generateToken(serverInfo, userInfo)
-      .then(function (tokenInfo) {        
-        esriId
-          .registerToken({
-            ...tokenInfo,
-            server
+      .then(function (tokenInfo) {
+        axios
+          .post("http://localhost:1433/users/login", userInfo)
+          .then(function (response) {             
+            esriId
+              .registerToken({
+                ...tokenInfo,
+                server
+              });
+                    
+            setToken(tokenInfo);
+            
+            setRegionDefault(response.data.user.ro);
+            setEngineeringDistrictDefault(response.data.user.deo);
           });
-                
-        setToken(tokenInfo);
-
-        // axios
-        //   .post("http://localhost:1433/users/login", userInfo)
-        //   .then(function (response) {
-        //     console.table(response.data.user);
-
-        //     sessionStorage.setItem("token", response.data.user);
-        //   });
       })
       .catch(function (error) {
         console.log(error);
