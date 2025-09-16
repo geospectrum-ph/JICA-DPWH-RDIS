@@ -2711,9 +2711,12 @@ export async function focus_map (type, reference_layers, attributes, string, par
 
         let parameters_filter = 
           parameters && parameters.year ?
-            parameters.district ? `region_name = '${ parameters.region }' AND deo_name = '${ parameters.district }'` :
-            parameters.region ? `region_name = '${ parameters.region }'` :
-            null
+            layer.fields.map(function (field) { return (field.name); }).includes("region_name") && layer.fields.map(function (field) { return (field.name); }).includes("deo_name") ?
+              parameters.district ? `region_name = '${ parameters.region }' AND deo_name = '${ parameters.district }'` :
+              parameters.region ? `region_name = '${ parameters.region }'` :
+              null
+              :
+              null
             :
             null;
 
