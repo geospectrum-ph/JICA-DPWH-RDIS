@@ -2659,7 +2659,9 @@ export function view_layer (module) {
 
 var highlights = [];
 
-export async function focus_map (type, reference_layers, attributes, string, year) {
+export async function focus_map (type, reference_layers, attributes, string, parameters) {
+  console.table(parameters);
+
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
@@ -2694,7 +2696,7 @@ export async function focus_map (type, reference_layers, attributes, string, yea
         return (item.hasOwnProperty("fields"));
       })
       .forEach(function (layer) {
-        let filter =
+        let attributes_filter =
           type > 0 && type < 4 ?
             attributes
               .filter(function (attribute) {
@@ -2705,7 +2707,25 @@ export async function focus_map (type, reference_layers, attributes, string, yea
               })
               .join(" OR ")
             :
-            "1 = 1";
+            null;
+
+        let parameters_filter = 
+          parameters && parameters.year ?
+            parameters.district ? `region_name = '${ parameters.region }' AND deo_name = '${ parameters.district }'` :
+            parameters.region ? `region_name = '${ parameters.region }'` :
+            null
+            :
+            null;
+
+        let filter_ = 
+          [attributes_filter, parameters_filter]
+            .filter(function (item) {
+              return (item);
+            });
+
+        console.log(filter_);
+
+        let filter = "";
 
         view
           .whenLayerView(layer)
