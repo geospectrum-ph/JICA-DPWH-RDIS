@@ -2720,22 +2720,22 @@ export async function focus_map (type, reference_layers, attributes, string, par
             :
             null;
 
-        let filter_ = 
+        let filter = 
           [attributes_filter, parameters_filter]
             .filter(function (item) {
               return (item);
-            });
-
-        console.log(filter_);
-
-        let filter = "";
+            })
+            .map(function (item) {
+              return (`(${ item })`)
+            })
+            .join(" AND ");
 
         view
           .whenLayerView(layer)
           .then(function (layerView) {
             layerView.filter =
               new FeatureFilter({
-                where: filter.length > 0 ? filter : "1 = 0"
+                where: filter.length > 0 ? filter : "1 = 1"
               });
           })
           .catch(function (error) {
