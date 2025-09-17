@@ -14,12 +14,16 @@ import "./index.css";
 
 export default function FundedRoadSlopeProtectionProjects () {
   const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault,
+
     dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("funded-road-slope-protection-projects");
+    view_layer("funded-road-slope-protection-projects", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const sublevels = [

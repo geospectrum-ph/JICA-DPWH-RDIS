@@ -5,8 +5,7 @@ export const MainContext = React.createContext();
 function MainContextProvider (props) {
   // For token handling.
 
-  const [token, setToken] = React.useState(null);
-
+  const [yearDefault, setYearDefault] = React.useState(null);
   const [regionDefault, setRegionDefault] = React.useState(null);
   const [engineeringDistrictDefault, setEngineeringDistrictDefault] = React.useState(null);
 
@@ -108,10 +107,9 @@ function MainContextProvider (props) {
   return (
     <MainContext.Provider value = {
       {
-        token, setToken,
-
         regionDefault, setRegionDefault,
         engineeringDistrictDefault, setEngineeringDistrictDefault,
+        yearDefault, setYearDefault,
 
         menuComponentOpen, setMenuComponentOpen,
 

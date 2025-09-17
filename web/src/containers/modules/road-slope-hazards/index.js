@@ -14,6 +14,10 @@ import "./index.css";
 
 export default function RoadSlopeHazards () {
   const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault,
+
     dataArray,
     dataLoading,
 
@@ -22,7 +26,7 @@ export default function RoadSlopeHazards () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("road-slope-hazards");
+    view_layer("road-slope-hazards", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const sublevels = [

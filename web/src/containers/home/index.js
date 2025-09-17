@@ -19,15 +19,15 @@ function HomePage () {
   const navigate = useNavigate();
   
   const {
-    token,
-    setToken,
-
+    setYearDefault,
     setRegionDefault,
     setEngineeringDistrictDefault,
 
     dataLoading,
     setDataLoading
   } = React.useContext(MainContext);
+
+  const [token, setToken] = React.useState(null);
 
   async function handleAuthentication (username, password) {
     const portalUrl = "https://www.arcgis.com";      
@@ -54,11 +54,12 @@ function HomePage () {
                 ...tokenInfo,
                 server
               });
-                    
-            setToken(tokenInfo);
-            
+                                
+            setYearDefault(new Date().getFullYear());
             setRegionDefault(response.data.user.ro);
             setEngineeringDistrictDefault(response.data.user.deo);
+
+            setToken(tokenInfo);
           });
       })
       .catch(function (error) {

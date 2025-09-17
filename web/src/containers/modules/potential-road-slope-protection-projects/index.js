@@ -14,12 +14,16 @@ import "./index.css";
 
 export default function PotentialRoadSlopeProtectionProjects () {
   const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault,
+
     dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("potential-road-slope-protection-projects");
+    view_layer("potential-road-slope-protection-projects", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const sublevels = [

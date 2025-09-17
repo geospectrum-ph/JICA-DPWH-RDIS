@@ -18,6 +18,10 @@ import "./index.css";
 
 export default function Summary () {
   const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault,
+
     arrayRoadSlopeHazards,
 
     arrayRoadSlopesTypeOfDisaster,
@@ -44,7 +48,7 @@ export default function Summary () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("summary");
+    view_layer("summary", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const RADIAN = Math.PI / 180;

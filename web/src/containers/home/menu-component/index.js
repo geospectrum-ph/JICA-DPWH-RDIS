@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { MainContext } from "../../../contexts/MainContext";
 
 import {
-  view_layer,
   close_popup
 } from "../map-component";
 
@@ -35,8 +34,6 @@ export default function MenuComponent () {
 
   React.useEffect(function () {
     set_module(0);
-
-    view_layer("summary");
   }, []);
 
   function handleExit () {

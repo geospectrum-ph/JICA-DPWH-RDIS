@@ -8,12 +8,16 @@ import "./index.css";
 
 export default function ProposalForFunding () {
   const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault,
+
     dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("proposal-for-funding");
+    view_layer("proposal-for-funding", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   return (

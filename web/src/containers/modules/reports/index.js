@@ -10,6 +10,8 @@ import {
   layer_road_slopes_and_countermeasures
 } from "../../home/map-component";
 
+import { MainContext } from "../../../contexts/MainContext";
+
 import "./index.css";
 
 function ExcelExport({ data, fileName }) {
@@ -53,8 +55,14 @@ function ExcelExport({ data, fileName }) {
 }
 
 export default function Reports() {
+  const {
+    yearDefault,
+    regionDefault,
+    engineeringDistrictDefault
+  } = React.useContext(MainContext);
+
   React.useEffect(function () {
-    view_layer("reports");
+    view_layer("reports", yearDefault, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
