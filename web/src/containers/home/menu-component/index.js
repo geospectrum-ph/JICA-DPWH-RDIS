@@ -4,10 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import {
-  close_popup
-} from "../map-component";
-
 import "./index.css";
 
 export default function MenuComponent () {
@@ -23,8 +19,6 @@ export default function MenuComponent () {
   } = React.useContext(MainContext);
 
   function set_module (index) {
-    close_popup();
-    
     setModuleSelected(index);
 
     navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);

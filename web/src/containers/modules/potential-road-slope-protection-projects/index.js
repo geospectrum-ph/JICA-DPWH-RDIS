@@ -14,7 +14,7 @@ import "./index.css";
 
 export default function PotentialRoadSlopeProtectionProjects () {
   const {
-    yearDefault,
+    filterLevel05Selected,
     regionDefault,
     engineeringDistrictDefault,
 
@@ -23,7 +23,7 @@ export default function PotentialRoadSlopeProtectionProjects () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("potential-road-slope-protection-projects", yearDefault, regionDefault, engineeringDistrictDefault);
+    view_layer("potential-road-slope-protection-projects", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const sublevels = [

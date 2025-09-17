@@ -8,7 +8,7 @@ import "./index.css";
 
 export default function ProposalForFunding () {
   const {
-    yearDefault,
+    filterLevel05Selected,
     regionDefault,
     engineeringDistrictDefault,
 
@@ -17,7 +17,7 @@ export default function ProposalForFunding () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("proposal-for-funding", yearDefault, regionDefault, engineeringDistrictDefault);
+    view_layer("proposal-for-funding", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
   }, []);
 
   return (

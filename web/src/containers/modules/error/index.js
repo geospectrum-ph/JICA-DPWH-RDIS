@@ -1,20 +1,20 @@
 import * as React from "react";
 
-import { view_layer } from "../../home/map-component";
-
 import { MainContext } from "../../../contexts/MainContext";
+
+import { view_layer } from "../../home/map-component";
 
 import "./index.css";
 
 export default function ErrorPage() {
   const {
-    yearDefault,
+    filterLevel05Selected,
     regionDefault,
     engineeringDistrictDefault
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("error", yearDefault, regionDefault, engineeringDistrictDefault);
+    view_layer("error", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
   }, []);
 
   return (null);

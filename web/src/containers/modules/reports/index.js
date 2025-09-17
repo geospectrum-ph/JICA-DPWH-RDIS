@@ -4,13 +4,13 @@ import ExcelJS from "exceljs";
 
 import { saveAs } from "file-saver";
 
+import { MainContext } from "../../../contexts/MainContext";
+
 import {
   view_layer,
   layer_road_slope_hazards,
   layer_road_slopes_and_countermeasures
 } from "../../home/map-component";
-
-import { MainContext } from "../../../contexts/MainContext";
 
 import "./index.css";
 
@@ -56,13 +56,13 @@ function ExcelExport({ data, fileName }) {
 
 export default function Reports() {
   const {
-    yearDefault,
+    filterLevel05Selected,
     regionDefault,
     engineeringDistrictDefault
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("reports", yearDefault, regionDefault, engineeringDistrictDefault);
+    view_layer("reports", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);

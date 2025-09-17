@@ -14,7 +14,7 @@ import "./index.css";
 
 export default function RoadSlopeInventory () {
   const {
-    yearDefault,
+    filterLevel05Selected,
     regionDefault,
     engineeringDistrictDefault,
 
@@ -32,7 +32,7 @@ export default function RoadSlopeInventory () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("road-slope-inventory", yearDefault, regionDefault, engineeringDistrictDefault);
+    view_layer("road-slope-inventory", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
   }, []);
 
   const sublevels = [

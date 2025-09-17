@@ -1155,15 +1155,15 @@ export default function FilterComponent () {
             if (type === 1) {
               return (
                 (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || filterLevel01Selected)) ||
-                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || filterLevel01Selected)))
+                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || regionDefault || filterLevel01Selected)) ||
+                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || regionDefault || filterLevel01Selected)))
               );
             }
             else if (type === 2) {
               return (
                 (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || filterLevel02Selected)) ||
-                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || filterLevel02Selected)))
+                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || engineeringDistrictDefault || filterLevel02Selected)) ||
+                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || engineeringDistrictDefault || filterLevel02Selected)))
               );
             }
             else if (type === 3) {
@@ -1202,76 +1202,141 @@ export default function FilterComponent () {
   /* Filter handlers. */
 
   function clear_filter (type) {    
-    setDataLoading(true);
+    // setDataLoading(true);
 
     if (type === 1) {
-      setFilterLevel01Selected(null);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
+      if (!regionDefault) {
+        setFilterLevel01Selected(null);
+      }
+      else {
+        setFilterLevel01Selected(regionDefault);
+      }
 
+      if (!engineeringDistrictDefault) {
+        setFilterLevel02Selected(null);
+      }
+      else {
+        setFilterLevel02Selected(engineeringDistrictDefault);
+      }
+
+      setFilterLevel03Selected(null);
+      
+      setFilterLevel04Selected(null);
+      
       focus_map(
           0, // type
           [layer_national_road_network, layer_national_expressways], // reference_layers
           null, // attributes
           null, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
+          filterLevel05Selected // year
         )
         .then(function (response) {
         })
         .catch(function (error) {
           setDataLoading(false);
         });
+
+      query_features(0, null);
     }
     else if (type === 2) {
-      setFilterLevel02Selected(null);
+      if (!engineeringDistrictDefault) {
+        setFilterLevel02Selected(null);
+      }
+      else {
+        setFilterLevel02Selected(engineeringDistrictDefault);
+      }
+
       setFilterLevel03Selected(null);
+
       setFilterLevel04Selected(null);
 
-      focus_map(
-          1, // type
-          [layer_regions], // reference_layers
-          ["REGION", "region_name"], // attributes
-          filterLevel01Selected, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
-        )
-        .then(function (response) {
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-        });
+      if (regionDefault || filterLevel01Selected) {
+        focus_map(
+            1, // type
+            [layer_regions], // reference_layers
+            ["REGION", "region_name"], // attributes
+            regionDefault || filterLevel01Selected, // string
+            filterLevel05Selected // year
+          )
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+
+        query_features(1, regionDefault || filterLevel01Selected);
+      }
+      else {
+        focus_map(
+            0, // type
+            [layer_national_road_network, layer_national_expressways], // reference_layers
+            null, // attributes
+            null, // string
+            filterLevel05Selected // year
+          )
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+
+        query_features(0, null);
+      }
     }
     else if (type === 3) {
       setFilterLevel03Selected(null);
+
       setFilterLevel04Selected(null);
 
-      focus_map(
-          2, // type
-          [layer_engineering_districts], // reference_layers
-          ["DEO", "deo_name"], //atributes
-          filterLevel02Selected, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
-        )
-        .then(function (response) {
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-        });
-    }
+      if (engineeringDistrictDefault || filterLevel02Selected) {
+        focus_map(
+            2, // type
+            [layer_engineering_districts], // reference_layers
+            ["DEO", "deo_name"], //atributes
+            engineeringDistrictDefault || filterLevel02Selected, // string
+            filterLevel05Selected // year
+          )
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
 
-    query_features(type - 1, null);
+        query_features(2, engineeringDistrictDefault || filterLevel02Selected);
+      }
+      else if (regionDefault || filterLevel01Selected) {
+        focus_map(
+            1, // type
+            [layer_regions], // reference_layers
+            ["REGION", "region_name"], // attributes
+            regionDefault || filterLevel01Selected, // string
+            filterLevel05Selected // year
+          )
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+
+        query_features(1, regionDefault || filterLevel01Selected);
+      }
+      else {
+        focus_map(
+            0, // type
+            [layer_national_road_network, layer_national_expressways], // reference_layers
+            null, // attributes
+            null, // string
+            filterLevel05Selected // year
+          )
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+          });
+
+        query_features(0, null);
+      }
+    }
   }
   
   function select_filter (type, string) {
@@ -1281,8 +1346,11 @@ export default function FilterComponent () {
 
     if (type === 1) {
       setFilterLevel01Selected(string);
+
       setFilterLevel02Selected(null);
+      
       setFilterLevel03Selected(null);
+      
       setFilterLevel04Selected(null);
 
       focus_map(
@@ -1290,11 +1358,7 @@ export default function FilterComponent () {
           [layer_regions], // reference_layers
           ["REGION", "region_name"], // attributes
           string, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
+          filterLevel05Selected // year
         )
         .then(function (response) {
         })
@@ -1310,9 +1374,17 @@ export default function FilterComponent () {
           })
           .indexOf(string);
 
-      setFilterLevel01Selected(filterArray[object_index].REGION);
+      if (!regionDefault) {
+        setFilterLevel01Selected(filterArray[object_index].REGION);
+      }
+      else {
+        setFilterLevel01Selected(regionDefault);
+      }
+
       setFilterLevel02Selected(string);
+      
       setFilterLevel03Selected(null);
+      
       setFilterLevel04Selected(null);
 
       focus_map(
@@ -1320,11 +1392,7 @@ export default function FilterComponent () {
           [layer_engineering_districts], // reference_layers
           ["DEO", "deo_name"], // attributes
           string, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // paremeters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
+          filterLevel05Selected // year
         )
         .then(function (response) {
         })
@@ -1340,9 +1408,22 @@ export default function FilterComponent () {
           })
           .indexOf(string);
 
-      setFilterLevel01Selected(filterArray[object_index].REGION);
-      setFilterLevel02Selected(filterArray[object_index].DEO);
+      if (!regionDefault) {
+        setFilterLevel01Selected(filterArray[object_index].REGION);
+      }
+      else {
+        setFilterLevel01Selected(regionDefault);
+      }
+
+      if (!engineeringDistrictDefault) {
+        setFilterLevel02Selected(filterArray[object_index].DEO);
+      }
+      else {
+        setFilterLevel02Selected(engineeringDistrictDefault);
+      }
+
       setFilterLevel03Selected(string);
+      
       setFilterLevel04Selected(null);
 
       focus_map(
@@ -1350,11 +1431,7 @@ export default function FilterComponent () {
           [layer_legislative_districts], // reference_layers
           ["CONG_DIST", "district_name"], // attributes
           string, // string
-          {
-            year: filterLevel05Selected, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          }, 
+          filterLevel05Selected // year
         )
         .then(function (response) {
         })
@@ -1363,22 +1440,31 @@ export default function FilterComponent () {
         });
     }
     else if (type === 4) {
-      setFilterLevel01Selected(null);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(string);
-
       if (string.length > 0) {
+        if (!regionDefault) {
+          setFilterLevel01Selected(null);
+        }
+        else {
+          setFilterLevel01Selected(regionDefault);
+        }
+
+        if (!engineeringDistrictDefault) {
+          setFilterLevel02Selected(null);
+        }
+        else {
+          setFilterLevel02Selected(engineeringDistrictDefault);
+        }
+
+        setFilterLevel03Selected(null);
+        
+        setFilterLevel04Selected(string);
+        
         focus_map(
             4, // type
             [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], // reference_layers
             ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], // attributes
             string, // string
-            {
-              year: filterLevel05Selected, // parameters.year
-              region: regionDefault, // parameters.region
-              district: engineeringDistrictDefault, // parameters.district
-           },
+            filterLevel05Selected // year
           )
           .then(function (response) {
           })
@@ -1387,47 +1473,29 @@ export default function FilterComponent () {
           });
       }
       else {
-        focus_map(
-            0, // type
-            [layer_national_road_network, layer_national_expressways], // reference_layers
-            null, // attributes
-            null, // string
-            {
-              year: filterLevel05Selected, // parameters.year
-              region: regionDefault, // parameters.region
-              district: engineeringDistrictDefault, // parameters.district
-            }, 
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
+        if (engineeringDistrictDefault) {
+          clear_filter(3);
+        }
+        else if (regionDefault) {
+          clear_filter(2);
+        }
+        else {
+          clear_filter(1);
+        }
       }
     }
     else if (type === 5) {
-      setFilterLevel01Selected(null);
-      setFilterLevel02Selected(null);
-      setFilterLevel03Selected(null);
-      setFilterLevel04Selected(null);
       setFilterLevel05Selected(string);
 
-      focus_map(
-          0, // type
-          [layer_national_road_network, layer_national_expressways], // reference_layers
-          null, // attributes
-          null, // string
-          {
-            year: string, // parameters.year
-            region: regionDefault, // parameters.region
-            district: engineeringDistrictDefault, // parameters.district
-          },
-        )
-        .then(function (response) {
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-        });
+      if (engineeringDistrictDefault) {
+        clear_filter(3);
+      }
+      else if (regionDefault) {
+        clear_filter(2);
+      }
+      else {
+        clear_filter(1);
+      }
     }
 
     query_features(type, string);
@@ -1597,31 +1665,6 @@ export default function FilterComponent () {
 
     setYears(moduleSelected);
 
-    /* When a user access level is defined, keep the selected filter level values... */
-    setFilterLevel01Selected(null);
-    setFilterLevel02Selected(null);
-    setFilterLevel03Selected(null);
-    setFilterLevel04Selected(null);
-    setFilterLevel05Selected(new Date().getFullYear());
-
-    /* ...and do not refocus the map. */
-    focus_map(
-        0, // type
-        [layer_national_road_network, layer_national_expressways], // reference_layers
-        null, // attributes
-        null, // string
-        {
-          year: filterLevel05Selected, // parameters.year
-          region: regionDefault, // parameters.region
-          district: engineeringDistrictDefault, // parameters.district
-        },
-      )
-      .then(function (response) {
-      })
-      .catch(function (error) {
-        setDataLoading(false);
-      });
-
     /* Change data source. */
 
     if (moduleSelected === 1) {
@@ -1635,7 +1678,15 @@ export default function FilterComponent () {
       setDataArray(null);
     }
 
-    query_features(0, null);
+    if (engineeringDistrictDefault) {
+      clear_filter(3);
+    }
+    else if (regionDefault) {
+      clear_filter(2);
+    }
+    else {
+      clear_filter(1);
+    }
   }, [moduleSelected]);
 
   /* Dropdown handlers. */

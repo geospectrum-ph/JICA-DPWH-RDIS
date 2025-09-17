@@ -44,75 +44,6 @@ const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/a
 
 /* Reference Data */
 
-function content_national_expressways (target) {
-  const container = document.createElement("div");
-
-  container.innerHTML = `
-    <table className = "attribute-table">
-      <tbody>
-        <tr>
-          <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.XPRES_WAY || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.XPRES_NAME || "No available data" }</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
-
-  return ([
-    {
-      type: "custom",
-      creator: function () {
-        return (container);
-      }
-    },
-    {
-      type: "attachments",
-      displayType: "auto"
-    }
-  ]);
-}
-
-export const layer_national_expressways = new FeatureLayer({
-  title: "National Expressways",
-  url: url_national_expressways,
-  renderer: {
-    type: "simple",
-    label: "National Expressway",
-    symbol: {
-      type: "simple-line",
-      width: 1.00,
-      color: [0, 0, 0, 1.00]
-    }
-  },
-  labelsVisible: true,
-  labelingInfo: [{
-    labelExpressionInfo: { expression: "$feature.XPRES_NAME" },
-    // labelPlacement: "below-along",
-    symbol: {
-      type: "text",
-      color: [0, 0, 0, 1.00],
-      haloColor: [255, 255, 255, 0.50],
-      haloSize: 1,
-      font: { family: "Avenir Next LT Pro", size: 8 }
-    }
-  }],
-  popupEnabled: true,
-  popupTemplate: {
-    title: "National Expressway: {XPRES_NAME} ({XPRES_WAY})",
-    outFields: ["*"],
-    content: content_national_expressways
-  },
-  visible: true
-});
-
 function content_national_road_network (target) {
   const container = document.createElement("div");
 
@@ -186,6 +117,75 @@ export const layer_national_road_network = new FeatureLayer({
     title: "National Road: {SECTION_ID} ({ROAD_NAME})",
     outFields: ["*"],
     content: content_national_road_network
+  },
+  visible: true
+});
+
+function content_national_expressways (target) {
+  const container = document.createElement("div");
+
+  container.innerHTML = `
+    <table className = "attribute-table">
+      <tbody>
+        <tr>
+          <td><b>Region</b></td>
+          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Name</b></td>
+          <td>${ target.graphic.attributes.XPRES_WAY || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Section ID</b></td>
+          <td>${ target.graphic.attributes.XPRES_NAME || "No available data" }</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  return ([
+    {
+      type: "custom",
+      creator: function () {
+        return (container);
+      }
+    },
+    {
+      type: "attachments",
+      displayType: "auto"
+    }
+  ]);
+}
+
+export const layer_national_expressways = new FeatureLayer({
+  title: "National Expressways",
+  url: url_national_expressways,
+  renderer: {
+    type: "simple",
+    label: "National Expressway",
+    symbol: {
+      type: "simple-line",
+      width: 1.00,
+      color: [0, 0, 0, 1.00]
+    }
+  },
+  labelsVisible: true,
+  labelingInfo: [{
+    labelExpressionInfo: { expression: "$feature.XPRES_NAME" },
+    // labelPlacement: "below-along",
+    symbol: {
+      type: "text",
+      color: [0, 0, 0, 1.00],
+      haloColor: [255, 255, 255, 0.50],
+      haloSize: 1,
+      font: { family: "Avenir Next LT Pro", size: 8 }
+    }
+  }],
+  popupEnabled: true,
+  popupTemplate: {
+    title: "National Expressway: {XPRES_NAME} ({XPRES_WAY})",
+    outFields: ["*"],
+    content: content_national_expressways
   },
   visible: true
 });
@@ -265,7 +265,7 @@ export const layer_municipalities_cities = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.MUNICIPAL" },
-    labelPlacement: "always-horizontal",
+    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -322,7 +322,7 @@ export const layer_provinces = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.PROVINCE" },
-    labelPlacement: "always-horizontal",
+    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -379,7 +379,7 @@ export const layer_legislative_districts = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.CONG_DIST" },
-    labelPlacement: "always-horizontal",
+    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -436,7 +436,7 @@ export const layer_engineering_districts = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.DEO" },
-    labelPlacement: "always-horizontal",
+    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -493,7 +493,7 @@ export const layer_regions = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.REGION" },
-    labelPlacement: "always-horizontal",
+    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -524,31 +524,434 @@ const group_administrative_boundaries = new GroupLayer({
   visibilityMode: "independent"
 });
 
+/* Common Data */
+
+function content_kilometer_posts (target) {
+  const container = document.createElement("div");
+
+  container.innerHTML = `
+    <table className = "attribute-table">
+      <tbody>
+        <tr>
+          <td><b>Region</b></td>
+          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Engineering District</b></td>
+          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Legislative District</b></td>
+          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Name</b></td>
+          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Section ID</b></td>
+          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Kilometer Post</b></td>
+          <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Chainage</b></td>
+          <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Cross-Section</b></td>
+          <td>${ target.graphic.attributes.XSP || "No available data" }</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  return ([
+    {
+      type: "custom",
+      creator: function () {
+        return (container);
+      }
+    },
+    {
+      type: "attachments",
+      displayType: "auto"
+    }
+  ]);
+}
+
+const layer_kilometer_posts = new FeatureLayer({
+  title: "Kilometer Posts",
+  url: url_kilometer_posts,
+  renderer: {
+    type: "simple",
+    label: "Kilometer Post",
+    symbol: {
+      type: "simple-marker",
+      style: "circle",
+      color: [255, 255, 255, 1.00],
+      outline: {
+        color: [0, 0, 0, 1.00],
+        width: 1.00
+      }
+    },
+    visualVariables: [{
+      type: "size",
+      valueExpression: "$view.scale",
+      stops: [
+        { size: 8, value: 9027.977411 }, // Zoom Level: 16
+        { size: 4, value: 144447.638572 }, // Zoom Level: 12
+        { size: 1, value: 2311162.217155 } // Zoom Level: 8
+      ]
+    }]
+  },
+  labelsVisible: true,
+  labelingInfo: [{
+    labelExpressionInfo: { expression: "$feature.KM_POST" },
+    // labelPlacement: "above-center",
+    symbol: {
+      type: "text",
+      color: [0, 0, 0, 1.00],
+      haloColor: [255, 255, 255, 0.50],
+      haloSize: 1,
+      font: { family: "Avenir Next LT Pro", size: 8 }
+    }
+  }],
+  popupEnabled: true,
+  popupTemplate: {
+    title: "Kilometer Post: {KM_POST}",
+    outFields: ["*"],
+    content: content_kilometer_posts
+  },
+  visible: false
+});
+
+const group_kilometer_posts = new GroupLayer({
+  title: "Kilometer Posts",
+  layers: [
+    layer_kilometer_posts
+  ],
+  visible: true,
+  visibilityMode: "independent"
+});
+
+function content_volume_of_traffic (target) {
+  const container = document.createElement("div");
+
+  container.innerHTML = `
+    <table className = "attribute-table">
+      <tbody>
+        <tr>
+          <td><b>Region</b></td>
+          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Engineering District</b></td>
+          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Legislative District</b></td>
+          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Section ID</b></td>
+          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Name</b></td>
+          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Annual Average Daily Traffic (AADT)</b></td>
+          <td>${ target.graphic.attributes.AADT || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Annual Average Daily Traffic (AADT) Year</b></td>
+          <td>${ target.graphic.attributes.YEAR || "No available data" }</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  return ([
+    {
+      type: "custom",
+      creator: function () {
+        return (container);
+      }
+    },
+    {
+      type: "attachments",
+      displayType: "auto"
+    }
+  ]);
+}
+
+const array_volume_of_traffic = [
+  ["Unclassified", [191, 191, 191, 1.00]],
+  [6, [128, 15, 47, 1.00]],
+  [5, [164, 19, 60, 1.00]],
+  [4, [201, 24, 74, 1.00]],
+  [3, [255, 77, 109, 1.00]],
+  [2, [255, 117, 143, 1.00]],
+  [1, [255, 143, 163, 1.00]],
+  [0, [255, 179, 193, 1.00]]
+];
+
+const group_volume_of_traffic = new GroupLayer({
+  title:  "Annual Average Daily Traffic (AADT)",
+  layers: array_volume_of_traffic.map(function (category, index) {
+    return (
+      new FeatureLayer({
+        title: category[0] === "Unclassified" ?
+          "Unclassified Volume of Traffic" :
+          "Level " + (category[0] + 1).toString().padStart(2, "0") + " Traffic Volume",
+        url: url_volume_of_traffic,
+        definitionExpression:
+          category[0] === "Unclassified" ?
+            "AADT < 0.00" :
+          index === 1 ?
+            "AADT > " + (10000 * category[0]).toFixed(2) :
+            "AADT > " + (10000 * category[0]).toFixed(2) + " AND AADT <= " + (10000 * (category[0] + 1)).toFixed(2),
+        renderer: {
+          type: "simple",
+          label:
+            category[0] === "Unclassified" ?
+              "Unclassified Volume of Traffic" :
+            index === 1 ?
+              "> " + (10000 * category[0]).toFixed(2) :
+              (10000 * category[0]).toFixed(2) + " to " + (10000 * (category[0] + 1)).toFixed(2),
+          symbol: {
+            type: "simple-line",
+            width: 1.00,
+            color: category[1]
+          }
+        },
+        popupEnabled: true,
+        popupTemplate: {
+          title: "Annual Average Daily Traffic (AADT): {AADT}",
+          outFields: ["*"],
+          content: content_volume_of_traffic
+        },
+        visible: true
+      })
+    );
+  }),
+  visible: false,
+  visibilityMode: "independent",
+  opacity: 1.00
+});
+
+function content_terrain (target) {
+  const container = document.createElement("div");
+
+  container.innerHTML = `
+    <table className = "attribute-table">
+      <tbody>
+        <tr>
+          <td><b>Region</b></td>
+          <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Engineering District</b></td>
+          <td>${ target.graphic.attributes.district_n || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Legislative District</b></td>
+          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Name</b></td>
+          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Section ID</b></td>
+          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Terrain Type</b></td>
+          <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  return ([
+    {
+      type: "custom",
+      creator: function () {
+        return (container);
+      }
+    },
+    {
+      type: "attachments",
+      displayType: "auto"
+    }
+  ]);
+}
+
+const array_terrain = [
+  ["Unclassified", [191, 191, 191, 1.00]],
+  ["Flat", [128, 128, 128, 1.00]],
+  ["Rolling", [51, 204, 51, 1.00]],
+  ["Mountainous", [153, 51, 0, 1.00]],
+];
+
+const group_terrain = new GroupLayer({
+  title: "Terrain",
+  layers: array_terrain.map(function (category) {
+    return (
+      new FeatureLayer({
+        title: `${ category[0] } Roads`,
+        url: url_terrain,
+        definitionExpression: category[0] === "Unclassified" ?
+          array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${ category[0] }'`); }).join(" AND ") :
+          `terrain_ty = '${ category[0] }'`,
+        renderer: {
+          type: "simple",
+          label: `${ category[0] } Terrain`,
+          symbol: {
+            type: "simple-line",
+            width: 2.00,
+            color: category[1]
+          }
+        },
+        popupEnabled: true,
+        popupTemplate: {
+          title: category[0] === "Unclassified" ?
+            "Terrain Type: Unclassified" :
+            "Terrain Type: {terrain_ty}",
+          outFields: ["*"],
+          content: content_terrain
+        },
+        visible: true
+      })
+    );
+  }),
+  visible: false,
+  visibilityMode: "independent",
+  opacity: 1.00
+});
+
+function content_road_classification (target) {
+  const container = document.createElement("div");
+
+  container.innerHTML = `
+    <table className = "attribute-table">
+      <tbody>
+        <tr>
+          <td><b>Region</b></td>
+          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Engineering District</b></td>
+          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Legislative District</b></td>
+          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Name</b></td>
+          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Section ID</b></td>
+          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Road Classification</b></td>
+          <td>${ target.graphic.attributes.ROAD_SEC_CLASS || "No available data" }</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+
+  return ([
+    {
+      type: "custom",
+      creator: function () {
+        return (container);
+      }
+    },
+    {
+      type: "attachments",
+      displayType: "auto"
+    }
+  ]);
+}
+
+const array_road_classification = [
+  ["Unclassified", [191, 191, 191, 1.00]],
+  ["Tertiary", [0, 176, 80, 1.00]],
+  ["Secondary", [0, 176, 240, 1.00]],
+  ["Primary", [255, 0, 0, 1.00]],
+];
+
+const group_road_classification = new GroupLayer({
+  title: "Road Section Classifications",
+  layers: array_road_classification.map(function (category) {
+    return (
+      new FeatureLayer({
+        title: `${ category[0] } Roads`,
+        url: url_national_road_network,
+        definitionExpression: category[0] === "Unclassified" ?
+          array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${ category[0] }'`); }).join(" AND ") :
+          `ROAD_SEC_CLASS = '${ category[0] }'`,
+        renderer: {
+          type: "simple",
+          label: `${ category[0] } Road`,
+          symbol: {
+            type: "simple-line",
+            width: 1.00,
+            color: category[1]
+          }
+        },
+        popupEnabled: true,
+        popupTemplate: {
+          title: category[0] === "Unclassified" ?
+            "Road Classification: Unclassified" :
+            "Road Classification: {ROAD_SEC_CLASS}",
+          outFields: ["*"],
+          content: content_road_classification
+        },
+        visible: true
+      })
+    );
+  }),
+  visible: false,
+  visibilityMode: "independent",
+  opacity: 1.00
+});
+
 /* Summary Data */
-  function parse_limit (property) {
-    let value;
 
-    if (isNaN(property)) {
-      if (property.includes("-")) {
-        const string_array = property.split(/[-]/);
+function parse_limit (property) {
+  let value;
 
-        value = string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")";
-      }
-      else if (property.includes("+")) {
-        const string_array = property.split(/[+]/);
+  if (isNaN(property)) {
+    if (property.includes("-")) {
+      const string_array = property.split(/[-]/);
 
-        value = string_array[0] + " + " + string_array[1].padStart(3, "0");
-      }
-      else {
-        value = property;
-      }
+      value = string_array[0] + " + (-" + string_array[1].padStart(3, "0") + ")";
+    }
+    else if (property.includes("+")) {
+      const string_array = property.split(/[+]/);
+
+      value = string_array[0] + " + " + string_array[1].padStart(3, "0");
     }
     else {
       value = property;
     }
-
-    return(value);
   }
+  else {
+    value = property;
+  }
+
+  return(value);
+}
 
 const disaster_codes = {
   "disaster_ssc": "Soil Slope Collapse",
@@ -2007,10 +2410,6 @@ function build_view(viewMode) {
     index: 3
   });
 
-  let module = sessionStorage.getItem("module");
-
-  view_layer(module);
-
   const widget_basemap_gallery_container = document.createElement("div");
 
   widget_basemap_gallery_container.id = "widget-basemap-gallery-container";
@@ -2092,7 +2491,9 @@ function build_view(viewMode) {
     index: 6
   });
 
-  if (viewMode === "3D") {
+  view_layer(sessionStorage.getItem("module"), sessionStorage.getItem("yearDefault"), sessionStorage.getItem("regionDefault"), sessionStorage.getItem("engineeringDistrictDefault"));
+
+  if (viewMode === "2D") {
     const widget_scale_container = document.createElement("div");
 
     widget_scale_container.id = "widget-scale-container";
@@ -2116,7 +2517,7 @@ function build_view(viewMode) {
 }
 
 export function MapComponent () {
-  const [viewMode, setViewMode] = React.useState("3D");
+  const [viewMode, setViewMode] = React.useState("2D");
 
   function change_view() {
     if (viewMode === "3D") {
@@ -2128,7 +2529,7 @@ export function MapComponent () {
   }
 
   React.useEffect(function () {
-    if (viewMode === "3D") {
+    if (viewMode === "2D") {
       view = new MapView({
         container: "map-interface",
         map: new Map({
@@ -2202,410 +2603,26 @@ export function MapComponent () {
   );
 }
 
-export function view_layer (module) {
-  sessionStorage.setItem("module", module);
-  
-  /* Common Data */
-
-  function content_kilometer_posts (target) {
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-      <table className = "attribute-table">
-        <tbody>
-          <tr>
-            <td><b>Region</b></td>
-            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Engineering District</b></td>
-            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Legislative District</b></td>
-            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Name</b></td>
-            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Section ID</b></td>
-            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Kilometer Post</b></td>
-            <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Chainage</b></td>
-            <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Cross-Section</b></td>
-            <td>${ target.graphic.attributes.XSP || "No available data" }</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    return ([
-      {
-        type: "custom",
-        creator: function () {
-          return (container);
-        }
-      },
-      {
-        type: "attachments",
-        displayType: "auto"
+export function view_layer (module, year, region, deo) {
+  String.prototype.toProperCase = function () {
+    return (this.replace(/\w+\S|.\s/g, function (text) {
+      if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
+        return (text.toLowerCase());
       }
-    ]);
-  }
-
-  const layer_kilometer_posts = new FeatureLayer({
-    title: "Kilometer Posts",
-    url: url_kilometer_posts,
-    renderer: {
-      type: "simple",
-      label: "Kilometer Post",
-      symbol: {
-        type: "simple-marker",
-        style: "circle",
-        color: [255, 255, 255, 1.00],
-        outline: {
-          color: [0, 0, 0, 1.00],
-          width: 1.00
-        }
-      },
-      visualVariables: [{
-        type: "size",
-        valueExpression: "$view.scale",
-        stops: [
-          { size: 8, value: 9027.977411 }, // Zoom Level: 16
-          { size: 4, value: 144447.638572 }, // Zoom Level: 12
-          { size: 1, value: 2311162.217155 } // Zoom Level: 8
-        ]
-      }]
-    },
-    labelsVisible: true,
-    labelingInfo: [{
-      labelExpressionInfo: { expression: "$feature.KM_POST" },
-      labelPlacement: "above-center",
-      symbol: {
-        type: "text",
-        color: [0, 0, 0, 1.00],
-        haloColor: [255, 255, 255, 0.50],
-        haloSize: 1,
-        font: { family: "Avenir Next LT Pro", size: 8 }
+      else if (text.includes("-")) {
+        return (text.toLowerCase().split("-").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join("-"));
       }
-    }],
-    popupEnabled: true,
-    popupTemplate: {
-      title: "Kilometer Post: {KM_POST}",
-      outFields: ["*"],
-      content: content_kilometer_posts
-    },
-    visible: false
-  });
-
-  const group_kilometer_posts = new GroupLayer({
-    title: "Kilometer Posts",
-    layers: [
-      layer_kilometer_posts
-    ],
-    visible: true,
-    visibilityMode: "independent"
-  });
-
-  function content_volume_of_traffic (target) {
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-      <table className = "attribute-table">
-        <tbody>
-          <tr>
-            <td><b>Region</b></td>
-            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Engineering District</b></td>
-            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Legislative District</b></td>
-            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Section ID</b></td>
-            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Name</b></td>
-            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Annual Average Daily Traffic (AADT)</b></td>
-            <td>${ target.graphic.attributes.AADT || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Annual Average Daily Traffic (AADT) Year</b></td>
-            <td>${ target.graphic.attributes.YEAR || "No available data" }</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    return ([
-      {
-        type: "custom",
-        creator: function () {
-          return (container);
-        }
-      },
-      {
-        type: "attachments",
-        displayType: "auto"
+      else if (text.includes(" & ")) {
+        return (text.toLowerCase().split(" & ").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
       }
-    ]);
-  }
-
-  const array_volume_of_traffic = [
-    ["Unclassified", [191, 191, 191, 1.00]],
-    [6, [128, 15, 47, 1.00]],
-    [5, [164, 19, 60, 1.00]],
-    [4, [201, 24, 74, 1.00]],
-    [3, [255, 77, 109, 1.00]],
-    [2, [255, 117, 143, 1.00]],
-    [1, [255, 143, 163, 1.00]],
-    [0, [255, 179, 193, 1.00]]
-  ];
-
-  const group_volume_of_traffic = new GroupLayer({
-    title:  "Annual Average Daily Traffic (AADT)",
-    layers: array_volume_of_traffic.map(function (category, index) {
-      return (
-        new FeatureLayer({
-          title: category[0] === "Unclassified" ?
-            "Unclassified Volume of Traffic" :
-            "Level " + (category[0] + 1).toString().padStart(2, "0") + " Traffic Volume",
-          url: url_volume_of_traffic,
-          definitionExpression:
-            category[0] === "Unclassified" ?
-              "AADT < 0.00" :
-            index === 1 ?
-              "AADT > " + (10000 * category[0]).toFixed(2) :
-              "AADT > " + (10000 * category[0]).toFixed(2) + " AND AADT <= " + (10000 * (category[0] + 1)).toFixed(2),
-          renderer: {
-            type: "simple",
-            label:
-              category[0] === "Unclassified" ?
-                "Unclassified Volume of Traffic" :
-              index === 1 ?
-                "> " + (10000 * category[0]).toFixed(2) :
-                (10000 * category[0]).toFixed(2) + " to " + (10000 * (category[0] + 1)).toFixed(2),
-            symbol: {
-              type: "simple-line",
-              width: 1.00,
-              color: category[1]
-            }
-          },
-          popupEnabled: true,
-          popupTemplate: {
-            title: "Annual Average Daily Traffic (AADT): {AADT}",
-            outFields: ["*"],
-            content: content_volume_of_traffic
-          },
-          visible: true
-        })
-      );
-    }),
-    visible: false,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
-  function content_terrain (target) {
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-      <table className = "attribute-table">
-        <tbody>
-          <tr>
-            <td><b>Region</b></td>
-            <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Engineering District</b></td>
-            <td>${ target.graphic.attributes.district_n || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Legislative District</b></td>
-            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Name</b></td>
-            <td>${ target.graphic.attributes.road_name || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Section ID</b></td>
-            <td>${ target.graphic.attributes.section_id || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Terrain Type</b></td>
-            <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    return ([
-      {
-        type: "custom",
-        creator: function () {
-          return (container);
-        }
-      },
-      {
-        type: "attachments",
-        displayType: "auto"
+      else if (text.includes("&")) {
+        return (text.toLowerCase().split("&").map(function (portion) { return (String(portion).charAt(0).toUpperCase() + String(portion).slice(1)); }).join(" & "));
       }
-    ]);
-  }
-
-  const array_terrain = [
-    ["Unclassified", [191, 191, 191, 1.00]],
-    ["Flat", [128, 128, 128, 1.00]],
-    ["Rolling", [51, 204, 51, 1.00]],
-    ["Mountainous", [153, 51, 0, 1.00]],
-  ];
-
-  const group_terrain = new GroupLayer({
-    title: "Terrain",
-    layers: array_terrain.map(function (category) {
-      return (
-        new FeatureLayer({
-          title: `${ category[0] } Roads`,
-          url: url_terrain,
-          definitionExpression: category[0] === "Unclassified" ?
-            array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${ category[0] }'`); }).join(" AND ") :
-            `terrain_ty = '${ category[0] }'`,
-          renderer: {
-            type: "simple",
-            label: `${ category[0] } Terrain`,
-            symbol: {
-              type: "simple-line",
-              width: 2.00,
-              color: category[1]
-            }
-          },
-          popupEnabled: true,
-          popupTemplate: {
-            title: category[0] === "Unclassified" ?
-              "Terrain Type: Unclassified" :
-              "Terrain Type: {terrain_ty}",
-            outFields: ["*"],
-            content: content_terrain
-          },
-          visible: true
-        })
-      );
-    }),
-    visible: false,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
-
-  function content_road_classification (target) {
-    const container = document.createElement("div");
-
-    container.innerHTML = `
-      <table className = "attribute-table">
-        <tbody>
-          <tr>
-            <td><b>Region</b></td>
-            <td>${ target.graphic.attributes.REGION || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Engineering District</b></td>
-            <td>${ target.graphic.attributes.DEO || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Legislative District</b></td>
-            <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Name</b></td>
-            <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Section ID</b></td>
-            <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
-          </tr>
-          <tr>
-            <td><b>Road Classification</b></td>
-            <td>${ target.graphic.attributes.ROAD_SEC_CLASS || "No available data" }</td>
-          </tr>
-        </tbody>
-      </table>
-    `;
-
-    return ([
-      {
-        type: "custom",
-        creator: function () {
-          return (container);
-        }
-      },
-      {
-        type: "attachments",
-        displayType: "auto"
+      else {
+        return (text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
       }
-    ]);
-  }
-
-  const array_road_classification = [
-    ["Unclassified", [191, 191, 191, 1.00]],
-    ["Tertiary", [0, 176, 80, 1.00]],
-    ["Secondary", [0, 176, 240, 1.00]],
-    ["Primary", [255, 0, 0, 1.00]],
-  ];
-
-  const group_road_classification = new GroupLayer({
-    title: "Road Section Classifications",
-    layers: array_road_classification.map(function (category) {
-      return (
-        new FeatureLayer({
-          title: `${ category[0] } Roads`,
-          url: url_national_road_network,
-          definitionExpression: category[0] === "Unclassified" ?
-            array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${ category[0] }'`); }).join(" AND ") :
-            `ROAD_SEC_CLASS = '${ category[0] }'`,
-          renderer: {
-            type: "simple",
-            label: `${ category[0] } Road`,
-            symbol: {
-              type: "simple-line",
-              width: 1.00,
-              color: category[1]
-            }
-          },
-          popupEnabled: true,
-          popupTemplate: {
-            title: category[0] === "Unclassified" ?
-              "Road Classification: Unclassified" :
-              "Road Classification: {ROAD_SEC_CLASS}",
-            outFields: ["*"],
-            content: content_road_classification
-          },
-          visible: true
-        })
-      );
-    }),
-    visible: false,
-    visibilityMode: "independent",
-    opacity: 1.00
-  });
+    }));
+  };
 
   reactiveUtils.watch(
     function () {
@@ -2614,6 +2631,319 @@ export function view_layer (module) {
           .when(function () {
             while (view.map.layers.length > 0) {
               view.map.layers.pop(); 
+            }
+
+            /* Reference Data */
+
+            layer_national_road_network.definitionExpression =
+              deo && deo !== "null" ? `DEO = '${ deo }'` :
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_national_expressways.definitionExpression =
+              deo && deo !== "null" ? `DEO = '${ deo }'` :
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            /* Administrative Boundaries */
+
+            layer_municipalities_cities.definitionExpression =
+              deo && deo !== "null" ? `DEO = '${ deo }'` :
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_municipalities_cities
+              .queryFeatures({
+                where:
+                  deo && deo !== "null" ? `DEO = '${ deo }'` :
+                  region && region != "null" ? `REGION = '${ region }'`:
+                  "1 = 1",
+                returnGeometry: false,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response?.features?.length > 0) {
+                  const array = response.features.map(function (feature) {
+                    return ({
+                      value: feature.attributes.MUNICIPAL,
+                      label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ feature.attributes.PROVINCE.toProperCase() }`,
+                      symbol: {
+                        type: "simple-fill",
+                        color:
+                          feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                          "rgba(123, 211, 234, 1.00)",
+                        outline: { 
+                          color: [0, 0, 0, 1.00],
+                          width: 1.00
+                        }
+                      }
+                    });
+                  });
+
+                  layer_municipalities_cities.renderer = {
+                    type: "unique-value",
+                    field: "MUNICIPAL",
+                    defaultLabel: "Others",
+                    defaultSymbol: {
+                      type: "simple-fill",
+                      color: [191, 191, 191, 0.50],
+                      outline: { 
+                        color: [0, 0, 0, 1.00],
+                        width: 1.00
+                      }
+                    },
+                    uniqueValueInfos: array
+                  };
+                }
+              })
+              .catch(function (error) {
+                // console.log(error);
+              });
+
+            layer_provinces.definitionExpression =
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_provinces
+              .queryFeatures({
+                where:
+                  region && region != "null" ? `REGION = '${ region }'`:
+                  "1 = 1",
+                returnGeometry: false,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response?.features?.length > 0) {
+                  const array = response.features.map(function (feature) {
+                    return ({
+                      value: feature.attributes.PROVINCE,
+                      label: `${ feature.attributes.PROVINCE.toProperCase() }`,
+                      symbol: {
+                        type: "simple-fill",
+                        color:
+                          feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                          "rgba(123, 211, 234, 1.00)",
+                        outline: { 
+                          color: [0, 0, 0, 1.00],
+                          width: 1.00
+                        }
+                      }
+                    });
+                  });
+
+                  layer_provinces.renderer = {
+                    type: "unique-value",
+                    field: "PROVINCE",
+                    defaultLabel: "Others",
+                    defaultSymbol: {
+                      type: "simple-fill",
+                      color: [191, 191, 191, 0.50],
+                      outline: { 
+                        color: [0, 0, 0, 1.00],
+                        width: 1.00
+                      }
+                    },
+                    uniqueValueInfos: array
+                  };
+                }
+              })
+              .catch(function (error) {
+                // console.log(error);
+              });
+
+            layer_legislative_districts.definitionExpression =
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_legislative_districts
+              .queryFeatures({
+                where:
+                  region && region != "null" ? `REGION = '${ region }'`:
+                  "1 = 1",
+                returnGeometry: false,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response?.features?.length > 0) {
+                  const array = response.features.map(function (feature) {
+                    return ({
+                      value: feature.attributes.CONG_DIST,
+                      label: `${ feature.attributes.CONG_DIST.toProperCase() }`,
+                      symbol: {
+                        type: "simple-fill",
+                        color:
+                          feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                          "rgba(123, 211, 234, 1.00)",
+                        outline: { 
+                          color: [0, 0, 0, 1.00],
+                          width: 1.00
+                        }
+                      }
+                    });
+                  });
+
+                  layer_legislative_districts.renderer = {
+                    type: "unique-value",
+                    field: "CONG_DIST",
+                    defaultLabel: "Others",
+                    defaultSymbol: {
+                      type: "simple-fill",
+                      color: [191, 191, 191, 0.50],
+                      outline: { 
+                        color: [0, 0, 0, 1.00],
+                        width: 1.00
+                      }
+                    },
+                    uniqueValueInfos: array
+                  };
+                }
+              })
+              .catch(function (error) {
+                // console.log(error);
+              });
+
+            layer_engineering_districts.definitionExpression =
+              deo && deo !== "null" ? `DEO = '${ deo }'` :
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_engineering_districts
+              .queryFeatures({
+                where:
+                  deo && deo !== "null" ? `DEO = '${ deo }'` :
+                  region && region != "null" ? `REGION = '${ region }'`:
+                  "1 = 1",
+                returnGeometry: false,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response?.features?.length > 0) {
+                  const array = response.features.map(function (feature) {
+                    return ({
+                      value: feature.attributes.DEO,
+                      label: `${ feature.attributes.DEO.toProperCase() }`,
+                      symbol: {
+                        type: "simple-fill",
+                        color:
+                          feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                          "rgba(123, 211, 234, 1.00)",
+                        outline: { 
+                          color: [0, 0, 0, 1.00],
+                          width: 1.00
+                        }
+                      }
+                    });
+                  });
+
+                  layer_engineering_districts.renderer = {
+                    type: "unique-value",
+                    field: "DEO",
+                    defaultLabel: "Others",
+                    defaultSymbol: {
+                      type: "simple-fill",
+                      color: [191, 191, 191, 0.50],
+                      outline: { 
+                        color: [0, 0, 0, 1.00],
+                        width: 1.00
+                      }
+                    },
+                    uniqueValueInfos: array
+                  };
+                }
+              })
+              .catch(function (error) {
+                // console.log(error);
+              });
+
+            layer_regions.definitionExpression =
+              region && region != "null" ? `REGION = '${ region }'`:
+              "1 = 1";
+
+            layer_regions
+              .queryFeatures({
+                where:
+                  region && region != "null" ? `REGION = '${ region }'`:
+                  "1 = 1",
+                returnGeometry: false,
+                outFields: ["*"]
+              })
+              .then(function (response) {
+                if (response?.features?.length > 0) {
+                  const array = response.features.map(function (feature) {
+                    return ({
+                      value: feature.attributes.REGION,
+                      label: `${ feature.attributes.REGION === " " ? "Bangsamoro Autonomous Region in Muslim Mindanao" : feature.attributes.REGION }`,
+                      symbol: {
+                        type: "simple-fill",
+                        color:
+                          feature.attributes.OBJECTID % 4 === 0 ? "rgba(246, 214, 214, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 1 ? "rgba(246, 247, 196, 1.00)" :
+                          feature.attributes.OBJECTID % 4 === 2 ? "rgba(161, 238, 189, 1.00)" :
+                          "rgba(123, 211, 234, 1.00)",
+                        outline: { 
+                          color: [0, 0, 0, 1.00],
+                          width: 1.00
+                        }
+                      }
+                    });
+                  });
+
+                  layer_regions.renderer = {
+                    type: "unique-value",
+                    field: "REGION",
+                    defaultLabel: "Others",
+                    defaultSymbol: {
+                      type: "simple-fill",
+                      color: [191, 191, 191, 0.50],
+                      outline: { 
+                        color: [0, 0, 0, 1.00],
+                        width: 1.00
+                      }
+                    },
+                    uniqueValueInfos: array
+                  };
+                }
+              })
+              .catch(function (error) {
+                // console.log(error);
+              });
+
+            /* Common Data */
+
+            for (const layer of group_kilometer_posts.layers) {
+              layer.definitionExpression =
+                deo && deo !== "null" ? `DEO = '${ deo }'` :
+                region && region != "null" ? `REGION = '${ region }'`:
+                "1 = 1";
+            }
+
+            for (const layer of group_volume_of_traffic.layers) {
+              layer.definitionExpression =
+                deo && deo !== "null" ? `DEO = '${ deo }'` :
+                region && region != "null" ? `REGION = '${ region }'`:
+                "1 = 1";
+            }
+
+            for (const layer of group_terrain.layers) {
+              layer.definitionExpression =
+                deo && deo !== "null" ? `district_n = '${ deo }'` :
+                region && region != "null" ? `region_nam = '${ region }'`:
+                "1 = 1";
+            }
+
+            for (const layer of group_road_classification.layers) {
+              layer.definitionExpression =
+                deo && deo !== "null" ? `DEO = '${ deo }'` :
+                region && region != "null" ? `REGION = '${ region }'`:
+                "1 = 1";
             }
 
             view.map.layers.push(
@@ -2626,12 +2956,41 @@ export function view_layer (module) {
             );
 
             if (module === "summary") {
+              layer_road_slope_hazards.definitionExpression =
+                deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                region && region != "null" ? `region_name = '${ region }'`:
+                "1 = 1";
+
+              layer_road_slopes_and_countermeasures.definitionExpression =
+                deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                region && region != "null" ? `region_name = '${ region }'`:
+                "1 = 1";
+
+              layer_inventory_of_road_slopes.definitionExpression =
+                deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                region && region != "null" ? `region_name = '${ region }'`:
+                "1 = 1";
+
+              layer_inventory_of_road_slope_protection_structures.definitionExpression =
+                deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                region && region != "null" ? `region_name = '${ region }'`:
+                "1 = 1";
+
               view.map.layers.push(layer_inventory_of_road_slope_protection_structures);
               view.map.layers.push(layer_inventory_of_road_slopes);
 
               view.map.layers.push(layer_road_slope_hazards);
             }
             else if (module === "road-slope-hazards") {
+              for (const layer of group_road_slope_hazards.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+
+              // No variable equivalent for REGION and DEO for hazard data from Project NOAH.
+
               // view.map.layers.push(group_situational_reports);
               // view.map.layers.push(group_calamities);
 
@@ -2639,6 +2998,41 @@ export function view_layer (module) {
               view.map.layers.push(group_road_slope_hazards);
             }
             else if (module === "road-slope-inventory") {
+              for (const layer of group_inventory_of_road_slopes_type_of_disaster.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+              
+              for (const layer of group_inventory_of_road_slopes_type_of_road_slope_protection_structure.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+              
+              for (const layer of group_inventory_of_road_slope_protection_structures_road_slope_condition.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+              
+              for (const layer of group_inventory_of_road_slope_protection_structures_type_of_disaster.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+              
+              for (const layer of group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_disaster);
               view.map.layers.push(group_inventory_of_road_slope_protection_structures_road_slope_condition);
@@ -2646,9 +3040,145 @@ export function view_layer (module) {
               view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_protection_structure);
               view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
             }
-            else if (module === "potential-road-slope-protection-projects"){
+            else if (module === "potential-road-slope-protection-projects") {
+              for (const layer of group_potential_road_slope_protection_projects.layers) {
+                layer.definitionExpression =
+                  deo && deo !== "null" ? `deo_name = '${ deo }'` :
+                  region && region != "null" ? `region_name = '${ region }'`:
+                  "1 = 1";
+              }
+
               view.map.layers.push(group_potential_road_slope_protection_projects);
             }
+          })
+          .then(function () {
+            if (deo && deo !== "null") {
+              Promise
+                .all(
+                  [layer_engineering_districts]
+                    .map(function (layer) {
+                      return (
+                        layer
+                          .queryExtent({
+                            where: `DEO = '${ deo }'`,
+                            returnGeometry: true,
+                            outFields: ["*"]
+                          })
+                          .then(function (response) {
+                            return (response.extent);
+                          })
+                      );
+                    })
+                )
+                .then(function (raw_extent_array) {
+                  /* This sets the extent of the map according to the highlighted features. */
+
+                  let extent_array = 
+                    raw_extent_array
+                      .filter(function (item) {
+                        return (item);
+                      });
+
+                  if (extent_array.length > 0) {
+                    var extent = extent_array[0];
+
+                    extent_array
+                      .forEach(function (new_extent) {
+                        extent = extent.union(new_extent);
+                      });
+
+                    view.goTo(extent.expand(1.25));
+                  }
+                })
+                .catch(function (error) {
+                  // console.error(error);
+                });
+            }
+            else if (region && region !== "null") {
+              Promise
+                .all(
+                  [layer_regions]
+                    .map(function (layer) {
+                      return (
+                        layer
+                          .queryExtent({
+                            where: `REGION = '${ region }'`,
+                            returnGeometry: true,
+                            outFields: ["*"]
+                          })
+                          .then(function (response) {
+                            return (response.extent);
+                          })
+                      );
+                    })
+                )
+                .then(function (raw_extent_array) {
+                  /* This sets the extent of the map according to the highlighted features. */
+
+                  let extent_array = 
+                    raw_extent_array
+                      .filter(function (item) {
+                        return (item);
+                      });
+
+                  if (extent_array.length > 0) {
+                    var extent = extent_array[0];
+
+                    extent_array
+                      .forEach(function (new_extent) {
+                        extent = extent.union(new_extent);
+                      });
+
+                    view.goTo(extent.expand(1.25));
+                  }
+                })
+                .catch(function (error) {
+                  // console.error(error);
+                });
+            }
+            else {
+              Promise
+                .all(
+                  [layer_national_road_network, layer_national_expressways]
+                    .map(function (layer) {
+                      return (
+                        layer
+                          .queryExtent({
+                            where: "1 = 1",
+                            returnGeometry: true,
+                            outFields: ["*"]
+                          })
+                          .then(function (response) {
+                            return (response.extent);
+                          })
+                      );
+                    })
+                )
+                .then(function (raw_extent_array) {
+                  /* This sets the extent of the map according to the highlighted features. */
+
+                  let extent_array = 
+                    raw_extent_array
+                      .filter(function (item) {
+                        return (item);
+                      });
+
+                  if (extent_array.length > 0) {
+                    var extent = extent_array[0];
+
+                    extent_array
+                      .forEach(function (new_extent) {
+                        extent = extent.union(new_extent);
+                      });
+
+                    view.goTo(extent.expand(1.25));
+                  }
+                })
+                .catch(function (error) {
+                  // console.error(error);
+                });
+            }
+
           })
           .catch(function (error) {
             // console.error(error);
@@ -2659,9 +3189,7 @@ export function view_layer (module) {
 
 var highlights = [];
 
-export async function focus_map (type, reference_layers, attributes, string, parameters) {
-  console.table(parameters);
-
+export async function focus_map (type, reference_layers, attributes, string, year) {
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
@@ -2677,16 +3205,6 @@ export async function focus_map (type, reference_layers, attributes, string, par
   for (const layer of group_administrative_boundaries.layers) {
     layer.visible = false;
   }
-  
-  /* This checks for the user access level. */
-
-  // let CREDENTIALS = sessionStorage.getItem("CREDENTIALS");
-
-  // const parameters =
-  //   CREDENTIALS.REGION_ID ? [["REGION", "region_name"], [CREDENTIALS.REGION_ID]] :
-  //   CREDENTIALS.DEO_ID ? [["DEO", "deo_name"], [CREDENTIALS.DEO_ID]] :
-  //   CREDENTIALS.CONG_DIST_ID ? [["CONG_DIST", "district_name"], [CREDENTIALS.CONG_DIST_ID]] :
-  //     []; // Otherwise, no restricting parameters.
 
   if (view) {    
     /* This resets the filter of the map. */
@@ -2696,7 +3214,7 @@ export async function focus_map (type, reference_layers, attributes, string, par
         return (item.hasOwnProperty("fields"));
       })
       .forEach(function (layer) {
-        let attributes_filter =
+        let filter =
           type > 0 && type < 4 ?
             attributes
               .filter(function (attribute) {
@@ -2707,35 +3225,14 @@ export async function focus_map (type, reference_layers, attributes, string, par
               })
               .join(" OR ")
             :
-            null;
-
-        let parameters_filter = 
-          parameters && parameters.year ?
-            layer.fields.map(function (field) { return (field.name); }).includes("region_name") && layer.fields.map(function (field) { return (field.name); }).includes("deo_name") ?
-              parameters.district ? `region_name = '${ parameters.region }' AND deo_name = '${ parameters.district }'` :
-              parameters.region ? `region_name = '${ parameters.region }'` :
-              null
-              :
-              null
-            :
-            null;
-
-        let filter = 
-          [attributes_filter, parameters_filter]
-            .filter(function (item) {
-              return (item);
-            })
-            .map(function (item) {
-              return (`(${ item })`)
-            })
-            .join(" AND ");
+            "1 = 1";
 
         view
           .whenLayerView(layer)
           .then(function (layerView) {
             layerView.filter =
               new FeatureFilter({
-                where: filter.length > 0 ? filter : "1 = 1"
+                where: filter.length > 0 ? filter : "1 = 0"
               });
           })
           .catch(function (error) {
@@ -2765,9 +3262,6 @@ export async function focus_map (type, reference_layers, attributes, string, par
                     .join(" OR ")
                   :
                   "1 = 1";
-
-              // When appropriate, extend query with:
-              // ` AND ${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
 
               /* This highlights all features of all layers on the map which match the provided keyword phrase. */
 
@@ -2800,9 +3294,6 @@ export async function focus_map (type, reference_layers, attributes, string, par
                   });
               }
 
-              // When appropriate, change query to:
-              // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-              
               return (
                 layer
                   .queryExtent({
@@ -2840,9 +3331,6 @@ export async function focus_map (type, reference_layers, attributes, string, par
               .all(
                 [layer_national_road_network, layer_national_expressways]
                   .map(function (layer) {
-                    // When appropriate, change query to:
-                    // `${ CREDENTIALS.PARAMETER } = '${ CREDENTIALS.PARAMETER_ID }'
-                    
                     return (
                       layer
                         .queryExtent({

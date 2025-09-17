@@ -19,7 +19,7 @@ function HomePage () {
   const navigate = useNavigate();
   
   const {
-    setYearDefault,
+    setFilterLevel05Selected,
     setRegionDefault,
     setEngineeringDistrictDefault,
 
@@ -55,15 +55,19 @@ function HomePage () {
                 server
               });
                                 
-            setYearDefault(new Date().getFullYear());
+            setFilterLevel05Selected(new Date().getFullYear());
             setRegionDefault(response.data.user.ro);
             setEngineeringDistrictDefault(response.data.user.deo);
+
+            sessionStorage.setItem("yearDefault", new Date().getFullYear());
+            sessionStorage.setItem("regionDefault", response.data.user.ro);
+            sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
 
             setToken(tokenInfo);
           });
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
 
         setToken(null);
 
