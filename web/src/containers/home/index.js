@@ -47,7 +47,7 @@ function HomePage () {
       .generateToken(serverInfo, userInfo)
       .then(function (tokenInfo) {
         axios
-          .post("http://localhost:1433/users/login", userInfo)
+          .post("https://rdis-test.geospectrum.com.ph/users/login", userInfo)
           .then(function (response) {             
             esriId
               .registerToken({
