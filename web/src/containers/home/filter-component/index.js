@@ -18,9 +18,6 @@ import "./index.css";
 
 export default function FilterComponent () {
   const {
-    regionDefault,
-    engineeringDistrictDefault,
-
     dataSource, setDataSource,
     setDataArray,
     dataLoading, setDataLoading,
@@ -498,8 +495,8 @@ export default function FilterComponent () {
     layer_road_slope_hazards
       .queryFeatures({
         where:
-          engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-          regionDefault ? `region_name = '${ regionDefault }'` :
+          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -553,8 +550,8 @@ export default function FilterComponent () {
     layer_road_slopes_and_countermeasures
       .queryFeatures({
         where:
-          engineeringDistrictDefault ? `region_name = '${ engineeringDistrictDefault }' AND deo_name = '${ regionDefault }'` :
-          regionDefault ? `region_name = '${ regionDefault }'` :
+          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }' AND deo_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
+          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -712,8 +709,8 @@ export default function FilterComponent () {
     layer_engineering_districts
       .queryFeatures({
         where:
-          engineeringDistrictDefault ? `REGION = '${ regionDefault }' AND DEO = '${ engineeringDistrictDefault }'` :
-          regionDefault ? `REGION = '${ regionDefault }'` :
+          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `REGION = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND DEO = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `REGION = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -1155,15 +1152,15 @@ export default function FilterComponent () {
             if (type === 1) {
               return (
                 (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || regionDefault || filterLevel01Selected)) ||
-                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || regionDefault || filterLevel01Selected)))
+                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected)) ||
+                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected)))
               );
             }
             else if (type === 2) {
               return (
                 (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || engineeringDistrictDefault || filterLevel02Selected)) ||
-                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || engineeringDistrictDefault || filterLevel02Selected)))
+                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected)) ||
+                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected)))
               );
             }
             else if (type === 3) {
@@ -1205,18 +1202,18 @@ export default function FilterComponent () {
     // setDataLoading(true);
 
     if (type === 1) {
-      if (!regionDefault) {
+      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
         setFilterLevel01Selected(null);
       }
       else {
-        setFilterLevel01Selected(regionDefault);
+        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
       }
 
-      if (!engineeringDistrictDefault) {
+      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
         setFilterLevel02Selected(null);
       }
       else {
-        setFilterLevel02Selected(engineeringDistrictDefault);
+        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
       }
 
       setFilterLevel03Selected(null);
@@ -1239,23 +1236,23 @@ export default function FilterComponent () {
       query_features(0, null);
     }
     else if (type === 2) {
-      if (!engineeringDistrictDefault) {
+      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
         setFilterLevel02Selected(null);
       }
       else {
-        setFilterLevel02Selected(engineeringDistrictDefault);
+        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
       }
 
       setFilterLevel03Selected(null);
 
       setFilterLevel04Selected(null);
 
-      if (regionDefault || filterLevel01Selected) {
+      if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
         focus_map(
             1, // type
             [layer_regions], // reference_layers
             ["REGION", "region_name"], // attributes
-            regionDefault || filterLevel01Selected, // string
+            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
             filterLevel05Selected // year
           )
           .then(function (response) {
@@ -1264,7 +1261,7 @@ export default function FilterComponent () {
             setDataLoading(false);
           });
 
-        query_features(1, regionDefault || filterLevel01Selected);
+        query_features(1, (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected);
       }
       else {
         focus_map(
@@ -1288,12 +1285,12 @@ export default function FilterComponent () {
 
       setFilterLevel04Selected(null);
 
-      if (engineeringDistrictDefault || filterLevel02Selected) {
+      if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected) {
         focus_map(
             2, // type
             [layer_engineering_districts], // reference_layers
             ["DEO", "deo_name"], //atributes
-            engineeringDistrictDefault || filterLevel02Selected, // string
+            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected, // string
             filterLevel05Selected // year
           )
           .then(function (response) {
@@ -1302,14 +1299,14 @@ export default function FilterComponent () {
             setDataLoading(false);
           });
 
-        query_features(2, engineeringDistrictDefault || filterLevel02Selected);
+        query_features(2, (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected);
       }
-      else if (regionDefault || filterLevel01Selected) {
+      else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
         focus_map(
             1, // type
             [layer_regions], // reference_layers
             ["REGION", "region_name"], // attributes
-            regionDefault || filterLevel01Selected, // string
+            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
             filterLevel05Selected // year
           )
           .then(function (response) {
@@ -1318,7 +1315,7 @@ export default function FilterComponent () {
             setDataLoading(false);
           });
 
-        query_features(1, regionDefault || filterLevel01Selected);
+        query_features(1, (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected);
       }
       else {
         focus_map(
@@ -1374,11 +1371,11 @@ export default function FilterComponent () {
           })
           .indexOf(string);
 
-      if (!regionDefault) {
+      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
         setFilterLevel01Selected(filterArray[object_index].REGION);
       }
       else {
-        setFilterLevel01Selected(regionDefault);
+        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
       }
 
       setFilterLevel02Selected(string);
@@ -1408,18 +1405,18 @@ export default function FilterComponent () {
           })
           .indexOf(string);
 
-      if (!regionDefault) {
+      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
         setFilterLevel01Selected(filterArray[object_index].REGION);
       }
       else {
-        setFilterLevel01Selected(regionDefault);
+        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
       }
 
-      if (!engineeringDistrictDefault) {
+      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
         setFilterLevel02Selected(filterArray[object_index].DEO);
       }
       else {
-        setFilterLevel02Selected(engineeringDistrictDefault);
+        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
       }
 
       setFilterLevel03Selected(string);
@@ -1441,18 +1438,18 @@ export default function FilterComponent () {
     }
     else if (type === 4) {
       if (string.length > 0) {
-        if (!regionDefault) {
+        if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
           setFilterLevel01Selected(null);
         }
         else {
-          setFilterLevel01Selected(regionDefault);
+          setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
         }
 
-        if (!engineeringDistrictDefault) {
+        if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
           setFilterLevel02Selected(null);
         }
         else {
-          setFilterLevel02Selected(engineeringDistrictDefault);
+          setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
         }
 
         setFilterLevel03Selected(null);
@@ -1473,10 +1470,10 @@ export default function FilterComponent () {
           });
       }
       else {
-        if (engineeringDistrictDefault) {
+        if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
           clear_filter(3);
         }
-        else if (regionDefault) {
+        else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
           clear_filter(2);
         }
         else {
@@ -1487,10 +1484,10 @@ export default function FilterComponent () {
     else if (type === 5) {
       setFilterLevel05Selected(string);
 
-      if (engineeringDistrictDefault) {
+      if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
         clear_filter(3);
       }
-      else if (regionDefault) {
+      else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
         clear_filter(2);
       }
       else {
@@ -1507,8 +1504,8 @@ export default function FilterComponent () {
     layer
       .queryFeatures({
         where:
-          engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-          regionDefault ? `region_name = '${ regionDefault }'` :
+          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
           "1 = 1",
         returnGeometry: true,
         outFields: ["*"]
@@ -1542,8 +1539,8 @@ export default function FilterComponent () {
       layer_road_slope_hazards
         .queryFeatures({
           where:
-            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-            regionDefault ? `region_name = '${ regionDefault }'` :
+            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
             "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
@@ -1552,8 +1549,8 @@ export default function FilterComponent () {
           layer_road_slopes_and_countermeasures
             .queryFeatures({
               where:
-                engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-                regionDefault ? `region_name = '${ regionDefault }'` :
+                (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+                (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
                 "1 = 1",
               returnGeometry: false,
               outFields: ["survey_date"]
@@ -1591,8 +1588,8 @@ export default function FilterComponent () {
       layer_road_slope_hazards
         .queryFeatures({
           where:
-            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-            regionDefault ? `region_name = '${ regionDefault }'` :
+            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
             "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
@@ -1624,8 +1621,8 @@ export default function FilterComponent () {
       layer_road_slopes_and_countermeasures
         .queryFeatures({
           where:
-            engineeringDistrictDefault ? `region_name = '${ regionDefault }' AND deo_name = '${ engineeringDistrictDefault }'` :
-            regionDefault ? `region_name = '${ regionDefault }'` :
+            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
+            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
             "1 = 1",
           returnGeometry: false,
           outFields: ["survey_date"]
@@ -1678,10 +1675,10 @@ export default function FilterComponent () {
       setDataArray(null);
     }
 
-    if (engineeringDistrictDefault) {
+    if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
       clear_filter(3);
     }
-    else if (regionDefault) {
+    else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
       clear_filter(2);
     }
     else {
@@ -1834,9 +1831,9 @@ export default function FilterComponent () {
         </div>
       </div>
       <div id = "filter-container">
-        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!regionDefault && !engineeringDistrictDefault) { click_dropdown(1); } } }>
+        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) && !(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) { click_dropdown(1); } } }>
           <div>
-            <div>{ regionDefault || filterLevel01Selected || "Region" }</div>
+            <div>{ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected || "Region" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown01Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
@@ -1877,9 +1874,9 @@ export default function FilterComponent () {
             }
           </div>
         </div>
-        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!engineeringDistrictDefault) { click_dropdown(2); } } }>
+        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) { click_dropdown(2); } } }>
           <div>
-            <div>{ engineeringDistrictDefault || filterLevel02Selected || "District Engineering Office" }</div>
+            <div>{ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected || "District Engineering Office" }</div>
             <div>
               <span className = "material-symbols-outlined">{ dropdown02Active ? "arrow_drop_up" : "arrow_drop_down" }</span>
             </div>
