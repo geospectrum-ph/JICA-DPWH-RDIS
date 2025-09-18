@@ -9,15 +9,13 @@ import "./index.css";
 export default function ProposalForFunding () {
   const {
     filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault,
 
     dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("proposal-for-funding", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("proposal-for-funding", filterLevel05Selected);
   }, []);
 
   return (

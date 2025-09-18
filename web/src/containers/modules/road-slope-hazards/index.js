@@ -15,9 +15,7 @@ import "./index.css";
 export default function RoadSlopeHazards () {
   const {
     filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault,
-
+    
     dataArray,
     dataLoading,
 
@@ -26,7 +24,7 @@ export default function RoadSlopeHazards () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("road-slope-hazards", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("road-slope-hazards", filterLevel05Selected);
   }, []);
 
   const sublevels = [

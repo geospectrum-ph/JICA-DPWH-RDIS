@@ -3,11 +3,6 @@ import * as React from "react";
 export const MainContext = React.createContext();
 
 function MainContextProvider (props) {
-  // For token handling.
-
-  const [regionDefault, setRegionDefault] = React.useState(null);
-  const [engineeringDistrictDefault, setEngineeringDistrictDefault] = React.useState(null);
-
   // For module switch handling.
 
   const [menuComponentOpen, setMenuComponentOpen] = React.useState(false);
@@ -106,9 +101,6 @@ function MainContextProvider (props) {
   return (
     <MainContext.Provider value = {
       {
-        regionDefault, setRegionDefault,
-        engineeringDistrictDefault, setEngineeringDistrictDefault,
-
         menuComponentOpen, setMenuComponentOpen,
 
         modules, setModules,

@@ -55,14 +55,10 @@ function ExcelExport({ data, fileName }) {
 }
 
 export default function Reports() {
-  const {
-    filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault
-  } = React.useContext(MainContext);
+  const { filterLevel05Selected } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("reports", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("reports", filterLevel05Selected);
   }, []);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);

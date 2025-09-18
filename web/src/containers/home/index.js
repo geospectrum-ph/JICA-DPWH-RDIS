@@ -19,10 +19,6 @@ function HomePage () {
   const navigate = useNavigate();
   
   const {
-    setFilterLevel05Selected,
-    setRegionDefault,
-    setEngineeringDistrictDefault,
-
     dataLoading,
     setDataLoading
   } = React.useContext(MainContext);
@@ -47,30 +43,20 @@ function HomePage () {
       .generateToken(serverInfo, userInfo)
       .then(function (tokenInfo) {
         // axios
-        //   .post("https://rdis-test.geospectrum.com.ph/users/login", userInfo)
+        //   .post("http://localhost:1433/users/login", userInfo)
         //   .then(function (response) {             
             esriId
               .registerToken({
                 ...tokenInfo,
                 server
               });
-                                
-            // setFilterLevel05Selected(new Date().getFullYear());
-            // setRegionDefault(response.data.user.ro);
-            // setEngineeringDistrictDefault(response.data.user.deo);
 
-            // sessionStorage.setItem("yearDefault", new Date().getFullYear());
             // sessionStorage.setItem("regionDefault", response.data.user.ro);
             // sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
 
             let user_ro = username === "dpwh_rdis" ? null : username === "rdis_training1" ? "Region VII" : "Cordillera Administrative Region";
             let user_deo = username === "dpwh_rdis" ? null : username === "rdis_training1" ? null : null;
 
-            setFilterLevel05Selected(new Date().getFullYear());
-            setRegionDefault(user_ro);
-            setEngineeringDistrictDefault(user_deo);
-
-            sessionStorage.setItem("yearDefault", new Date().getFullYear());
             sessionStorage.setItem("regionDefault", user_ro);
             sessionStorage.setItem("engineeringDistrictDefault", user_deo);
 

@@ -21,6 +21,8 @@ export default function MenuComponent () {
   function set_module (index) {
     setModuleSelected(index);
 
+    sessionStorage.setItem("moduleSelected", modules[index].name.toLowerCase().split(" ").join("-"));
+
     navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
 
     setMenuComponentOpen(!menuComponentOpen);

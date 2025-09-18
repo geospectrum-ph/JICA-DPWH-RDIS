@@ -42,6 +42,10 @@ const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/a
 // const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0"; // Returns an error on access, as of 09/2025.
 // const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1"; // Returns an error on access, as of 09/2025.
 
+const url_RDIS_RSH_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0";
+const url_RDIS_RSMS_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/0";
+// const url_RDIS_RSMS_photos_additional = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/1";
+
 /* Reference Data */
 
 function content_national_road_network (target) {
@@ -2254,6 +2258,10 @@ const group_potential_road_slope_protection_projects = new GroupLayer({
 var view = null;
 
 function build_view(viewMode) {
+  console.log("build_view");
+
+  view_layer(sessionStorage.getItem("moduleSelected"), sessionStorage.getItem("yearSelected"));
+
   const widget_info_container = document.createElement("div");
 
   widget_info_container.id = "widget-info-container";
@@ -2386,7 +2394,7 @@ function build_view(viewMode) {
           save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
         })
         .catch(function (error) {
-          // console.log(error);
+          console.error(error);
         });
     }
   });
@@ -2491,8 +2499,6 @@ function build_view(viewMode) {
     index: 6
   });
 
-  view_layer(sessionStorage.getItem("module"), sessionStorage.getItem("yearDefault"), sessionStorage.getItem("regionDefault"), sessionStorage.getItem("engineeringDistrictDefault"));
-
   if (viewMode === "2D") {
     const widget_scale_container = document.createElement("div");
 
@@ -2517,9 +2523,13 @@ function build_view(viewMode) {
 }
 
 export function MapComponent () {
+  console.log("MapComponent");
+
   const [viewMode, setViewMode] = React.useState("2D");
 
   function change_view() {
+    console.log("change_view");
+
     if (viewMode === "3D") {
       setViewMode("2D");
     }
@@ -2586,9 +2596,109 @@ export function MapComponent () {
               if (selectedFeature.geometry?.extent) {
                 view.goTo(selectedFeature.geometry.extent.expand(1.25));
               }
+
+              // if (selectedFeature.attributes?.globalid) {
+              //   new FeatureLayer({
+              //     url: url_RDIS_RSH_photos
+              //   })
+              //   .queryAttachments({
+              //     where: "1 = 1",
+              //     returnGeometry: false,
+              //     outFields: ["*"]
+              //   })
+              //   .then(function (response) {            
+              //     let retrieved_attachments = response;
+              //     let retrieved_keys = Object.keys(retrieved_attachments);
+              //     let retrieved_index = retrieved_keys.find(function (key) { return (retrieved_attachments[key][0].parentGlobalId === selectedFeature.attributes.globalid); });
+
+              //     if (retrieved_index) {
+              //       let attachments_array = retrieved_attachments[retrieved_index];
+
+              //       layer_road_slope_hazards
+              //         .queryAttachments({
+              //           where: "1 = 1",
+              //           returnGeometry: false,
+              //           outFields: ["*"]
+              //         })
+              //         .then(async function (response) {
+              //           let existing_attachments = response;
+              //           let key = Object.keys(existing_attachments)[0];
+              //           let working_array = existing_attachments[key]?.length > 0 ? existing_attachments[key].map(function (item) { return (item.name); }) : [];
+
+              //           for (const attachment of attachments_array) {
+              //             if (working_array.indexOf(attachment.name) < 0) {
+              //               const form = new FormData();
+
+              //               console.log(attachment.url);
+          
+              //               var image = await fetch(attachment.url);
+              //               var blob = await image.blob();
+              //               var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
+          
+              //               form.append("file", file);
+              //               form.append("f", "json");
+          
+              //               layer_road_slope_hazards
+              //                 .addAttachment(selectedFeature, form)
+              //                 .then(function (data) {
+              //                   console.log(data);
+              //                 })
+              //                 .catch(function (error) {
+              //                   console.log(error);
+              //                 });
+              //             }
+              //           }
+              //         });
+              //     }
+              //   })
+              //   .catch(function (error) {
+              //     // console.log(error);
+              //   });
+
+              //   new FeatureLayer({
+              //     url: url_RDIS_RSMS_photos
+              //   })
+              //   .queryAttachments({
+              //     where: "1 = 1",
+              //     returnGeometry: false,
+              //     outFields: ["*"]
+              //   })
+              //   .then(async function (response) {
+              //     let index = 
+              //       Object
+              //         .keys(response)
+              //         .find(function (key) {
+              //           return (response[key][0].parentGlobalId === selectedFeature.attributes.globalid);
+              //         });
+
+              //     if (index) {
+              //       for (const attachment of response[index]) {
+              //         // if (working_array.indexOf(attachment.name) < 0) {
+              //         const form = new FormData();
+    
+              //         var image = await fetch(attachment.url);
+              //         var blob = await image.blob();
+              //         var file = new File([blob], attachment.name, { lastModified: new Date().getTime(), type: blob.type });
+    
+              //         form.set("attachment", file);
+              //         form.append("f", "json");
+    
+              //         layer_road_slopes_and_countermeasures
+              //           .addAttachment(selectedFeature, form)
+              //           .catch(function (error) {
+              //             console.log(error);
+              //           });
+              //         // }
+              //       }
+              //     }
+              //   })
+              //   .catch(function (error) {
+              //     // console.log(error);
+              //   });
+              // }
             })
             .catch(function (error) {
-              // console.error(error);
+              console.error(error);
             });
         }
     });
@@ -2603,7 +2713,19 @@ export function MapComponent () {
   );
 }
 
-export function view_layer (module, year, region, deo) {
+export function view_layer (module, year) {
+  console.log("view_layer");
+
+  let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+  let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+  console.table({
+    module: module,
+    year: year,
+    region: region,
+    deo: deo
+  });
+
   String.prototype.toProperCase = function () {
     return (this.replace(/\w+\S|.\s/g, function (text) {
       if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
@@ -2624,9 +2746,9 @@ export function view_layer (module, year, region, deo) {
     }));
   };
 
-  reactiveUtils.watch(
-    function () {
-      if (view && !view.loading && module) {
+  // reactiveUtils.watch(
+  //   function () {
+      if (view && !view.loading) {
         view
           .when(function () {
             while (view.map.layers.length > 0) {
@@ -2637,26 +2759,26 @@ export function view_layer (module, year, region, deo) {
 
             layer_national_road_network.definitionExpression =
               deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_national_expressways.definitionExpression =
               deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             /* Administrative Boundaries */
 
             layer_municipalities_cities.definitionExpression =
               deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_municipalities_cities
               .queryFeatures({
                 where:
                   deo && deo !== "null" ? `DEO = '${ deo }'` :
-                  region && region != "null" ? `REGION = '${ region }'`:
+                  region && region !=="null" ? `REGION = '${ region }'`:
                   "1 = 1",
                 returnGeometry: false,
                 outFields: ["*"]
@@ -2699,17 +2821,17 @@ export function view_layer (module, year, region, deo) {
                 }
               })
               .catch(function (error) {
-                // console.log(error);
+                console.error(error);
               });
 
             layer_provinces.definitionExpression =
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_provinces
               .queryFeatures({
                 where:
-                  region && region != "null" ? `REGION = '${ region }'`:
+                  region && region !=="null" ? `REGION = '${ region }'`:
                   "1 = 1",
                 returnGeometry: false,
                 outFields: ["*"]
@@ -2752,17 +2874,17 @@ export function view_layer (module, year, region, deo) {
                 }
               })
               .catch(function (error) {
-                // console.log(error);
+                console.error(error);
               });
 
             layer_legislative_districts.definitionExpression =
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_legislative_districts
               .queryFeatures({
                 where:
-                  region && region != "null" ? `REGION = '${ region }'`:
+                  region && region !=="null" ? `REGION = '${ region }'`:
                   "1 = 1",
                 returnGeometry: false,
                 outFields: ["*"]
@@ -2805,19 +2927,19 @@ export function view_layer (module, year, region, deo) {
                 }
               })
               .catch(function (error) {
-                // console.log(error);
+                console.error(error);
               });
 
             layer_engineering_districts.definitionExpression =
               deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_engineering_districts
               .queryFeatures({
                 where:
                   deo && deo !== "null" ? `DEO = '${ deo }'` :
-                  region && region != "null" ? `REGION = '${ region }'`:
+                  region && region !=="null" ? `REGION = '${ region }'`:
                   "1 = 1",
                 returnGeometry: false,
                 outFields: ["*"]
@@ -2860,17 +2982,17 @@ export function view_layer (module, year, region, deo) {
                 }
               })
               .catch(function (error) {
-                // console.log(error);
+                console.error(error);
               });
 
             layer_regions.definitionExpression =
-              region && region != "null" ? `REGION = '${ region }'`:
+              region && region !=="null" ? `REGION = '${ region }'`:
               "1 = 1";
 
             layer_regions
               .queryFeatures({
                 where:
-                  region && region != "null" ? `REGION = '${ region }'`:
+                  region && region !=="null" ? `REGION = '${ region }'`:
                   "1 = 1",
                 returnGeometry: false,
                 outFields: ["*"]
@@ -2913,7 +3035,7 @@ export function view_layer (module, year, region, deo) {
                 }
               })
               .catch(function (error) {
-                // console.log(error);
+                console.error(error);
               });
 
             /* Common Data */
@@ -2921,28 +3043,28 @@ export function view_layer (module, year, region, deo) {
             for (const layer of group_kilometer_posts.layers) {
               layer.definitionExpression =
                 deo && deo !== "null" ? `DEO = '${ deo }'` :
-                region && region != "null" ? `REGION = '${ region }'`:
+                region && region !=="null" ? `REGION = '${ region }'`:
                 "1 = 1";
             }
 
             for (const layer of group_volume_of_traffic.layers) {
               layer.definitionExpression =
                 deo && deo !== "null" ? `DEO = '${ deo }'` :
-                region && region != "null" ? `REGION = '${ region }'`:
+                region && region !=="null" ? `REGION = '${ region }'`:
                 "1 = 1";
             }
 
             for (const layer of group_terrain.layers) {
               layer.definitionExpression =
                 deo && deo !== "null" ? `district_n = '${ deo }'` :
-                region && region != "null" ? `region_nam = '${ region }'`:
+                region && region !=="null" ? `region_nam = '${ region }'`:
                 "1 = 1";
             }
 
             for (const layer of group_road_classification.layers) {
               layer.definitionExpression =
                 deo && deo !== "null" ? `DEO = '${ deo }'` :
-                region && region != "null" ? `REGION = '${ region }'`:
+                region && region !=="null" ? `REGION = '${ region }'`:
                 "1 = 1";
             }
 
@@ -2958,22 +3080,22 @@ export function view_layer (module, year, region, deo) {
             if (module === "summary") {
               layer_road_slope_hazards.definitionExpression =
                 deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                region && region != "null" ? `region_name = '${ region }'`:
+                region && region !=="null" ? `region_name = '${ region }'`:
                 "1 = 1";
 
               layer_road_slopes_and_countermeasures.definitionExpression =
                 deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                region && region != "null" ? `region_name = '${ region }'`:
+                region && region !=="null" ? `region_name = '${ region }'`:
                 "1 = 1";
 
               layer_inventory_of_road_slopes.definitionExpression =
                 deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                region && region != "null" ? `region_name = '${ region }'`:
+                region && region !=="null" ? `region_name = '${ region }'`:
                 "1 = 1";
 
               layer_inventory_of_road_slope_protection_structures.definitionExpression =
                 deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                region && region != "null" ? `region_name = '${ region }'`:
+                region && region !=="null" ? `region_name = '${ region }'`:
                 "1 = 1";
 
               view.map.layers.push(layer_inventory_of_road_slope_protection_structures);
@@ -2985,7 +3107,7 @@ export function view_layer (module, year, region, deo) {
               for (const layer of group_road_slope_hazards.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
 
@@ -3001,35 +3123,35 @@ export function view_layer (module, year, region, deo) {
               for (const layer of group_inventory_of_road_slopes_type_of_disaster.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
               
               for (const layer of group_inventory_of_road_slopes_type_of_road_slope_protection_structure.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
               
               for (const layer of group_inventory_of_road_slope_protection_structures_road_slope_condition.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
               
               for (const layer of group_inventory_of_road_slope_protection_structures_type_of_disaster.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
               
               for (const layer of group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
 
@@ -3044,7 +3166,7 @@ export function view_layer (module, year, region, deo) {
               for (const layer of group_potential_road_slope_protection_projects.layers) {
                 layer.definitionExpression =
                   deo && deo !== "null" ? `deo_name = '${ deo }'` :
-                  region && region != "null" ? `region_name = '${ region }'`:
+                  region && region !=="null" ? `region_name = '${ region }'`:
                   "1 = 1";
               }
 
@@ -3091,7 +3213,7 @@ export function view_layer (module, year, region, deo) {
                   }
                 })
                 .catch(function (error) {
-                  // console.error(error);
+                  console.error(error);
                 });
             }
             else if (region && region !== "null") {
@@ -3133,7 +3255,7 @@ export function view_layer (module, year, region, deo) {
                   }
                 })
                 .catch(function (error) {
-                  // console.error(error);
+                  console.error(error);
                 });
             }
             else {
@@ -3175,21 +3297,26 @@ export function view_layer (module, year, region, deo) {
                   }
                 })
                 .catch(function (error) {
-                  // console.error(error);
+                  console.error(error);
                 });
             }
 
           })
           .catch(function (error) {
-            // console.error(error);
+            console.error(error);
           });
       }
-    });     
+    // });     
 }
 
 var highlights = [];
 
 export async function focus_map (type, reference_layers, attributes, string, year) {
+  console.log("focus_map");
+
+  let region_name = sessionStorage.getItem("regionDefault");
+  let deo_name = sessionStorage.getItem("engineeringDistrictDefault");
+  
   /* This resets the highlighted features of the map. */
 
   if (highlights.length > 0) {
@@ -3236,7 +3363,7 @@ export async function focus_map (type, reference_layers, attributes, string, yea
               });
           })
           .catch(function (error) {
-            // console.error(error);
+            console.error(error);
           });
       });
 
@@ -3285,12 +3412,12 @@ export async function focus_map (type, reference_layers, attributes, string, yea
                           }
                         })
                         .catch(function (error) {
-                          // console.error(error);
+                          console.error(error);
                         });
                     }
                   })
                   .catch(function (error) {
-                    // console.error(error);
+                    console.error(error);
                   });
               }
 
@@ -3365,7 +3492,7 @@ export async function focus_map (type, reference_layers, attributes, string, yea
                 }
               })
               .catch(function (error) {
-                // console.error(error);
+                console.error(error);
               });
           }
 
@@ -3373,7 +3500,7 @@ export async function focus_map (type, reference_layers, attributes, string, yea
         })
         .catch(function (error) {
           return (null);
-          // console.error(error);
+          console.error(error);
         })
     );
   }
@@ -3383,6 +3510,8 @@ export async function focus_map (type, reference_layers, attributes, string, yea
 }
 
 export function close_popup () {
+  console.log("close_popup");
+
   reactiveUtils.watch(
     function () {
       if (view && !view.loading) {
@@ -3391,13 +3520,15 @@ export function close_popup () {
             view.popup.visible = false;
           })
           .catch(function (error) {
-            // console.error(error);
+            console.error(error);
           });
       }
     });    
 }
 
 export function open_popup (features) {
+  console.log("open_popup");
+
   reactiveUtils.watch(
     function () {
       if (view && !view.loading && features) {
@@ -3409,13 +3540,15 @@ export function open_popup (features) {
             });
           })
           .catch(function (error) {
-            // console.error(error);
+            console.error(error);
           });
       }
     });     
 }
 
 export function recenter_map (extent) {
+  console.log("recenter_map");
+
   reactiveUtils.watch(
     function () {
       if (view && !view.loading && extent) {
@@ -3424,7 +3557,7 @@ export function recenter_map (extent) {
             view.goTo(extent.expand(1.25));
           })
           .catch(function (error) {
-            // console.error(error);
+            console.error(error);
           });
       }
     });     

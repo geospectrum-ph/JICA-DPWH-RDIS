@@ -19,8 +19,6 @@ import "./index.css";
 export default function Summary () {
   const {
     filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault,
 
     arrayRoadSlopeHazards,
 
@@ -48,7 +46,7 @@ export default function Summary () {
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("summary", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("summary", filterLevel05Selected);
   }, []);
 
   const RADIAN = Math.PI / 180;

@@ -15,15 +15,13 @@ import "./index.css";
 export default function FundedRoadSlopeProtectionProjects () {
   const {
     filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault,
-
+    
     dataArray,
     dataLoading
   } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("funded-road-slope-protection-projects", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("funded-road-slope-protection-projects", filterLevel05Selected);
   }, []);
 
   const sublevels = [

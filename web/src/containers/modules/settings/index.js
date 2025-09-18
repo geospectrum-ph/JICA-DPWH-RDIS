@@ -7,14 +7,10 @@ import { view_layer } from "../../home/map-component";
 import "./index.css";
 
 export default function Settings () {
-  const {
-    filterLevel05Selected,
-    regionDefault,
-    engineeringDistrictDefault
-  } = React.useContext(MainContext);
+  const { filterLevel05Selected } = React.useContext(MainContext);
 
   React.useEffect(function () {
-    view_layer("settings", filterLevel05Selected, regionDefault, engineeringDistrictDefault);
+    view_layer("settings", filterLevel05Selected);
   }, []);
 
   return (
