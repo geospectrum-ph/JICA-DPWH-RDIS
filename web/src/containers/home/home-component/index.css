@@ -319,6 +319,43 @@
           }
         }
       }
+
+      div:has(> span) {
+        display: flex;
+        flex-direction: column;
+        place-items: center center;
+        place-content: center center;
+
+        box-sizing: border-box;
+        margin: 0 0 var(--default-size-medium, 12px) 0;
+
+        > :nth-child(1) {
+          width: 100%;
+          height: auto;
+
+          flex: 1 1 auto;
+
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 0.50);
+
+          background: var(--calcite-color-foreground-3, rgba(234, 234, 234, 1.00));
+
+          font: bold var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+          text-transform: capitalize;
+        }
+
+        > :nth-child(3) {
+          width: 100%;
+          height: auto;
+
+          flex: 1 1 auto;
+
+          box-sizing: border-box;
+          padding: calc(var(--default-size-medium, 12px) * 0.50);
+
+          font: italic var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
+        }
+      }
     }
 
     .esri-attribution {

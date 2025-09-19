@@ -12,6 +12,8 @@ import {
   layer_road_slopes_and_countermeasures,
   close_popup,
   focus_map,
+  layer_inventory_of_road_slopes,
+  layer_inventory_of_road_slope_protection_structures,
 } from "../map-component";
 
 import "./index.css";
@@ -1222,7 +1224,6 @@ export default function FilterComponent () {
       
       focus_map(
           0, // type
-          [layer_national_road_network, layer_national_expressways], // reference_layers
           null, // attributes
           null, // string
           filterLevel05Selected // year
@@ -1250,7 +1251,6 @@ export default function FilterComponent () {
       if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
         focus_map(
             1, // type
-            [layer_regions], // reference_layers
             ["REGION", "region_name"], // attributes
             (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
             filterLevel05Selected // year
@@ -1266,7 +1266,6 @@ export default function FilterComponent () {
       else {
         focus_map(
             0, // type
-            [layer_national_road_network, layer_national_expressways], // reference_layers
             null, // attributes
             null, // string
             filterLevel05Selected // year
@@ -1288,7 +1287,6 @@ export default function FilterComponent () {
       if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected) {
         focus_map(
             2, // type
-            [layer_engineering_districts], // reference_layers
             ["DEO", "deo_name"], //atributes
             (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected, // string
             filterLevel05Selected // year
@@ -1304,7 +1302,6 @@ export default function FilterComponent () {
       else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
         focus_map(
             1, // type
-            [layer_regions], // reference_layers
             ["REGION", "region_name"], // attributes
             (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
             filterLevel05Selected // year
@@ -1320,7 +1317,6 @@ export default function FilterComponent () {
       else {
         focus_map(
             0, // type
-            [layer_national_road_network, layer_national_expressways], // reference_layers
             null, // attributes
             null, // string
             filterLevel05Selected // year
@@ -1352,7 +1348,6 @@ export default function FilterComponent () {
 
       focus_map(
           1, // type
-          [layer_regions], // reference_layers
           ["REGION", "region_name"], // attributes
           string, // string
           filterLevel05Selected // year
@@ -1386,7 +1381,6 @@ export default function FilterComponent () {
 
       focus_map(
           2, // type
-          [layer_engineering_districts], // reference_layers
           ["DEO", "deo_name"], // attributes
           string, // string
           filterLevel05Selected // year
@@ -1425,7 +1419,6 @@ export default function FilterComponent () {
 
       focus_map(
           3, // type
-          [layer_legislative_districts], // reference_layers
           ["CONG_DIST", "district_name"], // attributes
           string, // string
           filterLevel05Selected // year
@@ -1458,7 +1451,6 @@ export default function FilterComponent () {
         
         focus_map(
             4, // type
-            [layer_regions, layer_engineering_districts, layer_legislative_districts, layer_national_road_network, layer_national_expressways], // reference_layers
             ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], // attributes
             string, // string
             filterLevel05Selected // year
