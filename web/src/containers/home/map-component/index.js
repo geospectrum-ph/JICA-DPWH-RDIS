@@ -56,23 +56,23 @@ function content_national_road_network (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.ROAD_NAME ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          <td>${ target.graphic.attributes.SECTION_ID ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -133,15 +133,15 @@ function content_national_expressways (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.XPRES_WAY || "No available data" }</td>
+          <td>${ target.graphic.attributes.XPRES_WAY ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.XPRES_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.XPRES_NAME ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -226,23 +226,23 @@ function content_municipalities_cities (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Province</b></td>
-          <td>${ target.graphic.attributes.PROVINCE || "No available data" }</td>
+          <td>${ target.graphic.attributes.PROVINCE ?? "No available data" }</td>
         </tr>
         <tr>
-          <td><b>${ target.graphic.attributes.CENTERS || "No available data" }</b></td>
-          <td>${ target.graphic.attributes.MUNICIPAL || "No available data" }</td>
+          <td><b>${ target.graphic.attributes.CENTERS ?? "No available data" }</b></td>
+          <td>${ target.graphic.attributes.MUNICIPAL ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -295,11 +295,11 @@ function content_provinces (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Province</b></td>
-          <td>${ target.graphic.attributes.PROVINCE || "No available data" }</td>
+          <td>${ target.graphic.attributes.PROVINCE ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -352,11 +352,11 @@ function content_legislative_districts (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -409,11 +409,11 @@ function content_engineering_districts (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -466,11 +466,11 @@ function content_regions (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Region Name</b></td>
-          <td>${ target.graphic.attributes.VAR_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.VAR_NAME ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -538,35 +538,35 @@ function content_kilometer_posts (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.ROAD_NAME ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          <td>${ target.graphic.attributes.SECTION_ID ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Kilometer Post</b></td>
-          <td>${ target.graphic.attributes.KM_POST || "No available data" }</td>
+          <td>${ target.graphic.attributes.KM_POST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Chainage</b></td>
-          <td>${ target.graphic.attributes.LOCATION || "No available data" }</td>
+          <td>${ target.graphic.attributes.LOCATION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Cross-Section</b></td>
-          <td>${ target.graphic.attributes.XSP || "No available data" }</td>
+          <td>${ target.graphic.attributes.XSP ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -649,31 +649,31 @@ function content_volume_of_traffic (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          <td>${ target.graphic.attributes.SECTION_ID ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.ROAD_NAME ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Annual Average Daily Traffic (AADT)</b></td>
-          <td>${ target.graphic.attributes.AADT || "No available data" }</td>
+          <td>${ target.graphic.attributes.AADT ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Annual Average Daily Traffic (AADT) Year</b></td>
-          <td>${ target.graphic.attributes.YEAR || "No available data" }</td>
+          <td>${ target.graphic.attributes.YEAR ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -756,27 +756,23 @@ function content_terrain (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_nam || "No available data" }</td>
+          <td>${ target.graphic.attributes.region_nam ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.district_n || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.district_n ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          <td>${ target.graphic.attributes.section_id ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Terrain Type</b></td>
-          <td>${ target.graphic.attributes.terrain_ty || "No available data" }</td>
+          <td>${ target.graphic.attributes.terrain_ty ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -811,7 +807,7 @@ const group_terrain = new GroupLayer({
         title: `${ category[0] } Roads`,
         url: url_terrain,
         definitionExpression: category[0] === "Unclassified" ?
-          array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty <> '${ category[0] }'`); }).join(" AND ") :
+          array_terrain.map(function (category) { return (category[0] === "Unclassified" ? null : `terrain_ty != '${ category[0] }'`); }).join(" AND ") :
           `terrain_ty = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -847,27 +843,27 @@ function content_road_classification (target) {
       <tbody>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.REGION || "No available data" }</td>
+          <td>${ target.graphic.attributes.REGION ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.DEO || "No available data" }</td>
+          <td>${ target.graphic.attributes.DEO ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.CONG_DIST || "No available data" }</td>
+          <td>${ target.graphic.attributes.CONG_DIST ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.ROAD_NAME || "No available data" }</td>
+          <td>${ target.graphic.attributes.ROAD_NAME ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.SECTION_ID || "No available data" }</td>
+          <td>${ target.graphic.attributes.SECTION_ID ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.ROAD_SEC_CLASS || "No available data" }</td>
+          <td>${ target.graphic.attributes.ROAD_SEC_CLASS ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -902,7 +898,7 @@ const group_road_classification = new GroupLayer({
         title: `${ category[0] } Roads`,
         url: url_national_road_network,
         definitionExpression: category[0] === "Unclassified" ?
-          array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS <> '${ category[0] }'`); }).join(" AND ") :
+          array_road_classification.map(function (category) { return (category[0] === "Unclassified" ? null : `ROAD_SEC_CLASS != '${ category[0] }'`); }).join(" AND ") :
           `ROAD_SEC_CLASS = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -1010,91 +1006,95 @@ function content_road_slope_hazards (target) {
       <tbody>
         <tr>
           <td><b>Surveyor</b></td>
-          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.survey_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Survey Date</b></td>
-          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.region_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.deo_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.district_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_classification ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          <td>${ target.graphic.attributes.section_id ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_terrain ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Hazard Risk</b></td>
-          <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
+          <td>${ target.graphic.attributes.hazard_risk ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.start_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
-          <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          <td><b>Computed Length</b> (meters)</td>
+          <td>${ target.graphic.attributes.road_length ?? "No available data" }</td>
+        </tr>
+        <tr>
+          <td><b>Actual Length</b> (meters)</td>
+          <td>${ target.graphic.attributes.road_length_from_wheelmeter ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_height ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_area ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_angle ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Type of Disaster</b></td>
-          <td>${ disaster_codes[target.graphic.attributes.disaster_type] || "No available data" }</td>
+          <td>${ disaster_codes[target.graphic.attributes.disaster_type] ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Type Left</b></td>
-          <td>${ target.graphic.attributes.slope_type_left || "No available data" }</td>
+          <td>${ target.graphic.attributes.slope_type_left ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Type Right</b></td>
-          <td>${ target.graphic.attributes.slope_type_right || "No available data" }</td>
+          <td>${ target.graphic.attributes.slope_type_right ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Survey Side</b></td>
-          <td>${ target.graphic.attributes.survey_side || "No available data" }</td>
+          <td>${ target.graphic.attributes.survey_side ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -1105,67 +1105,67 @@ function content_road_slope_hazards (target) {
         </tr>
         <tr>
           <td><b>Profile Slope Height Score</b></td>
-          <td>${ target.graphic.attributes.profile_slope_height_score || "0" }</td>
+          <td>${ target.graphic.attributes.profile_slope_height_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Profile Slope Angle Score</b></td>
-          <td>${ target.graphic.attributes.profile_slope_angle_score || "0" }</td>
+          <td>${ target.graphic.attributes.profile_slope_angle_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Topography G1 Score</b></td>
-          <td>${ target.graphic.attributes.topography_g1_score || "0" }</td>
+          <td>${ target.graphic.attributes.topography_g1_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Topography G2 Score</b></td>
-          <td>${ target.graphic.attributes.topography_g2_score || "0" }</td>
+          <td>${ target.graphic.attributes.topography_g2_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Geological Soil Score</b></td>
-          <td>${ target.graphic.attributes.geological_soil_score || "0" }</td>
+          <td>${ target.graphic.attributes.geological_soil_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Geological Rock Score</b></td>
-          <td>${ target.graphic.attributes.geological_rock_score || "0" }</td>
+          <td>${ target.graphic.attributes.geological_rock_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Geological Slope Score</b></td>
-          <td>${ target.graphic.attributes.geological_slope_score || "0" }</td>
+          <td>${ target.graphic.attributes.geological_slope_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Geological Sediment Score</b></td>
-          <td>${ target.graphic.attributes.geological_sediment_score || "0" }</td>
+          <td>${ target.graphic.attributes.geological_sediment_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Surface Vegetation Score</b></td>
-          <td>${ target.graphic.attributes.surface_vegetation_score || "0" }</td>
+          <td>${ target.graphic.attributes.surface_vegetation_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Surface Soil Score</b></td>
-          <td>${ target.graphic.attributes.surface_soil_score || "0" }</td>
+          <td>${ target.graphic.attributes.surface_soil_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Surface Water Score</b></td>
-          <td>${ target.graphic.attributes.surface_water_score || "0" }</td>
+          <td>${ target.graphic.attributes.surface_water_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Anomaly Score</b></td>
-          <td>${ target.graphic.attributes.anomaly_score || "0" }</td>
+          <td>${ target.graphic.attributes.anomaly_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Hazard Score Based on Causes of Road Slope Failure (A)</b></td>
-          <td>${ target.graphic.attributes.total_score_a || "0" }</td>
+          <td>${ target.graphic.attributes.total_score_a ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Hazard Score Based on Countermeasures Data (B)</b></td>
-          <td>${ target.graphic.attributes.total_score_b || "0" }</td>
+          <td>${ target.graphic.attributes.total_score_b ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Hazard Score Based on History of Disasters (C)</b></td>
-          <td>${ target.graphic.attributes.disaster_history_score || "0" }</td>
+          <td>${ target.graphic.attributes.disaster_history_score ?? "0" }</td>
         </tr>
         <tr>
           <td><b>Road Slope Hazard Score (D)</b></td>
-          <td>${ target.graphic.attributes.score_d || "0" }</td>
+          <td>${ target.graphic.attributes.score_d ?? "0" }</td>
         </tr>
       </tbody>
     </table>
@@ -1260,79 +1260,75 @@ function content_road_slopes_and_countermeasures (target) {
       <tbody>
         <tr>
           <td><b>Surveyor</b></td>
-          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.survey_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Survey Date</b></td>
-          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.region_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.deo_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.district_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_classification ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          <td>${ target.graphic.attributes.section_id ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
-        </tr>
-        <tr>
-          <td><b>Road Slope Hazard Level</b></td>
-          <td>${ target.graphic.attributes.hazard_risk || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_terrain ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.start_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_length ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_height ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_area ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_road_gradient ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>RSM Category</b></td>
-          <td>${ target.graphic.attributes.rsm_category || "No available data" }</td>
+          <td>${ target.graphic.attributes.rsm_category ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -1393,87 +1389,87 @@ function content_inventory_of_road_slopes (target) {
       <tbody>
         <tr>
           <td><b>Surveyor</b></td>
-          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.survey_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Survey Date</b></td>
-          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4) || "No available data" }</td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.region_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.deo_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.district_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_classification ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          <td>${ target.graphic.attributes.section_id ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_terrain ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Volume of Traffic</b> (AADT)</td>
-          <td>${ target.graphic.attributes.aadt || "No available data" }</td>
+          <td>${ target.graphic.attributes.aadt ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.start_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_length ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_height ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_area ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_road_gradient ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Type of Disaster</b></td>
-          <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
+          <td>${ target.graphic.attributes.disaster_type ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>With Slope Disaster Failure?</b></td>
-          <td>${ target.graphic.attributes.past_failure || "No available data" }</td>
+          <td>${ target.graphic.attributes.past_failure ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Date of Occurence</b></td>
-          <td>${ target.graphic.attributes.date_of_occurence || "No available data" }</td>
+          <td>${ target.graphic.attributes.date_of_occurence ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -1535,87 +1531,87 @@ function content_inventory_of_road_slope_protection_structures (target) {
       <tbody>
         <tr>
           <td><b>Surveyor</b></td>
-          <td>${ target.graphic.attributes.survey_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.survey_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Survey Date</b></td>
-          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  || "No available data" }</td>
+          <td>${ new Date(target.graphic.attributes.survey_date).toDateString().slice(4)  ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Region</b></td>
-          <td>${ target.graphic.attributes.region_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.region_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Engineering District</b></td>
-          <td>${ target.graphic.attributes.deo_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.deo_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Legislative District</b></td>
-          <td>${ target.graphic.attributes.district_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.district_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Classification</b></td>
-          <td>${ target.graphic.attributes.road_classification || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_classification ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Road Name</b></td>
-          <td>${ target.graphic.attributes.road_name || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_name ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Section ID</b></td>
-          <td>${ target.graphic.attributes.section_id || "No available data" }</td>
+          <td>${ target.graphic.attributes.section_id ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Terrain</b></td>
-          <td>${ target.graphic.attributes.road_terrain || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_terrain ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Volume of Traffic</b> (AADT)</td>
-          <td>${ target.graphic.attributes.aadt || "No available data" }</td>
+          <td>${ target.graphic.attributes.aadt ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.start_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.start_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Station Limit</b></td>
-          <td>${ parse_limit(target.graphic.attributes.end_lrp) || "No available data" }</td>
+          <td>${ parse_limit(target.graphic.attributes.end_lrp) ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Start Chainage</b></td>
-          <td>${ target.graphic.attributes.start_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.start_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>End Chainage</b></td>
-          <td>${ target.graphic.attributes.end_chainage || "No available data" }</td>
+          <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Type of Existing Road Slope Protection Structure</b></td>
-          <td>${ target.graphic.attributes.road_slope_structure_type || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_slope_structure_type ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Length</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_length || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_length ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Height</b> (meters)</td>
-          <td>${ target.graphic.attributes.road_height || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_height ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Area</b> (sq. meters)</td>
-          <td>${ target.graphic.attributes.target_area || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_area ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Slope Angle / Gradient</b> (degrees)</td>
-          <td>${ target.graphic.attributes.road_angle || "No available data" }</td>
+          <td>${ target.graphic.attributes.target_road_gradient ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Type of Disaster</b></td>
-          <td>${ target.graphic.attributes.disaster_type || "No available data" }</td>
+          <td>${ target.graphic.attributes.disaster_type ?? "No available data" }</td>
         </tr>
         <tr>
           <td><b>Condition Of Road Slope Protection Structure</b></td>
-          <td>${ target.graphic.attributes.road_condition || "No available data" }</td>
+          <td>${ target.graphic.attributes.road_condition ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -1685,8 +1681,9 @@ const group_road_slope_hazards = new GroupLayer({
       new FeatureLayer({
         title: `Road Sections with ${ category[0] } Road Slope Hazard Level`,
         url: url_road_slope_hazards,
-        definitionExpression: category[0] === "Unclassified" ?
-          array_road_slope_hazards.map(function (category) { return (category[0] === "Unclassified" ? null : `hazard_risk <> '${ category[0] }'`); }).join(" AND ") :
+        definitionExpression:
+          category[0] === "Unclassified" ?
+          array_road_slope_hazards.map(function (category) { return (category[0] === "Unclassified" ? null : `hazard_risk != '${ category[0] }'`); }).join(" AND ") :
           `hazard_risk = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -1731,7 +1728,7 @@ function content_storm_surge_hazards (target) {
       <tbody>
         <tr>
           <td><b>Storm Surge Hazard Level</b></td>
-          <td>${ generate_storm_surge_hazards(target.graphic.attributes.HAZ) || "No available data" }</td>
+          <td>${ generate_storm_surge_hazards(target.graphic.attributes.HAZ) ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -1752,7 +1749,7 @@ function content_storm_surge_hazards (target) {
 }
 
 const array_storm_surge_hazards = [
-  ["Unclassified", "HAZ <> 1 AND HAZ <> 2 AND HAZ <> 3", [191, 191, 191, 1.00], [191, 191, 191, 0.50]],
+  ["Unclassified", "HAZ != 1 AND HAZ != 2 AND HAZ != 3", [191, 191, 191, 1.00], [191, 191, 191, 0.50]],
   ["Low", "HAZ = 1", [130, 192, 204, 1.00], [130, 192, 204, 0.50]],
   ["Middle", "HAZ = 2", [72, 159, 181, 1.00], [72, 159, 181, 0.50]],
   ["High", "HAZ = 3", [22, 105, 122, 1.00], [22, 105, 122, 0.50]],
@@ -1803,39 +1800,39 @@ const group_storm_surge_hazards = new GroupLayer({
 //       <tbody>
 //         <tr>
 //           <td><b>Region</b></td>
-//           <td>${ target.graphic.attributes.region_note || "No available data" }</td>
+//           <td>${ target.graphic.attributes.region_note ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Engineering District</b></td>
-//           <td>${ target.graphic.attributes.deoname_note || "No available data" }</td>
+//           <td>${ target.graphic.attributes.deoname_note ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Calamity</b> (AADT)</td>
-//           <td>${ target.graphic.attributes.calamity_note || "No available data" }</td>
+//           <td>${ target.graphic.attributes.calamity_note ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><bCause of Calamity</b></td>
-//           <td>${ target.graphic.attributes.rain || "No available data" }</td>
+//           <td>${ target.graphic.attributes.rain ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Name of Typhoon</b></td>
-//           <td>${ target.graphic.attributes.typhoonname || "No available data" }</td>
+//           <td>${ target.graphic.attributes.typhoonname ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Magnitude of Earthquake</b></td>
-//           <td>${ target.graphic.attributes.magnitude || "No available data" }</td>
+//           <td>${ target.graphic.attributes.magnitude ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Name of Volcano</b></td>
-//           <td>${ target.graphic.attributes.volcano || "No available data" }</td>
+//           <td>${ target.graphic.attributes.volcano ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Infrastructure Type</b></td>
-//           <td>${ target.graphic.attributes.infra_type || "No available data" }</td>
+//           <td>${ target.graphic.attributes.infra_type ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Infrastructure ID</td>
-//           <td>${ target.graphic.attributes.SID || "No available data" }</td>
+//           <td>${ target.graphic.attributes.SID ?? "No available data" }</td>
 //         </tr>
 //       </tbody>
 //     </table>
@@ -1920,19 +1917,19 @@ const group_storm_surge_hazards = new GroupLayer({
 //       <tbody>
 //         <tr>
 //           <td><b>Station Limit</b></td>
-//           <td>${ target.graphic.attributes.Station_Limit || "No available data" }</td>
+//           <td>${ target.graphic.attributes.Station_Limit ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Situational Report</b></td>
-//           <td>${ target.graphic.attributes.situation_note_station || "No available data" }</td>
+//           <td>${ target.graphic.attributes.situation_note_station ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Area Affected</b></td>
-//           <td>${ target.graphic.attributes.area_concat || "No available data" }</td>
+//           <td>${ target.graphic.attributes.area_concat ?? "No available data" }</td>
 //         </tr>
 //         <tr>
 //           <td><b>Actions Taken</b></td>
-//           <td>${ target.graphic.attributes.actionstaken_concat || "No available data" }</td>
+//           <td>${ target.graphic.attributes.actionstaken_concat ?? "No available data" }</td>
 //         </tr>
 //       </tbody>
 //     </table>
@@ -2029,7 +2026,7 @@ const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
             "Road Slope Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type != '${ category[0] }'`); }).join(" AND ") :
           `rsm_category = 'Inventory of Road Slope' AND disaster_type = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2088,7 +2085,7 @@ const group_inventory_of_road_slopes_type_of_road_slope_protection_structure = n
           `Road Slope with ${ category[0] }`,
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope' AND " + array_inventory_of_road_slopes_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type != '${ category[0] }'`); }).join(" AND ") :
           `rsm_category = 'Inventory of Road Slope' AND road_slope_structure_type = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2136,7 +2133,7 @@ const group_inventory_of_road_slope_protection_structures_road_slope_condition =
           `Road Slope Protection Structure in ${ category[0] } Condition`,
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_condition <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_condition != '${ category[0] }'`); }).join(" AND ") :
           `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_condition = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2187,7 +2184,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_disaster = new
             "Road Slope Protection Structure Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type != '${ category[0] }'`); }).join(" AND ") :
           `rsm_category = 'Inventory of Road Slope Protection Structures' AND disaster_type = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2246,7 +2243,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
           `Road Slope Protection Structure with ${ category[0] }`,
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type != '${ category[0] }'`); }).join(" AND ") :
           `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_slope_structure_type = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2293,9 +2290,9 @@ const group_potential_road_slope_protection_projects = new GroupLayer({
           `Potential Road Slope ${ category[0] } Project`,
         url: url_road_slopes_and_countermeasures,
         definitionExpression: category[0] === "Unclassified" ?
-          "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_protection_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work <> '${ category[0] }'`); }).join(" AND ") :
+          "rsm_category = 'Inventory of Road Slope' AND " + array_potential_road_slope_protection_projects.map(function (category) { return (category[0] === "Unclassified" ? null : `type_of_work != '${ category[0] }'`); }).join(" AND ") :
           category[0] === "Rehabilitation or Major Repair" ? 
-            "rsm_category = 'Inventory of Road Slope' AND type_of_work <> 'Reconstruction' AND type_of_work <> 'Construction'" :
+            "rsm_category = 'Inventory of Road Slope' AND type_of_work != 'Reconstruction' AND type_of_work != 'Construction'" :
             `rsm_category = 'Inventory of Road Slope' AND type_of_work = '${ category[0] }'`,
         renderer: {
           type: "simple",
@@ -2326,7 +2323,7 @@ const group_potential_road_slope_protection_projects = new GroupLayer({
 var view = null;
 
 function build_view(viewMode) {
-  view_layer(sessionStorage.getItem("moduleSelected"), sessionStorage.getItem("yearSelected"));
+  view_layer(sessionStorage.getItem("moduleSelected"), sessionStorage.getItem("yearSelected") ?? new Date().getFullYear());
 
   const widget_info_container = document.createElement("div");
 
@@ -2460,7 +2457,7 @@ function build_view(viewMode) {
           save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
         })
         .catch(function (error) {
-          console.error(error);
+          // console.error(error);
         });
     }
   });
@@ -2660,7 +2657,7 @@ export function MapComponent () {
               }
             })
             .catch(function (error) {
-              console.error(error);
+              // console.error(error);
             });
         }
     });
@@ -2675,12 +2672,14 @@ export function MapComponent () {
   );
 }
 
-export function view_layer (module, year) {
+export function view_layer (module, filterLevel05Selected) {
   let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
   let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
-  String.prototype.toProperCase = function () {
-    return (this.replace(/\w+\S|.\s/g, function (text) {
+  let year = filterLevel05Selected ?? new Date().getFullYear();
+
+  function parseString (string) {
+    return (string.replace(/\w+\S|.\s/g, function (text) {
       if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
         return (text.toLowerCase());
       }
@@ -2702,34 +2701,33 @@ export function view_layer (module, year) {
   if (view && !view.loading) {
     view
       .when(function () {
-        while (view.map.layers.length > 0) {
-          view.map.layers.pop(); 
-        }
-
+        view.map.removeAll()
+      })
+      .then(function () {
         /* Reference Data */
 
         layer_national_road_network.definitionExpression =
-          deo && deo !== "null" ? `DEO = '${ deo }'` :
-          region && region !=="null" ? `REGION = '${ region }'`:
+          deo ? `DEO = '${ deo }'` :
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_national_expressways.definitionExpression =
-          deo && deo !== "null" ? `DEO = '${ deo }'` :
-          region && region !=="null" ? `REGION = '${ region }'`:
+          deo ? `DEO = '${ deo }'` :
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         /* Administrative Boundaries */
 
         layer_municipalities_cities.definitionExpression =
-          deo && deo !== "null" ? `DEO = '${ deo }'` :
-          region && region !=="null" ? `REGION = '${ region }'`:
+          deo ? `DEO = '${ deo }'` :
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_municipalities_cities
           .queryFeatures({
             where:
-              deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region !=="null" ? `REGION = '${ region }'`:
+              deo ? `DEO = '${ deo }'` :
+              region ? `REGION = '${ region }'`:
               "1 = 1",
             returnGeometry: false,
             outFields: ["*"]
@@ -2739,7 +2737,7 @@ export function view_layer (module, year) {
               const array = response.features.map(function (feature) {
                 return ({
                   value: feature.attributes.MUNICIPAL,
-                  label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ feature.attributes.PROVINCE.toProperCase() }`,
+                  label: `${ feature.attributes.MUNICIPAL.toUpperCase() }, ${ parseString(feature.attributes.PROVINCE) }`,
                   symbol: {
                     type: "simple-fill",
                     color:
@@ -2772,17 +2770,17 @@ export function view_layer (module, year) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
 
         layer_provinces.definitionExpression =
-          region && region !=="null" ? `REGION = '${ region }'`:
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_provinces
           .queryFeatures({
             where:
-              region && region !=="null" ? `REGION = '${ region }'`:
+              region ? `REGION = '${ region }'`:
               "1 = 1",
             returnGeometry: false,
             outFields: ["*"]
@@ -2792,7 +2790,7 @@ export function view_layer (module, year) {
               const array = response.features.map(function (feature) {
                 return ({
                   value: feature.attributes.PROVINCE,
-                  label: `${ feature.attributes.PROVINCE.toProperCase() }`,
+                  label: `${ parseString(feature.attributes.PROVINCE) }`,
                   symbol: {
                     type: "simple-fill",
                     color:
@@ -2825,17 +2823,17 @@ export function view_layer (module, year) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
 
         layer_legislative_districts.definitionExpression =
-          region && region !=="null" ? `REGION = '${ region }'`:
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_legislative_districts
           .queryFeatures({
             where:
-              region && region !=="null" ? `REGION = '${ region }'`:
+              region ? `REGION = '${ region }'`:
               "1 = 1",
             returnGeometry: false,
             outFields: ["*"]
@@ -2845,7 +2843,7 @@ export function view_layer (module, year) {
               const array = response.features.map(function (feature) {
                 return ({
                   value: feature.attributes.CONG_DIST,
-                  label: `${ feature.attributes.CONG_DIST.toProperCase() }`,
+                  label: `${ parseString(feature.attributes.CONG_DIST) }`,
                   symbol: {
                     type: "simple-fill",
                     color:
@@ -2878,19 +2876,19 @@ export function view_layer (module, year) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
 
         layer_engineering_districts.definitionExpression =
-          deo && deo !== "null" ? `DEO = '${ deo }'` :
-          region && region !=="null" ? `REGION = '${ region }'`:
+          deo ? `DEO = '${ deo }'` :
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_engineering_districts
           .queryFeatures({
             where:
-              deo && deo !== "null" ? `DEO = '${ deo }'` :
-              region && region !=="null" ? `REGION = '${ region }'`:
+              deo ? `DEO = '${ deo }'` :
+              region ? `REGION = '${ region }'`:
               "1 = 1",
             returnGeometry: false,
             outFields: ["*"]
@@ -2900,7 +2898,7 @@ export function view_layer (module, year) {
               const array = response.features.map(function (feature) {
                 return ({
                   value: feature.attributes.DEO,
-                  label: `${ feature.attributes.DEO.toProperCase() }`,
+                  label: `${ parseString(feature.attributes.DEO) }`,
                   symbol: {
                     type: "simple-fill",
                     color:
@@ -2933,17 +2931,17 @@ export function view_layer (module, year) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
 
         layer_regions.definitionExpression =
-          region && region !=="null" ? `REGION = '${ region }'`:
+          region ? `REGION = '${ region }'`:
           "1 = 1";
 
         layer_regions
           .queryFeatures({
             where:
-              region && region !=="null" ? `REGION = '${ region }'`:
+              region ? `REGION = '${ region }'`:
               "1 = 1",
             returnGeometry: false,
             outFields: ["*"]
@@ -2986,36 +2984,36 @@ export function view_layer (module, year) {
             }
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
 
         /* Common Data */
 
         for (const layer of group_kilometer_posts.layers) {
           layer.definitionExpression =
-            deo && deo !== "null" ? `DEO = '${ deo }'` :
-            region && region !=="null" ? `REGION = '${ region }'`:
+            deo ? `DEO = '${ deo }'` :
+            region ? `REGION = '${ region }'`:
             "1 = 1";
         }
 
         for (const layer of group_volume_of_traffic.layers) {
           layer.definitionExpression =
-            deo && deo !== "null" ? `DEO = '${ deo }'` :
-            region && region !=="null" ? `REGION = '${ region }'`:
+            deo ? `DEO = '${ deo }'` :
+            region ? `REGION = '${ region }'`:
             "1 = 1";
         }
 
         for (const layer of group_terrain.layers) {
           layer.definitionExpression =
-            deo && deo !== "null" ? `district_n = '${ deo }'` :
-            region && region !=="null" ? `region_nam = '${ region }'`:
+            deo ? `district_n = '${ deo }'` :
+            region ? `region_nam = '${ region }'`:
             "1 = 1";
         }
 
         for (const layer of group_road_classification.layers) {
           layer.definitionExpression =
-            deo && deo !== "null" ? `DEO = '${ deo }'` :
-            region && region !=="null" ? `REGION = '${ region }'`:
+            deo ? `DEO = '${ deo }'` :
+            region ? `REGION = '${ region }'`:
             "1 = 1";
         }
 
@@ -3030,23 +3028,18 @@ export function view_layer (module, year) {
 
         if (module === "summary") {
           layer_road_slope_hazards.definitionExpression =
-            deo && deo !== "null" ? `deo_name = '${ deo }'` :
-            region && region !=="null" ? `region_name = '${ region }'`:
-            "1 = 1";
-
-          layer_road_slopes_and_countermeasures.definitionExpression =
-            deo && deo !== "null" ? `deo_name = '${ deo }'` :
-            region && region !=="null" ? `region_name = '${ region }'`:
+            deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+            region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
             "1 = 1";
 
           layer_inventory_of_road_slopes.definitionExpression =
-            deo && deo !== "null" ? `deo_name = '${ deo }'` :
-            region && region !=="null" ? `region_name = '${ region }'`:
+            deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+            region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
             "1 = 1";
 
           layer_inventory_of_road_slope_protection_structures.definitionExpression =
-            deo && deo !== "null" ? `deo_name = '${ deo }'` :
-            region && region !=="null" ? `region_name = '${ region }'`:
+            deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+            region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
             "1 = 1";
 
           view.map.layers.push(layer_inventory_of_road_slope_protection_structures);
@@ -3055,12 +3048,14 @@ export function view_layer (module, year) {
           view.map.layers.push(layer_road_slope_hazards);
         }
         else if (module === "road-slope-hazards") {
-          for (const layer of group_road_slope_hazards.layers) {
-            layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
-              "1 = 1";
-          }
+          console.table(group_road_slope_hazards);
+
+          // for (const layer of group_road_slope_hazards.layers) {
+          //   layer.definitionExpression =
+          //     deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+          //     region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
+          //     "1 = 1";
+          // }
 
           // No variable equivalent for REGION and DEO for hazard data from Project NOAH.
 
@@ -3073,36 +3068,36 @@ export function view_layer (module, year) {
         else if (module === "road-slope-inventory") {
           for (const layer of group_inventory_of_road_slopes_type_of_disaster.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
           
           for (const layer of group_inventory_of_road_slopes_type_of_road_slope_protection_structure.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_road_slope_condition.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_type_of_disaster.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
 
@@ -3116,8 +3111,8 @@ export function view_layer (module, year) {
         else if (module === "potential-road-slope-protection-projects") {
           for (const layer of group_potential_road_slope_protection_projects.layers) {
             layer.definitionExpression =
-              deo && deo !== "null" ? `deo_name = '${ deo }'` :
-              region && region !=="null" ? `region_name = '${ region }'`:
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
               "1 = 1";
           }
 
@@ -3125,7 +3120,7 @@ export function view_layer (module, year) {
         }
       })
       .then(function () {
-        if (deo && deo !== "null") {
+        if (deo) {
           Promise
             .all(
               [layer_engineering_districts]
@@ -3164,10 +3159,10 @@ export function view_layer (module, year) {
               }
             })
             .catch(function (error) {
-              console.error(error);
+              // console.error(error);
             });
         }
-        else if (region && region !== "null") {
+        else if (region) {
           Promise
             .all(
               [layer_regions]
@@ -3206,7 +3201,7 @@ export function view_layer (module, year) {
               }
             })
             .catch(function (error) {
-              console.error(error);
+              // console.error(error);
             });
         }
         else {
@@ -3248,24 +3243,24 @@ export function view_layer (module, year) {
               }
             })
             .catch(function (error) {
-              console.error(error);
+              // console.error(error);
             });
         }
 
       })
       .catch(function (error) {
-        console.error(error);
+        // console.error(error);
       });
   }
 }
 
 var highlights = [];
 
-export async function focus_map (type, attributes, string, year) {
+export async function focus_map (type, reference_layers, attributes, string, filterLevel05Selected) {
   let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
   let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
-  let module = sessionStorage.getItem("moduleSelected");
+  let year = filterLevel05Selected ?? new Date().getFullYear();
   
   /* This resets the highlighted features of the map. */
 
@@ -3317,7 +3312,7 @@ export async function focus_map (type, attributes, string, year) {
             region && fields.includes("region_name") ? `region_name = '${ region }'` : null,
             deo && fields.includes("DEO") ? `DEO = '${ deo }'` : null,
             deo && fields.includes("deo_name") ? `deo_name = '${ deo }'` : null,
-            // fields.includes("survey_date") ? `survey_date >= ${ new Date(year, 1, 1).valueOf() } AND survey_date < ${ new Date(year + 1, 1, 1).valueOf() }` : null
+            fields.includes("survey_date") ? `survey_date >= TIMESTAMP '${ year }-01-01 00:00:00' AND survey_date < TIMESTAMP '${ year + 1 }-01-01 00:00:00'` : null
           ]
             .filter(function (item) {
               return (item);
@@ -3346,22 +3341,9 @@ export async function focus_map (type, attributes, string, year) {
               });
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       });
-
-    let reference_layers =
-      type === 0 ? [layer_national_road_network, layer_national_expressways] :
-      type === 1 ? [layer_regions] :
-      type === 2 ? [layer_engineering_districts] :
-      type === 3 ? [layer_legislative_districts] :
-      type === 4 ?
-        module === "summary" ? [layer_road_slope_hazards, layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures] :
-        module === "road-slope-hazards" ? [layer_road_slope_hazards] :
-        module === "road-slope-inventory" || module === "potential-road-slope-protection-projects" ? [layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures] :
-        [layer_national_road_network, layer_national_expressways]
-        :
-      [layer_national_road_network, layer_national_expressways];
 
     return (
       Promise
@@ -3399,7 +3381,7 @@ export async function focus_map (type, attributes, string, year) {
                   region && fields.includes("region_name") ? `region_name = '${ region }'` : null,
                   deo && fields.includes("DEO") ? `DEO = '${ deo }'` : null,
                   deo && fields.includes("deo_name") ? `deo_name = '${ deo }'` : null,
-                  // fields.includes("survey_date") ? `survey_date >= ${ new Date(year, 1, 1).valueOf() } AND survey_date < ${ new Date(year + 1, 1, 1).valueOf() }` : null
+                  fields.includes("survey_date") ? `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` : null
                 ]
                   .filter(function (item) {
                     return (item);
@@ -3441,12 +3423,12 @@ export async function focus_map (type, attributes, string, year) {
                           }
                         })
                         .catch(function (error) {
-                          console.error(error);
+                          // console.error(error);
                         });
                     }
                   })
                   .catch(function (error) {
-                    console.error(error);
+                    // console.error(error);
                   });
               }
 
@@ -3481,55 +3463,77 @@ export async function focus_map (type, attributes, string, year) {
               });
 
             view.goTo(extent.expand(1.25));
+            
+            return (null);
           }
           else {
-            Promise
-              .all(
-                reference_layers
-                  .map(function (layer) {
-                    return (
-                      layer
-                        .queryExtent({
-                          where: "1 = 1",
-                          returnGeometry: true,
-                          outFields: ["*"]
-                        })
-                        .then(function (response) {
-                          return (response.extent);
-                        })
-                    );
-                  })
-              )
-              .then(function (raw_extent_array) {
-                /* This sets the extent of the map according to the highlighted features. */
+            let default_layers =
+              deo ? [layer_engineering_districts] :
+              region ? [layer_regions] :
+              reference_layers;
+              
+            return (
+              Promise
+                .all(
+                  default_layers
+                    .map(function (layer) {
+                      let fields = layer.fields.map(function (field) {return (field.name); });
 
-                let extent_array = 
-                  raw_extent_array
-                    .filter(function (item) {
-                      return (item);
-                    });
+                      let spacetime_query =
+                        [
+                          region && fields.includes("REGION") ? `REGION = '${ region }'` : null,
+                          region && fields.includes("region_name") ? `region_name = '${ region }'` : null,
+                          deo && fields.includes("DEO") ? `DEO = '${ deo }'` : null,
+                          deo && fields.includes("deo_name") ? `deo_name = '${ deo }'` : null,
+                          fields.includes("survey_date") ? `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` : null
+                        ]
+                          .filter(function (item) {
+                            return (item);
+                          })
+                          .join(" AND ");
 
-                if (extent_array.length > 0) {
-                  var extent = extent_array[0];
+                      return (
+                        layer
+                          .queryExtent({
+                            where: spacetime_query?.length > 0 ? spacetime_query : "1 = 1",
+                            returnGeometry: true,
+                            outFields: ["*"]
+                          })
+                          .then(function (response) {
+                            return (response.extent);
+                          })
+                      );
+                    })
+                )
+                .then(function (raw_extent_array) {
+                  /* This sets the extent of the map according to the highlighted features. */
 
-                  extent_array
-                    .forEach(function (new_extent) {
-                      extent = extent.union(new_extent);
-                    });
+                  let extent_array = 
+                    raw_extent_array
+                      .filter(function (item) {
+                        return (item);
+                      });
 
-                  view.goTo(extent.expand(1.25));
-                }
-              })
-              .catch(function (error) {
-                console.error(error);
-              });
+                  if (extent_array.length > 0) {
+                    var extent = extent_array[0];
+
+                    extent_array
+                      .forEach(function (new_extent) {
+                        extent = extent.union(new_extent);
+                      });
+
+                    view.goTo(extent.expand(1.25));
+                  }
+                })
+                .catch(function (error) {
+                  // console.error(error);
+                })
+            );
           }
-
-          return (null);
         })
         .catch(function (error) {
           return (null);
-          console.error(error);
+          // console.error(error);
         })
     );
   }
@@ -3547,7 +3551,7 @@ export function close_popup () {
             view.popup.visible = false;
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });    
@@ -3565,7 +3569,7 @@ export function open_popup (features) {
             });
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });     
@@ -3580,7 +3584,7 @@ export function recenter_map (extent) {
             view.goTo(extent.expand(1.25));
           })
           .catch(function (error) {
-            console.error(error);
+            // console.error(error);
           });
       }
     });     

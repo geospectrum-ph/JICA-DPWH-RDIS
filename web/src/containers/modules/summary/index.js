@@ -47,7 +47,7 @@ export default function Summary () {
 
   React.useEffect(function () {
     view_layer("summary", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   const RADIAN = Math.PI / 180;
 

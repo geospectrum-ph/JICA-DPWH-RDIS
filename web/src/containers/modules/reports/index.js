@@ -59,7 +59,7 @@ export default function Reports() {
 
   React.useEffect(function () {
     view_layer("reports", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
   const [arrayRoadSlopesAndCountermeasures, setArrayRoadSlopesAndCountermeasures] = React.useState([]);

@@ -31,13 +31,13 @@ export default function RoadSlopeInventory () {
 
   React.useEffect(function () {
     view_layer("road-slope-inventory", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   const sublevels = [
-    function ({ attributes }) { return (attributes.road_classification || "Unclassified Roads"); },
-    function ({ attributes }) { return (attributes.road_name || "Unclassified Roads"); },
-    function ({ attributes }) { return (attributes.section_id || "Unclassified Roads"); },
-    function ({ attributes }) { return (attributes.survey_side || "Unclassified Roads"); }
+    function ({ attributes }) { return (attributes.road_classification ?? "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.road_name ?? "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.section_id ?? "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.survey_side ?? "Unclassified Roads"); }
   ];
 
   function filter_data_road_condition (array, filters) {
@@ -145,11 +145,11 @@ export default function RoadSlopeInventory () {
     else { depth = 0; }
 
     function find_road (value) {
-      const expression = "globalid = '" + value + "'";
+      const expression = value ? "globalid = '" + value + "'" : null;
   
       layer_road_slopes_and_countermeasures
         .queryFeatures({
-          where: expression || "1 = 0",
+          where: expression ?? "1 = 0",
           returnGeometry: true,
           outFields: ["*"]
         })

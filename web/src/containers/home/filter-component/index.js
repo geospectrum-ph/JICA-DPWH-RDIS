@@ -6,21 +6,21 @@ import {
   layer_national_road_network,
   layer_national_expressways,
   layer_regions,
-  layer_legislative_districts,
   layer_engineering_districts,
+  layer_legislative_districts,
   layer_road_slope_hazards,
   layer_road_slopes_and_countermeasures,
-  close_popup,
-  focus_map,
   layer_inventory_of_road_slopes,
   layer_inventory_of_road_slope_protection_structures,
+  close_popup,
+  focus_map,
+  view_layer,
 } from "../map-component";
 
 import "./index.css";
 
 export default function FilterComponent () {
   const {
-    dataSource, setDataSource,
     setDataArray,
     dataLoading, setDataLoading,
     setDataTimestamp,
@@ -69,382 +69,13 @@ export default function FilterComponent () {
   const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null); // layer_national_road_network + layer_national_expressways
   const [dataSourceBuffer02, setDataSourceBuffer02] = React.useState(null); // layer_road_slope_hazards
   const [dataSourceBuffer03, setDataSourceBuffer03] = React.useState(null); // layer_road_slopes_and_countermeasures
-  
-  const arrayRoadSlopeHazardsBuffer = [
-    {
-      name: "High",
-      total: 0,
-      filtered: 0,
-      color: "rgba(255, 0, 0, 1.00)"
-    },
-    {
-      name: "Middle",
-      total: 0,
-      filtered: 0,
-      color: "rgba(255, 255, 0, 1.00)"
-    },
-    {
-      name: "Low",
-      total: 0,
-      filtered: 0, 
-      color: "rgba(0, 176, 80, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    }
-  ];
-
-  const arrayRoadSlopesTypeOfDisasterBuffer = [
-    {
-      name: "Soil Slope Collapse",
-      total: 0,
-      filtered: 0,
-      color: "rgba(249, 65, 68, 1.00)"
-    }, 
-    {
-      name: "Rock Slope Collapse or Rock Fall",
-      total: 0,
-      filtered: 0,
-      color: "rgba(243, 114, 44, 1.00)"
-    },
-    {
-      name: "Landslide",
-      total: 0,
-      filtered: 0,
-      color: "rgba(248, 150, 30, 1.00)"
-    },
-    {
-      name: "Road Slip",
-      total: 0,
-      filtered: 0,
-      color: "rgba(249, 199, 79, 1.00)"
-    },
-    {
-      name: "River Erosion",
-      total: 0,
-      filtered: 0,
-      color: "rgba(144, 190, 109, 1.00)"
-    },
-    {
-      name: "Debris Flow",
-      total: 0,
-      filtered: 0,
-      color: "rgba(67, 170, 139, 1.00)"
-    },
-    {
-      name: "Coastal Erosion",
-      total: 0,
-      filtered: 0,
-      color: "rgba(87, 117, 144, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    } 
-  ];
-
-  const arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer = [
-    {
-      name: "Grouted Riprap", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(138, 22, 177, 1.00)"
-    },
-    {
-      name: "Grouted Riprap with Steel Sheet Pile Foundation", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(138, 22, 177, 1.00)"
-    },
-    {
-      name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(199, 26, 176, 1.00)"
-    },
-    {
-      name: "Rubble Concrete Revetment (Spread Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(220, 30, 122, 1.00)"
-    },
-    {
-      name: "Stone Masonry", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(161, 19, 24, 1.00)"
-    },
-    {
-      name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(182, 75, 23, 1.00)"
-    },
-    {
-      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(204, 153, 27, 1.00)"
-    },
-    {
-      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(206, 224, 32, 1.00)"
-    },
-    {
-      name: "Gravity Wall (Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(87, 166, 20, 1.00)"
-    },
-    {
-      name: "Gabion/Mattress Slope Protection", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(36, 188, 24, 1.00)"
-    },
-    {
-      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(28, 209, 84, 1.00)"
-    },
-    {
-      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(38, 225, 167, 1.00)"
-    },
-    {
-      name: "Earthfill Dike (Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(21, 151, 172, 1.00)"
-    },
-    {
-      name: "Boulder Spur Dike (Type II)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(25, 106, 193, 1.00)"
-    },
-    {
-      name: "Gabions Revetment (Pile-Up Type)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(29, 47, 215, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    }
-  ];
-
-  const arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer = [
-    {
-      name: "Good",
-      total: 0,
-      filtered: 0,
-      color: "rgba(153, 255, 153, 1.00)"
-    },
-    {
-      name: "Fair",
-      total: 0,
-      filtered: 0,
-      color: "rgba(0, 204, 255, 1.00)"
-    },
-    {
-      name: "Poor",
-      total: 0,
-      filtered: 0,
-      color: "rgba(255, 153, 51, 1.00)"
-    },
-    {
-      name: "Bad",
-      total: 0,
-      filtered: 0,
-      color: "rgba(204, 102, 0, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    }
-  ];
-
-  const arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer = [
-    {
-      name: "Soil Slope Collapse",
-      total: 0,
-      filtered: 0,
-      color: "rgba(249, 65, 68, 1.00)"
-    }, 
-    {
-      name: "Rock Slope Collapse or Rock Fall",
-      total: 0,
-      filtered: 0,
-      color: "rgba(243, 114, 44, 1.00)"
-    },
-    {
-      name: "Landslide",
-      total: 0,
-      filtered: 0,
-      color: "rgba(248, 150, 30, 1.00)"
-    },
-    {
-      name: "Road Slip",
-      total: 0,
-      filtered: 0,
-      color: "rgba(249, 199, 79, 1.00)"
-    },
-    {
-      name: "River Erosion",
-      total: 0,
-      filtered: 0,
-      color: "rgba(144, 190, 109, 1.00)"
-    },
-    {
-      name: "Debris Flow",
-      total: 0,
-      filtered: 0,
-      color: "rgba(67, 170, 139, 1.00)"
-    },
-    {
-      name: "Coastal Erosion",
-      total: 0,
-      filtered: 0,
-      color: "rgba(87, 117, 144, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    } 
-  ];
-
-  const arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer = [
-    {
-      name: "Grouted Riprap", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(138, 22, 177, 1.00)"
-    },
-    {
-      name: "Grouted Riprap with Steel Sheet Pile Foundation", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(138, 22, 177, 1.00)"
-    },
-    {
-      name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(199, 26, 176, 1.00)"
-    },
-    {
-      name: "Rubble Concrete Revetment (Spread Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(220, 30, 122, 1.00)"
-    },
-    {
-      name: "Stone Masonry", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(161, 19, 24, 1.00)"
-    },
-    {
-      name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(182, 75, 23, 1.00)"
-    },
-    {
-      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(204, 153, 27, 1.00)"
-    },
-    {
-      name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(206, 224, 32, 1.00)"
-    },
-    {
-      name: "Gravity Wall (Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(87, 166, 20, 1.00)"
-    },
-    {
-      name: "Gabion/Mattress Slope Protection", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(36, 188, 24, 1.00)"
-    },
-    {
-      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(28, 209, 84, 1.00)"
-    },
-    {
-      name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(38, 225, 167, 1.00)"
-    },
-    {
-      name: "Earthfill Dike (Type I)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(21, 151, 172, 1.00)"
-    },
-    {
-      name: "Boulder Spur Dike (Type II)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(25, 106, 193, 1.00)"
-    },
-    {
-      name: "Gabions Revetment (Pile-Up Type)", 
-      total: 0,
-      filtered: 0,
-      color: "rgba(29, 47, 215, 1.00)"
-    },
-    {
-      name: "Unclassified",
-      total: 0,
-      filtered: 0,
-      color: "rgba(191, 191, 191, 1.00)"
-    }
-  ];
 
   const [dataLoader01, setDataLoader01] = React.useState(false);
   const [dataLoader02, setDataLoader02] = React.useState(false);
   const [dataLoader03, setDataLoader03] = React.useState(false);
+  const [dataLoader04, setDataLoader04] = React.useState(false);
 
   React.useEffect(function () {
-    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03) {
-      setDataLoading(false);
-
-      setDataTimestamp(new Date().toString());
-    }
-  }, [dataLoader01, dataLoader02, dataLoader03]);
-
-  function initialize_summary () {
-    setDataLoading(true);
-
     setDataLoader01(true);
 
     layer_national_road_network
@@ -491,14 +122,46 @@ export default function FilterComponent () {
 
         // console.log(error);
       });
+  }, [setFilteredRoadInventory, setTotalRoadInventory]);
+
+  React.useEffect(function () {
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+    const arrayRoadSlopeHazardsBuffer = [
+      {
+        name: "High",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 0, 0, 1.00)"
+      },
+      {
+        name: "Middle",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 255, 0, 1.00)"
+      },
+      {
+        name: "Low",
+        total: 0,
+        filtered: 0, 
+        color: "rgba(0, 176, 80, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
 
     setDataLoader02(true);
 
     layer_road_slope_hazards
       .queryFeatures({
         where:
-          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
+          deo ? `deo_name = '${ deo }'` :
+          region ? `region_name = '${ region }'`:
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -507,12 +170,12 @@ export default function FilterComponent () {
         if (response?.features) {          
           setDataSourceBuffer02(response.features);
 
-          setFilteredRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
-          setTotalRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
+          setFilteredRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }).length);
+          setTotalRoadSlopeHazardsInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }).length);
 
           let arrayRoadSlopeHazardsBuffer_ = arrayRoadSlopeHazardsBuffer;
 
-          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); })) {
+          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); })) {
             if (arrayRoadSlopeHazardsBuffer_.map(function (item) { return (item.name); }).indexOf(feature.attributes.hazard_risk) < 0) {
               let index = arrayRoadSlopeHazardsBuffer_.length - 1;
               let value = arrayRoadSlopeHazardsBuffer_[index].total;
@@ -546,14 +209,352 @@ export default function FilterComponent () {
 
         // console.log(error);
       });
+  }, [filterLevel05Selected, setArrayRoadSlopeHazards, setFilteredRoadSlopeHazardsInventory, setTotalRoadSlopeHazardsInventory]);
+
+  React.useEffect(function () {
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+    const arrayRoadSlopesTypeOfDisasterBuffer = [
+      {
+        name: "Soil Slope Collapse",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 65, 68, 1.00)"
+      }, 
+      {
+        name: "Rock Slope Collapse or Rock Fall",
+        total: 0,
+        filtered: 0,
+        color: "rgba(243, 114, 44, 1.00)"
+      },
+      {
+        name: "Landslide",
+        total: 0,
+        filtered: 0,
+        color: "rgba(248, 150, 30, 1.00)"
+      },
+      {
+        name: "Road Slip",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 199, 79, 1.00)"
+      },
+      {
+        name: "River Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(144, 190, 109, 1.00)"
+      },
+      {
+        name: "Debris Flow",
+        total: 0,
+        filtered: 0,
+        color: "rgba(67, 170, 139, 1.00)"
+      },
+      {
+        name: "Coastal Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 117, 144, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      } 
+    ];
+
+    const arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Grouted Riprap", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(199, 26, 176, 1.00)"
+      },
+      {
+        name: "Rubble Concrete Revetment (Spread Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(220, 30, 122, 1.00)"
+      },
+      {
+        name: "Stone Masonry", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(161, 19, 24, 1.00)"
+      },
+      {
+        name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(182, 75, 23, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 153, 27, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(206, 224, 32, 1.00)"
+      },
+      {
+        name: "Gravity Wall (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 166, 20, 1.00)"
+      },
+      {
+        name: "Gabion/Mattress Slope Protection", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(36, 188, 24, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(28, 209, 84, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(38, 225, 167, 1.00)"
+      },
+      {
+        name: "Earthfill Dike (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(21, 151, 172, 1.00)"
+      },
+      {
+        name: "Boulder Spur Dike (Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(25, 106, 193, 1.00)"
+      },
+      {
+        name: "Gabions Revetment (Pile-Up Type)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(29, 47, 215, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
+    const arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Good",
+        total: 0,
+        filtered: 0,
+        color: "rgba(153, 255, 153, 1.00)"
+      },
+      {
+        name: "Fair",
+        total: 0,
+        filtered: 0,
+        color: "rgba(0, 204, 255, 1.00)"
+      },
+      {
+        name: "Poor",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 153, 51, 1.00)"
+      },
+      {
+        name: "Bad",
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 102, 0, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
+    const arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer = [
+      {
+        name: "Soil Slope Collapse",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 65, 68, 1.00)"
+      }, 
+      {
+        name: "Rock Slope Collapse or Rock Fall",
+        total: 0,
+        filtered: 0,
+        color: "rgba(243, 114, 44, 1.00)"
+      },
+      {
+        name: "Landslide",
+        total: 0,
+        filtered: 0,
+        color: "rgba(248, 150, 30, 1.00)"
+      },
+      {
+        name: "Road Slip",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 199, 79, 1.00)"
+      },
+      {
+        name: "River Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(144, 190, 109, 1.00)"
+      },
+      {
+        name: "Debris Flow",
+        total: 0,
+        filtered: 0,
+        color: "rgba(67, 170, 139, 1.00)"
+      },
+      {
+        name: "Coastal Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 117, 144, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      } 
+    ];
+
+    const arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Grouted Riprap", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(199, 26, 176, 1.00)"
+      },
+      {
+        name: "Rubble Concrete Revetment (Spread Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(220, 30, 122, 1.00)"
+      },
+      {
+        name: "Stone Masonry", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(161, 19, 24, 1.00)"
+      },
+      {
+        name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(182, 75, 23, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 153, 27, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(206, 224, 32, 1.00)"
+      },
+      {
+        name: "Gravity Wall (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 166, 20, 1.00)"
+      },
+      {
+        name: "Gabion/Mattress Slope Protection", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(36, 188, 24, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(28, 209, 84, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(38, 225, 167, 1.00)"
+      },
+      {
+        name: "Earthfill Dike (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(21, 151, 172, 1.00)"
+      },
+      {
+        name: "Boulder Spur Dike (Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(25, 106, 193, 1.00)"
+      },
+      {
+        name: "Gabions Revetment (Pile-Up Type)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(29, 47, 215, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
 
     setDataLoader03(true);
 
     layer_road_slopes_and_countermeasures
       .queryFeatures({
         where:
-          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }' AND deo_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
+          deo ? `deo_name = '${ deo }'` :
+          region ? `region_name = '${ region }'`:
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -562,8 +563,8 @@ export default function FilterComponent () {
         if (response?.features) {
           setDataSourceBuffer03(response.features);
 
-          setFilteredRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
-          setTotalRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); }).length);
+          setFilteredRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }).length);
+          setTotalRoadSlopeInventory(response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }).length);
 
           let roadSlopesCounter = 0;
           let roadSlopeProtectionStructuresCounter = 0;
@@ -575,7 +576,7 @@ export default function FilterComponent () {
           let arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer;
           let arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_ = arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer;
 
-          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)); })) {
+          for (const feature of response.features.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); })) {
             if (feature.attributes.rsm_category === "Inventory of Road Slope") {
               roadSlopesCounter++;
 
@@ -699,20 +700,23 @@ export default function FilterComponent () {
 
         // console.log(error);
       });
-  }
+  }, [filterLevel05Selected, setArrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure, setArrayRoadSlopeProtectionStructuresTypeOfDisaster, setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure, setArrayRoadSlopesTypeOfDisaster, setArrayRoadSlopesTypeOfRoadSlopeProtectionStructure, setFilteredExistingRoadSlopeProtectionStructures, setFilteredNonExistingRoadSlopeProtectionStructures, setFilteredRoadSlopeInventory, setTotalExistingRoadSlopeProtectionStructures, setTotalNonExistingRoadSlopeProtectionStructures, setTotalRoadSlopeInventory]);
 
   /* Sets the working arrays of object references for the filter component. */
 
   const [filterArray, setFilterArray] = React.useState([]);
 
   React.useEffect(function () {
-    setDataLoading(true);
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+    setDataLoader04(true);
 
     layer_engineering_districts
       .queryFeatures({
         where:
-          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `REGION = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND DEO = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `REGION = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
+          deo ? `DEO = '${ deo }'` :
+          region ? `REGION = '${ region }'`:
           "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
@@ -747,20 +751,386 @@ export default function FilterComponent () {
           }
         }
 
-        setDataLoading(false);
+        setDataLoader04(false);
       })
       .catch(function (error) {
-        setDataLoading(false);
+        setDataLoader04(false);
 
         // console.log(error);
       });
-    
-    initialize_summary();
-  }, []);
+  }, [filterArray]);
 
-  /* Sets the values of the summary variables based on selected filters per module. */
+  React.useEffect(function () {
+    if (dataLoading && !dataLoader01 && !dataLoader02 && !dataLoader03 && !dataLoader04) {
+      setDataLoading(false);
 
-  function filter_summary (type, string) {
+      setDataTimestamp(new Date().toString());
+    }
+  }, [dataLoading, setDataLoading, setDataTimestamp, dataLoader01, dataLoader02, dataLoader03, dataLoader04]);
+
+  /* Sets the working dataset and the values of the summary variables based on selected filters per module. */
+
+  function filter_features (type, string) {
+    const arrayRoadSlopeHazardsBuffer = [
+      {
+        name: "High",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 0, 0, 1.00)"
+      },
+      {
+        name: "Middle",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 255, 0, 1.00)"
+      },
+      {
+        name: "Low",
+        total: 0,
+        filtered: 0, 
+        color: "rgba(0, 176, 80, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
+    const arrayRoadSlopesTypeOfDisasterBuffer = [
+      {
+        name: "Soil Slope Collapse",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 65, 68, 1.00)"
+      }, 
+      {
+        name: "Rock Slope Collapse or Rock Fall",
+        total: 0,
+        filtered: 0,
+        color: "rgba(243, 114, 44, 1.00)"
+      },
+      {
+        name: "Landslide",
+        total: 0,
+        filtered: 0,
+        color: "rgba(248, 150, 30, 1.00)"
+      },
+      {
+        name: "Road Slip",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 199, 79, 1.00)"
+      },
+      {
+        name: "River Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(144, 190, 109, 1.00)"
+      },
+      {
+        name: "Debris Flow",
+        total: 0,
+        filtered: 0,
+        color: "rgba(67, 170, 139, 1.00)"
+      },
+      {
+        name: "Coastal Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 117, 144, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      } 
+    ];
+
+    const arrayRoadSlopesTypeOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Grouted Riprap", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(199, 26, 176, 1.00)"
+      },
+      {
+        name: "Rubble Concrete Revetment (Spread Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(220, 30, 122, 1.00)"
+      },
+      {
+        name: "Stone Masonry", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(161, 19, 24, 1.00)"
+      },
+      {
+        name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(182, 75, 23, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 153, 27, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(206, 224, 32, 1.00)"
+      },
+      {
+        name: "Gravity Wall (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 166, 20, 1.00)"
+      },
+      {
+        name: "Gabion/Mattress Slope Protection", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(36, 188, 24, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(28, 209, 84, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(38, 225, 167, 1.00)"
+      },
+      {
+        name: "Earthfill Dike (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(21, 151, 172, 1.00)"
+      },
+      {
+        name: "Boulder Spur Dike (Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(25, 106, 193, 1.00)"
+      },
+      {
+        name: "Gabions Revetment (Pile-Up Type)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(29, 47, 215, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
+    const arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Good",
+        total: 0,
+        filtered: 0,
+        color: "rgba(153, 255, 153, 1.00)"
+      },
+      {
+        name: "Fair",
+        total: 0,
+        filtered: 0,
+        color: "rgba(0, 204, 255, 1.00)"
+      },
+      {
+        name: "Poor",
+        total: 0,
+        filtered: 0,
+        color: "rgba(255, 153, 51, 1.00)"
+      },
+      {
+        name: "Bad",
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 102, 0, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
+    const arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer = [
+      {
+        name: "Soil Slope Collapse",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 65, 68, 1.00)"
+      }, 
+      {
+        name: "Rock Slope Collapse or Rock Fall",
+        total: 0,
+        filtered: 0,
+        color: "rgba(243, 114, 44, 1.00)"
+      },
+      {
+        name: "Landslide",
+        total: 0,
+        filtered: 0,
+        color: "rgba(248, 150, 30, 1.00)"
+      },
+      {
+        name: "Road Slip",
+        total: 0,
+        filtered: 0,
+        color: "rgba(249, 199, 79, 1.00)"
+      },
+      {
+        name: "River Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(144, 190, 109, 1.00)"
+      },
+      {
+        name: "Debris Flow",
+        total: 0,
+        filtered: 0,
+        color: "rgba(67, 170, 139, 1.00)"
+      },
+      {
+        name: "Coastal Erosion",
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 117, 144, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      } 
+    ];
+
+    const arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer = [
+      {
+        name: "Grouted Riprap", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Steel Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(138, 22, 177, 1.00)"
+      },
+      {
+        name: "Grouted Riprap with Concrete Sheet Pile Foundation", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(199, 26, 176, 1.00)"
+      },
+      {
+        name: "Rubble Concrete Revetment (Spread Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(220, 30, 122, 1.00)"
+      },
+      {
+        name: "Stone Masonry", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(161, 19, 24, 1.00)"
+      },
+      {
+        name: "Concrete Slope Protection (Reinforced Concrete Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(182, 75, 23, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (2 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(204, 153, 27, 1.00)"
+      },
+      {
+        name: "Reinforced Concrete Revetment with Steel Sheet Pile Foundation (3 Berms)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(206, 224, 32, 1.00)"
+      },
+      {
+        name: "Gravity Wall (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(87, 166, 20, 1.00)"
+      },
+      {
+        name: "Gabion/Mattress Slope Protection", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(36, 188, 24, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Hydroseeding)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(28, 209, 84, 1.00)"
+      },
+      {
+        name: "Bio-Engineering Solutions (Coco-Net, Coco-Log & Vetiver Grass)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(38, 225, 167, 1.00)"
+      },
+      {
+        name: "Earthfill Dike (Type I)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(21, 151, 172, 1.00)"
+      },
+      {
+        name: "Boulder Spur Dike (Type II)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(25, 106, 193, 1.00)"
+      },
+      {
+        name: "Gabions Revetment (Pile-Up Type)", 
+        total: 0,
+        filtered: 0,
+        color: "rgba(29, 47, 215, 1.00)"
+      },
+      {
+        name: "Unclassified",
+        total: 0,
+        filtered: 0,
+        color: "rgba(191, 191, 191, 1.00)"
+      }
+    ];
+
     let filteredRoadInventoryBuffer =
       dataSourceBuffer01
         .filter(function (data) {
@@ -1137,225 +1507,125 @@ export default function FilterComponent () {
         });
 
     setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer_);
-  }
-
-  /* Sets the working dataset for the output component. */
-
-  function query_features (type, string) {
-    if (dataSource) {
-      const data_buffer =
-        dataSource
-          .filter(function (data) {
-            if (type === 0 || type === 5) {
-              return (
-                Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (string || new Date().getFullYear())
-              );
-            }
-            if (type === 1) {
-              return (
-                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("REGION") && data.attributes.REGION === (string || (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected)) ||
-                (Object(data.attributes).hasOwnProperty("region_name") && data.attributes.region_name === (string || (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected)))
-              );
-            }
-            else if (type === 2) {
-              return (
-                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("DEO") && data.attributes.DEO === (string || (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected)) ||
-                (Object(data.attributes).hasOwnProperty("deo_name") && data.attributes.deo_name === (string || (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected)))
-              );
-            }
-            else if (type === 3) {
-              return (
-                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("CONG_DIST") && data.attributes.CONG_DIST === (string || filterLevel03Selected)) ||
-                (Object(data.attributes).hasOwnProperty("district_name") && data.attributes.district_name === (string || filterLevel03Selected)))
-              );
-            }
-            else if (type === 4) {
-              return (
-                (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === (filterLevel05Selected)) &&
-                ((Object(data.attributes).hasOwnProperty("ROAD_ID") && data.attributes.ROAD_ID.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("ROAD_NAME") && data.attributes.ROAD_NAME.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("SECTION_ID") && data.attributes.SECTION_ID.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("road_id") && data.attributes.road_id.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("road_name") && data.attributes.road_name.includes(string || filterLevel04Selected)) ||
-                (Object(data.attributes).hasOwnProperty("section_id") && data.attributes.section_id.includes(string || filterLevel04Selected)))
-              );
-            }
-            else {
-              return (false);
-            }
-          });
-
-      setDataArray(data_buffer);
-    }
-
-    if (dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) {
-      filter_summary(type, string);
-    }
     
     setDataLoading(false);
+    setDataLoader01(false);
   }
 
   /* Filter handlers. */
 
-  function clear_filter (type) {    
-    // setDataLoading(true);
+  function clear_filter (type) {
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
-    if (type === 1) {
-      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
-        setFilterLevel01Selected(null);
-      }
-      else {
-        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
-      }
-
-      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
-        setFilterLevel02Selected(null);
-      }
-      else {
-        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
-      }
-
-      setFilterLevel03Selected(null);
-      
-      setFilterLevel04Selected(null);
-      
-      focus_map(
-          0, // type
-          null, // attributes
-          null, // string
-          filterLevel05Selected // year
-        )
-        .then(function (response) {
-        })
-        .catch(function (error) {
-          setDataLoading(false);
-        });
-
-      query_features(0, null);
-    }
-    else if (type === 2) {
-      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
-        setFilterLevel02Selected(null);
-      }
-      else {
-        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
-      }
-
-      setFilterLevel03Selected(null);
-
-      setFilterLevel04Selected(null);
-
-      if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
-        focus_map(
-            1, // type
-            ["REGION", "region_name"], // attributes
-            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
-            filterLevel05Selected // year
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
-
-        query_features(1, (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected);
-      }
-      else {
-        focus_map(
-            0, // type
-            null, // attributes
-            null, // string
-            filterLevel05Selected // year
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
-
-        query_features(0, null);
-      }
-    }
-    else if (type === 3) {
-      setFilterLevel03Selected(null);
-
-      setFilterLevel04Selected(null);
-
-      if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected) {
-        focus_map(
-            2, // type
-            ["DEO", "deo_name"], //atributes
-            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected, // string
-            filterLevel05Selected // year
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
-
-        query_features(2, (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected);
-      }
-      else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected) {
-        focus_map(
-            1, // type
-            ["REGION", "region_name"], // attributes
-            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected, // string
-            filterLevel05Selected // year
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
-
-        query_features(1, (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected);
-      }
-      else {
-        focus_map(
-            0, // type
-            null, // attributes
-            null, // string
-            filterLevel05Selected // year
-          )
-          .then(function (response) {
-          })
-          .catch(function (error) {
-            setDataLoading(false);
-          });
-
-        query_features(0, null);
-      }
-    }
-  }
-  
-  function select_filter (type, string) {
     setDataLoading(true);
 
     close_popup();
 
     if (type === 1) {
-      setFilterLevel01Selected(string);
-
-      setFilterLevel02Selected(null);
-      
+      setFilterLevel01Selected(region);
+      setFilterLevel02Selected(deo);
       setFilterLevel03Selected(null);
-      
       setFilterLevel04Selected(null);
-
-      focus_map(
-          1, // type
-          ["REGION", "region_name"], // attributes
-          string, // string
-          filterLevel05Selected // year
-        )
+      
+      focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
           setDataLoading(false);
+          setDataLoader01(false);
+        });
+      
+      filter_features(0, null);
+    }
+    else if (type === 2) {
+      setFilterLevel02Selected(deo);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      if (region || filterLevel01Selected) {
+        focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+
+        filter_features(1, region ?? filterLevel01Selected);
+      }
+      else {
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+
+        filter_features(0, null);
+      }
+    }
+    else if (type === 3) {
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      if (deo || filterLevel02Selected) {
+        focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? filterLevel02Selected, filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+        
+        filter_features(2, deo ?? filterLevel02Selected);
+      }
+      else if (region || filterLevel01Selected) {
+        focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+
+        filter_features(1, region ?? filterLevel01Selected);
+      }
+      else {
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+
+        filter_features(0, null);
+      }
+    }
+  }
+  
+  function select_filter (type, string) {
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+    setDataLoading(true);
+
+    close_popup();
+
+    if (type === 1) {
+      setFilterLevel01Selected(region ?? string ?? filterLevel01Selected);
+      setFilterLevel02Selected(deo ?? null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+
+      focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? string ?? filterLevel01Selected, filterLevel05Selected)
+        .then(function (response) {
+        })
+        .catch(function (error) {
+          setDataLoading(false);
+          setDataLoader01(false);
         });
     }
     else if (type === 2) {
@@ -1366,29 +1636,17 @@ export default function FilterComponent () {
           })
           .indexOf(string);
 
-      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
-        setFilterLevel01Selected(filterArray[object_index].REGION);
-      }
-      else {
-        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
-      }
-
-      setFilterLevel02Selected(string);
-      
+      setFilterLevel01Selected(region ?? filterArray[object_index].REGION ?? filterLevel01Selected);
+      setFilterLevel02Selected(deo ?? string ?? filterLevel02Selected);
       setFilterLevel03Selected(null);
-      
       setFilterLevel04Selected(null);
 
-      focus_map(
-          2, // type
-          ["DEO", "deo_name"], // attributes
-          string, // string
-          filterLevel05Selected // year
-        )
+      focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? string ?? filterLevel02Selected, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
           setDataLoading(false);
+          setDataLoader01(false);
         });
     }
     else if (type === 3) {
@@ -1398,74 +1656,56 @@ export default function FilterComponent () {
             return (object.CONG_DIST);
           })
           .indexOf(string);
-
-      if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
-        setFilterLevel01Selected(filterArray[object_index].REGION);
-      }
-      else {
-        setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
-      }
-
-      if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
-        setFilterLevel02Selected(filterArray[object_index].DEO);
-      }
-      else {
-        setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
-      }
-
-      setFilterLevel03Selected(string);
       
+      setFilterLevel01Selected(region ?? filterArray[object_index].REGION ?? filterLevel01Selected);
+      setFilterLevel02Selected(deo ?? filterArray[object_index].DEO ?? filterLevel02Selected);
+      setFilterLevel03Selected(string ?? filterLevel03Selected);
       setFilterLevel04Selected(null);
 
-      focus_map(
-          3, // type
-          ["CONG_DIST", "district_name"], // attributes
-          string, // string
-          filterLevel05Selected // year
-        )
+      focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string ?? filterLevel03Selected, filterLevel05Selected)
         .then(function (response) {
         })
         .catch(function (error) {
           setDataLoading(false);
+          setDataLoader01(false);
         });
     }
     else if (type === 4) {
       if (string.length > 0) {
-        if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
-          setFilterLevel01Selected(null);
-        }
-        else {
-          setFilterLevel01Selected((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")));
-        }
-
-        if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
-          setFilterLevel02Selected(null);
-        }
-        else {
-          setFilterLevel02Selected((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")));
-        }
-
+        setFilterLevel01Selected(region);
+        setFilterLevel02Selected(deo);
         setFilterLevel03Selected(null);
-        
         setFilterLevel04Selected(string);
         
         focus_map(
-            4, // type
-            ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "ROAD_ID", "ROAD_NAME", "SECTION_ID"], // attributes
-            string, // string
-            filterLevel05Selected // year
+            4,
+            moduleSelected === 0 ?
+              [layer_road_slope_hazards, layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures]
+              :
+            moduleSelected === 1 ?
+              [layer_road_slope_hazards]
+              :
+            moduleSelected === 2 ||
+            moduleSelected === 3 ?
+              [layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures]
+              :
+              [layer_national_road_network, layer_national_expressways],
+            ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "road_name", "road_id", "section_id"],
+            string,
+            filterLevel05Selected
           )
           .then(function (response) {
           })
           .catch(function (error) {
             setDataLoading(false);
+            setDataLoader01(false);
           });
       }
       else {
-        if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
+        if (deo) {
           clear_filter(3);
         }
-        else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
+        else if (region) {
           clear_filter(2);
         }
         else {
@@ -1474,12 +1714,13 @@ export default function FilterComponent () {
       }
     }
     else if (type === 5) {
+      setFilterLevel04Selected(null);
       setFilterLevel05Selected(string);
 
-      if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
+      if (deo) {
         clear_filter(3);
       }
-      else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
+      else if (region) {
         clear_filter(2);
       }
       else {
@@ -1487,196 +1728,178 @@ export default function FilterComponent () {
       }
     }
 
-    query_features(type, string);
+    filter_features(type, string);
   }
 
   /* Module selection handler. */
 
-  function setSource (layer) {
-    layer
-      .queryFeatures({
-        where:
-          (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-          (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-          "1 = 1",
-        returnGeometry: true,
-        outFields: ["*"]
-      })
-      .then(function (response) {
-        if (response?.features?.length > 0) {
-          setDataSource(response.features);
-          setDataArray(response.features);
-        }
-        else {
-          setDataSource(null);
-          setDataArray(null);
-        }
-      })
-      .then(function () {
-        setDataTimestamp(new Date().toString());
-      })
-      .catch(function (error) {
-        setDataLoading(false);
-        
-        setDataTimestamp(null);
+  const [yearArray, setYearArray] = React.useState([new Date().getFullYear()]);
 
-        // console.log(error);
-      });
-  }
+  React.useEffect(function () {
+    if (dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) {
+      let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+      let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
-  const [yearArray, setYearArray] = React.useState(null);
+      setDataLoading(true);
+      setDataLoader01(true);
 
-  function setYears (module) {
-    if (module === 0) {
-      layer_road_slope_hazards
-        .queryFeatures({
-          where:
-            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-            "1 = 1",
-          returnGeometry: false,
-          outFields: ["survey_date"]
-        })
-        .then(function (response_road_slope_hazards) {
-          layer_road_slopes_and_countermeasures
-            .queryFeatures({
-              where:
-                (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-                (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-                "1 = 1",
-              returnGeometry: false,
-              outFields: ["survey_date"]
-            })
-            .then(function (response_road_slopes_and_countermeasures) {
-              if (response_road_slope_hazards?.features?.length > 0 || response_road_slopes_and_countermeasures?.features?.length > 0) {
-                setYearArray(
-                  [
-                    ...new Set(
-                      [...response_road_slope_hazards.features, ...response_road_slopes_and_countermeasures.features]
-                        .filter(function (item) {
-                          return (!isNaN(item.attributes.survey_date));
-                        })
-                        .map(function (item) {
-                          return (new Date(item.attributes.survey_date).getFullYear());
-                        })
-                      )
-                  ]
-                );
-              }
+      close_popup();
+
+      function reset_filters (type) {
+        if (type === 1) {
+          setFilterLevel01Selected(region);
+          setFilterLevel02Selected(deo);
+          setFilterLevel03Selected(null);
+          setFilterLevel04Selected(null);
+          
+          focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
+            .then(function (response) {
             })
             .catch(function (error) {
               setDataLoading(false);
-
-              // console.log(error);
+              setDataLoader01(false);
             });
-        })
-        .catch(function (error) {
-          setDataLoading(false);
+          
+          filter_features(0, null);
+        }
+        else if (type === 2) {
+          setFilterLevel02Selected(deo);
+          setFilterLevel03Selected(null);
+          setFilterLevel04Selected(null);
 
-          // console.log(error);
-        });
-    }
-    else if (module === 1) {
-      layer_road_slope_hazards
-        .queryFeatures({
-          where:
-            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-            "1 = 1",
-          returnGeometry: false,
-          outFields: ["survey_date"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            setYearArray(
-              [
-                ...new Set(
-                  response.features
-                    .filter(function (item) {
-                      return (!isNaN(item.attributes.survey_date));
-                    })
-                    .map(function (item) {
-                      return (new Date(item.attributes.survey_date).getFullYear());
-                    })
-                  )
-              ]
-            );
+          if (region) {
+            focus_map(1, [layer_regions], ["REGION", "region_name"], region, new Date().getFullYear())
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+                setDataLoader01(false);
+              });
+
+            filter_features(1, region);
           }
-        })
-        .catch(function (error) {
-          setDataLoading(false);
+          else {
+            focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+                setDataLoader01(false);
+              });
 
-          // console.log(error);
-        });
-    }
-    else if (module === 2 || module === 3) {
-      layer_road_slopes_and_countermeasures
-        .queryFeatures({
-          where:
-            (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }' AND deo_name = '${ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) }'` :
-            (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) ? `region_name = '${ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) }'` :
-            "1 = 1",
-          returnGeometry: false,
-          outFields: ["survey_date"]
-        })
-        .then(function (response) {
-          if (response?.features?.length > 0) {
-            setYearArray(
-              [
-                ...new Set(
-                  response.features
-                    .filter(function (item) {
-                      return (!isNaN(item.attributes.survey_date));
-                    })
-                    .map(function (item) {
-                      return (new Date(item.attributes.survey_date).getFullYear());
-                    })
-                  )
-              ]
-            );
+            filter_features(0, null);
           }
-        })
-        .catch(function (error) {
-          setDataLoading(false);
+        }
+        else if (type === 3) {
+          setFilterLevel03Selected(null);
+          setFilterLevel04Selected(null);
 
-          // console.log(error);
-        });
-    }
-    else {
-      setYearArray([new Date().getFullYear()]);
-    }
-  }
+          if (deo) {
+            focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo, new Date().getFullYear())
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+                setDataLoader01(false);
+              });
+            
+            filter_features(2, deo);
+          }
+          else if (region) {
+            focus_map(1, [layer_regions], ["REGION", "region_name"], region, new Date().getFullYear())
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+                setDataLoader01(false);
+              });
 
-  React.useEffect(function () {
-    setDataLoading(true);
+            filter_features(1, region);
+          }
+          else {
+            focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                setDataLoading(false);
+                setDataLoader01(false);
+              });
 
-    close_popup();
+            filter_features(0, null);
+          }
+        }
+      }
 
-    setYears(moduleSelected);
+      /* Change data source. */
 
-    /* Change data source. */
+      if (moduleSelected === 0) {
+        setDataArray(dataSourceBuffer01.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }));
 
-    if (moduleSelected === 1) {
-      setSource(layer_road_slope_hazards);
-    }
-    else if (moduleSelected === 2 || moduleSelected === 3) {
-      setSource(layer_road_slopes_and_countermeasures);
-    }
-    else {
-      setDataSource(null);
-      setDataArray(null);
-    }
+        setYearArray(
+          [
+            ...new Set(
+              [...dataSourceBuffer02, ...dataSourceBuffer03]
+                .filter(function (item) {
+                  return (!isNaN(item.attributes.survey_date));
+                })
+                .map(function (item) {
+                  return (new Date(item.attributes.survey_date).getFullYear());
+                })
+              )
+          ]
+        );
+      }
+      else if (moduleSelected === 1) {
+        setDataArray(dataSourceBuffer02.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }));
 
-    if ((sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) {
-      clear_filter(3);
+        setYearArray(
+          [
+            ...new Set(
+              dataSourceBuffer02
+                .filter(function (item) {
+                  return (!isNaN(item.attributes.survey_date));
+                })
+                .map(function (item) {
+                  return (new Date(item.attributes.survey_date).getFullYear());
+                })
+              )
+          ]
+        );
+      }
+      else if ((moduleSelected === 2 || moduleSelected === 3)) {
+        setDataArray(dataSourceBuffer03.filter(function (data) { return (Object(data.attributes).hasOwnProperty("survey_date") && new Date(data.attributes.survey_date).getFullYear() === filterLevel05Selected); }));
+
+        setYearArray(
+          [
+            ...new Set(
+              dataSourceBuffer03
+                .filter(function (item) {
+                  return (!isNaN(item.attributes.survey_date));
+                })
+                .map(function (item) {
+                  return (new Date(item.attributes.survey_date).getFullYear());
+                })
+              )
+          ]
+        );
+      }
+      else {
+        setDataArray(null);
+
+        setYearArray([new Date().getFullYear()]);
+      }
+
+      if (deo) {
+        reset_filters(3);
+      }
+      else if (region) {
+        reset_filters(2);
+      }
+      else {
+        reset_filters(1);
+      }
     }
-    else if ((sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault"))) {
-      clear_filter(2);
-    }
-    else {
-      clear_filter(1);
-    }
-  }, [moduleSelected]);
+  }, [dataSourceBuffer01, dataSourceBuffer02, dataSourceBuffer03, moduleSelected, setDataArray, setDataLoading, setFilterLevel01Selected, setFilterLevel02Selected, setFilterLevel03Selected, setFilterLevel04Selected]);
 
   /* Dropdown handlers. */
 
@@ -1823,7 +2046,7 @@ export default function FilterComponent () {
         </div>
       </div>
       <div id = "filter-container">
-        <div className = { dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!(sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) && !(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) { click_dropdown(1); } } }>
+        <div className = { sessionStorage.getItem("regionDefault") === "null" || sessionStorage.getItem("regionDefault") === null ? dropdown01Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" : "filter-menu-dropdown-disabled" } onClick = { function () { if (sessionStorage.getItem("regionDefault") === "null" || sessionStorage.getItem("regionDefault") === null) { click_dropdown(1); } } }>
           <div>
             <div>{ (sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault")) || filterLevel01Selected || "Region" }</div>
             <div>
@@ -1866,7 +2089,7 @@ export default function FilterComponent () {
             }
           </div>
         </div>
-        <div className = { dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { if (!(sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault"))) { click_dropdown(2); } } }>
+        <div className = { sessionStorage.getItem("engineeringDistrictDefault") === "null" || sessionStorage.getItem("engineeringDistrictDefault") === null ? dropdown02Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" : "filter-menu-dropdown-disabled" } onClick = { function () { if (sessionStorage.getItem("engineeringDistrictDefault") === "null" || sessionStorage.getItem("engineeringDistrictDefault") === null) { click_dropdown(2); } } }>
           <div>
             <div>{ (sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault")) || filterLevel02Selected || "District Engineering Office" }</div>
             <div>

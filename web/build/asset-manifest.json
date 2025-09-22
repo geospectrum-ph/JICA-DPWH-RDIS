@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.75e7c7cf.css",
-    "main.js": "/static/js/main.5b7fc08c.js",
+    "main.css": "/static/css/main.453291f3.css",
+    "main.js": "/static/js/main.619138d0.js",
     "static/js/623.e78ac1c1.chunk.js": "/static/js/623.e78ac1c1.chunk.js",
     "static/js/2602.3765f550.chunk.js": "/static/js/2602.3765f550.chunk.js",
     "static/js/2072.4afe6da0.chunk.js": "/static/js/2072.4afe6da0.chunk.js",
@@ -479,8 +479,8 @@
     "static/js/9031.bd515136.chunk.js": "/static/js/9031.bd515136.chunk.js",
     "static/media/logo_dpwh.png": "/static/media/logo_dpwh.05d7de4a1413dc7632c3.png",
     "index.html": "/index.html",
-    "main.75e7c7cf.css.map": "/static/css/main.75e7c7cf.css.map",
-    "main.5b7fc08c.js.map": "/static/js/main.5b7fc08c.js.map",
+    "main.453291f3.css.map": "/static/css/main.453291f3.css.map",
+    "main.619138d0.js.map": "/static/js/main.619138d0.js.map",
     "623.e78ac1c1.chunk.js.map": "/static/js/623.e78ac1c1.chunk.js.map",
     "2602.3765f550.chunk.js.map": "/static/js/2602.3765f550.chunk.js.map",
     "2072.4afe6da0.chunk.js.map": "/static/js/2072.4afe6da0.chunk.js.map",
@@ -902,7 +902,7 @@
     "9031.bd515136.chunk.js.map": "/static/js/9031.bd515136.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.75e7c7cf.css",
-    "static/js/main.5b7fc08c.js"
+    "static/css/main.453291f3.css",
+    "static/js/main.619138d0.js"
   ]
 }

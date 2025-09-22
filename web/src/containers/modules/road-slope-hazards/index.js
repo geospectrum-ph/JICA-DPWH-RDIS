@@ -25,12 +25,12 @@ export default function RoadSlopeHazards () {
 
   React.useEffect(function () {
     view_layer("road-slope-hazards", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   const sublevels = [
-    function ({ attributes }) { return (attributes.road_classification || "Unclassified Roads"); },
-    function ({ attributes }) { return (attributes.road_name); },
-    function ({ attributes }) { return (attributes.section_id); }
+    function ({ attributes }) { return (attributes.road_classification ?? "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.road_name ?? "Unclassified Roads"); },
+    function ({ attributes }) { return (attributes.section_id ?? "Unclassified Roads"); }
   ];
 
   const hazard_risk_level_array = ["Low", "Middle", "High"];
@@ -76,7 +76,7 @@ export default function RoadSlopeHazards () {
   }
 
   function changeSelected (element) {
-    const container = document.getElementById("hazard-map-container");
+    const container = document.getElementById("road-slope-hazards-container");
     const list = container ? container.getElementsByClassName("data-container-details") : null;
 
     if (list) {
@@ -97,11 +97,11 @@ export default function RoadSlopeHazards () {
     else { depth = 0; }
 
     function find_road (value) {
-      const expression = "globalid = '" + value + "'";
+      const expression = value ? "globalid = '" + value + "'" : null;
   
       layer_road_slope_hazards
         .queryFeatures({
-          where: expression || "1 = 0",
+          where: expression ?? "1 = 0",
           returnGeometry: true,
           outFields: ["*"]
         })

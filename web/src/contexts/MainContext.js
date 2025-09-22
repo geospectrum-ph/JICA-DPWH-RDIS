@@ -5,7 +5,7 @@ export const MainContext = React.createContext();
 function MainContextProvider (props) {
   // For module switch handling.
 
-  const [menuComponentOpen, setMenuComponentOpen] = React.useState(false);
+  const [menuComponentOpen, setMenuComponentOpen] = React.useState(true);
 
   const [modules, setModules] = React.useState([
     {
@@ -55,7 +55,6 @@ function MainContextProvider (props) {
 
   // For data rendering.
   
-  const [dataSource, setDataSource] = React.useState(null);
   const [dataArray, setDataArray] = React.useState(null);
   const [dataLoading, setDataLoading] = React.useState(false);
 
@@ -107,7 +106,6 @@ function MainContextProvider (props) {
 
         moduleSelected, setModuleSelected,
 
-        dataSource, setDataSource,
         dataArray, setDataArray,
         dataLoading, setDataLoading,
         

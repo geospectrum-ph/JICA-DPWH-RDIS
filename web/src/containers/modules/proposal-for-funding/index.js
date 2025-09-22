@@ -16,7 +16,7 @@ export default function ProposalForFunding () {
 
   React.useEffect(function () {
     view_layer("proposal-for-funding", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   return (
     <div id = "proposal-for-funding-container">

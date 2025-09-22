@@ -11,7 +11,7 @@ export default function ErrorPage() {
 
   React.useEffect(function () {
     view_layer("error", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   return (null);
 }

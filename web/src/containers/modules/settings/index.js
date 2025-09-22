@@ -11,7 +11,7 @@ export default function Settings () {
 
   React.useEffect(function () {
     view_layer("settings", filterLevel05Selected);
-  }, []);
+  }, [filterLevel05Selected]);
 
   return (
     <div id = "settings-container">

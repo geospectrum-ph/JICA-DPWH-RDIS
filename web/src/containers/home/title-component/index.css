@@ -74,7 +74,7 @@
     padding: calc(var(--default-size-medium, 12px) * 1.00);
     gap: calc(var(--default-size-medium, 12px) * 0.50);
 
-    background: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
+    background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
     cursor: pointer;
 
     font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
