@@ -1676,6 +1676,8 @@ export default function FilterComponent () {
         setFilterLevel02Selected(deo);
         setFilterLevel03Selected(null);
         setFilterLevel04Selected(string);
+
+        view_layer(moduleSelected, string);
         
         focus_map(
             4,
@@ -1736,7 +1738,7 @@ export default function FilterComponent () {
   const [yearArray, setYearArray] = React.useState([new Date().getFullYear()]);
 
   React.useEffect(function () {
-    if (dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03) {
+    if (dataSourceBuffer01 && dataSourceBuffer02 && dataSourceBuffer03 && moduleSelected) {
       let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
       let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
@@ -1745,90 +1747,13 @@ export default function FilterComponent () {
 
       close_popup();
 
-      function reset_filters (type) {
-        if (type === 1) {
-          setFilterLevel01Selected(region);
-          setFilterLevel02Selected(deo);
-          setFilterLevel03Selected(null);
-          setFilterLevel04Selected(null);
-          
-          focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
-            .then(function (response) {
-            })
-            .catch(function (error) {
-              setDataLoading(false);
-              setDataLoader01(false);
-            });
-          
-          filter_features(0, null);
-        }
-        else if (type === 2) {
-          setFilterLevel02Selected(deo);
-          setFilterLevel03Selected(null);
-          setFilterLevel04Selected(null);
+      setFilterLevel01Selected(region ?? null);
+      setFilterLevel02Selected(deo ?? null);
+      setFilterLevel03Selected(null);
+      setFilterLevel04Selected(null);
+      setFilterLevel05Selected(new Date().getFullYear());
 
-          if (region) {
-            focus_map(1, [layer_regions], ["REGION", "region_name"], region, new Date().getFullYear())
-              .then(function (response) {
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-                setDataLoader01(false);
-              });
-
-            filter_features(1, region);
-          }
-          else {
-            focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
-              .then(function (response) {
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-                setDataLoader01(false);
-              });
-
-            filter_features(0, null);
-          }
-        }
-        else if (type === 3) {
-          setFilterLevel03Selected(null);
-          setFilterLevel04Selected(null);
-
-          if (deo) {
-            focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo, new Date().getFullYear())
-              .then(function (response) {
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-                setDataLoader01(false);
-              });
-            
-            filter_features(2, deo);
-          }
-          else if (region) {
-            focus_map(1, [layer_regions], ["REGION", "region_name"], region, new Date().getFullYear())
-              .then(function (response) {
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-                setDataLoader01(false);
-              });
-
-            filter_features(1, region);
-          }
-          else {
-            focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, new Date().getFullYear())
-              .then(function (response) {
-              })
-              .catch(function (error) {
-                setDataLoading(false);
-                setDataLoader01(false);
-              });
-
-            filter_features(0, null);
-          }
-        }
-      }
+      view_layer(moduleSelected, new Date().getFullYear());
 
       /* Change data source. */
 
@@ -1890,16 +1815,16 @@ export default function FilterComponent () {
       }
 
       if (deo) {
-        reset_filters(3);
+        clear_filter(3);
       }
       else if (region) {
-        reset_filters(2);
+        clear_filter(2);
       }
       else {
-        reset_filters(1);
+        clear_filter(1);
       }
     }
-  }, [dataSourceBuffer01, dataSourceBuffer02, dataSourceBuffer03, moduleSelected, setDataArray, setDataLoading, setFilterLevel01Selected, setFilterLevel02Selected, setFilterLevel03Selected, setFilterLevel04Selected]);
+  }, [dataSourceBuffer01, dataSourceBuffer02, dataSourceBuffer03, moduleSelected, setDataArray, setDataLoading, setFilterLevel01Selected, setFilterLevel02Selected, setFilterLevel03Selected, setFilterLevel04Selected, setFilterLevel05Selected]);
 
   /* Dropdown handlers. */
 
@@ -1974,7 +1899,7 @@ export default function FilterComponent () {
 
   function parseOrdinalStringToNumericalString (string) {
     switch (string) {
-      case "FIRoadSlopesT": 
+      case "FIRST": 
         return ("01");
       case "SECOND":
         return ("02");

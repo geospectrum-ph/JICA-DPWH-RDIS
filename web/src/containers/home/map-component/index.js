@@ -2673,6 +2673,11 @@ export function MapComponent () {
 }
 
 export function view_layer (module, filterLevel05Selected) {
+  console.table({
+    module: module,
+    year: filterLevel05Selected
+  });
+
   let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
   let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
@@ -3026,7 +3031,7 @@ export function view_layer (module, filterLevel05Selected) {
           group_kilometer_posts
         );
 
-        if (module === "summary") {
+        if (module === "summary" || module === 0) {
           layer_road_slope_hazards.definitionExpression =
             deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
             region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
@@ -3047,7 +3052,7 @@ export function view_layer (module, filterLevel05Selected) {
 
           view.map.layers.push(layer_road_slope_hazards);
         }
-        else if (module === "road-slope-hazards") {
+        else if (module === "road-slope-hazards" || module === 1) {
           console.table(group_road_slope_hazards);
 
           // for (const layer of group_road_slope_hazards.layers) {
@@ -3065,7 +3070,7 @@ export function view_layer (module, filterLevel05Selected) {
           view.map.layers.push(group_storm_surge_hazards);
           view.map.layers.push(group_road_slope_hazards);
         }
-        else if (module === "road-slope-inventory") {
+        else if (module === "road-slope-inventory"  || module === 2) {
           for (const layer of group_inventory_of_road_slopes_type_of_disaster.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
@@ -3108,7 +3113,7 @@ export function view_layer (module, filterLevel05Selected) {
           view.map.layers.push(group_inventory_of_road_slopes_type_of_road_slope_protection_structure);
           view.map.layers.push(group_inventory_of_road_slopes_type_of_disaster);
         }
-        else if (module === "potential-road-slope-protection-projects") {
+        else if (module === "potential-road-slope-protection-projects" || module === 3) {
           for (const layer of group_potential_road_slope_protection_projects.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
