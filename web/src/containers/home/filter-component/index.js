@@ -1280,13 +1280,98 @@ export default function FilterComponent () {
       view_layer(moduleSelected, string);
 
       if (deo) {
-        clear_filter(3);
+        setFilterLevel03Selected(null);
+        setFilterLevel04Selected(null);
+
+        if (deo || filterLevel02Selected) {
+          focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? filterLevel02Selected, string ?? filterLevel05Selected)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+              setDataLoader01(false);
+            });
+          
+          filter_data_01(2, deo ?? filterLevel02Selected);
+          filter_data_02(2, deo ?? filterLevel02Selected);
+          filter_data_03(2, deo ?? filterLevel02Selected);
+        }
+        else if (region || filterLevel01Selected) {
+          focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, string ?? filterLevel05Selected)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+              setDataLoader01(false);
+            });
+
+          filter_data_01(1, region ?? filterLevel01Selected);
+          filter_data_02(1, region ?? filterLevel01Selected);
+          filter_data_03(1, region ?? filterLevel01Selected);
+        }
+        else {
+          focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+              setDataLoader01(false);
+            });
+
+          filter_data_01(5, string);
+          filter_data_02(5, string);
+          filter_data_03(5, string);
+        }
       }
       else if (region) {
-        clear_filter(2);
+        setFilterLevel02Selected(deo);
+        setFilterLevel03Selected(null);
+        setFilterLevel04Selected(null);
+
+        if (region || filterLevel01Selected) {
+          focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, string ?? filterLevel05Selected)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+              setDataLoader01(false);
+            });
+
+          filter_data_01(1, region ?? filterLevel01Selected);
+          filter_data_02(1, region ?? filterLevel01Selected);
+          filter_data_03(1, region ?? filterLevel01Selected);
+        }
+        else {
+          focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
+            .then(function (response) {
+            })
+            .catch(function (error) {
+              setDataLoading(false);
+              setDataLoader01(false);
+            });
+
+          filter_data_01(5, string);
+          filter_data_02(5, string);
+          filter_data_03(5, string);
+        }
       }
       else {
-        clear_filter(1);
+        setFilterLevel01Selected(region);
+        setFilterLevel02Selected(deo);
+        setFilterLevel03Selected(null);
+        setFilterLevel04Selected(null);
+        
+        focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
+          .then(function (response) {
+          })
+          .catch(function (error) {
+            setDataLoading(false);
+            setDataLoader01(false);
+          });
+        
+        filter_data_01(5, string);
+        filter_data_02(5, string);
+        filter_data_03(5, string);
       }
     }
   }

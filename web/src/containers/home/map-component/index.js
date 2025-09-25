@@ -2678,13 +2678,6 @@ export function view_layer (module, filterLevel05Selected) {
 
   let year = filterLevel05Selected ?? new Date().getFullYear();
 
-  console.table({
-    module: module,
-    region: region,
-    deo: deo,
-    year: year,
-  });
-
   function parseString (string) {
     return (string.replace(/\w+\S|.\s/g, function (text) {
       if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
@@ -3037,17 +3030,17 @@ export function view_layer (module, filterLevel05Selected) {
           layer_road_slope_hazards.definitionExpression =
             deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
             region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-            "1 = 1";
+            `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
 
           layer_inventory_of_road_slopes.definitionExpression =
             deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
             region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-            "1 = 1";
+            `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
 
           layer_inventory_of_road_slope_protection_structures.definitionExpression =
             deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
             region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-            "1 = 1";
+            `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
 
           view.map.layers.push(layer_inventory_of_road_slope_protection_structures);
           view.map.layers.push(layer_inventory_of_road_slopes);
@@ -3059,7 +3052,7 @@ export function view_layer (module, filterLevel05Selected) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
 
           // No variable equivalent for REGION and DEO for hazard data from Project NOAH.
@@ -3075,35 +3068,35 @@ export function view_layer (module, filterLevel05Selected) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
           
           for (const layer of group_inventory_of_road_slopes_type_of_road_slope_protection_structure.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_road_slope_condition.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_type_of_disaster.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
           
           for (const layer of group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.layers) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
 
           view.map.layers.push(group_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure);
@@ -3118,7 +3111,7 @@ export function view_layer (module, filterLevel05Selected) {
             layer.definitionExpression =
               deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
               region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-              "1 = 1";
+              `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
           }
 
           view.map.layers.push(group_potential_road_slope_protection_projects);
