@@ -2,21 +2,14 @@ import * as React from "react";
 
 import { MainContext } from "../../../contexts/MainContext";
 
-import { view_layer } from "../../home/map-component";
-
 import "./index.css";
 
 export default function ProposalForFunding () {
   const {
-    filterLevel05Selected,
+    dataSource03,
 
-    dataArray,
-    dataLoading
+    dataLoading,
   } = React.useContext(MainContext);
-
-  React.useEffect(function () {
-    view_layer("proposal-for-funding", filterLevel05Selected);
-  }, [filterLevel05Selected]);
 
   return (
     <div id = "proposal-for-funding-container">
@@ -27,7 +20,7 @@ export default function ProposalForFunding () {
       </div>
       <div>
         {
-          dataArray ?
+          dataSource03 ?
             <div/>
             :
             dataLoading ?

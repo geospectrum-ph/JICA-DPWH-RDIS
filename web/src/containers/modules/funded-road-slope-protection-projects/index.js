@@ -3,7 +3,6 @@ import * as React from "react";
 import { MainContext } from "../../../contexts/MainContext";
 
 import {
-  view_layer,
   layer_road_slopes_and_countermeasures,
   close_popup,
   open_popup,
@@ -14,15 +13,10 @@ import "./index.css";
 
 export default function FundedRoadSlopeProtectionProjects () {
   const {
-    filterLevel05Selected,
-    
-    dataArray,
-    dataLoading
-  } = React.useContext(MainContext);
+    dataSource03,
 
-  React.useEffect(function () {
-    view_layer("funded-road-slope-protection-projects", filterLevel05Selected);
-  }, [filterLevel05Selected]);
+    dataLoading,
+  } = React.useContext(MainContext);
 
   const sublevels = [
     function ({ attributes }) { return (attributes.road_classification ?? "Unclassified Roads"); },
@@ -210,7 +204,7 @@ export default function FundedRoadSlopeProtectionProjects () {
       </div>
       <div>
         {
-          dataArray ?
+          dataSource03 ?
             <div className = "data-array-container">
               <div className = { "data-container" }>
                 <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
@@ -227,21 +221,21 @@ export default function FundedRoadSlopeProtectionProjects () {
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Rehabilitation / Major Repair" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Rehabilitation"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataSource03, ["Rehabilitation"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Reconstruction" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Reconstruction"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataSource03, ["Reconstruction"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Construction" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataArray, ["Construction"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_work_scope(dataSource03, ["Construction"]), sublevels) }/>
                   </div>
                 </div>
               </div>

@@ -4,10 +4,7 @@ import ExcelJS from "exceljs";
 
 import { saveAs } from "file-saver";
 
-import { MainContext } from "../../../contexts/MainContext";
-
 import {
-  view_layer,
   layer_road_slope_hazards,
   layer_road_slopes_and_countermeasures
 } from "../../home/map-component";
@@ -55,12 +52,6 @@ function ExcelExport({ data, fileName }) {
 }
 
 export default function Reports() {
-  const { filterLevel05Selected } = React.useContext(MainContext);
-
-  React.useEffect(function () {
-    view_layer("reports", filterLevel05Selected);
-  }, [filterLevel05Selected]);
-
   const [arrayRoadSlopeHazards, setArrayRoadSlopeHazards] = React.useState([]);
   const [arrayRoadSlopesAndCountermeasures, setArrayRoadSlopesAndCountermeasures] = React.useState([]);
 

@@ -3,7 +3,6 @@ import * as React from "react";
 import { MainContext } from "../../../contexts/MainContext";
 
 import {
-  view_layer,
   layer_road_slope_hazards,
   close_popup,
   open_popup,
@@ -14,18 +13,13 @@ import "./index.css";
 
 export default function RoadSlopeHazards () {
   const {
-    filterLevel05Selected,
-    
-    dataArray,
-    dataLoading,
+    dataSource02,
 
+    dataLoading,
+    
     totalRoadSlopeHazardsInventory,
     filteredRoadSlopeHazardsInventory
   } = React.useContext(MainContext);
-
-  React.useEffect(function () {
-    view_layer("road-slope-hazards", filterLevel05Selected);
-  }, [filterLevel05Selected]);
 
   const sublevels = [
     function ({ attributes }) { return (attributes.road_classification ?? "Unclassified Roads"); },
@@ -229,7 +223,7 @@ export default function RoadSlopeHazards () {
       </div> 
       <div>
         {
-          dataArray ?
+          dataSource02 ?
               <div className = "data-array-container">
                 <div className = { "data-container" }>
                   <div className = "inventory-section-header" onClick = { function (event) { change_visibility(event); } }>
@@ -246,28 +240,28 @@ export default function RoadSlopeHazards () {
                         <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                         <span>{ "High" }</span>
                       </div>
-                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataArray, [2]), sublevels) }/>
+                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataSource02, [2]), sublevels) }/>
                     </div>
                     <div className = { "data-container-hidden" }>
                       <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                         <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                         <span>{ "Middle" }</span>
                       </div>
-                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataArray, [1]), sublevels) }/>
+                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataSource02, [1]), sublevels) }/>
                     </div>
                     <div className = { "data-container-hidden" }>
                       <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                         <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                         <span>{ "Low" }</span>
                       </div>
-                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataArray, [0]), sublevels) }/>
+                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataSource02, [0]), sublevels) }/>
                     </div>
                     <div className = { "data-container-hidden" }>
                       <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                         <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                         <span>{ "Non-Evaluated" }</span>
                       </div>
-                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataArray, [-1]), sublevels) }/>
+                      <DataRenderer data = { nest_groups_by(filter_data_hazard_risk_level(dataSource02, [-1]), sublevels) }/>
                     </div>
                   </div>
                 </div>

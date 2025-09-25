@@ -2673,11 +2673,6 @@ export function MapComponent () {
 }
 
 export function view_layer (module, filterLevel05Selected) {
-  console.table({
-    module: module,
-    year: filterLevel05Selected
-  });
-
   let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
   let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
 
@@ -3053,14 +3048,12 @@ export function view_layer (module, filterLevel05Selected) {
           view.map.layers.push(layer_road_slope_hazards);
         }
         else if (module === "road-slope-hazards" || module === 1) {
-          console.table(group_road_slope_hazards);
-
-          // for (const layer of group_road_slope_hazards.layers) {
-          //   layer.definitionExpression =
-          //     deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
-          //     region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
-          //     "1 = 1";
-          // }
+          for (const layer of group_road_slope_hazards.layers) {
+            layer.definitionExpression =
+              deo ? `deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'` :
+              region ? `region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`:
+              "1 = 1";
+          }
 
           // No variable equivalent for REGION and DEO for hazard data from Project NOAH.
 
@@ -3294,22 +3287,25 @@ export async function focus_map (type, reference_layers, attributes, string, fil
         let fields = layer.fields.map(function (field) {return (field.name); });
 
         let other_filter =
-          attributes
-            .filter(function (attribute) {
-              if (
-                (region && (attribute === "REGION" || attribute === "region_name")) ||
-                (deo && (attribute === "DEO" || attribute === "deo_name"))
-              ) {
-                return (false);
-              }
-              else {
-                return (fields.includes(attribute));
-              }
-            })
-            .map(function (attribute) {
-              return (`${ attribute } = '${ string }'`);
-            })
-            .join(" OR ");
+          attributes?.length > 0 ?
+            attributes
+              .filter(function (attribute) {
+                if (
+                  (region && (attribute === "REGION" || attribute === "region_name")) ||
+                  (deo && (attribute === "DEO" || attribute === "deo_name"))
+                ) {
+                  return (false);
+                }
+                else {
+                  return (fields.includes(attribute));
+                }
+              })
+              .map(function (attribute) {
+                return (`${ attribute } = '${ string }'`);
+              })
+              .join(" OR ")
+            :
+            "";
 
         let spacetime_filter =
           [
@@ -3358,27 +3354,30 @@ export async function focus_map (type, reference_layers, attributes, string, fil
               let fields = layer.fields.map(function (field) {return (field.name); });
 
               let other_query =
-                attributes
-                  .filter(function (attribute) {
-                    if (
-                      (region && (attribute === "REGION" || attribute === "region_name")) ||
-                      (deo && (attribute === "DEO" || attribute === "deo_name"))
-                    ) {
-                      return (false);
-                    }
-                    else {
-                      return (fields.includes(attribute));
-                    }
-                  })
-                  .map(function (attribute) {
-                    if (type !== 4) {
-                      return (`${ attribute } = '${ string }'`);
-                    }
-                    else {
-                      return (`LOWER(${ attribute }) LIKE '%${ string.toLowerCase() }%'`);
-                    }
-                  })
-                  .join(" OR ");
+                attributes?.length > 0 ?
+                  attributes
+                    .filter(function (attribute) {
+                      if (
+                        (region && (attribute === "REGION" || attribute === "region_name")) ||
+                        (deo && (attribute === "DEO" || attribute === "deo_name"))
+                      ) {
+                        return (false);
+                      }
+                      else {
+                        return (fields.includes(attribute));
+                      }
+                    })
+                    .map(function (attribute) {
+                      if (type !== 4) {
+                        return (`${ attribute } = '${ string }'`);
+                      }
+                      else {
+                        return (`LOWER(${ attribute }) LIKE '%${ string.toLowerCase() }%'`);
+                      }
+                    })
+                    .join(" OR ")
+                  :
+                  "";
 
               let spacetime_query =
                 [

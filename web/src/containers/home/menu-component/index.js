@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { MainContext } from "../../../contexts/MainContext";
 
+import { view_layer } from "../map-component";
+
 import "./index.css";
 
 export default function MenuComponent () {
@@ -21,7 +23,9 @@ export default function MenuComponent () {
   function set_module (index) {
     setModuleSelected(index);
 
-    sessionStorage.setItem("moduleSelected", modules[index].name.toLowerCase().split(" ").join("-"));
+    sessionStorage.setItem("moduleSelected", index);
+
+    view_layer(moduleSelected, new Date().getFullYear());
 
     navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
 
@@ -29,7 +33,13 @@ export default function MenuComponent () {
   }
 
   React.useEffect(function () {
-    set_module(0);
+    setModuleSelected(0);
+
+    sessionStorage.setItem("moduleSelected", "summary");
+
+    navigate(`/home/${ modules[0].name.toLowerCase().split(" ").join("-") }`);
+
+    setMenuComponentOpen(!menuComponentOpen);
   }, []);
 
   function handleExit () {

@@ -54,8 +54,15 @@ function MainContextProvider (props) {
   const [moduleSelected, setModuleSelected] = React.useState(0);
 
   // For data rendering.
+
+  const [dataSourceBuffer01, setDataSourceBuffer01] = React.useState(null); // layer_national_road_network + layer_national_expressways
+  const [dataSourceBuffer02, setDataSourceBuffer02] = React.useState(null); // layer_road_slope_hazards
+  const [dataSourceBuffer03, setDataSourceBuffer03] = React.useState(null); // layer_road_slopes_and_countermeasures
   
-  const [dataArray, setDataArray] = React.useState(null);
+  const [dataSource01, setDataSource01] = React.useState(null); // layer_national_road_network + layer_national_expressways
+  const [dataSource02, setDataSource02] = React.useState(null); // layer_road_slope_hazards
+  const [dataSource03, setDataSource03] = React.useState(null); // layer_road_slopes_and_countermeasures
+
   const [dataLoading, setDataLoading] = React.useState(false);
 
   const [dataTimestamp, setDataTimestamp] = React.useState(null);
@@ -106,7 +113,14 @@ function MainContextProvider (props) {
 
         moduleSelected, setModuleSelected,
 
-        dataArray, setDataArray,
+        dataSourceBuffer01, setDataSourceBuffer01,
+        dataSourceBuffer02, setDataSourceBuffer02,
+        dataSourceBuffer03, setDataSourceBuffer03,
+
+        dataSource01, setDataSource01,
+        dataSource02, setDataSource02,
+        dataSource03, setDataSource03,
+
         dataLoading, setDataLoading,
         
         dataTimestamp, setDataTimestamp,
