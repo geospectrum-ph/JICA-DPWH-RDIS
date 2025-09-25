@@ -1296,21 +1296,6 @@ export default function FilterComponent () {
   const [yearArray, setYearArray] = React.useState([new Date().getFullYear()]);
 
   React.useEffect(function () {
-    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
-    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
-
-    setDataLoading(true);
-
-    close_popup();
-
-    setFilterLevel01Selected(region ?? null);
-    setFilterLevel02Selected(deo ?? null);
-    setFilterLevel03Selected(null);
-    setFilterLevel04Selected(null);
-    setFilterLevel05Selected(new Date().getFullYear());
-
-    /* Change data source. */
-
     if (moduleSelected === 0 && dataSourceBuffer02?.length > 0 && dataSourceBuffer03?.length > 0) {
       setYearArray(
         [
@@ -1359,6 +1344,21 @@ export default function FilterComponent () {
     else {
       setYearArray([new Date().getFullYear()]);
     }
+  }, [moduleSelected, dataSourceBuffer02, dataSourceBuffer03]);
+
+  React.useEffect(function () {
+    let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
+    let deo = sessionStorage.getItem("engineeringDistrictDefault") === "null" ? null : sessionStorage.getItem("engineeringDistrictDefault");
+
+    setDataLoading(true);
+
+    close_popup();
+
+    setFilterLevel01Selected(region ?? null);
+    setFilterLevel02Selected(deo ?? null);
+    setFilterLevel03Selected(null);
+    setFilterLevel04Selected(null);
+    setFilterLevel05Selected(new Date().getFullYear());
 
     if (deo) {
       clear_filter(3);

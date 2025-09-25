@@ -2678,6 +2678,13 @@ export function view_layer (module, filterLevel05Selected) {
 
   let year = filterLevel05Selected ?? new Date().getFullYear();
 
+  console.table({
+    module: module,
+    region: region,
+    deo: deo,
+    year: year,
+  });
+
   function parseString (string) {
     return (string.replace(/\w+\S|.\s/g, function (text) {
       if (text.toLowerCase() === "of" || text.toLowerCase() === "ng" || text.toLowerCase() === "and" || text.toLowerCase() === "na" || (text.toLowerCase().startsWith("de") && text.length < 4)) {
