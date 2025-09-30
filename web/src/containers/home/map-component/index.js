@@ -3815,7 +3815,7 @@ export function view_layer (module, filterLevel05Selected) {
 
       })
       .catch(function (error) {
-        console.error(error);
+        // console.error(error);
       });
   }
 }

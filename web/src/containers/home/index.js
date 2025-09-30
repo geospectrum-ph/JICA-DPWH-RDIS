@@ -73,6 +73,9 @@ function HomePage () {
                 username === "rdis_training3" ?
                   "Region XI"
                   :
+                username === "rdis_training4" ?
+                  "National Capital Region"
+                  :
                   "National Capital Region";
 
               let user_deo =
@@ -87,6 +90,9 @@ function HomePage () {
                   :
                 username === "rdis_training3" ?
                   null
+                  :
+                username === "rdis_training4" ?
+                  "South Manila District Engineering Office"
                   :
                   null;
 
