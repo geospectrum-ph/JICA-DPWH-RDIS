@@ -61,18 +61,34 @@ function HomePage () {
               // sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
 
               let user_ro =
-                username === "dpwh_rdis" ? null :
-                username === "rdis_training1" ? "Cordillera Administrative Region" :
-                username === "rdis_training2" ? "Region VII" :
-                username === "rdis_training3" ? "Region XI" :
-                "National Capital Region";
+                username === "dpwh_rdis" ?
+                  null
+                  :
+                username === "rdis_training1" ?
+                  "Cordillera Administrative Region"
+                  :
+                username === "rdis_training2" ?
+                  "Region VII"
+                  :
+                username === "rdis_training3" ?
+                  "Region XI"
+                  :
+                  "National Capital Region";
 
               let user_deo =
-                username === "dpwh_rdis" ? null :
-                username === "rdis_training1" ? null :
-                username === "rdis_training2" ? null :
-                username === "rdis_training3" ? null :
-                null;
+                username === "dpwh_rdis" ?
+                  null
+                  :
+                username === "rdis_training1" ?
+                  null
+                  :
+                username === "rdis_training2" ?
+                  null
+                  :
+                username === "rdis_training3" ?
+                  null
+                  :
+                  null;
 
               sessionStorage.setItem("regionDefault", user_ro);
               sessionStorage.setItem("engineeringDistrictDefault", user_deo);
@@ -83,11 +99,11 @@ function HomePage () {
             // });
         })
         .catch(function (error) {
-          // console.log(error);
-
           setToken(null);
 
           navigate("/");
+          
+          // console.log(error);
         });
     }
 
