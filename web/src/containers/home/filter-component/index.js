@@ -220,9 +220,13 @@ export default function FilterComponent () {
     layer_road_slope_hazards
       .queryFeatures({
         where:
-          deo ? `deo_name = '${ deo }'` :
-          region ? `region_name = '${ region }'`:
-          "1 = 1",
+          deo ?
+            `deo_name = '${ deo }'`
+            :
+          region ?
+            `region_name = '${ region }'`
+            :
+            "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -676,9 +680,13 @@ export default function FilterComponent () {
     layer_road_slopes_and_countermeasures
       .queryFeatures({
         where:
-          deo ? `deo_name = '${ deo }'` :
-          region ? `region_name = '${ region }'`:
-          "1 = 1",
+          deo ?
+            `deo_name = '${ deo }'`
+            :
+          region ?
+            `region_name = '${ region }'`
+            :
+            "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -985,9 +993,13 @@ export default function FilterComponent () {
     layer_engineering_districts
       .queryFeatures({
         where:
-          deo ? `DEO = '${ deo }'` :
-          region ? `REGION = '${ region }'`:
-          "1 = 1",
+          deo ?
+            `DEO = '${ deo }'`
+            :
+          region ?
+            `REGION = '${ region }'`
+            :
+            "1 = 1",
         returnGeometry: false,
         outFields: ["*"]
       })
@@ -1476,11 +1488,21 @@ export default function FilterComponent () {
       setDropdownActive(0);
     }
     else {
-      if (index === 1) { setDropdown01Active(true); }
-      else if (index === 2) { setDropdown02Active(true); }
-      else if (index === 3) { setDropdown03Active(true); }
-      else if (index === 4) { setDropdown04Active(true); }
-      else if (index === 5) { setDropdown05Active(true); }
+      if (index === 1) {
+        setDropdown01Active(true);
+      }
+      else if (index === 2) {
+        setDropdown02Active(true);
+      }
+      else if (index === 3) {
+        setDropdown03Active(true);
+      }
+      else if (index === 4) {
+        setDropdown04Active(true);
+      }
+      else if (index === 5) {
+        setDropdown05Active(true);
+      }
 
       setDropdownActive(index);
     }
