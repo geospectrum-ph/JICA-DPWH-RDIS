@@ -15,7 +15,7 @@ export default function FundedRoadSlopeProtectionProjects () {
   const {
     dataSource03,
 
-    dataLoading,
+    dataLoading
   } = React.useContext(MainContext);
 
   const sublevels = [

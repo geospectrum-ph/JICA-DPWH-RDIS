@@ -3579,17 +3579,24 @@ export function open_popup (features) {
     });     
 }
 
-export function recenter_map (extent) {
+export async function recenter_map (extent) {
   reactiveUtils.watch(
     function () {
       if (view && !view.loading && extent) {
         view
           .when(function () {
             view.goTo(extent.expand(1.25));
+            
+            return (null);
           })
           .catch(function (error) {
+            return (null);
+            
             // console.error(error);
           });
       }
-    });     
+      else {
+        return (null);
+      }
+    });
 }

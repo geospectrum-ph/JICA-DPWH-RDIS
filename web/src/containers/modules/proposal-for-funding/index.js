@@ -8,7 +8,7 @@ export default function ProposalForFunding () {
   const {
     dataSource03,
 
-    dataLoading,
+    dataLoading
   } = React.useContext(MainContext);
 
   return (
