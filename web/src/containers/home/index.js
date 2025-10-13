@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useNavigate } from "react-router-dom";
 
-// import axios from "axios";
+import axios from "axios";
 
 import esriId from "@arcgis/core/identity/IdentityManager.js";
 
@@ -13,7 +13,7 @@ import LoadingComponent from "./loading-component";
 
 import "./index.css";
 
-// const URL = process.env.NODE_ENV === "production" ? process.env.PROD_URL : process.env.DEV_URL;
+const URL = process.env.NODE_ENV === "production" ? process.env.PROD_URL : process.env.DEV_URL;
 
 function HomePage () {
   const navigate = useNavigate();
@@ -48,61 +48,25 @@ function HomePage () {
       esriId
         .generateToken(serverInfo, userInfo)
         .then(function (tokenInfo) {
-          // axios
-          //   .post("http://localhost:1433/users/login", userInfo)
-          //   .then(function (response) {             
+          axios
+            .post("http://localhost:1433/users/login", userInfo)
+            .then(function (response) {
               esriId
                 .registerToken({
                   ...tokenInfo,
                   server
                 });
 
-              // sessionStorage.setItem("regionDefault", response.data.user.ro);
-              // sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
-
-              let user_ro =
-                username === "dpwh_rdis" ?
-                  null
-                  :
-                username === "rdis_training1" ?
-                  "Cordillera Administrative Region"
-                  :
-                username === "rdis_training2" ?
-                  "Region VII"
-                  :
-                username === "rdis_training3" ?
-                  "Region XI"
-                  :
-                username === "rdis_training4" ?
-                  "National Capital Region"
-                  :
-                  "National Capital Region";
-
-              let user_deo =
-                username === "dpwh_rdis" ?
-                  null
-                  :
-                username === "rdis_training1" ?
-                  null
-                  :
-                username === "rdis_training2" ?
-                  null
-                  :
-                username === "rdis_training3" ?
-                  null
-                  :
-                username === "rdis_training4" ?
-                  "South Manila District Engineering Office"
-                  :
-                  null;
-
-              sessionStorage.setItem("regionDefault", user_ro);
-              sessionStorage.setItem("engineeringDistrictDefault", user_deo);
+              sessionStorage.setItem("regionDefault", response.data.user.ro);
+              sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
 
               sessionStorage.setItem("yearDefault", new Date().getFullYear());
 
               setToken(tokenInfo);
-            // });
+            })
+            .catch(function (error) {
+              // console.log(error);
+            });
         })
         .catch(function (error) {
           setToken(null);
