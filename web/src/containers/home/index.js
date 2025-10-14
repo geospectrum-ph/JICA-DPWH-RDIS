@@ -46,7 +46,7 @@ function HomePage () {
       esriId
         .generateToken(serverInfo, userInfo)
         .then(function (tokenInfo) {
-          const URL = process.env.NODE_ENV === "production" ? "http://rdis-test.geospectrum.com.ph/" : "http://localhost:1433/";
+          const URL = process.env.NODE_ENV === "production" ? "https://rdis-test.geospectrum.com.ph/" : "http://localhost:1433/";
 
           axios
             .post(URL + "users/login", userInfo)

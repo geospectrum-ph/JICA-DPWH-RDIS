@@ -3847,7 +3847,7 @@ export async function focus_map (type, reference_layers, attributes, string, fil
   if (view) {    
     /* This resets the filter of the map. */
 
-    view.map.allLayers.items
+    view.map?.allLayers?.items
       .filter(function (item) {
         return (item.hasOwnProperty("fields"));
       })
