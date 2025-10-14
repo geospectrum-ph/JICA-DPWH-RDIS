@@ -25,7 +25,7 @@ export default function MenuComponent () {
 
     sessionStorage.setItem("moduleSelected", index);
 
-    view_layer(moduleSelected, new Date().getFullYear());
+    view_layer(index, new Date().getFullYear());
 
     navigate(`/home/${ modules[index].name.toLowerCase().split(" ").join("-") }`);
 

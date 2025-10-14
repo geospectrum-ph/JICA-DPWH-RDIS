@@ -13,8 +13,6 @@ import LoadingComponent from "./loading-component";
 
 import "./index.css";
 
-const URL = process.env.NODE_ENV === "production" ? process.env.PROD_URL : process.env.DEV_URL;
-
 function HomePage () {
   const navigate = useNavigate();
   
@@ -48,8 +46,10 @@ function HomePage () {
       esriId
         .generateToken(serverInfo, userInfo)
         .then(function (tokenInfo) {
+          const URL = process.env.NODE_ENV === "production" ? "http://rdis-test.geospectrum.com.ph/" : "http://localhost:1433/";
+
           axios
-            .post("http://localhost:1433/users/login", userInfo)
+            .post(URL + "users/login", userInfo)
             .then(function (response) {
               esriId
                 .registerToken({

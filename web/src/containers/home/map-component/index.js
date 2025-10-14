@@ -2859,7 +2859,7 @@ export function view_layer (module, filterLevel05Selected) {
     view
       .when(function () {
         view.map
-          .removeAll()
+          .removeAll();
       })
       .then(function () {
         /* Reference Data */
