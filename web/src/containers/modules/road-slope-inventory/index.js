@@ -34,18 +34,18 @@ export default function RoadSlopeInventory () {
     function ({ attributes }) { return (attributes.survey_side ?? "Unclassified Roads"); }
   ];
 
-  function filter_data_road_condition (array, filters) {
+  function filter_data_road_slope_condition (array, filters) {
     if (filters[1]) {
       return (
         array.filter(function (item) {
-          return (item.attributes.rsm_category === filters[0] && item.attributes.road_condition === filters[1]);
+          return (item.attributes.rsm_category === filters[0] && item.attributes.road_slope_condition === filters[1]);
         })
       );
     }
     else {      
       return (
         array.filter(function (item) {
-          return (item.attributes.rsm_category === filters[0] && !item.attributes.road_condition);
+          return (item.attributes.rsm_category === filters[0] && !item.attributes.road_slope_condition);
         })
       );
     }
@@ -484,35 +484,35 @@ export default function RoadSlopeInventory () {
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Good" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataSource03, ["Inventory of Road Slope Structures", "Good"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_slope_condition(dataSource03, ["Inventory of Road Slope Structures", "Good"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Fair" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataSource03, ["Inventory of Road Slope Structures", "Fair"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_slope_condition(dataSource03, ["Inventory of Road Slope Structures", "Fair"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Poor" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataSource03, ["Inventory of Road Slope Structures", "Poor"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_slope_condition(dataSource03, ["Inventory of Road Slope Structures", "Poor"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Bad" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataSource03, ["Inventory of Road Slope Structures", "Bad"]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_slope_condition(dataSource03, ["Inventory of Road Slope Structures", "Bad"]), sublevels) }/>
                   </div>
                   <div className = { "data-container-hidden" }>
                     <div className = "inventory-section-data" onClick = { function (event) { change_visibility(event); } }>
                       <span className = "material-symbols-outlined">{ "keyboard_arrow_right" }</span>
                       <span>{ "Unclassified" }</span>
                     </div>
-                    <DataRenderer data = { nest_groups_by(filter_data_road_condition(dataSource03, ["Inventory of Road Slope Structures", null]), sublevels) }/>
+                    <DataRenderer data = { nest_groups_by(filter_data_road_slope_condition(dataSource03, ["Inventory of Road Slope Structures", null]), sublevels) }/>
                   </div>
                 </div>
                 <div className = { "data-container-hidden" }>

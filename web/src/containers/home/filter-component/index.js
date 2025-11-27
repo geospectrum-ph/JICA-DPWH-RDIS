@@ -882,10 +882,10 @@ export default function FilterComponent () {
                     working_array_02
                       .filter(function (feature) {
                         if (index < arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.length - 1) {
-                          return (feature.attributes.road_condition === item.name);
+                          return (feature.attributes.road_slope_condition === item.name);
                         }
                         else {
-                          return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_condition) < 0);
+                          return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_condition) < 0);
                         }
                       })
                       .length,
@@ -893,10 +893,10 @@ export default function FilterComponent () {
                     response_02
                       .filter(function (feature) {
                         if (index < arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.length - 1) {
-                          return (feature.attributes.road_condition === item.name);
+                          return (feature.attributes.road_slope_condition === item.name);
                         }
                         else {
-                          return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_condition) < 0);
+                          return (arrayRoadSlopeProtectionStructuresTypeOfDisasterBuffer.map(function (category) { return (category.name); }).indexOf(feature.attributes.road_slope_condition) < 0);
                         }
                       })
                       .length,

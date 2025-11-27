@@ -1647,7 +1647,7 @@ function content_inventory_of_road_slope_protection_structures (target) {
         </tr>
         <tr>
           <td><b>Condition Of Road Slope Protection Structure</b></td>
-          <td>${ target.graphic.attributes.road_condition ?? "No available data" }</td>
+          <td>${ target.graphic.attributes.road_slope_condition ?? "No available data" }</td>
         </tr>
       </tbody>
     </table>
@@ -2214,9 +2214,9 @@ const group_inventory_of_road_slope_protection_structures_road_slope_condition =
             url: url_road_slopes_and_countermeasures,
             definitionExpression:
               category[0] === "Unclassified" ?
-                "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_condition != '${ category[0] }'`); }).join(" AND ")
+                "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_condition != '${ category[0] }'`); }).join(" AND ")
                 :
-                `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_condition = '${ category[0] }'`,
+                `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_slope_condition = '${ category[0] }'`,
             renderer: {
               type: "simple",
               label:

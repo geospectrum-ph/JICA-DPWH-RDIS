@@ -379,7 +379,7 @@ export default function Summary () {
                   arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure?.length > 0 ?
                     arrayRoadSlopeProtectionStructuresConditionOfRoadSlopeProtectionStructure.map(function (item, index) {
                       return (
-                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["road_condition"], item.name, filterLevel05Selected); } }>
+                        <div key = { index } className = "summary-row summary-interactive" onClick = { function () { focus_map(4, [layer_inventory_of_road_slope_protection_structures], ["road_slope_condition"], item.name, filterLevel05Selected); } }>
                           <div className = "summary-row-header">
                             <div style = { { background: item.color } }/>
                             <span>{ item.name }</span>
