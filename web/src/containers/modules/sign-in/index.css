@@ -1,17 +1,19 @@
 #login-container {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 
-  display: flex;
-  flex-flow: column nowrap;
-  place-content: center center;
-  place-items: stretch stretch;
+    display: flex;
+    flex-flow: column nowrap;
+    place-content: center center;
+    place-items: stretch stretch;
 
-  /* Main Interface */
-  > :nth-child(1) {
+    /* Main Interface */
+}
+
+#login-container  > :nth-child(1) {
     width: 100%;
     height: auto;
-    
+
     display: flex;
     flex: 1 1 auto;
     flex-flow: column nowrap;
@@ -21,231 +23,202 @@
     box-sizing: border-box;
     padding: calc(var(--default-size-medium, 12px) * 2.00);
     gap: calc(var(--default-size-medium, 12px) * 2.00);
-    
+
     background-color: var(--default-color-accent-dark, rgba(0, 102, 204, 1.00));
-    background-image:
-      linear-gradient(
-        rgba(255, 255, 255, 0.20) 2px,
-        transparent 2px),
-      linear-gradient(
-        90deg, rgba(255, 255, 255, 0.20) 2px,
-        transparent 1px),
-      linear-gradient(
-        rgba(255, 255, 255, 0.10) 1px,
-        transparent 1px),
-      linear-gradient(
-        90deg, rgba(255, 255, 255, 0.10) 1px,
-        transparent 1px),
-      linear-gradient(
-        rgba(255, 255, 255, 0.00) 0%,
-        rgba(255, 255, 255, 0.75) 25%,
-        rgba(255, 255, 255, 1.00) 50%,
-        rgba(255, 255, 255, 0.75) 75%,
-        rgba(255, 255, 255, 0.00) 100%);
-    background-size:
-      100px 100px,
-      100px 100px,
-      20px 20px,
-      20px 20px,
-      100% 100%;
-    background-position:
-      -2px -2px,
-      -2px -2px,
-      -1px -1px,
-      -1px -1px,
-      0 0;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.20) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, 0.20) 2px, transparent 1px), linear-gradient(rgba(255, 255, 255, 0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.10) 1px, transparent 1px), linear-gradient(rgba(255, 255, 255, 0.00) 0%, rgba(255, 255, 255, 0.75) 25%, rgba(255, 255, 255, 1.00) 50%, rgba(255, 255, 255, 0.75) 75%, rgba(255, 255, 255, 0.00) 100%);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px, 100% 100%;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px, 0 0;
 
     /* Title Container */
-    > :nth-child(1) {
-      width: 100%;
-      height: auto;
+}
 
-      display: flex;
-      flex: 0 0 0;
-      flex-flow: column nowrap;
-      place-items: center center;
-      place-content: center center;
+#login-container  > :nth-child(1)  > :nth-child(1) {
+    width: 100%;
+    height: auto;
 
-      /* Logo Container */
-      > :nth-child(1) {
-        width: 100%;
-        height: auto;
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center center;
 
-        display: flex;
-        flex: 0 0 0;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center center;
+    /* Logo Container */
+}
 
-        animation: fade-in-01 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+#login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(1) {
+    width: 100%;
+    height: auto;
 
-        box-sizing: border-box;
-        padding: calc(var(--default-size-medium, 12px) * 4.00);
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
 
-        img {
-          height: calc(var(--default-size-medium, 12px) * 8.00);
-        }
-      }
+    animation: fade-in-01 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
-      /* Title */
-      > :nth-child(2) {
-        width: 100%;
-        height: auto;
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 4.00);
+}
 
-        display: flex;
-        flex: 0 0 0;
-        flex-flow: column nowrap;
-        place-items: center center;
-        place-content: center center;
+#login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(1) img {
+    height: calc(var(--default-size-medium, 12px) * 8.00);
+}
 
-        > :nth-child(1) {
-          width: 100%;
-          height: auto;
+#login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2) {
+    width: 100%;
+    height: auto;
 
-          display: flex;
-          flex-flow: row nowrap;
-          place-content: center center;
-          place-items: center center;
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center center;
+}
 
-          animation: fade-in-02 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-          
-          box-sizing: border-box;
-          padding: calc(var(--default-size-medium, 12px) * 0.25);
-          gap: calc(var(--default-size-medium, 12px) * 0.50);
+#login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(1) {
+    width: 100%;
+    height: auto;
 
-          font: normal 600 calc(var(--default-size-medium, 12px) * 1.50) "Outfit", sans-serif;
-          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-          text-align: center;
-        }
+    display: flex;
+    flex-flow: row nowrap;
+    place-content: center center;
+    place-items: center center;
 
-        > :nth-child(2) {
-          width: 100%;
-          height: auto;
+    animation: fade-in-02 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
-          display: flex;
-          flex-flow: row nowrap;
-          place-content: center center;
-          place-items: center center;
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 0.25);
+    gap: calc(var(--default-size-medium, 12px) * 0.50);
 
-          animation: fade-in-03 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-          
-          box-sizing: border-box;
-          padding: calc(var(--default-size-medium, 12px) * 0.25);
-          gap: calc(var(--default-size-medium, 12px) * 1.50);
+    font: normal 600 calc(var(--default-size-medium, 12px) * 1.50) "Outfit", sans-serif;
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+    text-align: center;
+}
 
-          font: normal 800 calc(var(--default-size-medium, 12px) * 4.50) "Outfit", sans-serif;
-          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-          text-align: center;
-        }
-      }
-    }
+#login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(2) {
+    width: 100%;
+    height: auto;
 
-    /* Sign-In Interface */
-    > :nth-child(2) {
-      width: 100%;
-      height: auto;
+    display: flex;
+    flex-flow: row nowrap;
+    place-content: center center;
+    place-items: center center;
 
-      display: flex;
-      flex: 0 0 0;
-      flex-flow: column nowrap;
-      place-items: center center;
-      place-content: center center;
+    animation: fade-in-03 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
 
-      /* Input Fields */
-      > :nth-child(1), > :nth-child(2) {
-        width: 100%;
-        height: auto;
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 0.25);
+    gap: calc(var(--default-size-medium, 12px) * 1.50);
 
-        display: flex;
-        flex: 0 0 0;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center center;
+    font: normal 800 calc(var(--default-size-medium, 12px) * 4.50) "Outfit", sans-serif;
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+    text-align: center;
+}
 
-        box-sizing: border-box;
-        padding: var(--default-size-medium, 12px);
-        gap: var(--default-size-medium, 12px);
-    
-        color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-        
-        label {
-          display: flex;
-          flex-flow: row nowrap;
-          place-items: center center;
-          place-content: center center;
+#login-container  > :nth-child(1)  > :nth-child(2) {
+    width: 100%;
+    height: auto;
 
-          width: calc(var(--default-size-large, 360px) * 0.25);
-          height: auto;
-  
-          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
-        }
-  
-        input {
-          width: var(--default-size-large, 360px);
-          height: auto;
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: column nowrap;
+    place-items: center center;
+    place-content: center center;
 
-          box-sizing: border-box;
-          border-radius: calc(var(--default-size-small, 1px) * 4.00);
-          padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 12px);
-  
-          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
-          color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
-        }
-      }
+    /* Input Fields */
+}
 
-      > :nth-child(1) {
-        animation: fade-in-04 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-      }
+#login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(1), #login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(2) {
+    width: 100%;
+    height: auto;
 
-      > :nth-child(2) {
-        animation: fade-in-05 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
-      }
-  
-      /* Sign-In Button */
-      > :nth-child(3) {
-        width: 100%;
-        height: auto;
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
 
-        display: flex;
-        flex: 0 0 0;
-        flex-flow: row nowrap;
-        place-items: center center;
-        place-content: center center;
+    box-sizing: border-box;
+    padding: var(--default-size-medium, 12px);
+    gap: var(--default-size-medium, 12px);
 
-        animation: fade-in-06 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+}
 
-        box-sizing: border-box;
-        padding: var(--default-size-medium, 12px);
+:is(#login-container >:nth-child(1) >:nth-child(2) >:nth-child(1),#login-container >:nth-child(1) >:nth-child(2) >:nth-child(2)) label {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
 
-        > * {
-          width: auto;
-          height: auto;
+    width: calc(var(--default-size-large, 360px) * 0.25);
+    height: auto;
 
-          flex: 0 0 0;
+    font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+}
 
-          box-sizing: border-box;
-          box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
-          border: none;
-          border-radius: calc(var(--default-size-small, 1px) * 4.00);
-          padding: calc(var(--default-size-medium, 12px) * 0.75) calc(var(--default-size-medium, 12px) * 1.50);
+:is(#login-container >:nth-child(1) >:nth-child(2) >:nth-child(1),#login-container >:nth-child(1) >:nth-child(2) >:nth-child(2)) input {
+    width: var(--default-size-large, 360px);
+    height: auto;
 
-          background: rgba(232, 240, 254, 1.00);
-          cursor: pointer;
-  
-          font: normal 600 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
-          text-align: center;
-          text-transform: uppercase;
-  
-          &:hover {
-            background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
-          }
-        }
-      }
-    }
-  }
+    box-sizing: border-box;
+    border-radius: calc(var(--default-size-small, 1px) * 4.00);
+    padding: calc(var(--default-size-small, 1px) * 4.00) var(--default-size-medium, 12px);
 
-  /* Footer */
-  > :nth-child(2) {
+    font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+    color: var(--default-color-text-primary, rgba(51, 51, 51, 1.00));
+}
+
+#login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(1) {
+    animation: fade-in-04 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+}
+
+#login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(2) {
+    animation: fade-in-05 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+}
+
+#login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(3) {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex: 0 0 0;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    animation: fade-in-06 2.0s cubic-bezier(0.25, 0.1, 0.25, 1) 0.0s;
+
+    box-sizing: border-box;
+    padding: var(--default-size-medium, 12px);
+}
+
+#login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(3)  > * {
+    width: auto;
+    height: auto;
+
+    flex: 0 0 0;
+
+    box-sizing: border-box;
+    box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
+    border: none;
+    border-radius: calc(var(--default-size-small, 1px) * 4.00);
+    padding: calc(var(--default-size-medium, 12px) * 0.75) calc(var(--default-size-medium, 12px) * 1.50);
+
+    background: rgba(232, 240, 254, 1.00);
+    cursor: pointer;
+
+    font: normal 600 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#login-container > :nth-child(1) > :nth-child(2) > :nth-child(3) > *:hover {
+    background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+}
+
+#login-container  > :nth-child(2) {
     width: 100%;
     height: auto;
 
@@ -263,208 +236,183 @@
     color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 
     /* Links */
-    > :nth-child(1) {
-      display: flex;
-      flex-flow: row nowrap;
-      place-items: center center;
-      place-content: center start;
+}
 
-      flex: 1 1 auto;
+#login-container  > :nth-child(2)  > :nth-child(1) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center start;
 
-      width: 100%;
-      height: auto;
+    flex: 1 1 auto;
 
-      box-sizing: border-box;
-      padding: 24px;
-      gap: 12px;
+    width: 100%;
+    height: auto;
 
-      > :nth-child(odd) {
+    box-sizing: border-box;
+    padding: 24px;
+    gap: 12px;
+}
+
+#login-container  > :nth-child(2)  > :nth-child(1)  > :nth-child(odd) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center center;
+
+    width: auto;
+    height: 100%;
+}
+
+#login-container  > :nth-child(2)  > :nth-child(1)  > :nth-child(odd)  > a {
+    font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+    text-decoration: none;
+    color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+}
+
+#login-container > :nth-child(2) > :nth-child(1) > :nth-child(odd) > a:hover {
+    color: var(--default-color-accent-light, rgba(255, 183, 0, 1.00));
+}
+
+#login-container  > :nth-child(2)  > :nth-child(2) {
+    display: flex;
+    flex-flow: row nowrap;
+    place-items: center center;
+    place-content: center end;
+
+    flex: auto 1 auto;
+
+    width: calc(var(--default-size-large, 360px) * 2.00 / 3.00);
+    height: 100%;
+
+    box-sizing: border-box;
+    padding: calc(var(--default-size-medium, 12px) * 2.00);
+
+    font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
+}
+
+@media screen and (max-width: 1496px) {
+    #login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(2) {
+        display: flex;
+        flex-flow: column nowrap;
+        place-content: center center;
+        place-items: center center;
+
+        box-sizing: border-box;
+        gap: 0;
+    }
+}
+
+@media screen and (max-width: 1066px) {
+    #login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(1) {
+        display: flex;
+        flex-flow: column nowrap;
+        place-content: center center;
+        place-items: center center;
+
+        box-sizing: border-box;
+        gap: 0;
+    }
+}
+
+@media screen and (max-width: 905px) {
+    #login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(1) {
         display: flex;
         flex-flow: row nowrap;
-        place-items: center center;
         place-content: center center;
-        
-        width: auto;
-        height: 100%;
+        place-items: center center;
 
-        > a {
-          font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
-          text-decoration: none;
-          color: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+        box-sizing: border-box;
+        gap: calc(var(--default-size-medium, 12px) * 0.25);
 
-          &:hover {
-            color: var(--default-color-accent-light, rgba(255, 183, 0, 1.00));
-          }
-        }
-      }
+        font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
     }
 
-    /* Copyright Tag */
-    > :nth-child(2) {
-      display: flex;
-      flex-flow: row nowrap;
-      place-items: center center;
-      place-content: center end;
-
-      flex: auto 1 auto;
-
-      width: calc(var(--default-size-large, 360px) * 2.00 / 3.00);
-      height: 100%;
-
-      box-sizing: border-box;
-      padding: calc(var(--default-size-medium, 12px) * 2.00);
-
-      font: normal 400 calc(var(--default-size-medium, 12px) * 1.25) "Outfit", sans-serif;
-    }
-  }
-
-  @media screen and (max-width: 1496px) {
-    > :nth-child(1) {
-      > :nth-child(1) {
-        > :nth-child(2) {
-          > :nth-child(2) {
-            display: flex;
-            flex-flow: column nowrap;
-            place-content: center center;
-            place-items: center center;
-
-            box-sizing: border-box;
-            gap: 0;
-          }
-        }
-      }
-    }
-  }
-
-  @media screen and (max-width: 1066px) {
-    > :nth-child(1) {
-      > :nth-child(1) {
-        > :nth-child(2) {
-          > :nth-child(1) {
-            display: flex;
-            flex-flow: column nowrap;
-            place-content: center center;
-            place-items: center center;
-
-            box-sizing: border-box;
-            gap: 0;
-          }
-        }
-      }
-    }
-  }
-
-  @media screen and (max-width: 905px) {
-    > :nth-child(1) {
-      > :nth-child(1) {
-        > :nth-child(2) {
-          > :nth-child(1) {
-            display: flex;
-            flex-flow: row nowrap;
-            place-content: center center;
-            place-items: center center;
-
-            box-sizing: border-box;
-            gap: calc(var(--default-size-medium, 12px) * 0.25);
-
-            font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-          }
-
-          > :nth-child(2) {
-            font: normal 800 calc(var(--default-size-medium, 12px) * 4.00) "Outfit", sans-serif;
-          }
-        }
-      }
-
-      > :nth-child(2) {
-        > :nth-child(1), > :nth-child(2) {
-          label {
-            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-          }
-  
-          input {
-            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-          }
-        }
-
-        > :nth-child(3) {
-          > span {
-            font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-          }
-        }
-      }
+    #login-container  > :nth-child(1)  > :nth-child(1)  > :nth-child(2)  > :nth-child(2) {
+        font: normal 800 calc(var(--default-size-medium, 12px) * 4.00) "Outfit", sans-serif;
     }
 
-    > :nth-child(2) {
-      > :nth-child(1) {
-        > :nth-child(odd) {
-          > a {
-            font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-          }
-        }
-      }
-
-      > :nth-child(2) {
+    :is(#login-container >:nth-child(1) >:nth-child(2) >:nth-child(1),#login-container >:nth-child(1) >:nth-child(2) >:nth-child(2)) label {
         font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
-      }
     }
-  }
+
+    :is(#login-container >:nth-child(1) >:nth-child(2) >:nth-child(1),#login-container >:nth-child(1) >:nth-child(2) >:nth-child(2)) input {
+        font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+    }
+
+    #login-container  > :nth-child(1)  > :nth-child(2)  > :nth-child(3)  > span {
+        font: normal 600 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+    }
+
+    #login-container  > :nth-child(2)  > :nth-child(1)  > :nth-child(odd)  > a {
+        font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+    }
+
+    #login-container  > :nth-child(2)  > :nth-child(2) {
+        font: normal 400 calc(var(--default-size-medium, 12px) * 1.00) "Outfit", sans-serif;
+    }
 }
 
 @keyframes fade-in-01 {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fade-in-02 {
-  0%, 12.5% {
-    opacity: 0;
-    transform: translate(0px, -24px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(0px, 0px);
-  }
+    0%, 12.5% {
+        opacity: 0;
+        transform: translate(0px, -24px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
 }
 
 @keyframes fade-in-03 {
-  0%, 25% {
-    opacity: 0;
-    transform: translate(0px, -24px);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(0px, 0px);
-  }
+    0%, 25% {
+        opacity: 0;
+        transform: translate(0px, -24px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(0px, 0px);
+    }
 }
 
 @keyframes fade-in-04 {
-  0%, 37.5% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0%, 37.5% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fade-in-05 {
-  0%, 50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0%, 50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes fade-in-06 {
-  0%, 62.5% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0%, 62.5% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
