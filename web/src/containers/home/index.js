@@ -19,15 +19,15 @@ function HomePage () {
   const {
     dataLoading,
     setDataLoading,
+    token, setToken
   } = React.useContext(MainContext);
 
-  const [token, setToken] = React.useState(null);
 
   React.useEffect(function () {
     setDataLoading(true);
 
-    let username = sessionStorage.getItem("username");
-    let password = sessionStorage.getItem("password");
+    let username = localStorage.getItem("username");
+    let password = localStorage.getItem("password");
 
     async function handleAuthentication (username, password) {
       const portalUrl = "https://www.arcgis.com";      
@@ -96,10 +96,10 @@ function HomePage () {
                   :
                   null;
 
-              sessionStorage.setItem("regionDefault", user_ro);
-              sessionStorage.setItem("engineeringDistrictDefault", user_deo);
+              localStorage.setItem("regionDefault", user_ro);
+              localStorage.setItem("engineeringDistrictDefault", user_deo);
 
-              sessionStorage.setItem("yearDefault", new Date().getFullYear());
+              localStorage.setItem("yearDefault", new Date().getFullYear());
 
               setToken(tokenInfo);
             // })
@@ -118,12 +118,15 @@ function HomePage () {
 
     if (String(username).length > 0 && String(username).length > 0)  {
       handleAuthentication(username, password);
+      // console.log(token)
+
     }
     else {
       setDataLoading(false);
 
       navigate("/");
     }
+
   }, [navigate, setDataLoading]);
 
   return (

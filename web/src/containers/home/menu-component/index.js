@@ -45,7 +45,7 @@ export default function MenuComponent () {
   function handleExit () {
     navigate("/");
 
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
   return (

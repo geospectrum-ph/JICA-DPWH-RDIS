@@ -36,11 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     ro: {
       type: DataTypes.STRING,
-      allowNull: false      
+      allowNull: true      
     },
     deo: {
       type: DataTypes.STRING,
-      allowNull: false      
+      allowNull: true      
     }
     
   });
