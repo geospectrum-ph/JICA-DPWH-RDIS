@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar } from "recharts";
+import { Pie, PieChart, Cell, BarChart, CartesianGrid, Bar, } from "recharts";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
 import {
   layer_national_road_network,
@@ -11,7 +11,7 @@ import {
   layer_road_slopes_and_countermeasures,
   layer_inventory_of_road_slope_protection_structures,
   layer_inventory_of_road_slopes,
-  focus_map
+  focus_map,
 } from "../../home/map-component";
 
 import "./index.css";
@@ -42,7 +42,7 @@ export default function Summary () {
     filteredExistingRoadSlopeProtectionStructures,
 
     totalNonExistingRoadSlopeProtectionStructures,
-    filteredNonExistingRoadSlopeProtectionStructures
+    filteredNonExistingRoadSlopeProtectionStructures,
   } = React.useContext(MainContext);
 
   const RADIAN = Math.PI / 180;

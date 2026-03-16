@@ -107,7 +107,6 @@ export const layer_national_road_network = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.ROAD_NAME" },
-    // labelPlacement: "below-along",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -269,7 +268,6 @@ export const layer_municipalities_cities = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.MUNICIPAL" },
-    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -326,7 +324,6 @@ export const layer_provinces = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.PROVINCE" },
-    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -383,7 +380,6 @@ export const layer_legislative_districts = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.CONG_DIST" },
-    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -440,7 +436,6 @@ export const layer_engineering_districts = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.DEO" },
-    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -497,7 +492,6 @@ export const layer_regions = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.REGION" },
-    // labelPlacement: "always-horizontal",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -614,7 +608,6 @@ const layer_kilometer_posts = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.KM_POST" },
-    // labelPlacement: "above-center",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -1236,7 +1229,6 @@ export const layer_road_slope_hazards = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.hazard_risk" },
-    // labelPlacement: "below-along",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -1399,7 +1391,6 @@ export const layer_road_slopes_and_countermeasures = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.section_id" },
-    // labelPlacement: "below-along",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -1541,7 +1532,6 @@ export const layer_inventory_of_road_slopes = new FeatureLayer({
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.section_id" },
-    // labelPlacement: "below-along",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -1683,7 +1673,6 @@ export const layer_inventory_of_road_slope_protection_structures = new FeatureLa
   labelsVisible: true,
   labelingInfo: [{
     labelExpressionInfo: { expression: "$feature.section_id" },
-    // labelPlacement: "below-along",
     symbol: {
       type: "text",
       color: [0, 0, 0, 1.00],
@@ -2572,8 +2561,7 @@ function build_view(viewMode) {
         .then(function (response) {
           save_file(event.item.title.replace(/ /g, "_") + ".json", response.features);
         })
-        .catch(function (error) {
-          // console.error(error);
+        .catch(function () {
         });
     }
   });
@@ -2778,8 +2766,7 @@ export function MapComponent () {
                 view.goTo(selectedFeature.geometry.extent.expand(1.25));
               }
             })
-            .catch(function (error) {
-              // console.error(error);
+            .catch(function () {
             });
         }
     });
@@ -2945,8 +2932,7 @@ export function view_layer (module, filterLevel05Selected) {
               };
             }
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
 
         layer_provinces.definitionExpression =
@@ -3004,8 +2990,7 @@ export function view_layer (module, filterLevel05Selected) {
               };
             }
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
 
         layer_legislative_districts.definitionExpression =
@@ -3063,8 +3048,7 @@ export function view_layer (module, filterLevel05Selected) {
               };
             }
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
 
         layer_engineering_districts.definitionExpression =
@@ -3128,8 +3112,7 @@ export function view_layer (module, filterLevel05Selected) {
               };
             }
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
 
         layer_regions.definitionExpression =
@@ -3187,8 +3170,7 @@ export function view_layer (module, filterLevel05Selected) {
               };
             }
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
 
         /* Common Data */
@@ -3724,8 +3706,7 @@ export function view_layer (module, filterLevel05Selected) {
                 view.goTo(extent.expand(1.25));
               }
             })
-            .catch(function (error) {
-              // console.error(error);
+            .catch(function () {
             });
         }
         else if (region) {
@@ -3766,8 +3747,7 @@ export function view_layer (module, filterLevel05Selected) {
                 view.goTo(extent.expand(1.25));
               }
             })
-            .catch(function (error) {
-              // console.error(error);
+            .catch(function () {
             });
         }
         else {
@@ -3808,14 +3788,12 @@ export function view_layer (module, filterLevel05Selected) {
                 view.goTo(extent.expand(1.25));
               }
             })
-            .catch(function (error) {
-              // console.error(error);
+            .catch(function () {
             });
         }
 
       })
-      .catch(function (error) {
-        // console.error(error);
+      .catch(function () {
       });
   }
 }
@@ -3938,8 +3916,7 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                     "1 = 0"
               });
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
       });
 
@@ -4051,13 +4028,11 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                             view.map.reorder(layer, 0);
                           }
                         })
-                        .catch(function (error) {
-                          // console.error(error);
+                        .catch(function () {
                         });
                     }
                   })
-                  .catch(function (error) {
-                    // console.error(error);
+                  .catch(function () {
                   });
               }
 
@@ -4185,15 +4160,12 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                     view.goTo(extent.expand(1.25));
                   }
                 })
-                .catch(function (error) {
-                  // console.error(error);
+                .catch(function () {
                 })
             );
           }
         })
-        .catch(function (error) {
-          return (null);
-          // console.error(error);
+        .catch(function () {
         })
     );
   }
@@ -4210,8 +4182,7 @@ export function close_popup () {
           .when(function () {
             view.popup.visible = false;
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
       }
     });    
@@ -4228,8 +4199,7 @@ export function open_popup (features) {
               fetchFeatures: false
             });
           })
-          .catch(function (error) {
-            // console.error(error);
+          .catch(function () {
           });
       }
     });     
@@ -4245,10 +4215,7 @@ export async function recenter_map (extent) {
             
             return (null);
           })
-          .catch(function (error) {
-            return (null);
-            
-            // console.error(error);
+          .catch(function () {
           });
       }
       else {

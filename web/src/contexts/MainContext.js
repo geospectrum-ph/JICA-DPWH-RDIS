@@ -5,7 +5,7 @@ export const MainContext = React.createContext();
 function MainContextProvider (props) {
   // For module switch handling.
 
-    const [token, setToken] = React.useState(null);
+  const [token, setToken] = React.useState(null);
   
   const [menuComponentOpen, setMenuComponentOpen] = React.useState(true);
 

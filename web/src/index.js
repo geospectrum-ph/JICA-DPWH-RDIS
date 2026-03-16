@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, } from "react-router-dom";
 
 import MainContextProvider from "./contexts/MainContext";
 
@@ -10,9 +10,8 @@ import "./index.css";
 
 ReactDOM
   .createRoot(
-    document
-      .getElementById("root")
-    )
+    document.getElementById("root")
+  )
   .render(
     <BrowserRouter>
       <MainContextProvider>

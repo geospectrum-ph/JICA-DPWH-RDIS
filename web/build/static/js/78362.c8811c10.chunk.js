@@ -1,0 +1,2 @@
+"use strict";(globalThis.webpackChunkRDIS_Web_Application=globalThis.webpackChunkRDIS_Web_Application||[]).push([[78362],{78362(n,e,o){o.r(e),o.d(e,{getVersionInfos:()=>a});var i=o(3825),s=o(54994);async function a(n,e,o){const a=(0,s.Dl)(n),r=e.toJSON(),t=(0,s.jV)(a.query,{query:(0,s.lF)({...r,f:"json"}),...o,authMode:"no-prompt"}),u=`${a.path}/versionInfos`,{data:p}=await(0,i.A)(u,t);return p.versions.map((n=>{const{versionName:e,versionGuid:o,...i}=n;return{...i,versionIdentifier:{name:e,guid:o}}}))}}}]);
+//# sourceMappingURL=78362.c8811c10.chunk.js.map

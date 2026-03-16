@@ -2,11 +2,11 @@ import * as React from "react";
 
 import ExcelJS from "exceljs";
 
-import { saveAs } from "file-saver";
+import { saveAs, } from "file-saver";
 
 import {
   layer_road_slope_hazards,
-  layer_road_slopes_and_countermeasures
+  layer_road_slopes_and_countermeasures,
 } from "../../home/map-component";
 
 import "./index.css";
@@ -39,8 +39,7 @@ function ExcelExport({ data, fileName }) {
 
       saveAs(new Blob([buffer]), `${fileName}.xlsx`);
     }
-    catch (error) {
-      // console.log(error);
+    catch {
     }
   };
 

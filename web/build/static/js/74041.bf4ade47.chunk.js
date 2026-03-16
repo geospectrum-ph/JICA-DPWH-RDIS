@@ -1,0 +1,2 @@
+"use strict";(globalThis.webpackChunkRDIS_Web_Application=globalThis.webpackChunkRDIS_Web_Application||[]).push([[74041],{74041(n,t,e){e.r(t),e.d(t,{extractRegion:()=>r,getCountry:()=>c,global:()=>o});var i=e(30873);const o="Global";function r(n){if(function(n){return 0===(0,i.a)(n).countries.length}(n))return o;const t=n.indexOf("/");return-1===t?n:n.slice(0,t)}function c(n){return(0,i.g)(n)?.id??n}}}]);
+//# sourceMappingURL=74041.bf4ade47.chunk.js.map

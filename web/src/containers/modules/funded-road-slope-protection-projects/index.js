@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
 import {
   layer_road_slopes_and_countermeasures,
   close_popup,
   open_popup,
-  recenter_map
+  recenter_map,
 } from "../../home/map-component";
 
 import "./index.css";
@@ -15,7 +15,7 @@ export default function FundedRoadSlopeProtectionProjects () {
   const {
     dataSource03,
 
-    dataLoading
+    dataLoading,
   } = React.useContext(MainContext);
 
   const sublevels = [
@@ -110,8 +110,7 @@ export default function FundedRoadSlopeProtectionProjects () {
             open_popup(response.features);
           }
         })
-        .catch(function (error) {
-          // console.log(error);
+        .catch(function () {
         });
     }
     

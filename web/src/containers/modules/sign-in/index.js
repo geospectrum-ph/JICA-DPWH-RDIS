@@ -1,14 +1,10 @@
 import * as React from "react";
 
-import { useNavigate } from "react-router-dom";
-
-import esriId from "@arcgis/core/identity/IdentityManager.js";
+import { useNavigate, } from "react-router-dom";
 
 import logo_DPWH from "../../../assets/logo_dpwh.png";
 
 import "./index.css";
-
-import { MainContext } from "../../../contexts/MainContext";
 
 export default function SignInPage () {
   const navigate = useNavigate();
@@ -16,18 +12,12 @@ export default function SignInPage () {
   const [usernameBuffer, setUsernameBuffer] = React.useState("");
   const [passwordBuffer, setPasswordBuffer] = React.useState("");
 
-  const {
-    token, setToken
-  } = React.useContext(MainContext)
-
   React.useEffect(() => {
     let username = localStorage.getItem("username");
     // let password = sessionStorage.getItem("password");
 
-
     if (Boolean(username))  {
       navigate('/home')
-
     }
   }, [])
 

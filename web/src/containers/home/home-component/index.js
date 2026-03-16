@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { Outlet } from "react-router-dom";
+import { Outlet, } from "react-router-dom";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
-import { MapComponent } from "../map-component";
+import { MapComponent, } from "../map-component";
 
 import TitleComponent from "../title-component";
 import FilterComponent from "../filter-component";
@@ -18,7 +18,7 @@ function HomeComponent () {
     menuComponentOpen,
 
     modules,
-    moduleSelected
+    moduleSelected,
   } = React.useContext(MainContext);
 
   return (

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
 import "./index.css";
 
@@ -8,7 +8,7 @@ export default function ProposalForFunding () {
   const {
     dataSource03,
 
-    dataLoading
+    dataLoading,
   } = React.useContext(MainContext);
 
   return (

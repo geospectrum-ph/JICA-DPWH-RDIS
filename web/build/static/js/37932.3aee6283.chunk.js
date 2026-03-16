@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkRDIS_Web_Application=globalThis.webpackChunkRDIS_Web_Application||[]).push([[37932],{37932(b,i,a){a.r(i),a.d(i,{build:()=>l.b});a(47233),a(79138),a(86955),a(72790),a(70571),a(2687);var l=a(62854)}}]);

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
 import {
   layer_national_road_network,
@@ -63,7 +63,7 @@ export default function FilterComponent () {
     setFilteredExistingRoadSlopeProtectionStructures,
   
     setTotalNonExistingRoadSlopeProtectionStructures,
-    setFilteredNonExistingRoadSlopeProtectionStructures
+    setFilteredNonExistingRoadSlopeProtectionStructures,
   } = React.useContext(MainContext);
 
   /* Sets the working dataset and the values of the summary variables based on selected filters per module. */
@@ -165,22 +165,18 @@ export default function FilterComponent () {
 
             setDataLoader01(false);
           })
-          .catch(function (error) {
+          .catch(function () {
             setTotalRoadInventory(0);
             setFilteredRoadInventory(0);
 
             setDataLoader01(false);
-
-            // console.log(error);
           });
       })
-      .catch(function (error) {
+      .catch(function () {
         setTotalRoadInventory(0);
         setFilteredRoadInventory(0);
 
         setDataLoader01(false);
-
-        // console.log(error);
       });
   }
 
@@ -326,15 +322,13 @@ export default function FilterComponent () {
 
         setDataLoader02(false);
       })
-      .catch(function (error) {        
+      .catch(function () {        
         setFilteredRoadSlopeHazardsInventory(0);
         setTotalRoadSlopeHazardsInventory(0);
 
         setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer);
 
         setDataLoader02(false);
-
-        // console.log(error);
       });
   }
 
@@ -957,7 +951,7 @@ export default function FilterComponent () {
 
         setDataLoader03(false);
       })
-      .catch(function (error) {
+      .catch(function () {
         setFilteredRoadSlopeInventory(0);
         setTotalRoadSlopeInventory(0);
 
@@ -975,8 +969,6 @@ export default function FilterComponent () {
         setArrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructure(arrayRoadSlopeProtectionStructuresTypeOfRoadSlopeProtectionStructureBuffer);
 
         setDataLoader03(false);
-
-        // console.log(error);
       });
   }
 
@@ -1035,10 +1027,8 @@ export default function FilterComponent () {
 
         setDataLoader04(false);
       })
-      .catch(function (error) {
+      .catch(function () {
         setDataLoader04(false);
-
-        // console.log(error);
       });
   }, [filterArray]);
 
@@ -1079,7 +1069,7 @@ export default function FilterComponent () {
       focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
         .then(function (response) {
         })
-        .catch(function (error) {
+        .catch(function () {
           setDataLoading(false);
           setDataLoader01(false);
         });
@@ -1097,7 +1087,7 @@ export default function FilterComponent () {
         focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1110,7 +1100,7 @@ export default function FilterComponent () {
         focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1128,7 +1118,7 @@ export default function FilterComponent () {
         focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? filterLevel02Selected, filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1141,7 +1131,7 @@ export default function FilterComponent () {
         focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1154,7 +1144,7 @@ export default function FilterComponent () {
         focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1183,7 +1173,7 @@ export default function FilterComponent () {
       focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? string ?? filterLevel01Selected, filterLevel05Selected)
         .then(function (response) {
         })
-        .catch(function (error) {
+        .catch(function () {
           setDataLoading(false);
           setDataLoader01(false);
         });
@@ -1208,7 +1198,7 @@ export default function FilterComponent () {
       focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? string ?? filterLevel02Selected, filterLevel05Selected)
         .then(function (response) {
         })
-        .catch(function (error) {
+        .catch(function () {
           setDataLoading(false);
           setDataLoader01(false);
         });
@@ -1233,7 +1223,7 @@ export default function FilterComponent () {
       focus_map(3, [layer_legislative_districts], ["CONG_DIST", "district_name"], string ?? filterLevel03Selected, filterLevel05Selected)
         .then(function (response) {
         })
-        .catch(function (error) {
+        .catch(function () {
           setDataLoading(false);
           setDataLoader01(false);
         });
@@ -1268,7 +1258,7 @@ export default function FilterComponent () {
           )
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });
@@ -1299,7 +1289,7 @@ export default function FilterComponent () {
           focus_map(2, [layer_engineering_districts], ["DEO", "deo_name"], deo ?? filterLevel02Selected, string ?? filterLevel05Selected)
             .then(function (response) {
             })
-            .catch(function (error) {
+            .catch(function () {
               setDataLoading(false);
               setDataLoader01(false);
             });
@@ -1312,7 +1302,7 @@ export default function FilterComponent () {
           focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, string ?? filterLevel05Selected)
             .then(function (response) {
             })
-            .catch(function (error) {
+            .catch(function () {
               setDataLoading(false);
               setDataLoader01(false);
             });
@@ -1325,7 +1315,7 @@ export default function FilterComponent () {
           focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
             .then(function (response) {
             })
-            .catch(function (error) {
+            .catch(function () {
               setDataLoading(false);
               setDataLoader01(false);
             });
@@ -1344,7 +1334,7 @@ export default function FilterComponent () {
           focus_map(1, [layer_regions], ["REGION", "region_name"], region ?? filterLevel01Selected, string ?? filterLevel05Selected)
             .then(function (response) {
             })
-            .catch(function (error) {
+            .catch(function () {
               setDataLoading(false);
               setDataLoader01(false);
             });
@@ -1357,7 +1347,7 @@ export default function FilterComponent () {
           focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
             .then(function (response) {
             })
-            .catch(function (error) {
+            .catch(function () {
               setDataLoading(false);
               setDataLoader01(false);
             });
@@ -1376,7 +1366,7 @@ export default function FilterComponent () {
         focus_map(0, [layer_national_road_network, layer_national_expressways], null, null, string ?? filterLevel05Selected)
           .then(function (response) {
           })
-          .catch(function (error) {
+          .catch(function () {
             setDataLoading(false);
             setDataLoader01(false);
           });

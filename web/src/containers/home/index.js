@@ -1,12 +1,10 @@
 import * as React from "react";
 
-import { useNavigate } from "react-router-dom";
-
-// import axios from "axios";
+import { useNavigate, } from "react-router-dom";
 
 import esriId from "@arcgis/core/identity/IdentityManager.js";
 
-import { MainContext } from "../../contexts/MainContext";
+import { MainContext, } from "../../contexts/MainContext";
 
 import HomeComponent from "./home-component";
 import LoadingComponent from "./loading-component";
@@ -19,9 +17,8 @@ function HomePage () {
   const {
     dataLoading,
     setDataLoading,
-    token, setToken
+    token, setToken,
   } = React.useContext(MainContext);
-
 
   React.useEffect(function () {
     setDataLoading(true);
@@ -46,80 +43,64 @@ function HomePage () {
       esriId
         .generateToken(serverInfo, userInfo)
         .then(function (tokenInfo) {
-          // const URL = process.env.NODE_ENV === "production" ? "https://rdis-test.geospectrum.com.ph/" : "http://localhost:1433/";
+          esriId
+            .registerToken({
+              ...tokenInfo,
+              server
+            });
 
-          // axios
-          //   .post(URL + "users/login", userInfo)
-          //   .then(function (response) {
-              esriId
-                .registerToken({
-                  ...tokenInfo,
-                  server
-                });
+          let user_ro =
+            username === "dpwh_rdis" ?
+              null
+              :
+            username === "rdis_training1" ?
+              "Cordillera Administrative Region"
+              :
+            username === "rdis_training2" ?
+              "Region VII"
+              :
+            username === "rdis_training3" ?
+              "Region XI"
+              :
+            username === "rdis_training4" ?
+              "National Capital Region"
+              :
+              "National Capital Region";
 
-              // sessionStorage.setItem("regionDefault", response.data.user.ro);
-              // sessionStorage.setItem("engineeringDistrictDefault", response.data.user.deo);
+          let user_deo =
+            username === "dpwh_rdis" ?
+              null
+              :
+            username === "rdis_training1" ?
+              null
+              :
+            username === "rdis_training2" ?
+              null
+              :
+            username === "rdis_training3" ?
+              null
+              :
+            username === "rdis_training4" ?
+              "South Manila District Engineering Office"
+              :
+              null;
 
-              let user_ro =
-                username === "dpwh_rdis" ?
-                  null
-                  :
-                username === "rdis_training1" ?
-                  "Cordillera Administrative Region"
-                  :
-                username === "rdis_training2" ?
-                  "Region VII"
-                  :
-                username === "rdis_training3" ?
-                  "Region XI"
-                  :
-                username === "rdis_training4" ?
-                  "National Capital Region"
-                  :
-                  "National Capital Region";
+          localStorage.setItem("regionDefault", user_ro);
+          localStorage.setItem("engineeringDistrictDefault", user_deo);
 
-              let user_deo =
-                username === "dpwh_rdis" ?
-                  null
-                  :
-                username === "rdis_training1" ?
-                  null
-                  :
-                username === "rdis_training2" ?
-                  null
-                  :
-                username === "rdis_training3" ?
-                  null
-                  :
-                username === "rdis_training4" ?
-                  "South Manila District Engineering Office"
-                  :
-                  null;
+          localStorage.setItem("yearDefault", new Date().getFullYear());
 
-              localStorage.setItem("regionDefault", user_ro);
-              localStorage.setItem("engineeringDistrictDefault", user_deo);
-
-              localStorage.setItem("yearDefault", new Date().getFullYear());
-
-              setToken(tokenInfo);
-            // })
-            // .catch(function (error) {
-            //   // console.log(error);
-            // });
+          setToken(tokenInfo);
         })
-        .catch(function (error) {
+        .catch(function () {
           setToken(null);
 
           navigate("/");
-          
-          // console.log(error);
         });
     }
 
     if (String(username).length > 0 && String(username).length > 0)  {
       handleAuthentication(username, password);
-      // console.log(token)
-
     }
     else {
       setDataLoading(false);

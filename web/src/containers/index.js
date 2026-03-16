@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 
 import SignIn from "./modules/sign-in";
 

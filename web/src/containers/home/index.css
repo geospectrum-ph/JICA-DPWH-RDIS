@@ -1,44 +1,44 @@
 #home-container {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    display: flex;
-    flex-flow: row nowrap;
-    place-items: center stretch;
-    place-content: center center;
+  display: flex;
+  flex-flow: row nowrap;
+  place-items: center stretch;
+  place-content: center center;
 
-    background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 }
 
 #home-container:has(> :nth-child(4).loading-modal-active) {
-    pointer-events: none;
-    user-select: none;
+  pointer-events: none;
+  user-select: none;
 }
 
 #home-container:has(> :nth-child(4).loading-modal-hidden) {
-    pointer-events: all;
-    user-select: auto;
+  pointer-events: all;
+  user-select: auto;
 }
 
 #home-container  > :nth-child(1) {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #home-container  > :nth-child(2) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 500;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 500;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 #home-container > :nth-child(2).loading-component-visible {
-    display: block;
+  display: block;
 }
 
 #home-container > :nth-child(2).loading-component-hidden {
-    display: none;
+  display: none;
 }

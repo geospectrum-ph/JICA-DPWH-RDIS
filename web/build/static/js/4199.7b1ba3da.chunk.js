@@ -1,2 +1,0 @@
-/*! For license information please see 4199.7b1ba3da.chunk.js.LICENSE.txt */
-"use strict";(self.webpackChunkRDIS_Web_Application=self.webpackChunkRDIS_Web_Application||[]).push([[4199],{74199:(e,n,t)=>{t.r(n),t.d(n,{CalcitePanel:()=>c,defineCustomElement:()=>i});var a=t(46269);const c=a.P,i=a.d}}]);

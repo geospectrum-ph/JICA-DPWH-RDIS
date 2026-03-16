@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
 import logo_DPWH from "../../../assets/logo_dpwh.png";
 
@@ -11,7 +11,7 @@ import "./index.css";
 export default function TitleComponent () {
   const navigate = useNavigate();
 
-  const { dataTimestamp } = React.useContext(MainContext);
+  const { dataTimestamp, } = React.useContext(MainContext);
 
   return (
     <div id = "title-component">

@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 
-import { MainContext } from "../../../contexts/MainContext";
+import { MainContext, } from "../../../contexts/MainContext";
 
-import { view_layer } from "../map-component";
+import { view_layer, } from "../map-component";
 
 import "./index.css";
 
@@ -17,7 +17,7 @@ export default function MenuComponent () {
 
     modules,
     moduleSelected,
-    setModuleSelected
+    setModuleSelected,
   } = React.useContext(MainContext);
 
   function set_module (index) {
