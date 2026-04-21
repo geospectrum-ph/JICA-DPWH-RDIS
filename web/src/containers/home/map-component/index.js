@@ -3406,18 +3406,40 @@ export function view_layer (module, filterLevel05Selected) {
 
               const data_situational_reports = await response_situational_reports.json();
 
-              console.log(data_situational_reports);
-
               let { features, fields, globalIdFieldName, objectIdFieldName, ...other_data } = data_situational_reports;
 
               function content_situational_reports(target) {          
-                console.log(target);
-
                 const container = document.createElement("div");
 
                 container.innerHTML = `
                   <table className = "attribute-table">
                     <tbody>
+                      <tr>
+                        <td><b>Report as of</b></td>
+                        <td>${ target.graphic.attributes.dateTime ? new Date(target.graphic.attributes.dateTime).toDateString().slice(4) : "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Calamity</b></td>
+                        <td>${ target.graphic.attributes.calamity_note ?? "No available data" }</td>
+                      </tr>
+                      
+                      <tr>
+                        <td><b>Cause of Calamity</b></td>
+                        <td>${ target.graphic.attributes.rain ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Typhoon Name</b></td>
+                        <td>${ target.graphic.attributes.typhoonname ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Magnitude of Earthquake</b></td>
+                        <td>${ target.graphic.attributes.magnitude ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Volcano</b></td>
+                        <td>${ target.graphic.attributes.volcano ?? "No available data" }</td>
+                      </tr>
+                      
                       <tr>
                         <td><b>Region</b></td>
                         <td>${ target.graphic.attributes.region_note ?? "No available data" }</td>
@@ -3426,63 +3448,20 @@ export function view_layer (module, filterLevel05Selected) {
                         <td><b>Engineering District</b></td>
                         <td>${ target.graphic.attributes.deoname_note ?? "No available data" }</td>
                       </tr>
-                      <tr>
-                        <td><b>Section ID</b></td>
-                        <td>${ target.graphic.attributes.SID ?? "No available data" }</td>
-                      </tr>
-                      <tr>
-                        <td><b>Calamity Type</b></td>
-                        <td>${ target.graphic.attributes.calamity_note ?? "No available data" }</td>
-                      </tr>
-                      <tr>
-                        <td><b>Date and Time of Occurence</b></td>
-                        <td>${ target.graphic.attributes.dateTime ? new Date(target.graphic.attributes.dateTime).toDateString() : "No available data" }</td>
-                      </tr>
-                      
+
                       <tr>
                         <td><b>Infrastructure Type</b></td>
                         <td>${ target.graphic.attributes.infra_type ?? "No available data" }</td>
                       </tr>
                       <tr>
-                        <td><b>Situation Report Note</b></td>
+                        <td><b>Infrastructure ID</b></td>
+                        <td>${ target.graphic.attributes.SID ?? "No available data" }</td>
+                      </tr>
+
+                      <tr>
+                        <td><b>Situation During Note</b></td>
                         <td>${ target.graphic.attributes.situation_note_during ?? "No available data" }</td>
                       </tr>
-                      ${
-                        target.graphic.attributes.magnitude ?
-                          `<tr>
-                            <td><b>Magnitude</b></td>
-                            <td>${ target.graphic.attributes.magnitude }</td>
-                          </tr>`
-                          :
-                          ""
-                      }
-                      ${
-                        target.graphic.attributes.rain ?
-                          `<tr>
-                            <td><b>Rain</b></td>
-                            <td>${ target.graphic.attributes.rain }</td>
-                          </tr>`
-                          :
-                          ""
-                      }
-                      ${
-                        target.graphic.attributes.typhoonname ?
-                          `<tr>
-                            <td><b>Typhoon Name</b></td>
-                            <td>${ target.graphic.attributes.typhoonname }</td>
-                          </tr>`
-                          :
-                          ""
-                      }
-                      ${
-                        target.graphic.attributes.volcano ?
-                          `<tr>
-                            <td><b>Volcano</b></td>
-                            <td>${ target.graphic.attributes.volcano }</td>
-                          </tr>`
-                          :
-                          ""
-                      }
                     </tbody>
                   </table>
                 `;
@@ -3564,14 +3543,12 @@ export function view_layer (module, filterLevel05Selected) {
                 },
                 popupEnabled: true,
                 popupTemplate: {
-                  title: "Situational Report",
+                  title: "Situational Report: {globalid}",
                   outFields: ["*"],
                   content: content_situational_reports,
                 },
                 visible: true,
               });
-
-              console.log(layer_situational_reports);
 
               view.map.layers.push(layer_situational_reports);
 
