@@ -3408,7 +3408,7 @@ export function view_layer (module, filterLevel05Selected) {
 
               console.log(data_situational_reports);
 
-              let { features, fields, objectIdFieldName, ...others } = data_situational_reports;
+              let { features, fields, globalIdFieldName, objectIdFieldName, ...other_data } = data_situational_reports;
 
               function content_situational_reports(target) {          
                 console.log(target);
@@ -3436,7 +3436,7 @@ export function view_layer (module, filterLevel05Selected) {
                       </tr>
                       <tr>
                         <td><b>Date and Time of Occurence</b></td>
-                        <td>${ target.graphic.attributes.dateTime ? new Date(target.graphic.attributes.dateTime).toDateString().splice(4) : "No available data" }</td>
+                        <td>${ target.graphic.attributes.dateTime ? new Date(target.graphic.attributes.dateTime).toDateString() : "No available data" }</td>
                       </tr>
                       
                       <tr>
@@ -3504,6 +3504,27 @@ export function view_layer (module, filterLevel05Selected) {
               const layer_situational_reports = new FeatureLayer({
                 // ...content_situational_reports,
                 title: "Situational Reports",
+                fields:
+                  fields
+                    .map(function (field) {
+                      return ({
+                        name: field.name,
+                        alias: field.alias,
+                        type:
+                          field.type === "esriFieldTypeOID" ?
+                            "oid"
+                            :
+                          field.type === "esriFieldTypeGlobalID" ?
+                            "global-id"
+                            :
+                          field.type === "esriFieldTypeDate" ?
+                            "date"
+                            :
+                            "string",
+                      });
+                    }),
+                objectIdField: objectIdFieldName,
+                geometryType: "point",
                 source:
                   features
                     .map(function (feature) {
@@ -3516,8 +3537,7 @@ export function view_layer (module, filterLevel05Selected) {
                         },
                       });
                     }),
-                fields: fields,
-                objectIdField: objectIdFieldName,
+                outFields: ["*"],
                 renderer: {
                   type: "simple",
                   // label: `${ category[0] } Road Section`,
@@ -3542,16 +3562,16 @@ export function view_layer (module, filterLevel05Selected) {
                     ]
                   }]
                 },
+                popupEnabled: true,
+                popupTemplate: {
+                  title: "Situational Report",
+                  outFields: ["*"],
+                  content: content_situational_reports,
+                },
                 visible: true,
               });
 
-              layer_situational_reports.popupEnabled = true;
-
-              layer_situational_reports.popupTemplate = {
-                title: "Situational Report",
-                outFields: ["*"],
-                content: content_situational_reports,
-              };
+              console.log(layer_situational_reports);
 
               view.map.layers.push(layer_situational_reports);
 
