@@ -42,6 +42,8 @@ const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/a
 // const url_calamities = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0"; // Returns an error on access, as of 09/2025.
 // const url_situational_reports = "https://utility.arcgis.com/usrsvcs/servers/59f6339356534575b4fedb1d467d0d01/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/1"; // Returns an error on access, as of 09/2025.
 
+const url_situational_reports = "https://apps2.dpwh.gov.ph/proxy_disire/proxy.ashx?https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0/query?where=1=1&outFields=*&f=json";
+
 const url_RDIS_RSH_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0";
 const url_RDIS_RSMS_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/0";
 // const url_RDIS_RSMS_photos_additional = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/1";
@@ -3393,6 +3395,173 @@ export function view_layer (module, filterLevel05Selected) {
 
           // view.map.layers.push(group_situational_reports);
           // view.map.layers.push(group_calamities);
+
+          async function create_layer_situational_reports() {
+            try {
+              const response_situational_reports = await fetch(url_situational_reports);
+
+              if (!(response_situational_reports.ok)) {
+                throw (new Error(`Response status: ${ response_situational_reports.status }`));
+              }
+
+              const data_situational_reports = await response_situational_reports.json();
+
+              console.log(data_situational_reports);
+
+              let { features, fields, objectIdFieldName, ...others } = data_situational_reports;
+
+              function content_situational_reports(target) {          
+                console.log(target);
+
+                const container = document.createElement("div");
+
+                container.innerHTML = `
+                  <table className = "attribute-table">
+                    <tbody>
+                      <tr>
+                        <td><b>Region</b></td>
+                        <td>${ target.graphic.attributes.region_note ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Engineering District</b></td>
+                        <td>${ target.graphic.attributes.deoname_note ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Section ID</b></td>
+                        <td>${ target.graphic.attributes.SID ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Calamity Type</b></td>
+                        <td>${ target.graphic.attributes.calamity_note ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Date and Time of Occurence</b></td>
+                        <td>${ target.graphic.attributes.dateTime ? new Date(target.graphic.attributes.dateTime).toDateString().splice(4) : "No available data" }</td>
+                      </tr>
+                      
+                      <tr>
+                        <td><b>Infrastructure Type</b></td>
+                        <td>${ target.graphic.attributes.infra_type ?? "No available data" }</td>
+                      </tr>
+                      <tr>
+                        <td><b>Situation Report Note</b></td>
+                        <td>${ target.graphic.attributes.situation_note_during ?? "No available data" }</td>
+                      </tr>
+                      ${
+                        target.graphic.attributes.magnitude ?
+                          `<tr>
+                            <td><b>Magnitude</b></td>
+                            <td>${ target.graphic.attributes.magnitude }</td>
+                          </tr>`
+                          :
+                          ""
+                      }
+                      ${
+                        target.graphic.attributes.rain ?
+                          `<tr>
+                            <td><b>Rain</b></td>
+                            <td>${ target.graphic.attributes.rain }</td>
+                          </tr>`
+                          :
+                          ""
+                      }
+                      ${
+                        target.graphic.attributes.typhoonname ?
+                          `<tr>
+                            <td><b>Typhoon Name</b></td>
+                            <td>${ target.graphic.attributes.typhoonname }</td>
+                          </tr>`
+                          :
+                          ""
+                      }
+                      ${
+                        target.graphic.attributes.volcano ?
+                          `<tr>
+                            <td><b>Volcano</b></td>
+                            <td>${ target.graphic.attributes.volcano }</td>
+                          </tr>`
+                          :
+                          ""
+                      }
+                    </tbody>
+                  </table>
+                `;
+
+                return ([
+                  {
+                    type: "custom",
+                    creator: function () {
+                      return (container);
+                    }
+                  },
+                  {
+                    type: "attachments",
+                    displayType: "auto"
+                  }
+                ]);
+              }
+
+              const layer_situational_reports = new FeatureLayer({
+                // ...content_situational_reports,
+                title: "Situational Reports",
+                source:
+                  features
+                    .map(function (feature) {
+                      return ({
+                        attributes: feature.attributes,
+                        geometry: {
+                          type: "point",
+                          longitude: feature.geometry.x ?? 0,
+                          latitude: feature.geometry.y ?? 0,
+                        },
+                      });
+                    }),
+                fields: fields,
+                objectIdField: objectIdFieldName,
+                renderer: {
+                  type: "simple",
+                  // label: `${ category[0] } Road Section`,
+                  label: "Situation Report",
+                  symbol: {
+                    type: "simple-marker",
+                    style: "circle",
+                    // color: category[1],
+                    color: [255, 255, 255, 1.00],
+                    outline: {
+                      color: [0, 0, 0, 1.00],
+                      width: 1.00
+                    }
+                  },
+                  visualVariables: [{
+                    type: "size",
+                    valueExpression: "$view.scale",
+                    stops: [
+                      { size: 8, value: 9027.977411 }, // Zoom Level: 16
+                      { size: 4, value: 144447.638572 }, // Zoom Level: 12
+                      { size: 1, value: 2311162.217155 } // Zoom Level: 8
+                    ]
+                  }]
+                },
+                visible: true,
+              });
+
+              layer_situational_reports.popupEnabled = true;
+
+              layer_situational_reports.popupTemplate = {
+                title: "Situational Report",
+                outFields: ["*"],
+                content: content_situational_reports,
+              };
+
+              view.map.layers.push(layer_situational_reports);
+
+            }
+            catch (error) {
+              console.error(error.message);
+            }
+          }
+
+          create_layer_situational_reports();
 
           view.map.layers.push(group_storm_surge_hazards);
           view.map.layers.push(group_road_slope_hazards);
