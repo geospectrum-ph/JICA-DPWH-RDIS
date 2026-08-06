@@ -45,7 +45,7 @@ const url_storm_surge_hazards = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/a
 const url_situational_reports = "https://apps2.dpwh.gov.ph/proxy_disire/proxy.ashx?https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/Disaster_Situational_Report_App_v302_view_RDIS/FeatureServer/0/query?where=1=1&outFields=*&f=json";
 
 const url_RDIS_RSH_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_d949cc4a920045c699f13c5bb9e8938d/FeatureServer/0";
-const url_RDIS_RSMS_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/0";
+const url_RDIS_RSMS_photos = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_2b5afd0e9a2b4c23b47f1703fb2bff05/FeatureServer/0";
 // const url_RDIS_RSMS_photos_additional = "https://services1.arcgis.com/IwZZTMxZCmAmFYvF/arcgis/rest/services/service_fbfed27f898a4806af2b014de697906f/FeatureServer/1";
 
 /* Reference Data */
