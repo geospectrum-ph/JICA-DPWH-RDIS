@@ -45,7 +45,7 @@
   box-sizing: border-box;
   box-shadow: rgba(0, 0, 0, 0.40) 0px 2px 4px, rgba(0, 0, 0, 0.30) 0px 7px 13px -3px, rgba(0, 0, 0, 0.20) 0px -3px 0px inset;
   border-radius: calc(var(--default-size-small, 1px) * 4.00);
-  padding: calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50) + calc(var(--default-size-medium, 12px) * 3.00)) calc((var(--default-size-medium, 12px) * 0.50) + calc(var(--default-size-small, 1px) * 4.00)) calc(var(--default-size-medium, 12px) * 0.50);
+  padding: calc(var(--default-size-medium, 12px) * 0.50) calc((var(--default-size-medium, 12px) * 0.50) + calc(var(--default-size-medium, 12px) * 4.00)) calc(var(--default-size-medium, 12px) * 0.50) calc(var(--default-size-medium, 12px) * 0.50);
 
   background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 }
@@ -298,5 +298,25 @@
 }
 
 #filter-component > :nth-child(2) > *.filter-menu-dropdown-active  > :nth-child(2) :hover, #filter-component > :nth-child(2) > *.filter-menu-dropdown-active > :nth-child(2).filter-menu-item-selected {
+  color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+}
+
+.search-clear-button {
+  position: absolute;
+  right: calc(var(--default-size-medium, 12px) * 2.75);
+  top: calc(var(--default-size-medium, 12px) * 0.875);
+  cursor: pointer;
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+  display: flex;
+  place-items: center center;
+  place-content: center center;
+}
+
+.search-clear-button > * {
+  font-size: calc(var(--default-size-medium, 12px) * 1.25);
+  transition: color 0.15s ease;
+}
+
+.search-clear-button:hover > * {
   color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
 }

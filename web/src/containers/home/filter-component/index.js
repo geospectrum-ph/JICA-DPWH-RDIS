@@ -1247,6 +1247,10 @@ export default function FilterComponent () {
             setDataLoading(false);
             setDataLoader01(false);
           });
+
+        filter_data_01(type, string);
+        filter_data_02(type, string);
+        filter_data_03(type, string);
       }
       else {
         if (deo) {
@@ -1578,9 +1582,24 @@ export default function FilterComponent () {
       <div>
         <div onClick = { function () { click_dropdown(0); } }>
           <input type = "text" placeholder = "Search" value = { filterLevel04Selected ? filterLevel04Selected : "" } onChange = { function (event) { setFilterLevel04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterLevel04Selected); } } }/>
-          <div onClick = { function () { select_filter(4, filterLevel04Selected); } }>
+          <div onClick = { function (event) { event.stopPropagation(); select_filter(4, filterLevel04Selected); } }>
             <span className = "material-symbols-outlined">{ "search" }</span>
           </div>
+          {
+            filterLevel04Selected ?
+              <div 
+                className = "search-clear-button" 
+                onClick = { function (event) { 
+                  event.stopPropagation(); 
+                  setFilterLevel04Selected(""); 
+                  select_filter(4, ""); 
+                } }
+              >
+                <span className = "material-symbols-outlined">{ "close" }</span>
+              </div>
+              :
+              null
+          }
         </div>
         <div className = { dropdown05Active ? "filter-menu-dropdown-active" : "filter-menu-dropdown-inactive" } onClick = { function () { click_dropdown(5); } }>
           <div>
@@ -1701,9 +1720,9 @@ export default function FilterComponent () {
               filterArray && filterArray.length > 0 ?
                 [...new Set(filterArray.map(function (item) { if (filterLevel01Selected && filterLevel01Selected !== item.REGION) { return (null); } else if (filterLevel02Selected && filterLevel02Selected !== item.DEO) { return (null); } else { return (item.CONG_DIST); } }))]
                   .sort(function (base, next) {
-                    if (base && next) {
+                    if (base && next && base[0].localeCompare(next[0]) !== 0) {
                       // const base_string_array = /^(.*) ?\((.*)\)$/.exec(base);
-                      // const base_order_string = /^(.*) DISTRICT$/.exec(base_string_array[2]);
+                      // const base_order_string = /^(.*) DISTRICT$/.exec(base[2]);
                       // const base_parsed = base_string_array[1] + " (" + parseOrdinalStringToNumericalString(base_order_string[1]) + " DISTRICT)";
 
                       // const next_string_array = /^(.*) ?\((.*)\)$/.exec(next);
@@ -1712,20 +1731,22 @@ export default function FilterComponent () {
 
                       // return (base_parsed.localeCompare(next_parsed));
 
-                      const base_parsed = base[1] + ' ' + base[2]
-                      const next_parsed = next[1] + ' ' + next[2]
+                      // console.log(base[0])
+                      // const base_parsed = base[1]
+                      // const next_parsed = next[1]
 
-                      return (base_parsed.localeCompare(next_parsed));
+                      return (base[0].localeCompare(next[0]));
                       
                     }
                     else {
                       return (0);
                     }
                   })
+                  .filter((item, index, self) => index === self.findIndex((t) => JSON.stringify(t) === JSON.stringify(item)))
                   .map(function (item, index) {
                     if (item !== null) {
                       return (
-                        <div key = { index } className = { filterLevel03Selected && filterLevel03Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item }</div>
+                        <div key = { index } className = { filterLevel03Selected && filterLevel03Selected === item ? "filter-menu-item-selected" : null } onClick = { function () { select_filter(3, item); } }>{ item[0] }</div>
                       );
                     }
                     else {
