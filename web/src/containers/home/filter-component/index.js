@@ -997,34 +997,19 @@ export default function FilterComponent () {
       })
       .then(function (response) {
         if (response?.features?.length > 0) {
+          
+ 
           for (const feature of response.features) {
-            const buffer_array = filterArray;
-
-            const string_array = /^(.*) ?\((.*)\)$/.exec(feature.attributes.CONG_DIST);
-            const orders_string = /^(.*) DISTRICT$/.exec(string_array[2]);
-            const orders_array = orders_string[1].split(/[\s,&]+/);
-
-            for (const item of orders_array) {
-              const feature_attribute_district = string_array[1] + "(" + item + " DISTRICT)";
-
-              const match_array = buffer_array.filter(function (item) {
-                return (item.REGION === feature.attributes.REGION && item.DEO === feature.attributes.DEO && item.CONG_DIST === feature_attribute_district);
-              });
-
-              if (match_array.length === 0 && item !== "to") {
-                buffer_array
-                  .push({
-                    "REGION": feature.attributes.REGION,
-                    "DEO": feature.attributes.DEO,
-                    "CONG_DIST": feature_attribute_district
-                  });
-              }
-            }
-
+            const buffer_array = filterArray
+              buffer_array
+                .push({
+                  "REGION": feature.attributes.REGION,
+                  "DEO": feature.attributes.DEO,
+                  "CONG_DIST": /^(.*) ?\((.*)\)$/.exec(feature.attributes.CONG_DIST)
+                });
             setFilterArray(buffer_array);
           }
         }
-
         setDataLoader04(false);
       })
       .catch(function () {
@@ -1576,6 +1561,18 @@ export default function FilterComponent () {
     }
   }
 
+  // React.useEffect(() => {
+  //   layer_engineering_districts
+  //     .queryFeatures({
+  //       where: "1 = 1",
+  //       returnGeometry: false,
+  //       outFields: ["*"]
+  //     })
+  //     .then(function (response) {
+  //       console.log(response.features);
+  //     })
+  // }, [layer_engineering_districts]);
+
   return (
     <div id = "filter-component">
       <div>
@@ -1705,15 +1702,21 @@ export default function FilterComponent () {
                 [...new Set(filterArray.map(function (item) { if (filterLevel01Selected && filterLevel01Selected !== item.REGION) { return (null); } else if (filterLevel02Selected && filterLevel02Selected !== item.DEO) { return (null); } else { return (item.CONG_DIST); } }))]
                   .sort(function (base, next) {
                     if (base && next) {
-                      const base_string_array = /^(.*) ?\((.*)\)$/.exec(base);
-                      const base_order_string = /^(.*) DISTRICT$/.exec(base_string_array[2]);
-                      const base_parsed = base_string_array[1] + " (" + parseOrdinalStringToNumericalString(base_order_string[1]) + " DISTRICT)";
+                      // const base_string_array = /^(.*) ?\((.*)\)$/.exec(base);
+                      // const base_order_string = /^(.*) DISTRICT$/.exec(base_string_array[2]);
+                      // const base_parsed = base_string_array[1] + " (" + parseOrdinalStringToNumericalString(base_order_string[1]) + " DISTRICT)";
 
-                      const next_string_array = /^(.*) ?\((.*)\)$/.exec(next);
-                      const next_order_string = /^(.*) DISTRICT$/.exec(next_string_array[2]);
-                      const next_parsed = next_string_array[1] + " (" + parseOrdinalStringToNumericalString(next_order_string[1]) + " DISTRICT)";
+                      // const next_string_array = /^(.*) ?\((.*)\)$/.exec(next);
+                      // const next_order_string = /^(.*) DISTRICT$/.exec(next_string_array[2]);
+                      // const next_parsed = next_string_array[1] + " (" + parseOrdinalStringToNumericalString(next_order_string[1]) + " DISTRICT)";
+
+                      // return (base_parsed.localeCompare(next_parsed));
+
+                      const base_parsed = base[1] + ' ' + base[2]
+                      const next_parsed = next[1] + ' ' + next[2]
 
                       return (base_parsed.localeCompare(next_parsed));
+                      
                     }
                     else {
                       return (0);

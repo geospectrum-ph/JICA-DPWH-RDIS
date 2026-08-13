@@ -182,15 +182,65 @@
   background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
 }
 
-#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container * {
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__input,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-menu,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-menu__list-item,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__sources-button {
   font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);
-  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00));
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00)) !important;
 }
 
-#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container input {
-  box-sizing: border-box;
-  padding: 0 calc(var(--default-size-medium, 12px) * 0.75);
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__form {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: stretch !important;
+  height: 32px !important;
+  box-sizing: border-box !important;
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00)) !important;
+  border-radius: 4px !important;
 }
+
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__form > * {
+  height: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__submit-button,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__sources-button,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__clear-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00)) !important;
+  transition: background-color 0.2s ease, color 0.2s ease !important;
+}
+
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__submit-button:hover,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__sources-button:hover,
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__clear-button:hover {
+  background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00)) !important;
+  color: var(--default-color-accent-dark, rgba(0, 102, 204, 1.00)) !important;
+}
+
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__input {
+  height: 100% !important;
+  box-sizing: border-box !important;
+  padding: 0 calc(var(--default-size-medium, 12px) * 0.75) !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 1.00)) !important;
+}
+
+#map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #widget-search-container .esri-search__input::placeholder {
+  color: var(--default-color-text-tertiary, rgba(138, 155, 168, 1.00)) !important;
+  opacity: 1 !important;
+}
+
+
 
 #map-container .esri-ui-inner-container.esri-ui-corner-container .esri-ui-top-right.esri-ui-corner #expand-legend-container .esri-legend__layer {
   font: normal var(--default-size-medium, 12px) var(--default-font-family, "Outfit", sans-serif);

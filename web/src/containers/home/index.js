@@ -99,7 +99,7 @@ function HomePage () {
         });
     }
 
-    if (String(username).length > 0 && String(username).length > 0)  {
+    if (username && password && username.length > 0 && password.length > 0)  {
       handleAuthentication(username, password);
     }
     else {

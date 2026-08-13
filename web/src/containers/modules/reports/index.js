@@ -63,12 +63,10 @@ export default function Reports() {
       })
       .then(function (response) {
         if (response?.features) {
-          let arrayRoadSlopeHazardsBuffer = [];
-
-          for (const feature of response.features) {
-            arrayRoadSlopeHazardsBuffer = [...arrayRoadSlopeHazardsBuffer, JSON.parse(JSON.stringify(feature.attributes))];
-            setArrayRoadSlopeHazards([...arrayRoadSlopeHazardsBuffer]);
-          }
+          const arrayRoadSlopeHazardsBuffer = response.features.map(function (feature) {
+            return feature.attributes;
+          });
+          setArrayRoadSlopeHazards(arrayRoadSlopeHazardsBuffer);
         }
       })
 
@@ -80,12 +78,10 @@ export default function Reports() {
       })
       .then(function (response) {
         if (response?.features) {
-          let arrayRoadSlopesAndCountermeasuresBuffer = [];
-
-          for (const feature of response.features) {
-            arrayRoadSlopesAndCountermeasuresBuffer = [...arrayRoadSlopesAndCountermeasuresBuffer, JSON.parse(JSON.stringify(feature.attributes))];
-            setArrayRoadSlopesAndCountermeasures([...arrayRoadSlopesAndCountermeasuresBuffer]);
-          }
+          const arrayRoadSlopesAndCountermeasuresBuffer = response.features.map(function (feature) {
+            return feature.attributes;
+          });
+          setArrayRoadSlopesAndCountermeasures(arrayRoadSlopesAndCountermeasuresBuffer);
         }
       })
   }, []);
