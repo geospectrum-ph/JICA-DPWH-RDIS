@@ -1072,6 +1072,10 @@ function content_road_slope_hazards (target) {
           <td>${ target.graphic.attributes.road_terrain ?? "No available data" }</td>
         </tr>
         <tr>
+          <td><b>Location Notes</b></td>
+          <td>${ target.graphic.attributes.location_notes ?? "No available data" }</td>
+        </tr>
+        <tr>
           <td><b>Hazard Risk</b></td>
           <td>${ target.graphic.attributes.hazard_risk ?? "No available data" }</td>
         </tr>
@@ -1341,6 +1345,10 @@ function content_road_slopes_and_countermeasures (target) {
           <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
+          <td><b>Location Notes</b></td>
+          <td>${ target.graphic.attributes.location_notes ?? "No available data" }</td>
+        </tr>
+        <tr>
           <td><b>Length</b> (meters)</td>
           <td>${ target.graphic.attributes.target_length ?? "No available data" }</td>
         </tr>
@@ -1386,7 +1394,7 @@ export const layer_road_slopes_and_countermeasures = new FeatureLayer({
     label: "Road Slopes and Countermeasures Data",
     symbol: {
       type: "simple-line",
-      width: 3.00,
+      width: 6.00,
       color: [13, 59, 102, 1.00]
     }
   },
@@ -1473,6 +1481,10 @@ function content_inventory_of_road_slopes (target) {
           <td>${ target.graphic.attributes.end_chainage ?? "No available data" }</td>
         </tr>
         <tr>
+          <td><b>Location Notes</b></td>
+          <td>${ target.graphic.attributes.location_notes ?? "No available data" }</td>
+        </tr>
+        <tr>
           <td><b>Length</b> (meters)</td>
           <td>${ target.graphic.attributes.target_length ?? "No available data" }</td>
         </tr>
@@ -1527,7 +1539,7 @@ export const layer_inventory_of_road_slopes = new FeatureLayer({
     label: "Inventory of Road Slopes Data",
     symbol: {
       type: "simple-line",
-      width: 3.00,
+      width: 6.00,
       color: [249, 87, 56, 1.00]
     }
   },
@@ -1662,13 +1674,13 @@ function content_inventory_of_road_slope_protection_structures (target) {
 export const layer_inventory_of_road_slope_protection_structures = new FeatureLayer({
   title: "Inventory of Road Slope Protection Structures",
   url: url_road_slopes_and_countermeasures,
-  definitionExpression: "rsm_category = 'Inventory of Road Slope Protection Structures'",
+  definitionExpression: "rsm_category = 'Inventory of Road Slope Structures'",
   renderer: {
     type: "simple",
     label: "Inventory of Road Slope Protection Structures Data",
     symbol: {
       type: "simple-line",
-      width: 3.00,
+      width: 6.00,
       color: [238, 150, 75, 1.00]
     }
   },
@@ -2096,7 +2108,7 @@ const group_inventory_of_road_slopes_type_of_disaster = new GroupLayer({
                   "Road Slope Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
               symbol: {
                 type: "simple-line",
-                width: 2.00,
+                width: 3.00,
                 color: category[1]
               }
             },
@@ -2161,7 +2173,7 @@ const group_inventory_of_road_slopes_type_of_road_slope_protection_structure = n
                   `Road Slope with ${ category[0] }`,
               symbol: {
                 type: "simple-line",
-                width: 2.00,
+                width: 3.00,
                 color: category[1]
               }
             },
@@ -2205,9 +2217,9 @@ const group_inventory_of_road_slope_protection_structures_road_slope_condition =
             url: url_road_slopes_and_countermeasures,
             definitionExpression:
               category[0] === "Unclassified" ?
-                "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_condition != '${ category[0] }'`); }).join(" AND ")
+                "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_protection_structures_road_slope_condition.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_condition != '${ category[0] }'`); }).join(" AND ")
                 :
-                `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_slope_condition = '${ category[0] }'`,
+                `rsm_category = 'Inventory of Road Slope Structures' AND road_slope_condition = '${ category[0] }'`,
             renderer: {
               type: "simple",
               label:
@@ -2265,9 +2277,9 @@ const group_inventory_of_road_slope_protection_structures_type_of_disaster = new
             url: url_road_slopes_and_countermeasures,
             definitionExpression:
               category[0] === "Unclassified" ?
-                "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type != '${ category[0] }'`); }).join(" AND ")
+                "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_disaster.map(function (category) { return (category[0] === "Unclassified" ? null : `disaster_type != '${ category[0] }'`); }).join(" AND ")
                 :
-                `rsm_category = 'Inventory of Road Slope Protection Structures' AND disaster_type = '${ category[0] }'`,
+                `rsm_category = 'Inventory of Road Slope Structures' AND disaster_type = '${ category[0] }'`,
             renderer: {
               type: "simple",
               label:
@@ -2280,7 +2292,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_disaster = new
                   "Road Slope Protection Structure Affected by ".concat(category[0].split("/").map(function (words) { return (words.concat(" (", words.split(" ").map(function (word) { return (word[0]); }).join(""), ")")); }).join("/")),
               symbol: {
                 type: "simple-line",
-                width: 2.00,
+                width: 3.00,
                 color: category[1]
               }
             },
@@ -2333,9 +2345,9 @@ const group_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
             url: url_road_slopes_and_countermeasures,
             definitionExpression:
               category[0] === "Unclassified" ?
-                "rsm_category = 'Inventory of Road Slope Protection Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type != '${ category[0] }'`); }).join(" AND ")
+                "rsm_category = 'Inventory of Road Slope Structures' AND " + array_inventory_of_road_slope_protection_structures_type_of_road_slope_protection_structure.map(function (category) { return (category[0] === "Unclassified" ? null : `road_slope_structure_type != '${ category[0] }'`); }).join(" AND ")
                 :
-                `rsm_category = 'Inventory of Road Slope Protection Structures' AND road_slope_structure_type = '${ category[0] }'`,
+                `rsm_category = 'Inventory of Road Slope Structures' AND road_slope_structure_type = '${ category[0] }'`,
             renderer: {
               type: "simple",
               label:
@@ -2345,7 +2357,7 @@ const group_inventory_of_road_slope_protection_structures_type_of_road_slope_pro
                   `Road Slope Protection Structure with ${ category[0] }`,
               symbol: {
                 type: "simple-line",
-                width: 2.00,
+                width: 3.00,
                 color: category[1]
               }
             },
@@ -3335,12 +3347,12 @@ export function view_layer (module, filterLevel05Selected) {
 
           layer_inventory_of_road_slope_protection_structures.definitionExpression =
             deo ?
-              `rsm_category = 'Inventory of Road Slope Protection Structures' AND deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`
+              `rsm_category = 'Inventory of Road Slope Structures' AND deo_name = '${ deo }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`
               :
             region ?
-              `rsm_category = 'Inventory of Road Slope Protection Structures' AND region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`
+              `rsm_category = 'Inventory of Road Slope Structures' AND region_name = '${ region }' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`
               :
-              `rsm_category = 'Inventory of Road Slope Protection Structures' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
+              `rsm_category = 'Inventory of Road Slope Structures' AND survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
 
           view.map.layers.push(layer_inventory_of_road_slope_protection_structures);
           view.map.layers.push(layer_inventory_of_road_slopes);
@@ -4006,6 +4018,10 @@ export async function focus_map (type, reference_layers, attributes, string, fil
           attributes?.length > 0 ?
             attributes
               .filter(function (attribute) {
+                if (type === 4) {
+                  const attrLower = attribute.toLowerCase();
+                  return (attrLower === "road_name" || attrLower === "road_id" || attrLower === "section_id") && fields.includes(attribute);
+                }
                 if (
                   (region && (attribute === "REGION" || attribute === "region_name")) ||
                   (deo && (attribute === "DEO" || attribute === "deo_name"))
@@ -4023,28 +4039,44 @@ export async function focus_map (type, reference_layers, attributes, string, fil
             :
             "";
 
+        let region_sub_filter = null;
+        if (region) {
+          let region_clauses = [];
+          if (fields.includes("REGION")) {
+            region_clauses.push(`REGION = '${ region }'`);
+          }
+          if (fields.includes("region_name")) {
+            region_clauses.push(`region_name = '${ region }'`);
+          }
+          if (region_clauses.length > 0) {
+            region_sub_filter = `(${ region_clauses.join(" OR ") })`;
+          }
+        }
+
+        let deo_sub_filter = null;
+        if (deo) {
+          let deo_clauses = [];
+          if (fields.includes("DEO")) {
+            deo_clauses.push(`DEO = '${ deo }'`);
+          }
+          if (fields.includes("deo_name")) {
+            deo_clauses.push(`deo_name = '${ deo }'`);
+          }
+          if (deo_clauses.length > 0) {
+            deo_sub_filter = `(${ deo_clauses.join(" OR ") })`;
+          }
+        }
+
+        let year_sub_filter = null;
+        if (fields.includes("survey_date")) {
+          year_sub_filter = `survey_date >= TIMESTAMP '${ year }-01-01 00:00:00' AND survey_date < TIMESTAMP '${ year + 1 }-01-01 00:00:00'`;
+        }
+
         let spacetime_filter =
           [
-            region && fields.includes("REGION") ?
-              `REGION = '${ region }'`
-              :
-              null,
-            region && fields.includes("region_name") ?
-              `region_name = '${ region }'`
-              :
-              null,
-            deo && fields.includes("DEO") ?
-              `DEO = '${ deo }'`
-              :
-              null,
-            deo && fields.includes("deo_name") ?
-              `deo_name = '${ deo }'`
-              :
-              null,
-            fields.includes("survey_date") ?
-              `survey_date >= TIMESTAMP '${ year }-01-01 00:00:00' AND survey_date < TIMESTAMP '${ year + 1 }-01-01 00:00:00'`
-              :
-              null
+            region_sub_filter,
+            deo_sub_filter,
+            year_sub_filter
           ]
             .filter(function (item) {
               return (item);
@@ -4057,7 +4089,7 @@ export async function focus_map (type, reference_layers, attributes, string, fil
               spacetime_filter
               :
               null,
-            type > 0 && type < 4 && String(other_filter).length > 0 ?
+            type > 0 && type < 5 && String(other_filter).length > 0 ?
               other_filter
               :
               null
@@ -4100,6 +4132,10 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                 attributes?.length > 0 ?
                   attributes
                     .filter(function (attribute) {
+                      if (type === 4) {
+                        const attrLower = attribute.toLowerCase();
+                        return (attrLower === "road_name" || attrLower === "road_id" || attrLower === "section_id") && fields.includes(attribute);
+                      }
                       if (
                         (region && (attribute === "REGION" || attribute === "region_name")) ||
                         (deo && (attribute === "DEO" || attribute === "deo_name"))
@@ -4122,28 +4158,44 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                   :
                   "";
 
+              let region_sub_query = null;
+              if (region) {
+                let region_clauses = [];
+                if (fields.includes("REGION")) {
+                  region_clauses.push(`REGION = '${ region }'`);
+                }
+                if (fields.includes("region_name")) {
+                  region_clauses.push(`region_name = '${ region }'`);
+                }
+                if (region_clauses.length > 0) {
+                  region_sub_query = `(${ region_clauses.join(" OR ") })`;
+                }
+              }
+
+              let deo_sub_query = null;
+              if (deo) {
+                let deo_clauses = [];
+                if (fields.includes("DEO")) {
+                  deo_clauses.push(`DEO = '${ deo }'`);
+                }
+                if (fields.includes("deo_name")) {
+                  deo_clauses.push(`deo_name = '${ deo }'`);
+                }
+                if (deo_clauses.length > 0) {
+                  deo_sub_query = `(${ deo_clauses.join(" OR ") })`;
+                }
+              }
+
+              let year_sub_query = null;
+              if (fields.includes("survey_date")) {
+                year_sub_query = `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`;
+              }
+
               let spacetime_query =
                 [
-                  region && fields.includes("REGION") ?
-                    `REGION = '${ region }'`
-                    :
-                    null,
-                  region && fields.includes("region_name") ?
-                    `region_name = '${ region }'`
-                    :
-                    null,
-                  deo && fields.includes("DEO") ?
-                    `DEO = '${ deo }'`
-                    :
-                    null,
-                  deo && fields.includes("deo_name") ?
-                    `deo_name = '${ deo }'`
-                    :
-                    null,
-                  fields.includes("survey_date") ?
-                    `survey_date >= DATE '${ year }/01/01' AND survey_date < DATE '${ year + 1 }/01/01'`
-                    :
-                    null
+                  region_sub_query,
+                  deo_sub_query,
+                  year_sub_query
                 ]
                   .filter(function (item) {
                     return (item);
@@ -4179,7 +4231,7 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                         query
                         :
                         "1 = 1",
-                    returnGeometry: false,
+                    returnGeometry: type === 4 ? true : false,
                     outFields: ["*"]
                   })
                   .then(function (response) {
@@ -4192,6 +4244,10 @@ export async function focus_map (type, reference_layers, attributes, string, fil
                           if (type < 4) {
                             layer.visible = true;
                             view.map.reorder(layer, 0);
+                          }
+                          else if (type === 4) {
+                            layer.visible = true;
+                            open_popup(response.features);
                           }
                         })
                         .catch(function () {
@@ -4341,51 +4397,51 @@ export async function focus_map (type, reference_layers, attributes, string, fil
 }
 
 export function close_popup () {
-  reactiveUtils.watch(
-    function () {
-      if (view && !view.loading) {
-        view
-          .when(function () {
-            view.popup.visible = false;
-          })
-          .catch(function () {
-          });
-      }
-    });    
+  if (view) {
+    view
+      .when(function () {
+        view.popup.visible = false;
+      })
+      .catch(function () {
+      });
+  }
 }
 
 export function open_popup (features) {
-  reactiveUtils.watch(
-    function () {
-      if (view && !view.loading && features) {
-        view
-          .when(function () {
-            view.openPopup({
-              features: features,
-              fetchFeatures: false
-            });
-          })
-          .catch(function () {
-          });
-      }
-    });     
+  if (view && features && features.length > 0) {
+    view
+      .when(function () {
+        let loc = null;
+        if (features[0].geometry) {
+          if (features[0].geometry.type === "point") {
+            loc = features[0].geometry;
+          } else if (features[0].geometry.extent) {
+            loc = features[0].geometry.extent.center;
+          }
+        }
+        view.openPopup({
+          features: features,
+          location: loc,
+          fetchFeatures: false
+        });
+      })
+      .catch(function () {
+      });
+  }
 }
 
 export async function recenter_map (extent) {
-  reactiveUtils.watch(
-    function () {
-      if (view && !view.loading && extent) {
-        view
-          .when(function () {
-            view.goTo(extent.expand(1.25));
-            
-            return (null);
-          })
-          .catch(function () {
-          });
-      }
-      else {
+  if (view && extent) {
+    view
+      .when(function () {
+        view.goTo(extent.expand(1.25));
+        
         return (null);
-      }
-    });
+      })
+      .catch(function () {
+      });
+  }
+  else {
+    return (null);
+  }
 }

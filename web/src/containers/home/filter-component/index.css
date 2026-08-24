@@ -320,3 +320,55 @@
 .search-clear-button:hover > * {
   color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
 }
+
+.search-suggestions-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--default-size-medium, 12px) * 3.25);
+  background: var(--default-color-background-primary, rgba(255, 255, 255, 1.00));
+  border-radius: calc(var(--default-size-small, 1px) * 4.00);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px, rgba(0, 0, 0, 0.10) 0px 15px 30px -4px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 200;
+  box-sizing: border-box;
+  padding: calc(var(--default-size-small, 1px) * 4.00) 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.search-suggestion-item {
+  display: flex;
+  flex-flow: row nowrap;
+  place-items: center justify-between;
+  place-content: center space-between;
+  padding: calc(var(--default-size-medium, 12px) * 0.75) calc(var(--default-size-medium, 12px) * 1.00);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  gap: calc(var(--default-size-medium, 12px) * 1.00);
+}
+
+.search-suggestion-item:hover {
+  background-color: var(--default-color-background-secondary, rgba(245, 245, 245, 1.00));
+  color: var(--default-color-accent-dark, rgba(58, 123, 255, 1.00));
+}
+
+.search-suggestion-item .suggestion-value {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.search-suggestion-item .suggestion-type {
+  font-size: calc(var(--default-size-medium, 12px) * 0.85);
+  color: var(--default-color-text-secondary, rgba(102, 102, 102, 0.60));
+  background-color: var(--default-color-background-secondary, rgba(240, 240, 240, 1.00));
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: normal;
+  flex: 0 0 auto;
+}

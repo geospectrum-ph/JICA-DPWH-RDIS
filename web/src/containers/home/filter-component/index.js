@@ -23,7 +23,7 @@ export default function FilterComponent () {
   const {
     moduleSelected,
 
-    setDataSourceBuffer01,
+    dataSourceBuffer01, setDataSourceBuffer01,
     dataSourceBuffer02, setDataSourceBuffer02,
     dataSourceBuffer03, setDataSourceBuffer03,
     
@@ -72,6 +72,68 @@ export default function FilterComponent () {
   const [dataLoader02, setDataLoader02] = React.useState(false);
   const [dataLoader03, setDataLoader03] = React.useState(false);
   const [dataLoader04, setDataLoader04] = React.useState(false);
+
+  const [searchSuggestions, setSearchSuggestions] = React.useState([]);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = React.useState(false);
+
+  const getSearchSuggestions = function (query) {
+    if (!query || query.trim().length < 1) {
+      return [];
+    }
+    const normalizedQuery = query.toLowerCase().trim();
+    const suggestionsSet = new Set();
+    const results = [];
+
+    if (dataSourceBuffer01 && dataSourceBuffer01.length > 0) {
+      for (const feature of dataSourceBuffer01) {
+        const attrs = feature.attributes || {};
+        
+        const roadName = attrs.ROAD_NAME || attrs.road_name;
+        const roadId = attrs.ROAD_ID || attrs.road_id;
+        const sectionId = attrs.SECTION_ID || attrs.section_id;
+
+        const regionName = attrs.region_name || attrs.REGION;
+        const deoName = attrs.deo_name || attrs.DEO;
+
+        const details = regionName && deoName ? ` (${regionName}, ${deoName})` : regionName ? ` (${regionName})` : deoName ? ` (${deoName})` : "";
+
+        // Check road ID
+        if (roadId && roadId.toString().toLowerCase().includes(normalizedQuery)) {
+          const val = roadId.toString().trim();
+          const displayVal = val + details;
+          if (!suggestionsSet.has(displayVal)) {
+            suggestionsSet.add(displayVal);
+            results.push({ type: "Road ID", value: val, display: displayVal, region: regionName, deo: deoName });
+          }
+        }
+        
+        // Check section ID
+        if (sectionId && sectionId.toString().toLowerCase().includes(normalizedQuery)) {
+          const val = sectionId.toString().trim();
+          const displayVal = val + details;
+          if (!suggestionsSet.has(displayVal)) {
+            suggestionsSet.add(displayVal);
+            results.push({ type: "Section ID", value: val, display: displayVal, region: regionName, deo: deoName });
+          }
+        }
+
+        // Check road Name
+        if (roadName && roadName.toString().toLowerCase().includes(normalizedQuery)) {
+          const val = roadName.toString().trim();
+          const displayVal = val + details;
+          if (!suggestionsSet.has(displayVal)) {
+            suggestionsSet.add(displayVal);
+            results.push({ type: "Road Name", value: val, display: displayVal, region: regionName, deo: deoName });
+          }
+        }
+
+        if (results.length >= 10) {
+          break;
+        }
+      }
+    }
+    return results;
+  };
 
   function filter_data_01 (type, string) {
     let region = sessionStorage.getItem("regionDefault") === "null" ? null : sessionStorage.getItem("regionDefault");
@@ -1226,17 +1288,7 @@ export default function FilterComponent () {
         
         focus_map(
             4,
-            moduleSelected === 0 ?
-              [layer_road_slope_hazards, layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures]
-              :
-            moduleSelected === 1 ?
-              [layer_road_slope_hazards]
-              :
-            moduleSelected === 2 ||
-            moduleSelected === 3 ?
-              [layer_inventory_of_road_slopes, layer_inventory_of_road_slope_protection_structures]
-              :
-              [layer_national_road_network, layer_national_expressways],
+            [layer_national_road_network, layer_national_expressways],
             ["REGION", "region_name", "DEO", "deo_name", "CONG_DIST", "district_name", "road_name", "road_id", "section_id"],
             string,
             filterLevel05Selected
@@ -1463,6 +1515,8 @@ export default function FilterComponent () {
     setDropdown04Active(false);
     setDropdown05Active(false);
 
+    setIsSuggestionsOpen(false);
+
     if (index === 0 || dropdownActive === index) {
       setDropdownActive(0);
     }
@@ -1502,6 +1556,7 @@ export default function FilterComponent () {
         setDropdown05Active(false);
   
         setDropdownActive(0);
+        setIsSuggestionsOpen(false);
       }
     }
   });
@@ -1581,8 +1636,32 @@ export default function FilterComponent () {
     <div id = "filter-component">
       <div>
         <div onClick = { function () { click_dropdown(0); } }>
-          <input type = "text" placeholder = "Search" value = { filterLevel04Selected ? filterLevel04Selected : "" } onChange = { function (event) { setFilterLevel04Selected(event.target.value); } } onKeyDown = { function (event) { if (event.key === "Enter") { select_filter(4, filterLevel04Selected); } } }/>
-          <div onClick = { function (event) { event.stopPropagation(); select_filter(4, filterLevel04Selected); } }>
+          <input 
+            type = "text" 
+            placeholder = "Search" 
+            value = { filterLevel04Selected ? filterLevel04Selected : "" } 
+            onChange = { function (event) { 
+              const val = event.target.value;
+              setFilterLevel04Selected(val); 
+              const suggestions = getSearchSuggestions(val);
+              setSearchSuggestions(suggestions);
+              setIsSuggestionsOpen(true);
+            } } 
+            onFocus = { function () {
+              if (filterLevel04Selected) {
+                const suggestions = getSearchSuggestions(filterLevel04Selected);
+                setSearchSuggestions(suggestions);
+                setIsSuggestionsOpen(true);
+              }
+            } }
+            onKeyDown = { function (event) { 
+              if (event.key === "Enter") { 
+                setIsSuggestionsOpen(false);
+                select_filter(4, filterLevel04Selected); 
+              } 
+            } }
+          />
+          <div onClick = { function (event) { event.stopPropagation(); setIsSuggestionsOpen(false); select_filter(4, filterLevel04Selected); } }>
             <span className = "material-symbols-outlined">{ "search" }</span>
           </div>
           {
@@ -1592,10 +1671,46 @@ export default function FilterComponent () {
                 onClick = { function (event) { 
                   event.stopPropagation(); 
                   setFilterLevel04Selected(""); 
+                  setSearchSuggestions([]);
+                  setIsSuggestionsOpen(false);
                   select_filter(4, ""); 
                 } }
               >
                 <span className = "material-symbols-outlined">{ "close" }</span>
+              </div>
+              :
+              null
+          }
+          {
+            isSuggestionsOpen && searchSuggestions.length > 0 ?
+              <div className = "search-suggestions-dropdown">
+                {
+                  searchSuggestions.map(function (suggestion, idx) {
+                    return (
+                      <div 
+                        key = { idx } 
+                        className = "search-suggestion-item"
+                        onClick = { function (event) {
+                          event.stopPropagation();
+                          if (suggestion.region) {
+                            sessionStorage.setItem("regionDefault", suggestion.region);
+                            setFilterLevel01Selected(suggestion.region);
+                          }
+                          if (suggestion.deo) {
+                            sessionStorage.setItem("engineeringDistrictDefault", suggestion.deo);
+                            setFilterLevel02Selected(suggestion.deo);
+                          }
+                          setFilterLevel04Selected(suggestion.value);
+                          setIsSuggestionsOpen(false);
+                          select_filter(4, suggestion.value);
+                        } }
+                      >
+                        <span className = "suggestion-value">{ suggestion.display || suggestion.value }</span>
+                        <span className = "suggestion-type">{ suggestion.type }</span>
+                      </div>
+                    );
+                  })
+                }
               </div>
               :
               null
